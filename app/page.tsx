@@ -1,5 +1,6 @@
 import Photo from "@/components/Photo";
 import Socials from "@/components/Socials";
+import Stats from "@/components/Stats";
 import { Button } from "@/components/ui/button";
 import { FiDownload } from "react-icons/fi";
 
@@ -14,7 +15,7 @@ const Home = () => {
               Hello, I&quot;m <br />
               <span className="text-secondary-default">Biswajit Panday</span>
             </h1>
-            <p className="max-w-[500pxx] mb-9 text-white/80">
+            <p className="max-w-[500px] mb-9 text-white/80">
               I tame cloud beasts, optimize code like a caffeine-fueled wizard,
               and craft high-performance apps with .NET, React & DevOps sorcery!
             </p>
@@ -22,7 +23,7 @@ const Home = () => {
               <Button
                 variant="outline"
                 size="lg"
-                className="uppercase flex items-center gap-2"
+                className="uppercase flex items-center gap-2 custom-button"
               >
                 <span>Download Resume</span>
                 <FiDownload className="text-xl" />
@@ -41,6 +42,7 @@ const Home = () => {
             <Photo />
           </div>
         </div>
+        <Stats />
       </div>
     </section>
   );

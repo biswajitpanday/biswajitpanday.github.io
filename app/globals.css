@@ -8,5 +8,21 @@
   }
   :root {
     --radius: 0.5rem;
+    --color-secondary-default: #00ff99;
+  }
+  .text-outline {
+    -webkit-text-stroke: 1px #ffffff;
+  }
+
+  .text-outline-hover {
+    -webkit-text-stroke: 1px var(--color-secondary-default);
+  }
+}
+
+@layer components {
+  .custom-button {
+    @apply border !border-secondary-default rounded-full flex justify-center 
+           items-center text-secondary-default text-base hover:bg-secondary-default 
+           hover:text-primary hover:transition-all duration-500;
   }
 }
