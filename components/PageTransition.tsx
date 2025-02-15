@@ -6,15 +6,15 @@ import { usePathname } from "next/navigation";
 const PageTransition = ({ children }: { children: ReactNode }) => {
   const pathName = usePathname();
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="popLayout">
       <div key={pathName}>
         <motion.div
           initial={{ opacity: 1 }}
           animate={{
             opacity: 0,
             transition: {
-              delay: 0.5,
-              duration: 0.4,
+              delay: 0.1,
+              duration: 0.1,
               ease: "easeInOut",
             },
           }}
