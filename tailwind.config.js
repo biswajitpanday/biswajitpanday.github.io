@@ -21,7 +21,11 @@ const config = {
         foreground: "var(--foreground)",
         primary: '#1c1c22',
         secondary: {
-          default: '#00ff99',
+           default: '#00ff99',
+          // default: '#00BFFF',
+          // default: '#BB86FC',
+          // default: '#1ABC9C',
+          //default: '#f82e70',
           hover: '#00e187' 
         }
       },

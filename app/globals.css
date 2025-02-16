@@ -21,9 +21,6 @@
   .bg-default {
     background-color: transparent !important;
   }
-  .scroll-area-thumb {
-    background-color: #ff6347; /* Change this to your desired color */
-  }
 }
 
 @layer components {
