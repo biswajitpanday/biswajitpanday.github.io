@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion } from "framer-motion";
+import { calculateDuration } from "@/helpers/utility";
 
 const about = {
   title: "About me",
@@ -131,16 +132,6 @@ const skills = {
 };
 
 const Resume = () => {
-  const calculateDuration = (startDate: Date, endDate: Date) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const years = end.getFullYear() - start.getFullYear();
-    const months = end.getMonth() - start.getMonth();
-    const totalMonths = years * 12 + months;
-    const displayYears = Math.floor(totalMonths / 12);
-    const displayMonths = totalMonths % 12;
-    return `${displayYears} years, ${displayMonths} months`;
-  };
   return (
     <motion.div
       initial={{ opacity: 0 }}

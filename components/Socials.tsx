@@ -8,10 +8,10 @@ interface SocialsProps {
 }
 
 const socials = [
-    {icon: <FaGithub />, path: ''},
-    {icon: <FaLinkedinIn />, path: ''},
-    {icon: <FaMedium />, path: ''},
-    {icon: <FaStackOverflow />, path: ''}
+    {icon: <FaGithub />, path: 'https://github.com/biswajitpanday'},
+    {icon: <FaLinkedinIn />, path: 'https://www.linkedin.com/in/biswajitpanday'},
+    {icon: <FaMedium />, path: 'https://medium.com/@biswajitpanday'},
+    {icon: <FaStackOverflow />, path: 'https://stackoverflow.com/users/2923956/biswajit-panday'}
 ]
 
 const Socials = ({containerStyles, iconStyles}: SocialsProps) => {
@@ -19,7 +19,7 @@ const Socials = ({containerStyles, iconStyles}: SocialsProps) => {
         <div className={containerStyles}>
             {socials.map((item, index) => {
                 return (
-                    <Link key={index} href={item.path} className={iconStyles}>
+                    <Link key={index} href={item.path} className={iconStyles} target='_blank'>
                         {item.icon}
                     </Link>
                 )

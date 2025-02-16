@@ -21,6 +21,18 @@
   .bg-default {
     background-color: transparent !important;
   }
+  .custom-vt::before {
+    left: 18% !important;
+  }
+  .custom-vt .vertical-timeline-element-icon {
+    left: 18% !important;
+  }
+  .custom-vt-element .vertical-timeline-element-content {
+    width: 77% !important;
+  }
+  .custom-vt-element .vertical-timeline-element-date {
+    right: 113% !important;
+  }
 }
 
 @layer components {
@@ -37,5 +49,9 @@
 
   .custom-tab[data-state="active"] {
     @apply !bg-secondary-default !text-primary;
+  }
+
+  .custom-list-disc li::marker {
+    color: var(--color-secondary-default);
   }
 }
