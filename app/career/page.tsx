@@ -7,7 +7,7 @@ import {
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import Image from "next/image";
-import { FaMapMarked, FaMapMarkedAlt, FaMapMarker, FaMarker } from "react-icons/fa";
+import { FaMapMarkedAlt } from "react-icons/fa";
 
 interface TimelineItem {
   position: string;
@@ -117,8 +117,8 @@ const Career = () => {
             >
               <h3 className="vertical-timeline-element-title text-2xl font-extrabold text-secondary-default flex w-full justify-between">
                 {item.position}
-                <span className="flex items-center gap-1 text-end text-sm text-white/80">
-                  <FaMapMarker />
+                <span className="flex items-center gap-2 text-end text-sm text-white/80">
+                  <FaMapMarkedAlt />
                   {item.location}
                 </span>
               </h3>
