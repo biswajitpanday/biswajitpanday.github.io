@@ -1,19 +1,10 @@
 "use client";
 
-import { Tooltip } from "@/components/ui/tooltip";
-import {
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
 import Image from "next/image";
-import { BsArrowUpRight, BsGithub } from "react-icons/bs";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import WorkSliderBtns from "@/components/WorkSliderBtns";
+import { FaGithub, FaLink } from "react-icons/fa";
 
 interface Project {
   num: string;
@@ -46,14 +37,13 @@ const projects: Project[] = [
       "ASP.NET Core",
       "WCF",
       "MSSQL",
-      //   "Entity Framework Core",
-      //   "LINQ",
-      //   "JavaScript(TypeScript)",
-      //   "React",
-      //   "Angular",
-      //   "Node.Js",
-      //   "Elastic Search",
-      //   "Azure",
+      "LINQ",
+      "Entity Framework Core",
+      "TypeScript",
+      "React",
+      "Angular",
+      "Node.Js",
+      "Azure",
     ],
     image: "/assets/portfolio/optimizely.png",
     isOperational: true,
@@ -84,7 +74,7 @@ const projects: Project[] = [
     isOperational: true,
     isOpenSource: true,
     url: "",
-    github: "https://github.com/your-repo",
+    github: "https://github.com/biswajitpanday/BugBusters",
     companyName: "",
     jobRole: "Lead Developer",
     startDate: new Date(2023, 4, 1),
@@ -247,105 +237,80 @@ const projects: Project[] = [
 ];
 
 const Portfolio = () => {
-  const [project, setProject] = useState(projects[0]);
-
-  const handleSlideChange = (swiper: { activeIndex: number }) => {
-    const currentIndex = swiper.activeIndex;
-    setProject(projects[currentIndex]);
-  };
   return (
     <motion.section
       initial={{ opacity: 0 }}
       animate={{
         opacity: 1,
-        transition: { delay: 2.4, duration: 0.4, ease: "easeIn" },
+        transition: { delay: 0.4, duration: 0.4, ease: "easeIn" },
       }}
       className="min-h-[80vh] flex flex-col justify-center py-12 xl:px-0"
     >
       <div className="container mx-auto">
-        <div className="flex flex-col xl:flex-row xl:gap-[30px]">
-          <div className="w-full xl:w-[50%] xl:h-[460px] flex flex-col xl:justify-between order-2 xl:order-none">
-            <div className="flex flex-col gap-[30px]">
-              <div className="text-8xl leading-none font-extrabold text-transparent text-outline">
-                {project.num}
-              </div>
-              <h2 className="text-[42px] font-bold leading-none text-white group-hover:text-secondary-default transition-all duration-500 capitalize">
-                {project.category}
-              </h2>
-              <p className="text-white/60">
-                {project.longDescription || project.shortDescription}
-              </p>
-              <ul className="flex gap-4">
-                {project.stacks.map((item, index) => {
-                  return (
-                    <li key={index} className="text-secondary-default">
-                      {item}
-                      {index !== project.stacks.length - 1 && ","}
-                    </li>
-                  );
-                })}
-              </ul>
-              <div className="border border-white/20"></div>
-              <div className="flex items-center gap-4">
-                <Link href={project.url || project.github}>
-                  <TooltipProvider delayDuration={100}>
-                    <Tooltip>
-                      <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
-                        <BsArrowUpRight className="text-white text-3xl group-hover:text-secondary-default" />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Live Project</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </Link>
-                <Link href={project.url || project.github}>
-                  <TooltipProvider delayDuration={100}>
-                    <Tooltip>
-                      <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
-                        <BsGithub className="text-white text-3xl group-hover:text-secondary-default" />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>GitHub Repository</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <div className="w-full xl:w-[50%]">
-            <Swiper
-              spaceBetween={30}
-              slidesPerView={1}
-              className="xl:h-[520px] mb-12"
-              onSlideChange={handleSlideChange}
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          {projects.map((project, index) => (
+            <div
+              key={index}
+              className="bg-[#27272c] p-6 rounded-xl flex flex-col justify-between"
             >
-              {projects.map((project, index) => {
-                return (
-                  <SwiperSlide key={index} className="w-full">
-                    <div className="h-[460px] relative group flex justify-center items-center bg-pink-50/20">
-                      <div className="absolute top-0 bottom-0 w-full h-full bg-black/10 z-10"></div>
-                      <div className="relative w-full h-full">
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          layout="fill"
-                          className="object-fill"
-                        />
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                );
-              })}
-              <WorkSliderBtns
-                containerStyles="flex gap-2 absolute right-0 bottom-[calc(50%_-_22px)] xl:bottom-0 z-20 w-full justify-between xl:w-max xl:justify-none"
-                btnStyles="bg-secondary-default hover:bg-secondary-hover text-primary text-[22px] w-[44px] h-[44px] flex justify-center items-center transition-all"
-                iconsStyles=""
-              />
-            </Swiper>
-          </div>
+              <div>
+                <Link href={project.url || project.github} target="_blank">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    width={500}
+                    height={300}
+                    className="rounded-lg mb-4"
+                  />
+                </Link>
+                <h3 className="text-xl font-bold mb-2 text-outline text-transparent group-hover:text-outline-hover flex justify-between">
+                  {project.title}
+                  {project.url && (
+                    <Link
+                      href={project.url}
+                      target="_blank"
+                      className="text-right w-[20px] h-[20px] rounded-full bg-white 
+                      hover:bg-secondary-default transition-all duration-500 flex 
+                      justify-center items-center hover:rotate-45 mt-1"
+                    >
+                      <FaLink className="text-primary text-3xl font-bold p-1" />
+                    </Link>
+                  )}
+                  {project.github && (
+                    <Link
+                      href={project.github}
+                      target="_blank"
+                      className="text-right w-[20px] h-[20px] rounded-full bg-white 
+                      hover:bg-secondary-default transition-all duration-500 flex 
+                      justify-center items-center hover:rotate-45 mt-1"
+                    >
+                      <FaGithub className="text-primary text-3xl font-bold p-1" />
+                    </Link>
+                  )}
+                </h3>
+                <p className="text-white/60 mb-4">
+                  {project.longDescription || project.shortDescription}
+                </p>
+                <ul className="flex flex-wrap gap-2 mb-4">
+                  {project.stacks.map((stack, index) => (
+                    // <li
+                    //   key={index}
+                    //   className="text-xs font-bold bg-secondary-default text-primary py-1 px-2 rounded"
+                    // >
+                    //   {stack}
+                    // </li>
+                    <li
+                      key={index}
+                      className="inline-flex text-xs font-bold bg-secondary-default text-primary py-1 px-2 rounded"
+                    >
+                      {stack}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="flex items-center gap-4"></div>
+            </div>
+          ))}
         </div>
       </div>
     </motion.section>
