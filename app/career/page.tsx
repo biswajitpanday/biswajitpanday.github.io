@@ -62,7 +62,7 @@ const timeLineItems: TimelineItem[] = [
       "Built and maintained features for web applications, focusing on front-end and API interactions.",
       "Collaborated with senior engineers to build scalable solutions for real-time notifications and data aggregation tool.",
     ],
-    icon: "/assets/company-icon/kaz.png",
+    icon: "/assets/company-icon/chorki.png",
   },
   {
     position: "Intern",
@@ -99,7 +99,7 @@ const Career = () => {
               }}
               date={calculateFromTo(item.startDate, item.endDate)}
               iconStyle={{
-                background: "#27272c",
+                background: "#9b9bc4",
                 color: "var(--color-primary-default)",
               }}
               icon={
