@@ -1,7 +1,7 @@
 "use client";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { motion } from "framer-motion";
-import { FaCss3, FaHtml5, FaNodeJs, FaReact } from "react-icons/fa";
+import { FaCss3, FaHtml5, FaJs, FaNodeJs, FaReact } from "react-icons/fa";
 
 const skills = {
   icon: "/assets/resume/cap.svg",
@@ -19,6 +19,10 @@ const skills = {
     {
       icon: <FaReact />,
       name: "react.js",
+    },
+    {
+      icon: <FaJs />,
+      name: "JavaScript",
     },
     {
       icon: <FaNodeJs />,
