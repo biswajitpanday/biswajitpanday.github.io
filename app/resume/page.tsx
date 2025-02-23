@@ -78,34 +78,34 @@ const education = {
   ],
 };
 
-const onlineEducation = {
-  icon: "/assets/resume/cap.svg",
-  title: "My Online Education",
-  description: "",
-  items: [
-    {
-      institution: "Linkedin Learning",
-      degree: "Microsoft Certified: Azure Fundamentals",
-      startDate: new Date(2024, 10, 1),
-      endDate: new Date(2024, 11, 20),
-      link: "",
-    },
-    {
-      institution: "Pluralsight",
-      degree: "Some Course Name",
-      startDate: new Date(2024, 10, 1),
-      endDate: new Date(2024, 11, 20),
-      link: "",
-    },
-    {
-      institution: "Udemy",
-      degree: "Certified XYZ Developer",
-      startDate: new Date(2024, 10, 1),
-      endDate: new Date(2024, 11, 20),
-      link: "",
-    },
-  ],
-};
+// const onlineEducation = {
+//   icon: "/assets/resume/cap.svg",
+//   title: "My Online Education",
+//   description: "",
+//   items: [
+//     {
+//       institution: "Linkedin Learning",
+//       degree: "Microsoft Certified: Azure Fundamentals",
+//       startDate: new Date(2024, 10, 1),
+//       endDate: new Date(2024, 11, 20),
+//       link: "",
+//     },
+//     {
+//       institution: "Pluralsight",
+//       degree: "Some Course Name",
+//       startDate: new Date(2024, 10, 1),
+//       endDate: new Date(2024, 11, 20),
+//       link: "",
+//     },
+//     {
+//       institution: "Udemy",
+//       degree: "Certified XYZ Developer",
+//       startDate: new Date(2024, 10, 1),
+//       endDate: new Date(2024, 11, 20),
+//       link: "",
+//     },
+//   ],
+// };
 
 const skills = {
   icon: "/assets/resume/cap.svg",
