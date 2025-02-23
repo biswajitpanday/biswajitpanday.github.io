@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion } from "framer-motion";
+import { calculateDuration } from "@/helpers/utility";
 
 const about = {
   title: "About me",
@@ -131,43 +132,45 @@ const skills = {
 };
 
 const Resume = () => {
-  const calculateDuration = (startDate: Date, endDate: Date) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const years = end.getFullYear() - start.getFullYear();
-    const months = end.getMonth() - start.getMonth();
-    const totalMonths = years * 12 + months;
-    const displayYears = Math.floor(totalMonths / 12);
-    const displayMonths = totalMonths % 12;
-    return `${displayYears} years, ${displayMonths} months`;
-  };
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{
         opacity: 1,
-        transition: { delay: 2.4, duration: 0.4, ease: "easeIn" },
+        transition: { delay: 0.4, duration: 0.4, ease: "easeIn" },
       }}
       className="min-h-[80vh] flex items-center justify-center py-12 xl:py-0"
     >
       <div className="container mx-auto">
         <Tabs
-          defaultValue="experience"
+          defaultValue="about"
           className="flex flex-col xl:flex-row gap-[60px] items-baseline py-16 xl:py-0"
         >
           {/* Vertical Tabs List */}
           <TabsList className="flex flex-col w-full max-w-[360px] mx-auto xl:mx-0 gap-6 bg-default">
+            <TabsTrigger value="about" className="custom-tab">
+              About me
+            </TabsTrigger>
+            <TabsTrigger value="techSkills" className="custom-tab">
+              Technical Skills
+            </TabsTrigger>
             <TabsTrigger value="experience" className="custom-tab">
-              Experience
+              Work Experience
+            </TabsTrigger>
+            <TabsTrigger value="certifications" className="custom-tab">
+              Certifications
+            </TabsTrigger>
+            <TabsTrigger value="openSourceProjects" className="custom-tab">
+              Open Source Projects
             </TabsTrigger>
             <TabsTrigger value="education" className="custom-tab">
               Education
             </TabsTrigger>
-            <TabsTrigger value="skills" className="custom-tab">
-              Skills
+            <TabsTrigger value="additionalDetails" className="custom-tab">
+              Additional Details
             </TabsTrigger>
-            <TabsTrigger value="about" className="custom-tab">
-              About me
+            <TabsTrigger value="recommendations" className="custom-tab">
+              Recommendations
             </TabsTrigger>
           </TabsList>
           <div className="min-h-[70vh] w-full py-12 xl:py-0">
@@ -233,7 +236,7 @@ const Resume = () => {
                 </ScrollArea>
               </div>
             </TabsContent>
-            <TabsContent value="skills" className="w-full">
+            <TabsContent value="techSkills" className="w-full">
               <div className="flex flex-col gap-[30px]">
                 <div className="flex flex-col gap-[30px] text-center xl:text-left">
                   <h3 className="text-4xl font-bold">{skills.title}</h3>
@@ -269,13 +272,16 @@ const Resume = () => {
             >
               <div className="flex flex-col gap-[30px]">
                 <h3 className="text-4xl font-bold">{about.title}</h3>
-                <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
+                <p className="max-w-[90%] text-white/60 mx-auto xl:mx-0">
                   {about.description}
                 </p>
-                <ul className="grid grid-cols-1 xl:grid-cols-2 gap-y-6 max-w-[620px] mx-auto xl:mx-0">
+                <ul className="grid grid-cols-1 xl:grid-cols-2 gap-y-6 max-w-[90%] mx-auto xl:mx-0">
                   {about.info.map((item, index) => {
                     return (
-                      <li key={index} className="flex items-center justify-center xl:justify-start gap-4">
+                      <li
+                        key={index}
+                        className="flex items-center justify-center xl:justify-start gap-4"
+                      >
                         <span className="text-white/60">{item.fieldName}</span>
                         <span className="text-xl">{item.fieldValue}</span>
                       </li>

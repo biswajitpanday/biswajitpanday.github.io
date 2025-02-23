@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, M_PLUS_Code_Latin  } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import PageTransition from "@/components/PageTransition";
-import StairTransition from "@/components/StairTransition";
 
 const jetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+});
+
+const mPlusCodeLatin = M_PLUS_Code_Latin({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {

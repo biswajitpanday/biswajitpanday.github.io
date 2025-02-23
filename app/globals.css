@@ -8,7 +8,8 @@
   }
   :root {
     --radius: 0.5rem;
-    --color-secondary-default: #00ff99;
+    /* --color-secondary-default: #00ff99; */
+    --color-secondary-default: #00BFFF;
     --color-primary-default: #1c1c22;
   }
   .text-outline {
@@ -21,8 +22,17 @@
   .bg-default {
     background-color: transparent !important;
   }
-  .scroll-area-thumb {
-    background-color: #ff6347; /* Change this to your desired color */
+  .custom-vt::before {
+    left: 18% !important;
+  }
+  .custom-vt .vertical-timeline-element-icon {
+    left: 18% !important;
+  }
+  .custom-vt-element .vertical-timeline-element-content {
+    width: 77% !important;
+  }
+  .custom-vt-element .vertical-timeline-element-date {
+    right: 113% !important;
   }
 }
 
@@ -40,5 +50,9 @@
 
   .custom-tab[data-state="active"] {
     @apply !bg-secondary-default !text-primary;
+  }
+
+  .custom-list-disc li::marker {
+    color: var(--color-secondary-default);
   }
 }

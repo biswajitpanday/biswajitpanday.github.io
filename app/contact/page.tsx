@@ -34,7 +34,7 @@ const Contact = () => {
       initial={{ opacity: 0 }}
       animate={{
         opacity: 1,
-        transition: { delay: 2.4, duration: 0.4, ease: "easeIn" },
+        transition: { delay: 0.4, duration: 0.4, ease: "easeIn" },
       }}
       className="py-6"
     >
@@ -64,7 +64,7 @@ const Contact = () => {
                   className="h-[150px] w-full"
                   placeholder="Type your message here"
                 />
-                <Button size="sm" variant="outline" className="max-w-40 custom-button">
+                <Button size="sm" variant="outline" className="max-w-40 custom-button" disabled>
                   Send Message
                 </Button>
             </form>
