@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   // trailingSlash: true,
   basePath: "/biswajitpanday.github.io",
   // assetPrefix: "/biswajitpanday.github.io/",
-  // reactStrictMode: true,
+  reactStrictMode: true,
   images: {
     unoptimized: true,
   },
