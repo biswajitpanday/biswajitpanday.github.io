@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-primary bg-primary text-white leading-loose;
+  }
+  :root {
+    --radius: 0.5rem;
+    /* --color-secondary-default: #00ff99; */
+    --color-secondary-default: #00BFFF;
+    --color-primary-default: #1c1c22;
+  }
+  .text-outline {
+    -webkit-text-stroke: 1px #ffffff;
+  }
+
+  .text-outline-hover {
+    -webkit-text-stroke: 1px var(--color-secondary-default);
+  }
+  .bg-default {
+    background-color: transparent !important;
+  }
+  .custom-vt::before {
+    left: 18% !important;
+  }
+  .custom-vt .vertical-timeline-element-icon {
+    left: 18% !important;
+  }
+  .custom-vt-element .vertical-timeline-element-content {
+    width: 77% !important;
+  }
+  .custom-vt-element .vertical-timeline-element-date {
+    right: 113% !important;
+  }
+}
+
+@layer components {
+  .custom-button {
+    @apply border !border-secondary-default rounded-full flex justify-center 
+           items-center text-secondary-default text-base
+           hover:text-primary hover:transition-all duration-500;
+  }
+
+  .custom-tab {
+    @apply rounded-full w-full justify-center bg-primary text-white text-base
+   hover:bg-secondary-default hover:text-primary hover:transition-all duration-500;
+  }
+
+  .custom-tab[data-state="active"] {
+    @apply !bg-secondary-default !text-primary;
+  }
+
+  .custom-list-disc li::marker {
+    color: var(--color-secondary-default);
+  }
+}
