@@ -8,6 +8,7 @@ import {
 import "react-vertical-timeline-component/style.min.css";
 import Image from "next/image";
 import { FaMapMarkedAlt } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 interface TimelineItem {
   position: string;
@@ -81,66 +82,77 @@ const timeLineItems: TimelineItem[] = [
 
 const Career = () => {
   return (
-    <div>
-      <VerticalTimeline className="xl:custom-vt">
-        {timeLineItems.map((item, index) => {
-          return (
-            <VerticalTimelineElement
-              position={"right"}
-              className="vertical-timeline-element--work text-white/80 xl:custom-vt-element"
-              contentStyle={{
-                background: "#27272c",
-                color: "text-white",
-                boxShadow: "none",
-                border: "1px solid var(--color-secondary-default)",
-              }}
-              contentArrowStyle={{
-                borderRight: "7px solid  var(--color-secondary-default)",
-              }}
-              date={calculateFromTo(item.startDate, item.endDate)}
-              iconStyle={{
-                background: "#9b9bc4",
-                color: "var(--color-primary-default)",
-              }}
-              icon={
-                <div className="flex w-[100%] h-[100%] justify-center items-center">
-                  <Image
-                    src={item.icon}
-                    alt={item.company}
-                    width={90}
-                    height={90}
-                    style={{ borderRadius: "50%", padding: "5%" }}
-                  />
-                </div>
-              }
-              key={index}
-            >
-              <h3 className="vertical-timeline-element-title text-2xl font-extrabold text-secondary-default flex w-full justify-between">
-                {item.position}
-                <span className="flex items-center gap-2 text-end text-sm text-white/80">
-                  <FaMapMarkedAlt />
-                  {item.location}
-                </span>
-              </h3>
-              <h4 className="vertical-timeline-element-subtitle flex w-full justify-between">
-                <Link
-                  href={item.url}
-                  className="hover:text-secondary-default text-xl text-start"
-                  target="_blank"
-                >
-                  {item.company}
-                </Link>
-              </h4>
-              <ul className="list-disc ps-5 custom-list-disc">
-                {item.responsibilites.map((responsibility, index) => {
-                  return <li key={index}>{responsibility}</li>;
-                })}
-              </ul>
-            </VerticalTimelineElement>
-          );
-        })}
-      </VerticalTimeline>
-    </div>
+    <motion.section
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+        transition: { delay: 0.4, duration: 0.2, ease: "easeIn" },
+      }}
+    >
+      <div>
+        <VerticalTimeline className="xl:custom-vt">
+          {timeLineItems.map((item, index) => {
+            return (
+              <VerticalTimelineElement
+                position={"right"}
+                className="vertical-timeline-element--work text-white/80 xl:custom-vt-element"
+                contentStyle={{
+                  background: "#27272c",
+                  color: "text-white",
+                  boxShadow: "none",
+                  border: "1px solid var(--color-secondary-default)",
+                }}
+                contentArrowStyle={{
+                  borderRight: "7px solid  var(--color-secondary-default)",
+                }}
+                date={calculateFromTo(item.startDate, item.endDate)}
+                iconStyle={{
+                  background: "#9b9bc4",
+                  color: "var(--color-primary-default)",
+                }}
+                icon={
+                  <div className="flex w-[100%] h-[100%] justify-center items-center">
+                    <Image
+                      src={item.icon}
+                      alt={item.company}
+                      width={90}
+                      height={90}
+                      style={{ borderRadius: "50%", padding: "5%" }}
+                    />
+                  </div>
+                }
+                key={index}
+              >
+                <h3 className="vertical-timeline-element-title text-2xl font-extrabold text-secondary-default flex w-full justify-between">
+                  {item.position}
+                  <span className="flex-none items-center gap-2 text-end text-white/80 text-sm xl:flex md:flex hidden">
+                    <FaMapMarkedAlt />
+                    {item.location}
+                  </span>
+                </h3>
+                <h4 className="vertical-timeline-element-subtitle flex w-full justify-between">
+                  <Link
+                    href={item.url}
+                    className="hover:text-secondary-default text-xl text-start"
+                    target="_blank"
+                  >
+                    {item.company}
+                    <span className="flex items-center gap-2 text-end text-white/80 text-sm xl:hidden md:hidden">
+                      {item.location}
+                    </span>
+                  </Link>
+                </h4>
+                <ul className="list-disc ps-5 custom-list-disc">
+                  {item.responsibilites.map((responsibility, index) => {
+                    return <li key={index}>{responsibility}</li>;
+                  })}
+                </ul>
+              </VerticalTimelineElement>
+            );
+          })}
+        </VerticalTimeline>
+      </div>
+    </motion.section>
   );
 };
 

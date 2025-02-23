@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={mPlusCodeLatin.variable}>
+      <body className={jetBrainsMono.variable}>
         <Header />
         {/* <StairTransition /> */}
         <PageTransition>{children}</PageTransition>

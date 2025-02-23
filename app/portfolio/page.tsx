@@ -23,7 +23,8 @@ interface Project {
     | "Chorki Limited"
     | "Kaz Software"
     | "Optimizely"
-    | "Individual";
+    | "Individual"
+    | "";
   jobRole:
     | "Senior Developer"
     | "Senior Software Engineer"
@@ -90,7 +91,7 @@ const projects: Project[] = [
     url: "",
     github: "https://github.com/biswajitpanday/BugBusters",
     associatedWithCompany: "",
-    jobRole: "Lead Developer",
+    jobRole: "Freelancer",
     startDate: new Date(2023, 4, 1),
     endDate: new Date(2023, 7, 31),
     inactivationReason: undefined,
@@ -150,7 +151,7 @@ const projects: Project[] = [
     url: "http://www.reganalytics.com",
     github: "",
     associatedWithCompany: "Kaz Software",
-    jobRole: "Software Architect",
+    jobRole: "Senior Software Engineer",
     startDate: new Date(2022, 1, 1),
     endDate: new Date(2022, 8, 30),
     inactivationReason: undefined,
@@ -583,7 +584,7 @@ const Portfolio = () => {
       initial={{ opacity: 0 }}
       animate={{
         opacity: 1,
-        transition: { delay: 0.4, duration: 0.4, ease: "easeIn" },
+        transition: { delay: 0.4, duration: 0.2, ease: "easeIn" },
       }}
       className="min-h-[80vh] flex flex-col justify-center py-12 xl:px-0"
     >
