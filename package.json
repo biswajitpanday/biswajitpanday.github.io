@@ -10,7 +10,7 @@
     "static": "next build && echo > ./out/.nojekyll && echo 'biswajitpanday.github.io' > ./out/CNAME",
     "deploy": "npm run static && gh-pages -d out"
   },
-  "homepage": "https://biswajitpanday.github.io/biswajitpanday.github.io",
+  "homepage": "https://biswajitpanday.github.io/",
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-scroll-area": "^1.2.3",
