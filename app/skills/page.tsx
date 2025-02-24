@@ -14,6 +14,7 @@ import {
   FaGitAlt,
   FaGlobe,
   FaJs,
+  FaLinux,
   FaMicrochip,
   FaProjectDiagram,
   FaReact,
@@ -49,19 +50,20 @@ import {
   SiAmazons3,
   SiAmazonsimpleemailservice,
   SiAmazonsqs,
+  SiExpress,
 } from "react-icons/si";
 import { GrTest, GrVirtualMachine } from "react-icons/gr";
-import { DiMsqlServer, DiDotnet, DiScrum } from "react-icons/di";
+import { DiMsqlServer, DiDotnet, DiScrum, DiRedis } from "react-icons/di";
 import { GiCogsplosion } from "react-icons/gi";
 import { FaArrowsSpin } from "react-icons/fa6";
-import { TbBrandCSharp } from "react-icons/tb";
+import { TbBrandCSharp, TbBrandLinqpad } from "react-icons/tb";
 import { MdNotifications, MdSecurity } from "react-icons/md";
 import TreeView, { flattenTree } from "react-accessible-treeview";
 
 import React, { JSX } from "react";
 import { PiKanban } from "react-icons/pi";
 
-const skills = {
+const skills1 = {
   name: "Skills",
   children: [
     {
@@ -80,6 +82,7 @@ const skills = {
         { name: "ASP.NET Core", metadata: { icon: "SiDotnet" } },
         { name: "ASP.NET MVC", metadata: { icon: "DiDotnet" } },
         { name: "Blazor", metadata: { icon: "SiBlazor" } },
+        { name: "Express.js", metadata: { icon: "SiExpress" } },
       ],
     },
     {
@@ -170,6 +173,12 @@ const skills = {
         },
       ],
     },
+  ],
+};
+
+const skills2 = {
+  name: "Skills",
+  children: [
     {
       name: "DevOps & Tools",
       metadata: { icon: "FaTools" },
@@ -196,14 +205,16 @@ const skills = {
       name: "Other Skills",
       metadata: { icon: "GiCogsplosion" },
       children: [
-        { name: "SignalR", metadata: { icon: "SiDotnet" } },
+        { name: "SignalR & Socket.io", metadata: { icon: "SiDotnet" } },
         { name: "Entity Framework Core", metadata: { icon: "SiDotnet" } },
         { name: "REST", metadata: { icon: "FaExchangeAlt" } },
         { name: "gRPC", metadata: { icon: "SiTrpc" } },
-        { name: "LINQ", metadata: { icon: "SiDotnet" } },
+        { name: "LINQ", metadata: { icon: "TbBrandLinqpad" } },
         { name: "RabbitMQ", metadata: { icon: "SiRabbitmq" } },
-        { name: "NUnit", metadata: { icon: "SiNunit" } },
+        { name: "Redis", metadata: { icon: "DiRedis" } },
+        { name: "NUnit", metadata: { icon: "FaFunnelDollar" } },
         { name: "xUnit", metadata: { icon: "GrTest" } },
+        { name: "Linux", metadata: { icon: "FaLinux" } },
       ],
     },
     {
@@ -239,6 +250,7 @@ const iconMap: { [key: string]: JSX.Element } = {
   FaBootstrap: withStyle(<FaBootstrap />),
   FaGlobe: withStyle(<FaGlobe />),
   SiModal: withStyle(<SiModal />),
+  SiExpress: withStyle(<SiExpress />),
 
   // Architectures/Patterns
   FaSitemap: withStyle(<FaSitemap />),
@@ -288,8 +300,11 @@ const iconMap: { [key: string]: JSX.Element } = {
   FaRestroom: withStyle(<FaRestroom />),
   SiTrpc: withStyle(<SiTrpc />),
   SiRabbitmq: withStyle(<SiRabbitmq />),
+  DiRedis: withStyle(<DiRedis />),
   FaFunnelDollar: withStyle(<FaFunnelDollar />),
   GrTest: withStyle(<GrTest />),
+  FaLinux: withStyle(<FaLinux />),
+  TbBrandLinqpad : withStyle(<TbBrandLinqpad  />),
 
   // Agile Methodologies
   FaArrowsSpin: withStyle(<FaArrowsSpin />),
@@ -298,9 +313,8 @@ const iconMap: { [key: string]: JSX.Element } = {
 };
 
 const Skills = () => {
-  const data1 = flattenTree(skills);
-  // const data2 = flattenTree(skills);
-  // const data3 = flattenTree(skills);
+  const data1 = flattenTree(skills1);
+  const data2 = flattenTree(skills2);
   const contentHeight = 800;
 
   return (
@@ -334,7 +348,7 @@ const Skills = () => {
                     }}
                     className={
                       isParent
-                        ? "text-[24px] font-bold leading-none text-white group hover:text-secondary-default cursor-pointer transition-all duration-500 mb-3"
+                        ? "text-[20px] font-bold leading-none text-white group hover:text-secondary-default cursor-pointer transition-all duration-500 mb-1 mt-4"
                         : "text-sm text-white/60 group hover:text-white/80 transition-all duration-500 mb-1"
                     }
                   >
@@ -351,7 +365,7 @@ const Skills = () => {
           </div>
           <div className="bg-[#27272c] p-6 rounded-xl flex flex-col justify-between">
             <TreeView
-              data={data1}
+              data={data2}
               defaultExpandedIds={data1.map((node) => node.id)}
               aria-label="Skills Tree"
               nodeRenderer={({ element, getNodeProps, level }) => {
@@ -367,7 +381,7 @@ const Skills = () => {
                     }}
                     className={
                       isParent
-                        ? "text-[24px] font-bold leading-none text-white group hover:text-secondary-default cursor-pointer transition-all duration-500 mb-3"
+                        ? "text-[20px] font-bold leading-none text-white group hover:text-secondary-default cursor-pointer transition-all duration-500 mb-1 mt-4"
                         : "text-sm text-white/60 group hover:text-white/80 transition-all duration-500 mb-1"
                     }
                   >
