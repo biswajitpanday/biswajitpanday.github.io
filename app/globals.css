@@ -11,6 +11,7 @@
     /* --color-secondary-default: #00ff99; */
     --color-secondary-default: #00BFFF;
     --color-primary-default: #1c1c22;
+    --color-primary-contrast: #ffffff;
   }
   .text-outline {
     -webkit-text-stroke: 1px #ffffff;
