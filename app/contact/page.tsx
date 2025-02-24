@@ -43,7 +43,7 @@ const Contact = () => {
           <div className="xl:w-[54%] order-2 xl:order-none">
             <form className="flex flex-col gap-6 p-10 bg-[#27272c] rounded-xl">
               <h3 className="text-4xl text-secondary-default">
-                Let&quot;s work together
+                Let&apos;s work together
               </h3>
               <p className="text-white/60">
                 Whether you need scalable solutions, high-performance
@@ -52,7 +52,7 @@ const Contact = () => {
                 create something impactful together.
               </p>
               <p className="text-white/60">
-                Get in touch—I&quot;d love to hear about your project!
+                Get in touch—I&apos;d love to hear about your project!
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Input type="text" placeholder="Firstname" />

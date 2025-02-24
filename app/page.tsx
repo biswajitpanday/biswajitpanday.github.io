@@ -13,7 +13,7 @@ const Home = () => {
           <div className="text-center xl:text-left order-2 xl:order-none">
             <span>Full-Stack .NET Developer</span>
             <h1 className="text-4xl font-bold mb-6">
-              Hello, I&quot;m <br />
+              Hello, I&apos;m <br />
               <span className="text-secondary-default">Biswajit Panday</span>
             </h1>
             <p className="max-w-[500px] mb-9 text-white/80">
