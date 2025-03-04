@@ -17,8 +17,8 @@ const Home = () => {
               <span className="text-secondary-default">Biswajit Panday</span>
             </h1>
             <p className="max-w-[500px] mb-9 text-white/80">
-              I tame cloud beasts, optimize code like a caffeine-fueled wizard,
-              and craft high-performance apps with .NET, React & DevOps sorcery!
+              Crafting high-performance, scalable applications with .NET, React
+              & DevOps while optimizing cloud solutions on Azure & AWS.
             </p>
             <div className="flex flex-col xl:flex-row items-center gap-8">
               <Link
