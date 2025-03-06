@@ -9,11 +9,20 @@ export const calculateDuration = (startDate: Date, endDate: Date) => {
   return `${displayYears} years, ${displayMonths} months`;
 };
 
-
 export const calculateFromTo = (startDate: Date, endDate: Date) => {
-    const startYear = startDate.getFullYear();
-    if(endDate.toDateString() === new Date().toDateString())
-        return `${startYear} - Present`;
-    const endYear = endDate.getFullYear();
-    return `${startYear} - ${endYear}`;
-  };
+  const startYear = startDate.getFullYear();
+  if (endDate.toDateString() === new Date().toDateString())
+    return `${startYear} - Present`;
+  const endYear = endDate.getFullYear();
+  return `${startYear} - ${endYear}`;
+};
+
+export const formatDateWithoutDay = (
+  date: Date,
+  locale: string = "en-US"
+): string =>
+  new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+  }).format(date);

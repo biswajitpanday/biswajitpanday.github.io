@@ -9,7 +9,7 @@ const links = [
   { name: "portfolio", path: "/portfolio" },
   { name: "skills", path: "/skills" },
   // { name: "resume", path: "/resume" },
-  // { name: "certifications", path: "/certifications" },
+  { name: "certifications", path: "/certifications" },
   { name: "contact", path: "/contact" },
 ];
 
