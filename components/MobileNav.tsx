@@ -7,11 +7,8 @@ import { CiMenuFries } from "react-icons/ci";
 const links = [
   { name: "home", path: "/" },
   { name: "career", path: "/career" },
-  // { name: "services", path: "/services" },
   { name: "portfolio", path: "/portfolio" },
   { name: "skills", path: "/skills" },
-  // { name: "resume", path: "/resume" },
-  // { name: "certifications", path: "/certifications" },
   { name: "contact", path: "/contact" },
 ];
 
@@ -20,26 +17,26 @@ const MobileNav = () => {
   return (
     <Sheet>
       <SheetTrigger>
-        <CiMenuFries className="text-[32] text-secondary-default" />
+        <CiMenuFries className="text-2xl text-secondary-default cursor-pointer" />
       </SheetTrigger>
-      <SheetContent className="flex flex-col">
-        <div className="mt-32 mb-40 text-center text-2xl">
+      <SheetContent className="flex flex-col items-center text-center">
+        <div className="mt-20 mb-10">
           <Link href={"/"}>
             <h1 className="text-4xl font-semibold">
               Panday<span className="text-secondary-default">.</span>
             </h1>
           </Link>
         </div>
-        <nav className="flex flex-col justify-center items-center gap-8">
+        <nav className="flex flex-col gap-6 w-full">
           {links.map((link, index) => {
+            const isActive = pathName === link.path || pathName.startsWith(link.path + "/");
             return (
               <Link
                 key={index}
                 href={link.path}
-                className={`${
-                  link.path === pathName &&
-                  "text-secondary-default border-b-2 border-secondary-default"
-                } text-xl capitalize hover:text-secondary-default transition-all`}
+                className={`text-xl capitalize transition-all px-4 py-2 w-full text-center ${
+                  isActive ? "text-secondary-default border-secondary-default" : "hover:text-secondary-default"
+                }`}
               >
                 {link.name}
               </Link>

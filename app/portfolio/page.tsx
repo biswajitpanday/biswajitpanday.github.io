@@ -390,7 +390,8 @@ const projects: Project[] = [
     num: 13,
     category: "full-stack",
     title: "reezcom",
-    longDescription: "",
+    longDescription:
+      "ReezCom is a communication platform for apartments, offices, and towers, enabling fast and efficient interaction with management for emergencies and other needs.",
     shortDescription: "",
     stacks: ["C#", "ASP.NET Core", "Android", "Entity Framework Core", "MSSQL"],
     image: "/assets/portfolio/reezcom.png",
@@ -408,7 +409,8 @@ const projects: Project[] = [
     num: 14,
     category: "full-stack",
     title: "dobi",
-    longDescription: "",
+    longDescription:
+      "Dobi is an online laundry service in Bangladesh, offering home pickup and delivery for wash, iron, or both, along with bulk laundry solutions for hotels, hospitals, and transport services.",
     shortDescription: "",
     stacks: ["C#", "ASP.NET Core", "Angular.Js", "Entity Framework", "MSSQL"],
     image: "/assets/portfolio/dobi.png",
@@ -589,7 +591,7 @@ const Portfolio = () => {
       className="min-h-[80vh] flex flex-col justify-center py-12 xl:px-0"
     >
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-6">
           {projects.map((project, index) => (
             <div
               key={index}

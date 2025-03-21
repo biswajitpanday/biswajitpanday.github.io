@@ -329,7 +329,7 @@ const Skills = () => {
       }`}
     >
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-2 md:grid-cols-2 gap-6">
           <div className="bg-[#27272c] p-6 rounded-xl flex flex-col justify-between">
             <TreeView
               data={data1}
