@@ -2,6 +2,8 @@
 import {
   calculateFromToWithDuration,
   calculateTotalExperience,
+  getDateRange,
+  getDuration,
 } from "@/helpers/utility";
 import Link from "next/link";
 import {
@@ -35,7 +37,7 @@ const timeLineItems: TimelineItem[] = [
     position: "Senior Developer",
     company: "Optimizely",
     url: "https://optimizely.com",
-    startDate: new Date(2023, 3, 1),
+    startDate: new Date('2023, 3, 1'),
     endDate: new Date(),
     location: "Dhaka, Bangladesh",
     jobType: ["Full-Time", "Hybrid"],
@@ -51,8 +53,8 @@ const timeLineItems: TimelineItem[] = [
     position: "Senior Software Engineer",
     company: "Kaz Software",
     url: "https://kaz.com.bd",
-    startDate: new Date(2016, 5, 1),
-    endDate: new Date(2023, 2, 31),
+    startDate: new Date('2016, 5, 1'),
+    endDate: new Date('2023, 2, 31'),
     location: "Dhaka, Bangladesh",
     jobType: ["Full-Time", "On-Site"],
     responsibilities: [
@@ -67,8 +69,8 @@ const timeLineItems: TimelineItem[] = [
     position: "Software Engineer",
     company: "Chorki Limited",
     url: "https://chorki.com",
-    startDate: new Date(2015, 5, 1),
-    endDate: new Date(2016, 4, 31),
+    startDate: new Date('2015, 5, 1'),
+    endDate: new Date('2016, 4, 31'),
     location: "Dhaka, Bangladesh",
     jobType: ["Full-Time", "On-Site"],
     responsibilities: [
@@ -81,8 +83,8 @@ const timeLineItems: TimelineItem[] = [
     position: "Intern",
     company: "Brain Station-23",
     url: "https://brainstation-23.com",
-    startDate: new Date(2014, 8, 1),
-    endDate: new Date(2014, 11, 31),
+    startDate: new Date('2014, 8, 1'),
+    endDate: new Date('2014, 11, 31'),
     location: "Dhaka, Bangladesh",
     jobType: ["Full-Time", "On-Site"],
     responsibilities: [
@@ -189,6 +191,18 @@ const Career = () => {
                 visible={true}
               >
                 <div className="flex flex-col">
+                  {/* Custom Date Display for Mobile/Tablet */}
+                  <div className="xl:hidden mb-4 flex flex-row justify-between items-center gap-2">
+                    <span className="inline-flex items-center bg-secondary-default/10 border border-secondary-default/80 text-secondary-default px-3 py-1 rounded text-xs font-medium">
+                      {getDateRange(item.startDate, item.endDate)}
+                    </span>
+                    <span 
+                    className="inline-flex items-center bg-secondary-default/10 border border-secondary-default/80 text-secondary-default px-3 py-1 rounded text-xs font-medium"
+                    >
+                      {getDuration(item.startDate, item.endDate)}
+                    </span>
+                  </div>
+
                   {/* Header Section with Position and Job Type Tags */}
                   <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3 mb-2">
                     <div className="flex flex-col xl:flex-row xl:items-center gap-4">

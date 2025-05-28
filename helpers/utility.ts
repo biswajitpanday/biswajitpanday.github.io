@@ -33,6 +33,14 @@ export const calculateFromToWithDuration = (startDate: Date, endDate: Date) => {
   return `${dateRange}\n${duration}`;
   };
 
+export const getDateRange = (startDate: Date, endDate: Date) => {
+  return calculateFromTo(startDate, endDate);
+};
+
+export const getDuration = (startDate: Date, endDate: Date) => {
+  return calculateDuration(startDate, endDate);
+};
+
 export const calculateTotalExperience = (positions: Array<{startDate: Date, endDate: Date}>) => {
   let totalMonths = 0;
   

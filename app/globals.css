@@ -122,31 +122,10 @@
       margin-left: 80px !important;
     }
 
-    .custom-vt-element .vertical-timeline-element-date {
-      position: relative !important;
-      right: auto !important;
-      left: auto !important;
-      margin-bottom: 1rem;
-      text-align: left;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 500;
-      background: linear-gradient(
-        135deg,
-        rgba(0, 191, 255, 0.15),
-        rgba(0, 191, 255, 0.08)
-      );
-      padding: 10px 14px !important;
-      border-radius: 6px;
-      border: 1px solid rgba(0, 191, 255, 0.3);
-      backdrop-filter: blur(8px);
-      min-width: auto;
-      max-width: none;
-      top: auto !important;
-      box-shadow: 0 2px 8px rgba(0, 191, 255, 0.1);
-    }
-
-    .custom-vt-element .vertical-timeline-element-date::after {
-      bottom: 45%;
+    .custom-vt .vertical-timeline-element-date,
+    .vertical-timeline-element-date,
+    .vertical-timeline-element--work .vertical-timeline-element-date {
+      display: none !important;
     }
   }
 
@@ -169,9 +148,10 @@
       padding: 1rem !important;
     }
 
-    .custom-vt-element .vertical-timeline-element-date {
-      padding: 8px 12px !important;
-      font-size: 0.8rem;
+    .custom-vt .vertical-timeline-element-date,
+    .vertical-timeline-element-date,
+    .vertical-timeline-element--work .vertical-timeline-element-date {
+      display: none !important;
     }
   }
 }
