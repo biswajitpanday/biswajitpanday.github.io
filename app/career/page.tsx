@@ -1,5 +1,5 @@
 "use client";
-import { calculateFromToWithDuration } from "@/helpers/utility";
+import { calculateFromToWithDuration, calculateTotalExperience } from "@/helpers/utility";
 import Link from "next/link";
 import {
   VerticalTimeline,
@@ -7,7 +7,7 @@ import {
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import Image from "next/image";
-import { FaMapMarkedAlt } from "react-icons/fa";
+import { FaMapMarkedAlt, FaBriefcase, FaCalendarAlt, FaCheckCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 interface TimelineItem {
@@ -27,7 +27,7 @@ const timeLineItems: TimelineItem[] = [
     position: "Senior Developer",
     company: "Optimizely",
     url: "https://optimizely.com",
-    startDate: new Date('2023, 3, 1'),
+    startDate: new Date(2023, 3, 1),
     endDate: new Date(),
     location: "Dhaka, Bangladesh",
     jobType: ["Full-Time", "Hybrid"],
@@ -43,8 +43,8 @@ const timeLineItems: TimelineItem[] = [
     position: "Senior Software Engineer",
     company: "Kaz Software",
     url: "https://kaz.com.bd",
-    startDate: new Date('2016, 5, 1'),
-    endDate: new Date('2023, 2, 31'),
+    startDate: new Date(2016, 5, 1),
+    endDate: new Date(2023, 2, 31),
     location: "Dhaka, Bangladesh",
     jobType: ["Full-Time", "On-Site"],
     responsibilities: [
@@ -59,8 +59,8 @@ const timeLineItems: TimelineItem[] = [
     position: "Software Engineer",
     company: "Chorki Limited",
     url: "https://chorki.com",
-    startDate: new Date('2015, 5, 1'),
-    endDate: new Date('2016, 4, 31'),
+    startDate: new Date(2015, 5, 1),
+    endDate: new Date(2016, 4, 31),
     location: "Dhaka, Bangladesh",
     jobType: ["Full-Time", "On-Site"],
     responsibilities: [
@@ -73,8 +73,8 @@ const timeLineItems: TimelineItem[] = [
     position: "Intern",
     company: "Brain Station-23",
     url: "https://brainstation-23.com",
-    startDate: new Date('2014, 8, 1'),
-    endDate: new Date('2014, 11, 31'),
+    startDate: new Date(2014, 8, 1),
+    endDate: new Date(2014, 11, 31),
     location: "Dhaka, Bangladesh",
     jobType: ["Full-Time", "On-Site"],
     responsibilities: [
@@ -86,6 +86,9 @@ const timeLineItems: TimelineItem[] = [
 ];
 
 const Career = () => {
+  const totalExperience = calculateTotalExperience(timeLineItems);
+  const totalCompanies = timeLineItems.length;
+  
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -93,28 +96,66 @@ const Career = () => {
         opacity: 1,
         transition: { delay: 0.4, duration: 0.2, ease: "easeIn" },
       }}
-      className="min-h-[80vh] flex flex-col justify-center py-12"
+      className="min-h-[80vh] flex flex-col"
     >
       <div className="container mx-auto">
-        <VerticalTimeline className="xl:custom-vt">
+        {/* Professional Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          className="text-center mb-8"
+        >
+          <h1 className="text-4xl xl:text-5xl font-bold text-white mb-4">
+            Professional <span className="text-secondary-default">Journey</span>
+          </h1>
+          <p className="text-xl text-white/80 mb-5 max-w-3xl mx-auto leading-relaxed">
+            Transforming ideas into scalable solutions through innovative software engineering and leadership excellence
+          </p>
+          
+          {/* Experience Stats */}
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-8 sm:gap-12">
+            <div className="inline-flex items-center gap-3 bg-secondary-default/10 border border-secondary-default/30 py-0.5 px-5 rounded-full">
+              <FaCalendarAlt className="text-secondary-default text-lg" />
+              <span className="text-white font-semibold">
+                <span className="text-secondary-default text-xl font-bold">{totalExperience}</span> Experience
+              </span>
+            </div>
+            <div className="inline-flex items-center gap-3 bg-secondary-default/10 border border-secondary-default/30 py-0.5 px-5 rounded-full">
+              <FaBriefcase className="text-secondary-default text-lg" />
+              <span className="text-white font-semibold">
+                <span className="text-secondary-default text-xl font-bold">{totalCompanies}</span> Companies
+              </span>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Timeline */}
+        <VerticalTimeline 
+          className="xl:custom-vt"
+          animate={true}
+          lineColor="var(--color-secondary-default)"
+        >
           {timeLineItems.map((item, index) => {
             return (
               <VerticalTimelineElement
                 position={"right"}
                 className="vertical-timeline-element--work text-white/80 xl:custom-vt-element"
                 contentStyle={{
-                  background: "#27272c",
-                  color: "text-white",
-                  boxShadow: "none",
+                  background: "linear-gradient(135deg, #27272c 0%, #2a2a30 100%)",
+                  color: "#ffffff",
+                  boxShadow: "0 8px 32px rgba(0, 191, 255, 0.1)",
                   border: "1px solid var(--color-secondary-default)",
+                  borderRadius: "12px",
                 }}
                 contentArrowStyle={{
-                  borderRight: "7px solid  var(--color-secondary-default)",
+                  borderRight: "7px solid var(--color-secondary-default)",
                 }}
                 date={calculateFromToWithDuration(item.startDate, item.endDate)}
                 iconStyle={{
-                  background: "#9b9bc4",
-                  color: "var(--color-primary-default)",
+                  background: "linear-gradient(135deg, var(--color-secondary-default), #0099cc)",
+                  color: "#ffffff",
+                  boxShadow: "0 4px 16px rgba(0, 191, 255, 0.3)",
                 }}
                 icon={
                   <div className="flex w-[100%] h-[100%] justify-center items-center">
@@ -128,33 +169,34 @@ const Career = () => {
                   </div>
                 }
                 key={index}
+                visible={true}
               >
                 <div className="flex flex-col">
                   {/* Header Section with Position and Job Type Tags */}
                   <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3 mb-2">
-                    <div className="flex flex-col xl:flex-row xl:items-center gap-3">
-                      <h3 className="vertical-timeline-element-title text-2xl font-extrabold text-secondary-default">
+                    <div className="flex flex-col xl:flex-row xl:items-center gap-4">
+                      <h3 className="vertical-timeline-element-title text-xl font-extrabold text-secondary-default">
                         {item.position}
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {item.jobType.map((type, index) => (
                           <span
                             key={index}
-                            className="inline-flex text-xs font-bold bg-secondary-default/70 text-primary/100 py-0.5 px-2 rounded"
+                            className="inline-flex text-xs font-bold bg-secondary-default/10 text-secondary-default border border-secondary-default/50 py-0.5 px-2 rounded-full"
                           >
                             {type}
                           </span>
                         ))}
                       </div>
                     </div>
-                    <span className="flex-none items-center gap-2 text-end text-white/80 text-sm xl:flex md:flex hidden">
-                      <FaMapMarkedAlt />
+                    <span className="flex items-center gap-2 text-white/70 text-sm">
+                      <FaMapMarkedAlt className="text-secondary-default" />
                       {item.location}
                     </span>
                   </div>
                   
                   {/* Company Section */}
-                  <div className="vertical-timeline-element-subtitle flex w-full justify-between items-center mb-4">
+                  <div className="vertical-timeline-element-subtitle">
                     <Link
                       href={item.url}
                       className="group text-xl font-bold text-white transition-all duration-300 relative inline-block"
@@ -163,17 +205,26 @@ const Career = () => {
                       {item.company}
                       <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary-default transition-all duration-300 group-hover:w-full"></span>
                     </Link>
-                    <span className="flex items-center gap-2 text-end text-white/80 text-sm xl:hidden md:hidden">
-                      <FaMapMarkedAlt />
-                      {item.location}
-                    </span>
                   </div>
                   
-                  <ul className="list-disc ps-5 custom-list-disc mt-5">
-                    {item.responsibilities.map((responsibility, index) => {
-                      return <li key={index} className="mb-3 text-white/80 leading-normal">{responsibility}</li>;
-                    })}
-                  </ul>
+                  {/* Modern Responsibilities Section */}
+                  <div className="space-y-1">
+                    <h4 className="text-sm font-semibold text-secondary-default uppercase tracking-wider mt-6">
+                      Key Achievements & Responsibilities
+                    </h4>
+                    <div className="space-y-1">
+                      {item.responsibilities.map((responsibility, index) => (
+                        <div key={index} className="flex items-baseline gap-3 group">
+                          <div className="flex-shrink-0 mt-1">
+                            <FaCheckCircle className="text-secondary-default text-sm group-hover:scale-110 transition-transform duration-200" />
+                          </div>
+                          <p className="text-white/85 leading-relaxed text-sm group-hover:text-white transition-colors duration-200">
+                            {responsibility}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </VerticalTimelineElement>
             );

@@ -32,3 +32,26 @@ export const calculateFromToWithDuration = (startDate: Date, endDate: Date) => {
   const duration = calculateDuration(startDate, endDate);
   return `${dateRange}\n${duration}`;
   };
+
+export const calculateTotalExperience = (positions: Array<{startDate: Date, endDate: Date}>) => {
+  let totalMonths = 0;
+  
+  positions.forEach(position => {
+    const start = new Date(position.startDate);
+    const end = new Date(position.endDate);
+    const years = end.getFullYear() - start.getFullYear();
+    const months = end.getMonth() - start.getMonth();
+    totalMonths += years * 12 + months;
+  });
+  
+  const displayYears = Math.floor(totalMonths / 12);
+  const displayMonths = totalMonths % 12;
+  
+  if (displayYears === 0) {
+    return `${displayMonths} month${displayMonths > 1 ? 's' : ''}`;
+  } else if (displayMonths === 0) {
+    return `${displayYears} year${displayYears > 1 ? 's' : ''}`;
+  } else {
+    return `${displayYears}+ years`;
+  }
+};
