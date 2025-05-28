@@ -10,29 +10,29 @@ const Stats = () => {
   const totalProjects = projects.length;
   const totalTechnologies = countAllTechnologies();
   const totalCompanies = calculateTotalCompaniesServed(timeLineItems);
-  
-  const stats = [
-    {
+
+const stats = [
+  {
       num: parseInt(totalExperience.replace(/\D/g, '')), // Extract number from string like "9+ years"
-      text: "Years of Development Experience",
+    text: "Years of Development Experience",
       suffix: "+", // Makes sense as experience grows over time
-    },
-    {
+  },
+  {
       num: totalProjects,
-      text: "Projects Delivered",
+    text: "Projects Delivered",
       suffix: "+", // Makes sense as more projects can be added
-    },
-    {
+  },
+  {
       num: totalTechnologies,
       text: "Tools & Technologies mastered",
       suffix: "+", // Makes sense as more technologies can be learned
-    },
-    {
+  },
+  {
       num: totalCompanies,
       text: "Companies Served",
       suffix: "", // Exact count, no "+" needed
-    },
-  ];
+  },
+];
 
   return (
     <section className="pt-4 pb-12 ps-0 pe-0 xl:pt-0 xl:pb-0">
