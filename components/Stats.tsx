@@ -1,26 +1,39 @@
 "use client";
 import CountUp from "react-countup";
-
-const stats = [
-  {
-    num: 9,
-    text: "Years of Development Experience",
-  },
-  {
-    num: 25,
-    text: "Projects Delivered",
-  },
-  {
-    num: 15,
-    text: "Technologies mastered",
-  },
-  {
-    num: 7000,
-    text: "Code Commits",
-  },
-];
+import { timeLineItems } from "@/data/timelineData";
+import { projects } from "@/data/portfolioData";
+import { countAllTechnologies } from "@/data/skillsData";
+import { calculateTotalExperience, calculateTotalCompaniesServed } from "@/helpers/utility";
 
 const Stats = () => {
+  const totalExperience = calculateTotalExperience(timeLineItems);
+  const totalProjects = projects.length;
+  const totalTechnologies = countAllTechnologies();
+  const totalCompanies = calculateTotalCompaniesServed(timeLineItems);
+  
+  const stats = [
+    {
+      num: parseInt(totalExperience.replace(/\D/g, '')), // Extract number from string like "9+ years"
+      text: "Years of Development Experience",
+      suffix: "+", // Makes sense as experience grows over time
+    },
+    {
+      num: totalProjects,
+      text: "Projects Delivered",
+      suffix: "+", // Makes sense as more projects can be added
+    },
+    {
+      num: totalTechnologies,
+      text: "Tools & Technologies mastered",
+      suffix: "+", // Makes sense as more technologies can be learned
+    },
+    {
+      num: totalCompanies,
+      text: "Companies Served",
+      suffix: "", // Exact count, no "+" needed
+    },
+  ];
+
   return (
     <section className="pt-4 pb-12 ps-0 pe-0 xl:pt-0 xl:pb-0">
       <div className="container mx-auto ps-0 pe-0">
@@ -35,7 +48,7 @@ const Stats = () => {
                   end={item.num}
                   duration={5}
                   delay={2}
-                  suffix="+"
+                  suffix={item.suffix}
                   className="text-4xl xl:text-6xl font-extrabbold"
                 />
                 <p

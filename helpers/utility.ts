@@ -63,3 +63,8 @@ export const calculateTotalExperience = (positions: Array<{startDate: Date, endD
     return `${displayYears}+ years`;
   }
 };
+
+export const calculateTotalCompaniesServed = (positions: Array<{company: string}>) => {
+  const uniqueCompanies = new Set(positions.map(position => position.company));
+  return uniqueCompanies.size;
+};
