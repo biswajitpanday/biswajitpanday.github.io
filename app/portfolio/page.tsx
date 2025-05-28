@@ -191,11 +191,11 @@ const Portfolio = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.4 + index * 0.1, duration: 0.6 }}
-                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02] flex flex-col justify-between"
+                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02] flex flex-col justify-between"
             >
               <div className="relative">
                   {/* Project Image */}
-                  <div className="relative overflow-hidden rounded-lg mb-4 group-hover:shadow-lg transition-all duration-300">
+                  <div className="relative overflow-hidden rounded mb-4 group-hover:shadow-lg transition-all duration-300">
                 {project.isActive ? (
                       <Link
                         href={project.url || project.github}
@@ -206,7 +206,7 @@ const Portfolio = () => {
                       alt={project.title}
                       width={500}
                       height={300}
-                          className="rounded-lg transition-transform duration-300 group-hover:scale-105"
+                          className="rounded transition-transform duration-300 group-hover:scale-105"
                     />
                   </Link>
                 ) : (
@@ -215,7 +215,7 @@ const Portfolio = () => {
                     alt={project.title}
                     width={500}
                     height={300}
-                        className="rounded-lg opacity-80"
+                        className="rounded opacity-80"
                   />
                 )}
 
@@ -309,7 +309,7 @@ const Portfolio = () => {
                               delay: isExpanded ? (stackIndex - 6) * 0.05 : 0,
                               duration: 0.3,
                             }}
-                            className="inline-flex text-xs font-semibold bg-gradient-to-r from-slate-700/80 to-slate-800/80 backdrop-blur-sm border border-slate-600/40 text-slate-200 py-1.5 px-3 rounded-lg hover:from-secondary-default/20 hover:to-blue-500/20 hover:text-secondary-default hover:border-secondary-default/50 hover:shadow-lg hover:shadow-secondary-default/20 hover:scale-105 transition-all duration-300 cursor-default select-none"
+                            className="inline-flex text-xs font-semibold bg-gradient-to-r from-slate-700/80 to-slate-800/80 backdrop-blur-sm border border-slate-600/40 text-slate-200 py-1.5 px-3 rounded hover:from-secondary-default/20 hover:to-blue-500/20 hover:text-secondary-default hover:border-secondary-default/50 hover:shadow-lg hover:shadow-secondary-default/20 hover:scale-105 transition-all duration-300 cursor-default select-none"
                     >
                       {stack}
                           </motion.span>
@@ -320,7 +320,7 @@ const Portfolio = () => {
                       {hasMoreStacks && (
                         <button
                           onClick={() => toggleProjectStacks(index)}
-                          className="inline-flex text-xs font-semibold bg-gradient-to-r from-secondary-default/15 to-blue-500/15 border border-secondary-default/40 text-secondary-default py-1.5 px-3 rounded-lg hover:from-secondary-default/25 hover:to-blue-500/25 hover:border-secondary-default/60 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/20 transition-all duration-300 cursor-pointer backdrop-blur-sm"
+                          className="inline-flex text-xs font-semibold bg-gradient-to-r from-secondary-default/15 to-blue-500/15 border border-secondary-default/40 text-secondary-default py-1.5 px-3 rounded hover:from-secondary-default/25 hover:to-blue-500/25 hover:border-secondary-default/60 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/20 transition-all duration-300 cursor-pointer backdrop-blur-sm"
                         >
                           {isExpanded
                             ? "Show less"

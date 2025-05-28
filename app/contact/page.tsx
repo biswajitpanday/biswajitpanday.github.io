@@ -215,7 +215,7 @@ const Contact = () => {
             transition={{ delay: 1.2, duration: 0.6 }}
             className="xl:w-[54%] order-2 xl:order-none"
           >
-            <div className="bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-8 rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10">
+            <div className="bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-8 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -236,7 +236,7 @@ const Contact = () => {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className={`mb-6 p-4 rounded-lg border flex items-center gap-3 ${
+                  className={`mb-6 p-4 rounded border flex items-center gap-3 ${
                     submitStatus === 'success'
                       ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
                       : 'bg-red-500/10 border-red-500/30 text-red-300'
@@ -352,7 +352,7 @@ const Contact = () => {
                     type="submit"
                     size="lg" 
                     disabled={isSubmitting}
-                    className="bg-gradient-to-r from-secondary-default to-blue-500 hover:from-secondary-default/90 hover:to-blue-500/90 text-primary font-semibold px-8 py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className={`bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25 disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
                     {isSubmitting ? (
                       <>
@@ -395,10 +395,10 @@ const Contact = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.6 + index * 0.1, duration: 0.4 }}
-                    className={`group relative bg-gradient-to-r ${item.color} backdrop-blur-sm border ${item.borderColor} p-4 rounded-xl ${item.hoverColor} transition-all duration-300 hover:scale-105 hover:shadow-lg`}
+                    className={`group relative bg-gradient-to-r ${item.color} backdrop-blur-sm border ${item.borderColor} p-4 rounded ${item.hoverColor} transition-all duration-300 hover:scale-105 hover:shadow-lg`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 xl:w-14 xl:h-14 bg-gradient-to-br from-white/10 to-white/5 ${item.textColor} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                      <div className={`w-12 h-12 xl:w-14 xl:h-14 bg-gradient-to-br from-white/10 to-white/5 ${item.textColor} rounded flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                         <div className="text-xl xl:text-2xl">{item.icon}</div>
                       </div>
                       <div className="flex-1">

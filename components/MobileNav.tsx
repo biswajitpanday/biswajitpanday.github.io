@@ -53,7 +53,7 @@ const MobileNav = () => {
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <button
-          className="relative p-2 rounded-lg text-secondary-default cursor-pointer 
+          className="relative p-2 rounded text-secondary-default cursor-pointer 
                      hover:bg-white/5 transition-all duration-300 group"
           aria-label="Open mobile navigation menu"
           onClick={() => setIsOpen(true)}
@@ -77,7 +77,7 @@ const MobileNav = () => {
         <div className="absolute top-6 right-6 z-10">
           <SheetClose asChild>
             <button
-              className="p-2 rounded-lg text-white/70 hover:text-secondary-default 
+              className="p-2 rounded text-white/70 hover:text-secondary-default 
                          hover:bg-white/5 transition-all duration-300"
               aria-label="Close mobile navigation menu"
             >

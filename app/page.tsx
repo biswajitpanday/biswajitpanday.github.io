@@ -81,7 +81,7 @@ const Home = () => {
               ].map((tech, index) => (
                 <div
                   key={index}
-                  className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 text-white/70 px-3 py-1.5 rounded-lg text-sm hover:bg-white/10 hover:text-white transition-all duration-300"
+                  className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 text-white/70 px-3 py-1.5 rounded text-sm hover:bg-white/10 hover:text-white transition-all duration-300"
                 >
                   <tech.icon className="text-secondary-default" />
                   <span>{tech.text}</span>
@@ -104,7 +104,7 @@ const Home = () => {
               >
                 <Button
                   size="lg"
-                  className="group relative overflow-hidden bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25"
+                  className="group relative overflow-hidden bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25"
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     <span>Download Resume</span>

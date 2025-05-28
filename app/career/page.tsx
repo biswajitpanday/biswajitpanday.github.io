@@ -174,10 +174,10 @@ const Career = () => {
                   <div className="flex flex-col">
                     {/* Custom Date Display for Mobile/Tablet */}
                     <div className="xl:hidden mb-4 flex flex-row justify-between items-center gap-2">
-                      <span className="inline-flex items-center bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-secondary-default/20 transition-all duration-300">
+                      <span className="inline-flex items-center bg-secondary-default/30 text-secondary-default px-3 py-1.5 rounded text-xs font-medium hover:bg-secondary-default/20 transition-all duration-300">
                         {getDateRange(item.startDate, item.endDate)}
                       </span>
-                      <span className="inline-flex items-center bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-secondary-default/20 transition-all duration-300">
+                      <span className="inline-flex items-center bg-secondary-default/30 text-secondary-default px-3 py-1.5 rounded text-xs font-medium hover:bg-secondary-default/20 transition-all duration-300">
                         {getDuration(item.startDate, item.endDate)}
                       </span>
                     </div>
@@ -199,7 +199,7 @@ const Career = () => {
                           ))}
                         </div>
                       </div>
-                      <span className="flex items-center gap-2 text-white/70 text-sm mx-auto lg:mx-0 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-lg">
+                      <span className="flex items-center gap-2 text-white/70 text-sm mx-auto lg:mx-0 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded">
                         <FaMapMarkedAlt className="text-secondary-default" />
                         {item.location}
                       </span>
@@ -226,7 +226,7 @@ const Career = () => {
                         {item.responsibilities.map((responsibility, index) => (
                           <div
                             key={index}
-                            className="flex items-baseline gap-3 group hover:bg-white/5 p-2 rounded-lg transition-all duration-300"
+                            className="flex items-baseline gap-3 group hover:bg-white/5 p-2 rounded transition-all duration-300"
                           >
                             <div className="flex-shrink-0 mt-2">
                               <FaCheckCircle className="text-secondary-default text-sm group-hover:scale-110 transition-transform duration-200" />
