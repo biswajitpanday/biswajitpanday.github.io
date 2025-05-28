@@ -6,7 +6,16 @@ export const calculateDuration = (startDate: Date, endDate: Date) => {
   const totalMonths = years * 12 + months;
   const displayYears = Math.floor(totalMonths / 12);
   const displayMonths = totalMonths % 12;
-  return `${displayYears} years, ${displayMonths} months`;
+  
+  if (displayYears === 0 && displayMonths === 0) {
+    return "Less than 1 month";
+  } else if (displayYears === 0) {
+    return `${displayMonths} month${displayMonths > 1 ? 's' : ''}`;
+  } else if (displayMonths === 0) {
+    return `${displayYears} year${displayYears > 1 ? 's' : ''}`;
+  } else {
+    return `${displayYears} year${displayYears > 1 ? 's' : ''}, ${displayMonths} month${displayMonths > 1 ? 's' : ''}`;
+  }
 };
 
 
@@ -16,4 +25,10 @@ export const calculateFromTo = (startDate: Date, endDate: Date) => {
         return `${startYear} - Present`;
     const endYear = endDate.getFullYear();
     return `${startYear} - ${endYear}`;
+  };
+
+export const calculateFromToWithDuration = (startDate: Date, endDate: Date) => {
+  const dateRange = calculateFromTo(startDate, endDate);
+  const duration = calculateDuration(startDate, endDate);
+  return `${dateRange}\n${duration}`;
   };
