@@ -10,8 +10,25 @@ import {
   FaSkype,
   FaPaperPlane,
   FaRocket,
-  FaUsers
+  FaUsers,
+  FaCheckCircle,
+  FaExclamationTriangle
 } from "react-icons/fa";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+// Form validation schema
+const contactSchema = z.object({
+  firstName: z.string().min(2, "First name must be at least 2 characters"),
+  lastName: z.string().min(2, "Last name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(10, "Please enter a valid phone number").optional().or(z.literal("")),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
 
 const info = [
   {
@@ -53,6 +70,61 @@ const info = [
 ];
 
 const Contact = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitMessage, setSubmitMessage] = useState('');
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema)
+  });
+
+  const onSubmit = async (data: ContactFormData) => {
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // PageClip form submission using environment variable
+      const PAGECLIP_API_KEY = process.env.NEXT_PUBLIC_PAGECLIP_API_KEY;
+      
+      if (!PAGECLIP_API_KEY) {
+        throw new Error('PageClip API key not found. Please check your environment variables.');
+      }
+
+      const response = await fetch(`https://send.pageclip.co/${PAGECLIP_API_KEY}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: `${data.firstName} ${data.lastName}`,
+          email: data.email,
+          phone: data.phone || 'Not provided',
+          message: data.message,
+          subject: `New contact form submission from ${data.firstName} ${data.lastName}`,
+        }),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setSubmitMessage('Thank you! Your message has been sent successfully. I will get back to you soon.');
+        reset();
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setSubmitMessage('Something went wrong. Please try again or contact me directly via email.');
+      console.error('Form submission error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden">
       {/* Background Elements */}
@@ -159,7 +231,27 @@ const Contact = () => {
                 </p>
               </motion.div>
 
-              <form className="flex flex-col gap-6">
+              {/* Submit Status Messages */}
+              {submitStatus !== 'idle' && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className={`mb-6 p-4 rounded-lg border flex items-center gap-3 ${
+                    submitStatus === 'success'
+                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+                      : 'bg-red-500/10 border-red-500/30 text-red-300'
+                  }`}
+                >
+                  {submitStatus === 'success' ? (
+                    <FaCheckCircle className="text-emerald-400 flex-shrink-0" />
+                  ) : (
+                    <FaExclamationTriangle className="text-red-400 flex-shrink-0" />
+                  )}
+                  <p className="text-sm">{submitMessage}</p>
+                </motion.div>
+              )}
+
+              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -167,20 +259,32 @@ const Contact = () => {
                   className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 >
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-white/80">First Name</label>
+                    <label className="text-sm font-medium text-white/80">First Name *</label>
                     <Input 
+                      {...register("firstName")}
                       type="text" 
                       placeholder="Enter your first name"
-                      className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
+                      className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
+                        errors.firstName ? 'border-red-500/50' : ''
+                      }`}
                     />
+                    {errors.firstName && (
+                      <p className="text-red-400 text-xs">{errors.firstName.message}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-white/80">Last Name</label>
+                    <label className="text-sm font-medium text-white/80">Last Name *</label>
                     <Input 
+                      {...register("lastName")}
                       type="text" 
                       placeholder="Enter your last name"
-                      className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
+                      className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
+                        errors.lastName ? 'border-red-500/50' : ''
+                      }`}
                     />
+                    {errors.lastName && (
+                      <p className="text-red-400 text-xs">{errors.lastName.message}</p>
+                    )}
                   </div>
                 </motion.div>
 
@@ -191,20 +295,32 @@ const Contact = () => {
                   className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 >
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-white/80">Email Address</label>
+                    <label className="text-sm font-medium text-white/80">Email Address *</label>
                     <Input 
+                      {...register("email")}
                       type="email" 
                       placeholder="your.email@example.com"
-                      className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
+                      className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
+                        errors.email ? 'border-red-500/50' : ''
+                      }`}
                     />
+                    {errors.email && (
+                      <p className="text-red-400 text-xs">{errors.email.message}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-white/80">Phone Number</label>
                     <Input 
+                      {...register("phone")}
                       type="tel" 
                       placeholder="Enter your phone number"
-                      className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
+                      className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
+                        errors.phone ? 'border-red-500/50' : ''
+                      }`}
                     />
+                    {errors.phone && (
+                      <p className="text-red-400 text-xs">{errors.phone.message}</p>
+                    )}
                   </div>
                 </motion.div>
 
@@ -214,11 +330,17 @@ const Contact = () => {
                   transition={{ delay: 2.0, duration: 0.4 }}
                   className="space-y-2"
                 >
-                  <label className="text-sm font-medium text-white/80">Message</label>
+                  <label className="text-sm font-medium text-white/80">Message *</label>
                   <Textarea
-                    className="h-[150px] w-full bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 resize-none"
+                    {...register("message")}
+                    className={`h-[150px] w-full bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 resize-none ${
+                      errors.message ? 'border-red-500/50' : ''
+                    }`}
                     placeholder="Tell me about your project, goals, and how I can help you achieve them..."
                   />
+                  {errors.message && (
+                    <p className="text-red-400 text-xs">{errors.message.message}</p>
+                  )}
                 </motion.div>
 
                 <motion.div
@@ -227,12 +349,22 @@ const Contact = () => {
                   transition={{ delay: 2.2, duration: 0.4 }}
                 >
                   <Button 
+                    type="submit"
                     size="lg" 
-                    disabled
+                    disabled={isSubmitting}
                     className="bg-gradient-to-r from-secondary-default to-blue-500 hover:from-secondary-default/90 hover:to-blue-500/90 text-primary font-semibold px-8 py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <FaPaperPlane className="mr-2" />
-                    Send Message
+                    {isSubmitting ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary mr-2"></div>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <FaPaperPlane className="mr-2" />
+                        Send Message
+                      </>
+                    )}
                   </Button>
                 </motion.div>
               </form>
