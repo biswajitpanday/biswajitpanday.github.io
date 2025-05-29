@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, memo } from 'react';
 import { IconType } from 'react-icons';
 
 // Simple icon mapping for better bundle splitting
@@ -78,7 +78,7 @@ interface DynamicIconProps {
   fallback?: React.ReactNode;
 }
 
-const DynamicIcon: React.FC<DynamicIconProps> = ({ 
+const DynamicIcon: React.FC<DynamicIconProps> = memo(({ 
   iconName, 
   className = "mr-3 text-secondary-default",
   fallback = <div className={className} style={{ width: '1em', height: '1em', backgroundColor: 'currentColor', borderRadius: '2px' }} />
@@ -97,6 +97,8 @@ const DynamicIcon: React.FC<DynamicIconProps> = ({
       <IconComponent className={className} />
     </Suspense>
   );
-};
+});
+
+DynamicIcon.displayName = 'DynamicIcon';
 
 export default DynamicIcon; 
