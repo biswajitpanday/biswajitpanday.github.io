@@ -244,18 +244,18 @@ const Skills = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="grid grid-cols-1 xl:grid-cols-2 md:grid-cols-2 gap-8"
+          className="grid grid-cols-1 xl:grid-cols-2 md:grid-cols-2 gap-8 mb-5"
         >
           {/* First Skills Tree */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02]"
+            className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02]"
           >
             {/* Category Badge */}
             {/* <div className="mb-6">
-              <span className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/15 to-blue-500/15 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-lg text-sm font-semibold hover:bg-secondary-default/20 transition-all duration-300">
+              <span className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/15 to-blue-500/15 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded text-sm font-semibold hover:bg-secondary-default/20 transition-all duration-300">
                 <FaCode className="text-lg" />
                 Core Technologies
               </span>
@@ -302,11 +302,11 @@ const Skills = () => {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02]"
+            className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02]"
           >
             {/* Category Badge */}
             {/* <div className="mb-6">
-              <span className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/15 to-secondary-default/15 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-lg text-sm font-semibold hover:bg-secondary-default/20 transition-all duration-300">
+              <span className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/15 to-secondary-default/15 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded text-sm font-semibold hover:bg-secondary-default/20 transition-all duration-300">
                 <FaTools className="text-lg" />
                 Tools & Methodologies
               </span>

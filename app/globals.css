@@ -46,6 +46,7 @@
 
   .custom-vt-element .vertical-timeline-element-content {
     width: 77% !important;
+    border-radius: 5px !important;
   }
 
      .vertical-timeline-element-subtitle {
@@ -72,7 +73,7 @@
     font-weight: 500;
     opacity: 1 !important;
     padding: 5px !important;
-    border-radius: 8px;
+    border-radius: 5px;
     border: 1px solid rgba(0, 191, 255, 0.4);
     backdrop-filter: blur(8px);
     position: relative;
