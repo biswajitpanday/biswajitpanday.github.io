@@ -1,15 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
 import { FaCogs, FaRocket } from "react-icons/fa";
-import TreeView, { flattenTree, INode } from "react-accessible-treeview";
+import TreeView, { flattenTree } from "react-accessible-treeview";
 import { skills1, skills2, countAllTechnologies } from "@/data/skillsData";
+import { PERFORMANCE_VARIANTS } from "@/constants";
 import DynamicIcon from "@/components/DynamicIcon";
 import React from "react";
-
-// Extend the INode interface to include icon property
-interface SkillNode extends INode {
-  icon?: string;
-}
 
 const Skills = () => {
   const data1 = flattenTree(skills1);
@@ -28,16 +24,14 @@ const Skills = () => {
       <div className="container mx-auto px-4 relative z-10">
         {/* Skills Header */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+          variants={PERFORMANCE_VARIANTS.containerSync}
+          initial="hidden"
+          animate="visible"
           className="text-center mb-12"
         >
           {/* Main Heading */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+            variants={PERFORMANCE_VARIANTS.slideUpSync}
             className="text-4xl xl:text-6xl font-bold text-white mb-6 leading-tight"
           >
             Technical{" "}
@@ -48,9 +42,7 @@ const Skills = () => {
 
           {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+            variants={PERFORMANCE_VARIANTS.slideUpSync}
             className="text-lg xl:text-xl text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed"
           >
             A comprehensive overview of{" "}
@@ -65,12 +57,13 @@ const Skills = () => {
 
           {/* Skills Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
+            variants={PERFORMANCE_VARIANTS.containerSync}
             className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 mb-8"
           >
-            <div className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded hover:bg-secondary-default/20 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25">
+            <motion.div
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
+            >
               <div className="flex items-center gap-3">
                 <FaCogs className="text-secondary-default text-xl group-hover:animate-spin" />
                 <div className="flex items-baseline gap-2">
@@ -82,9 +75,12 @@ const Skills = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded hover:bg-secondary-default/20 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25">
+            <motion.div
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
+            >
               <div className="flex items-center gap-3">
                 <FaRocket className="text-secondary-default text-xl group-hover:animate-pulse" />
                 <div className="flex items-baseline gap-2">
@@ -96,23 +92,21 @@ const Skills = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </motion.div>
 
         {/* Skills Trees */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
+          variants={PERFORMANCE_VARIANTS.containerSync}
+          initial="hidden"
+          animate="visible"
           className="grid grid-cols-1 xl:grid-cols-2 md:grid-cols-2 gap-8 mb-5"
         >
           {/* First Skills Tree */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02] will-change-transform"
+            variants={PERFORMANCE_VARIANTS.cardSync}
+            className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 performance-card"
           >
             <TreeView
               data={data1}
@@ -120,14 +114,26 @@ const Skills = () => {
               aria-label="Core Technologies Skills Tree"
               nodeRenderer={({ element, getNodeProps, level }) => {
                 const isParent = element.children.length > 0;
-                const skillElement = element as SkillNode;
+                const skillElement = element;
+                const iconName = skillElement.metadata?.icon?.toString() || "FaCode";
+                const nodeProps = getNodeProps();
+
+                const handleClick = (e: React.MouseEvent) => {
+                  if (!isParent) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                  }
+                  if (nodeProps.onClick) {
+                    nodeProps.onClick(e);
+                  }
+                };
 
                 return (
                   <motion.div
-                    {...getNodeProps()}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.6 + level * 0.1, duration: 0.4 }}
+                    {...nodeProps}
+                    onClick={handleClick}
+                    variants={PERFORMANCE_VARIANTS.fadeInFast}
                     style={{
                       paddingLeft: 40 * (level - 1),
                       display: "flex",
@@ -135,13 +141,15 @@ const Skills = () => {
                     }}
                     className={
                       isParent
-                        ? "text-lg font-bold leading-none text-white group hover:text-secondary-default cursor-pointer transition-all duration-300 mb-2 mt-1 hover:bg-white/5 p-2 rounded will-change-transform"
+                        ? "text-lg font-bold leading-none text-secondary-default group hover:text-blue-400 cursor-pointer transition-all duration-300 mb-2 mt-1 hover:bg-white/5 p-2 rounded will-change-transform"
                         : "text-sm text-white/70 group hover:text-white/90 hover:bg-white/5 transition-all duration-300 mb-1 p-1 rounded cursor-default"
                     }
                   >
-                    <DynamicIcon 
-                      iconName={skillElement.icon || "FaCode"} 
-                      className="mr-3 text-secondary-default" 
+                    <DynamicIcon
+                      iconName={iconName}
+                      className={`mr-3 ${
+                        isParent ? "text-secondary-default" : "text-blue-400"
+                      }`}
                     />
                     <span className="select-none">{element.name}</span>
                   </motion.div>
@@ -152,10 +160,8 @@ const Skills = () => {
 
           {/* Second Skills Tree */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02] will-change-transform"
+            variants={PERFORMANCE_VARIANTS.cardSync}
+            className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 performance-card"
           >
             <TreeView
               data={data2}
@@ -163,14 +169,26 @@ const Skills = () => {
               aria-label="Tools & Methodologies Skills Tree"
               nodeRenderer={({ element, getNodeProps, level }) => {
                 const isParent = element.children.length > 0;
-                const skillElement = element as SkillNode;
+                const skillElement = element;
+                const iconName = skillElement.metadata?.icon?.toString() || "FaCode";
+                const nodeProps = getNodeProps();
+
+                const handleClick = (e: React.MouseEvent) => {
+                  if (!isParent) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                  }
+                  if (nodeProps.onClick) {
+                    nodeProps.onClick(e);
+                  }
+                };
 
                 return (
                   <motion.div
-                    {...getNodeProps()}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.6 + level * 0.1, duration: 0.4 }}
+                    {...nodeProps}
+                    onClick={handleClick}
+                    variants={PERFORMANCE_VARIANTS.fadeInFast}
                     style={{
                       paddingLeft: 40 * (level - 1),
                       display: "flex",
@@ -178,13 +196,15 @@ const Skills = () => {
                     }}
                     className={
                       isParent
-                        ? "text-lg font-bold leading-none text-white group hover:text-secondary-default cursor-pointer transition-all duration-300 mb-2 mt-1 hover:bg-white/5 p-2 rounded will-change-transform"
+                        ? "text-lg font-bold leading-none text-secondary-default group hover:text-blue-400 cursor-pointer transition-all duration-300 mb-2 mt-1 hover:bg-white/5 p-2 rounded will-change-transform"
                         : "text-sm text-white/70 group hover:text-white/90 hover:bg-white/5 transition-all duration-300 mb-1 p-1 rounded cursor-default"
                     }
                   >
-                    <DynamicIcon 
-                      iconName={skillElement.icon || "FaCode"} 
-                      className="mr-3 text-secondary-default" 
+                    <DynamicIcon
+                      iconName={iconName}
+                      className={`mr-3 ${
+                        isParent ? "text-white" : "text-secondary-default"
+                      }`}
                     />
                     <span className="select-none">{element.name}</span>
                   </motion.div>

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
+import { PERFORMANCE_VARIANTS } from "@/constants";
 import { 
   FaEnvelope, 
   FaMapMarkedAlt, 
@@ -157,16 +158,14 @@ const Contact = () => {
       <div className="container mx-auto px-4 relative z-10">
         {/* Contact Header */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+          variants={PERFORMANCE_VARIANTS.containerSync}
+          initial="hidden"
+          animate="visible"
           className="text-center mb-12"
         >
           {/* Main Heading */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
+            variants={PERFORMANCE_VARIANTS.slideUpSync}
             className="text-4xl xl:text-6xl font-bold text-white mb-6 leading-tight"
           >
             Get In{" "}
@@ -177,9 +176,7 @@ const Contact = () => {
 
           {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+            variants={PERFORMANCE_VARIANTS.slideUpSync}
             className="text-lg xl:text-xl text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed"
           >
             Let&apos;s discuss your next project and bring your vision to life together
@@ -187,12 +184,13 @@ const Contact = () => {
 
           {/* Contact Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
+            variants={PERFORMANCE_VARIANTS.containerSync}
             className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 mb-8"
           >
-            <div className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded hover:bg-secondary-default/20 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25">
+            <motion.div 
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
+            >
               <div className="flex items-center gap-3">
                 <FaRocket className="text-secondary-default text-xl group-hover:animate-pulse" />
                 <div className="flex items-baseline gap-2">
@@ -204,9 +202,12 @@ const Contact = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded hover:bg-secondary-default/20 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25">
+            <motion.div 
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
+            >
               <div className="flex items-center gap-3">
                 <FaUsers className="text-secondary-default text-xl group-hover:animate-pulse" />
                 <div className="flex items-baseline gap-2">
@@ -218,29 +219,25 @@ const Contact = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </motion.div>
 
         {/* Contact Content */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.8 }}
+          variants={PERFORMANCE_VARIANTS.containerSync}
+          initial="hidden"
+          animate="visible"
           className="flex flex-col xl:flex-row gap-8"
         >
           {/* Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
+            variants={PERFORMANCE_VARIANTS.cardSync}
             className="xl:w-[54%] order-2 xl:order-none"
           >
-            <div className="bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-8 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10">
+            <div className="bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-8 rounded border border-secondary-default/20 hover:border-secondary-default/40 performance-card">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.4, duration: 0.6 }}
+                variants={PERFORMANCE_VARIANTS.fadeInFast}
                 className="mb-6"
               >
                 <h3 className="text-3xl xl:text-4xl font-bold text-white mb-4">
@@ -291,9 +288,7 @@ const Contact = () => {
 
               <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.6, duration: 0.4 }}
+                  variants={PERFORMANCE_VARIANTS.slideUpSync}
                   className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 >
                   <div className="space-y-2">
@@ -327,9 +322,7 @@ const Contact = () => {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.8, duration: 0.4 }}
+                  variants={PERFORMANCE_VARIANTS.slideUpSync}
                   className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 >
                   <div className="space-y-2">
@@ -363,9 +356,7 @@ const Contact = () => {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2.0, duration: 0.4 }}
+                  variants={PERFORMANCE_VARIANTS.slideUpSync}
                   className="space-y-2"
                 >
                   <label className="text-sm font-medium text-white/80">Message *</label>
@@ -382,15 +373,13 @@ const Contact = () => {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2.2, duration: 0.4 }}
+                  variants={PERFORMANCE_VARIANTS.fadeInFast}
                 >
                   <Button 
                     type="submit"
                     size="lg" 
                     disabled={isSubmitting || rateLimit.isBlocked}
-                    className={`bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25 disabled:opacity-50 disabled:cursor-not-allowed`}
+                    className={`bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded performance-button disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
                     {isSubmitting ? (
                       <>
@@ -411,16 +400,12 @@ const Contact = () => {
 
           {/* Contact Information */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
+            variants={PERFORMANCE_VARIANTS.cardSync}
             className="flex-1 flex items-center xl:justify-end order-1 xl:order-none mb-8 xl:mb-0"
           >
             <div className="w-full max-w-md">
               <motion.h3
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.4, duration: 0.6 }}
+                variants={PERFORMANCE_VARIANTS.slideUpSync}
                 className="text-2xl font-bold text-white mb-8 text-center xl:text-left"
               >
                 Contact Information

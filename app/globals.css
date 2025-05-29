@@ -261,6 +261,8 @@
     @apply transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02];
     will-change: transform, box-shadow;
     transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 
   /* Optimized button hover effects */
@@ -268,5 +270,46 @@
     @apply transition-all duration-300 hover:scale-105 hover:shadow-lg;
     will-change: transform, box-shadow;
     transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Ultra-fast fade in for synchronous animations */
+  .sync-fade-in {
+    animation: syncFadeIn 0.3s ease-out;
+  }
+
+  @keyframes syncFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Optimized tree view animations */
+  .tree-node-optimized {
+    will-change: opacity, transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Optimize project cards for grid layout */
+  .project-grid-optimized {
+    contain: layout style paint;
+    will-change: transform;
+  }
+
+  /* Reduce GPU memory usage on hover */
+  .performance-card:hover,
+  .performance-button:hover {
+    transform: translateZ(0) scale(1.02);
+  }
+
+  .performance-button:hover {
+    transform: translateZ(0) scale(1.05);
   }
 }

@@ -1,17 +1,68 @@
-// Animation delays and durations
+// Animation delays and durations - Optimized for performance
 export const ANIMATION_DELAYS = {
-  HEADER: 0.2,
-  CONTENT: 0.4,
-  CARDS: 0.6,
-  STATS: 0.8,
-  STAGGER: 0.1,
+  NONE: 0,
+  MINIMAL: 0.1,
+  HEADER: 0.1,
+  CONTENT: 0.1,
+  CARDS: 0.1,
+  STATS: 0.1,
+  STAGGER: 0.05,
 } as const;
 
 export const ANIMATION_DURATIONS = {
+  INSTANT: 0.2,
   FAST: 0.3,
-  NORMAL: 0.6,
-  SLOW: 0.8,
-  VERY_SLOW: 1.2,
+  NORMAL: 0.4,
+  SLOW: 0.6,
+  VERY_SLOW: 0.8,
+} as const;
+
+// Performance-optimized animation variants
+export const PERFORMANCE_VARIANTS = {
+  // Fast entry animations
+  fadeInFast: {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { duration: ANIMATION_DURATIONS.FAST, ease: "easeOut" }
+    }
+  },
+  
+  // Synchronous slide animations
+  slideUpSync: {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: ANIMATION_DURATIONS.NORMAL, ease: "easeOut" }
+    }
+  },
+  
+  // Container for staggered children
+  containerSync: {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: ANIMATION_DURATIONS.FAST,
+        staggerChildren: ANIMATION_DELAYS.STAGGER,
+        delayChildren: ANIMATION_DELAYS.MINIMAL,
+      },
+    },
+  },
+  
+  // Card animations
+  cardSync: {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: ANIMATION_DURATIONS.NORMAL,
+        ease: "easeOut",
+      },
+    },
+  },
 } as const;
 
 // Responsive breakpoints
@@ -80,6 +131,7 @@ export const SOCIAL_LINKS = {
 export default {
   ANIMATION_DELAYS,
   ANIMATION_DURATIONS,
+  PERFORMANCE_VARIANTS,
   BREAKPOINTS,
   COLORS,
   FORM_VALIDATION,

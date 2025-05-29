@@ -11,6 +11,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion } from "framer-motion";
 import { calculateDuration } from "@/helpers/utility";
+import { PERFORMANCE_VARIANTS } from "@/constants";
 
 const about = {
   title: "About me",
@@ -134,11 +135,9 @@ const skills = {
 const Resume = () => {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{
-        opacity: 1,
-        transition: { delay: 0.4, duration: 0.4, ease: "easeIn" },
-      }}
+      variants={PERFORMANCE_VARIANTS.fadeInFast}
+      initial="hidden"
+      animate="visible"
       className="min-h-[80vh] flex items-center justify-center py-12 xl:py-0"
     >
       <div className="container mx-auto">

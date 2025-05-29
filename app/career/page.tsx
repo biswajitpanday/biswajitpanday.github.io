@@ -6,6 +6,7 @@ import {
   getDuration,
 } from "@/helpers/utility";
 import { timeLineItems } from "@/data/timelineData";
+import { PERFORMANCE_VARIANTS } from "@/constants";
 import Link from "next/link";
 import {
   VerticalTimeline,
@@ -36,28 +37,14 @@ const Career = () => {
       <div className="container mx-auto px-4 relative z-10">
         {/* Professional Header */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+          variants={PERFORMANCE_VARIANTS.containerSync}
+          initial="hidden"
+          animate="visible"
           className="text-center mb-12"
         >
-          {/* Badge */}
-          {/* <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium mb-6 hover:bg-secondary-default/20 transition-all duration-300"
-          >
-            <FaRocket className="text-lg animate-pulse" />
-            <span>Career Timeline</span>
-            <FaTrophy className="text-lg" />
-          </motion.div> */}
-
           {/* Main Heading */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+            variants={PERFORMANCE_VARIANTS.slideUpSync}
             className="text-4xl xl:text-6xl font-bold text-white mb-6 leading-tight"
           >
             Professional{" "}
@@ -68,9 +55,7 @@ const Career = () => {
 
           {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
+            variants={PERFORMANCE_VARIANTS.slideUpSync}
             className="text-lg xl:text-xl text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed"
           >
             Transforming ideas into{" "}
@@ -85,12 +70,13 @@ const Career = () => {
 
           {/* Enhanced Experience Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.8 }}
+            variants={PERFORMANCE_VARIANTS.containerSync}
             className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8"
           >
-            <div className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded hover:bg-secondary-default/20 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25">
+            <motion.div 
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
+            >
               <div className="flex items-center gap-3">
                 <FaCalendarAlt className="text-secondary-default text-xl group-hover:animate-pulse" />
                 <div className="flex items-baseline gap-2">
@@ -102,9 +88,12 @@ const Career = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded hover:bg-secondary-default/20 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25">
+            <motion.div 
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
+            >
               <div className="flex items-center gap-3">
                 <FaBriefcase className="text-secondary-default text-xl group-hover:animate-pulse" />
                 <div className="flex items-baseline gap-2">
@@ -116,15 +105,15 @@ const Career = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </motion.div>
 
         {/* Timeline */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
+          variants={PERFORMANCE_VARIANTS.fadeInFast}
+          initial="hidden"
+          animate="visible"
         >
           <VerticalTimeline
             className="xl:custom-vt"
