@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
+import { PERFORMANCE_VARIANTS } from "@/constants";
 import { 
   FaEnvelope, 
   FaMapMarkedAlt, 
@@ -18,6 +19,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useRateLimit } from "@/hooks/useRateLimit";
+import { RATE_LIMIT } from "@/constants";
 
 // Form validation schema
 const contactSchema = z.object({
@@ -74,6 +77,13 @@ const Contact = () => {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
 
+  // Rate limiting hook
+  const rateLimit = useRateLimit({
+    maxAttempts: RATE_LIMIT.MAX_ATTEMPTS,
+    windowMs: RATE_LIMIT.WINDOW_MS,
+    blockDurationMs: RATE_LIMIT.BLOCK_DURATION_MS,
+  });
+
   const {
     register,
     handleSubmit,
@@ -84,10 +94,21 @@ const Contact = () => {
   });
 
   const onSubmit = async (data: ContactFormData) => {
+    // Check rate limit before proceeding
+    const rateLimitCheck = rateLimit.checkRateLimit();
+    if (!rateLimitCheck.allowed) {
+      setSubmitStatus('error');
+      setSubmitMessage(rateLimitCheck.message || 'Rate limit exceeded');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
     try {
+      // Record the attempt
+      rateLimit.recordAttempt();
+
       // PageClip form submission using environment variable
       const PAGECLIP_API_KEY = process.env.NEXT_PUBLIC_PAGECLIP_API_KEY;
       
@@ -113,6 +134,7 @@ const Contact = () => {
         setSubmitStatus('success');
         setSubmitMessage('Thank you! Your message has been sent successfully. I will get back to you soon.');
         reset();
+        rateLimit.reset(); // Reset rate limit on successful submission
       } else {
         throw new Error('Form submission failed');
       }
@@ -136,16 +158,14 @@ const Contact = () => {
       <div className="container mx-auto px-4 relative z-10">
         {/* Contact Header */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+          variants={PERFORMANCE_VARIANTS.containerSync}
+          initial="hidden"
+          animate="visible"
           className="text-center mb-12"
         >
           {/* Main Heading */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
+            variants={PERFORMANCE_VARIANTS.slideUpSync}
             className="text-4xl xl:text-6xl font-bold text-white mb-6 leading-tight"
           >
             Get In{" "}
@@ -156,9 +176,7 @@ const Contact = () => {
 
           {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+            variants={PERFORMANCE_VARIANTS.slideUpSync}
             className="text-lg xl:text-xl text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed"
           >
             Let&apos;s discuss your next project and bring your vision to life together
@@ -166,12 +184,13 @@ const Contact = () => {
 
           {/* Contact Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
+            variants={PERFORMANCE_VARIANTS.containerSync}
             className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 mb-8"
           >
-            <div className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded hover:bg-secondary-default/20 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25">
+            <motion.div 
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
+            >
               <div className="flex items-center gap-3">
                 <FaRocket className="text-secondary-default text-xl group-hover:animate-pulse" />
                 <div className="flex items-baseline gap-2">
@@ -183,9 +202,12 @@ const Contact = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded hover:bg-secondary-default/20 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25">
+            <motion.div 
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
+            >
               <div className="flex items-center gap-3">
                 <FaUsers className="text-secondary-default text-xl group-hover:animate-pulse" />
                 <div className="flex items-baseline gap-2">
@@ -197,29 +219,25 @@ const Contact = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </motion.div>
 
         {/* Contact Content */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.8 }}
+          variants={PERFORMANCE_VARIANTS.containerSync}
+          initial="hidden"
+          animate="visible"
           className="flex flex-col xl:flex-row gap-8"
         >
           {/* Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
+            variants={PERFORMANCE_VARIANTS.cardSync}
             className="xl:w-[54%] order-2 xl:order-none"
           >
-            <div className="bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-8 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10">
+            <div className="bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-8 rounded border border-secondary-default/20 hover:border-secondary-default/40 performance-card">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.4, duration: 0.6 }}
+                variants={PERFORMANCE_VARIANTS.fadeInFast}
                 className="mb-6"
               >
                 <h3 className="text-3xl xl:text-4xl font-bold text-white mb-4">
@@ -230,6 +248,23 @@ const Contact = () => {
                   Ready to bring your vision to life? Tell me about your project and let&apos;s create something extraordinary together.
                 </p>
               </motion.div>
+
+              {/* Rate Limit Warning */}
+              {rateLimit.isBlocked && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="mb-6 p-4 rounded border bg-red-500/10 border-red-500/30 text-red-300 flex items-center gap-3"
+                >
+                  <FaExclamationTriangle className="text-red-400 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium">Rate limit exceeded</p>
+                    <p className="text-xs text-red-400">
+                      You have {rateLimit.attemptsRemaining} attempts remaining.
+                    </p>
+                  </div>
+                </motion.div>
+              )}
 
               {/* Submit Status Messages */}
               {submitStatus !== 'idle' && (
@@ -253,9 +288,7 @@ const Contact = () => {
 
               <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.6, duration: 0.4 }}
+                  variants={PERFORMANCE_VARIANTS.slideUpSync}
                   className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 >
                   <div className="space-y-2">
@@ -289,9 +322,7 @@ const Contact = () => {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.8, duration: 0.4 }}
+                  variants={PERFORMANCE_VARIANTS.slideUpSync}
                   className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 >
                   <div className="space-y-2">
@@ -325,9 +356,7 @@ const Contact = () => {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2.0, duration: 0.4 }}
+                  variants={PERFORMANCE_VARIANTS.slideUpSync}
                   className="space-y-2"
                 >
                   <label className="text-sm font-medium text-white/80">Message *</label>
@@ -344,15 +373,13 @@ const Contact = () => {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2.2, duration: 0.4 }}
+                  variants={PERFORMANCE_VARIANTS.fadeInFast}
                 >
                   <Button 
                     type="submit"
                     size="lg" 
-                    disabled={isSubmitting}
-                    className={`bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25 disabled:opacity-50 disabled:cursor-not-allowed`}
+                    disabled={isSubmitting || rateLimit.isBlocked}
+                    className={`bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded performance-button disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
                     {isSubmitting ? (
                       <>
@@ -373,16 +400,12 @@ const Contact = () => {
 
           {/* Contact Information */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
+            variants={PERFORMANCE_VARIANTS.cardSync}
             className="flex-1 flex items-center xl:justify-end order-1 xl:order-none mb-8 xl:mb-0"
           >
             <div className="w-full max-w-md">
               <motion.h3
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.4, duration: 0.6 }}
+                variants={PERFORMANCE_VARIANTS.slideUpSync}
                 className="text-2xl font-bold text-white mb-8 text-center xl:text-left"
               >
                 Contact Information

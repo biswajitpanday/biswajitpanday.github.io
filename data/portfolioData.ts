@@ -1,7 +1,7 @@
 export interface Project {
   inactivationReason: string | undefined;
   num: number;
-  category: "full-stack" | "front-end" | "back-end" | "mobile";
+  category: "Full-Stack" | "Frontend" | "Backend" | "Mobile";
   title: string;
   longDescription: string;
   shortDescription: string;
@@ -12,19 +12,19 @@ export interface Project {
   url: string;
   github: string;
   associatedWithCompany:
-    | "Brain Station-23"
-    | "Chorki Limited"
-    | "Kaz Software"
-    | "Optimizely"
-    | "Individual"
-    | "";
+  | "Brain Station-23"
+  | "Chorki Limited"
+  | "Kaz Software"
+  | "Optimizely"
+  | "Individual"
+  | "";
   jobRole:
-    | "Senior Developer"
-    | "Senior Software Engineer"
-    | "Software Engineer"
-    | "Associate Software Engineer"
-    | "Intern"
-    | "Freelancer";
+  | "Senior Developer"
+  | "Senior Software Engineer"
+  | "Software Engineer"
+  | "Associate Software Engineer"
+  | "Intern"
+  | "Freelancer";
   startDate: Date;
   endDate: Date;
 }
@@ -32,7 +32,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     num: 1,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "Optimizely Configured Commerce",
     longDescription: "",
     shortDescription:
@@ -63,7 +63,7 @@ export const projects: Project[] = [
   },
   {
     num: 2,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "BugBusters",
     longDescription:
       "A private developer panel for internal issue tracking and collaboration, offering a secure, company-specific alternative to public Q&A platforms.",
@@ -91,7 +91,7 @@ export const projects: Project[] = [
   },
   {
     num: 3,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "Devensoft",
     longDescription:
       "Upgraded technology stacks and implemented new features for a USA-based company's M&A process management and team collaboration solution.",
@@ -119,7 +119,7 @@ export const projects: Project[] = [
   },
   {
     num: 4,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "Reganalytics",
     longDescription:
       "Led the upgrade of a legacy application to a Microservices architecture, deploying in Docker with multiple .NET 6, React, and Angular applications.",
@@ -151,10 +151,10 @@ export const projects: Project[] = [
   },
   {
     num: 5,
-    category: "back-end",
+    category: "Backend",
     title: "WebEvv (Electronic Visit Verification)",
     longDescription:
-      "Led backend development, deployment, and managed the delivery of a scalable electronic visit verification platform for home care management.",
+      "Led Backend development, deployment, and managed the delivery of a scalable electronic visit verification platform for home care management.",
     shortDescription: "Home care visit verification system.",
     stacks: [
       "C#",
@@ -181,10 +181,10 @@ export const projects: Project[] = [
   },
   {
     num: 6,
-    category: "back-end",
+    category: "Backend",
     title: "Alarm App (Bangladesh Red Crescent Society)",
     longDescription:
-      "Led the development of a Flutter-based mobile app for the Bangladesh Red Crescent Society (BDRCS), with a backend and an Angular admin dashboard. Designed and deployed the system on AWS, ensuring scalability and best software practices.",
+      "Led the development of a Flutter-based Mobile app for the Bangladesh Red Crescent Society (BDRCS), with a Backend and an Angular admin dashboard. Designed and deployed the system on AWS, ensuring scalability and best software practices.",
     shortDescription: "Emergency alert and communication app.",
     stacks: [
       "C#",
@@ -211,7 +211,7 @@ export const projects: Project[] = [
   },
   {
     num: 7,
-    category: "back-end",
+    category: "Backend",
     title: "Subscriber Verification System (SVS)",
     longDescription:
       "Led the modernization of Robi's Subscriber Verification System (SVS), migrating a legacy .NET app to .NET Core for Linux deployment, improving performance, and ensuring scalability. Developed key features, automated deployments across 40+ servers, and optimized API performance for millions of users.",
@@ -241,7 +241,7 @@ export const projects: Project[] = [
   },
   {
     num: 8,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "JoyList",
     longDescription:
       "Led the development and deployment of JoyList, a scalable platform combining elements of Twitter, Yelp, and Facebook for users to share curated lists of favorite experiences.",
@@ -269,10 +269,10 @@ export const projects: Project[] = [
   },
   {
     num: 9,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "Shopway",
     longDescription:
-      "Contributed to the development of a location-based e-commerce platform, working on both frontend and backend as a full-stack developer.",
+      "Contributed to the development of a location-based e-commerce platform, working on both Frontend and Backend as a Full-Stack developer.",
     shortDescription: "A location-based e-commerce platform.",
     stacks: [
       "JavaScript",
@@ -296,10 +296,10 @@ export const projects: Project[] = [
   },
   {
     num: 10,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "EnCue",
     longDescription:
-      "Contributed to the development of a live concert audience engagement application for a USA-based company, collaborating on both frontend and backend as a full-stack developer.",
+      "Contributed to the development of a live concert audience engagement application for a USA-based company, collaborating on both Frontend and Backend as a Full-Stack developer.",
     shortDescription: "",
     stacks: [
       "C#",
@@ -326,10 +326,10 @@ export const projects: Project[] = [
   },
   {
     num: 11,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "OpiGateWay",
     longDescription:
-      "Contributed to the development of an IVR system for VRI Gateway, collaborating on both frontend and backend as a full-stack developer.",
+      "Contributed to the development of an IVR system for VRI Gateway, collaborating on both Frontend and Backend as a Full-Stack developer.",
     shortDescription: "",
     stacks: [
       "C#",
@@ -353,10 +353,10 @@ export const projects: Project[] = [
   },
   {
     num: 12,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "here'n'now",
     longDescription:
-      "Contributed to the development of a live engagement app, working on both frontend and backend as a full-stack developer.",
+      "Contributed to the development of a live engagement app, working on both Frontend and Backend as a Full-Stack developer.",
     shortDescription: "No Longer Operational",
     stacks: [
       "C#",
@@ -381,7 +381,7 @@ export const projects: Project[] = [
   },
   {
     num: 13,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "reezcom",
     longDescription:
       "ReezCom is a communication platform for apartments, offices, and towers, enabling fast and efficient interaction with management for emergencies and other needs.",
@@ -400,7 +400,7 @@ export const projects: Project[] = [
   },
   {
     num: 14,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "dobi",
     longDescription:
       "Dobi is an online laundry service in Bangladesh, offering home pickup and delivery for wash, iron, or both, along with bulk laundry solutions for hotels, hospitals, and transport services.",
@@ -419,10 +419,10 @@ export const projects: Project[] = [
   },
   {
     num: 15,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "World Tax Analyzer (WTA)",
     longDescription:
-      "Contributed to various parts of the World Tax Analyzer (WTA) application, a comprehensive platform offering tax rules, rates, treaty information, and more, as a full-stack developer.",
+      "Contributed to various parts of the World Tax Analyzer (WTA) application, a comprehensive platform offering tax rules, rates, treaty information, and more, as a Full-Stack developer.",
     shortDescription: "",
     stacks: ["C#", "ASP.NET MVC", "Knockout.Js", "MSSQL", "Link To SQL"],
     image: "/assets/portfolio/regfollower.png",
@@ -438,10 +438,10 @@ export const projects: Project[] = [
   },
   {
     num: 16,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "Transfer Pricing Analyzer (TPA)",
     longDescription:
-      "Contributed to various parts of the Transfer Pricing Analyzer (TPA) application, providing an overview of transfer pricing regulations and tools for FAR analysis and BEPS, as a full-stack developer.",
+      "Contributed to various parts of the Transfer Pricing Analyzer (TPA) application, providing an overview of transfer pricing regulations and tools for FAR analysis and BEPS, as a Full-Stack developer.",
     shortDescription: "",
     stacks: ["C#", "ASP.NET MVC", "Knockout.Js", "MSSQL", "Link To SQL"],
     image: "/assets/portfolio/regfollower.png",
@@ -457,7 +457,7 @@ export const projects: Project[] = [
   },
   {
     num: 17,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "Reganalytics Auth",
     longDescription: "",
     shortDescription:
@@ -482,7 +482,7 @@ export const projects: Project[] = [
   },
   {
     num: 18,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "Notification Hub",
     longDescription: "",
     shortDescription:
@@ -508,7 +508,7 @@ export const projects: Project[] = [
   },
   {
     num: 19,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "News Aggregator",
     longDescription: "",
     shortDescription:
@@ -527,11 +527,11 @@ export const projects: Project[] = [
   },
   {
     num: 21,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "Whooza",
     longDescription: "",
     shortDescription:
-      "Contributed to the development of an MVP for a platform combining social and professional networking features, working on both frontend and backend as a full-stack developer.",
+      "Contributed to the development of an MVP for a platform combining social and professional networking features, working on both Frontend and Backend as a Full-Stack developer.",
     stacks: [
       "JavaScript",
       "AngularJs",
@@ -554,7 +554,7 @@ export const projects: Project[] = [
   },
   {
     num: 22,
-    category: "full-stack",
+    category: "Full-Stack",
     title: "BCPS Management Portal",
     longDescription: "",
     shortDescription:

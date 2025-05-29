@@ -2,23 +2,18 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { PERFORMANCE_VARIANTS } from "@/constants";
 
 const Photo = () => {
   return (
     <div className="w-full h-full relative rounded-full overflow-hidden">
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: 1,
-          transition: { delay: 1, duration: 0.4, ease: "easeIn" },
-        }}
+        variants={PERFORMANCE_VARIANTS.fadeInFast}
+        initial="hidden"
+        animate="visible"
       >
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-            transition: { delay: 2.4, duration: 0.4, ease: "easeInOut" },
-          }}
+          variants={PERFORMANCE_VARIANTS.fadeInFast}
           className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] mix-blend-lighten absolute"
         >
           <Image
@@ -50,9 +45,10 @@ const Photo = () => {
               rotate: [120, 360],
             }}
             transition={{
-              duration: 20,
+              duration: 8,
               repeat: Infinity,
               repeatType: "reverse",
+              ease: "linear",
             }}
           ></motion.circle>
         </motion.svg>
