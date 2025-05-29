@@ -24,10 +24,41 @@
     background-color: transparent !important;
   }
 
+  /* Performance optimizations */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-auto {
+    will-change: auto;
+  }
+
+  /* Hardware acceleration for animations */
+  .animate-gradient,
+  .animate-ping,
+  .animate-pulse,
+  .animate-bounce,
+  .animate-spin {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Optimize hover effects */
+  .hover-optimized {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform, box-shadow;
+  }
+
+  .hover-optimized:hover {
+    transform: translateZ(0) scale(1.02);
+  }
+
   /* Desktop Timeline Styles */
   .custom-vt {
     width: 100% !important;
     max-width: 1280px !important;
+    transform: translateZ(0); /* Hardware acceleration */
   }
 
   .custom-vt::before {
@@ -42,11 +73,13 @@
 
   .custom-vt .vertical-timeline-element-icon {
     left: 19% !important;
+    transform: translateZ(0); /* Hardware acceleration */
   }
 
   .custom-vt-element .vertical-timeline-element-content {
     width: 77% !important;
     border-radius: 5px !important;
+    transform: translateZ(0); /* Hardware acceleration */
   }
 
      .vertical-timeline-element-subtitle {
@@ -81,6 +114,7 @@
     max-width: 190px;
     top: -5px !important;
     box-shadow: 0 4px 16px rgba(0, 191, 255, 0.1);
+    transform: translateZ(0); /* Hardware acceleration */
   }
 
   /* Style for the duration line */
@@ -116,11 +150,13 @@
       width: 50px !important;
       height: 50px !important;
       margin-left: -25px !important;
+      transform: translateZ(0); /* Hardware acceleration */
     }
 
     .custom-vt-element .vertical-timeline-element-content {
       width: calc(100% - 80px) !important;
       margin-left: 80px !important;
+      transform: translateZ(0); /* Hardware acceleration */
     }
 
     .custom-vt .vertical-timeline-element-date,
@@ -141,12 +177,14 @@
       width: 40px !important;
       height: 40px !important;
       margin-left: -20px !important;
+      transform: translateZ(0); /* Hardware acceleration */
     }
 
     .custom-vt-element .vertical-timeline-element-content {
       width: calc(100% - 60px) !important;
       margin-left: 60px !important;
       padding: 1rem !important;
+      transform: translateZ(0); /* Hardware acceleration */
     }
 
     .custom-vt .vertical-timeline-element-date,
@@ -172,6 +210,29 @@
   .animate-gradient {
     background-size: 200% 200%;
     animation: gradient 3s ease-in-out infinite;
+    will-change: background-position;
+  }
+
+  /* Optimized scroll performance */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-gradient,
+    .animate-ping,
+    .animate-pulse,
+    .animate-bounce,
+    .animate-spin {
+      animation: none;
+    }
+    
+    .transition-all,
+    .transition-transform,
+    .transition-colors {
+      transition: none;
+    }
   }
 }
 
@@ -193,5 +254,19 @@
 
   .custom-list-disc li::marker {
     color: var(--color-secondary-default);
+  }
+
+  /* Performance optimized card component */
+  .performance-card {
+    @apply transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02];
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+  }
+
+  /* Optimized button hover effects */
+  .performance-button {
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-lg;
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
   }
 }

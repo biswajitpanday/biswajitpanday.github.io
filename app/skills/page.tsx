@@ -1,154 +1,15 @@
 "use client";
 import { motion } from "framer-motion";
-import {
-  FaAngular,
-  FaAws,
-  FaBootstrap,
-  FaCloud,
-  FaCode,
-  FaDatabase,
-  FaDocker,
-  FaExchangeAlt,
-  FaFolder,
-  FaFunnelDollar,
-  FaGitAlt,
-  FaGlobe,
-  FaJs,
-  FaLinux,
-  FaMicrochip,
-  FaProjectDiagram,
-  FaReact,
-  FaRegBuilding,
-  FaRestroom,
-  FaServer,
-  FaSitemap,
-  FaTools,
-  FaRocket,
-  FaCogs,
-} from "react-icons/fa";
-import { VscAzure, VscAzureDevops } from "react-icons/vsc";
-import {
-  SiTypescript,
-  SiBlazor,
-  SiKubernetes,
-  SiFramework,
-  SiModal,
-  SiAmazondynamodb,
-  SiAngular,
-  SiDotnet,
-  SiJenkins,
-  SiJira,
-  SiMongodb,
-  SiMysql,
-  SiRabbitmq,
-  SiReact,
-  SiRedux,
-  SiSqlite,
-  SiTrpc,
-  SiServerless,
-  SiFrontendmentor,
-  SiAmazonec2,
-  SiAwslambda,
-  SiAmazons3,
-  SiAmazonsimpleemailservice,
-  SiAmazonsqs,
-  SiExpress,
-} from "react-icons/si";
-import { GrTest, GrVirtualMachine } from "react-icons/gr";
-import { DiMsqlServer, DiDotnet, DiScrum, DiRedis } from "react-icons/di";
-import { GiCogsplosion } from "react-icons/gi";
-import { FaArrowsSpin } from "react-icons/fa6";
-import { TbBrandCSharp, TbBrandLinqpad } from "react-icons/tb";
-import { MdNotifications, MdSecurity } from "react-icons/md";
-import TreeView, { flattenTree } from "react-accessible-treeview";
+import { FaCogs, FaRocket } from "react-icons/fa";
+import TreeView, { flattenTree, INode } from "react-accessible-treeview";
 import { skills1, skills2, countAllTechnologies } from "@/data/skillsData";
+import DynamicIcon from "@/components/DynamicIcon";
+import React from "react";
 
-import React, { JSX } from "react";
-import { PiKanban } from "react-icons/pi";
-
-const withStyle = (Icon: JSX.Element) =>
-  React.cloneElement(Icon, { className: "mr-3 text-secondary-default" });
-
-const iconMap: { [key: string]: JSX.Element } = {
-  FaFolder: withStyle(<FaFolder />),
-  FaCode: withStyle(<FaCode />),
-  FaJs: withStyle(<FaJs />),
-  SiTypescript: withStyle(<SiTypescript />),
-  SiBlazor: withStyle(<SiBlazor />),
-  FaGitAlt: withStyle(<FaGitAlt />),
-  FaDocker: withStyle(<FaDocker />),
-  SiKubernetes: withStyle(<SiKubernetes />),
-  TbBrandCSharp: withStyle(<TbBrandCSharp />),
-  FaRegBuilding: withStyle(<FaRegBuilding />),
-
-  // Frameworks
-  FaReact: withStyle(<FaReact />),
-  FaAngular: withStyle(<FaAngular />),
-  DiDotnet: withStyle(<DiDotnet />),
-  FaBootstrap: withStyle(<FaBootstrap />),
-  FaGlobe: withStyle(<FaGlobe />),
-  SiModal: withStyle(<SiModal />),
-  SiExpress: withStyle(<SiExpress />),
-
-  // Architectures/Patterns
-  FaSitemap: withStyle(<FaSitemap />),
-  FaMicrochip: withStyle(<FaMicrochip />),
-  FaServer: withStyle(<FaServer />),
-  FaExchangeAlt: withStyle(<FaExchangeAlt />),
-  FaProjectDiagram: withStyle(<FaProjectDiagram />),
-  FaCloud: withStyle(<FaCloud />),
-  SiServerless: withStyle(<SiServerless />),
-
-  // Databases
-  FaDatabase: withStyle(<FaDatabase />),
-  DiMsqlServer: withStyle(<DiMsqlServer />),
-  SiMongodb: withStyle(<SiMongodb />),
-  SiMysql: withStyle(<SiMysql />),
-  SiAmazondynamodb: withStyle(<SiAmazondynamodb />),
-  SiSqlite: withStyle(<SiSqlite />),
-
-  // Cloud Platforms
-  VscAzure: withStyle(<VscAzure />),
-  GrVirtualMachine: withStyle(<GrVirtualMachine />),
-  FaAws: withStyle(<FaAws />),
-  SiAmazonec2: withStyle(<SiAmazonec2 />),
-  SiAwslambda: withStyle(<SiAwslambda />),
-  SiAmazons3: withStyle(<SiAmazons3 />),
-  MdNotifications: withStyle(<MdNotifications />),
-  SiAmazonsqs: withStyle(<SiAmazonsqs />),
-  SiAmazonsimpleemailservice: withStyle(<SiAmazonsimpleemailservice />),
-  MdSecurity: withStyle(<MdSecurity />),
-
-  // DevOps & Tools
-  FaTools: withStyle(<FaTools />),
-  SiJenkins: withStyle(<SiJenkins />),
-  SiJira: withStyle(<SiJira />),
-  VscAzureDevops: withStyle(<VscAzureDevops />),
-
-  // Front-End Technologies
-  SiFrontendmentor: withStyle(<SiFrontendmentor />),
-  SiReact: withStyle(<SiReact />),
-  SiAngular: withStyle(<SiAngular />),
-  SiRedux: withStyle(<SiRedux />),
-
-  // Other Skills
-  GiCogsplosion: withStyle(<GiCogsplosion />),
-  SiDotnet: withStyle(<SiDotnet />),
-  SiFramework: withStyle(<SiFramework />),
-  FaRestroom: withStyle(<FaRestroom />),
-  SiTrpc: withStyle(<SiTrpc />),
-  SiRabbitmq: withStyle(<SiRabbitmq />),
-  DiRedis: withStyle(<DiRedis />),
-  FaFunnelDollar: withStyle(<FaFunnelDollar />),
-  GrTest: withStyle(<GrTest />),
-  FaLinux: withStyle(<FaLinux />),
-  TbBrandLinqpad: withStyle(<TbBrandLinqpad />),
-
-  // Agile Methodologies
-  FaArrowsSpin: withStyle(<FaArrowsSpin />),
-  DiScrum: withStyle(<DiScrum />),
-  PiKanban: withStyle(<PiKanban />),
-};
+// Extend the INode interface to include icon property
+interface SkillNode extends INode {
+  icon?: string;
+}
 
 const Skills = () => {
   const data1 = flattenTree(skills1);
@@ -251,22 +112,15 @@ const Skills = () => {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02]"
+            className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02] will-change-transform"
           >
-            {/* Category Badge */}
-            {/* <div className="mb-6">
-              <span className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/15 to-blue-500/15 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded text-sm font-semibold hover:bg-secondary-default/20 transition-all duration-300">
-                <FaCode className="text-lg" />
-                Core Technologies
-              </span>
-            </div> */}
-
             <TreeView
               data={data1}
               defaultExpandedIds={data1.map((node) => node.id)}
               aria-label="Core Technologies Skills Tree"
               nodeRenderer={({ element, getNodeProps, level }) => {
                 const isParent = element.children.length > 0;
+                const skillElement = element as SkillNode;
 
                 return (
                   <motion.div
@@ -281,15 +135,14 @@ const Skills = () => {
                     }}
                     className={
                       isParent
-                        ? "text-lg font-bold leading-none text-white group hover:text-secondary-default cursor-pointer transition-all duration-300 mb-2 mt-1 hover:bg-white/5 p-2 rounded"
+                        ? "text-lg font-bold leading-none text-white group hover:text-secondary-default cursor-pointer transition-all duration-300 mb-2 mt-1 hover:bg-white/5 p-2 rounded will-change-transform"
                         : "text-sm text-white/70 group hover:text-white/90 hover:bg-white/5 transition-all duration-300 mb-1 p-1 rounded cursor-default"
                     }
                   >
-                    {typeof element.metadata?.icon === "string" ? (
-                      iconMap[element.metadata.icon]
-                    ) : (
-                      <FaCode className="mr-3 text-secondary-default" />
-                    )}
+                    <DynamicIcon 
+                      iconName={skillElement.icon || "FaCode"} 
+                      className="mr-3 text-secondary-default" 
+                    />
                     <span className="select-none">{element.name}</span>
                   </motion.div>
                 );
@@ -302,22 +155,15 @@ const Skills = () => {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02]"
+            className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02] will-change-transform"
           >
-            {/* Category Badge */}
-            {/* <div className="mb-6">
-              <span className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/15 to-secondary-default/15 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded text-sm font-semibold hover:bg-secondary-default/20 transition-all duration-300">
-                <FaTools className="text-lg" />
-                Tools & Methodologies
-              </span>
-            </div> */}
-
             <TreeView
               data={data2}
               defaultExpandedIds={data2.map((node) => node.id)}
               aria-label="Tools & Methodologies Skills Tree"
               nodeRenderer={({ element, getNodeProps, level }) => {
                 const isParent = element.children.length > 0;
+                const skillElement = element as SkillNode;
 
                 return (
                   <motion.div
@@ -332,15 +178,14 @@ const Skills = () => {
                     }}
                     className={
                       isParent
-                        ? "text-lg font-bold leading-none text-white group hover:text-secondary-default cursor-pointer transition-all duration-300 mb-2 mt-1 hover:bg-white/5 p-2 rounded"
+                        ? "text-lg font-bold leading-none text-white group hover:text-secondary-default cursor-pointer transition-all duration-300 mb-2 mt-1 hover:bg-white/5 p-2 rounded will-change-transform"
                         : "text-sm text-white/70 group hover:text-white/90 hover:bg-white/5 transition-all duration-300 mb-1 p-1 rounded cursor-default"
                     }
                   >
-                    {typeof element.metadata?.icon === "string" ? (
-                      iconMap[element.metadata.icon]
-                    ) : (
-                      <FaCode className="mr-3 text-secondary-default" />
-                    )}
+                    <DynamicIcon 
+                      iconName={skillElement.icon || "FaCode"} 
+                      className="mr-3 text-secondary-default" 
+                    />
                     <span className="select-none">{element.name}</span>
                   </motion.div>
                 );

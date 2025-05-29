@@ -18,6 +18,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useRateLimit } from "@/hooks/useRateLimit";
+import { RATE_LIMIT } from "@/constants";
 
 // Form validation schema
 const contactSchema = z.object({
@@ -74,6 +76,13 @@ const Contact = () => {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
 
+  // Rate limiting hook
+  const rateLimit = useRateLimit({
+    maxAttempts: RATE_LIMIT.MAX_ATTEMPTS,
+    windowMs: RATE_LIMIT.WINDOW_MS,
+    blockDurationMs: RATE_LIMIT.BLOCK_DURATION_MS,
+  });
+
   const {
     register,
     handleSubmit,
@@ -84,10 +93,21 @@ const Contact = () => {
   });
 
   const onSubmit = async (data: ContactFormData) => {
+    // Check rate limit before proceeding
+    const rateLimitCheck = rateLimit.checkRateLimit();
+    if (!rateLimitCheck.allowed) {
+      setSubmitStatus('error');
+      setSubmitMessage(rateLimitCheck.message || 'Rate limit exceeded');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
     try {
+      // Record the attempt
+      rateLimit.recordAttempt();
+
       // PageClip form submission using environment variable
       const PAGECLIP_API_KEY = process.env.NEXT_PUBLIC_PAGECLIP_API_KEY;
       
@@ -113,6 +133,7 @@ const Contact = () => {
         setSubmitStatus('success');
         setSubmitMessage('Thank you! Your message has been sent successfully. I will get back to you soon.');
         reset();
+        rateLimit.reset(); // Reset rate limit on successful submission
       } else {
         throw new Error('Form submission failed');
       }
@@ -230,6 +251,23 @@ const Contact = () => {
                   Ready to bring your vision to life? Tell me about your project and let&apos;s create something extraordinary together.
                 </p>
               </motion.div>
+
+              {/* Rate Limit Warning */}
+              {rateLimit.isBlocked && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="mb-6 p-4 rounded border bg-red-500/10 border-red-500/30 text-red-300 flex items-center gap-3"
+                >
+                  <FaExclamationTriangle className="text-red-400 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium">Rate limit exceeded</p>
+                    <p className="text-xs text-red-400">
+                      You have {rateLimit.attemptsRemaining} attempts remaining.
+                    </p>
+                  </div>
+                </motion.div>
+              )}
 
               {/* Submit Status Messages */}
               {submitStatus !== 'idle' && (
@@ -351,7 +389,7 @@ const Contact = () => {
                   <Button 
                     type="submit"
                     size="lg" 
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || rateLimit.isBlocked}
                     className={`bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25 disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
                     {isSubmitting ? (
