@@ -29,6 +29,7 @@ const Portfolio = () => {
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [selectedTech, setSelectedTech] = useState("All");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
 
   // Modal State
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -240,6 +241,8 @@ const Portfolio = () => {
               {isFilterEnabled && (
                 <FilterPanel
                   filters={filterOptions}
+                  showFilters={showFilters}
+                  onToggleFilters={() => setShowFilters(!showFilters)}
                   hasActiveFilters={hasActiveFilters}
                   onClearAllFilters={clearAllFilters}
                   resultsInfo={{
