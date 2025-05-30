@@ -31,8 +31,6 @@ interface FormSectionProps {
 }
 
 const FormSection: React.FC<FormSectionProps> = ({
-  title,
-  description,
   fields,
   onFieldChange,
   className = "",
@@ -94,24 +92,6 @@ const FormSection: React.FC<FormSectionProps> = ({
 
   return (
     <div className={`space-y-6 ${className}`}>
-      {/* Header */}
-      {(title || description) && (
-        <motion.div
-          variants={PERFORMANCE_VARIANTS.fadeInFast}
-          className="mb-6"
-        >
-          {title && (
-            <h3 className="text-3xl xl:text-4xl font-bold text-white mb-4">
-              {title}
-            </h3>
-          )}
-          {description && (
-            <p className="text-white/70 leading-relaxed">
-              {description}
-            </p>
-          )}
-        </motion.div>
-      )}
 
       {/* Form Fields */}
       <div className="space-y-6">

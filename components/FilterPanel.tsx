@@ -110,7 +110,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                     <option 
                       key={option} 
                       value={option} 
-                      className="bg-gradient-to-r from-[#1a1a1e] to-[#1d1d22] text-white py-2"
+                      className="bg-secondary-default/20 border border-secondary-default/30 text-primary py-2"
                     >
                       {option}
                     </option>

@@ -354,8 +354,6 @@ const Contact = () => {
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <FormSection
-                  title="Let's work together"
-                  description="Ready to bring your vision to life? Tell me about your project and let's create something extraordinary together."
                   layout="grid"
                   fields={[
                     {

@@ -58,11 +58,11 @@ const Career = () => {
             className="text-lg xl:text-xl text-white/80 mb-12 max-w-4xl mx-auto leading-relaxed"
           >
             Transforming ideas into{" "}
-            <span className="text-secondary-default font-semibold bg-secondary-default/10 px-2 py-1 rounded">
+            <span className="text-secondary-default font-semibold px-2 py-1 rounded">
               scalable solutions
             </span>{" "}
             through innovative software engineering and{" "}
-            <span className="text-secondary-default font-semibold bg-secondary-default/10 px-2 py-1 rounded">
+            <span className="text-secondary-default font-semibold px-2 py-1 rounded">
               leadership excellence
             </span>
           </motion.p>
