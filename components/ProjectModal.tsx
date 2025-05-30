@@ -15,11 +15,16 @@ interface ProjectModalProps {
 const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose }) => {
   if (!project) return null;
 
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long' 
+  const formatDateRange = (startDate: Date, endDate: Date) => {
+    const start = startDate.toLocaleDateString('en-US', { 
+      month: 'short', 
+      year: 'numeric' 
     });
+    const end = endDate.toLocaleDateString('en-US', { 
+      month: 'short', 
+      year: 'numeric' 
+    });
+    return `${start} - ${end}`;
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -148,8 +153,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           <FaCalendar className="text-secondary-default" />
                           <div>
                             <p className="text-xs text-white/60">Duration</p>
-                            <p className="text-white font-medium">
-                              {formatDate(project.startDate)} - {formatDate(project.endDate)}
+                            <p className="text-white font-medium text-sm">
+                              {formatDateRange(project.startDate, project.endDate)}
                             </p>
                           </div>
                         </div>

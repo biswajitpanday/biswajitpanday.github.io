@@ -224,14 +224,14 @@ const Portfolio = () => {
             <StatsCards stats={statsData} />
           </SectionHeader>
 
-          {/* Search and Filter Section - Using New Components */}
+          {/* Search and Filter Section - Side by Side */}
           {(isSearchEnabled || isFilterEnabled) && (
             <div className="mb-8">
-              {/* Search and Filter Header - Side by Side Layout */}
-              <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 items-start lg:items-center justify-between mb-6">
+              {/* Search and Filter Row - Simple Side by Side */}
+              <div className="flex gap-4 items-center mb-6">
                 {/* Search Bar - Left Side */}
                 {isSearchEnabled && (
-                  <div className="flex-1 max-w-2xl">
+                  <div className="flex-1">
                     <SearchBar
                       searchQuery={searchQuery}
                       onSearchChange={setSearchQuery}
@@ -240,28 +240,28 @@ const Portfolio = () => {
                   </div>
                 )}
 
-                {/* Filter Toggle - Right Side */}
+                {/* Filter Button - Right Side */}
                 {isFilterEnabled && (
-                  <div className="flex-shrink-0">
-                    <button
-                      onClick={() => setShowFilters(!showFilters)}
-                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border transition-all duration-300 ${
-                        showFilters || hasActiveFilters
-                          ? 'bg-secondary-default/20 border-secondary-default/50 text-secondary-default'
-                          : 'bg-white/5 border-white/20 text-white/80 hover:bg-white/10 hover:border-white/30'
-                      }`}
-                    >
-                      <FaSearch className="text-sm" />
-                      <span className="font-medium">
-                        {showFilters ? 'Hide Filters' : 'Show Filters'}
-                        {hasActiveFilters && ' (Active)'}
+                  <button
+                    onClick={() => setShowFilters(!showFilters)}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all duration-300 whitespace-nowrap ${
+                      showFilters || hasActiveFilters
+                        ? 'bg-secondary-default/20 border-secondary-default/50 text-secondary-default'
+                        : 'bg-white/5 border-white/20 text-white/80 hover:bg-white/10 hover:border-white/30'
+                    }`}
+                  >
+                    <FaSearch className="text-sm" />
+                    <span className="font-medium">Filters</span>
+                    {hasActiveFilters && (
+                      <span className="bg-secondary-default/30 text-secondary-default text-xs px-2 py-0.5 rounded-full">
+                        Active
                       </span>
-                    </button>
-                  </div>
+                    )}
+                  </button>
                 )}
               </div>
 
-              {/* Filter Panel - Expandable */}
+              {/* Filter Panel - Expandable Below */}
               {isFilterEnabled && showFilters && (
                 <FilterPanel
                   filters={filterOptions}
