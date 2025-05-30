@@ -435,7 +435,7 @@ const Contact = () => {
             variants={PERFORMANCE_VARIANTS.cardSync}
             className="flex-1 flex items-center xl:justify-end order-1 xl:order-none mb-8 xl:mb-0"
           >
-            <div className="w-full max-w-md">
+            <div className="w-full xl:max-w-md">
               <motion.h3
                 variants={PERFORMANCE_VARIANTS.slideUpSync}
                 className="text-2xl font-bold text-white mb-8 text-center xl:text-left"
