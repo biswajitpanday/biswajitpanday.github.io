@@ -8,8 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "analyze": "ANALYZE=true npm run build",
-    "static": "next build && echo > ./build/.nojekyll && echo 'biswajitpanday.github.io' > ./build/CNAME",
-    "deploy": "npm run static && gh-pages -d build"
+    "export": "next build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d out"
   },
   "homepage": "https://biswajitpanday.github.io/",
   "dependencies": {
