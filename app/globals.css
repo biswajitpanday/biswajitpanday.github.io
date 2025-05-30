@@ -312,4 +312,22 @@
   .performance-button:hover {
     transform: translateZ(0) scale(1.05);
   }
+
+  /* Enhanced gradient animations for career page */
+  .bg-300\% {
+    background-size: 300% 300%;
+  }
+
+  .animate-gradient-x {
+    animation: gradient-x 3s ease infinite;
+  }
+
+  @keyframes gradient-x {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
 }

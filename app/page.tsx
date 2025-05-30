@@ -1,12 +1,30 @@
 "use client";
-import Photo from "@/components/Photo";
-import Socials from "@/components/Socials";
-import Stats from "@/components/Stats";
+import { lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { FiDownload, FiCode, FiCloud, FiZap } from "react-icons/fi";
-import { SiReact, SiDotnet } from "react-icons/si";
 import { motion } from "framer-motion";
+
+// Lazy load heavy components
+const Photo = lazy(() => import("@/components/Photo"));
+const Socials = lazy(() => import("@/components/Socials"));
+const Stats = lazy(() => import("@/components/Stats"));
+
+// Optimize icon imports - only import what we need
+const FiDownload = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiDownload })));
+const FiCode = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiCode })));
+const FiCloud = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiCloud })));
+const FiZap = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiZap })));
+const SiReact = lazy(() => import("react-icons/si").then(mod => ({ default: mod.SiReact })));
+const SiDotnet = lazy(() => import("react-icons/si").then(mod => ({ default: mod.SiDotnet })));
+
+// Loading fallback components
+const IconFallback = ({ className }: { className?: string }) => (
+  <div className={`w-4 h-4 bg-secondary-default/30 rounded animate-pulse ${className}`} />
+);
+
+const ComponentFallback = ({ className }: { className?: string }) => (
+  <div className={`bg-gradient-to-br from-[#27272c]/50 to-[#2a2a30]/50 rounded animate-pulse ${className}`} />
+);
 
 const Home = () => {
   return (
@@ -30,9 +48,13 @@ const Home = () => {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="inline-flex items-center gap-2 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded text-sm font-medium mb-6 hover:bg-secondary-default/20 transition-all duration-300"
             >
-              <FiCode className="text-lg" />
+              <Suspense fallback={<IconFallback />}>
+                <FiCode className="text-lg" />
+              </Suspense>
               <span>Full-Stack .NET Developer</span>
-              <FiZap className="text-lg animate-pulse" />
+              <Suspense fallback={<IconFallback />}>
+                <FiZap className="text-lg animate-pulse" />
+              </Suspense>
             </motion.div>
 
             {/* Main Heading */}
@@ -83,7 +105,9 @@ const Home = () => {
                   key={index}
                   className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 text-white/70 px-3 py-1.5 rounded text-sm hover:bg-white/10 hover:text-white transition-all duration-300"
                 >
-                  <tech.icon className="text-secondary-default" />
+                  <Suspense fallback={<IconFallback className="text-secondary-default" />}>
+                    <tech.icon className="text-secondary-default" />
+                  </Suspense>
                   <span>{tech.text}</span>
                 </div>
               ))}
@@ -108,17 +132,21 @@ const Home = () => {
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     <span>Download Resume</span>
-                    <FiDownload className="text-lg group-hover:animate-bounce" />
+                    <Suspense fallback={<IconFallback />}>
+                      <FiDownload className="text-lg group-hover:animate-bounce" />
+                    </Suspense>
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-secondary-default opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Button>
               </Link>
 
               <div className="flex items-center gap-4">
-                <Socials
-                  containerStyles="flex gap-4"
-                  iconStyles="w-10 h-10 border border-secondary-default/50 rounded-full flex justify-center items-center text-secondary-default text-base hover:bg-secondary-default hover:text-primary hover:border-secondary-default hover:shadow-lg hover:shadow-secondary-default/25 transition-all duration-300 hover:scale-110"
-                />
+                <Suspense fallback={<ComponentFallback className="w-40 h-10" />}>
+                  <Socials
+                    containerStyles="flex gap-4"
+                    iconStyles="w-10 h-10 border border-secondary-default/50 rounded-full flex justify-center items-center text-secondary-default text-base hover:bg-secondary-default hover:text-primary hover:border-secondary-default hover:shadow-lg hover:shadow-secondary-default/25 transition-all duration-300 hover:scale-110"
+                  />
+                </Suspense>
               </div>
             </motion.div>
           </motion.div>
@@ -134,7 +162,9 @@ const Home = () => {
               {/* Glow Effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-secondary-default/20 to-blue-500/20 rounded-full blur-3xl scale-110 animate-pulse" />
               <div className="relative z-10">
-                <Photo />
+                <Suspense fallback={<ComponentFallback className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] rounded-full" />}>
+                  <Photo />
+                </Suspense>
               </div>
             </div>
           </motion.div>
@@ -147,7 +177,9 @@ const Home = () => {
           transition={{ delay: 1.2, duration: 0.8 }}
           className="mt-16 xl:mt-24"
         >
-          <Stats />
+          <Suspense fallback={<ComponentFallback className="w-full h-32" />}>
+            <Stats />
+          </Suspense>
         </motion.div>
       </div>
 

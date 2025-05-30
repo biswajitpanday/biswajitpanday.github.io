@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "static": "next build && echo > ./out/.nojekyll && echo 'biswajitpanday.github.io' > ./out/CNAME",
-    "deploy": "npm run static && gh-pages -d out"
+    "analyze": "ANALYZE=true npm run build",
+    "static": "next build && echo > ./build/.nojekyll && echo 'biswajitpanday.github.io' > ./build/CNAME",
+    "deploy": "npm run static && gh-pages -d build"
   },
   "homepage": "https://biswajitpanday.github.io/",
   "dependencies": {
@@ -25,7 +26,7 @@
     "lucide-react": "^0.475.0",
     "next": "15.1.7",
     "react": "^19.0.0",
-    "react-accessible-treeview": "^2.11.0",
+    "react-accessible-treeview": "^2.11.1",
     "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.4",
@@ -34,10 +35,11 @@
     "swiper": "^11.2.4",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.25.32"
+    "zod": "^3.25.39"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@next/bundle-analyzer": "^15.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
