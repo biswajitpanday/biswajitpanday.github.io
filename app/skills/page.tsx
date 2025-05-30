@@ -3,11 +3,12 @@ import { motion } from "framer-motion";
 import { FaCogs, FaRocket, FaSearch } from "react-icons/fa";
 import TreeView, { flattenTree } from "react-accessible-treeview";
 import { skills1, skills2, countAllTechnologies } from "@/data/skillsData";
-import { PERFORMANCE_VARIANTS } from "@/constants";
 import DynamicIcon from "@/components/DynamicIcon";
 import SearchBar from "@/components/SearchBar";
 import StatsCards, { StatCard } from "@/components/StatsCards";
 import React, { useCallback, useMemo, useState, useEffect } from "react";
+import BackgroundElements from "@/components/BackgroundElements";
+import SectionHeader from "@/components/SectionHeader";
 
 // Memoized animation variants - created once, reused everywhere
 const TREE_ANIMATIONS = {
@@ -190,51 +191,18 @@ const Skills = () => {
 
   return (
     <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-8">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary-default/5 pointer-events-none" />
+      {/* Background Elements - Using BackgroundElements Component */}
+      <BackgroundElements />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Skills Header */}
-        <motion.div
-          variants={PERFORMANCE_VARIANTS.containerSync}
-          initial="hidden"
-          animate="visible"
-          className="text-center mb-12"
+        {/* Skills Header - Using SectionHeader Component */}
+        <SectionHeader
+          title="Technical"
+          highlightText="Expertise"
+          description="A comprehensive overview of technologies and frameworks mastered through years of hands-on experience and continuous learning"
         >
-          {/* Main Heading */}
-          <motion.h1
-            variants={PERFORMANCE_VARIANTS.slideUpSync}
-            className="text-4xl xl:text-6xl font-bold text-white mb-6 leading-tight"
-          >
-            Technical{" "}
-            <span className="bg-gradient-to-r from-secondary-default via-blue-400 to-secondary-default bg-clip-text text-transparent animate-gradient">
-              Expertise
-            </span>
-          </motion.h1>
-
-          {/* Description */}
-          <motion.p
-            variants={PERFORMANCE_VARIANTS.slideUpSync}
-            className="text-lg xl:text-xl text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed"
-          >
-            A comprehensive overview of{" "}
-            <span className="text-secondary-default font-semibold">
-              technologies and frameworks
-            </span>{" "}
-            mastered through years of hands-on experience and{" "}
-            <span className="text-secondary-default font-semibold">
-              continuous learning
-            </span>
-          </motion.p>
-
-          {/* Skills Stats - Using StatsCards Component */}
-          <motion.div
-            variants={PERFORMANCE_VARIANTS.containerSync}
-            className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 mb-8"
-          >
-            <StatsCards stats={statsData} />
-          </motion.div>
-        </motion.div>
+          <StatsCards stats={statsData} />
+        </SectionHeader>
 
         {/* Search Section - Using SearchBar Component */}
         <SearchBar
@@ -249,6 +217,29 @@ const Skills = () => {
               `No technologies found matching "${debouncedSearch}"`
           ) : ""}
         />
+
+        {/* No Results */}
+        {isSearchEnabled && debouncedSearch && filteredCount === 0 && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-12 mb-8"
+          >
+            <div className="bg-white/5 border border-white/10 rounded-lg p-8 max-w-md mx-auto">
+              <FaSearch className="text-4xl text-white/40 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">No Technologies Found</h3>
+              <p className="text-white/60 mb-4">
+                Try searching for different keywords or clear the search to see all technologies.
+              </p>
+              <button
+                onClick={clearSearch}
+                className="bg-secondary-default hover:bg-secondary-default/80 text-primary px-4 py-2 rounded transition-all duration-300"
+              >
+                Clear Search
+              </button>
+            </div>
+          </motion.div>
+        )}
 
         {/* Skills Trees */}
         {(!debouncedSearch || filteredCount > 0) && (
