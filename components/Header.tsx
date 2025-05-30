@@ -10,9 +10,12 @@ import { useState, useEffect } from "react";
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const isSearchEnabled = process.env.NEXT_PUBLIC_ENABLE_SEARCH !== 'false';
 
   // Global keyboard shortcut for search (Ctrl/Cmd + K)
   useEffect(() => {
+    if (!isSearchEnabled) return;
+    
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "k") {
         e.preventDefault();
@@ -22,7 +25,7 @@ const Header = () => {
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [isSearchEnabled]);
 
   return (
     <>
@@ -38,18 +41,20 @@ const Header = () => {
           <div className="hidden xl:flex items-center gap-8">
             <Nav />
             
-            {/* Search Button */}
-            <button
-              onClick={() => setIsSearchOpen(true)}
-              className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 text-white/70 hover:text-white px-3 py-2 rounded transition-all duration-300"
-              title="Search (Ctrl+K)"
-            >
-              <FaSearch className="text-sm" />
-              <span className="text-sm">Search</span>
-              <kbd className="hidden sm:inline-block bg-white/10 text-xs px-2 py-1 rounded">
-                ⌘K
-              </kbd>
-            </button>
+            {/* Search Button - Conditionally Rendered */}
+            {isSearchEnabled && (
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 text-white/70 hover:text-white px-3 py-2 rounded transition-all duration-300"
+                title="Search (Ctrl+K)"
+              >
+                <FaSearch className="text-sm" />
+                <span className="text-sm">Search</span>
+                <kbd className="hidden sm:inline-block bg-white/10 text-xs px-2 py-1 rounded">
+                  ⌘K
+                </kbd>
+              </button>
+            )}
 
             <Link href={"/contact"}>
               <Button variant="outline" className="custom-button">Hire Me</Button>
@@ -58,24 +63,28 @@ const Header = () => {
 
           {/* Mobile Navigation */}
           <div className="xl:hidden flex items-center gap-4">
-            {/* Mobile Search Button */}
-            <button
-              onClick={() => setIsSearchOpen(true)}
-              className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 text-white/70 hover:text-white rounded transition-all duration-300"
-              title="Search"
-            >
-              <FaSearch className="text-sm" />
-            </button>
+            {/* Mobile Search Button - Conditionally Rendered */}
+            {isSearchEnabled && (
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 text-white/70 hover:text-white rounded transition-all duration-300"
+                title="Search"
+              >
+                <FaSearch className="text-sm" />
+              </button>
+            )}
             <MobileNav />
           </div>
         </div>
       </header>
 
-      {/* Global Search Modal */}
-      <GlobalSearch 
-        isOpen={isSearchOpen} 
-        onClose={() => setIsSearchOpen(false)} 
-      />
+      {/* Global Search Modal - Conditionally Rendered */}
+      {isSearchEnabled && (
+        <GlobalSearch 
+          isOpen={isSearchOpen} 
+          onClose={() => setIsSearchOpen(false)} 
+        />
+      )}
     </>
   );
 };

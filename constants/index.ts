@@ -22,22 +22,22 @@ export const PERFORMANCE_VARIANTS = {
   // Fast entry animations
   fadeInFast: {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
       transition: { duration: ANIMATION_DURATIONS.FAST, ease: "easeOut" }
     }
   },
-  
+
   // Synchronous slide animations
   slideUpSync: {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: ANIMATION_DURATIONS.NORMAL, ease: "easeOut" }
     }
   },
-  
+
   // Container for staggered children
   containerSync: {
     hidden: { opacity: 0 },
@@ -50,7 +50,7 @@ export const PERFORMANCE_VARIANTS = {
       },
     },
   },
-  
+
   // Card animations
   cardSync: {
     hidden: { opacity: 0, y: 10 },
@@ -73,28 +73,28 @@ export const LIGHTWEIGHT_VARIANTS = {
     animate: { opacity: 1 },
     transition: { duration: 0.6, ease: "easeOut" }
   },
-  
+
   // Simple slide up - reduced complexity
   slideUp: {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.6, ease: "easeOut" }
   },
-  
+
   // Simple slide in from left
   slideLeft: {
     initial: { opacity: 0, x: -30 },
     animate: { opacity: 1, x: 0 },
     transition: { duration: 0.6, ease: "easeOut" }
   },
-  
+
   // Simple slide in from right
   slideRight: {
     initial: { opacity: 0, x: 30 },
     animate: { opacity: 1, x: 0 },
     transition: { duration: 0.6, ease: "easeOut" }
   },
-  
+
   // Button hover - minimal animation
   buttonHover: {
     scale: 1.02,

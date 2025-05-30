@@ -74,28 +74,35 @@ const filterTreeData = (data: any[], searchQuery: string): any[] => {
 };
 
 const Skills = () => {
+  // Environment flags
+  const isSearchEnabled = process.env.NEXT_PUBLIC_ENABLE_SEARCH !== 'false';
+
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  // Debounce search query
+  // Debounce search query - only if search is enabled
   useEffect(() => {
+    if (!isSearchEnabled) return;
+    
     const timer = setTimeout(() => {
       setDebouncedSearch(searchQuery);
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [searchQuery]);
+  }, [searchQuery, isSearchEnabled]);
 
   // Filter and flatten tree data based on search
   const filteredSkills1 = useMemo(() => {
-    const filtered = filterTreeData([skills1], debouncedSearch);
+    const searchTerm = isSearchEnabled ? debouncedSearch : "";
+    const filtered = filterTreeData([skills1], searchTerm);
     return filtered.length > 0 ? filtered[0] : { name: "Skills", children: [] };
-  }, [debouncedSearch]);
+  }, [isSearchEnabled, debouncedSearch]);
 
   const filteredSkills2 = useMemo(() => {
-    const filtered = filterTreeData([skills2], debouncedSearch);
+    const searchTerm = isSearchEnabled ? debouncedSearch : "";
+    const filtered = filterTreeData([skills2], searchTerm);
     return filtered.length > 0 ? filtered[0] : { name: "Skills", children: [] };
-  }, [debouncedSearch]);
+  }, [isSearchEnabled, debouncedSearch]);
 
   const data1 = flattenTree(filteredSkills1);
   const data2 = flattenTree(filteredSkills2);
@@ -151,7 +158,9 @@ const Skills = () => {
   }, [nodeStyles, debouncedSearch]);
 
   const clearSearch = () => {
-    setSearchQuery("");
+    if (isSearchEnabled) {
+      setSearchQuery("");
+    }
   };
 
   return (
@@ -232,7 +241,7 @@ const Skills = () => {
               </div>
             </motion.div>
 
-            {debouncedSearch && (
+            {isSearchEnabled && debouncedSearch && (
               <motion.div 
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -256,62 +265,64 @@ const Skills = () => {
         </motion.div>
 
         {/* Search Section */}
-        <motion.div
-          variants={PERFORMANCE_VARIANTS.containerSync}
-          initial="hidden"
-          animate="visible"
-          className="mb-8"
-        >
+        {isSearchEnabled && (
           <motion.div
-            variants={PERFORMANCE_VARIANTS.cardSync}
-            className="relative max-w-2xl mx-auto"
+            variants={PERFORMANCE_VARIANTS.containerSync}
+            initial="hidden"
+            animate="visible"
+            className="mb-8"
           >
-            <div className="relative">
-              <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/40" />
-              <input
-                type="text"
-                placeholder="Search technologies, frameworks, tools..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 text-white placeholder:text-white/40 pl-12 pr-4 py-3 rounded focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
-              />
-              {searchQuery && (
-                <button
-                  onClick={clearSearch}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/40 hover:text-white transition-colors"
-                >
-                  <FaTimes />
-                </button>
-              )}
-            </div>
-          </motion.div>
-
-          {/* Search Results Info */}
-          {debouncedSearch && (
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-4 text-center"
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="relative max-w-2xl mx-auto"
             >
-              <p className="text-secondary-default">
-                {filteredCount > 0 ? (
-                  <>
-                    Found <span className="font-bold">{filteredCount}</span> technologies matching{" "}
-                    <span className="font-semibold">&ldquo;{debouncedSearch}&rdquo;</span>
-                  </>
-                ) : (
-                  <>
-                    No technologies found matching{" "}
-                    <span className="font-semibold">&ldquo;{debouncedSearch}&rdquo;</span>
-                  </>
+              <div className="relative">
+                <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/40" />
+                <input
+                  type="text"
+                  placeholder="Search technologies, frameworks, tools..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 text-white placeholder:text-white/40 pl-12 pr-4 py-3 rounded focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={clearSearch}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/40 hover:text-white transition-colors"
+                  >
+                    <FaTimes />
+                  </button>
                 )}
-              </p>
+              </div>
             </motion.div>
-          )}
-        </motion.div>
+
+            {/* Search Results Info */}
+            {debouncedSearch && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-4 text-center"
+              >
+                <p className="text-secondary-default">
+                  {filteredCount > 0 ? (
+                    <>
+                      Found <span className="font-bold">{filteredCount}</span> technologies matching{" "}
+                      <span className="font-semibold">&ldquo;{debouncedSearch}&rdquo;</span>
+                    </>
+                  ) : (
+                    <>
+                      No technologies found matching{" "}
+                      <span className="font-semibold">&ldquo;{debouncedSearch}&rdquo;</span>
+                    </>
+                  )}
+                </p>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
 
         {/* No Results */}
-        {debouncedSearch && filteredCount === 0 && (
+        {isSearchEnabled && debouncedSearch && filteredCount === 0 && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
