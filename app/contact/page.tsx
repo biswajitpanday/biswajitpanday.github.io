@@ -1,11 +1,10 @@
 "use client";
 import { lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import { useState } from "react";
+import FormSection from "@/components/FormSection";
 
 // Lazy load icons only (not hooks/utilities)
 const FaEnvelope = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaEnvelope })));
@@ -354,98 +353,59 @@ const Contact = () => {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                <motion.div
-                  variants={PERFORMANCE_VARIANTS.slideUpSync}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                >
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-white/80">First Name *</label>
-                    <Input 
-                      type="text" 
-                      placeholder="Enter your first name"
-                      value={formData.firstName}
-                      onChange={(e) => handleInputChange('firstName', e.target.value)}
-                      className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
-                        formErrors.firstName ? 'border-red-500/50' : ''
-                      }`}
-                    />
-                    {formErrors.firstName && (
-                      <p className="text-red-400 text-xs">{formErrors.firstName.message}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-white/80">Last Name *</label>
-                    <Input 
-                      type="text" 
-                      placeholder="Enter your last name"
-                      value={formData.lastName}
-                      onChange={(e) => handleInputChange('lastName', e.target.value)}
-                      className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
-                        formErrors.lastName ? 'border-red-500/50' : ''
-                      }`}
-                    />
-                    {formErrors.lastName && (
-                      <p className="text-red-400 text-xs">{formErrors.lastName.message}</p>
-                    )}
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  variants={PERFORMANCE_VARIANTS.slideUpSync}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                >
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-white/80">Email Address *</label>
-                    <Input 
-                      type="email" 
-                      placeholder="your.email@example.com"
-                      value={formData.email}
-                      onChange={(e) => handleInputChange('email', e.target.value)}
-                      className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
-                        formErrors.email ? 'border-red-500/50' : ''
-                      }`}
-                    />
-                    {formErrors.email && (
-                      <p className="text-red-400 text-xs">{formErrors.email.message}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-white/80">Phone Number</label>
-                    <Input 
-                      type="tel" 
-                      placeholder="Enter your phone number"
-                      value={formData.phone}
-                      onChange={(e) => handleInputChange('phone', e.target.value)}
-                      className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
-                        formErrors.phone ? 'border-red-500/50' : ''
-                      }`}
-                    />
-                    {formErrors.phone && (
-                      <p className="text-red-400 text-xs">{formErrors.phone.message}</p>
-                    )}
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  variants={PERFORMANCE_VARIANTS.slideUpSync}
-                  className="space-y-2"
-                >
-                  <label className="text-sm font-medium text-white/80">Message *</label>
-                  <Textarea
-                    className={`h-[150px] w-full bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 resize-none ${
-                      formErrors.message ? 'border-red-500/50' : ''
-                    }`}
-                    placeholder="Tell me about your project, goals, and how I can help you achieve them..."
-                    value={formData.message}
-                    onChange={(e) => handleInputChange('message', e.target.value)}
-                  />
-                  {formErrors.message && (
-                    <p className="text-red-400 text-xs">{formErrors.message.message}</p>
-                  )}
-                </motion.div>
-
-                <motion.div
-                  variants={PERFORMANCE_VARIANTS.fadeInFast}
+                <FormSection
+                  title="Let's work together"
+                  description="Ready to bring your vision to life? Tell me about your project and let's create something extraordinary together."
+                  layout="grid"
+                  fields={[
+                    {
+                      name: "firstName",
+                      label: "First Name",
+                      type: "text",
+                      placeholder: "Enter your first name",
+                      required: true,
+                      value: formData.firstName,
+                      error: formErrors.firstName?.message
+                    },
+                    {
+                      name: "lastName", 
+                      label: "Last Name",
+                      type: "text",
+                      placeholder: "Enter your last name",
+                      required: true,
+                      value: formData.lastName,
+                      error: formErrors.lastName?.message
+                    },
+                    {
+                      name: "email",
+                      label: "Email Address",
+                      type: "email", 
+                      placeholder: "your.email@example.com",
+                      required: true,
+                      value: formData.email,
+                      error: formErrors.email?.message
+                    },
+                    {
+                      name: "phone",
+                      label: "Phone Number",
+                      type: "tel",
+                      placeholder: "Enter your phone number",
+                      required: false,
+                      value: formData.phone,
+                      error: formErrors.phone?.message
+                    },
+                    {
+                      name: "message",
+                      label: "Message",
+                      type: "textarea",
+                      placeholder: "Tell me about your project, goals, and how I can help you achieve them...",
+                      required: true,
+                      value: formData.message,
+                      error: formErrors.message?.message,
+                      rows: 6
+                    }
+                  ]}
+                  onFieldChange={(fieldName, value) => handleInputChange(fieldName as keyof FormData, value)}
                 >
                   <Button 
                     type="submit"
@@ -467,7 +427,7 @@ const Contact = () => {
                       </>
                     )}
                   </Button>
-                </motion.div>
+                </FormSection>
               </form>
             </div>
           </motion.div>
