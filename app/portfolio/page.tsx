@@ -60,13 +60,13 @@ const Portfolio = () => {
 
   const companies = useMemo(() => {
     if (!isFilterEnabled) return ["All"];
-    const comps = ["All", ...Array.from(new Set(projects.map(p => p.associatedWithCompany)))];
+    const comps = ["All", ...Array.from(new Set(projects.map(p => p.associatedWithCompany).filter(company => company && company.trim() !== "")))];
     return comps;
   }, [isFilterEnabled]);
 
   const technologies = useMemo(() => {
     if (!isFilterEnabled) return ["All"];
-    const techs = ["All", ...Array.from(new Set(projects.flatMap(p => p.stacks)))];
+    const techs = ["All", ...Array.from(new Set(projects.flatMap(p => p.stacks).filter(tech => tech && tech.trim() !== "")))];
     return techs;
   }, [isFilterEnabled]);
 
@@ -227,27 +227,55 @@ const Portfolio = () => {
           {/* Search and Filter Section - Using New Components */}
           {(isSearchEnabled || isFilterEnabled) && (
             <div className="mb-8">
-              {/* Search Bar - Using SearchBar Component */}
-              <SearchBar
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-                placeholder="Search projects by name, technology, description..."
-                className="mb-6"
-              />
+              {/* Search and Filter Header - Side by Side Layout */}
+              <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 items-start lg:items-center justify-between mb-6">
+                {/* Search Bar - Left Side */}
+                {isSearchEnabled && (
+                  <div className="flex-1 max-w-2xl">
+                    <SearchBar
+                      searchQuery={searchQuery}
+                      onSearchChange={setSearchQuery}
+                      placeholder="Search projects by name, technology, description..."
+                    />
+                  </div>
+                )}
 
-              {/* Filter Panel - Using FilterPanel Component */}
-              <FilterPanel
-                filters={filterOptions}
-                showFilters={showFilters}
-                onToggleFilters={() => setShowFilters(!showFilters)}
-                hasActiveFilters={hasActiveFilters}
-                onClearAllFilters={clearAllFilters}
-                resultsInfo={{
-                  filtered: filteredProjects.length,
-                  total: projects.length,
-                  description: "projects"
-                }}
-              />
+                {/* Filter Toggle - Right Side */}
+                {isFilterEnabled && (
+                  <div className="flex-shrink-0">
+                    <button
+                      onClick={() => setShowFilters(!showFilters)}
+                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border transition-all duration-300 ${
+                        showFilters || hasActiveFilters
+                          ? 'bg-secondary-default/20 border-secondary-default/50 text-secondary-default'
+                          : 'bg-white/5 border-white/20 text-white/80 hover:bg-white/10 hover:border-white/30'
+                      }`}
+                    >
+                      <FaSearch className="text-sm" />
+                      <span className="font-medium">
+                        {showFilters ? 'Hide Filters' : 'Show Filters'}
+                        {hasActiveFilters && ' (Active)'}
+                      </span>
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Filter Panel - Expandable */}
+              {isFilterEnabled && showFilters && (
+                <FilterPanel
+                  filters={filterOptions}
+                  showFilters={showFilters}
+                  onToggleFilters={() => setShowFilters(!showFilters)}
+                  hasActiveFilters={hasActiveFilters}
+                  onClearAllFilters={clearAllFilters}
+                  resultsInfo={{
+                    filtered: filteredProjects.length,
+                    total: projects.length,
+                    description: "projects"
+                  }}
+                />
+              )}
             </div>
           )}
 

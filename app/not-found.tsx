@@ -55,8 +55,7 @@ export default function NotFound() {
             {[
               { name: 'Skills', href: '/skills' },
               { name: 'Career', href: '/career' },
-              { name: 'Contact', href: '/contact' },
-              { name: 'Services', href: '/services' }
+              { name: 'Contact', href: '/contact' }
             ].map((link) => (
               <Link
                 key={link.name}

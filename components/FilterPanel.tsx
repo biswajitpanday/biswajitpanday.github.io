@@ -94,17 +94,20 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
               <select
                 value={filter.selected}
                 onChange={(e) => filter.onChange(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 text-white px-3 py-2 rounded focus:border-secondary-default/50 transition-all duration-300"
+                className="w-full bg-gradient-to-r from-[#27272c] to-[#2a2a30] border border-secondary-default/20 hover:border-secondary-default/40 text-white px-3 py-2 rounded focus:border-secondary-default focus:ring-2 focus:ring-secondary-default/20 transition-all duration-300 cursor-pointer"
               >
-                {filter.options.map(option => (
-                  <option 
-                    key={option} 
-                    value={option} 
-                    className="bg-primary text-white"
-                  >
-                    {option}
-                  </option>
-                ))}
+                {filter.options
+                  .filter(option => option && option.trim() !== "") // Filter out empty/null values
+                  .map(option => (
+                    <option 
+                      key={option} 
+                      value={option} 
+                      className="bg-gradient-to-r from-[#27272c] to-[#2a2a30] text-white py-2 hover:bg-secondary-default/20"
+                    >
+                      {option}
+                    </option>
+                  ))
+                }
               </select>
             </div>
           ))}

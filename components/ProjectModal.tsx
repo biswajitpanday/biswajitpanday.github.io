@@ -81,15 +81,17 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             <div className="overflow-y-auto max-h-[calc(90vh-80px)]">
               <div className="p-6">
                 {/* Project Image */}
-                <div className="relative overflow-hidden rounded-lg mb-6">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    width={800}
-                    height={400}
-                    className="w-full h-64 object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                <div className="relative overflow-hidden rounded-lg mb-6 bg-white/5">
+                  <div className="relative w-full h-64">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-contain rounded-lg"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-lg" />
                 </div>
 
                 {/* Project Info Grid */}
@@ -177,7 +179,16 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           className="flex items-center justify-center gap-2 w-full bg-secondary-default hover:bg-secondary-default/80 text-primary px-4 py-3 rounded-lg transition-all duration-300 font-medium"
                         >
                           <FaExternalLinkAlt />
-                          <span>View Live Project</span>
+                          <span>
+                            {project.category?.toLowerCase().includes('website') || 
+                             project.title?.toLowerCase().includes('website') ||
+                             project.shortDescription?.toLowerCase().includes('website') ||
+                             project.associatedWithCompany ? 
+                             'Visit Website' : 
+                             project.category?.toLowerCase().includes('app') ? 
+                             'View Application' : 
+                             'View Live Project'}
+                          </span>
                         </Link>
                       )}
                       {project.github && project.github.trim() !== "" && (
