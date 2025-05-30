@@ -11,13 +11,14 @@ import {
   FaCodeBranch,
   FaExternalLinkAlt,
   FaSearch,
-  FaFilter,
-  FaTimes,
 } from "react-icons/fa";
 import { projects } from "@/data/portfolioData";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import { useState, useMemo, useEffect } from "react";
 import ProjectModal from "@/components/ProjectModal";
+import SearchBar from "@/components/SearchBar";
+import StatsCards, { StatCard } from "@/components/StatsCards";
+import FilterPanel, { FilterOption } from "@/components/FilterPanel";
 import type { Project } from "@/data/portfolioData";
 
 const Portfolio = () => {
@@ -53,74 +54,72 @@ const Portfolio = () => {
     return () => clearTimeout(timer);
   }, [searchQuery, isSearchEnabled]);
 
-  // Extract unique values for filters - only if filter is enabled
+  // Get unique values for filters - only if filter is enabled
   const categories = useMemo(() => {
     if (!isFilterEnabled) return ["All"];
-    const cats = [...new Set(projects.map(p => p.category))];
-    return ["All", ...cats];
+    const cats = ["All", ...Array.from(new Set(projects.map(p => p.category)))];
+    return cats;
   }, [isFilterEnabled]);
 
   const companies = useMemo(() => {
     if (!isFilterEnabled) return ["All"];
-    const comps = [...new Set(projects.map(p => p.associatedWithCompany).filter(c => c))];
-    return ["All", ...comps];
+    const comps = ["All", ...Array.from(new Set(projects.map(p => p.associatedWithCompany)))];
+    return comps;
   }, [isFilterEnabled]);
 
   const technologies = useMemo(() => {
     if (!isFilterEnabled) return ["All"];
-    const techs = [...new Set(projects.flatMap(p => p.stacks))].sort();
-    return ["All", ...techs];
+    const techs = ["All", ...Array.from(new Set(projects.flatMap(p => p.stacks)))];
+    return techs;
   }, [isFilterEnabled]);
 
-  // Filtered projects
+  // Filter and search projects
   const filteredProjects = useMemo(() => {
-    return projects.filter(project => {
-      // Text search - only if search is enabled
-      if (isSearchEnabled && debouncedSearch) {
-        const searchLower = debouncedSearch.toLowerCase();
-        const matchesSearch = 
-          project.title.toLowerCase().includes(searchLower) ||
-          project.shortDescription.toLowerCase().includes(searchLower) ||
-          project.longDescription.toLowerCase().includes(searchLower) ||
-          project.stacks.some(stack => stack.toLowerCase().includes(searchLower)) ||
-          project.associatedWithCompany.toLowerCase().includes(searchLower);
-        
-        if (!matchesSearch) return false;
+    let filtered = projects;
+
+    // Apply search filter if search is enabled
+    if (isSearchEnabled && debouncedSearch) {
+      filtered = filtered.filter(project =>
+        project.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        project.shortDescription.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        project.associatedWithCompany.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        project.stacks.some(tech => 
+          tech.toLowerCase().includes(debouncedSearch.toLowerCase())
+        )
+      );
+    }
+
+    // Apply other filters if filter is enabled
+    if (isFilterEnabled) {
+      if (selectedCategory !== "All") {
+        filtered = filtered.filter(project => project.category === selectedCategory);
       }
 
-      // Filters - only if filter is enabled
-      if (isFilterEnabled) {
-        // Category filter
-        if (selectedCategory !== "All" && project.category !== selectedCategory) {
-          return false;
-        }
-
-        // Company filter
-        if (selectedCompany !== "All" && project.associatedWithCompany !== selectedCompany) {
-          return false;
-        }
-
-        // Status filter
-        if (selectedStatus !== "All") {
-          if (selectedStatus === "Active" && !project.isActive) return false;
-          if (selectedStatus === "Inactive" && project.isActive) return false;
-        }
-
-        // Technology filter
-        if (selectedTech !== "All" && !project.stacks.includes(selectedTech)) {
-          return false;
-        }
+      if (selectedCompany !== "All") {
+        filtered = filtered.filter(project => project.associatedWithCompany === selectedCompany);
       }
 
-      return true;
-    });
-  }, [isSearchEnabled, isFilterEnabled, debouncedSearch, selectedCategory, selectedCompany, selectedStatus, selectedTech]);
+      if (selectedStatus !== "All") {
+        filtered = filtered.filter(project => {
+          const isActive = project.isActive;
+          return selectedStatus === "Active" ? isActive : !isActive;
+        });
+      }
 
-  const activeProjects = useMemo(
-    () => projects.filter((project) => project.isActive).length,
-    []
-  );
+      if (selectedTech !== "All") {
+        filtered = filtered.filter(project => 
+          project.stacks.includes(selectedTech)
+        );
+      }
+    }
 
+    return filtered;
+  }, [debouncedSearch, selectedCategory, selectedCompany, selectedStatus, selectedTech, isSearchEnabled, isFilterEnabled]);
+
+  // Calculate stats
+  const activeProjects = projects.filter(p => p.isActive).length;
+
+  // Toggle project stacks display
   const toggleProjectStacks = (projectIndex: number) => {
     const newExpanded = new Set(expandedProjects);
     if (newExpanded.has(projectIndex)) {
@@ -131,8 +130,11 @@ const Portfolio = () => {
     setExpandedProjects(newExpanded);
   };
 
+  // Clear all filters
   const clearAllFilters = () => {
-    if (isSearchEnabled) setSearchQuery("");
+    if (isSearchEnabled) {
+      setSearchQuery("");
+    }
     if (isFilterEnabled) {
       setSelectedCategory("All");
       setSelectedCompany("All");
@@ -141,8 +143,8 @@ const Portfolio = () => {
     }
   };
 
-  const hasActiveFilters = (isSearchEnabled && searchQuery) || 
-    (isFilterEnabled && (selectedCategory !== "All" || selectedCompany !== "All" || selectedStatus !== "All" || selectedTech !== "All"));
+  const hasActiveFilters = Boolean((isSearchEnabled && searchQuery) || 
+    (isFilterEnabled && (selectedCategory !== "All" || selectedCompany !== "All" || selectedStatus !== "All" || selectedTech !== "All")));
 
   // Modal handlers
   const openProjectModal = (project: Project) => {
@@ -154,6 +156,60 @@ const Portfolio = () => {
     setSelectedProject(null);
     setIsModalOpen(false);
   };
+
+  // Stats data for StatsCards component
+  const statsData: StatCard[] = [
+    {
+      icon: FaBriefcase,
+      value: projects.length,
+      label: "Total Projects",
+      gradient: "from-secondary-default/10 to-blue-500/10"
+    },
+    {
+      icon: FaRocket,
+      value: activeProjects,
+      label: "Active Projects",
+      gradient: "from-blue-500/10 to-secondary-default/10"
+    },
+    {
+      icon: FaSearch,
+      value: filteredProjects.length,
+      label: "Filtered Results",
+      gradient: "from-purple-500/10 to-secondary-default/10"
+    }
+  ];
+
+  // Filter options for FilterPanel component
+  const filterOptions: FilterOption[] = [
+    {
+      label: "Category",
+      value: "category",
+      selected: selectedCategory,
+      options: categories,
+      onChange: setSelectedCategory
+    },
+    {
+      label: "Company", 
+      value: "company",
+      selected: selectedCompany,
+      options: companies,
+      onChange: setSelectedCompany
+    },
+    {
+      label: "Status",
+      value: "status", 
+      selected: selectedStatus,
+      options: ["All", "Active", "Inactive"],
+      onChange: setSelectedStatus
+    },
+    {
+      label: "Technology",
+      value: "technology",
+      selected: selectedTech,
+      options: technologies,
+      onChange: setSelectedTech
+    }
+  ];
 
   return (
     <>
@@ -192,200 +248,35 @@ const Portfolio = () => {
               technologies
             </motion.p>
 
-            {/* Portfolio Stats */}
-            <motion.div
-              variants={PERFORMANCE_VARIANTS.containerSync}
-              className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 mb-8"
-            >
-              <motion.div
-                variants={PERFORMANCE_VARIANTS.cardSync}
-                className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
-              >
-                <div className="flex items-center gap-3">
-                  <FaBriefcase className="text-secondary-default text-xl group-hover:animate-pulse" />
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-secondary-default text-2xl font-bold">
-                      {projects.length}
-                    </span>
-                    <span className="text-white/80 text-sm font-medium">
-                      Total Projects
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                variants={PERFORMANCE_VARIANTS.cardSync}
-                className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
-              >
-                <div className="flex items-center gap-3">
-                  <FaRocket className="text-secondary-default text-xl group-hover:animate-pulse" />
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-secondary-default text-2xl font-bold">
-                      {activeProjects}
-                    </span>
-                    <span className="text-white/80 text-sm font-medium">
-                      Active Projects
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                variants={PERFORMANCE_VARIANTS.cardSync}
-                className="group relative overflow-hidden bg-gradient-to-r from-purple-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
-              >
-                <div className="flex items-center gap-3">
-                  <FaSearch className="text-secondary-default text-xl group-hover:animate-pulse" />
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-secondary-default text-2xl font-bold">
-                      {filteredProjects.length}
-                    </span>
-                    <span className="text-white/80 text-sm font-medium">
-                      Filtered Results
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
+            {/* Portfolio Stats - Using StatsCards Component */}
+            <StatsCards stats={statsData} />
           </motion.div>
 
-          {/* Search and Filter Section */}
+          {/* Search and Filter Section - Using New Components */}
           {(isSearchEnabled || isFilterEnabled) && (
-            <motion.div
-              variants={PERFORMANCE_VARIANTS.containerSync}
-              initial="hidden"
-              animate="visible"
-              className="mb-8"
-            >
-              {/* Search Bar */}
-              {isSearchEnabled && (
-                <motion.div
-                  variants={PERFORMANCE_VARIANTS.cardSync}
-                  className="relative mb-6"
-                >
-                  <div className="relative">
-                    <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/40" />
-                    <input
-                      type="text"
-                      placeholder="Search projects by name, technology, description..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 text-white placeholder:text-white/40 pl-12 pr-4 py-3 rounded focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
-                    />
-                    {searchQuery && (
-                      <button
-                        onClick={() => setSearchQuery("")}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/40 hover:text-white transition-colors"
-                      >
-                        <FaTimes />
-                      </button>
-                    )}
-                  </div>
-                </motion.div>
-              )}
+            <div className="mb-8">
+              {/* Search Bar - Using SearchBar Component */}
+              <SearchBar
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                placeholder="Search projects by name, technology, description..."
+                className="mb-6"
+              />
 
-              {/* Filter Toggle */}
-              {isFilterEnabled && (
-                <motion.div
-                  variants={PERFORMANCE_VARIANTS.cardSync}
-                  className="flex items-center justify-between mb-4"
-                >
-                  <button
-                    onClick={() => setShowFilters(!showFilters)}
-                    className="flex items-center gap-2 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default px-4 py-2 rounded transition-all duration-300"
-                  >
-                    <FaFilter />
-                    <span>Filters</span>
-                    <span className="text-xs bg-secondary-default/20 px-2 py-1 rounded">
-                      {showFilters ? 'Hide' : 'Show'}
-                    </span>
-                  </button>
-
-                  {hasActiveFilters && (
-                    <button
-                      onClick={clearAllFilters}
-                      className="flex items-center gap-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-300 px-4 py-2 rounded transition-all duration-300"
-                    >
-                      <FaTimes />
-                      <span>Clear All</span>
-                    </button>
-                  )}
-                </motion.div>
-              )}
-
-              {/* Filter Options */}
-              {isFilterEnabled && showFilters && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-white/5 border border-white/10 rounded"
-                >
-                  {/* Category Filter */}
-                  <div>
-                    <label className="block text-sm font-medium text-white/80 mb-2">Category</label>
-                    <select
-                      value={selectedCategory}
-                      onChange={(e) => setSelectedCategory(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 text-white px-3 py-2 rounded focus:border-secondary-default/50 transition-all duration-300"
-                    >
-                      {categories.map(category => (
-                        <option key={category} value={category} className="bg-primary text-white">
-                          {category}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Company Filter */}
-                  <div>
-                    <label className="block text-sm font-medium text-white/80 mb-2">Company</label>
-                    <select
-                      value={selectedCompany}
-                      onChange={(e) => setSelectedCompany(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 text-white px-3 py-2 rounded focus:border-secondary-default/50 transition-all duration-300"
-                    >
-                      {companies.map(company => (
-                        <option key={company} value={company} className="bg-primary text-white">
-                          {company}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Status Filter */}
-                  <div>
-                    <label className="block text-sm font-medium text-white/80 mb-2">Status</label>
-                    <select
-                      value={selectedStatus}
-                      onChange={(e) => setSelectedStatus(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 text-white px-3 py-2 rounded focus:border-secondary-default/50 transition-all duration-300"
-                    >
-                      <option value="All" className="bg-primary text-white">All</option>
-                      <option value="Active" className="bg-primary text-white">Active</option>
-                      <option value="Inactive" className="bg-primary text-white">Inactive</option>
-                    </select>
-                  </div>
-
-                  {/* Technology Filter */}
-                  <div>
-                    <label className="block text-sm font-medium text-white/80 mb-2">Technology</label>
-                    <select
-                      value={selectedTech}
-                      onChange={(e) => setSelectedTech(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 text-white px-3 py-2 rounded focus:border-secondary-default/50 transition-all duration-300"
-                    >
-                      {technologies.map(tech => (
-                        <option key={tech} value={tech} className="bg-primary text-white">
-                          {tech}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </motion.div>
-              )}
-            </motion.div>
+              {/* Filter Panel - Using FilterPanel Component */}
+              <FilterPanel
+                filters={filterOptions}
+                showFilters={showFilters}
+                onToggleFilters={() => setShowFilters(!showFilters)}
+                hasActiveFilters={hasActiveFilters}
+                onClearAllFilters={clearAllFilters}
+                resultsInfo={{
+                  filtered: filteredProjects.length,
+                  total: projects.length,
+                  description: "projects"
+                }}
+              />
+            </div>
           )}
 
           {/* Results Info */}
