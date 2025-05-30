@@ -154,7 +154,7 @@ const Career = () => {
           className="relative"
         >
           {/* Timeline Background Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary-default/5 to-transparent pointer-events-none rounded-3xl" />
+          {/* <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary-default/5 to-transparent pointer-events-none rounded-3xl" /> */}
           
           <VerticalTimeline
             className="xl:custom-vt"
