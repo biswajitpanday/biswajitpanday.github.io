@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import {
   FaBriefcase,
   FaRocket,
-  FaSearch,
 } from "react-icons/fa";
 import { projects } from "@/data/portfolioData";
 import { PERFORMANCE_VARIANTS } from "@/constants";
@@ -30,7 +29,6 @@ const Portfolio = () => {
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [selectedTech, setSelectedTech] = useState("All");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [showFilters, setShowFilters] = useState(false);
 
   // Modal State
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -169,7 +167,7 @@ const Portfolio = () => {
       gradient: "from-blue-500/10 to-secondary-default/10"
     },
     {
-      icon: FaSearch,
+      icon: FaRocket,
       value: filteredProjects.length,
       label: "Filtered Results",
       gradient: "from-purple-500/10 to-secondary-default/10"
@@ -224,49 +222,24 @@ const Portfolio = () => {
             <StatsCards stats={statsData} />
           </SectionHeader>
 
-          {/* Search and Filter Section - Side by Side */}
+          {/* Search and Filter Section */}
           {(isSearchEnabled || isFilterEnabled) && (
-            <div className="mb-8">
-              {/* Search and Filter Row - Simple Side by Side */}
-              <div className="flex gap-4 items-center mb-6">
-                {/* Search Bar - Left Side */}
-                {isSearchEnabled && (
-                  <div className="flex-1">
-                    <SearchBar
-                      searchQuery={searchQuery}
-                      onSearchChange={setSearchQuery}
-                      placeholder="Search projects by name, technology, description..."
-                    />
-                  </div>
-                )}
+            <div className="mb-8 space-y-6">
+              {/* Search Bar */}
+              {isSearchEnabled && (
+                <div className="w-full">
+                  <SearchBar
+                    searchQuery={searchQuery}
+                    onSearchChange={setSearchQuery}
+                    placeholder="Search projects by name, technology, description..."
+                  />
+                </div>
+              )}
 
-                {/* Filter Button - Right Side */}
-                {isFilterEnabled && (
-                  <button
-                    onClick={() => setShowFilters(!showFilters)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all duration-300 whitespace-nowrap ${
-                      showFilters || hasActiveFilters
-                        ? 'bg-secondary-default/20 border-secondary-default/50 text-secondary-default'
-                        : 'bg-white/5 border-white/20 text-white/80 hover:bg-white/10 hover:border-white/30'
-                    }`}
-                  >
-                    <FaSearch className="text-sm" />
-                    <span className="font-medium">Filters</span>
-                    {hasActiveFilters && (
-                      <span className="bg-secondary-default/30 text-secondary-default text-xs px-2 py-0.5 rounded-full">
-                        Active
-                      </span>
-                    )}
-                  </button>
-                )}
-              </div>
-
-              {/* Filter Panel - Expandable Below */}
-              {isFilterEnabled && showFilters && (
+              {/* Filter Panel */}
+              {isFilterEnabled && (
                 <FilterPanel
                   filters={filterOptions}
-                  showFilters={showFilters}
-                  onToggleFilters={() => setShowFilters(!showFilters)}
                   hasActiveFilters={hasActiveFilters}
                   onClearAllFilters={clearAllFilters}
                   resultsInfo={{
@@ -287,7 +260,7 @@ const Portfolio = () => {
               className="text-center py-12"
             >
               <div className="bg-white/5 border border-white/10 rounded-lg p-8 max-w-md mx-auto">
-                <FaSearch className="text-4xl text-white/40 mx-auto mb-4" />
+                <FaRocket className="text-4xl text-white/40 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-white mb-2">No Projects Found</h3>
                 <p className="text-white/60 mb-4">
                   Try adjusting your search criteria or clearing filters to see more results.
