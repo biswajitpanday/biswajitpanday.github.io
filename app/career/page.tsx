@@ -1,89 +1,93 @@
 "use client";
 import {
-  calculateFromToWithDuration,
   calculateTotalExperience,
-  getDateRange,
-  getDuration,
 } from "@/helpers/utility";
 import { timeLineItems } from "@/data/timelineData";
 import { PERFORMANCE_VARIANTS } from "@/constants";
-import Link from "next/link";
 import {
   VerticalTimeline,
-  VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import Image from "next/image";
 import {
-  FaMapMarkedAlt,
   FaBriefcase,
   FaCalendarAlt,
-  FaCheckCircle,
+  FaRocket,
+  FaAward,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
+import TimelineElement from "@/components/TimelineElement";
 
 const Career = () => {
   const totalExperience = calculateTotalExperience(timeLineItems);
   const totalCompanies = timeLineItems.length;
 
   return (
-    <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden">
-      {/* Background Elements */}
+    <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-8">
+      {/* Enhanced Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary-default/5 pointer-events-none" />
-      <div className="absolute top-20 right-10 w-2 h-2 bg-secondary-default rounded-full animate-ping opacity-60" />
-      <div className="absolute bottom-32 left-16 w-1 h-1 bg-blue-400 rounded-full animate-pulse opacity-40" />
-      <div className="absolute top-1/3 left-8 w-1.5 h-1.5 bg-secondary-default rounded-full animate-bounce opacity-50" />
+      
+      {/* Floating Elements */}
+      <div className="absolute top-20 right-10 w-3 h-3 bg-secondary-default rounded-full animate-ping opacity-60" />
+      <div className="absolute bottom-32 left-16 w-2 h-2 bg-blue-400 rounded-full animate-pulse opacity-40" />
+      <div className="absolute top-1/3 left-8 w-2 h-2 bg-secondary-default rounded-full animate-bounce opacity-50" />
+      <div className="absolute top-1/2 right-20 w-1 h-1 bg-purple-400 rounded-full animate-pulse opacity-30" />
+      <div className="absolute bottom-1/4 right-8 w-1.5 h-1.5 bg-blue-300 rounded-full animate-ping opacity-40" />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Professional Header */}
+        {/* Enhanced Professional Header */}
         <motion.div
           variants={PERFORMANCE_VARIANTS.containerSync}
           initial="hidden"
           animate="visible"
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          {/* Main Heading */}
+          {/* Main Heading with Enhanced Animation */}
           <motion.h1
             variants={PERFORMANCE_VARIANTS.slideUpSync}
             className="text-4xl xl:text-6xl font-bold text-white mb-6 leading-tight"
           >
             Professional{" "}
-            <span className="bg-gradient-to-r from-secondary-default via-blue-400 to-secondary-default bg-clip-text text-transparent animate-gradient">
+            <span className="bg-gradient-to-r from-secondary-default via-blue-400 to-secondary-default bg-clip-text text-transparent animate-gradient bg-300% animate-gradient-x">
               Journey
             </span>
           </motion.h1>
 
-          {/* Description */}
+          {/* Enhanced Description */}
           <motion.p
             variants={PERFORMANCE_VARIANTS.slideUpSync}
-            className="text-lg xl:text-xl text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed"
+            className="text-lg xl:text-xl text-white/80 mb-12 max-w-4xl mx-auto leading-relaxed"
           >
             Transforming ideas into{" "}
-            <span className="text-secondary-default font-semibold">
+            <span className="text-secondary-default font-semibold px-2 py-1 rounded">
               scalable solutions
             </span>{" "}
             through innovative software engineering and{" "}
-            <span className="text-secondary-default font-semibold">
+            <span className="text-secondary-default font-semibold px-2 py-1 rounded">
               leadership excellence
             </span>
           </motion.p>
 
-          {/* Enhanced Experience Stats */}
+          {/* Enhanced Experience Stats with Glassmorphism */}
           <motion.div
             variants={PERFORMANCE_VARIANTS.containerSync}
-            className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8"
+            className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 mb-8"
           >
             <motion.div 
               variants={PERFORMANCE_VARIANTS.cardSync}
-              className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
+              className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-xl border border-secondary-default/30 text-primary py-4 px-8 rounded-xl performance-button hover:scale-105 transition-all duration-300"
             >
-              <div className="flex items-center gap-3">
-                <FaCalendarAlt className="text-secondary-default text-xl group-hover:animate-pulse" />
-                <div className="flex items-baseline gap-2">
-                  <span className="text-secondary-default text-2xl font-bold">
+              {/* Glassmorphism glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-secondary-default/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              <div className="flex items-center gap-4 relative z-10">
+                <div className="p-3 bg-secondary-default/20 rounded-full">
+                  <FaCalendarAlt className="text-secondary-default text-xl group-hover:animate-pulse" />
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className="text-secondary-default text-3xl font-bold leading-none">
                     {totalExperience}
                   </span>
-                  <span className="text-white/80 text-sm font-medium">
+                  <span className="text-white/80 text-sm font-medium uppercase tracking-wider">
                     Experience
                   </span>
                 </div>
@@ -92,145 +96,78 @@ const Career = () => {
 
             <motion.div 
               variants={PERFORMANCE_VARIANTS.cardSync}
-              className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
+              className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-xl border border-secondary-default/30 text-primary py-4 px-8 rounded-xl performance-button hover:scale-105 transition-all duration-300"
             >
-              <div className="flex items-center gap-3">
-                <FaBriefcase className="text-secondary-default text-xl group-hover:animate-pulse" />
-                <div className="flex items-baseline gap-2">
-                  <span className="text-secondary-default text-2xl font-bold">
+              {/* Glassmorphism glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              <div className="flex items-center gap-4 relative z-10">
+                <div className="p-3 bg-blue-500/20 rounded-full">
+                  <FaBriefcase className="text-secondary-default text-xl group-hover:animate-pulse" />
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className="text-secondary-default text-3xl font-bold leading-none">
                     {totalCompanies}
                   </span>
-                  <span className="text-white/80 text-sm font-medium">
+                  <span className="text-white/80 text-sm font-medium uppercase tracking-wider">
                     Companies
                   </span>
                 </div>
               </div>
             </motion.div>
           </motion.div>
+
+          {/* Career Highlights Badges */}
+          <motion.div
+            variants={PERFORMANCE_VARIANTS.containerSync}
+            className="flex flex-wrap justify-center gap-3 mb-8"
+          >
+            <motion.span
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
+            >
+              <FaAward className="text-xs" />
+              Full-Stack Leadership
+            </motion.span>
+            <motion.span
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 to-transparent backdrop-blur-sm border border-blue-500/30 text-blue-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-500/20 transition-all duration-300"
+            >
+              <FaRocket className="text-xs" />
+              Innovation Driver
+            </motion.span>
+            <motion.span
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-transparent backdrop-blur-sm border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/20 transition-all duration-300"
+            >
+              <FaBriefcase className="text-xs" />
+              Team Builder
+            </motion.span>
+          </motion.div>
         </motion.div>
 
-        {/* Timeline */}
+        {/* Enhanced Timeline with Better Animation */}
         <motion.div
           variants={PERFORMANCE_VARIANTS.fadeInFast}
           initial="hidden"
           animate="visible"
+          className="relative"
         >
+          {/* Timeline Background Gradient */}
+          {/* <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary-default/5 to-transparent pointer-events-none rounded-3xl" /> */}
+          
           <VerticalTimeline
             className="xl:custom-vt"
             animate={true}
             lineColor="var(--color-secondary-default)"
           >
-            {timeLineItems.map((item, index) => {
-              return (
-                <VerticalTimelineElement
-                  position={"right"}
-                  className="vertical-timeline-element--work text-white/80 xl:custom-vt-element"
-                  contentStyle={{
-                    background:
-                      "linear-gradient(135deg, #27272c 0%, #2a2a30 100%)",
-                    color: "#ffffff",
-                    boxShadow: "0 8px 32px rgba(0, 191, 255, 0.1)",
-                    border: "1px solid var(--color-secondary-default)",
-                    borderRadius: "12px",
-                  }}
-                  contentArrowStyle={{
-                    borderRight: "7px solid var(--color-secondary-default)",
-                  }}
-                  date={calculateFromToWithDuration(
-                    item.startDate,
-                    item.endDate
-                  )}
-                  iconStyle={{
-                    background:
-                      "linear-gradient(135deg, var(--color-secondary-default), #0099cc)",
-                    color: "#ffffff",
-                    boxShadow: "0 4px 16px rgba(0, 191, 255, 0.3)",
-                  }}
-                  icon={
-                    <div className="flex w-[100%] h-[100%] justify-center items-center">
-                      <Image
-                        src={item.icon}
-                        alt={item.company}
-                        width={90}
-                        height={90}
-                        style={{ borderRadius: "50%", padding: "5%" }}
-                      />
-                    </div>
-                  }
-                  key={index}
-                  visible={true}
-                >
-                  <div className="flex flex-col">
-                    {/* Custom Date Display for Mobile/Tablet */}
-                    <div className="xl:hidden mb-4 flex flex-row justify-between items-center gap-2">
-                      <span className="inline-flex items-center bg-secondary-default/30 text-secondary-default px-3 py-1.5 rounded text-xs font-medium hover:bg-secondary-default/20 transition-all duration-300">
-                        {getDateRange(item.startDate, item.endDate)}
-                      </span>
-                      <span className="inline-flex items-center bg-secondary-default/30 text-secondary-default px-3 py-1.5 rounded text-xs font-medium hover:bg-secondary-default/20 transition-all duration-300">
-                        {getDuration(item.startDate, item.endDate)}
-                      </span>
-                    </div>
-
-                    {/* Header Section with Position and Job Type Tags */}
-                    <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3 mb-2">
-                      <div className="flex flex-col xl:flex-row xl:items-center gap-4">
-                        <h3 className="vertical-timeline-element-title text-xl font-extrabold text-secondary-default text-center lg:text-left">
-                          {item.position}
-                        </h3>
-                        <div className="flex flex-wrap gap-2 mx-auto lg:mx-0">
-                          {item.jobType.map((type, index) => (
-                            <span
-                              key={index}
-                              className="inline-flex text-xs font-bold items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 text-white/70 py-1 px-3 rounded hover:bg-white/10 hover:text-white hover:border-secondary-default transition-all duration-300"
-                            >
-                              {type}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      <span className="flex items-center gap-2 text-white/70 text-sm mx-auto lg:mx-0 bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded">
-                        <FaMapMarkedAlt className="text-secondary-default" />
-                        {item.location}
-                      </span>
-                    </div>
-
-                    {/* Company Section */}
-                    <div className="vertical-timeline-element-subtitle text-center lg:text-left">
-                      <Link
-                        href={item.url}
-                        className="group text-xl font-bold text-white transition-all duration-300 relative inline-block hover:text-secondary-default"
-                        target="_blank"
-                      >
-                        {item.company}
-                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary-default transition-all duration-300 group-hover:w-full"></span>
-                      </Link>
-                    </div>
-
-                    {/* Modern Responsibilities Section */}
-                    <div className="space-y-2">
-                      <h4 className="text-sm font-semibold text-secondary-default uppercase tracking-wider mt-6 text-center lg:text-left flex items-center gap-2">
-                        Key Achievements & Responsibilities
-                      </h4>
-                      <div className="space-y-2">
-                        {item.responsibilities.map((responsibility, index) => (
-                          <div
-                            key={index}
-                            className="flex items-baseline gap-3 group hover:bg-white/5 p-2 rounded transition-all duration-300"
-                          >
-                            <div className="flex-shrink-0 mt-2">
-                              <FaCheckCircle className="text-secondary-default text-sm group-hover:scale-110 transition-transform duration-200" />
-                            </div>
-                            <p className="text-white/85 leading-relaxed text-sm group-hover:text-white transition-colors duration-200 !mt-2">
-                              {responsibility}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </VerticalTimelineElement>
-              );
-            })}
+            {timeLineItems.map((item, index) => (
+              <TimelineElement
+                key={index}
+                item={item}
+                index={index}
+              />
+            ))}
           </VerticalTimeline>
         </motion.div>
       </div>
