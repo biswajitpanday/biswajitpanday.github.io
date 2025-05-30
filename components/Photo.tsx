@@ -2,30 +2,28 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { PERFORMANCE_VARIANTS } from "@/constants";
+import { LIGHTWEIGHT_VARIANTS } from "@/constants";
 
 const Photo = () => {
   return (
     <div className="w-full h-full relative rounded-full overflow-hidden">
       <motion.div
-        variants={PERFORMANCE_VARIANTS.fadeInFast}
-        initial="hidden"
-        animate="visible"
+        {...LIGHTWEIGHT_VARIANTS.fadeIn}
       >
-        <motion.div
-          variants={PERFORMANCE_VARIANTS.fadeInFast}
-          className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] mix-blend-lighten absolute"
-        >
+        <div className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] mix-blend-lighten absolute">
           <Image
             src="/assets/Panday.png"
             priority
-            quality={100}
+            quality={80}
             fill
             alt="Biswajit Panday"
             className="object-contain"
+            sizes="(max-width: 1280px) 298px, 498px"
           />
-        </motion.div>
-        <motion.svg
+        </div>
+        
+        {/* Simplified SVG animation - reduced complexity */}
+        <svg
           className="w-[300px] xl:w-[506px] h-[300px] xl:h-[506px]"
           fill="transparent"
           viewBox="0 0 506 506"
@@ -41,17 +39,16 @@ const Photo = () => {
             strokeLinejoin="round"
             initial={{ strokeDasharray: "24 10 0 0" }}
             animate={{
-              strokeDasharray: ["15 120 25 25", "16 25 92 72", "4 250 22 22"],
-              rotate: [120, 360],
+              strokeDasharray: ["15 120 25 25", "16 25 92 72"],
+              rotate: [0, 360],
             }}
             transition={{
-              duration: 8,
+              duration: 12, // Slower animation for less processing
               repeat: Infinity,
-              repeatType: "reverse",
               ease: "linear",
             }}
-          ></motion.circle>
-        </motion.svg>
+          />
+        </svg>
       </motion.div>
     </div>
   );

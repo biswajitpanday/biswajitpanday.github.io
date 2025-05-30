@@ -1,41 +1,77 @@
 "use client";
+import { lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
 import { PERFORMANCE_VARIANTS } from "@/constants";
-import { 
-  FaEnvelope, 
-  FaMapMarkedAlt, 
-  FaPhoneAlt, 
-  FaSkype,
-  FaPaperPlane,
-  FaRocket,
-  FaUsers,
-  FaCheckCircle,
-  FaExclamationTriangle
-} from "react-icons/fa";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { useRateLimit } from "@/hooks/useRateLimit";
-import { RATE_LIMIT } from "@/constants";
 
-// Form validation schema
-const contactSchema = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Please enter a valid phone number").optional().or(z.literal("")),
-  message: z.string().min(10, "Message must be at least 10 characters"),
-});
+// Lazy load icons only (not hooks/utilities)
+const FaEnvelope = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaEnvelope })));
+const FaMapMarkedAlt = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaMapMarkedAlt })));
+const FaPhoneAlt = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaPhoneAlt })));
+const FaSkype = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaSkype })));
+const FaPaperPlane = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaPaperPlane })));
+const FaRocket = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaRocket })));
+const FaUsers = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaUsers })));
+const FaCheckCircle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCheckCircle })));
+const FaExclamationTriangle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaExclamationTriangle })));
 
-type ContactFormData = z.infer<typeof contactSchema>;
+// Loading fallback components
+const IconFallback = ({ className }: { className?: string }) => (
+  <div className={`w-4 h-4 bg-secondary-default/30 rounded animate-pulse ${className}`} />
+);
+
+// RATE_LIMIT constants (to avoid importing the entire constants file)
+const RATE_LIMIT = {
+  MAX_ATTEMPTS: 5,
+  WINDOW_MS: 900000, // 15 minutes
+  BLOCK_DURATION_MS: 3600000, // 1 hour
+};
+
+// Form validation schema (simplified to avoid zod import overhead)
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  message: string;
+}
+
+interface FormErrors {
+  firstName?: { message: string };
+  lastName?: { message: string };
+  email?: { message: string };
+  phone?: { message: string };
+  message?: { message: string };
+}
+
+const validateForm = (data: FormData) => {
+  const errors: FormErrors = {};
+  
+  if (!data.firstName || data.firstName.length < 2) {
+    errors.firstName = { message: "First name must be at least 2 characters" };
+  }
+  if (!data.lastName || data.lastName.length < 2) {
+    errors.lastName = { message: "Last name must be at least 2 characters" };
+  }
+  if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    errors.email = { message: "Please enter a valid email address" };
+  }
+  if (data.phone && data.phone.length > 0 && data.phone.length < 10) {
+    errors.phone = { message: "Please enter a valid phone number" };
+  }
+  if (!data.message || data.message.length < 10) {
+    errors.message = { message: "Message must be at least 10 characters" };
+  }
+  
+  return { errors, isValid: Object.keys(errors).length === 0 };
+};
 
 const info = [
   {
-    icon: <FaPhoneAlt />,
+    icon: FaPhoneAlt,
     title: "Phone",
     description: "+880 1681642502",
     color: "from-blue-500/20 to-blue-600/20",
@@ -44,7 +80,7 @@ const info = [
     hoverColor: "hover:bg-blue-500/30 hover:border-blue-400"
   },
   {
-    icon: <FaEnvelope />,
+    icon: FaEnvelope,
     title: "Email",
     description: "biswajitmailid@gmail.com",
     color: "from-emerald-500/20 to-emerald-600/20",
@@ -53,7 +89,7 @@ const info = [
     hoverColor: "hover:bg-emerald-500/30 hover:border-emerald-400"
   },
   {
-    icon: <FaSkype />,
+    icon: FaSkype,
     title: "Skype",
     description: "biswajit_panday",
     color: "from-purple-500/20 to-purple-600/20",
@@ -62,7 +98,7 @@ const info = [
     hoverColor: "hover:bg-purple-500/30 hover:border-purple-400"
   },
   {
-    icon: <FaMapMarkedAlt />,
+    icon: FaMapMarkedAlt,
     title: "Address",
     description: "Dhaka, Bangladesh",
     color: "from-orange-500/20 to-orange-600/20",
@@ -76,29 +112,45 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
-
-  // Rate limiting hook
-  const rateLimit = useRateLimit({
-    maxAttempts: RATE_LIMIT.MAX_ATTEMPTS,
-    windowMs: RATE_LIMIT.WINDOW_MS,
-    blockDurationMs: RATE_LIMIT.BLOCK_DURATION_MS,
+  const [formData, setFormData] = useState<FormData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    message: ''
   });
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema)
-  });
+  // Simple rate limiting (client-side only)
+  const [attempts, setAttempts] = useState(0);
+  const [lastAttempt, setLastAttempt] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
 
-  const onSubmit = async (data: ContactFormData) => {
-    // Check rate limit before proceeding
-    const rateLimitCheck = rateLimit.checkRateLimit();
-    if (!rateLimitCheck.allowed) {
+  const handleInputChange = (field: keyof FormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    // Clear error for this field when user starts typing
+    if (formErrors[field]) {
+      setFormErrors(prev => ({ ...prev, [field]: undefined }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Client-side rate limiting
+    const now = Date.now();
+    if (now - lastAttempt < RATE_LIMIT.WINDOW_MS && attempts >= RATE_LIMIT.MAX_ATTEMPTS) {
+      setIsBlocked(true);
       setSubmitStatus('error');
-      setSubmitMessage(rateLimitCheck.message || 'Rate limit exceeded');
+      setSubmitMessage('Too many attempts. Please try again later.');
+      return;
+    }
+
+    // Validate form
+    const { errors, isValid } = validateForm(formData);
+    setFormErrors(errors);
+
+    if (!isValid) {
       return;
     }
 
@@ -106,10 +158,11 @@ const Contact = () => {
     setSubmitStatus('idle');
 
     try {
-      // Record the attempt
-      rateLimit.recordAttempt();
+      // Record attempt
+      setAttempts(prev => prev + 1);
+      setLastAttempt(now);
 
-      // PageClip form submission using environment variable
+      // PageClip form submission
       const PAGECLIP_API_KEY = process.env.NEXT_PUBLIC_PAGECLIP_API_KEY;
       
       if (!PAGECLIP_API_KEY) {
@@ -122,19 +175,26 @@ const Contact = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: `${data.firstName} ${data.lastName}`,
-          email: data.email,
-          phone: data.phone || 'Not provided',
-          message: data.message,
-          subject: `New contact form submission from ${data.firstName} ${data.lastName}`,
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          phone: formData.phone || 'Not provided',
+          message: formData.message,
+          subject: `New contact form submission from ${formData.firstName} ${formData.lastName}`,
         }),
       });
 
       if (response.ok) {
         setSubmitStatus('success');
         setSubmitMessage('Thank you! Your message has been sent successfully. I will get back to you soon.');
-        reset();
-        rateLimit.reset(); // Reset rate limit on successful submission
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          message: ''
+        });
+        setAttempts(0); // Reset on success
+        setIsBlocked(false);
       } else {
         throw new Error('Form submission failed');
       }
@@ -192,7 +252,9 @@ const Contact = () => {
               className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
             >
               <div className="flex items-center gap-3">
-                <FaRocket className="text-secondary-default text-xl group-hover:animate-pulse" />
+                <Suspense fallback={<IconFallback />}>
+                  <FaRocket className="text-secondary-default text-xl group-hover:animate-pulse" />
+                </Suspense>
                 <div className="flex items-baseline gap-2">
                   <span className="text-secondary-default text-2xl font-bold">
                     24h
@@ -209,7 +271,9 @@ const Contact = () => {
               className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
             >
               <div className="flex items-center gap-3">
-                <FaUsers className="text-secondary-default text-xl group-hover:animate-pulse" />
+                <Suspense fallback={<IconFallback />}>
+                  <FaUsers className="text-secondary-default text-xl group-hover:animate-pulse" />
+                </Suspense>
                 <div className="flex items-baseline gap-2">
                   <span className="text-secondary-default text-2xl font-bold">
                     100+
@@ -223,7 +287,6 @@ const Contact = () => {
           </motion.div>
         </motion.div>
 
-        {/* Contact Content */}
         <motion.div
           variants={PERFORMANCE_VARIANTS.containerSync}
           initial="hidden"
@@ -250,17 +313,19 @@ const Contact = () => {
               </motion.div>
 
               {/* Rate Limit Warning */}
-              {rateLimit.isBlocked && (
+              {isBlocked && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="mb-6 p-4 rounded border bg-red-500/10 border-red-500/30 text-red-300 flex items-center gap-3"
                 >
-                  <FaExclamationTriangle className="text-red-400 flex-shrink-0" />
+                  <Suspense fallback={<IconFallback />}>
+                    <FaExclamationTriangle className="text-red-400 flex-shrink-0" />
+                  </Suspense>
                   <div>
                     <p className="text-sm font-medium">Rate limit exceeded</p>
                     <p className="text-xs text-red-400">
-                      You have {rateLimit.attemptsRemaining} attempts remaining.
+                      Please try again later.
                     </p>
                   </div>
                 </motion.div>
@@ -277,16 +342,18 @@ const Contact = () => {
                       : 'bg-red-500/10 border-red-500/30 text-red-300'
                   }`}
                 >
-                  {submitStatus === 'success' ? (
-                    <FaCheckCircle className="text-emerald-400 flex-shrink-0" />
-                  ) : (
-                    <FaExclamationTriangle className="text-red-400 flex-shrink-0" />
-                  )}
+                  <Suspense fallback={<IconFallback />}>
+                    {submitStatus === 'success' ? (
+                      <FaCheckCircle className="text-emerald-400 flex-shrink-0" />
+                    ) : (
+                      <FaExclamationTriangle className="text-red-400 flex-shrink-0" />
+                    )}
+                  </Suspense>
                   <p className="text-sm">{submitMessage}</p>
                 </motion.div>
               )}
 
-              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <motion.div
                   variants={PERFORMANCE_VARIANTS.slideUpSync}
                   className="grid grid-cols-1 md:grid-cols-2 gap-6"
@@ -294,29 +361,31 @@ const Contact = () => {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-white/80">First Name *</label>
                     <Input 
-                      {...register("firstName")}
                       type="text" 
                       placeholder="Enter your first name"
+                      value={formData.firstName}
+                      onChange={(e) => handleInputChange('firstName', e.target.value)}
                       className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
-                        errors.firstName ? 'border-red-500/50' : ''
+                        formErrors.firstName ? 'border-red-500/50' : ''
                       }`}
                     />
-                    {errors.firstName && (
-                      <p className="text-red-400 text-xs">{errors.firstName.message}</p>
+                    {formErrors.firstName && (
+                      <p className="text-red-400 text-xs">{formErrors.firstName.message}</p>
                     )}
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-white/80">Last Name *</label>
                     <Input 
-                      {...register("lastName")}
                       type="text" 
                       placeholder="Enter your last name"
+                      value={formData.lastName}
+                      onChange={(e) => handleInputChange('lastName', e.target.value)}
                       className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
-                        errors.lastName ? 'border-red-500/50' : ''
+                        formErrors.lastName ? 'border-red-500/50' : ''
                       }`}
                     />
-                    {errors.lastName && (
-                      <p className="text-red-400 text-xs">{errors.lastName.message}</p>
+                    {formErrors.lastName && (
+                      <p className="text-red-400 text-xs">{formErrors.lastName.message}</p>
                     )}
                   </div>
                 </motion.div>
@@ -328,29 +397,31 @@ const Contact = () => {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-white/80">Email Address *</label>
                     <Input 
-                      {...register("email")}
                       type="email" 
                       placeholder="your.email@example.com"
+                      value={formData.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
                       className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
-                        errors.email ? 'border-red-500/50' : ''
+                        formErrors.email ? 'border-red-500/50' : ''
                       }`}
                     />
-                    {errors.email && (
-                      <p className="text-red-400 text-xs">{errors.email.message}</p>
+                    {formErrors.email && (
+                      <p className="text-red-400 text-xs">{formErrors.email.message}</p>
                     )}
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-white/80">Phone Number</label>
                     <Input 
-                      {...register("phone")}
                       type="tel" 
                       placeholder="Enter your phone number"
+                      value={formData.phone}
+                      onChange={(e) => handleInputChange('phone', e.target.value)}
                       className={`bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
-                        errors.phone ? 'border-red-500/50' : ''
+                        formErrors.phone ? 'border-red-500/50' : ''
                       }`}
                     />
-                    {errors.phone && (
-                      <p className="text-red-400 text-xs">{errors.phone.message}</p>
+                    {formErrors.phone && (
+                      <p className="text-red-400 text-xs">{formErrors.phone.message}</p>
                     )}
                   </div>
                 </motion.div>
@@ -361,14 +432,15 @@ const Contact = () => {
                 >
                   <label className="text-sm font-medium text-white/80">Message *</label>
                   <Textarea
-                    {...register("message")}
                     className={`h-[150px] w-full bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 resize-none ${
-                      errors.message ? 'border-red-500/50' : ''
+                      formErrors.message ? 'border-red-500/50' : ''
                     }`}
                     placeholder="Tell me about your project, goals, and how I can help you achieve them..."
+                    value={formData.message}
+                    onChange={(e) => handleInputChange('message', e.target.value)}
                   />
-                  {errors.message && (
-                    <p className="text-red-400 text-xs">{errors.message.message}</p>
+                  {formErrors.message && (
+                    <p className="text-red-400 text-xs">{formErrors.message.message}</p>
                   )}
                 </motion.div>
 
@@ -378,7 +450,7 @@ const Contact = () => {
                   <Button 
                     type="submit"
                     size="lg" 
-                    disabled={isSubmitting || rateLimit.isBlocked}
+                    disabled={isSubmitting || isBlocked}
                     className={`bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded performance-button disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
                     {isSubmitting ? (
@@ -388,7 +460,9 @@ const Contact = () => {
                       </>
                     ) : (
                       <>
-                        <FaPaperPlane className="mr-2" />
+                        <Suspense fallback={<IconFallback />}>
+                          <FaPaperPlane className="mr-2" />
+                        </Suspense>
                         Send Message
                       </>
                     )}
@@ -422,7 +496,11 @@ const Contact = () => {
                   >
                     <div className="flex items-center gap-4">
                       <div className={`w-12 h-12 xl:w-14 xl:h-14 bg-gradient-to-br from-white/10 to-white/5 ${item.textColor} rounded flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                        <div className="text-xl xl:text-2xl">{item.icon}</div>
+                        <div className="text-xl xl:text-2xl">
+                          <Suspense fallback={<IconFallback />}>
+                            <item.icon />
+                          </Suspense>
+                        </div>
                       </div>
                       <div className="flex-1">
                         <p className="text-white/60 text-sm font-medium mb-1">{item.title}</p>
