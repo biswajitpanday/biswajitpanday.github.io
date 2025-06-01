@@ -1,8 +1,21 @@
 export const calculateDuration = (startDate: Date, endDate: Date) => {
   const start = new Date(startDate);
   const end = new Date(endDate);
-  const years = end.getFullYear() - start.getFullYear();
-  const months = end.getMonth() - start.getMonth();
+  
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+  
+  // If the end day is before the start day in the month, we haven't completed the full month
+  if (end.getDate() < start.getDate()) {
+    months--;
+  }
+  
+  // Adjust for negative months
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+  
   const totalMonths = years * 12 + months;
   const displayYears = Math.floor(totalMonths / 12);
   const displayMonths = totalMonths % 12;
@@ -47,8 +60,21 @@ export const calculateTotalExperience = (positions: Array<{startDate: Date, endD
   positions.forEach(position => {
     const start = new Date(position.startDate);
     const end = new Date(position.endDate);
-    const years = end.getFullYear() - start.getFullYear();
-    const months = end.getMonth() - start.getMonth();
+    
+    let years = end.getFullYear() - start.getFullYear();
+    let months = end.getMonth() - start.getMonth();
+    
+    // If the end day is before the start day in the month, we haven't completed the full month
+    if (end.getDate() < start.getDate()) {
+      months--;
+    }
+    
+    // Adjust for negative months
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+    
     totalMonths += years * 12 + months;
   });
   
