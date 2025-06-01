@@ -145,12 +145,12 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: respIndex * 0.1 }}
-                className="flex items-start gap-4 group hover:bg-gradient-to-r hover:from-white/5 hover:to-transparent p-3 rounded-lg transition-all duration-300 border border-transparent hover:border-white/10"
+                className="flex items-baseline gap-4 group hover:bg-gradient-to-r hover:from-white/5 hover:to-transparent p-3 rounded-lg transition-all duration-300 border border-transparent hover:border-white/10"
               >
                 <div className="flex-shrink-0 mt-1">
                   <div className="w-2 h-2 bg-secondary-default rounded-full group-hover:scale-125 transition-transform duration-200 shadow-lg shadow-secondary-default/50" />
                 </div>
-                <p className="text-white/85 leading-relaxed text-sm group-hover:text-white transition-colors duration-200">
+                <p className="text-white/85 leading-relaxed text-sm group-hover:text-white transition-colors duration-200 !mt-0">
                   {responsibility}
                 </p>
               </motion.div>

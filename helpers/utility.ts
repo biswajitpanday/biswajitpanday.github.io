@@ -5,29 +5,34 @@ export const calculateDuration = (startDate: Date, endDate: Date) => {
   let years = end.getFullYear() - start.getFullYear();
   let months = end.getMonth() - start.getMonth();
   
-  // If the end day is before the start day in the month, we haven't completed the full month
+  // Adjust if we haven't reached the day of the month yet
   if (end.getDate() < start.getDate()) {
     months--;
   }
   
-  // Adjust for negative months
+  // Handle negative months
   if (months < 0) {
     years--;
     months += 12;
   }
   
-  const totalMonths = years * 12 + months;
-  const displayYears = Math.floor(totalMonths / 12);
-  const displayMonths = totalMonths % 12;
+  // Add 1 to include the current month in the count
+  months++;
   
-  if (displayYears === 0 && displayMonths === 0) {
+  // Recalculate years and months
+  if (months >= 12) {
+    years += Math.floor(months / 12);
+    months = months % 12;
+  }
+  
+  if (years === 0 && months === 0) {
     return "Less than 1 month";
-  } else if (displayYears === 0) {
-    return `${displayMonths} month${displayMonths > 1 ? 's' : ''}`;
-  } else if (displayMonths === 0) {
-    return `${displayYears} year${displayYears > 1 ? 's' : ''}`;
+  } else if (years === 0) {
+    return `${months} month${months > 1 ? 's' : ''}`;
+  } else if (months === 0) {
+    return `${years} year${years > 1 ? 's' : ''}`;
   } else {
-    return `${displayYears} year${displayYears > 1 ? 's' : ''}, ${displayMonths} month${displayMonths > 1 ? 's' : ''}`;
+    return `${years} year${years > 1 ? 's' : ''}, ${months} month${months > 1 ? 's' : ''}`;
   }
 };
 
@@ -64,17 +69,21 @@ export const calculateTotalExperience = (positions: Array<{startDate: Date, endD
     let years = end.getFullYear() - start.getFullYear();
     let months = end.getMonth() - start.getMonth();
     
-    // If the end day is before the start day in the month, we haven't completed the full month
+    // Adjust if we haven't reached the day of the month yet
     if (end.getDate() < start.getDate()) {
       months--;
     }
     
-    // Adjust for negative months
+    // Handle negative months
     if (months < 0) {
       years--;
       months += 12;
     }
     
+    // Add 1 to include the current month in the count
+    months++;
+    
+    // Add total months for this position
     totalMonths += years * 12 + months;
   });
   
