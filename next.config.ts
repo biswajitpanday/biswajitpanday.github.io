@@ -7,7 +7,6 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 const nextConfig: NextConfig = {
   output: "export",
-  distDir: 'build',
   trailingSlash: true,
   // basePath: "/biswajitpanday.github.io",
   // assetPrefix: "/biswajitpanday.github.io/",
