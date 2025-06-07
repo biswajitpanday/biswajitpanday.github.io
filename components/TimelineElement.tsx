@@ -96,7 +96,7 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
         </div>
 
         {/* Enhanced Header Section with Position and Job Type Tags */}
-        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4 mb-4 relative z-10">
+        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4 mb-3 relative z-10">
           <div className="flex flex-col xl:flex-row xl:items-center gap-4">
             <h3 className="vertical-timeline-element-title text-2xl font-extrabold text-white text-center lg:text-left hover:text-secondary-default transition-colors duration-300">
               {item.position}
@@ -127,14 +127,12 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
           >
             <span className="relative z-10">{item.company}</span>
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-secondary-default to-blue-400 transition-all duration-300 group-hover:w-full"></span>
-            {/* Subtle glow effect */}
-            <span className="absolute inset-0 bg-secondary-default/10 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></span>
           </Link>
         </div>
 
         {/* Enhanced Responsibilities Section with Better Visual Hierarchy */}
         <div className="space-y-3 relative z-10">
-          <h4 className="text-sm font-semibold text-secondary-default uppercase tracking-wider text-center lg:text-left flex items-center gap-2 justify-center lg:justify-start">
+          <h4 className="text-sm mt-6 font-semibold text-secondary-default uppercase tracking-wider text-center lg:text-left flex items-center gap-2 justify-center lg:justify-start">
             <FaCheckCircle className="text-xs" />
             Key Achievements & Responsibilities
           </h4>
