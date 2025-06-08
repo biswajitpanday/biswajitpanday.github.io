@@ -83,7 +83,7 @@ export const skills2 = {
       metadata: { icon: "FaRobot" },
       children: [
         { name: "GitHub Copilot", metadata: { icon: "FaGithub" } },
-        { name: "Cursor IDE", metadata: { icon: "FaTerminal" } },
+        { name: "Cursor IDE", metadata: { icon: "Cursor" } },
         { name: "ChatGPT", metadata: { icon: "SiOpenai" } },
         { name: "Azure OpenAI", metadata: { icon: "VscAzure" } },
         { name: "Claude API", metadata: { icon: "FaRobot" } },
@@ -128,7 +128,7 @@ export const skills2 = {
         { name: "Redux", metadata: { icon: "SiRedux" } },
         { name: "Angular", metadata: { icon: "SiAngular" } },
         { name: "Bootstrap", metadata: { icon: "FaBootstrap" } },
-        { name: "Tailwind CSS", metadata: { icon: "FaCode" } },
+        { name: "Tailwind CSS", metadata: { icon: "TbBrandTailwind" } },
       ],
     },
     {
@@ -150,7 +150,7 @@ export const skills2 = {
         { name: "Playwright", metadata: { icon: "GrTest" } },
         { name: "xUnit", metadata: { icon: "GrTest" } },
         { name: "NUnit", metadata: { icon: "FaFunnelDollar" } },
-        { name: "Postman", metadata: { icon: "FaExchangeAlt" } },
+        { name: "Postman", metadata: { icon: "SiPostman" } },
       ],
     },
   ],

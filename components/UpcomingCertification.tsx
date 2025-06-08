@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Certification } from "@/data/certificationsData";
 import Image from "next/image";
@@ -28,11 +28,12 @@ const UpcomingCertification: React.FC<UpcomingCertificationProps> = ({
     issuerLogo
   } = certification;
 
-  // Format expected date
-  const expectedDate = new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short'
-  });
+  // Format the expected date
+  const expectedDate = useMemo(() => {
+    // Format expected date in a way that's consistent between server and client
+    const dateObj = new Date(date);
+    return `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
+  }, [date]);
   
   // Determine which skills to show
   const maxVisibleSkills = 4;
@@ -51,8 +52,13 @@ const UpcomingCertification: React.FC<UpcomingCertificationProps> = ({
   const certificationUrl = certification.link || 
     (certification.category === "Professional" ? "https://learn.microsoft.com/en-us/credentials/" : "");
 
-  // Fixed progress percentage between 30-70%
-  const progressPercentage = Math.floor(Math.random() * 40) + 30;
+  // Use a deterministic progress percentage based on the certification ID to avoid hydration mismatches
+  const progressPercentage = useMemo(() => {
+    // Generate a number between 30-70% based on the certification ID
+    const idString = certification.id.toString();
+    const idSum = idString.split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+    return 30 + (idSum % 40); // 30-70% range
+  }, [certification.id]);
 
   return (
     <motion.div

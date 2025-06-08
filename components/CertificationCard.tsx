@@ -14,19 +14,16 @@ import {
 } from "@/components/ui/tooltip";
 import dynamic from "next/dynamic";
 
-// Dynamic import of lightbox for better performance
+// Dynamic import of lightbox for better performance and to avoid SSR issues
 const Lightbox = dynamic(() => import("yet-another-react-lightbox"), {
   ssr: false,
-  loading: () => <div className="hidden">Loading...</div>
 });
 
-// Only import styles when needed
-const LightboxStyles = () => {
-  // Load lightbox styles only on client-side
+// Only import styles on client-side and only once
+const importLightboxStyles = () => {
   if (typeof window !== 'undefined') {
     import("yet-another-react-lightbox/styles.css");
   }
-  return null;
 };
 
 interface CertificationCardProps {
@@ -38,6 +35,11 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
   certification,
   featured = false,
 }) => {
+  // Import lightbox styles on component mount (client-side only)
+  React.useEffect(() => {
+    importLightboxStyles();
+  }, []);
+  
   const {
     name,
     issuer,
@@ -82,9 +84,6 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 
   return (
     <>
-      {/* Load lightbox styles */}
-      <LightboxStyles />
-      
       <motion.div
         variants={PERFORMANCE_VARIANTS.cardSync}
         initial="hidden"

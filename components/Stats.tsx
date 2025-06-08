@@ -3,13 +3,14 @@ import CountUp from "react-countup";
 import { timeLineItems } from "@/data/timelineData";
 import { projects } from "@/data/portfolioData";
 import { countAllTechnologies } from "@/data/skillsData";
-import { calculateTotalExperience, calculateTotalCompaniesServed } from "@/helpers/utility";
+import { calculateTotalExperience } from "@/helpers/utility";
+import { getCertificationCounts } from "@/data/certificationsData";
 
 const Stats = () => {
   const totalExperience = calculateTotalExperience(timeLineItems);
   const totalProjects = projects.length;
   const totalTechnologies = countAllTechnologies();
-  const totalCompanies = calculateTotalCompaniesServed(timeLineItems);
+  const certCounts = getCertificationCounts();
 
 const stats = [
   {
@@ -28,9 +29,9 @@ const stats = [
       suffix: "+", // Makes sense as more technologies can be learned
   },
   {
-      num: totalCompanies,
-      text: "Companies Served",
-      suffix: "", // Exact count, no "+" needed
+      num: certCounts.total - certCounts.upcoming,
+      text: "Professional Credentials",
+      suffix: "+", // Will grow over time
   },
 ];
 

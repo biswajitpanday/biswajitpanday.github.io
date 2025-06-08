@@ -256,11 +256,18 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
 
 export default FeaturedCertificationCard;
 
-// Add keyframes for the background size animation
-const styles = document.createElement('style');
-styles.innerHTML = `
-  .bg-size-200 {
-    background-size: 200% auto;
+// Add keyframes for the background size animation in a Next.js safe way
+if (typeof document !== 'undefined') {
+  // Check if the style already exists to avoid duplicates
+  const id = 'featured-certification-card-styles';
+  if (!document.getElementById(id)) {
+    const styles = document.createElement('style');
+    styles.id = id;
+    styles.innerHTML = `
+      .bg-size-200 {
+        background-size: 200% auto;
+      }
+    `;
+    document.head.appendChild(styles);
   }
-`;
-document.head.appendChild(styles); 
+} 

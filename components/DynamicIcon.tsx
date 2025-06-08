@@ -1,5 +1,12 @@
 import React, { lazy, Suspense, memo } from 'react';
 import { IconType } from 'react-icons';
+import dynamic from 'next/dynamic';
+
+// Import custom icon components
+const CursorIcon = dynamic(() => import('./icons/CursorIcon'), {
+  ssr: true,
+  loading: () => <div className="w-4 h-4 bg-secondary-default/30 animate-pulse rounded-sm"></div>
+});
 
 // Simple icon mapping for better bundle splitting
 const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
@@ -60,6 +67,7 @@ const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
   SiRabbitmq: () => import('react-icons/si').then(mod => ({ default: mod.SiRabbitmq })),
   SiNextdotjs: () => import('react-icons/si').then(mod => ({ default: mod.SiNextdotjs })),
   SiOpenai: () => import('react-icons/si').then(mod => ({ default: mod.SiOpenai })),
+  SiPostman: () => import('react-icons/si').then(mod => ({ default: mod.SiPostman })),
   
   // Other libraries
   VscAzure: () => import('react-icons/vsc').then(mod => ({ default: mod.VscAzure })),
@@ -74,6 +82,7 @@ const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
   FaArrowsSpin: () => import('react-icons/fa6').then(mod => ({ default: mod.FaArrowsSpin })),
   TbBrandCSharp: () => import('react-icons/tb').then(mod => ({ default: mod.TbBrandCSharp })),
   TbBrandLinqpad: () => import('react-icons/tb').then(mod => ({ default: mod.TbBrandLinqpad })),
+  TbBrandTailwind: () => import('react-icons/tb').then(mod => ({ default: mod.TbBrandTailwind })),
   MdNotifications: () => import('react-icons/md').then(mod => ({ default: mod.MdNotifications })),
   MdSecurity: () => import('react-icons/md').then(mod => ({ default: mod.MdSecurity })),
   PiKanban: () => import('react-icons/pi').then(mod => ({ default: mod.PiKanban })),
@@ -90,6 +99,11 @@ const DynamicIcon: React.FC<DynamicIconProps> = memo(({
   className = "mr-3 text-secondary-default",
   fallback = <div className={className} style={{ width: '1em', height: '1em', backgroundColor: 'currentColor', borderRadius: '2px' }} />
 }) => {
+  // Special case for Cursor icon which is a custom SVG component
+  if (iconName === 'Cursor') {
+    return <CursorIcon className={className} />;
+  }
+  
   const iconLoader = iconComponents[iconName];
   
   if (!iconLoader) {
