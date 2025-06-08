@@ -25,7 +25,7 @@ const Portfolio = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
   const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set());
-  
+
   // Modal State
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -110,15 +110,15 @@ const Portfolio = () => {
               <PortfolioFilter
                 projects={projects}
                 onFilterChange={setFilteredProjects}
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-                placeholder="Search projects by name, technology, description..."
-                resultsInfo={{
-                  filtered: filteredProjects.length,
-                  total: projects.length,
-                  description: "projects"
-                }}
-              />
+                    searchQuery={searchQuery}
+                    onSearchChange={setSearchQuery}
+                    placeholder="Search projects by name, technology, description..."
+                  resultsInfo={{
+                    filtered: filteredProjects.length,
+                    total: projects.length,
+                    description: "projects"
+                  }}
+                />
             </div>
           )}
 

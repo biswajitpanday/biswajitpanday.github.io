@@ -36,14 +36,14 @@ const Career = () => {
           highlightText="Journey"
           description={
             <>
-              Transforming ideas into{" "}
-              <span className="text-secondary-default font-semibold px-2 py-1 rounded">
-                scalable solutions
-              </span>{" "}
-              through innovative software engineering and{" "}
-              <span className="text-secondary-default font-semibold px-2 py-1 rounded">
-                leadership excellence
-              </span>
+            Transforming ideas into{" "}
+            <span className="text-secondary-default font-semibold px-2 py-1 rounded">
+              scalable solutions
+            </span>{" "}
+            through innovative software engineering and{" "}
+            <span className="text-secondary-default font-semibold px-2 py-1 rounded">
+              leadership excellence
+            </span>
             </>
           }
         >
@@ -66,34 +66,34 @@ const Career = () => {
           />
         </SectionHeader>
 
-        {/* Career Highlights Badges */}
-        <motion.div
-          variants={PERFORMANCE_VARIANTS.containerSync}
+          {/* Career Highlights Badges */}
+          <motion.div
+            variants={PERFORMANCE_VARIANTS.containerSync}
           initial="hidden"
           animate="visible"
           className="flex flex-wrap justify-center gap-3 mb-12"
-        >
-          <motion.span
-            variants={PERFORMANCE_VARIANTS.cardSync}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
           >
-            <FaAward className="text-xs" />
-            Full-Stack Leadership
-          </motion.span>
-          <motion.span
-            variants={PERFORMANCE_VARIANTS.cardSync}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 to-transparent backdrop-blur-sm border border-blue-500/30 text-blue-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-500/20 transition-all duration-300"
-          >
-            <FaRocket className="text-xs" />
-            Innovation Driver
-          </motion.span>
-          <motion.span
-            variants={PERFORMANCE_VARIANTS.cardSync}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-transparent backdrop-blur-sm border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/20 transition-all duration-300"
-          >
-            <FaBriefcase className="text-xs" />
-            Team Builder
-          </motion.span>
+            <motion.span
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
+            >
+              <FaAward className="text-xs" />
+              Full-Stack Leadership
+            </motion.span>
+            <motion.span
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 to-transparent backdrop-blur-sm border border-blue-500/30 text-blue-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-500/20 transition-all duration-300"
+            >
+              <FaRocket className="text-xs" />
+              Innovation Driver
+            </motion.span>
+            <motion.span
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-transparent backdrop-blur-sm border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/20 transition-all duration-300"
+            >
+              <FaBriefcase className="text-xs" />
+              Team Builder
+            </motion.span>
         </motion.div>
 
         {/* Enhanced Timeline with Better Animation */}

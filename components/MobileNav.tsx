@@ -1,5 +1,5 @@
 "use client";
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -74,6 +74,11 @@ const MobileNav = () => {
         hideCloseButton
         style={{ zIndex: 100 }}
       >
+        <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
+        <SheetDescription className="sr-only">
+          Navigation links for mobile devices. Contains links to main pages of the website.
+        </SheetDescription>
+        
         {/* Close Button */}
         <div className="absolute top-6 right-6 z-10">
           <SheetClose asChild>

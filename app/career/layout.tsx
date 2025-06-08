@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Career Journey - Professional Experience",
-  description: "Discover Biswajit Panday's professional journey spanning 9+ years in software development, featuring roles at leading companies and career milestones in .NET and cloud technologies.",
+  title: "Career Journey",
+  description: "Explore Biswajit Panday's professional journey as a software developer, from early career to senior roles. Highlights of key projects and career milestones.",
   keywords: [
-    "career",
-    "professional experience",
-    "software engineer",
-    "career timeline",
-    ".NET developer",
-    "professional journey",
-    "work experience",
-    "career progression"
+    "Career Journey", 
+    "Professional Growth", 
+    "Software Development Career", 
+    "Career Timeline",
+    "Professional Achievements",
+    "Career Progression",
+    "Software Engineer Career",
+    "Career Development"
   ],
   openGraph: {
-    title: "Career Journey - Biswajit Panday's Professional Experience",
-    description: "Discover 9+ years of professional journey in software development, featuring roles at leading companies",
+    title: "Career Journey | Biswajit Panday",
+    description: "Explore my professional journey as a software developer, from early career to senior roles",
     url: "https://biswajitpanday.github.io/career",
   },
   twitter: {
-    title: "Career Journey - Biswajit Panday's Professional Experience",
-    description: "Discover 9+ years of professional journey in software development, featuring roles at leading companies",
+    title: "Career Journey | Biswajit Panday",
+    description: "Explore my professional journey as a software developer, from early career to senior roles",
   },
 };
 

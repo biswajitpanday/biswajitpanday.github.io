@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact - Get In Touch",
-  description: "Contact Biswajit Panday for collaboration, project inquiries, or professional opportunities. Based in Dhaka, Bangladesh. Available for remote work worldwide.",
+  title: "Contact Me",
+  description: "Get in touch with Biswajit Panday for professional inquiries, collaboration opportunities, or to discuss your project needs. Contact via email, phone, or form.",
   keywords: [
-    "contact",
-    "hire developer",
-    "collaboration",
-    "project inquiry",
-    "freelance developer",
-    "remote work",
-    "Dhaka Bangladesh",
-    "software development services"
+    "Contact",
+    "Get in touch",
+    "Hire developer",
+    "Project inquiry", 
+    "Software development consultation",
+    "Freelance developer",
+    "Full-stack developer contact",
+    "Dhaka Bangladesh"
   ],
   openGraph: {
-    title: "Contact - Get In Touch with Biswajit Panday",
-    description: "Contact for collaboration, project inquiries, or professional opportunities. Available for remote work worldwide.",
+    title: "Contact Biswajit Panday - Full-Stack Developer",
+    description: "Get in touch for project inquiries, consultations, or collaboration opportunities",
     url: "https://biswajitpanday.github.io/contact",
   },
   twitter: {
-    title: "Contact - Get In Touch with Biswajit Panday",
-    description: "Contact for collaboration, project inquiries, or professional opportunities. Available for remote work worldwide.",
+    title: "Contact Biswajit Panday - Full-Stack Developer",
+    description: "Get in touch for project inquiries, consultations, or collaboration opportunities",
   },
 };
 
