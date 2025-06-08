@@ -238,7 +238,15 @@ const Contact = () => {
             variants={PERFORMANCE_VARIANTS.slideUpSync}
             className="text-lg xl:text-xl text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed"
           >
-            Let&apos;s discuss your next project and bring your vision to life together
+            Let&apos;s discuss your{" "}
+            <span className="text-secondary-default font-semibold px-2 py-1 rounded">
+              next project
+            </span>{" "}
+            and bring your{" "}
+            <span className="text-secondary-default font-semibold px-2 py-1 rounded">
+              vision to life
+            </span>{" "}
+            together
           </motion.p>
 
           {/* Contact Stats */}

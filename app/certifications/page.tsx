@@ -115,7 +115,18 @@ const Certifications = () => {
         <SectionHeader
           title="Professional"
           highlightText="Certifications"
-          description="Industry credentials and course completions demonstrating expertise and commitment to continuous learning"
+          description={
+            <>
+              Industry credentials and course completions demonstrating{" "}
+              <span className="text-secondary-default font-semibold px-2 py-1 rounded">
+                expertise
+              </span>{" "}
+              and commitment to{" "}
+              <span className="text-secondary-default font-semibold px-2 py-1 rounded">
+                continuous learning
+              </span>
+            </>
+          }
         >
           <StatsCards stats={statsData} />
         </SectionHeader>
