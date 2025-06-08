@@ -14,11 +14,11 @@ import {
 import CertificationCard from "@/components/CertificationCard";
 import SectionHeader from "@/components/SectionHeader";
 import BackgroundElements from "@/components/BackgroundElements";
-import { FiAward, FiBriefcase, FiBook, FiSlack, FiClock } from "react-icons/fi";
+import { FiAward, FiBriefcase, FiBook, FiSlack } from "react-icons/fi";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import StatsCards, { StatCard } from "@/components/StatsCards";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
-import UpcomingCertification from "@/components/UpcomingCertification";
+import UpcomingCertificationsSection from "@/components/UpcomingCertificationsSection";
 import CertificationTimeline from "@/components/CertificationTimeline";
 import CertificationFilter from "@/components/CertificationFilter";
 import { PERFORMANCE_VARIANTS } from "@/constants";
@@ -55,12 +55,6 @@ const Certifications = () => {
       value: certCounts.course,
       label: "Courses",
       gradient: "from-purple-500/10 to-secondary-default/10"
-    },
-    {
-      icon: FiSlack,
-      value: certCounts.training,
-      label: "Training",
-      gradient: "from-green-500/10 to-secondary-default/10"
     }
   ];
   
@@ -144,33 +138,7 @@ const Certifications = () => {
         </div>
 
         {/* Upcoming Certifications Section */}
-        {upcomingCerts.length > 0 && (
-          <motion.div
-            variants={PERFORMANCE_VARIANTS.fadeInFast}
-            initial="hidden"
-            animate="visible"
-            className="mb-12"
-          >
-            <div className="flex items-center mb-4">
-              <FiClock className="text-secondary-default mr-2" />
-              <h3 className="text-xl font-bold">
-                <span className="bg-gradient-to-r from-secondary-default to-blue-500 bg-clip-text text-transparent">
-                  Upcoming Certifications
-                </span>
-              </h3>
-            </div>
-            
-            <div className="flex flex-col gap-4">
-              {upcomingCerts.map((certification, index) => (
-                <UpcomingCertification
-                  key={certification.id}
-                  certification={certification}
-                  index={index}
-                />
-              ))}
-            </div>
-          </motion.div>
-        )}
+        <UpcomingCertificationsSection certifications={upcomingCerts} show={false} />
         
         {/* Advanced Certification Filters */}
         <CertificationFilter 
@@ -191,9 +159,11 @@ const Certifications = () => {
               <TabsTrigger value="courses" className="data-[state=active]:bg-secondary-default data-[state=active]:text-primary">
                 Courses ({courseCerts.length})
               </TabsTrigger>
-              <TabsTrigger value="training" className="data-[state=active]:bg-secondary-default data-[state=active]:text-primary">
-                Training ({trainingCerts.length})
-              </TabsTrigger>
+              {trainingCerts.length > 0 && (
+                <TabsTrigger value="training" className="data-[state=active]:bg-secondary-default data-[state=active]:text-primary">
+                  Training ({trainingCerts.length})
+                </TabsTrigger>
+              )}
             </TabsList>
           </div>
 
@@ -206,11 +176,10 @@ const Certifications = () => {
                 animate="visible"
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
-                {displayedCertifications.map((certification, index) => (
+                {displayedCertifications.map((certification) => (
                   <CertificationCard
                     key={certification.id}
                     certification={certification}
-                    index={index}
                   />
                 ))}
               </motion.div>
@@ -234,11 +203,10 @@ const Certifications = () => {
                 animate="visible"
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
-                {displayedCertifications.map((certification, index) => (
+                {displayedCertifications.map((certification) => (
                   <CertificationCard
                     key={certification.id}
                     certification={certification}
-                    index={index}
                   />
                 ))}
               </motion.div>
@@ -262,11 +230,10 @@ const Certifications = () => {
                 animate="visible"
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
-                {displayedCertifications.map((certification, index) => (
+                {displayedCertifications.map((certification) => (
                   <CertificationCard
                     key={certification.id}
                     certification={certification}
-                    index={index}
                   />
                 ))}
               </motion.div>
@@ -290,11 +257,10 @@ const Certifications = () => {
                 animate="visible"
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
-                {displayedCertifications.map((certification, index) => (
+                {displayedCertifications.map((certification) => (
                   <CertificationCard
                     key={certification.id}
                     certification={certification}
-                    index={index}
                   />
                 ))}
               </motion.div>

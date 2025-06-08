@@ -59,6 +59,7 @@ const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
   SiTrpc: () => import('react-icons/si').then(mod => ({ default: mod.SiTrpc })),
   SiRabbitmq: () => import('react-icons/si').then(mod => ({ default: mod.SiRabbitmq })),
   SiNextdotjs: () => import('react-icons/si').then(mod => ({ default: mod.SiNextdotjs })),
+  SiOpenai: () => import('react-icons/si').then(mod => ({ default: mod.SiOpenai })),
   
   // Other libraries
   VscAzure: () => import('react-icons/vsc').then(mod => ({ default: mod.VscAzure })),

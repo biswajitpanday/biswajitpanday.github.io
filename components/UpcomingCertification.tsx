@@ -10,12 +10,10 @@ import { PERFORMANCE_VARIANTS } from "@/constants";
 
 interface UpcomingCertificationProps {
   certification: Certification;
-  index: number;
 }
 
 const UpcomingCertification: React.FC<UpcomingCertificationProps> = ({
-  certification,
-  index
+  certification
 }) => {
   // State for showing all skills
   const [showAllSkills, setShowAllSkills] = useState(false);
@@ -53,8 +51,8 @@ const UpcomingCertification: React.FC<UpcomingCertificationProps> = ({
   const certificationUrl = certification.link || 
     (certification.category === "Professional" ? "https://learn.microsoft.com/en-us/credentials/" : "");
 
-  // Randomly determine a progress percentage between 30-70%
-  const progressPercentage = 35 + (index % 4) * 10;
+  // Fixed progress percentage between 30-70%
+  const progressPercentage = Math.floor(Math.random() * 40) + 30;
 
   return (
     <motion.div

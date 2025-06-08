@@ -123,7 +123,7 @@ export const certifications: Certification[] = [
     date: "2024-11",
     link: "https://www.linkedin.com/learning/certificates/3e42cd0c6527e43cd261f09aaa0df0e01bb0c6a2918920f58b8813cdec3285ba?trk=share_certificate",
     description: "Learned how to use Anthropic's Claude AI assistant APIs to build agentic applications that can perform computer tasks.",
-    skills: ["AI Productivity", "Application Programming Interfaces (API)", "Automation", "Generative AI"],
+    skills: ["AI Productivity", "Automation", "Application Programming Interfaces (API)", "Generative AI"],
     featured: true,
     image: "/assets/certificates/ai-automation-with-antropic-claude-api.jpg",
     category: "Course",

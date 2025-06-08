@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { FiArrowLeft, FiArrowRight, FiCalendar, FiExternalLink } from "react-icons/fi";
 import Link from "next/link";
-import { PERFORMANCE_VARIANTS } from "@/constants";
+import { PERFORMANCE_VARIANTS, ANIMATION_DURATIONS } from "@/constants";
 
 interface CertificationTimelineProps {
   certifications: Certification[];
@@ -53,16 +53,14 @@ const CertificationTimeline: React.FC<CertificationTimelineProps> = ({
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      variants={PERFORMANCE_VARIANTS.fadeInFast}
+      initial="hidden"
+      animate="visible"
       className={`relative ${className}`}
     >
       <div className="flex justify-between items-center mb-3">
         <motion.h3 
-          initial={{ x: -20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          variants={PERFORMANCE_VARIANTS.slideUpSync}
           className="text-base font-bold flex items-center gap-2"
         >
           <span className="inline-block w-2 h-8 bg-gradient-to-b from-secondary-default to-blue-500 rounded-full" />
@@ -74,20 +72,18 @@ const CertificationTimeline: React.FC<CertificationTimelineProps> = ({
         {/* Navigation arrows */}
         <motion.div 
           variants={PERFORMANCE_VARIANTS.fadeInFast}
-          initial="hidden"
-          animate="visible"
           className="flex gap-2"
         >
           <button 
             onClick={() => handleScroll("left")}
-            className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 rounded-full p-1.5 text-white/70 hover:text-secondary-default transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-secondary-default/50"
+            className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 rounded-full p-1.5 text-white/70 hover:text-secondary-default transition-colors duration-300 focus:outline-none focus:ring-1 focus:ring-secondary-default/50"
             aria-label="Scroll left"
           >
             <FiArrowLeft size={14} />
           </button>
           <button 
             onClick={() => handleScroll("right")}
-            className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 rounded-full p-1.5 text-white/70 hover:text-secondary-default transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-secondary-default/50"
+            className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 rounded-full p-1.5 text-white/70 hover:text-secondary-default transition-colors duration-300 focus:outline-none focus:ring-1 focus:ring-secondary-default/50"
             aria-label="Scroll right"
           >
             <FiArrowRight size={14} />
@@ -96,13 +92,13 @@ const CertificationTimeline: React.FC<CertificationTimelineProps> = ({
       </div>
 
       {/* Timeline track with animated gradient */}
-      <div className="h-1 w-full bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-full mb-3 relative overflow-hidden backdrop-blur-sm">
+      <div className="h-1 w-full bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-full mb-4 relative overflow-hidden backdrop-blur-sm">
         <motion.div 
           initial={{ width: 0 }}
           animate={{ 
             width: `${Math.min((scrollPosition / ((timelineRef.current?.scrollWidth || 1) - (timelineRef.current?.clientWidth || 0))) * 100, 100)}%`
           }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: ANIMATION_DURATIONS.NORMAL }}
           className="absolute top-0 left-0 h-full bg-gradient-to-r from-secondary-default via-blue-500 to-secondary-default rounded-full shadow-glow"
         />
       </div>
@@ -110,7 +106,7 @@ const CertificationTimeline: React.FC<CertificationTimelineProps> = ({
       {/* Timeline items */}
       <div 
         ref={timelineRef}
-        className="flex gap-3 overflow-x-auto pb-3 hide-scrollbar"
+        className="flex gap-4 overflow-x-auto pb-4 hide-scrollbar will-change-scroll"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         onScroll={updateScrollPosition}
       >
@@ -118,113 +114,108 @@ const CertificationTimeline: React.FC<CertificationTimelineProps> = ({
           <motion.div
             key={cert.id}
             variants={PERFORMANCE_VARIANTS.cardSync}
-            initial="hidden"
-            animate="visible"
+            custom={index}
+            className="min-w-[220px] max-w-[260px] bg-gradient-to-b from-white/8 to-white/3 border border-white/10 rounded-lg hover:border-secondary-default/30 transition-colors duration-300 flex flex-col shadow-sm will-change-transform"
+            style={{
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)'
+            }}
             whileHover={{ 
               y: -5, 
-              boxShadow: "0 5px 15px rgba(0, 191, 255, 0.15)", 
-              transition: { duration: 0.2 } 
+              boxShadow: "0 5px 15px rgba(0, 191, 255, 0.15)"
             }}
-            custom={index}
-            className="min-w-[200px] max-w-[220px] bg-gradient-to-b from-white/8 to-white/3 border border-white/10 rounded-lg p-3 hover:border-secondary-default/30 transition-all duration-300 flex flex-col shadow-sm"
           >
-            <div className="flex justify-between items-start mb-2">
-              {/* Year indicator - moved to top-left */}
-              <div className="text-[10px] text-secondary-default/70 font-mono bg-white/5 px-1.5 py-0.5 rounded">
-                {new Date(cert.date).getFullYear()}
+            {/* Certificate Image */}
+            <div className="relative p-3 flex items-center justify-center">
+              {/* Certificate image - reduced transitions */}
+              <div className="relative w-full h-[120px] mt-2 mb-1">
+                {cert.image ? (
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    <div className="absolute inset-0 bg-secondary-default/5 rounded-md blur-md opacity-70" />
+                    <Image
+                      src={cert.image}
+                      alt={cert.name}
+                      width={160}
+                      height={100}
+                      className="object-contain z-10"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="text-secondary-default text-4xl">
+                      {cert.name.charAt(0)}
+                    </span>
+                  </div>
+                )}
               </div>
               
-              {/* Link to certificate */}
-              {cert.link && (
-                <Link 
-                  href={cert.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-secondary-default hover:text-secondary-default/80 text-xs flex items-center gap-1 group transition-all duration-300 p-1 hover:bg-secondary-default/10 rounded"
-                >
-                  <FiExternalLink size={12} className="transition-transform group-hover:translate-x-0.5" />
-                </Link>
-              )}
-            </div>
-            
-            <div className="relative h-[68px] mb-3 flex items-center justify-center">
-              {/* Subtle glow effect behind image */}
-              <div className="absolute inset-0 bg-secondary-default/5 rounded-lg blur-md" />
-              
-              {cert.image ? (
-                <div className="relative w-16 h-16 rounded-lg overflow-hidden border border-white/10 bg-white/5 z-10 group">
-                  <Image
-                    src={cert.image}
-                    alt={cert.name}
-                    fill
-                    className="object-contain p-1 group-hover:scale-110 transition-transform duration-300"
-                  />
-                  
-                  {/* Overlay on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-secondary-default/0 to-blue-500/0 group-hover:from-secondary-default/10 group-hover:to-blue-500/10 transition-all duration-300" />
-                </div>
-              ) : (
-                <div className="relative w-16 h-16 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 z-10">
-                  <span className="text-secondary-default text-2xl">
-                    {cert.name.charAt(0)}
-                  </span>
-                </div>
-              )}
-              
-              {/* Issuer logo with animation */}
-              {cert.issuerLogo && (
-                <motion.div 
-                  animate={{ scale: [1, 1.1, 1] }} 
-                  transition={{ repeat: Infinity, duration: 3, repeatType: "reverse" }}
-                  className="absolute bottom-0 right-0 w-7 h-7 bg-white/10 rounded-full overflow-hidden flex items-center justify-center border border-white/10 shadow-md"
-                >
-                  <Image
-                    src={cert.issuerLogo}
-                    alt={cert.issuer}
-                    width={16}
-                    height={16}
-                    className="object-contain"
-                  />
-                </motion.div>
-              )}
-            </div>
-            
-            <h4 className="text-white font-medium text-xs mb-2 line-clamp-2 h-[32px]">{cert.name}</h4>
-            
-            <div className="flex justify-between items-center mt-auto">
-              <div className="text-white/60 text-xs flex items-center bg-white/5 px-1.5 py-0.5 rounded-full">
-                <FiCalendar className="mr-1" size={10} />
+              {/* Month/Year badge placed at bottom */}
+              <div className="absolute bottom-3 left-3 z-10 flex items-center bg-primary/60 backdrop-blur-sm border border-white/10 px-2 py-1 rounded-md text-xs text-white/90">
+                <FiCalendar size={12} className="mr-1.5 text-secondary-default" />
                 <span>
                   {new Date(cert.date).toLocaleDateString('en-US', { 
-                    month: 'short' 
+                    month: 'short',
+                    year: 'numeric' 
                   })}
                 </span>
               </div>
+            </div>
+            
+            {/* Certificate info */}
+            <div className="p-3 pt-0 flex-1 flex flex-col">
+              {/* Certificate name */}
+              <h4 className="text-white font-medium text-sm line-clamp-2 mb-2">{cert.name}</h4>
               
-              <span className="text-xs text-secondary-default/80">{cert.issuer}</span>
+              {/* Issuer with link icon on the right */}
+              <div className="flex items-center justify-between mt-auto">
+                {/* Issuer logo and name */}
+                <div className="flex items-center">
+                  {cert.issuerLogo && (
+                    <div className="w-5 h-5 bg-white/10 rounded-full overflow-hidden flex items-center justify-center border border-white/10">
+                      <Image
+                        src={cert.issuerLogo}
+                        alt={cert.issuer}
+                        width={12}
+                        height={12}
+                        className="object-contain"
+                      />
+                    </div>
+                  )}
+                  <span className="text-xs text-secondary-default/80 ml-1.5">{cert.issuer}</span>
+                </div>
+                
+                {/* Link to certificate - square shaped */}
+                {cert.link && (
+                  <Link 
+                    href={cert.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-secondary-default hover:text-secondary-default/80 flex items-center justify-center w-6 h-6 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 rounded-sm transition-colors duration-300"
+                  >
+                    <FiExternalLink size={12} />
+                  </Link>
+                )}
+              </div>
             </div>
           </motion.div>
         ))}
       </div>
       
       {/* Fade effect on sides with improved gradients */}
-      <div className="absolute left-0 top-10 bottom-0 w-8 bg-gradient-to-r from-primary via-primary/90 to-transparent pointer-events-none z-10" />
-      <div className="absolute right-0 top-10 bottom-0 w-8 bg-gradient-to-l from-primary via-primary/90 to-transparent pointer-events-none z-10" />
+      <div className="absolute left-0 top-16 bottom-0 w-8 bg-gradient-to-r from-primary via-primary/90 to-transparent pointer-events-none z-10" />
+      <div className="absolute right-0 top-16 bottom-0 w-8 bg-gradient-to-l from-primary via-primary/90 to-transparent pointer-events-none z-10" />
       
-      {/* Animated dots to show scrolling is available */}
+      {/* Reduced animation for dots */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex space-x-1">
         {[0, 1, 2].map((dot, i) => (
           <motion.div
             key={i}
-            animate={{ 
-              opacity: [0.3, 0.7, 0.3],
-              scale: [1, 1.2, 1]
-            }}
+            animate={{ opacity: [0.3, 0.7, 0.3] }}
             transition={{
-              duration: 1.5,
+              duration: 2,
               repeat: Infinity,
               repeatType: "loop",
-              delay: i * 0.2
+              delay: i * 0.3
             }}
             className="w-1 h-1 rounded-full bg-secondary-default/50"
           />

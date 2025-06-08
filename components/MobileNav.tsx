@@ -72,6 +72,7 @@ const MobileNav = () => {
         className="flex flex-col items-center text-center bg-primary/95 backdrop-blur-sm border-l border-white/10"
         side="right"
         hideCloseButton
+        style={{ zIndex: 100 }}
       >
         {/* Close Button */}
         <div className="absolute top-6 right-6 z-10">
