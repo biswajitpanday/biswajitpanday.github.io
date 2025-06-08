@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { getMostRecentCertification } from "@/data/certificationsData";
-import { Badge } from "@/components/ui/badge";
+import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 
 // Lazy load heavy components
 const Photo = lazy(() => import("@/components/Photo"));
@@ -16,8 +16,7 @@ const FiDownload = lazy(() => import("react-icons/fi").then(mod => ({ default: m
 const FiCode = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiCode })));
 const FiCloud = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiCloud })));
 const FiZap = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiZap })));
-const FiAward = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiAward })));
-const FiChevronRight = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiChevronRight })));
+
 const SiReact = lazy(() => import("react-icons/si").then(mod => ({ default: mod.SiReact })));
 const SiDotnet = lazy(() => import("react-icons/si").then(mod => ({ default: mod.SiDotnet })));
 
@@ -35,8 +34,10 @@ const Home = () => {
 
   return (
     <section className="min-h-[calc(100vh-136px)] flex flex-col justify-center relative overflow-hidden py-8 xl:py-0">
-      {/* Background Elements */}
+      {/* Enhanced Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary-default/5 pointer-events-none" />
+      <div className="absolute top-20 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-secondary-default/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col xl:flex-row items-center justify-center xl:justify-between gap-8 xl:gap-16 xl:pt-8 xl:pb-16">
@@ -125,36 +126,12 @@ const Home = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9, duration: 0.6 }}
-                className="bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 rounded-lg p-4 mb-6"
+                className="mb-6"
               >
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-secondary-default/20 rounded-full mt-1">
-                    <Suspense fallback={<IconFallback />}>
-                      <FiAward className="text-secondary-default" />
-                    </Suspense>
-                  </div>
-                  <div>
-                    <div className="flex items-center mb-1">
-                      <Badge variant="secondary" className="text-xs mr-2">Recent Certification</Badge>
-                      <span className="text-white/60 text-xs">
-                        {new Date(featuredCertification.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
-                      </span>
-                    </div>
-                    <h3 className="text-white font-medium text-sm mb-1">{featuredCertification.name}</h3>
-                    <p className="text-white/70 text-xs mb-2">
-                      Issued by {featuredCertification.issuer}
-                    </p>
-                    <Link 
-                      href="/certifications" 
-                      className="inline-flex items-center text-xs text-secondary-default hover:text-secondary-default/80"
-                    >
-                      View Details
-                      <Suspense fallback={<IconFallback />}>
-                        <FiChevronRight className="ml-1 text-xs" />
-                      </Suspense>
-                    </Link>
-                  </div>
-                </div>
+                <FeaturedCertificationCard 
+                  certification={featuredCertification} 
+                  size="small"
+                />
               </motion.div>
             )}
 
@@ -204,8 +181,9 @@ const Home = () => {
             className="order-1 xl:order-none relative"
           >
             <div className="relative">
-              {/* Glow Effect */}
+              {/* Enhanced Glow Effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-secondary-default/20 to-blue-500/20 rounded-full blur-3xl scale-110 animate-pulse" />
+              <div className="absolute -inset-4 bg-gradient-to-tr from-secondary-default/5 to-blue-500/5 rounded-full blur-xl scale-105" />
               <div className="relative z-10">
                 <Suspense fallback={<ComponentFallback className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] rounded-full" />}>
                   <Photo />

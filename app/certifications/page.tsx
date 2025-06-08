@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { 
   certifications, 
@@ -8,17 +8,20 @@ import {
   getCourseCertifications,
   getTrainingCertifications,
   getUpcomingCertifications,
-  getCertificationCounts
+  getCertificationCounts,
+  Certification
 } from "@/data/certificationsData";
 import CertificationCard from "@/components/CertificationCard";
 import SectionHeader from "@/components/SectionHeader";
 import BackgroundElements from "@/components/BackgroundElements";
-import { FiAward, FiChevronRight, FiCalendar, FiClock, FiBriefcase, FiBook, FiSlack } from "react-icons/fi";
-import Link from "next/link";
-import Image from "next/image";
+import { FiAward, FiBriefcase, FiBook, FiSlack, FiClock } from "react-icons/fi";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import StatsCards, { StatCard } from "@/components/StatsCards";
+import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
+import UpcomingCertification from "@/components/UpcomingCertification";
+import CertificationTimeline from "@/components/CertificationTimeline";
+import CertificationFilter from "@/components/CertificationFilter";
+
 
 const Certifications = () => {
   const featuredCertification = getMostRecentCertification();
@@ -28,17 +31,22 @@ const Certifications = () => {
   const upcomingCerts = getUpcomingCertifications();
   const certCounts = getCertificationCounts();
   
+  // State for filtered certifications
+  const [filteredCertifications, setFilteredCertifications] = useState(certifications.filter(cert => !cert.isUpcoming));
+  const [filteredByCategory, setFilteredByCategory] = useState<Certification[]>([]);
+  const [activeTab, setActiveTab] = useState("all");
+  
   // Stats data
   const statsData: StatCard[] = [
     {
       icon: FiAward,
-      value: certCounts.total,
+      value: certCounts.total - certCounts.upcoming,
       label: "Total Credentials",
       gradient: "from-secondary-default/10 to-blue-500/10"
     },
     {
       icon: FiBriefcase,
-      value: certCounts.professional,
+      value: certCounts.professional - (professionalCerts.filter(cert => cert.isUpcoming).length),
       label: "Professional",
       gradient: "from-blue-500/10 to-secondary-default/10"
     },
@@ -56,12 +64,57 @@ const Certifications = () => {
     }
   ];
   
-
+  // Handle tab change
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    
+    // Update filtered results based on category
+    let filtered: Certification[] = [];
+    switch (value) {
+      case "professional":
+        filtered = professionalCerts.filter(cert => !cert.isUpcoming);
+        break;
+      case "courses":
+        filtered = courseCerts;
+        break;
+      case "training":
+        filtered = trainingCerts;
+        break;
+      default:
+        filtered = certifications.filter(cert => !cert.isUpcoming);
+        break;
+    }
+    
+    setFilteredByCategory(filtered);
+  };
+  
+  // Handle filter changes from the filter component
+  const handleFilterChange = (filtered: Certification[]) => {
+    setFilteredCertifications(filtered.filter(cert => !cert.isUpcoming));
+  };
+  
+  // Get the final filtered list based on both category and search/filter
+  const getDisplayedCertifications = () => {
+    if (activeTab === "all") {
+      return filteredCertifications;
+    }
+    
+    // Intersection of category filter and search/other filters
+    return filteredCertifications.filter(cert => 
+      filteredByCategory.some(c => c.id === cert.id)
+    );
+  };
+  
+  const displayedCertifications = getDisplayedCertifications();
   
   return (
     <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-8">
-      {/* Background Elements */}
+      {/* Enhanced Background Elements */}
       <BackgroundElements />
+      
+      {/* Floating gradient orbs */}
+      <div className="absolute top-40 left-20 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-40 right-20 w-80 h-80 bg-secondary-default/5 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header with Stats */}
@@ -75,81 +128,17 @@ const Certifications = () => {
 
         {/* Featured Certification Banner */}
         {featuredCertification && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="bg-gradient-to-r from-secondary-default/20 to-blue-500/20 backdrop-blur-sm border border-secondary-default/30 rounded-xl p-6 mb-12 mt-8"
-          >
-            <div className="flex flex-col md:flex-row items-center gap-6">
-              <div className="md:w-2/5 flex justify-center">
-                {featuredCertification.image ? (
-                  <div className="relative w-full h-[220px] bg-white/5 rounded-lg overflow-hidden">
-                    <Image
-                      src={featuredCertification.image}
-                      alt={featuredCertification.name}
-                      fill
-                      className="object-contain p-2"
-                    />
-                    
-                    {/* Issuer Logo */}
-                    {featuredCertification.issuerLogo && (
-                      <div className="absolute bottom-3 right-3 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full overflow-hidden flex items-center justify-center">
-                        <Image
-                          src={featuredCertification.issuerLogo}
-                          alt={featuredCertification.issuer}
-                          width={32}
-                          height={32}
-                          className="object-contain"
-                        />
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="w-[280px] h-[220px] bg-white/5 rounded-lg flex items-center justify-center">
-                    <FiAward className="text-6xl text-secondary-default" />
-                  </div>
-                )}
-              </div>
-              <div className="md:w-3/5">
-                <Badge variant="secondary" className="mb-3">Featured Certification</Badge>
-                <h2 className="text-2xl font-bold mb-2">{featuredCertification.name}</h2>
-                <div className="flex items-center text-secondary-default mb-3">
-                  <FiAward className="mr-2" />
-                  <span>{featuredCertification.issuer}</span>
-                  <span className="mx-2 text-white/30">•</span>
-                  <div className="flex items-center text-white/70">
-                    <FiCalendar className="mr-1.5" />
-                    <span>{new Date(featuredCertification.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</span>
-                  </div>
-                </div>
-                <p className="text-white/80 mb-4">{featuredCertification.description}</p>
-                
-                {featuredCertification.skills && (
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {featuredCertification.skills.slice(0, 5).map((skill, i) => (
-                      <Badge key={i} variant="outline" className="bg-white/10">
-                        {skill}
-                      </Badge>
-                    ))}
-                    {featuredCertification.skills.length > 5 && (
-                      <Badge variant="outline" className="bg-white/5">
-                        +{featuredCertification.skills.length - 5} more
-                      </Badge>
-                    )}
-                  </div>
-                )}
-                
-                {featuredCertification.link && (
-                  <Link href={featuredCertification.link} target="_blank" rel="noopener noreferrer" 
-                    className="inline-flex items-center bg-white/10 hover:bg-white/20 text-secondary-default hover:text-secondary-default/80 px-4 py-2 rounded-md font-medium transition-all">
-                    View Credential <FiChevronRight className="ml-1" />
-                  </Link>
-                )}
-              </div>
-            </div>
-          </motion.div>
+          <FeaturedCertificationCard 
+            certification={featuredCertification}
+            className="mb-12 mt-8"
+          />
         )}
+
+        {/* Certification Journey Timeline */}
+        <CertificationTimeline 
+          certifications={certifications}
+          className="mb-12"
+        />
 
         {/* Upcoming Certifications Section */}
         {upcomingCerts.length > 0 && (
@@ -161,12 +150,16 @@ const Certifications = () => {
           >
             <div className="flex items-center mb-4">
               <FiClock className="text-secondary-default mr-2" />
-              <h3 className="text-xl font-bold">Upcoming Certifications</h3>
+              <h3 className="text-xl font-bold">
+                <span className="bg-gradient-to-r from-secondary-default to-blue-500 bg-clip-text text-transparent">
+                  Upcoming Certifications
+                </span>
+              </h3>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="flex flex-col gap-4">
               {upcomingCerts.map((certification, index) => (
-                <CertificationCard
+                <UpcomingCertification
                   key={certification.id}
                   certification={certification}
                   index={index}
@@ -175,9 +168,15 @@ const Certifications = () => {
             </div>
           </motion.div>
         )}
+        
+        {/* Advanced Certification Filters */}
+        <CertificationFilter 
+          certifications={certifications.filter(cert => !cert.isUpcoming)}
+          onFilterChange={handleFilterChange}
+        />
 
         {/* Certifications Tabs */}
-        <Tabs defaultValue="all" className="mt-8">
+        <Tabs defaultValue="all" className="mt-8" onValueChange={handleTabChange}>
           <div className="flex justify-between items-center mb-6">
             <TabsList className="bg-white/5 p-1">
               <TabsTrigger value="all" className="data-[state=active]:bg-secondary-default data-[state=active]:text-primary">
@@ -197,49 +196,55 @@ const Certifications = () => {
 
           {/* All Certifications */}
           <TabsContent value="all" className="mt-0">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              {certifications
-                .filter(cert => !cert.isUpcoming)
-                .map((certification, index) => (
-                  <CertificationCard
-                    key={certification.id}
-                    certification={certification}
-                    index={index}
-                  />
-                ))}
-            </motion.div>
-          </TabsContent>
-
-          {/* Professional Certifications */}
-          <TabsContent value="professional" className="mt-0">
-            {professionalCerts.filter(cert => !cert.isUpcoming).length > 0 ? (
+            {displayedCertifications.length > 0 ? (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
-                {professionalCerts
-                  .filter(cert => !cert.isUpcoming)
-                  .map((certification, index) => (
-                    <CertificationCard
-                      key={certification.id}
-                      certification={certification}
-                      index={index}
-                    />
-                  ))}
+                {displayedCertifications.map((certification, index) => (
+                  <CertificationCard
+                    key={certification.id}
+                    certification={certification}
+                    index={index}
+                  />
+                ))}
+              </motion.div>
+            ) : (
+              <div className="text-center py-16 bg-white/5 rounded-lg">
+                <FiAward className="text-4xl text-white/40 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-white mb-2">No Certifications Found</h3>
+                <p className="text-white/60 max-w-md mx-auto">
+                  Try adjusting your search criteria or filters to see more results.
+                </p>
+              </div>
+            )}
+          </TabsContent>
+
+          {/* Professional Certifications */}
+          <TabsContent value="professional" className="mt-0">
+            {displayedCertifications.length > 0 ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              >
+                {displayedCertifications.map((certification, index) => (
+                  <CertificationCard
+                    key={certification.id}
+                    certification={certification}
+                    index={index}
+                  />
+                ))}
               </motion.div>
             ) : (
               <div className="text-center py-16 bg-white/5 rounded-lg">
                 <FiAward className="text-4xl text-white/40 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-white mb-2">No Professional Certifications</h3>
                 <p className="text-white/60 max-w-md mx-auto">
-                  Professional certifications will be added as they are completed.
+                  Try adjusting your search criteria or check back later as new certifications are added.
                 </p>
               </div>
             )}
@@ -247,53 +252,60 @@ const Certifications = () => {
 
           {/* Course Certifications */}
           <TabsContent value="courses" className="mt-0">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              {courseCerts.map((certification, index) => (
-                <CertificationCard
-                  key={certification.id}
-                  certification={certification}
-                  index={index}
-                />
-              ))}
-            </motion.div>
+            {displayedCertifications.length > 0 ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              >
+                {displayedCertifications.map((certification, index) => (
+                  <CertificationCard
+                    key={certification.id}
+                    certification={certification}
+                    index={index}
+                  />
+                ))}
+              </motion.div>
+            ) : (
+              <div className="text-center py-16 bg-white/5 rounded-lg">
+                <FiBook className="text-4xl text-white/40 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-white mb-2">No Course Certifications</h3>
+                <p className="text-white/60 max-w-md mx-auto">
+                  Try adjusting your search criteria or check back later as new courses are completed.
+                </p>
+              </div>
+            )}
           </TabsContent>
 
           {/* Training Certifications */}
           <TabsContent value="training" className="mt-0">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              {trainingCerts.map((certification, index) => (
-                <CertificationCard
-                  key={certification.id}
-                  certification={certification}
-                  index={index}
-                />
-              ))}
-            </motion.div>
+            {displayedCertifications.length > 0 ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              >
+                {displayedCertifications.map((certification, index) => (
+                  <CertificationCard
+                    key={certification.id}
+                    certification={certification}
+                    index={index}
+                  />
+                ))}
+              </motion.div>
+            ) : (
+              <div className="text-center py-16 bg-white/5 rounded-lg">
+                <FiSlack className="text-4xl text-white/40 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-white mb-2">No Training Certifications</h3>
+                <p className="text-white/60 max-w-md mx-auto">
+                  Try adjusting your search criteria or check back later as new training programs are completed.
+                </p>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
-
-        {/* Empty State */}
-        {certifications.length === 0 && (
-          <div className="text-center py-20">
-            <FiAward className="text-4xl text-white/40 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">
-              No Certifications Found
-            </h3>
-            <p className="text-white/60">
-              Certifications will be added soon. Check back later!
-            </p>
-          </div>
-        )}
       </div>
     </section>
   );
