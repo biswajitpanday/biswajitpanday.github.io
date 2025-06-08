@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "analyze": "ANALYZE=true npm run build",
-    "generate-thumbnails": "node scripts/generate-thumbnails.js"
+    "generate-thumbnails": "node scripts/generate-thumbnails.js",
+    "optimize-profile": "node scripts/optimize-profile-image.js",
+    "convert-to-webp": "node scripts/convert-to-webp.js"
   },
   "homepage": "https://biswajitpanday.github.io/",
   "dependencies": {
