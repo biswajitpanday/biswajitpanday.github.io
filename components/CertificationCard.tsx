@@ -49,6 +49,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
     description,
     skills,
     image,
+    thumbImage,
     issuerLogo,
     isUpcoming,
     status,
@@ -81,6 +82,9 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 
   // Check if it's a Microsoft certification
   const isMicrosoftCert = issuer === "Microsoft";
+  
+  // Determine which image to use (thumbnail or full image)
+  const displayImage = thumbImage || image;
 
   return (
     <>
@@ -104,13 +108,13 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
       >
         {/* Card Header with Image */}
         <div className="relative p-4 flex justify-center items-center h-[180px] bg-gradient-to-b from-white/[0.02] to-transparent">
-          {image ? (
+          {displayImage ? (
             <div 
               className="relative w-full h-full max-h-[160px] rounded-lg overflow-hidden bg-white/5 cursor-pointer"
               onClick={() => setIsLightboxOpen(true)}
             >
               <Image
-                src={image}
+                src={displayImage}
                 alt={name}
                 fill
                 className="object-contain p-2 transition-transform duration-300 hover:scale-105"
@@ -270,22 +274,23 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
           </div>
         </div>
 
-        {/* Lightbox component */}
-        {isLightboxOpen && (
-          <Lightbox
-            open={isLightboxOpen}
-            close={() => setIsLightboxOpen(false)}
-            slides={[
-              {
-                src: image || '',
-                alt: name,
-              }
-            ]}
-            carousel={{ finite: true }}
-            controller={{ closeOnBackdropClick: true }}
-            animation={{ swipe: 400 }}
-          />
-        )}
+        {/* Lightbox for full-size image view */}
+        <Lightbox
+          open={isLightboxOpen}
+          close={() => setIsLightboxOpen(false)}
+          slides={[{ src: image || '' }]}
+          render={{
+            buttonPrev: () => null,
+            buttonNext: () => null,
+          }}
+          styles={{
+            container: { backgroundColor: "rgba(0, 0, 0, 0.9)" },
+          }}
+          controller={{
+            closeOnBackdropClick: true,
+            closeOnPullDown: true,
+          }}
+        />
       </motion.div>
     </>
   );

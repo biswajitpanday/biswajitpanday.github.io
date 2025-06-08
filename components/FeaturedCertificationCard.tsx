@@ -28,6 +28,7 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
     issuer,
     date,
     image,
+    thumbImage,
     issuerLogo,
     link,
     skills,
@@ -43,6 +44,9 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
     year: 'numeric', 
     month: isSmall ? 'short' : 'long'
   });
+  
+  // Determine which image to use (thumbnail or full image)
+  const displayImage = thumbImage || image;
 
   // Simplified version (for homepage)
   if (simplified) {
@@ -56,10 +60,10 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
         <div className="flex flex-col sm:flex-row items-center gap-4 p-4">
           {/* Logo or icon */}
           <div className="relative flex-shrink-0">
-            {image ? (
+            {displayImage ? (
               <div className="relative w-16 h-16 sm:w-20 sm:h-20">
                 <Image
-                  src={image}
+                  src={displayImage}
                   alt={name}
                   fill
                   className="object-contain"
@@ -126,10 +130,10 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
           {/* Certificate image with subtle gradient border */}
           <div className="relative flex-shrink-0">
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-secondary-default to-blue-500 opacity-60 blur-md" />
-            {image ? (
+            {displayImage ? (
               <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-white/20 bg-white/5 z-10">
                 <Image
-                  src={image}
+                  src={displayImage}
                   alt={name}
                   fill
                   className="object-contain p-2"

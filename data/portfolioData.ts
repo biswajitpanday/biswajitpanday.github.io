@@ -7,6 +7,7 @@ export interface Project {
   shortDescription: string;
   stacks: string[];
   image: string;
+  thumbImage?: string;
   isActive: boolean;
   isOpenSource: boolean;
   url: string;
@@ -51,6 +52,7 @@ export const projects: Project[] = [
       "Azure",
     ],
     image: "/assets/portfolio/optimizely.png",
+    thumbImage: "/assets/portfolio/thumbnails/optimizely.png",
     isActive: true,
     isOpenSource: false,
     url: "https://optimizely.com",
@@ -79,6 +81,7 @@ export const projects: Project[] = [
       "Clean Architecture",
     ],
     image: "/assets/portfolio/bugBusters.png",
+    thumbImage: "/assets/portfolio/thumbnails/bugBusters.png",
     isActive: true,
     isOpenSource: true,
     url: "",
@@ -107,6 +110,7 @@ export const projects: Project[] = [
       "Azure DevOps",
     ],
     image: "/assets/portfolio/devensoft.png",
+    thumbImage: "/assets/portfolio/thumbnails/devensoft.png",
     isActive: true,
     isOpenSource: false,
     url: "https://devensoft.com",
