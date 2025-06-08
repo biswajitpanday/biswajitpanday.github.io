@@ -6,7 +6,7 @@ A modern, responsive portfolio website built with Next.js 15, TypeScript, and Ta
 
 - **Modern Design**: Clean, professional layout with glassmorphism effects
 - **Responsive**: Optimized for all device sizes
-- **Performance**: Optimized animations and lazy loading
+- **Performance**: Optimized animations, lazy loading, and image optimization
 - **Dynamic Content**: Centralized data management
 - **Search & Filter**: Advanced search and filtering capabilities (configurable)
 - **Contact Form**: Functional form with validation and email notifications
@@ -25,11 +25,6 @@ NEXT_PUBLIC_ENABLE_SEARCH=true
 NEXT_PUBLIC_ENABLE_FILTER=true
 ```
 
-### Performance Impact:
-- **Disabling Search**: Saves ~70KB runtime memory, ~300ms faster TTI
-- **Disabling Filters**: 15-20% faster initial render on portfolio page
-- **Both Disabled**: Optimal performance for static portfolio viewing
-
 ## 🛠️ Tech Stack
 
 - **Framework**: Next.js 15 with App Router
@@ -39,6 +34,7 @@ NEXT_PUBLIC_ENABLE_FILTER=true
 - **Form Validation**: Zod schema validation
 - **Icons**: React Icons
 - **Deployment**: GitHub Pages
+- **Image Optimization**: Sharp, WebP conversion
 
 ## 📁 Project Structure
 
@@ -49,8 +45,17 @@ NEXT_PUBLIC_ENABLE_FILTER=true
 ├── components/            # Reusable components
 ├── data/                  # Centralized data files
 ├── constants/             # App constants
+├── scripts/               # Utility scripts (image optimization, etc.)
 ├── utils/                 # Utility functions
-└── public/               # Static assets
+└── public/                # Static assets
+    └── assets/            # Images and other media
+        ├── certificates/  # Certificate images
+        │   ├── thumbnails/# Certificate thumbnails
+        │   └── webp/      # WebP versions of certificates
+        ├── portfolio/     # Portfolio project images
+        │   ├── thumbnails/# Project thumbnails
+        │   └── webp/      # WebP versions of projects
+        └── profile/       # Profile images in various sizes/formats
 ```
 
 ## 🚀 Getting Started
@@ -100,11 +105,6 @@ NEXT_PUBLIC_ENABLE_FILTER=true
 | `NEXT_PUBLIC_ENABLE_FILTER` | Enable filter functionality | No | `true` |
 | `NEXT_PUBLIC_PAGECLIP_API_KEY` | Contact form service key | No | - |
 
-### Performance Impact:
-- **Disabling Search**: Saves ~70KB runtime memory, ~300ms faster TTI
-- **Disabling Filters**: 15-20% faster initial render on portfolio page
-- **Both Disabled**: Optimal performance for static portfolio viewing
-
 ## 📦 Deployment
 
 ### GitHub Pages (Recommended)
@@ -131,62 +131,17 @@ NEXT_PUBLIC_ENABLE_FILTER=true
 2. Add environment variables
 3. Deploy automatically
 
-## 📁 Project Structure
-
-```
-├── app/                    # Next.js app directory
-│   ├── page.tsx           # Home page
-│   ├── portfolio/         # Portfolio section
-│   ├── skills/            # Skills section
-│   ├── career/            # Career timeline
-│   ├── contact/           # Contact form
-│   └── globals.css        # Global styles
-├── components/            # Reusable components
-├── data/                  # Centralized data files
-├── constants/             # Application constants
-├── helpers/               # Utility functions
-├── hooks/                 # Custom React hooks
-├── lib/                   # External library configs
-└── public/               # Static assets
-```
-
-## 📊 Performance Optimizations
-
-- **Synchronized Animations**: Reduced animation times from 0.8s to 0.4s
-- **Debounced Search**: 300ms debounce for search inputs
-- **Memoized Calculations**: useMemo for expensive filter operations
-- **Bundle Optimization**: Dynamic imports and code splitting
-- **Hardware Acceleration**: CSS transforms for smooth animations
-- **Reduced Motion Support**: Respects user accessibility preferences
-- **Static Export**: Fast loading static sites
-
-## 🎨 Design Features
-
-- **Glassmorphism**: Modern glass-like UI elements
-- **Gradient Animations**: Smooth color transitions
-- **Responsive Grid**: Adaptive layouts for all screen sizes
-- **Dark Theme**: Professional dark color scheme
-- **Micro-interactions**: Subtle hover and focus effects
-
-## 📱 Pages
-
-- **Home**: Introduction and overview with animated elements
-- **Portfolio**: Project showcase with search/filter capabilities
-- **Skills**: Interactive technology tree with proficiency levels
-- **Career**: Professional timeline with glassmorphism design
-- **Resume**: Detailed qualifications and experience
-- **Contact**: Functional contact form with validation
-
-## 🔧 Development
-
-### Available Scripts
+## 🔧 Development Scripts
 
 ```bash
-npm run dev          # Development server
-npm run build        # Production build  
-npm run start        # Production server
-npm run lint         # Code linting
-npm run analyze      # Bundle analysis (if configured)
+npm run dev                   # Development server
+npm run build                 # Production build  
+npm run start                 # Production server
+npm run lint                  # Code linting
+npm run analyze               # Bundle analysis
+npm run generate-thumbnails   # Generate image thumbnails
+npm run optimize-profile      # Optimize profile image
+npm run convert-to-webp       # Convert images to WebP format
 ```
 
 ## 🐛 Troubleshooting
@@ -211,59 +166,18 @@ npm run build
 - Verify environment variables in repository secrets
 - Ensure proper repository permissions
 
-### Quick Fixes
-
-**Dependencies:**
-```bash
-npm update
-npm audit fix
-```
-
-**Linting:**
-```bash
-npm run lint -- --fix
-```
-
-## 🚀 Production Checklist
-
-### Before Deployment:
-- [ ] Environment variables configured (if needed)
-- [ ] Build runs successfully (`npm run build`)
-- [ ] Linting passes (`npm run lint`)
-- [ ] Contact form tested (if API key provided)
-- [ ] All pages load correctly
-
-### After Deployment:
-- [ ] Live site loads properly
-- [ ] Contact form submissions work (if configured)
-- [ ] Mobile responsiveness verified
-- [ ] Performance metrics acceptable
-
-## 📚 External Services
-
-### Contact Form Service (Optional)
-The contact form can integrate with form handling services:
-- PageClip
-- Formspree
-- Netlify Forms
-- Custom API endpoint
-
-**Setup Steps:**
-1. Sign up for a form service
-2. Get your API key
-3. Add to environment variables
-4. Update form submission endpoint if needed
-
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
 
 ## 📞 Contact
 
-- **Email**: biswajitpanday.dev@gmail.com
+- **Email**: biswajitmailid@gmail.com
 - **LinkedIn**: [Biswajit Panday](https://linkedin.com/in/biswajitpanday)
 - **GitHub**: [biswajitpanday](https://github.com/biswajitpanday)
 
 ---
 
 Built with ❤️ by Biswajit Panday
+
+See [PROJECT_SUMMARY.md](docs/PROJECT_SUMMARY.md) for detailed project information including design features, image optimization techniques, and more.
