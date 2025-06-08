@@ -8,15 +8,6 @@ export const skills1 = {
   name: "Skills",
   children: [
     {
-      name: "Programming Languages",
-      metadata: { icon: "FaCode" },
-      children: [
-        { name: "C#", metadata: { icon: "TbBrandCSharp" } },
-        { name: "JavaScript", metadata: { icon: "FaJs" } },
-        { name: "TypeScript", metadata: { icon: "SiTypescript" } },
-      ],
-    },
-    {
       name: "Frameworks",
       metadata: { icon: "SiFramework" },
       children: [
@@ -32,24 +23,70 @@ export const skills1 = {
       children: [
         { name: "Domain Driven Design", metadata: { icon: "FaSitemap" } },
         { name: "Microservices", metadata: { icon: "FaMicrochip" } },
-        { name: "Client-Server", metadata: { icon: "FaServer" } },
-        { name: "Event-Driven", metadata: { icon: "FaExchangeAlt" } },
-        { name: "CQRS", metadata: { icon: "FaProjectDiagram" } },
         { name: "Serverless", metadata: { icon: "SiServerless" } },
+        { name: "CQRS", metadata: { icon: "FaProjectDiagram" } },
+        { name: "Event-Driven", metadata: { icon: "FaExchangeAlt" } },
+        { name: "Client-Server", metadata: { icon: "FaServer" } },
+      ],
+    },
+    {
+      name: "Programming Languages",
+      metadata: { icon: "FaCode" },
+      children: [
+        { name: "C#", metadata: { icon: "TbBrandCSharp" } },
+        { name: "TypeScript", metadata: { icon: "SiTypescript" } },
+        { name: "JavaScript", metadata: { icon: "FaJs" } },
       ],
     },
     {
       name: "Databases",
       metadata: { icon: "FaDatabase" },
       children: [
-        {
-          name: "MSSQL (Proficient)",
-          metadata: { icon: "DiMsqlServer" },
-        },
+        { name: "MSSQL (Proficient)", metadata: { icon: "DiMsqlServer" } },
         { name: "MongoDB", metadata: { icon: "SiMongodb" } },
-        { name: "MySQL", metadata: { icon: "SiMysql" } },
         { name: "DynamoDB", metadata: { icon: "SiAmazondynamodb" } },
+        { name: "MySQL", metadata: { icon: "SiMysql" } },
         { name: "SQLite", metadata: { icon: "SiSqlite" } },
+        { name: "BigQuery", metadata: { icon: "FaDatabase" } },
+      ],
+    },
+    {
+      name: "Agile Methodologies",
+      metadata: { icon: "FaArrowsSpin" },
+      children: [
+        { name: "Scrum", metadata: { icon: "DiScrum" } },
+        { name: "Kanban", metadata: { icon: "PiKanban" } },
+      ],
+    },
+    {
+      name: "Other Skills",
+      metadata: { icon: "GiCogsplosion" },
+      children: [
+        { name: "Entity Framework Core", metadata: { icon: "SiDotnet" } },
+        { name: "gRPC", metadata: { icon: "SiTrpc" } },
+        { name: "SignalR & Socket.io", metadata: { icon: "SiDotnet" } },
+        { name: "REST", metadata: { icon: "FaExchangeAlt" } },
+        { name: "LINQ", metadata: { icon: "TbBrandLinqpad" } },
+        { name: "RabbitMQ", metadata: { icon: "SiRabbitmq" } },
+        { name: "Redis", metadata: { icon: "DiRedis" } },
+        { name: "Linux", metadata: { icon: "FaLinux" } },
+      ],
+    },
+  ],
+};
+
+export const skills2 = {
+  name: "Skills",
+  children: [
+    {
+      name: "AI Development Tools",
+      metadata: { icon: "FaRobot" },
+      children: [
+        { name: "GitHub Copilot", metadata: { icon: "FaGithub" } },
+        { name: "Cursor IDE", metadata: { icon: "FaTerminal" } },
+        { name: "ChatGPT", metadata: { icon: "FaCommentDots" } },
+        { name: "Azure OpenAI", metadata: { icon: "VscAzure" } },
+        { name: "Claude API", metadata: { icon: "FaRobot" } },
       ],
     },
     {
@@ -60,76 +97,26 @@ export const skills1 = {
           name: "Azure",
           metadata: { icon: "VscAzure" },
           children: [
-            {
-              name: "Virtual Machine",
-              metadata: { icon: "GrVirtualMachine" },
-            },
-            {
-              name: "Azure Active Directory",
-              metadata: { icon: "VscAzure" },
-            },
-            {
-              name: "Azure DevOps",
-              metadata: { icon: "VscAzureDevops" },
-            },
-            {
-              name: "App Services",
-              metadata: { icon: "VscAzure" },
-            },
+            { name: "Azure Active Directory", metadata: { icon: "VscAzure" } },
+            { name: "Azure DevOps", metadata: { icon: "VscAzureDevops" } },
+            { name: "App Services", metadata: { icon: "VscAzure" } },
+            { name: "Azure Functions", metadata: { icon: "FaServer" } },
+            { name: "Virtual Machine", metadata: { icon: "GrVirtualMachine" } },
           ],
         },
         {
           name: "AWS",
           metadata: { icon: "FaAws" },
           children: [
-            {
-              name: "Identity and access management (IAM)",
-              metadata: { icon: "MdSecurity" },
-            },
-            {
-              name: "Amazon Elastic Compute Cloud (EC2)",
-              metadata: { icon: "SiAmazonec2" },
-            },
-            {
-              name: "AWS Lambda",
-              metadata: { icon: "SiAwslambda" },
-            },
-            {
-              name: "Amazon S3",
-              metadata: { icon: "SiAmazons3" },
-            },
-            {
-              name: "Amazon Simple Notification Service (SNS)",
-              metadata: { icon: "MdNotifications" },
-            },
-            {
-              name: "Amazon Simple Queue Service (SQS)",
-              metadata: { icon: "SiAmazonsqs" },
-            },
-            {
-              name: "Amazon Simple Email Service (SES)",
-              metadata: { icon: "SiAmazonsimpleemailservice" },
-            },
+            { name: "AWS Lambda", metadata: { icon: "SiAwslambda" } },
+            { name: "Amazon S3", metadata: { icon: "SiAmazons3" } },
+            { name: "Identity and access management (IAM)", metadata: { icon: "MdSecurity" } },
+            { name: "Amazon Elastic Compute Cloud (EC2)", metadata: { icon: "SiAmazonec2" } },
+            { name: "Amazon Simple Notification Service (SNS)", metadata: { icon: "MdNotifications" } },
+            { name: "Amazon Simple Queue Service (SQS)", metadata: { icon: "SiAmazonsqs" } },
+            { name: "Amazon Simple Email Service (SES)", metadata: { icon: "SiAmazonsimpleemailservice" } },
           ],
         },
-      ],
-    },
-  ],
-};
-
-export const skills2 = {
-  name: "Skills",
-  children: [
-    {
-      name: "DevOps & Tools",
-      metadata: { icon: "FaTools" },
-      children: [
-        { name: "Git", metadata: { icon: "FaGitAlt" } },
-        { name: "Azure DevOps", metadata: { icon: "VscAzureDevops" } },
-        { name: "Docker", metadata: { icon: "FaDocker" } },
-        { name: "Jenkins", metadata: { icon: "SiJenkins" } },
-        { name: "IIS", metadata: { icon: "FaServer" } },
-        { name: "Jira", metadata: { icon: "SiJira" } },
       ],
     },
     {
@@ -137,33 +124,33 @@ export const skills2 = {
       metadata: { icon: "SiFrontendmentor" },
       children: [
         { name: "React", metadata: { icon: "SiReact" } },
-        { name: "Angular", metadata: { icon: "SiAngular" } },
+        { name: "Next.js", metadata: { icon: "SiNextdotjs" } },
         { name: "Redux", metadata: { icon: "SiRedux" } },
+        { name: "Angular", metadata: { icon: "SiAngular" } },
         { name: "Bootstrap", metadata: { icon: "FaBootstrap" } },
+        { name: "Tailwind CSS", metadata: { icon: "FaCode" } },
       ],
     },
     {
-      name: "Other Skills",
-      metadata: { icon: "GiCogsplosion" },
+      name: "DevOps & Tools",
+      metadata: { icon: "FaTools" },
       children: [
-        { name: "SignalR & Socket.io", metadata: { icon: "SiDotnet" } },
-        { name: "Entity Framework Core", metadata: { icon: "SiDotnet" } },
-        { name: "REST", metadata: { icon: "FaExchangeAlt" } },
-        { name: "gRPC", metadata: { icon: "SiTrpc" } },
-        { name: "LINQ", metadata: { icon: "TbBrandLinqpad" } },
-        { name: "RabbitMQ", metadata: { icon: "SiRabbitmq" } },
-        { name: "Redis", metadata: { icon: "DiRedis" } },
-        { name: "NUnit", metadata: { icon: "FaFunnelDollar" } },
+        { name: "Docker", metadata: { icon: "FaDocker" } },
+        { name: "Git", metadata: { icon: "FaGitAlt" } },
+        { name: "Azure DevOps", metadata: { icon: "VscAzureDevops" } },
+        { name: "Jenkins", metadata: { icon: "SiJenkins" } },
+        { name: "IIS", metadata: { icon: "FaServer" } },
+        { name: "Jira", metadata: { icon: "SiJira" } },
+      ],
+    },
+    {
+      name: "Testing Tools",
+      metadata: { icon: "FaVial" },
+      children: [
+        { name: "Playwright", metadata: { icon: "GrTest" } },
         { name: "xUnit", metadata: { icon: "GrTest" } },
-        { name: "Linux", metadata: { icon: "FaLinux" } },
-      ],
-    },
-    {
-      name: "Agile Methodologies",
-      metadata: { icon: "FaArrowsSpin" },
-      children: [
-        { name: "Scrum", metadata: { icon: "DiScrum" } },
-        { name: "Kanban", metadata: { icon: "PiKanban" } },
+        { name: "NUnit", metadata: { icon: "FaFunnelDollar" } },
+        { name: "Postman", metadata: { icon: "FaExchangeAlt" } },
       ],
     },
   ],

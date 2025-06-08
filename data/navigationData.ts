@@ -26,6 +26,11 @@ export const navigationLinks: NavigationLink[] = [
     shortcut: "S"
   },
   { 
+    name: "certifications", 
+    path: "/certifications", 
+    shortcut: "R"
+  },
+  { 
     name: "contact", 
     path: "/contact", 
     shortcut: "T"

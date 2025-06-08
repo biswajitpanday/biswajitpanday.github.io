@@ -3,6 +3,8 @@ import { lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { getMostRecentCertification } from "@/data/certificationsData";
+import { Badge } from "@/components/ui/badge";
 
 // Lazy load heavy components
 const Photo = lazy(() => import("@/components/Photo"));
@@ -14,6 +16,8 @@ const FiDownload = lazy(() => import("react-icons/fi").then(mod => ({ default: m
 const FiCode = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiCode })));
 const FiCloud = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiCloud })));
 const FiZap = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiZap })));
+const FiAward = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiAward })));
+const FiChevronRight = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiChevronRight })));
 const SiReact = lazy(() => import("react-icons/si").then(mod => ({ default: mod.SiReact })));
 const SiDotnet = lazy(() => import("react-icons/si").then(mod => ({ default: mod.SiDotnet })));
 
@@ -27,6 +31,8 @@ const ComponentFallback = ({ className }: { className?: string }) => (
 );
 
 const Home = () => {
+  const featuredCertification = getMostRecentCertification();
+
   return (
     <section className="min-h-[calc(100vh-136px)] flex flex-col justify-center relative overflow-hidden py-8 xl:py-0">
       {/* Background Elements */}
@@ -112,6 +118,45 @@ const Home = () => {
                 </div>
               ))}
             </motion.div>
+
+            {/* Featured Certification Card */}
+            {featuredCertification && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9, duration: 0.6 }}
+                className="bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 rounded-lg p-4 mb-6"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-secondary-default/20 rounded-full mt-1">
+                    <Suspense fallback={<IconFallback />}>
+                      <FiAward className="text-secondary-default" />
+                    </Suspense>
+                  </div>
+                  <div>
+                    <div className="flex items-center mb-1">
+                      <Badge variant="secondary" className="text-xs mr-2">Recent Certification</Badge>
+                      <span className="text-white/60 text-xs">
+                        {new Date(featuredCertification.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+                      </span>
+                    </div>
+                    <h3 className="text-white font-medium text-sm mb-1">{featuredCertification.name}</h3>
+                    <p className="text-white/70 text-xs mb-2">
+                      Issued by {featuredCertification.issuer}
+                    </p>
+                    <Link 
+                      href="/certifications" 
+                      className="inline-flex items-center text-xs text-secondary-default hover:text-secondary-default/80"
+                    >
+                      View Details
+                      <Suspense fallback={<IconFallback />}>
+                        <FiChevronRight className="ml-1 text-xs" />
+                      </Suspense>
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            )}
 
             {/* Action Buttons */}
             <motion.div

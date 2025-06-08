@@ -26,6 +26,11 @@ const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
   FaRestroom: () => import('react-icons/fa').then(mod => ({ default: mod.FaRestroom })),
   FaFunnelDollar: () => import('react-icons/fa').then(mod => ({ default: mod.FaFunnelDollar })),
   FaLinux: () => import('react-icons/fa').then(mod => ({ default: mod.FaLinux })),
+  FaRobot: () => import('react-icons/fa').then(mod => ({ default: mod.FaRobot })),
+  FaGithub: () => import('react-icons/fa').then(mod => ({ default: mod.FaGithub })),
+  FaTerminal: () => import('react-icons/fa').then(mod => ({ default: mod.FaTerminal })),
+  FaCommentDots: () => import('react-icons/fa').then(mod => ({ default: mod.FaCommentDots })),
+  FaVial: () => import('react-icons/fa').then(mod => ({ default: mod.FaVial })),
   
   // SI Icons
   SiTypescript: () => import('react-icons/si').then(mod => ({ default: mod.SiTypescript })),
@@ -53,6 +58,7 @@ const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
   SiFramework: () => import('react-icons/si').then(mod => ({ default: mod.SiFramework })),
   SiTrpc: () => import('react-icons/si').then(mod => ({ default: mod.SiTrpc })),
   SiRabbitmq: () => import('react-icons/si').then(mod => ({ default: mod.SiRabbitmq })),
+  SiNextdotjs: () => import('react-icons/si').then(mod => ({ default: mod.SiNextdotjs })),
   
   // Other libraries
   VscAzure: () => import('react-icons/vsc').then(mod => ({ default: mod.VscAzure })),
