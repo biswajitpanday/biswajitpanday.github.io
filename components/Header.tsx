@@ -10,7 +10,18 @@ import { useState, useEffect } from "react";
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const isSearchEnabled = process.env.NEXT_PUBLIC_ENABLE_SEARCH !== 'false';
+
+  // Handle scroll effect for sticky header
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Global keyboard shortcut for search (Ctrl/Cmd + K)
   useEffect(() => {
@@ -29,7 +40,13 @@ const Header = () => {
 
   return (
     <>
-      <header className="py-8 xl:py-12 text-white">
+      <header 
+        className={`py-6 xl:py-8 text-white w-full ${
+          isScrolled 
+            ? "sticky top-0 z-50 bg-primary/80 backdrop-blur-md shadow-md transition-all duration-300" 
+            : "py-8 xl:py-12"
+        }`}
+      >
         <div className="container mx-auto flex justify-between items-center">
           <Link href={"/"}>
             <h1 className="text-4xl font-semibold">

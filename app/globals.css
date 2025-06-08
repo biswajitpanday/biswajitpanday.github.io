@@ -13,6 +13,25 @@
     --color-primary-default: #1c1c22;
     --color-primary-contrast: #ffffff;
   }
+  
+  /* Common utility classes for components that were using document manipulation */
+  .shadow-glow {
+    box-shadow: 0 0 8px rgba(0, 191, 255, 0.2);
+  }
+  
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .bg-size-200 {
+    background-size: 200% auto;
+  }
+  
   .text-outline {
     -webkit-text-stroke: 1px #ffffff;
   }
@@ -330,4 +349,23 @@
       background-position: 100% 50%;
     }
   }
+}
+
+/* Add custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 191, 255, 0.2);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 191, 255, 0.3);
 }

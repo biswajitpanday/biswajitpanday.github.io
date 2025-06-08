@@ -35,6 +35,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     : project.stacks.slice(0, 6);
   const hasMoreStacks = project.stacks.length > 6;
   const hasGithubLink = project.github && project.github.trim() !== "";
+  
+  // Determine which image to use (thumbnail or full image)
+  const displayImage = project.thumbImage || project.image;
 
   return (
     <motion.div
@@ -50,7 +53,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             target="_blank"
           >
             <Image
-              src={project.image}
+              src={displayImage}
               alt={project.title}
               width={500}
               height={300}
@@ -59,7 +62,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </Link>
         ) : (
           <Image
-            src={project.image}
+            src={displayImage}
             alt={project.title}
             width={500}
             height={300}

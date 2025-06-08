@@ -3,6 +3,8 @@ import { lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { getMostRecentCertification } from "@/data/certificationsData";
+import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 
 // Lazy load heavy components
 const Photo = lazy(() => import("@/components/Photo"));
@@ -14,6 +16,7 @@ const FiDownload = lazy(() => import("react-icons/fi").then(mod => ({ default: m
 const FiCode = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiCode })));
 const FiCloud = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiCloud })));
 const FiZap = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiZap })));
+
 const SiReact = lazy(() => import("react-icons/si").then(mod => ({ default: mod.SiReact })));
 const SiDotnet = lazy(() => import("react-icons/si").then(mod => ({ default: mod.SiDotnet })));
 
@@ -27,13 +30,17 @@ const ComponentFallback = ({ className }: { className?: string }) => (
 );
 
 const Home = () => {
+  const featuredCertification = getMostRecentCertification();
+
   return (
     <section className="min-h-[calc(100vh-136px)] flex flex-col justify-center relative overflow-hidden py-8 xl:py-0">
-      {/* Background Elements */}
+      {/* Enhanced Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary-default/5 pointer-events-none" />
+      <div className="absolute top-20 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-secondary-default/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col xl:flex-row items-center justify-center xl:justify-between gap-8 xl:gap-16 xl:pt-8 xl:pb-16">
+        <div className="flex flex-col xl:flex-row items-center justify-center xl:justify-between gap-8 xl:gap-16 xl:pt-8 xl:pb-8">
           {/* Content Section */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -113,6 +120,22 @@ const Home = () => {
               ))}
             </motion.div>
 
+            {/* Featured Certification Card */}
+            {featuredCertification && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9, duration: 0.6 }}
+                className="mb-6"
+              >
+                <FeaturedCertificationCard 
+                  certification={featuredCertification} 
+                  size="small"
+                  simplified={true}
+                />
+              </motion.div>
+            )}
+
             {/* Action Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -159,8 +182,9 @@ const Home = () => {
             className="order-1 xl:order-none relative"
           >
             <div className="relative">
-              {/* Glow Effect */}
+              {/* Enhanced Glow Effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-secondary-default/20 to-blue-500/20 rounded-full blur-3xl scale-110 animate-pulse" />
+              <div className="absolute -inset-4 bg-gradient-to-tr from-secondary-default/5 to-blue-500/5 rounded-full blur-xl scale-105" />
               <div className="relative z-10">
                 <Suspense fallback={<ComponentFallback className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] rounded-full" />}>
                   <Photo />
@@ -175,7 +199,7 @@ const Home = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="mt-16 xl:mt-24"
+          className="mt-12 xl:mt-12"
         >
           <Suspense fallback={<ComponentFallback className="w-full h-32" />}>
             <Stats />

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     default: "Biswajit Panday - Full-Stack .NET Developer | Portfolio",
     template: "%s | Biswajit Panday"
   },
-  description: "Professional portfolio of Biswajit Panday, a skilled Full-Stack .NET Developer with 9+ years experience specializing in scalable applications, cloud solutions with React, Azure & AWS.",
+  description: "Professional portfolio of Biswajit Panday, a skilled Full-Stack .NET Developer with 10+ years experience specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS.",
   keywords: [
     "Biswajit Panday",
     "Full-Stack Developer", 
@@ -32,14 +32,28 @@ export const metadata: Metadata = {
     "AWS Developer",
     "DevOps Engineer",
     "Software Engineer",
+    "Microsoft Certified",
+    "Azure Certification",
     "Portfolio",
+    "Software Development",
+    "Web Development",
+    "Cloud Solutions",
     "Dhaka Bangladesh"
   ],
   authors: [{ name: "Biswajit Panday" }],
   creator: "Biswajit Panday",
+  publisher: "Biswajit Panday",
+  formatDetection: {
+    email: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://biswajitpanday.github.io"),
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: "Biswajit Panday - Full-Stack .NET Developer",
-    description: "Professional portfolio showcasing 9+ years of experience in .NET, React, and cloud technologies",
+    description: "Professional portfolio showcasing 10+ years of experience in .NET, React, and cloud technologies with professional certifications.",
     url: "https://biswajitpanday.github.io",
     siteName: "Biswajit Panday Portfolio",
     type: "website",
@@ -56,8 +70,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Biswajit Panday - Full-Stack .NET Developer",
-    description: "Professional portfolio showcasing 9+ years of experience in .NET, React, and cloud technologies",
+    description: "Professional portfolio showcasing 10+ years of experience in .NET, React, and cloud technologies with certifications.",
     images: ["https://biswajitpanday.github.io/assets/photo.png"],
+    creator: "@biswajitpanday",
   },
   robots: {
     index: true,
@@ -82,7 +97,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={jetBrainsMono.variable}>
         <Header />
         {/* <StairTransition /> */}

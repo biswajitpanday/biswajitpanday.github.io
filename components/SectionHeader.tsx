@@ -7,7 +7,7 @@ import { PERFORMANCE_VARIANTS } from "@/constants";
 interface SectionHeaderProps {
   title: string;
   highlightText: string;
-  description: string;
+  description: string | ReactNode;
   children?: ReactNode;
   className?: string;
   titleClassName?: string;

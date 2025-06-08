@@ -2,20 +2,99 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaSearch, FaTimes, FaExternalLinkAlt, FaCode, FaBriefcase } from "react-icons/fa";
+import { FaSearch, FaTimes, FaExternalLinkAlt, FaCode, FaBriefcase, FaAward } from "react-icons/fa";
 import { projects } from "@/data/portfolioData";
 import { skills1, skills2 } from "@/data/skillsData";
+import { certifications } from "@/data/certificationsData";
 import Link from "next/link";
 
 interface SearchResult {
   id: string;
   title: string;
   description: string;
-  type: "project" | "skill" | "page";
+  type: "project" | "skill" | "page" | "certification";
   url: string;
   category?: string;
   icon: React.ReactNode;
 }
+
+// Prepare searchable data
+const prepareSearchableData = (): SearchResult[] => {
+  const results: SearchResult[] = [];
+
+  // Add projects
+  projects.forEach((project) => {
+    results.push({
+      id: `project-${project.num}`,
+      title: project.title,
+      description: project.shortDescription,
+      type: "project",
+      url: "/portfolio",
+      category: project.category,
+      icon: <FaBriefcase className="text-secondary-default" />
+    });
+  });
+
+  // Add certifications
+  certifications.filter(cert => !cert.isUpcoming).forEach((cert) => {
+    results.push({
+      id: `certification-${cert.id}`,
+      title: cert.name,
+      description: cert.description || `${cert.category} certification by ${cert.issuer}`,
+      type: "certification",
+      url: "/certifications",
+      category: cert.category,
+      icon: <FaAward className="text-blue-400" />
+    });
+  });
+
+  // Add skills from both trees
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const addSkillsRecursively = (skillNode: any, prefix = "") => {
+    if (skillNode.children && skillNode.children.length > 0) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      skillNode.children.forEach((child: any) => {
+        addSkillsRecursively(child, prefix ? `${prefix} > ${skillNode.name}` : skillNode.name);
+      });
+    } else {
+      results.push({
+        id: `skill-${skillNode.name}`,
+        title: skillNode.name,
+        description: `Technology under ${prefix}`,
+        type: "skill",
+        url: "/skills",
+        category: prefix,
+        icon: <FaCode className="text-blue-400" />
+      });
+    }
+  };
+
+  skills1.children.forEach((category) => addSkillsRecursively(category));
+  skills2.children.forEach((category) => addSkillsRecursively(category));
+
+  // Add pages
+  const pages = [
+    { name: "Home", url: "/", description: "Welcome page with overview and introduction" },
+    { name: "Portfolio", url: "/portfolio", description: "Showcase of projects and work experience" },
+    { name: "Skills", url: "/skills", description: "Technical expertise and technologies" },
+    { name: "Career", url: "/career", description: "Professional journey and experience timeline" },
+    { name: "Certifications", url: "/certifications", description: "Professional certifications and courses completed" },
+    { name: "Contact", url: "/contact", description: "Get in touch and contact information" },
+  ];
+
+  pages.forEach((page) => {
+    results.push({
+      id: `page-${page.name}`,
+      title: page.name,
+      description: page.description,
+      type: "page",
+      url: page.url,
+      icon: <FaExternalLinkAlt className="text-green-400" />
+    });
+  });
+
+  return results;
+};
 
 interface GlobalSearchProps {
   isOpen: boolean;
@@ -25,6 +104,7 @@ interface GlobalSearchProps {
 const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [searchableData] = useState<SearchResult[]>(prepareSearchableData());
 
   // Debounce search query
   useEffect(() => {
@@ -42,81 +122,47 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
-  // Prepare searchable data
-  const searchableData = useMemo(() => {
-    const results: SearchResult[] = [];
-
-    // Add projects
-    projects.forEach((project) => {
-      results.push({
-        id: `project-${project.num}`,
-        title: project.title,
-        description: project.shortDescription,
-        type: "project",
-        url: "/portfolio",
-        category: project.category,
-        icon: <FaBriefcase className="text-secondary-default" />
-      });
-    });
-
-    // Add skills from both trees
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const addSkillsRecursively = (skillNode: any, prefix = "") => {
-      if (skillNode.children && skillNode.children.length > 0) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        skillNode.children.forEach((child: any) => {
-          addSkillsRecursively(child, prefix ? `${prefix} > ${skillNode.name}` : skillNode.name);
-        });
-      } else {
-        results.push({
-          id: `skill-${skillNode.name}`,
-          title: skillNode.name,
-          description: `Technology under ${prefix}`,
-          type: "skill",
-          url: "/skills",
-          category: prefix,
-          icon: <FaCode className="text-blue-400" />
-        });
-      }
-    };
-
-    skills1.children.forEach((category) => addSkillsRecursively(category));
-    skills2.children.forEach((category) => addSkillsRecursively(category));
-
-    // Add pages
-    const pages = [
-      { name: "Home", url: "/", description: "Welcome page with overview and introduction" },
-      { name: "Portfolio", url: "/portfolio", description: "Showcase of projects and work experience" },
-      { name: "Skills", url: "/skills", description: "Technical expertise and technologies" },
-      { name: "Career", url: "/career", description: "Professional journey and experience timeline" },
-      { name: "Resume", url: "/resume", description: "Detailed resume and qualifications" },
-      { name: "Contact", url: "/contact", description: "Get in touch and contact information" },
-    ];
-
-    pages.forEach((page) => {
-      results.push({
-        id: `page-${page.name}`,
-        title: page.name,
-        description: page.description,
-        type: "page",
-        url: page.url,
-        icon: <FaExternalLinkAlt className="text-green-400" />
-      });
-    });
-
-    return results;
-  }, []);
-
   // Filter results based on search query
   const filteredResults = useMemo(() => {
     if (!debouncedSearch.trim()) return [];
 
     const searchLower = debouncedSearch.toLowerCase();
-    return searchableData.filter((item) =>
-      item.title.toLowerCase().includes(searchLower) ||
-      item.description.toLowerCase().includes(searchLower) ||
-      item.category?.toLowerCase().includes(searchLower)
-    ).slice(0, 10); // Limit to 10 results
+    
+    // Score-based relevance sorting
+    return searchableData
+      .map(item => {
+        // Calculate relevance score
+        let score = 0;
+        
+        // Exact title match gets highest score
+        if (item.title.toLowerCase() === searchLower) {
+          score += 100;
+        }
+        // Title starts with search term
+        else if (item.title.toLowerCase().startsWith(searchLower)) {
+          score += 80;
+        }
+        // Title contains search term
+        else if (item.title.toLowerCase().includes(searchLower)) {
+          score += 60;
+        }
+        
+        // Description contains search term
+        if (item.description.toLowerCase().includes(searchLower)) {
+          score += 40;
+        }
+        
+        // Category matches
+        if (item.category?.toLowerCase().includes(searchLower)) {
+          score += 30;
+        }
+        
+        // Return item with score if it matches
+        return score > 0 ? { ...item, score } : null;
+      })
+      .filter((item): item is SearchResult & { score: number } => item !== null)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10); // Limit to 10 results
   }, [debouncedSearch, searchableData]);
 
   const handleResultClick = () => {
@@ -129,6 +175,22 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
       onClose();
     }
   };
+
+  // Group results by type
+  const groupedResults = useMemo(() => {
+    const grouped = {
+      page: [] as typeof filteredResults,
+      project: [] as typeof filteredResults,
+      certification: [] as typeof filteredResults,
+      skill: [] as typeof filteredResults,
+    };
+    
+    filteredResults.forEach(result => {
+      grouped[result.type as keyof typeof grouped].push(result);
+    });
+    
+    return grouped;
+  }, [filteredResults]);
 
   return (
     <AnimatePresence>
@@ -153,7 +215,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
                 <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/40" />
                 <input
                   type="text"
-                  placeholder="Search projects, skills, pages..."
+                  placeholder="Search projects, skills, certifications, pages..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -170,7 +232,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
             </div>
 
             {/* Search Results */}
-            <div className="max-h-96 overflow-y-auto">
+            <div className="max-h-96 overflow-y-auto custom-scrollbar">
               {debouncedSearch && filteredResults.length === 0 && (
                 <div className="text-center py-8">
                   <FaSearch className="text-4xl text-white/40 mx-auto mb-4" />
@@ -181,40 +243,50 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
               )}
 
               {filteredResults.length > 0 && (
-                <div className="space-y-2">
+                <div className="space-y-4">
                   <p className="text-sm text-white/60 mb-4">
                     Found {filteredResults.length} results for &ldquo;{debouncedSearch}&rdquo;
                   </p>
-                  {filteredResults.map((result) => (
-                    <Link
-                      key={result.id}
-                      href={result.url}
-                      onClick={() => handleResultClick()}
-                      className="block p-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 rounded transition-all duration-300 group"
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className="mt-1">{result.icon}</div>
-                        <div className="flex-1">
-                          <h3 className="text-white font-medium group-hover:text-secondary-default transition-colors">
-                            {result.title}
-                          </h3>
-                          <p className="text-sm text-white/60 mt-1">
-                            {result.description}
-                          </p>
-                          <div className="flex items-center gap-2 mt-2">
-                            <span className="text-xs bg-secondary-default/20 text-secondary-default px-2 py-1 rounded">
-                              {result.type}
-                            </span>
-                            {result.category && (
-                              <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded">
-                                {result.category}
-                              </span>
-                            )}
-                          </div>
-                        </div>
+                  
+                  {/* Pages */}
+                  {groupedResults.page.length > 0 && (
+                    <div className="mb-4">
+                      <h3 className="text-xs text-white/50 uppercase mb-2 px-1">Pages</h3>
+                      <div className="space-y-2">
+                        {groupedResults.page.map(renderSearchResult)}
                       </div>
-                    </Link>
-                  ))}
+                    </div>
+                  )}
+                  
+                  {/* Projects */}
+                  {groupedResults.project.length > 0 && (
+                    <div className="mb-4">
+                      <h3 className="text-xs text-white/50 uppercase mb-2 px-1">Projects</h3>
+                      <div className="space-y-2">
+                        {groupedResults.project.map(renderSearchResult)}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Certifications */}
+                  {groupedResults.certification.length > 0 && (
+                    <div className="mb-4">
+                      <h3 className="text-xs text-white/50 uppercase mb-2 px-1">Certifications</h3>
+                      <div className="space-y-2">
+                        {groupedResults.certification.map(renderSearchResult)}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Skills */}
+                  {groupedResults.skill.length > 0 && (
+                    <div className="mb-4">
+                      <h3 className="text-xs text-white/50 uppercase mb-2 px-1">Skills</h3>
+                      <div className="space-y-2">
+                        {groupedResults.skill.map(renderSearchResult)}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -222,8 +294,28 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
                 <div className="text-center py-8">
                   <FaSearch className="text-4xl text-white/40 mx-auto mb-4" />
                   <p className="text-white/60">
-                    Start typing to search across projects, skills, and pages
+                    Start typing to search across projects, skills, certifications, and pages
                   </p>
+                  <div className="mt-4 flex flex-wrap justify-center gap-2">
+                    <button 
+                      onClick={() => setSearchQuery("react")}
+                      className="px-3 py-1 text-sm bg-white/5 hover:bg-white/10 rounded-full transition-colors"
+                    >
+                      React
+                    </button>
+                    <button 
+                      onClick={() => setSearchQuery("azure")}
+                      className="px-3 py-1 text-sm bg-white/5 hover:bg-white/10 rounded-full transition-colors"
+                    >
+                      Azure
+                    </button>
+                    <button 
+                      onClick={() => setSearchQuery("certification")}
+                      className="px-3 py-1 text-sm bg-white/5 hover:bg-white/10 rounded-full transition-colors"
+                    >
+                      Certifications
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -239,6 +331,40 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
       )}
     </AnimatePresence>
   );
+  
+  // Helper function to render a search result
+  function renderSearchResult(result: SearchResult & { score?: number }) {
+    return (
+      <Link
+        key={result.id}
+        href={result.url}
+        onClick={() => handleResultClick()}
+        className="block p-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 rounded transition-all duration-300 group"
+      >
+        <div className="flex items-start gap-3">
+          <div className="mt-1">{result.icon}</div>
+          <div className="flex-1">
+            <h3 className="text-white font-medium group-hover:text-secondary-default transition-colors">
+              {result.title}
+            </h3>
+            <p className="text-sm text-white/60 mt-1">
+              {result.description}
+            </p>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-xs bg-secondary-default/20 text-secondary-default px-2 py-1 rounded">
+                {result.type}
+              </span>
+              {result.category && (
+                <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded">
+                  {result.category}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      </Link>
+    );
+  }
 };
 
 export default GlobalSearch; 

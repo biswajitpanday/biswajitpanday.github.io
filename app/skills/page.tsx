@@ -4,11 +4,11 @@ import { FaCogs, FaRocket, FaSearch } from "react-icons/fa";
 import TreeView, { flattenTree } from "react-accessible-treeview";
 import { skills1, skills2, countAllTechnologies } from "@/data/skillsData";
 import DynamicIcon from "@/components/DynamicIcon";
-import SearchBar from "@/components/SearchBar";
 import StatsCards, { StatCard } from "@/components/StatsCards";
 import React, { useCallback, useMemo, useState, useEffect } from "react";
 import BackgroundElements from "@/components/BackgroundElements";
 import SectionHeader from "@/components/SectionHeader";
+import SkillsFilter from "@/components/SkillsFilter";
 
 // Memoized animation variants - created once, reused everywhere
 const TREE_ANIMATIONS = {
@@ -112,7 +112,7 @@ const Skills = () => {
   
   // Calculate totals
   const totalTechnologies = countAllTechnologies();
-  const totalCategories = 2; // Two main categories: Frontend/Backend and Tools/Platforms
+  const totalCategories = skills1.children.length + skills2.children.length; // Count actual main categories from both trees
   const filteredCount = data1.length + data2.length - 2; // Subtract root nodes
 
   // Stats data for StatsCards component
@@ -183,12 +183,6 @@ const Skills = () => {
     );
   }, [nodeStyles, debouncedSearch]);
 
-  const clearSearch = () => {
-    if (isSearchEnabled) {
-      setSearchQuery("");
-    }
-  };
-
   return (
     <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-8">
       {/* Background Elements - Using BackgroundElements Component */}
@@ -199,16 +193,28 @@ const Skills = () => {
         <SectionHeader
           title="Technical"
           highlightText="Expertise"
-          description="A comprehensive overview of technologies and frameworks mastered through years of hands-on experience and continuous learning"
+          description={
+            <>
+              A comprehensive overview of{" "}
+              <span className="text-secondary-default font-semibold px-2 py-1 rounded">
+                technologies and frameworks
+              </span>{" "}
+              mastered through years of{" "}
+              <span className="text-secondary-default font-semibold px-2 py-1 rounded">
+                hands-on experience
+              </span>{" "}
+              and continuous learning
+            </>
+          }
         >
           <StatsCards stats={statsData} />
         </SectionHeader>
 
-        {/* Search Section - Using SearchBar Component */}
-        <SearchBar
+        {/* Search Section - Using SkillsFilter Component */}
+        <SkillsFilter
           searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          onClearSearch={clearSearch}
+          onSearchChange={(value) => setSearchQuery(value)}
+          onClearSearch={() => setSearchQuery("")}
           placeholder="Search technologies, frameworks, tools..."
           showResults={true}
           resultsText={debouncedSearch ? (
@@ -232,7 +238,7 @@ const Skills = () => {
                 Try searching for different keywords or clear the search to see all technologies.
               </p>
               <button
-                onClick={clearSearch}
+                onClick={() => setSearchQuery("")}
                 className="bg-secondary-default hover:bg-secondary-default/80 text-primary px-4 py-2 rounded transition-all duration-300"
               >
                 Clear Search
