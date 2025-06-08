@@ -16,9 +16,9 @@ import {
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import TimelineElement from "@/components/TimelineElement";
-import StatsCards, { StatCard } from "@/components/StatsCards";
 import BackgroundElements from "@/components/BackgroundElements";
 import SectionHeader from "@/components/SectionHeader";
+import StatsCards from "@/components/StatsCards";
 
 const Career = () => {
   const totalExperience = calculateTotalExperience(timeLineItems);
