@@ -7,7 +7,6 @@ import { Certification } from "@/data/certificationsData";
 import { FiAward, FiCalendar, FiArrowRight, FiExternalLink, FiKey, FiHash } from "react-icons/fi";
 import { Badge } from "@/components/ui/badge";
 import { PERFORMANCE_VARIANTS } from "@/constants";
-import { Button } from "@/components/ui/button";
 
 interface FeaturedCertificationCardProps {
   certification: Certification;
@@ -49,9 +48,9 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
   if (simplified) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.6 }}
+        variants={PERFORMANCE_VARIANTS.cardSync}
+        initial="hidden"
+        animate="visible"
         className={`bg-gradient-to-r from-secondary-default/20 to-blue-500/20 backdrop-blur-sm border border-secondary-default/30 rounded overflow-hidden ${className}`}
       >
         <div className="flex flex-col sm:flex-row items-center gap-4 p-4">
@@ -120,14 +119,13 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
       variants={PERFORMANCE_VARIANTS.cardSync}
       initial="hidden"
       animate="visible"
-      whileHover={{ y: -5, transition: { duration: 0.2 } }}
-      className={`bg-gradient-to-br from-secondary-default/30 via-blue-500/20 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 rounded-xl overflow-hidden shadow-lg shadow-secondary-default/5 ${className}`}
+      className={`group relative bg-gradient-to-br from-secondary-default/30 via-blue-500/20 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 rounded-xl overflow-hidden shadow-md hover:shadow-lg hover:border-secondary-default/50 transition-all duration-300 ${className}`}
     >
       <div className="p-6">
         <div className="flex flex-col md:flex-row gap-6 items-center">
-          {/* Certificate image with animated gradient border */}
+          {/* Certificate image with subtle gradient border */}
           <div className="relative flex-shrink-0">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-secondary-default to-blue-500 opacity-70 blur-md" />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-secondary-default to-blue-500 opacity-60 blur-md" />
             {image ? (
               <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-white/20 bg-white/5 z-10">
                 <Image
@@ -143,13 +141,9 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
               </div>
             )}
             
-            {/* Issuer Logo with floating animation */}
+            {/* Issuer Logo */}
             {issuerLogo && (
-              <motion.div 
-                animate={{ y: [0, -4, 0] }} 
-                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                className="absolute -bottom-2 -right-2 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full overflow-hidden flex items-center justify-center border border-white/20 z-20 shadow-lg"
-              >
+              <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full overflow-hidden flex items-center justify-center border border-white/20 z-20 shadow-md">
                 <Image
                   src={issuerLogo}
                   alt={issuer}
@@ -157,27 +151,28 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
                   height={24}
                   className="object-contain"
                 />
-              </motion.div>
+              </div>
             )}
           </div>
           
-          {/* Certification details with gradient text */}
+          {/* Certification details */}
           <div className="flex-1 text-center md:text-left">
-            <Badge 
-              variant="secondary" 
-              className="mb-2 text-xs inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-default/20 border border-secondary-default/30 text-secondary-default font-medium"
-            >
-              Featured Certification
-            </Badge>
+            <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-3">
+              <Badge 
+                variant="secondary" 
+                className="text-xs inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-default/20 border border-secondary-default/30 text-secondary-default font-medium"
+              >
+                Featured Certification
+              </Badge>
+              
+              <span className="inline-flex items-center text-xs font-medium px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-300">
+                {certification.category}
+              </span>
+            </div>
             
-            <motion.h2
-              initial={{ backgroundPosition: "0% 50%" }}
-              animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-              className="text-xl md:text-2xl font-bold mb-2 bg-gradient-to-r from-white via-secondary-default to-white bg-clip-text text-transparent bg-[length:200%_auto]"
-            >
+            <h2 className="text-xl md:text-2xl font-bold mb-2 text-white group-hover:text-secondary-default transition-colors duration-300">
               {name}
-            </motion.h2>
+            </h2>
             
             <div className="flex flex-wrap items-center justify-center md:justify-start text-sm gap-2 mb-3">
               <span className="text-secondary-default font-medium">{issuer}</span>
@@ -215,27 +210,23 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
             
             {/* Skills tags */}
             {skills && skills.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-2">
-                {skills.slice(0, 5).map((skill, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.1 * idx, duration: 0.3 }}
-                  >
-                    <Badge 
-                      variant="outline" 
-                      className="text-xs bg-secondary-default/10 border-secondary-default/30 text-white hover:bg-secondary-default/20 transition-all"
+              <div className="mb-4">
+                <h4 className="text-sm font-semibold text-white/80 mb-2">Skills</h4>
+                <div className="flex flex-wrap gap-2">
+                  {skills.slice(0, 5).map((skill, idx) => (
+                    <span
+                      key={idx}
+                      className="text-xs px-2 py-1 bg-secondary-default/10 text-secondary-default border border-secondary-default/30 rounded hover:bg-secondary-default/20 transition-colors duration-200"
                     >
                       {skill}
-                    </Badge>
-                  </motion.div>
-                ))}
-                {skills.length > 5 && (
-                  <Badge variant="outline" className="bg-white/5 border-white/20">
-                    +{skills.length - 5} more
-                  </Badge>
-                )}
+                    </span>
+                  ))}
+                  {skills.length > 5 && (
+                    <span className="text-xs px-2 py-1 bg-blue-500/10 text-blue-300 border border-blue-500/30 rounded">
+                      +{skills.length - 5} more
+                    </span>
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -243,26 +234,22 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
           {/* View certificate link */}
           {link && (
             <div className="mt-4 md:mt-0 flex-shrink-0">
-              <Button 
-                className="bg-gradient-to-r from-secondary-default to-blue-500 text-primary hover:opacity-90 transition-all gap-1.5"
-                asChild
+              <Link 
+                href={link} 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default px-4 py-2 rounded transition-all duration-300 hover:scale-105 text-sm font-medium"
               >
-                <Link 
-                  href={link} 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View Certificate
-                  <FiExternalLink />
-                </Link>
-              </Button>
+                <FiExternalLink className="text-xs" />
+                <span>View Certificate</span>
+              </Link>
             </div>
           )}
         </div>
       </div>
       
-      {/* Animated bottom border */}
-      <div className="h-1 w-full bg-gradient-to-r from-secondary-default to-blue-500 opacity-80" />
+      {/* Subtle border at bottom */}
+      <div className="h-1 w-full bg-gradient-to-r from-secondary-default/50 to-blue-500/50 opacity-80" />
     </motion.div>
   );
 };

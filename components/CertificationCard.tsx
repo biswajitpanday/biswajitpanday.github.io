@@ -5,8 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Certification } from "@/data/certificationsData";
 import { FiAward, FiCalendar, FiExternalLink, FiKey, FiCheck, FiActivity, FiHash } from "react-icons/fi";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { PERFORMANCE_VARIANTS } from "@/constants";
 import {
   Tooltip,
   TooltipContent,
@@ -44,24 +43,6 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
   // State for showing all skills
   const [showAllSkills, setShowAllSkills] = useState(false);
 
-  // Animation variants
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        delay: 0.1 * index,
-        duration: 0.4
-      }
-    },
-    hover: { 
-      y: -5,
-      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-      transition: { duration: 0.2 }
-    }
-  };
-
   // Format date for display
   const formattedDate = new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -85,17 +66,16 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 
   return (
     <motion.div
-      variants={cardVariants}
+      variants={PERFORMANCE_VARIANTS.cardSync}
       initial="hidden"
       animate="visible"
-      whileHover="hover"
-      className={`bg-gradient-to-b from-white/5 to-white/[0.02] backdrop-blur-sm border ${
+      className={`group relative bg-gradient-to-b from-white/5 to-white/[0.02] backdrop-blur-sm border ${
         featured
           ? "border-secondary-default/40"
           : isUpcoming 
             ? "border-dashed border-white/20" 
             : "border-white/10"
-      } rounded-xl overflow-hidden transition-all duration-300 hover:border-secondary-default/30 flex flex-col`}
+      } rounded-xl overflow-hidden transition-all duration-300 hover:border-secondary-default/30 hover:-translate-y-1 flex flex-col`}
     >
       {/* Card Header with Image */}
       <div className="relative p-4 flex justify-center items-center h-[180px] bg-gradient-to-b from-white/[0.02] to-transparent">
@@ -174,7 +154,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
           </div>
         </div>
 
-        <h3 className="text-lg font-bold text-white mb-1.5 line-clamp-2">{name}</h3>
+        <h3 className="text-lg font-bold text-white mb-1.5 line-clamp-2 group-hover:text-secondary-default transition-colors duration-300">{name}</h3>
         
         <div className="mb-3 text-secondary-default text-sm">
           {issuer}
@@ -206,60 +186,51 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 
         {/* Skills */}
         {skills && skills.length > 0 && (
-          <div className="mt-auto">
-            <div className="flex flex-wrap gap-1.5 mb-2">
+          <div className="mt-auto mb-4">
+            <h4 className="text-sm font-semibold text-white/80 mb-2">Skills</h4>
+            <div className="flex flex-wrap gap-2">
               {visibleSkills.map((skill, i) => (
-                <Badge
+                <span
                   key={i}
-                  variant="outline"
-                  className="text-xs bg-secondary-default/10 border-secondary-default/20 text-white hover:bg-secondary-default/20 transition-colors"
+                  className="text-xs px-2 py-1 bg-secondary-default/10 text-secondary-default border border-secondary-default/30 rounded hover:bg-secondary-default/20 transition-colors duration-200"
                 >
                   {skill}
-                </Badge>
+                </span>
               ))}
+              {hasMoreSkills && (
+                <button
+                  onClick={toggleSkillsDisplay}
+                  className="text-xs px-2 py-1 bg-blue-500/10 text-blue-300 border border-blue-500/30 rounded hover:bg-blue-500/20 transition-colors duration-200"
+                >
+                  {showAllSkills ? "Show Less" : `+${skills.length - maxVisibleSkills} more`}
+                </button>
+              )}
             </div>
-            
-            {hasMoreSkills && (
-              <button
-                onClick={toggleSkillsDisplay}
-                className="text-secondary-default/80 hover:text-secondary-default text-xs transition-colors"
-              >
-                {showAllSkills ? "Show Less" : `+${skills.length - maxVisibleSkills} more`}
-              </button>
-            )}
           </div>
         )}
       </div>
 
       {/* Card Footer */}
-      <div className="p-4 pt-2 border-t border-white/5 flex justify-center items-center">
+      <div className="p-4 pt-2 border-t border-white/5">
         {!isMicrosoftCert && credentialId && (
-          <div className="text-white/40 text-xs absolute bottom-4 left-4">
+          <div className="text-white/40 text-xs mb-3">
             ID: {credentialId.substring(0, 8)}...
           </div>
         )}
         
-        {link ? (
-          <Button
-            size="sm"
-            className="bg-gradient-to-r from-secondary-default to-blue-500 hover:opacity-90 text-primary border-none gap-1.5"
-            asChild
-          >
+        <div className="flex gap-3">
+          {link && (
             <Link
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-sm"
+              className="flex-1 flex items-center justify-center gap-2 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default px-4 py-2 rounded transition-all duration-300 hover:scale-105 text-sm font-medium"
             >
-              View Certificate
-              <FiExternalLink size={14} />
+              <FiExternalLink className="text-xs" />
+              <span>View Certificate</span>
             </Link>
-          </Button>
-        ) : (
-          <div className="text-white/40 text-xs italic">
-            {isUpcoming ? "Coming soon" : "No certificate link"}
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </motion.div>
   );
@@ -268,20 +239,17 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 export default CertificationCard;
 
 // Add CSS for shadow glow in a Next.js safe way
-const SHADOW_GLOW_STYLES = `
-  .shadow-glow {
-    box-shadow: 0 0 8px rgba(0, 191, 255, 0.2);
-  }
-`;
-
-// Only insert the styles on the client side
 if (typeof document !== 'undefined') {
   // Check if the style already exists to avoid duplicates
   const id = 'certification-card-styles';
   if (!document.getElementById(id)) {
     const styleElement = document.createElement('style');
     styleElement.id = id;
-    styleElement.innerHTML = SHADOW_GLOW_STYLES;
+    styleElement.innerHTML = `
+      .shadow-glow {
+        box-shadow: 0 0 8px rgba(0, 191, 255, 0.2);
+      }
+    `;
     document.head.appendChild(styleElement);
   }
 } 

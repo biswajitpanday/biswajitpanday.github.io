@@ -21,7 +21,7 @@ import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 import UpcomingCertification from "@/components/UpcomingCertification";
 import CertificationTimeline from "@/components/CertificationTimeline";
 import CertificationFilter from "@/components/CertificationFilter";
-
+import { PERFORMANCE_VARIANTS } from "@/constants";
 
 const Certifications = () => {
   const featuredCertification = getMostRecentCertification();
@@ -112,9 +112,9 @@ const Certifications = () => {
       {/* Enhanced Background Elements */}
       <BackgroundElements />
       
-      {/* Floating gradient orbs */}
-      <div className="absolute top-40 left-20 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-40 right-20 w-80 h-80 bg-secondary-default/5 rounded-full blur-3xl" />
+      {/* Floating gradient orbs - less intense for better performance */}
+      <div className="absolute top-40 left-20 w-64 h-64 bg-blue-500/3 rounded-full blur-3xl" />
+      <div className="absolute bottom-40 right-20 w-80 h-80 bg-secondary-default/3 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header with Stats */}
@@ -128,25 +128,27 @@ const Certifications = () => {
 
         {/* Featured Certification Banner */}
         {featuredCertification && (
-          <FeaturedCertificationCard 
-            certification={featuredCertification}
-            className="mb-12 mt-8"
-            simplified={false}
-          />
+          <div className="mb-12 mt-8">
+            <FeaturedCertificationCard 
+              certification={featuredCertification}
+              simplified={false}
+            />
+          </div>
         )}
 
         {/* Certification Journey Timeline */}
-        <CertificationTimeline 
-          certifications={certifications}
-          className="mb-12"
-        />
+        <div className="mb-12">
+          <CertificationTimeline 
+            certifications={certifications}
+          />
+        </div>
 
         {/* Upcoming Certifications Section */}
         {upcomingCerts.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
+            variants={PERFORMANCE_VARIANTS.fadeInFast}
+            initial="hidden"
+            animate="visible"
             className="mb-12"
           >
             <div className="flex items-center mb-4">
@@ -199,9 +201,9 @@ const Certifications = () => {
           <TabsContent value="all" className="mt-0">
             {displayedCertifications.length > 0 ? (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
+                variants={PERFORMANCE_VARIANTS.containerSync}
+                initial="hidden"
+                animate="visible"
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
                 {displayedCertifications.map((certification, index) => (
@@ -227,9 +229,9 @@ const Certifications = () => {
           <TabsContent value="professional" className="mt-0">
             {displayedCertifications.length > 0 ? (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
+                variants={PERFORMANCE_VARIANTS.containerSync}
+                initial="hidden"
+                animate="visible"
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
                 {displayedCertifications.map((certification, index) => (
@@ -255,9 +257,9 @@ const Certifications = () => {
           <TabsContent value="courses" className="mt-0">
             {displayedCertifications.length > 0 ? (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
+                variants={PERFORMANCE_VARIANTS.containerSync}
+                initial="hidden"
+                animate="visible"
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
                 {displayedCertifications.map((certification, index) => (
@@ -283,9 +285,9 @@ const Certifications = () => {
           <TabsContent value="training" className="mt-0">
             {displayedCertifications.length > 0 ? (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
+                variants={PERFORMANCE_VARIANTS.containerSync}
+                initial="hidden"
+                animate="visible"
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
                 {displayedCertifications.map((certification, index) => (
