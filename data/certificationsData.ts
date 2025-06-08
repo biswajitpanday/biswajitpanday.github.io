@@ -13,14 +13,11 @@ export interface Certification {
   category: "Professional" | "Course" | "Training";
   isUpcoming?: boolean;
   issuerLogo?: string;
+  status?: "Active" | "Expired" | "Upcoming";
+  onlineVerifiable?: boolean;
+  certificationNumber?: string;
 }
 
-// Helper function to convert PDF path to image path (temporary solution until actual images are created)
-const pdfToImagePath = (pdfPath: string): string => {
-  // For now, we'll return the same path, but in a real implementation, 
-  // this could point to a png/jpg version or a PDF thumbnail
-  return pdfPath;
-};
 
 export const certifications: Certification[] = [
   // Professional Certifications (Featured)
@@ -34,9 +31,12 @@ export const certifications: Certification[] = [
     description: "Validated fundamental knowledge of cloud concepts, Azure services, Azure workloads, security and privacy in Azure, as well as Azure pricing and support.",
     skills: ["Cloud Computing", "Microsoft Azure", "Azure DevOps Services"],
     featured: true,
-    image: "/assets/certifications/azure-fundamentals.png",
+    image: "/assets/certificates/microsoft-certified-fundamentals-badge.svg",
     category: "Professional",
-    issuerLogo: "/assets/logos/microsoft.png"
+    issuerLogo: "/assets/logos/microsoft.png",
+    status: "Active",
+    onlineVerifiable: true,
+    certificationNumber: "EDV661-807157"
   },
   {
     id: 2,
@@ -46,10 +46,11 @@ export const certifications: Certification[] = [
     description: "Planning to achieve this certification, demonstrating ability to design, build, test, and maintain cloud applications and services on Microsoft Azure.",
     skills: ["Azure App Service", "Azure Functions", "Azure Storage", "Azure Cosmos DB", "Azure Security"],
     featured: false,
-    image: "/assets/certifications/azure-developer-associate.png",
+    image: "/assets/certificates/microsoft-certified-associate-badge.svg",
     category: "Professional",
     isUpcoming: true,
-    issuerLogo: "/assets/logos/microsoft.png"
+    issuerLogo: "/assets/logos/microsoft.png",
+    status: "Upcoming"
   },
   
   // LinkedIn Learning Certifications (Cloud & Azure)
@@ -62,9 +63,11 @@ export const certifications: Certification[] = [
     description: "Preparation for AZ-900 certification covering cloud computing concepts, models, and services.",
     skills: ["Cloud Computing", "Microsoft Azure", "IaaS", "PaaS", "SaaS"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/az-900-cert-prep-1.jpg"),
+    image: "/assets/certificates/AZ-900_Cert_Prep-1.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png"
+    issuerLogo: "/assets/logos/linkedin.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 4,
@@ -75,9 +78,11 @@ export const certifications: Certification[] = [
     description: "Preparation for AZ-900 certification covering Azure architecture components and security features.",
     skills: ["Azure Architecture", "Azure Security", "Cloud Security"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/az-900-cert-prep-2.jpg"),
+    image: "/assets/certificates/AZ-900_Cert_Prep-2.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png"
+    issuerLogo: "/assets/logos/linkedin.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 5,
@@ -88,9 +93,11 @@ export const certifications: Certification[] = [
     description: "Preparation for AZ-900 certification covering the core Azure services and products.",
     skills: ["Azure Services", "Cloud Computing", "Azure Solutions"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/az-900-cert-prep-3.jpg"),
+    image: "/assets/certificates/AZ-900_Cert_Prep-3.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png"
+    issuerLogo: "/assets/logos/linkedin.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 6,
@@ -101,9 +108,11 @@ export const certifications: Certification[] = [
     description: "Preparation for AZ-900 certification covering Azure management and governance capabilities.",
     skills: ["Azure Management", "Azure Governance", "Cost Management"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/az-900-cert-prep-4.jpg"),
+    image: "/assets/certificates/AZ-900_Cert_Prep-4.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png"
+    issuerLogo: "/assets/logos/linkedin.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   
   // LinkedIn Learning Certifications (AI & Development)
@@ -112,91 +121,105 @@ export const certifications: Certification[] = [
     name: "AI Automation with Anthropic Claude API's Agentic Computer Use",
     issuer: "LinkedIn Learning",
     date: "2024-11",
-    link: "https://www.linkedin.com/learning/certificates/ba7d40a1f7aae8c1e1b5fec17022e2d51953bcb4fc5f35fcc3bb9aa70c85b19e",
+    link: "https://www.linkedin.com/learning/certificates/3e42cd0c6527e43cd261f09aaa0df0e01bb0c6a2918920f58b8813cdec3285ba?trk=share_certificate",
     description: "Learned how to use Anthropic's Claude AI assistant APIs to build agentic applications that can perform computer tasks.",
     skills: ["AI Productivity", "Application Programming Interfaces (API)", "Automation", "Generative AI"],
     featured: true,
-    image: pdfToImagePath("/assets/certifications/claude-api-automation.png"),
+    image: "/assets/certificates/ai-automation-with-antropic-claude-api.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png"
+    issuerLogo: "/assets/logos/linkedin.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 8,
     name: "C# & .NET: Programming",
     issuer: "LinkedIn Learning",
     date: "2021-04",
-    link: "https://www.linkedin.com/learning/certificates/df3f3d9c4a5f22f95ac66ef4af4d4f98e92c83b09c9ffbdf2afe7dc1d0d6b9b5",
+    link: "https://www.linkedin.com/learning/certificates/f06b7d25ae718aab106abe4a89e90a9642a401dd0180a30e34a0c4a9a6848692?trk=share_certificate",
     description: "Comprehensive course covering C# programming fundamentals within the .NET ecosystem.",
     skills: ["ASP.NET MVC", "ASP.NET Web API", ".NET", ".NET Core", "Programming", ".NET Framework", "REST APIs", "Object-Oriented Programming (OOP)", "C#", "Clean code", "Visual Studio"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/csharp-dotnet-programming.jpg"),
+    image: "/assets/certificates/c-sharp-and-dot-net.png",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png"
+    issuerLogo: "/assets/logos/linkedin.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 9,
     name: "Advanced Design Patterns: Design Principles",
     issuer: "LinkedIn Learning",
     date: "2024-03",
-    link: "https://www.linkedin.com/learning/certificates/e0bd6dee07fd3df41c8fd57ed78a51b6e5fdb24fa2d48d2ae01c9f5ba98a9271",
+    link: "https://www.linkedin.com/learning/certificates/b8e80a85b07e115f46e3615ccd7cdb40f3b2eeaf37e9d07ac030ca2edf1b29f5?trk=share_certificate",
     description: "Explored fundamental object-oriented design principles like encapsulation, inheritance, polymorphism, and SOLID principles.",
     skills: ["Software Design Patterns", "Java", "Object-Oriented Programming"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/advanced-design-patterns.jpg"),
+    image: "/assets/certificates/advanced-design-patterns.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png"
+    issuerLogo: "/assets/logos/linkedin.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 10,
     name: "Software Architecture: Domain-Driven Design",
     issuer: "LinkedIn Learning",
     date: "2024-02",
-    link: "https://www.linkedin.com/learning/certificates/ac4f5a9c51ba3e2c8e66d28bea62a1efa95bb7ccc3c3a67c3baaea8bc8cec3fb",
+    link: "https://www.linkedin.com/learning/certificates/66602a246a32525b7d000e517701c43333db58dbf6f42ae7b9cf3da7b72b88f5?trk=share_certificate",
     description: "Learned DDD architectural approaches for agile environments and microservices architecture.",
     skills: ["Domain-Driven Design (DDD)", "Software Architecture", "Microservices"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/domain-driven-design.jpg"),
+    image: "/assets/certificates/domain-driven-design.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png"
+    issuerLogo: "/assets/logos/linkedin.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 11,
     name: "Git from Scratch",
     issuer: "LinkedIn Learning",
     date: "2023-09",
-    link: "https://www.linkedin.com/learning/certificates/8a0de69242bbb9c1a33ab2ff96d8ccd7a5fa4a9b02517f89584a88e32aca3ff5",
+    link: "https://www.linkedin.com/learning/certificates/f1686ddc92a1117ace713d1365d0c69382583959ec0bd5a88f251755a71acd5a?trk=share_certificate",
     description: "Covered Git version control fundamentals and best practices for collaborative development.",
     skills: ["Git", "Version Control", "Software Development"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/git-from-scratch.jpg"),
+    image: "/assets/certificates/git-from-scratch.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png"
+    issuerLogo: "/assets/logos/linkedin.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 12,
     name: "Learning BigQuery",
     issuer: "LinkedIn Learning",
     date: "2023-11",
-    link: "https://www.linkedin.com/learning/certificates/7fa0f20bf1a8d3a99e15f67ba2aa5c25e28f4fe0dafc41c0dc0f5e1c9c84ad9c",
+    link: "https://www.linkedin.com/learning/certificates/24c4bbac905d8789d28f655fe8153c002ed5c33330898eb08b47b752e3f239e8?trk=share_certificate",
     description: "Explored Google BigQuery for large-scale data analytics and SQL querying.",
     skills: ["BigQuery", "Data Analytics", "SQL", "Cloud Computing"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/learning-bigquery.jpg"),
+    image: "/assets/certificates/learning-bigquery.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png"
+    issuerLogo: "/assets/logos/linkedin.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 13,
     name: "C#: Design Patterns Part 1",
     issuer: "LinkedIn Learning",
     date: "2022-06",
-    link: "https://www.linkedin.com/learning/certificates/e1725d9d8c545e555beba7a1a610682e21d8fddf119afe619a80acf8adbd79e7",
+    link: "https://www.linkedin.com/learning/certificates/e1725d9d8c545e555beba7a1a610682e21d8fddf119afe619a80acf8adbd79e7?trk=share_certificate",
     description: "Covered essential design patterns implementation in C# including creational and structural patterns.",
     skills: ["C#", "Design Patterns", "Software Architecture"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/csharp-design-patterns-1.jpg"),
+    image: "/assets/certificates/csharp-design-patterns-1.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png"
+    issuerLogo: "/assets/logos/linkedin.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   
   // Pluralsight Certifications
@@ -209,9 +232,11 @@ export const certifications: Certification[] = [
     description: "Mastered common design patterns implementation in C# for building maintainable and scalable applications.",
     skills: ["C#", "Design Patterns", "SOLID Principles"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/csharp-design-patterns.jpg"),
+    image: "/assets/certificates/Pluralsight_Design-patterns-overview_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png"
+    issuerLogo: "/assets/logos/pluralsight.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 15,
@@ -222,9 +247,11 @@ export const certifications: Certification[] = [
     description: "Learned techniques for developing cloud-native applications using Visual Studio and Azure services.",
     skills: ["Azure", "Cloud-Native", "Visual Studio", ".NET"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/cloud-native-azure.jpg"),
+    image: "/assets/certificates/Building-cloud-native-solutions-azure-visual-studio_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png"
+    issuerLogo: "/assets/logos/pluralsight.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 16,
@@ -235,9 +262,11 @@ export const certifications: Certification[] = [
     description: "Deep dive into C# generics for type-safe, reusable code patterns.",
     skills: ["C#", "Generics", ".NET"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/csharp-generics.jpg"),
+    image: "/assets/certificates/Csharp-generics_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png"
+    issuerLogo: "/assets/logos/pluralsight.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 17,
@@ -248,9 +277,11 @@ export const certifications: Certification[] = [
     description: "Overview of container technologies and orchestration with Docker and Kubernetes.",
     skills: ["Docker", "Kubernetes", "Containerization", "DevOps"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/docker-kubernetes.jpg"),
+    image: "/assets/certificates/Docker and Kubernetes The Big Picture_Certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png"
+    issuerLogo: "/assets/logos/pluralsight.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 18,
@@ -261,9 +292,11 @@ export const certifications: Certification[] = [
     description: "Comprehensive guide to Node Package Manager for JavaScript development.",
     skills: ["NPM", "JavaScript", "Node.js"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/npm-playbook.jpg"),
+    image: "/assets/certificates/Npm-playbook_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png"
+    issuerLogo: "/assets/logos/pluralsight.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 19,
@@ -274,9 +307,11 @@ export const certifications: Certification[] = [
     description: "Fundamentals of OOP concepts and implementation in C#.",
     skills: ["C#", "Object-Oriented Programming", "Software Design"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/oop-csharp.jpg"),
+    image: "/assets/certificates/Object-oriented-programming-fundamentals-csharp_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png"
+    issuerLogo: "/assets/logos/pluralsight.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   {
     id: 20,
@@ -287,9 +322,11 @@ export const certifications: Certification[] = [
     description: "Overview of React library, its ecosystem, and core concepts for front-end development.",
     skills: ["React", "JavaScript", "Front-End Development"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/react-big-picture.jpg"),
+    image: "/assets/certificates/React-big-picture_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png"
+    issuerLogo: "/assets/logos/pluralsight.png",
+    status: "Active",
+    onlineVerifiable: true
   },
   
   // Other Training
@@ -302,9 +339,10 @@ export const certifications: Certification[] = [
     description: "Intensive bootcamp focused on media technology solutions and development.",
     skills: ["Media Technology", "Software Development", "Innovation"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/media-tech-challenge.jpg"),
+    image: "/assets/certificates/media-tech-challenge.jpg",
     category: "Training",
-    issuerLogo: "/assets/logos/dw-akademie.png"
+    issuerLogo: "/assets/logos/dw-akademie.png",
+    status: "Active"
   },
   {
     id: 22,
@@ -314,9 +352,10 @@ export const certifications: Certification[] = [
     description: "Comprehensive training on object-oriented PHP development using the CodeIgniter MVC framework.",
     skills: ["Software Development Methodologies", "PHP", "CodeIgniter", "MVC"],
     featured: false,
-    image: pdfToImagePath("/assets/certifications/php-codeigniter.jpg"),
+    image: "/assets/certificates/php-codeigniter.jpg",
     category: "Training",
-    issuerLogo: "/assets/logos/basis.png"
+    issuerLogo: "/assets/logos/basis.png",
+    status: "Active"
   }
 ];
 
