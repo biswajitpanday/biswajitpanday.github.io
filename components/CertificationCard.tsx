@@ -4,8 +4,15 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { Certification } from "@/data/certificationsData";
-import { FiAward, FiCalendar, FiExternalLink } from "react-icons/fi";
+import { FiAward, FiCalendar, FiExternalLink, FiKey, FiCheck, FiActivity, FiHash } from "react-icons/fi";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface CertificationCardProps {
   certification: Certification;
@@ -28,7 +35,10 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
     skills,
     image,
     issuerLogo,
-    isUpcoming
+    isUpcoming,
+    status,
+    onlineVerifiable,
+    certificationNumber
   } = certification;
 
   // State for showing all skills
@@ -70,6 +80,9 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
     setShowAllSkills(!showAllSkills);
   };
 
+  // Check if it's a Microsoft certification
+  const isMicrosoftCert = issuer === "Microsoft";
+
   return (
     <motion.div
       variants={cardVariants}
@@ -103,7 +116,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 
         {/* Issuer Logo */}
         {issuerLogo && (
-          <div className="absolute bottom-2 right-2 w-10 h-10 bg-white/10 backdrop-blur-md rounded-full overflow-hidden flex items-center justify-center">
+          <div className="absolute bottom-2 right-2 w-10 h-10 bg-white/10 backdrop-blur-md rounded overflow-hidden flex items-center justify-center border border-white/20 shadow-glow">
             <Image
               src={issuerLogo}
               alt={issuer}
@@ -117,9 +130,48 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 
       {/* Card Content */}
       <div className="flex-1 p-5 pt-2 flex flex-col">
-        <div className="mb-2 flex items-center text-white/70 text-sm">
-          <FiCalendar className="mr-1.5" />
-          <span>{formattedDate}</span>
+        <div className="mb-2 flex items-center justify-between">
+          <div className="flex items-center text-white/70 text-sm">
+            <FiCalendar className="mr-1.5" />
+            <span>{formattedDate}</span>
+          </div>
+          
+          {/* Status indicators with tooltips */}
+          <div className="flex gap-1.5">
+            {status && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                      status === "Active" 
+                        ? "bg-green-500/20 text-green-400" 
+                        : "bg-white/10 text-white/60"
+                    }`}>
+                      <FiActivity size={12} />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs">{status} Certification</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+            
+            {onlineVerifiable && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="w-5 h-5 rounded-full bg-secondary-default/20 text-secondary-default flex items-center justify-center">
+                      <FiCheck size={12} />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs">Online Verifiable</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </div>
         </div>
 
         <h3 className="text-lg font-bold text-white mb-1.5 line-clamp-2">{name}</h3>
@@ -128,7 +180,25 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
           {issuer}
         </div>
         
-        {description && (
+        {/* Credential ID for Microsoft certifications */}
+        {isMicrosoftCert && credentialId && (
+          <div className="flex items-center text-white/60 text-xs mb-3 bg-white/5 p-2 rounded">
+            <FiKey className="mr-1.5 text-secondary-default" />
+            <span className="mr-1 font-medium">Credential ID:</span>
+            <span className="font-mono">{credentialId}</span>
+          </div>
+        )}
+        
+        {/* Certification Number if available */}
+        {certificationNumber && (
+          <div className="flex items-center text-white/60 text-xs mb-3 bg-white/5 p-2 rounded">
+            <FiHash className="mr-1.5 text-secondary-default" />
+            <span className="mr-1 font-medium">Certification Number:</span>
+            <span className="font-mono">{certificationNumber}</span>
+          </div>
+        )}
+        
+        {description && !isMicrosoftCert && (
           <p className="text-white/70 text-sm mb-4 line-clamp-2">
             {description}
           </p>
@@ -142,7 +212,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
                 <Badge
                   key={i}
                   variant="outline"
-                  className="text-xs bg-white/5 hover:bg-white/10 transition-colors"
+                  className="text-xs bg-secondary-default/10 border-secondary-default/20 text-white hover:bg-secondary-default/20 transition-colors"
                 >
                   {skill}
                 </Badge>
@@ -162,23 +232,29 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
       </div>
 
       {/* Card Footer */}
-      <div className="p-4 pt-2 border-t border-white/5 flex justify-between items-center">
-        {credentialId && (
-          <div className="text-white/40 text-xs">
+      <div className="p-4 pt-2 border-t border-white/5 flex justify-center items-center">
+        {!isMicrosoftCert && credentialId && (
+          <div className="text-white/40 text-xs absolute bottom-4 left-4">
             ID: {credentialId.substring(0, 8)}...
           </div>
         )}
         
         {link ? (
-          <Link
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1 text-secondary-default hover:text-secondary-default/80 text-sm font-medium transition-colors"
+          <Button
+            size="sm"
+            className="bg-gradient-to-r from-secondary-default to-blue-500 hover:opacity-90 text-primary border-none gap-1.5"
+            asChild
           >
-            View Certificate
-            <FiExternalLink size={14} />
-          </Link>
+            <Link
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-sm"
+            >
+              View Certificate
+              <FiExternalLink size={14} />
+            </Link>
+          </Button>
         ) : (
           <div className="text-white/40 text-xs italic">
             {isUpcoming ? "Coming soon" : "No certificate link"}
@@ -189,4 +265,23 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
   );
 };
 
-export default CertificationCard; 
+export default CertificationCard;
+
+// Add CSS for shadow glow in a Next.js safe way
+const SHADOW_GLOW_STYLES = `
+  .shadow-glow {
+    box-shadow: 0 0 8px rgba(0, 191, 255, 0.2);
+  }
+`;
+
+// Only insert the styles on the client side
+if (typeof document !== 'undefined') {
+  // Check if the style already exists to avoid duplicates
+  const id = 'certification-card-styles';
+  if (!document.getElementById(id)) {
+    const styleElement = document.createElement('style');
+    styleElement.id = id;
+    styleElement.innerHTML = SHADOW_GLOW_STYLES;
+    document.head.appendChild(styleElement);
+  }
+} 

@@ -131,6 +131,7 @@ const Certifications = () => {
           <FeaturedCertificationCard 
             certification={featuredCertification}
             className="mb-12 mt-8"
+            simplified={false}
           />
         )}
 

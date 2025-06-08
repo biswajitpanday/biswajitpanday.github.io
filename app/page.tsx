@@ -40,7 +40,7 @@ const Home = () => {
       <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-secondary-default/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col xl:flex-row items-center justify-center xl:justify-between gap-8 xl:gap-16 xl:pt-8 xl:pb-16">
+        <div className="flex flex-col xl:flex-row items-center justify-center xl:justify-between gap-8 xl:gap-16 xl:pt-8 xl:pb-8">
           {/* Content Section */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -131,6 +131,7 @@ const Home = () => {
                 <FeaturedCertificationCard 
                   certification={featuredCertification} 
                   size="small"
+                  simplified={true}
                 />
               </motion.div>
             )}
@@ -198,7 +199,7 @@ const Home = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="mt-16 xl:mt-24"
+          className="mt-12 xl:mt-12"
         >
           <Suspense fallback={<ComponentFallback className="w-full h-32" />}>
             <Stats />
