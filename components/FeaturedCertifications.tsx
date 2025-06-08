@@ -28,11 +28,10 @@ const FeaturedCertifications: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
         >
-          {featuredCerts.map((certification, index) => (
+          {featuredCerts.map((certification) => (
             <CertificationCard
               key={certification.id}
               certification={certification}
-              index={index}
             />
           ))}
         </motion.div>
