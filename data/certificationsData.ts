@@ -234,7 +234,7 @@ export const certifications: Certification[] = [
     featured: false,
     image: "/assets/certificates/Pluralsight_Design-patterns-overview_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png",
+    issuerLogo: "/assets/logos/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -249,7 +249,7 @@ export const certifications: Certification[] = [
     featured: false,
     image: "/assets/certificates/Building-cloud-native-solutions-azure-visual-studio_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png",
+    issuerLogo: "/assets/logos/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -264,7 +264,7 @@ export const certifications: Certification[] = [
     featured: false,
     image: "/assets/certificates/Csharp-generics_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png",
+    issuerLogo: "/assets/logos/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -279,7 +279,7 @@ export const certifications: Certification[] = [
     featured: false,
     image: "/assets/certificates/Docker and Kubernetes The Big Picture_Certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png",
+    issuerLogo: "/assets/logos/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -294,7 +294,7 @@ export const certifications: Certification[] = [
     featured: false,
     image: "/assets/certificates/Npm-playbook_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png",
+    issuerLogo: "/assets/logos/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -309,7 +309,7 @@ export const certifications: Certification[] = [
     featured: false,
     image: "/assets/certificates/Object-oriented-programming-fundamentals-csharp_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png",
+    issuerLogo: "/assets/logos/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -324,39 +324,39 @@ export const certifications: Certification[] = [
     featured: false,
     image: "/assets/certificates/React-big-picture_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.png",
+    issuerLogo: "/assets/logos/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
   
   // Other Training
-  {
-    id: 21,
-    name: "The Media Tech Challenge - Bootcamp 2019",
-    issuer: "DW Akademie",
-    date: "2019-03",
-    link: "https://photos.google.com/share/AF1QipMfjpDJc24HF7qmJqWPpPze2C33m1_aqmi2BVmrnkP3jFOzSzcQ2ZX8Lr9PV2Xerg/photo/AF1QipOFmYBWp3wf3WkERvzrw8mvDTZVUD9deZMCVSH8?key=OVBSQXBFZW8zcnYybUpIVVFmeVVCaXg5c0tLWXFn",
-    description: "Intensive bootcamp focused on media technology solutions and development.",
-    skills: ["Media Technology", "Software Development", "Innovation"],
-    featured: false,
-    image: "/assets/certificates/media-tech-challenge.jpg",
-    category: "Training",
-    issuerLogo: "/assets/logos/dw-akademie.png",
-    status: "Active"
-  },
-  {
-    id: 22,
-    name: "Training Program on OOP (MVC) PHP with CodeIgniter Framework",
-    issuer: "BASIS",
-    date: "2013-04",
-    description: "Comprehensive training on object-oriented PHP development using the CodeIgniter MVC framework.",
-    skills: ["Software Development Methodologies", "PHP", "CodeIgniter", "MVC"],
-    featured: false,
-    image: "/assets/certificates/php-codeigniter.jpg",
-    category: "Training",
-    issuerLogo: "/assets/logos/basis.png",
-    status: "Active"
-  }
+  // {
+  //   id: 21,
+  //   name: "The Media Tech Challenge - Bootcamp 2019",
+  //   issuer: "DW Akademie",
+  //   date: "2019-03",
+  //   link: "https://photos.google.com/share/AF1QipMfjpDJc24HF7qmJqWPpPze2C33m1_aqmi2BVmrnkP3jFOzSzcQ2ZX8Lr9PV2Xerg/photo/AF1QipOFmYBWp3wf3WkERvzrw8mvDTZVUD9deZMCVSH8?key=OVBSQXBFZW8zcnYybUpIVVFmeVVCaXg5c0tLWXFn",
+  //   description: "Intensive bootcamp focused on media technology solutions and development.",
+  //   skills: ["Media Technology", "Software Development", "Innovation"],
+  //   featured: false,
+  //   image: "/assets/certificates/media-tech-challenge.jpg",
+  //   category: "Training",
+  //   issuerLogo: "/assets/logos/dw-akademie.png",
+  //   status: "Active"
+  // },
+  // {
+  //   id: 22,
+  //   name: "Training Program on OOP (MVC) PHP with CodeIgniter Framework",
+  //   issuer: "BASIS",
+  //   date: "2013-04",
+  //   description: "Comprehensive training on object-oriented PHP development using the CodeIgniter MVC framework.",
+  //   skills: ["Software Development Methodologies", "PHP", "CodeIgniter", "MVC"],
+  //   featured: false,
+  //   image: "/assets/certificates/php-codeigniter.jpg",
+  //   category: "Training",
+  //   issuerLogo: "/assets/logos/basis.png",
+  //   status: "Active"
+  // }
 ];
 
 // Helper function to get featured certifications
