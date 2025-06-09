@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import PageTransition from "@/components/PageTransition";
 import { PersonSchema, WebSiteSchema, OrganizationSchema } from "@/components/StructuredData";
+import DebugMode from "@/components/DebugMode";
 
 const jetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -108,6 +109,7 @@ export default function RootLayout({
         <Header />
         {/* <StairTransition /> */}
         <PageTransition>{children}</PageTransition>
+        <DebugMode />
       </body>
     </html>
   );

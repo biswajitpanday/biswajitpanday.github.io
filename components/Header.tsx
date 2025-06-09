@@ -7,11 +7,13 @@ import MobileNav from "./MobileNav";
 import GlobalSearch from "./GlobalSearch";
 import { FaSearch } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const isSearchEnabled = process.env.NEXT_PUBLIC_ENABLE_SEARCH !== 'false';
+  const router = useRouter();
 
   // Handle scroll effect for sticky header
   useEffect(() => {
@@ -37,6 +39,19 @@ const Header = () => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isSearchEnabled]);
+  
+  // Handle navigation with loading
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    e.preventDefault();
+    
+    // Trigger the route change event
+    window.dispatchEvent(new Event('route-change-start'));
+    
+    // Navigate after a short delay
+    setTimeout(() => {
+      router.push(path);
+    }, 100);
+  };
 
   return (
     <>
@@ -48,7 +63,7 @@ const Header = () => {
         }`}
       >
         <div className="container mx-auto flex justify-between items-center">
-          <Link href={"/"}>
+          <Link href={"/"} onClick={(e) => handleNavClick(e, "/")}>
             <h1 className="text-4xl font-semibold">
               Panday<span className="text-secondary-default">.</span>
             </h1>
@@ -73,7 +88,7 @@ const Header = () => {
               </button>
             )}
 
-            <Link href={"/contact"}>
+            <Link href={"/contact"} onClick={(e) => handleNavClick(e, "/contact")}>
               <Button variant="outline" className="custom-button">Hire Me</Button>
             </Link>
           </div>

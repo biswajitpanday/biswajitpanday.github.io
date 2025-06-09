@@ -1,7 +1,7 @@
 "use client";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { CiMenuFries } from "react-icons/ci";
 import { IoClose } from "react-icons/io5";
@@ -10,6 +10,7 @@ import { useState } from "react";
 
 const MobileNav = () => {
   const pathName = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   const containerVariants = {
@@ -47,6 +48,23 @@ const MobileNav = () => {
         damping: 25,
       },
     },
+  };
+  
+  // Handle navigation with loading
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    e.preventDefault();
+    setIsOpen(false);
+    
+    // Only trigger if it's a different page
+    if (pathName !== path) {
+      // Trigger the route change event
+      window.dispatchEvent(new Event('route-change-start'));
+      
+      // Navigate after a short delay
+      setTimeout(() => {
+        router.push(path);
+      }, 100);
+    }
   };
 
   return (
@@ -104,17 +122,15 @@ const MobileNav = () => {
           initial="hidden"
           animate="visible"
         >
-          <SheetClose asChild>
-            <Link href="/" onClick={() => setIsOpen(false)}>
-              <motion.h1 
-                className="text-4xl font-semibold hover:scale-105 transition-transform duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Panday<span className="text-secondary-default">.</span>
-              </motion.h1>
-            </Link>
-          </SheetClose>
+          <Link href="/" onClick={(e) => handleNavClick(e, "/")}>
+            <motion.h1 
+              className="text-4xl font-semibold hover:scale-105 transition-transform duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Panday<span className="text-secondary-default">.</span>
+            </motion.h1>
+          </Link>
         </motion.div>
 
         {/* Navigation Links */}
@@ -138,41 +154,39 @@ const MobileNav = () => {
                   whileTap={{ scale: 0.98 }}
                   className="relative"
                 >
-                  <SheetClose asChild>
-                    <Link
-                      href={link.path}
-                      onClick={() => setIsOpen(false)}
-                      className={`
-                        relative flex items-center justify-center px-6 py-4
-                        text-lg font-medium transition-all duration-300 group overflow-hidden
-                        ${isActive 
-                          ? "text-secondary-default border-b-2 border-secondary-default" 
-                          : "text-white/80 hover:text-secondary-default border-b-2 border-transparent hover:border-secondary-default/50"
-                        }
-                      `}
-                      aria-label={`Navigate to ${link.name}`}
-                    >
-                      {/* Text */}
-                      <span className="capitalize font-medium relative z-10">
-                        {link.name}
-                      </span>
+                  <Link
+                    href={link.path}
+                    onClick={(e) => handleNavClick(e, link.path)}
+                    className={`
+                      relative flex items-center justify-center px-6 py-4
+                      text-lg font-medium transition-all duration-300 group overflow-hidden
+                      ${isActive 
+                        ? "text-secondary-default border-b-2 border-secondary-default" 
+                        : "text-white/80 hover:text-secondary-default border-b-2 border-transparent hover:border-secondary-default/50"
+                      }
+                    `}
+                    aria-label={`Navigate to ${link.name}`}
+                  >
+                    {/* Text */}
+                    <span className="capitalize font-medium relative z-10">
+                      {link.name}
+                    </span>
 
-                      {/* Active indicator */}
-                      {isActive && (
-                        <motion.div
-                          className="absolute right-4 w-2 h-2 bg-secondary-default rounded-full"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ 
-                            type: "spring", 
-                            stiffness: 400, 
-                            damping: 20,
-                            delay: index * 0.1 
-                          }}
-                        />
-                      )}
-                    </Link>
-                  </SheetClose>
+                    {/* Active indicator */}
+                    {isActive && (
+                      <motion.div
+                        className="absolute right-4 w-2 h-2 bg-secondary-default rounded-full"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ 
+                          type: "spring", 
+                          stiffness: 400, 
+                          damping: 20,
+                          delay: index * 0.1 
+                        }}
+                      />
+                    )}
+                  </Link>
                 </motion.div>
               );
             })}
