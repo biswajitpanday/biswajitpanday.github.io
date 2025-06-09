@@ -1,7 +1,10 @@
+"use client";
+
 import React from 'react';
+import { personSchema, websiteSchema, organizationSchema } from '@/data/schemaData';
 
 interface StructuredDataProps {
-  type: 'Person' | 'WebSite' | 'WebPage' | 'Article';
+  type: 'Person' | 'WebSite' | 'WebPage' | 'Organization' | 'Article';
   data: Record<string, unknown>;
 }
 
@@ -26,62 +29,42 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
 
 export default StructuredData;
 
-// Usage examples:
-
-// For Person schema (your professional information)
+// Pre-configured schema components
 export const PersonSchema = () => (
   <StructuredData
     type="Person"
-    data={{
-      name: 'Biswajit Panday',
-      jobTitle: 'Full-Stack .NET Developer',
-      url: 'https://biswajitpanday.github.io',
-      sameAs: [
-        'https://github.com/biswajitpanday',
-        'https://linkedin.com/in/biswajitpanday',
-        // Add other social media profiles
-      ],
-      image: 'https://biswajitpanday.github.io/assets/photo.png',
-      description: 'Full-Stack .NET Developer with expertise in cloud solutions, React, and DevOps.',
-      knowsAbout: ['.NET Core', 'React', 'Azure', 'AWS', 'DevOps'],
-      worksFor: {
-        '@type': 'Organization',
-        name: 'Your Current Company'
-      }
-    }}
+    data={personSchema}
   />
 );
 
-// For WebSite schema
 export const WebSiteSchema = () => (
   <StructuredData
     type="WebSite"
-    data={{
-      name: 'Biswajit Panday - Portfolio',
-      url: 'https://biswajitpanday.github.io',
-      description: 'Professional portfolio of Biswajit Panday, a skilled Full-Stack .NET Developer with 10+ years experience.',
-      potentialAction: {
-        '@type': 'SearchAction',
-        'target': 'https://biswajitpanday.github.io/?search={search_term_string}',
-        'query-input': 'required name=search_term_string'
-      }
-    }}
+    data={websiteSchema}
   />
 );
 
-// For WebPage schema (for specific pages)
-export const WebPageSchema = (title: string, description: string, url: string) => (
+export const OrganizationSchema = () => (
+  <StructuredData
+    type="Organization"
+    data={organizationSchema}
+  />
+);
+
+// Generate WebPage schema for specific pages
+export const WebPageSchema = (title: string, description: string, path: string, images: string[] = []) => (
   <StructuredData
     type="WebPage"
     data={{
       name: title,
       description: description,
-      url: url,
+      url: `https://biswajitpanday.github.io${path}`,
       isPartOf: {
         '@type': 'WebSite',
         name: 'Biswajit Panday - Portfolio',
         url: 'https://biswajitpanday.github.io'
-      }
+      },
+      image: images.length > 0 ? images : ['https://biswajitpanday.github.io/assets/photo.png']
     }}
   />
 ); 

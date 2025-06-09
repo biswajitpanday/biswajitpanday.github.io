@@ -4,7 +4,7 @@ import { JetBrains_Mono  } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import PageTransition from "@/components/PageTransition";
-import { PersonSchema, WebSiteSchema } from "@/components/StructuredData";
+import { PersonSchema, WebSiteSchema, OrganizationSchema } from "@/components/StructuredData";
 
 const jetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -102,6 +102,7 @@ export default function RootLayout({
       <head>
         <PersonSchema />
         <WebSiteSchema />
+        <OrganizationSchema />
       </head>
       <body className={jetBrainsMono.variable}>
         <Header />

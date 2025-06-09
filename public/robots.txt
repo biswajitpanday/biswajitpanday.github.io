@@ -1,0 +1,9 @@
+# Allow all web crawlers
+User-agent: *
+Allow: /
+
+# Disallow specific directories if needed
+# Disallow: /private/
+
+# Sitemap location
+Sitemap: https://biswajitpanday.github.io/sitemap.xml 
