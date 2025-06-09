@@ -256,7 +256,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
           )}
           
           <div className="flex justify-center">
-            {link && (
+            {link && onlineVerifiable !== false ? (
               <Link
                 href={link}
                 target="_blank"
@@ -270,6 +270,14 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
                 <FiExternalLink className="text-xs" />
                 <span>View Certificate</span>
               </Link>
+            ) : (
+              <button
+                onClick={() => setIsLightboxOpen(true)}
+                className="flex-1 flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/20 text-white/70 px-4 py-2 rounded transition-colors duration-300 text-sm font-medium"
+              >
+                <FiExternalLink className="text-xs" />
+                <span>View Image</span>
+              </button>
             )}
           </div>
         </div>
