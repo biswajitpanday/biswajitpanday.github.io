@@ -32,7 +32,7 @@ export const certifications: Certification[] = [
     description: "Validated fundamental knowledge of cloud concepts, Azure services, Azure workloads, security and privacy in Azure, as well as Azure pricing and support.",
     skills: ["Cloud Computing", "Microsoft Azure", "Azure DevOps Services"],
     featured: true,
-    image: "/assets/certificates/microsoft-certified-fundamentals-badge.svg",
+    image: "/assets/certificates/webp/microsoft-certified-fundamentals-badge.webp",
     thumbImage: "/assets/certificates/microsoft-certified-fundamentals-badge.svg",
     category: "Professional",
     issuerLogo: "/assets/logos/microsoft.png",
@@ -239,7 +239,7 @@ export const certifications: Certification[] = [
   // Pluralsight Certifications
   {
     id: 14,
-    name: "C# Design Patterns",
+    name: "Design Patterns Overview",
     issuer: "Pluralsight",
     date: "2020-06",
     link: "https://app.pluralsight.com/profile/biswajit-panday",
