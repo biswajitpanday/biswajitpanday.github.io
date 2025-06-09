@@ -4,6 +4,7 @@ import { JetBrains_Mono  } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import PageTransition from "@/components/PageTransition";
+import { PersonSchema, WebSiteSchema } from "@/components/StructuredData";
 
 const jetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -86,7 +87,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "your-google-verification-code", // Add your Google Search Console verification code
+    google: "fTIgBKnzcuF3MPRDsMRqUj4bL66ENrVv5Az8nMoh2UA", // Get this from Google Search Console after adding your site
   },
   category: "technology",
 };
@@ -98,6 +99,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <PersonSchema />
+        <WebSiteSchema />
+      </head>
       <body className={jetBrainsMono.variable}>
         <Header />
         {/* <StairTransition /> */}

@@ -181,3 +181,88 @@ This project is open source and available under the [MIT License](LICENSE).
 Built with ❤️ by Biswajit Panday
 
 See [PROJECT_SUMMARY.md](docs/PROJECT_SUMMARY.md) for detailed project information including design features, image optimization techniques, and more.
+
+## SEO Optimization Guide
+
+### 1. Set Up Google Search Console
+
+1. Go to [Google Search Console](https://search.console.google.com)
+2. Add your property (https://biswajitpanday.github.io)
+3. Verify ownership by selecting the "HTML tag" method
+4. Copy the meta tag value (looks like: `<meta name="google-site-verification" content="YOUR_VERIFICATION_CODE">`)
+5. Replace the placeholder in `app/layout.tsx`:
+   ```typescript
+   verification: {
+     google: "YOUR_VERIFICATION_CODE", // Get this from Google Search Console
+   },
+   ```
+6. Commit and push changes
+7. Complete verification in Google Search Console
+
+### 2. Submit Your Sitemap
+
+1. After Google Search Console verification, go to the "Sitemaps" section
+2. Enter `sitemap.xml` in the URL field and click "Submit"
+3. Monitor for any errors in the indexing process
+
+### 3. Set Up Bing Webmaster Tools
+
+1. Go to [Bing Webmaster Tools](https://www.bing.com/webmasters)
+2. Add your site and verify ownership (you can use the same Google verification)
+3. Submit your sitemap there as well
+
+### 4. Improve Rich Results / Structured Data
+
+1. Add JSON-LD structured data for:
+   - Person (your professional information)
+   - WebSite
+   - Article (for any blog posts)
+   
+2. Test your structured data using [Google's Rich Results Test](https://search.google.com/test/rich-results)
+
+### 5. Fix Critical Issues
+
+1. Update certification dates (the "Dec 2024" date on the Azure Fundamentals certification)
+2. Fix the resume download link to ensure it works properly
+3. Handle 404 errors for dynamic routes like certification details
+
+## Local Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Generate thumbnails for projects
+npm run generate-thumbnails
+
+# Optimize profile images
+npm run optimize-profile
+
+# Convert images to WebP format
+npm run convert-to-webp
+```
+
+## Deployment
+
+This site is deployed on GitHub Pages. To deploy updates:
+
+1. Make your changes and commit them
+2. Run `npm run build`
+3. Push changes to the main branch
+4. GitHub Actions will automatically deploy the updated site
+
+## Technologies Used
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Radix UI
+- React Hook Form
+- GitHub Pages
