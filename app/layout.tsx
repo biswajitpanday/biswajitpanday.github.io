@@ -87,7 +87,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "fTIgBKnzcuF3MPRDsMRqUj4bL66ENrVv5Az8nMoh2UA", // Get this from Google Search Console after adding your site
+    google: "6KDQC-2OeS6NjVA21G1MJ-svIYpHNBhnsWBS0LG85a4", // Get this from Google Search Console after adding your site
   },
   category: "technology",
 };
