@@ -3,7 +3,16 @@ User-agent: *
 Allow: /
 
 # Disallow specific directories if needed
-# Disallow: /private/
+Disallow: /private/
+Disallow: /admin/
+Disallow: /api/
 
 # Sitemap location
-Sitemap: https://biswajitpanday.github.io/sitemap.xml 
+Sitemap: https://biswajitpanday.github.io/sitemap.xml
+Sitemap: https://biswajitpanday.github.io/sitemap-index.xml
+Host: https://biswajitpanday.github.io
+
+# Googlebot specific settings
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1 

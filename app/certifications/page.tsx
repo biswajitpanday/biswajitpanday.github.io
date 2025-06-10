@@ -15,6 +15,7 @@ import CertificationCard from "@/components/CertificationCard";
 import SectionHeader from "@/components/SectionHeader";
 import BackgroundElements from "@/components/BackgroundElements";
 import { FiAward, FiBriefcase, FiBook, FiSlack } from "react-icons/fi";
+import { FaMicrosoft, FaCloudversify, FaCertificate } from "react-icons/fa";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import StatsCards, { StatCard } from "@/components/StatsCards";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
@@ -130,6 +131,36 @@ const Certifications = () => {
         >
           <StatsCards stats={statsData} />
         </SectionHeader>
+
+        {/* Certification Highlight Badges */}
+        <motion.div
+          variants={PERFORMANCE_VARIANTS.containerSync}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-wrap justify-center gap-3 mb-12 -mt-2"
+        >
+          <motion.span
+            variants={PERFORMANCE_VARIANTS.cardSync}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
+          >
+            <FaMicrosoft className="text-xs" />
+            Microsoft Certified
+          </motion.span>
+          <motion.span
+            variants={PERFORMANCE_VARIANTS.cardSync}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 to-transparent backdrop-blur-sm border border-blue-500/30 text-blue-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-500/20 transition-all duration-300"
+          >
+            <FaCloudversify className="text-xs" />
+            Cloud Expertise
+          </motion.span>
+          <motion.span
+            variants={PERFORMANCE_VARIANTS.cardSync}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-transparent backdrop-blur-sm border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/20 transition-all duration-300"
+          >
+            <FaCertificate className="text-xs" />
+            Industry Recognized
+          </motion.span>
+        </motion.div>
 
         {/* Featured Certification Banner */}
         {featuredCertification && (

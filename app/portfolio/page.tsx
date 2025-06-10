@@ -4,6 +4,9 @@ import { motion } from "framer-motion";
 import {
   FaBriefcase,
   FaRocket,
+  FaCode,
+  FaLaptopCode,
+  FaCogs
 } from "react-icons/fa";
 import { projects } from "@/data/portfolioData";
 import { PERFORMANCE_VARIANTS } from "@/constants";
@@ -104,21 +107,51 @@ const Portfolio = () => {
             <StatsCards stats={statsData} />
           </SectionHeader>
 
+          {/* Project Highlight Badges */}
+          <motion.div
+            variants={PERFORMANCE_VARIANTS.containerSync}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-wrap justify-center gap-3 mb-12 -mt-2"
+          >
+            <motion.span
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
+            >
+              <FaCode className="text-xs" />
+              Enterprise Solutions
+            </motion.span>
+            <motion.span
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 to-transparent backdrop-blur-sm border border-blue-500/30 text-blue-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-500/20 transition-all duration-300"
+            >
+              <FaLaptopCode className="text-xs" />
+              Modern Web Apps
+            </motion.span>
+            <motion.span
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-transparent backdrop-blur-sm border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/20 transition-all duration-300"
+            >
+              <FaCogs className="text-xs" />
+              Cloud Architecture
+            </motion.span>
+          </motion.div>
+
           {/* Filter Section */}
           {(isSearchEnabled || isFilterEnabled) && (
             <div className="mb-8">
               <PortfolioFilter
                 projects={projects}
                 onFilterChange={setFilteredProjects}
-                    searchQuery={searchQuery}
-                    onSearchChange={setSearchQuery}
-                    placeholder="Search projects by name, technology, description..."
-                  resultsInfo={{
-                    filtered: filteredProjects.length,
-                    total: projects.length,
-                    description: "projects"
-                  }}
-                />
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                placeholder="Search projects by name, technology, description..."
+                resultsInfo={{
+                  filtered: filteredProjects.length,
+                  total: projects.length,
+                  description: "projects"
+                }}
+              />
             </div>
           )}
 

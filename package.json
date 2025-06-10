@@ -3,6 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "description": "Professional portfolio of Biswajit Panday, a Full-Stack .NET Developer with expertise in React, Azure, and AWS cloud solutions.",
+  "keywords": [
+    "full-stack developer",
+    ".net developer",
+    "react developer",
+    "azure cloud",
+    "aws cloud",
+    "dotnet expert",
+    "web development",
+    "cloud solutions",
+    "software engineer",
+    "portfolio",
+    "biswajit panday"
+  ],
+  "author": "Biswajit Panday",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

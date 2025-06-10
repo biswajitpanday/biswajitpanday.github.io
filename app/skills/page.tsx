@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaCogs, FaRocket, FaSearch } from "react-icons/fa";
+import { FaCogs, FaRocket, FaSearch, FaCode, FaDatabase, FaCloud } from "react-icons/fa";
 import TreeView, { flattenTree } from "react-accessible-treeview";
 import { skills1, skills2, countAllTechnologies } from "@/data/skillsData";
 import DynamicIcon from "@/components/DynamicIcon";
@@ -9,6 +9,7 @@ import React, { useCallback, useMemo, useState, useEffect } from "react";
 import BackgroundElements from "@/components/BackgroundElements";
 import SectionHeader from "@/components/SectionHeader";
 import SkillsFilter from "@/components/SkillsFilter";
+import { PERFORMANCE_VARIANTS } from "@/constants";
 
 // Memoized animation variants - created once, reused everywhere
 const TREE_ANIMATIONS = {
@@ -209,6 +210,36 @@ const Skills = () => {
         >
           <StatsCards stats={statsData} />
         </SectionHeader>
+
+        {/* Skill Highlight Badges */}
+        <motion.div
+          variants={PERFORMANCE_VARIANTS.containerSync}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-wrap justify-center gap-3 mb-12 -mt-2"
+        >
+          <motion.span
+            variants={PERFORMANCE_VARIANTS.cardSync}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
+          >
+            <FaCode className="text-xs" />
+            Full-Stack Development
+          </motion.span>
+          <motion.span
+            variants={PERFORMANCE_VARIANTS.cardSync}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 to-transparent backdrop-blur-sm border border-blue-500/30 text-blue-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-500/20 transition-all duration-300"
+          >
+            <FaDatabase className="text-xs" />
+            Database Architecture
+          </motion.span>
+          <motion.span
+            variants={PERFORMANCE_VARIANTS.cardSync}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-transparent backdrop-blur-sm border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/20 transition-all duration-300"
+          >
+            <FaCloud className="text-xs" />
+            Cloud Infrastructure
+          </motion.span>
+        </motion.div>
 
         {/* Search Section - Using SkillsFilter Component */}
         <SkillsFilter

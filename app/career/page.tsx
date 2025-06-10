@@ -71,7 +71,7 @@ const Career = () => {
             variants={PERFORMANCE_VARIANTS.containerSync}
           initial="hidden"
           animate="visible"
-          className="flex flex-wrap justify-center gap-3 mb-12"
+          className="flex flex-wrap justify-center gap-3 mb-12 -mt-2"
           >
             <motion.span
               variants={PERFORMANCE_VARIANTS.cardSync}

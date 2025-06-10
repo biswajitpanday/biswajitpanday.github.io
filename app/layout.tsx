@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import PageTransition from "@/components/PageTransition";
 import { PersonSchema, WebSiteSchema, OrganizationSchema } from "@/components/StructuredData";
 import DebugMode from "@/components/DebugMode";
+import SEOOptimizer from "@/components/SEOOptimizer";
 
 const jetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -104,11 +105,15 @@ export default function RootLayout({
         <PersonSchema />
         <WebSiteSchema />
         <OrganizationSchema />
+        <link rel="sitemap" href="/sitemap.xml" />
+        <link rel="sitemap" href="/sitemap-index.xml" />
+        <link rel="preload" href="/assets/photo.png" as="image" />
       </head>
       <body className={jetBrainsMono.variable}>
         <Header />
         {/* <StairTransition /> */}
         <PageTransition>{children}</PageTransition>
+        <SEOOptimizer />
         <DebugMode />
       </body>
     </html>
