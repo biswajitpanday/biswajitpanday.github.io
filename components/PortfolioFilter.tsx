@@ -151,12 +151,13 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/20 rounded-xl overflow-hidden mb-8 shadow-lg shadow-secondary-default/10"
+      data-test-selector="projectFilter"
     >
       {/* Search and Filter Bar */}
       <div className="p-4 flex flex-col sm:flex-row gap-4 items-center">
         {/* Search Input */}
         {isSearchEnabled && (
-          <div className="relative flex-1 w-full">
+          <div className="relative flex-1 w-full" data-test-selector="projectFilter-search">
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default">
               <FiSearch />
             </div>
@@ -166,11 +167,13 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
               value={searchQuery}
               onChange={handleSearchChange}
               className="w-full bg-gray-800/50 border border-secondary-default/20 rounded-lg py-2 pl-10 pr-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
+              data-test-selector="projectFilter-searchInput"
             />
             {searchQuery && (
               <button 
                 onClick={() => onSearchChange("")}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-secondary-default"
+                data-test-selector="projectFilter-clearSearch"
               >
                 <FiX />
               </button>
@@ -184,6 +187,7 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
             variant="outline"
             onClick={toggleFilterPanel}
             className={`shrink-0 flex items-center gap-2 ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
+            data-test-selector="projectFilter-toggleButton"
           >
             <FiFilter className={isExpanded ? 'text-secondary-default' : 'text-white/70'} />
             <span>Filters</span>
@@ -197,6 +201,7 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
             variant="ghost"
             onClick={resetFilters}
             className="shrink-0 text-white/70 hover:text-secondary-default"
+            data-test-selector="projectFilter-resetButton"
           >
             Reset
           </Button>
@@ -222,6 +227,7 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.2 }}
           className="px-4 pb-4 border-t border-secondary-default/20"
+          data-test-selector="projectFilter-panel"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
             {/* Categories Filter */}

@@ -21,6 +21,7 @@ const FiZap = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.Fi
 
 const SiReact = lazy(() => import("react-icons/si").then(mod => ({ default: mod.SiReact })));
 const SiDotnet = lazy(() => import("react-icons/si").then(mod => ({ default: mod.SiDotnet })));
+const AIIcon = lazy(() => import("@/components/icons/AIIcon"));
 
 // Loading fallback components
 const IconFallback = ({ className }: { className?: string }) => (
@@ -128,7 +129,10 @@ const Home = () => {
                 scalable applications
               </span>{" "}
               with .NET, React & DevOps while optimizing cloud solutions on
-              Azure & AWS.
+              Azure & AWS and integrating{" "}
+              <span className="text-emerald-300 font-semibold">
+                AI capabilities
+              </span>.
             </motion.p>
 
             {/* Tech Stack Highlights */}
@@ -164,6 +168,15 @@ const Home = () => {
                 }
                 text="DevOps"
                 color="purple"
+              />
+              <Badge
+                icon={
+                  <Suspense fallback={<IconFallback className="text-emerald-300" />}>
+                    <AIIcon className="text-emerald-300" />
+                  </Suspense>
+                }
+                text="AI"
+                color="emerald"
               />
             </motion.div>
 

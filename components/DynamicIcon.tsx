@@ -8,6 +8,21 @@ const CursorIcon = dynamic(() => import('./icons/CursorIcon'), {
   loading: () => <div className="w-4 h-4 bg-secondary-default/30 animate-pulse rounded-sm"></div>
 });
 
+const AIIcon = dynamic(() => import('./icons/AIIcon'), {
+  ssr: true,
+  loading: () => <div className="w-4 h-4 bg-secondary-default/30 animate-pulse rounded-sm"></div>
+});
+
+const GoogleAIStudioIcon = dynamic(() => import('./icons/GoogleAIStudioIcon'), {
+  ssr: true,
+  loading: () => <div className="w-4 h-4 bg-secondary-default/30 animate-pulse rounded-sm"></div>
+});
+
+const ClaudeAIIcon = dynamic(() => import('./icons/ClaudeAIIcon'), {
+  ssr: true,
+  loading: () => <div className="w-4 h-4 bg-secondary-default/30 animate-pulse rounded-sm"></div>
+});
+
 // Simple icon mapping for better bundle splitting
 const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
   // FA Icons
@@ -99,9 +114,21 @@ const DynamicIcon: React.FC<DynamicIconProps> = memo(({
   className = "mr-3 text-secondary-default",
   fallback = <div className={className} style={{ width: '1em', height: '1em', backgroundColor: 'currentColor', borderRadius: '2px' }} />
 }) => {
-  // Special case for Cursor icon which is a custom SVG component
+  // Special case for custom SVG component icons
   if (iconName === 'Cursor') {
     return <CursorIcon className={className} />;
+  }
+  
+  if (iconName === 'AI') {
+    return <AIIcon className={className} />;
+  }
+  
+  if (iconName === 'GoogleAIStudio') {
+    return <GoogleAIStudioIcon className={className} />;
+  }
+  
+  if (iconName === 'ClaudeAI') {
+    return <ClaudeAIIcon className={className} />;
   }
   
   const iconLoader = iconComponents[iconName];

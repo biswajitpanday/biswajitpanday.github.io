@@ -80,12 +80,13 @@ export const skills2 = {
   children: [
     {
       name: "AI Development Tools",
-      metadata: { icon: "FaRobot" },
+      metadata: { icon: "AI" },
       children: [
         { name: "GitHub Copilot", metadata: { icon: "FaGithub" } },
         { name: "Cursor IDE", metadata: { icon: "Cursor" } },
         { name: "ChatGPT", metadata: { icon: "SiOpenai" } },
-        { name: "Claude API", metadata: { icon: "FaRobot" } },
+        { name: "Claude API", metadata: { icon: "ClaudeAI" } },
+        { name: "Google AI Studio", metadata: { icon: "GoogleAIStudio" } },
       ],
     },
     {
