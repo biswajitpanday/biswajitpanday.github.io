@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { getMostRecentCertification } from "@/data/certificationsData";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
+import BackgroundElements from "@/components/BackgroundElements";
 
 // Lazy load heavy components
 const Photo = lazy(() => import("@/components/Photo"));
@@ -35,7 +36,31 @@ const Home = () => {
   return (
     <section className="min-h-[calc(100vh-136px)] flex flex-col justify-center relative overflow-hidden py-8 xl:py-0">
       {/* Enhanced Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary-default/5 pointer-events-none" />
+      <BackgroundElements
+        floatingDots={[
+          {
+            size: "md",
+            color: "secondary",
+            animation: "ping",
+            position: { top: "5rem", right: "2.5rem" },
+            opacity: 60
+          },
+          {
+            size: "sm",
+            color: "blue",
+            animation: "pulse",
+            position: { bottom: "8rem", right: "16rem" },
+            opacity: 40
+          },
+          {
+            size: "md",
+            color: "secondary",
+            animation: "bounce",
+            position: { top: "33.333333%", left: "2rem" },
+            opacity: 50
+          }
+        ]}
+      />
       <div className="absolute top-20 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-secondary-default/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -104,16 +129,16 @@ const Home = () => {
               className="flex flex-wrap justify-center xl:justify-start gap-3 mb-8"
             >
               {[
-                { icon: SiDotnet, text: ".NET Core" },
-                { icon: SiReact, text: "React" },
-                { icon: FiCloud, text: "DevOps" },
+                { icon: SiDotnet, text: ".NET", gradient: "from-secondary-default/10 to-transparent", borderColor: "border-secondary-default/30", textColor: "text-secondary-default", hoverBg: "hover:bg-secondary-default/20" },
+                { icon: SiReact, text: "React", gradient: "from-blue-500/10 to-transparent", borderColor: "border-blue-500/30", textColor: "text-blue-300", hoverBg: "hover:bg-blue-500/20" },
+                { icon: FiCloud, text: "DevOps", gradient: "from-purple-500/10 to-transparent", borderColor: "border-purple-500/30", textColor: "text-purple-300", hoverBg: "hover:bg-purple-500/20" },
               ].map((tech, index) => (
                 <div
                   key={index}
-                  className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 text-white/70 px-3 py-1.5 rounded text-sm hover:bg-white/10 hover:text-white transition-all duration-300"
+                  className={`inline-flex items-center gap-2 bg-gradient-to-r ${tech.gradient} backdrop-blur-sm border ${tech.borderColor} ${tech.textColor} px-3 py-1.5 rounded text-sm ${tech.hoverBg} transition-all duration-300`}
                 >
-                  <Suspense fallback={<IconFallback className="text-secondary-default" />}>
-                    <tech.icon className="text-secondary-default" />
+                  <Suspense fallback={<IconFallback className={tech.textColor} />}>
+                    <tech.icon className={tech.textColor} />
                   </Suspense>
                   <span>{tech.text}</span>
                 </div>
@@ -206,11 +231,6 @@ const Home = () => {
           </Suspense>
         </motion.div>
       </div>
-
-      {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-2 h-2 bg-secondary-default rounded-full animate-ping opacity-60" />
-      <div className="absolute bottom-32 right-16 w-1 h-1 bg-blue-400 rounded-full animate-pulse opacity-40" />
-      <div className="absolute top-1/3 right-8 w-1.5 h-1.5 bg-secondary-default rounded-full animate-bounce opacity-50" />
     </section>
   );
 };
