@@ -23,6 +23,7 @@ import UpcomingCertificationsSection from "@/components/UpcomingCertificationsSe
 import CertificationTimeline from "@/components/CertificationTimeline";
 import CertificationFilter from "@/components/CertificationFilter";
 import { PERFORMANCE_VARIANTS } from "@/constants";
+import Badge from "@/components/Badge";
 
 const Certifications = () => {
   const featuredCertification = getMostRecentCertification();
@@ -139,27 +140,21 @@ const Certifications = () => {
           animate="visible"
           className="flex flex-wrap justify-center gap-3 mb-12 -mt-2"
         >
-          <motion.span
-            variants={PERFORMANCE_VARIANTS.cardSync}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
-          >
-            <FaMicrosoft className="text-xs" />
-            Microsoft Certified
-          </motion.span>
-          <motion.span
-            variants={PERFORMANCE_VARIANTS.cardSync}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 to-transparent backdrop-blur-sm border border-blue-500/30 text-blue-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-500/20 transition-all duration-300"
-          >
-            <FaCloudversify className="text-xs" />
-            Cloud Expertise
-          </motion.span>
-          <motion.span
-            variants={PERFORMANCE_VARIANTS.cardSync}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-transparent backdrop-blur-sm border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/20 transition-all duration-300"
-          >
-            <FaCertificate className="text-xs" />
-            Industry Recognized
-          </motion.span>
+          <Badge
+            icon={<FaMicrosoft className="text-xs" />}
+            text="Microsoft Certified"
+            color="default"
+          />
+          <Badge
+            icon={<FaCloudversify className="text-xs" />}
+            text="Cloud Expertise"
+            color="blue"
+          />
+          <Badge
+            icon={<FaCertificate className="text-xs" />}
+            text="Industry Recognized"
+            color="purple"
+          />
         </motion.div>
 
         {/* Featured Certification Banner */}

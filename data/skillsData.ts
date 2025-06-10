@@ -85,7 +85,6 @@ export const skills2 = {
         { name: "GitHub Copilot", metadata: { icon: "FaGithub" } },
         { name: "Cursor IDE", metadata: { icon: "Cursor" } },
         { name: "ChatGPT", metadata: { icon: "SiOpenai" } },
-        { name: "Azure OpenAI", metadata: { icon: "VscAzure" } },
         { name: "Claude API", metadata: { icon: "FaRobot" } },
       ],
     },

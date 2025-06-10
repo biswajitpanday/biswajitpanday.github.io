@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { getMostRecentCertification } from "@/data/certificationsData";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 import BackgroundElements from "@/components/BackgroundElements";
+import Badge from "@/components/Badge";
 
 // Lazy load heavy components
 const Photo = lazy(() => import("@/components/Photo"));
@@ -78,15 +79,24 @@ const Home = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="inline-flex items-center gap-2 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded text-sm font-medium mb-6 hover:bg-secondary-default/20 transition-all duration-300"
+              className="mb-6"
             >
-              <Suspense fallback={<IconFallback />}>
-                <FiCode className="text-lg" />
-              </Suspense>
-              <span>Full-Stack .NET Developer</span>
-              <Suspense fallback={<IconFallback />}>
-                <FiZap className="text-lg animate-pulse" />
-              </Suspense>
+              <Badge
+                icon={
+                  <Suspense fallback={<IconFallback />}>
+                    <FiCode className="text-lg" />
+                  </Suspense>
+                }
+                text={
+                  <span className="flex items-center gap-2">
+                    Full-Stack .NET Developer
+                    <Suspense fallback={<IconFallback />}>
+                      <FiZap className="text-lg animate-pulse" />
+                    </Suspense>
+                  </span>
+                }
+                color="default"
+              />
             </motion.div>
 
             {/* Main Heading */}
@@ -128,21 +138,33 @@ const Home = () => {
               transition={{ delay: 0.8, duration: 0.6 }}
               className="flex flex-wrap justify-center xl:justify-start gap-3 mb-8"
             >
-              {[
-                { icon: SiDotnet, text: ".NET", gradient: "from-secondary-default/10 to-transparent", borderColor: "border-secondary-default/30", textColor: "text-secondary-default", hoverBg: "hover:bg-secondary-default/20" },
-                { icon: SiReact, text: "React", gradient: "from-blue-500/10 to-transparent", borderColor: "border-blue-500/30", textColor: "text-blue-300", hoverBg: "hover:bg-blue-500/20" },
-                { icon: FiCloud, text: "DevOps", gradient: "from-purple-500/10 to-transparent", borderColor: "border-purple-500/30", textColor: "text-purple-300", hoverBg: "hover:bg-purple-500/20" },
-              ].map((tech, index) => (
-                <div
-                  key={index}
-                  className={`inline-flex items-center gap-2 bg-gradient-to-r ${tech.gradient} backdrop-blur-sm border ${tech.borderColor} ${tech.textColor} px-3 py-1.5 rounded text-sm ${tech.hoverBg} transition-all duration-300`}
-                >
-                  <Suspense fallback={<IconFallback className={tech.textColor} />}>
-                    <tech.icon className={tech.textColor} />
+              <Badge
+                icon={
+                  <Suspense fallback={<IconFallback className="text-secondary-default" />}>
+                    <SiDotnet className="text-secondary-default" />
                   </Suspense>
-                  <span>{tech.text}</span>
-                </div>
-              ))}
+                }
+                text=".NET"
+                color="default"
+              />
+              <Badge
+                icon={
+                  <Suspense fallback={<IconFallback className="text-blue-300" />}>
+                    <SiReact className="text-blue-300" />
+                  </Suspense>
+                }
+                text="React"
+                color="blue"
+              />
+              <Badge
+                icon={
+                  <Suspense fallback={<IconFallback className="text-purple-300" />}>
+                    <FiCloud className="text-purple-300" />
+                  </Suspense>
+                }
+                text="DevOps"
+                color="purple"
+              />
             </motion.div>
 
             {/* Featured Certification Card */}

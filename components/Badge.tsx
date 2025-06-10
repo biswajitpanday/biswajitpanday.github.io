@@ -6,7 +6,7 @@ import { PERFORMANCE_VARIANTS } from "@/constants";
 
 interface BadgeProps {
   icon?: React.ReactNode;
-  text: string;
+  text: React.ReactNode;
   color?: "default" | "blue" | "purple" | "emerald" | "orange";
   className?: string;
 }

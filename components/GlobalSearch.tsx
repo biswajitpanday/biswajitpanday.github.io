@@ -199,7 +199,8 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start justify-center pt-20"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[var(--z-search)] flex items-start justify-center pt-20"
+          style={{ zIndex: 'var(--z-search)' }}
           onClick={onClose}
         >
           <motion.div

@@ -37,6 +37,11 @@ const config = {
       fontFamily: {
         primary: "var(--font-jetbrains-mono)",
       },
+      zIndex: {
+        '-1': '-1',
+        '60': '60',
+        '70': '70',
+      }
     },
   },
   plugins: [],

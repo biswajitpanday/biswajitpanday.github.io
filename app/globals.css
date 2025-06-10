@@ -12,6 +12,9 @@
     --color-secondary-default: #00bfff;
     --color-primary-default: #1c1c22;
     --color-primary-contrast: #ffffff;
+    --z-header: 50;
+    --z-mobile-nav: 60;
+    --z-search: 70;
   }
   
   /* Common utility classes for components that were using document manipulation */
@@ -61,6 +64,11 @@
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
+  }
+
+  /* Main content container to ensure proper spacing below header */
+  main, .main-content {
+    padding-top: 1rem;
   }
 
   /* Optimize hover effects */
