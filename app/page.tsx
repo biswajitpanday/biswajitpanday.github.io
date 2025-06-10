@@ -104,7 +104,7 @@ const Home = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-4xl xl:text-6xl font-bold mb-6 leading-tight"
+              className="text-3xl xl:text-5xl font-bold mb-6 leading-tight"
             >
               Hi, I&apos;m <br className="hidden xl:block" />
               <span className="bg-gradient-to-r from-secondary-default via-blue-400 to-secondary-default bg-clip-text text-transparent animate-gradient">

@@ -68,8 +68,8 @@ const SEOOptimizer = () => {
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "Portfolio",
-        "item": "https://biswajitpanday.github.io/portfolio"
+        "name": "Projects",
+        "item": "https://biswajitpanday.github.io/projects"
       },
       {
         "@type": "ListItem",

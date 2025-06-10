@@ -35,7 +35,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
       {/* Main Heading */}
       <motion.h1
         variants={PERFORMANCE_VARIANTS.slideUpSync}
-        className={`text-4xl xl:text-6xl font-bold text-white mb-4 leading-tight ${titleClassName}`}
+        className={`text-3xl xl:text-5xl font-bold text-white mb-4 leading-tight ${titleClassName}`}
       >
         {title}{" "}
         <span className={`bg-gradient-to-r ${gradientClass} bg-clip-text text-transparent animate-gradient`}>

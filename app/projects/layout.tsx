@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Portfolio - Projects & Work Showcase",
-  description: "Explore Biswajit Panday's portfolio featuring innovative full-stack projects, .NET applications, React apps, and cloud solutions. View live projects and source code.",
+  title: "Projects - Work Showcase",
+  description: "Explore Biswajit Panday's projects featuring innovative full-stack solutions, .NET applications, React apps, and cloud implementations. View live projects and source code.",
   keywords: [
-    "portfolio",
     "projects",
+    "portfolio",
     "full-stack development",
     ".NET projects",
     "React applications",
@@ -14,17 +14,17 @@ export const metadata: Metadata = {
     "software development"
   ],
   openGraph: {
-    title: "Portfolio - Biswajit Panday's Projects & Work",
+    title: "Projects - Biswajit Panday's Work Showcase",
     description: "Explore innovative full-stack projects, .NET applications, React apps, and cloud solutions",
-    url: "https://biswajitpanday.github.io/portfolio",
+    url: "https://biswajitpanday.github.io/projects",
   },
   twitter: {
-    title: "Portfolio - Biswajit Panday's Projects & Work",
+    title: "Projects - Biswajit Panday's Work Showcase",
     description: "Explore innovative full-stack projects, .NET applications, React apps, and cloud solutions",
   },
 };
 
-export default function PortfolioLayout({
+export default function ProjectsLayout({
   children,
 }: {
   children: React.ReactNode;

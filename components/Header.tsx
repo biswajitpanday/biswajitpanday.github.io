@@ -19,8 +19,8 @@ import GlobalSearch from "./GlobalSearch";
 // Header navigation links with correct mapping
 const NAVIGATION_ITEMS = [
   { name: "Home", href: "/" },
-  { name: "About", href: "/career" },
-  { name: "Projects", href: "/portfolio" },
+  { name: "Career", href: "/career" },
+  { name: "Projects", href: "/projects" },
   { name: "Certifications", href: "/certifications" },
   { name: "Skills", href: "/skills" },
   { name: "Contact", href: "/contact" },
@@ -42,6 +42,10 @@ export default function Header() {
 
   // Helper to check if a path is active (exact match or starts with path + '/')
   const isPathActive = (path: string) => {
+    // Special case for the portfolio to projects redirect
+    if (path === '/projects' && pathname.startsWith('/portfolio')) {
+      return true;
+    }
     return pathname === path || (path !== '/' && pathname.startsWith(path + '/'));
   };
 
@@ -85,7 +89,7 @@ export default function Header() {
         className="fixed top-0 left-0 w-full transition-all duration-300 backdrop-blur-md z-[var(--z-header)]"
         style={{ zIndex: 'var(--z-header)' }}
       >
-        <div className={`w-full ${isSticky ? 'border-b border-border-light bg-bg-default/70 shadow-sm' : 'bg-transparent'}`}>
+        <div className={`w-full ${isSticky ? 'border-b border-secondary-default/20 bg-bg-default/80 shadow-sm' : 'bg-transparent'}`}>
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex items-center justify-between h-16 md:h-20">
               {/* Logo */}
@@ -158,22 +162,10 @@ export default function Header() {
 
                 {/* Mobile Menu Button */}
                 <div className="flex md:flex lg:hidden items-center">
-                  {/* Mobile Search Button - Conditionally Rendered */}
-                  {isSearchEnabled && (
-                    <button
-                      onClick={() => setIsSearchOpen(true)}
-                      className="p-2 mr-2 bg-primary-light/20 hover:bg-primary-light/30 border border-border-light hover:border-secondary-default/30 text-text-primary hover:text-secondary-default rounded-full transition-all duration-300"
-                      title="Search"
-                      aria-label="Open search"
-                    >
-                      <FaSearch className="text-sm" />
-                    </button>
-                  )}
-                  
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="ml-2 hover:bg-transparent hover:text-secondary-default focus:bg-transparent"
+                    className="hover:bg-transparent hover:text-secondary-default focus:bg-transparent"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     aria-expanded={isMenuOpen}
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
