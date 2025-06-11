@@ -42,15 +42,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <motion.div
       key={project.num}
+      data-testid={`project-card-${project.num}`}
       variants={PERFORMANCE_VARIANTS.cardSync}
       className={`group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 performance-card flex flex-col justify-between ${className}`}
     >
       {/* Project Image */}
-      <div className="relative overflow-hidden rounded mb-4 group-hover:shadow-lg transition-all duration-300">
+      <div 
+        data-testid={`project-image-${project.num}`}
+        className="relative overflow-hidden rounded mb-4 group-hover:shadow-lg transition-all duration-300"
+      >
         {project.isActive ? (
           <Link
             href={project.url || project.github}
             target="_blank"
+            data-testid={`project-image-link-${project.num}`}
           >
             <Image
               src={displayImage}
@@ -73,11 +78,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Status Overlay */}
         <div className="absolute top-2 right-2">
           {project.isActive ? (
-            <span className="bg-green-500/90 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
+            <span 
+              data-testid={`project-status-active-${project.num}`}
+              className="bg-green-500/90 text-white text-xs px-2 py-1 rounded backdrop-blur-sm"
+            >
               Active
             </span>
           ) : (
-            <span className="bg-red-500/90 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
+            <span 
+              data-testid={`project-status-inactive-${project.num}`}
+              className="bg-red-500/90 text-white text-xs px-2 py-1 rounded backdrop-blur-sm"
+            >
               No Longer Active
             </span>
           )}
@@ -85,11 +96,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {/* Company and Position Pills */}
-      <div className="flex justify-between items-center mb-4">
+      <div 
+        data-testid={`project-badges-${project.num}`}
+        className="flex justify-between items-center mb-4"
+      >
         {/* Left: Company Badge */}
         <div className="flex gap-2">
           {project.associatedWithCompany && (
-            <span className="inline-flex items-center gap-2 text-sm font-bold px-3 py-1.5 rounded-full bg-secondary-default/20 border border-secondary-default/30 text-secondary-default">
+            <span 
+              data-testid={`project-company-badge-${project.num}`}
+              className="inline-flex items-center gap-2 text-sm font-bold px-3 py-1.5 rounded-full bg-secondary-default/20 border border-secondary-default/30 text-secondary-default"
+            >
               <FaBuilding className="text-xs" />
               {project.associatedWithCompany}
             </span>
@@ -97,7 +114,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
           {/* Open Source Badge */}
           {project.isOpenSource && (
-            <span className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-full bg-green-500/20 border border-green-500/30 text-green-300">
+            <span 
+              data-testid={`project-opensource-badge-${project.num}`}
+              className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-full bg-green-500/20 border border-green-500/30 text-green-300"
+            >
               <FaCodeBranch className="text-xs" />
               Open Source
             </span>
@@ -105,25 +125,37 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
 
         {/* Right: Position Badge */}
-        <span className="inline-flex items-center text-xs font-medium px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-300">
+        <span 
+          data-testid={`project-category-badge-${project.num}`}
+          className="inline-flex items-center text-xs font-medium px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-300"
+        >
           {project.category}
         </span>
       </div>
 
       {/* Project Title */}
       <div className="mb-4">
-        <h3 className="text-lg font-bold text-white mb-2 group-hover:text-secondary-default transition-colors duration-300 leading-tight">
+        <h3 
+          data-testid={`project-title-${project.num}`}
+          className="text-lg font-bold text-white mb-2 group-hover:text-secondary-default transition-colors duration-300 leading-tight"
+        >
           {project.title}
         </h3>
       </div>
 
       {/* Project Description */}
-      <p className="text-white/70 text-xs leading-relaxed mb-4">
+      <p 
+        data-testid={`project-description-${project.num}`}
+        className="text-white/70 text-xs leading-relaxed mb-4"
+      >
         {project.shortDescription}
       </p>
 
       {/* Tech Stack */}
-      <div className="mb-6">
+      <div 
+        data-testid={`project-tech-stack-${project.num}`}
+        className="mb-6"
+      >
         <h4 className="text-sm font-semibold text-white/80 mb-2">
           Tech Stack
         </h4>
@@ -131,6 +163,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {displayStacks.map((stack, stackIndex) => (
             <span
               key={stackIndex}
+              data-testid={`project-tech-${project.num}-${stackIndex}`}
               className="text-xs px-2 py-1 bg-secondary-default/10 text-secondary-default border border-secondary-default/30 rounded hover:bg-secondary-default/20 transition-colors duration-200"
             >
               {stack}
@@ -138,6 +171,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           ))}
           {hasMoreStacks && (
             <button
+              data-testid={`project-tech-toggle-${project.num}`}
               onClick={() => onToggleStacks(index)}
               className="text-xs px-2 py-1 bg-blue-500/10 text-blue-300 border border-blue-500/30 rounded hover:bg-blue-500/20 transition-colors duration-200"
             >
@@ -150,9 +184,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-3 mt-auto">
+      <div 
+        data-testid={`project-actions-${project.num}`}
+        className="flex gap-3 mt-auto"
+      >
         {/* View Details Button */}
         <button
+          data-testid={`project-details-button-${project.num}`}
           onClick={() => onOpenModal(project)}
           className="flex-1 flex items-center justify-center gap-2 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default px-4 py-2 rounded transition-all duration-300 hover:scale-105 text-sm font-medium"
         >
@@ -165,6 +203,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <Link
             href={project.github}
             target="_blank"
+            data-testid={`project-github-button-${project.num}`}
             className="flex-1 flex items-center justify-center gap-2 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-300 px-4 py-2 rounded transition-all duration-300 hover:scale-105 text-sm font-medium"
           >
             <FaGithub className="text-xs" />

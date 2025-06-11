@@ -79,7 +79,8 @@ const info = [
     color: "from-blue-500/20 to-blue-600/20",
     borderColor: "border-blue-500/50",
     textColor: "text-blue-300",
-    hoverColor: "hover:bg-blue-500/30 hover:border-blue-400"
+    hoverColor: "hover:bg-blue-500/30 hover:border-blue-400",
+    testId: "contact-info-phone"
   },
   {
     icon: FaEnvelope,
@@ -88,7 +89,8 @@ const info = [
     color: "from-emerald-500/20 to-emerald-600/20",
     borderColor: "border-emerald-500/50",
     textColor: "text-emerald-300",
-    hoverColor: "hover:bg-emerald-500/30 hover:border-emerald-400"
+    hoverColor: "hover:bg-emerald-500/30 hover:border-emerald-400",
+    testId: "contact-info-email"
   },
   {
     icon: FaSkype,
@@ -97,7 +99,8 @@ const info = [
     color: "from-purple-500/20 to-purple-600/20",
     borderColor: "border-purple-500/50",
     textColor: "text-purple-300",
-    hoverColor: "hover:bg-purple-500/30 hover:border-purple-400"
+    hoverColor: "hover:bg-purple-500/30 hover:border-purple-400",
+    testId: "contact-info-skype"
   },
   {
     icon: FaMapMarkedAlt,
@@ -106,7 +109,8 @@ const info = [
     color: "from-orange-500/20 to-orange-600/20",
     borderColor: "border-orange-500/50",
     textColor: "text-orange-300",
-    hoverColor: "hover:bg-orange-500/30 hover:border-orange-400"
+    hoverColor: "hover:bg-orange-500/30 hover:border-orange-400",
+    testId: "contact-info-address"
   },
 ];
 
@@ -210,7 +214,10 @@ const Contact = () => {
   };
 
   return (
-    <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden">
+    <section 
+      data-testid="contact-page"
+      className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden"
+    >
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary-default/5 pointer-events-none" />
       <div className="absolute top-20 right-10 w-2 h-2 bg-secondary-default rounded-full animate-ping opacity-60" />
@@ -219,6 +226,7 @@ const Contact = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
+          data-testid="contact-header"
           variants={PERFORMANCE_VARIANTS.containerSync}
           initial="hidden"
           animate="visible"

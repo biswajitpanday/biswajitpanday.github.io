@@ -89,6 +89,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
   return (
     <>
       <motion.div
+        data-testid={`certification-card-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
         variants={PERFORMANCE_VARIANTS.cardSync}
         initial="hidden"
         animate="visible"
@@ -107,9 +108,13 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
         }}
       >
         {/* Card Header with Image */}
-        <div className="relative p-4 flex justify-center items-center h-[180px] bg-gradient-to-b from-white/[0.02] to-transparent">
+        <div 
+          data-testid={`certification-image-container-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+          className="relative p-4 flex justify-center items-center h-[180px] bg-gradient-to-b from-white/[0.02] to-transparent"
+        >
           {displayImage ? (
             <div 
+              data-testid={`certification-image-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
               className="relative w-full h-full max-h-[160px] rounded-lg overflow-hidden bg-white/5 cursor-pointer"
               onClick={() => setIsLightboxOpen(true)}
             >
@@ -133,7 +138,10 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 
           {/* Issuer Logo */}
           {issuerLogo && (
-            <div className="absolute bottom-2 right-2 w-10 h-10 bg-white/10 backdrop-blur-md rounded overflow-hidden flex items-center justify-center border border-white/20 shadow-glow">
+            <div 
+              data-testid={`certification-issuer-logo-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+              className="absolute bottom-2 right-2 w-10 h-10 bg-white/10 backdrop-blur-md rounded overflow-hidden flex items-center justify-center border border-white/20 shadow-glow"
+            >
               <Image
                 src={issuerLogo}
                 alt={issuer}
@@ -146,24 +154,36 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
         </div>
 
         {/* Card Content */}
-        <div className="flex-1 p-5 pb-2 pt-2 flex flex-col">
+        <div 
+          data-testid={`certification-content-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+          className="flex-1 p-5 pb-2 pt-2 flex flex-col"
+        >
           <div className="mb-2 flex items-center justify-between">
-            <div className="flex items-center text-white/70 text-sm">
+            <div 
+              data-testid={`certification-date-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+              className="flex items-center text-white/70 text-sm"
+            >
               <FiCalendar className="mr-1.5" />
               <span>{formattedDate}</span>
             </div>
             
             {/* Status indicators with tooltips */}
-            <div className="flex gap-1.5">
+            <div 
+              data-testid={`certification-status-indicators-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+              className="flex gap-1.5"
+            >
               {status && (
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                        status === "Active" 
-                          ? "bg-green-500/20 text-green-400" 
-                          : "bg-white/10 text-white/60"
-                      }`}>
+                      <div 
+                        data-testid={`certification-status-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+                        className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                          status === "Active" 
+                            ? "bg-green-500/20 text-green-400" 
+                            : "bg-white/10 text-white/60"
+                        }`}
+                      >
                         <FiActivity size={12} />
                       </div>
                     </TooltipTrigger>
@@ -178,7 +198,10 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <div className="w-5 h-5 rounded-full bg-secondary-default/20 text-secondary-default flex items-center justify-center">
+                      <div 
+                        data-testid={`certification-verifiable-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+                        className="w-5 h-5 rounded-full bg-secondary-default/20 text-secondary-default flex items-center justify-center"
+                      >
                         <FiCheck size={12} />
                       </div>
                     </TooltipTrigger>
@@ -191,9 +214,17 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
             </div>
           </div>
 
-          <h3 className="text-lg font-bold text-white mb-1.5 line-clamp-2 group-hover:text-secondary-default transition-colors duration-300">{name}</h3>
+          <h3 
+            data-testid={`certification-title-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+            className="text-lg font-bold text-white mb-1.5 line-clamp-2 group-hover:text-secondary-default transition-colors duration-300"
+          >
+            {name}
+          </h3>
           
-          <div className="mb-3 text-secondary-default text-sm">
+          <div 
+            data-testid={`certification-issuer-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+            className="mb-3 text-secondary-default text-sm"
+          >
             {issuer}
           </div>
           

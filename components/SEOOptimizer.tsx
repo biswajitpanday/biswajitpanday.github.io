@@ -86,6 +86,66 @@ const SEOOptimizer = () => {
     ]
   };
 
+  // FAQ Schema for common questions about services
+  const faqData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What technologies does Biswajit Panday specialize in?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Biswajit specializes in .NET Core, React, TypeScript, Azure, AWS, SQL Server, MongoDB, and modern web development frameworks with over 10 years of experience."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What types of projects does Biswajit work on?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Biswajit works on full-stack web applications, cloud solutions, enterprise software, API development, database design, and DevOps implementations."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Biswajit available for freelance projects?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, Biswajit is available for consulting and freelance projects. Contact through the portfolio website for project inquiries and collaboration opportunities."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What certifications does Biswajit hold?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Biswajit holds Microsoft Azure Fundamentals certification and multiple professional development certifications in software development and cloud technologies."
+        }
+      }
+    ]
+  };
+
+  // Professional Service Schema
+  const serviceData = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Full-Stack Development Services",
+    "description": "Professional full-stack development services specializing in .NET, React, and cloud solutions",
+    "provider": {
+      "@type": "Person",
+      "name": "Biswajit Panday"
+    },
+    "areaServed": "Worldwide",
+    "serviceType": [
+      "Web Application Development",
+      "Cloud Solutions",
+      "API Development",
+      "Database Design",
+      "DevOps Implementation"
+    ]
+  };
+
   return (
     <>
       <Script 
@@ -98,6 +158,18 @@ const SEOOptimizer = () => {
         id="schema-breadcrumbs" 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
+        strategy="afterInteractive"
+      />
+      <Script 
+        id="schema-faq" 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqData) }}
+        strategy="afterInteractive"
+      />
+      <Script 
+        id="schema-service" 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceData) }}
         strategy="afterInteractive"
       />
     </>

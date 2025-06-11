@@ -60,7 +60,10 @@ const Projects = () => {
   };
 
   return (
-    <section className="min-h-screen relative overflow-hidden py-8">
+    <section 
+      data-testid="projects-page"
+      className="min-h-screen relative overflow-hidden py-8"
+    >
       {/* Enhanced Background Elements */}
       <BackgroundElements 
         floatingDots={[
@@ -123,6 +126,7 @@ const Projects = () => {
 
         {/* Project Highlights Badges */}
         <motion.div
+          data-testid="projects-badges"
           variants={PERFORMANCE_VARIANTS.containerSync}
           initial="hidden"
           animate="visible"
@@ -132,36 +136,44 @@ const Projects = () => {
             icon={<FaLaptopCode className="text-xs" />}
             text="Full-Stack Projects"
             color="default"
+            testId="badge-fullstack-projects"
           />
           <Badge
             icon={<FaRocket className="text-xs" />}
             text="Innovative Solutions"
             color="blue"
+            testId="badge-innovative-solutions"
           />
           <Badge
             icon={<FaGlobe className="text-xs" />}
             text="Web Applications"
             color="purple"
+            testId="badge-web-applications"
           />
         </motion.div>
 
         {/* Project Filtering */}
         {isFilterEnabled && (
-          <PortfolioFilter 
-            projects={projects}
-            onFilterChange={setFilteredProjects}
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            resultsInfo={{
-              filtered: filteredProjects.length,
-              total: projects.length,
-              description: "projects"
-            }}
-          />
+          <div data-testid="projects-filter-section">
+            <PortfolioFilter 
+              projects={projects}
+              onFilterChange={setFilteredProjects}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              resultsInfo={{
+                filtered: filteredProjects.length,
+                total: projects.length,
+                description: "projects"
+              }}
+            />
+          </div>
         )}
 
         {/* Projects Grid */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div 
+          data-testid="projects-grid"
+          className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+        >
           {filteredProjects.map((project, index) => (
             <ProjectCard
               key={project.num}
@@ -177,6 +189,7 @@ const Projects = () => {
         {/* Show when no projects match the filter */}
         {filteredProjects.length === 0 && (
           <motion.div 
+            data-testid="projects-no-results"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-16"

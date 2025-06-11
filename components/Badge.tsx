@@ -9,6 +9,7 @@ interface BadgeProps {
   text: React.ReactNode;
   color?: "default" | "blue" | "purple" | "emerald" | "orange";
   className?: string;
+  testId?: string;
 }
 
 const Badge: React.FC<BadgeProps> = ({
@@ -16,6 +17,7 @@ const Badge: React.FC<BadgeProps> = ({
   text,
   color = "default",
   className = "",
+  testId,
 }) => {
   // Color mappings for consistent styling
   const colorVariants = {
@@ -53,8 +55,18 @@ const Badge: React.FC<BadgeProps> = ({
 
   const selectedColor = colorVariants[color];
 
+  // Generate test ID based on text content if not provided
+  const generateTestId = () => {
+    if (testId) return testId;
+    if (typeof text === 'string') {
+      return `badge-${text.toLowerCase().replace(/\s+/g, '-')}`;
+    }
+    return `badge-${color}`;
+  };
+
   return (
     <motion.span
+      data-testid={generateTestId()}
       variants={PERFORMANCE_VARIANTS.cardSync}
       className={`inline-flex items-center gap-2 bg-gradient-to-r ${selectedColor.gradient} backdrop-blur-sm border ${selectedColor.border} ${selectedColor.text} px-4 py-2 rounded-full text-sm font-medium ${selectedColor.hover} transition-all duration-300 ${className}`}
     >

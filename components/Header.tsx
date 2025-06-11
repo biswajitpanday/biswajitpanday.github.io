@@ -86,6 +86,7 @@ export default function Header() {
   return (
     <>
       <header 
+        data-testid="main-header"
         className="fixed top-0 left-0 w-full transition-all duration-300 backdrop-blur-md z-[var(--z-header)]"
         style={{ zIndex: 'var(--z-header)' }}
       >
@@ -93,20 +94,28 @@ export default function Header() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex items-center justify-between h-16 md:h-20">
               {/* Logo */}
-              <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+              <Link 
+                href="/" 
+                data-testid="header-logo"
+                className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+              >
                 <h1 className="text-2xl font-semibold">
                   Panday<span className="text-secondary-default">.</span>
                 </h1>
               </Link>
 
               {/* Desktop Navigation */}
-              <nav className="hidden md:hidden lg:flex items-center space-x-1">
+              <nav 
+                data-testid="desktop-navigation"
+                className="hidden md:hidden lg:flex items-center space-x-1"
+              >
                 {NAVIGATION_ITEMS.map((item) => {
                   const isActive = isPathActive(item.href);
                   return (
                     <Link
                       key={item.name}
                       href={item.href}
+                      data-testid={`nav-link-${item.name.toLowerCase()}`}
                       className={`px-3 py-2 text-sm font-medium rounded-md transition-colors relative group ${
                         isActive
                           ? "text-secondary-default"
@@ -126,10 +135,14 @@ export default function Header() {
               </nav>
 
               {/* Right side actions (social, search, etc.) */}
-              <div className="flex items-center space-x-2">
+              <div 
+                data-testid="header-actions"
+                className="flex items-center space-x-2"
+              >
                 {/* Search Button - Conditionally Rendered */}
                 {isSearchEnabled && (
                   <button
+                    data-testid="search-button"
                     onClick={() => setIsSearchOpen(true)}
                     className="flex items-center gap-2 bg-primary-light/20 hover:bg-primary-light/30 border border-border-light hover:border-secondary-default/30 text-text-primary hover:text-secondary-default px-3 py-1.5 rounded-md transition-all duration-300"
                     title="Search (Ctrl+K)"
@@ -144,7 +157,10 @@ export default function Header() {
                 )}
 
                 {/* Social Links */}
-                <div className="hidden md:flex items-center space-x-1">
+                <div 
+                  data-testid="social-links"
+                  className="hidden md:flex items-center space-x-1"
+                >
                   {SOCIAL_LINKS.map((social) => (
                     <Button
                       key={social.name}
@@ -153,7 +169,13 @@ export default function Header() {
                       asChild
                       className="hover:text-secondary-default"
                     >
-                      <Link href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.name}>
+                      <Link 
+                        href={social.href} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        aria-label={social.name}
+                        data-testid={`social-link-${social.name.toLowerCase()}`}
+                      >
                         <social.icon className="w-4 h-4" />
                       </Link>
                     </Button>
@@ -163,6 +185,7 @@ export default function Header() {
                 {/* Mobile Menu Button */}
                 <div className="flex md:flex lg:hidden items-center">
                   <Button
+                    data-testid="mobile-menu-button"
                     variant="ghost"
                     size="icon"
                     className="hover:bg-transparent hover:text-secondary-default focus:bg-transparent"

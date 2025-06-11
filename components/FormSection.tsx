@@ -43,14 +43,22 @@ const FormSection: React.FC<FormSectionProps> = ({
     } ${field.className || ''}`;
 
     return (
-      <div key={field.name} className="space-y-2">
-        <label className="text-sm font-medium text-white/80">
+      <div 
+        key={field.name} 
+        data-testid={`form-field-${field.name}`}
+        className="space-y-2"
+      >
+        <label 
+          data-testid={`form-label-${field.name}`}
+          className="text-sm font-medium text-white/80"
+        >
           {field.label}
           {field.required && <span className="text-red-400 ml-1">*</span>}
         </label>
         
         {field.type === "textarea" ? (
           <Textarea
+            data-testid={`form-textarea-${field.name}`}
             className={`${baseInputClasses} resize-none`}
             style={{ height: field.rows ? `${field.rows * 24}px` : '150px' }}
             placeholder={field.placeholder}
@@ -59,6 +67,7 @@ const FormSection: React.FC<FormSectionProps> = ({
           />
         ) : (
           <Input
+            data-testid={`form-input-${field.name}`}
             type={field.type}
             placeholder={field.placeholder}
             value={field.value}
@@ -68,7 +77,12 @@ const FormSection: React.FC<FormSectionProps> = ({
         )}
         
         {field.error && (
-          <p className="text-red-400 text-xs">{field.error}</p>
+          <p 
+            data-testid={`form-error-${field.name}`}
+            className="text-red-400 text-xs"
+          >
+            {field.error}
+          </p>
         )}
       </div>
     );
@@ -91,13 +105,20 @@ const FormSection: React.FC<FormSectionProps> = ({
   const fieldGroups = groupFields();
 
   return (
-    <div className={`space-y-6 ${className}`}>
+    <div 
+      data-testid="form-section"
+      className={`space-y-6 ${className}`}
+    >
 
       {/* Form Fields */}
-      <div className="space-y-6">
+      <div 
+        data-testid="form-fields-container"
+        className="space-y-6"
+      >
         {fieldGroups.map((group, groupIndex) => (
           <motion.div
             key={groupIndex}
+            data-testid={`form-field-group-${groupIndex}`}
             variants={PERFORMANCE_VARIANTS.slideUpSync}
             className={
               layout === "grid" && group.length > 1
@@ -112,7 +133,10 @@ const FormSection: React.FC<FormSectionProps> = ({
 
       {/* Additional Content */}
       {children && (
-        <motion.div variants={PERFORMANCE_VARIANTS.fadeInFast}>
+        <motion.div 
+          data-testid="form-additional-content"
+          variants={PERFORMANCE_VARIANTS.fadeInFast}
+        >
           {children}
         </motion.div>
       )}

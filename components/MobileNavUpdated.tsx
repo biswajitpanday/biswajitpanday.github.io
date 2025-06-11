@@ -94,7 +94,11 @@ export default function MobileNavUpdated({
   };
 
   return (
-    <div className="fixed inset-0 z-[var(--z-mobile-nav)]" style={{ zIndex: 'var(--z-mobile-nav)' }}>
+    <div 
+      data-testid="mobile-nav-overlay"
+      className="fixed inset-0 z-[var(--z-mobile-nav)]" 
+      style={{ zIndex: 'var(--z-mobile-nav)' }}
+    >
       <motion.div
         className="fixed inset-0 bg-black/60 backdrop-blur-sm"
         initial={{ opacity: 0 }}
@@ -103,6 +107,7 @@ export default function MobileNavUpdated({
         onClick={onClose}
       >
         <motion.div
+          data-testid="mobile-nav-menu"
           className="fixed top-0 right-0 h-[100vh] w-full max-w-xs bg-gradient-to-br from-[#1e1e24] to-[#27272f] border-l border-secondary-default/20 shadow-lg overflow-y-auto"
           variants={containerVariants}
           initial="hidden"
@@ -123,6 +128,7 @@ export default function MobileNavUpdated({
                 Menu
               </motion.h2>
               <motion.button
+                data-testid="mobile-nav-close"
                 className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-secondary-default transition-colors"
                 onClick={onClose}
                 variants={itemVariants}
@@ -132,7 +138,10 @@ export default function MobileNavUpdated({
               </motion.button>
             </div>
 
-            <nav className="mb-10">
+            <nav 
+              data-testid="mobile-nav-navigation"
+              className="mb-10"
+            >
               <ul className="space-y-3">
                 {navigationItems.map((item) => {
                   const isActive = checkIsActive(item.href);
@@ -140,6 +149,7 @@ export default function MobileNavUpdated({
                     <motion.li key={item.name} variants={itemVariants}>
                       <Link
                         href={item.href}
+                        data-testid={`mobile-nav-link-${item.name.toLowerCase()}`}
                         className={`flex items-center py-3 px-4 text-base font-medium rounded-md transition-all duration-300 relative overflow-hidden group ${
                           isActive
                             ? "bg-secondary-default/10 text-secondary-default"
@@ -168,15 +178,22 @@ export default function MobileNavUpdated({
               </ul>
             </nav>
 
-            <motion.div variants={itemVariants} className="mt-auto pt-6 border-t border-white/10">
+            <motion.div 
+              variants={itemVariants} 
+              className="mt-auto pt-6 border-t border-white/10"
+            >
               <h3 className="text-sm font-medium text-white/50 mb-4">Connect</h3>
-              <div className="flex space-x-4">
+              <div 
+                data-testid="mobile-nav-social-links"
+                className="flex space-x-4"
+              >
                 {socialLinks.map((social) => (
                   <Link
                     key={social.name}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-testid={`mobile-social-link-${social.name.toLowerCase()}`}
                     className="p-2 rounded-full bg-white/5 text-white/70 hover:text-secondary-default hover:bg-white/10 transition-all duration-300 border border-transparent hover:border-secondary-default/30 hover:shadow-glow"
                     aria-label={social.name}
                   >

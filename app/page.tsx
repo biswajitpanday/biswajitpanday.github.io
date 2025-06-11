@@ -36,7 +36,10 @@ const Home = () => {
   const featuredCertification = getMostRecentCertification();
 
   return (
-    <section className="min-h-[calc(100vh-136px)] flex flex-col justify-center relative overflow-hidden py-8 xl:py-0">
+    <section 
+      data-testid="home-page"
+      className="min-h-[calc(100vh-136px)] flex flex-col justify-center relative overflow-hidden py-8 xl:py-0"
+    >
       {/* Enhanced Background Elements */}
       <BackgroundElements
         floatingDots={[
@@ -70,6 +73,7 @@ const Home = () => {
         <div className="flex flex-col xl:flex-row items-center justify-center xl:justify-between gap-8 xl:gap-16 xl:pt-8 xl:pb-8">
           {/* Content Section */}
           <motion.div
+            data-testid="home-content"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -77,6 +81,7 @@ const Home = () => {
           >
             {/* Role Badge */}
             <motion.div
+              data-testid="home-role-badge"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
@@ -102,6 +107,7 @@ const Home = () => {
 
             {/* Main Heading */}
             <motion.h1
+              data-testid="home-main-heading"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
@@ -115,6 +121,7 @@ const Home = () => {
 
             {/* Description */}
             <motion.p
+              data-testid="home-description"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
@@ -137,6 +144,7 @@ const Home = () => {
 
             {/* Tech Stack Highlights */}
             <motion.div
+              data-testid="home-tech-stack"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6 }}
@@ -183,6 +191,7 @@ const Home = () => {
             {/* Featured Certification Card */}
             {featuredCertification && (
               <motion.div
+                data-testid="home-featured-certification"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9, duration: 0.6 }}
@@ -198,6 +207,7 @@ const Home = () => {
 
             {/* Action Buttons */}
             <motion.div
+              data-testid="home-action-buttons"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0, duration: 0.8 }}
@@ -208,8 +218,10 @@ const Home = () => {
                 download="Biswajit_Panday_Resume.Net.pdf"
                 passHref
                 target="_blank"
+                data-testid="home-download-resume-link"
               >
                 <Button
+                  data-testid="home-download-resume-button"
                   size="lg"
                   className="group relative overflow-hidden bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25"
                 >
@@ -223,7 +235,10 @@ const Home = () => {
                 </Button>
               </Link>
 
-              <div className="flex items-center gap-4">
+              <div 
+                data-testid="home-social-links"
+                className="flex items-center gap-4"
+              >
                 <Suspense fallback={<ComponentFallback className="w-40 h-10" />}>
                   <Socials
                     containerStyles="flex gap-4"
@@ -236,6 +251,7 @@ const Home = () => {
 
           {/* Photo Section */}
           <motion.div
+            data-testid="home-photo-section"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
@@ -245,7 +261,10 @@ const Home = () => {
               {/* Enhanced Glow Effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-secondary-default/20 to-blue-500/20 rounded-full blur-3xl scale-110 animate-pulse" />
               <div className="absolute -inset-4 bg-gradient-to-tr from-secondary-default/5 to-blue-500/5 rounded-full blur-xl scale-105" />
-              <div className="relative z-10">
+              <div 
+                data-testid="home-photo-container"
+                className="relative z-10"
+              >
                 <Suspense fallback={<ComponentFallback className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] rounded-full" />}>
                   <Photo />
                 </Suspense>
@@ -256,6 +275,7 @@ const Home = () => {
 
         {/* Stats Section */}
         <motion.div
+          data-testid="home-stats-section"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.8 }}

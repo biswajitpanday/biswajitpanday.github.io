@@ -20,6 +20,7 @@ const stats = [
       gradient: "from-secondary-default/10 to-blue-500/10",
       borderColor: "border-secondary-default/30",
       textColor: "text-secondary-default",
+      testId: "stat-experience",
   },
   {
       num: totalProjects,
@@ -28,6 +29,7 @@ const stats = [
       gradient: "from-blue-500/10 to-purple-500/10",
       borderColor: "border-blue-500/30",
       textColor: "text-blue-400",
+      testId: "stat-projects",
   },
   {
       num: totalTechnologies,
@@ -36,6 +38,7 @@ const stats = [
       gradient: "from-purple-500/10 to-secondary-default/10",
       borderColor: "border-purple-500/30",
       textColor: "text-purple-400",
+      testId: "stat-technologies",
   },
   {
       num: certCounts.total - certCounts.upcoming,
@@ -44,17 +47,25 @@ const stats = [
       gradient: "from-emerald-500/10 to-blue-500/10",
       borderColor: "border-emerald-500/30",
       textColor: "text-emerald-300",
+      testId: "stat-credentials",
   },
 ];
 
   return (
-    <section className="pt-4 pb-12 ps-0 pe-0 xl:pt-0 xl:pb-0">
+    <section 
+      data-testid="stats-section"
+      className="pt-4 pb-12 ps-0 pe-0 xl:pt-0 xl:pb-0"
+    >
       <div className="container mx-auto ps-0 pe-0">
-        <div className="flex flex-wrap gap-6 max-w-[80vw] mx-auto xl:max-w-none">
+        <div 
+          data-testid="stats-container"
+          className="flex flex-wrap gap-6 max-w-[80vw] mx-auto xl:max-w-none"
+        >
           {stats.map((item, index) => {
             return (
               <div
                 key={index}
+                data-testid={item.testId}
                 className={`flex-1 flex gap-4 items-center justify-center xl:justify-start bg-gradient-to-br ${item.gradient} backdrop-blur-sm border ${item.borderColor} rounded-lg p-5 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02]`}
               >
                 <CountUp
