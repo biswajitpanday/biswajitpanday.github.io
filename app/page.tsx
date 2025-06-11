@@ -7,9 +7,9 @@ import { getMostRecentCertification } from "@/data/certificationsData";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 import BackgroundElements from "@/components/BackgroundElements";
 import Badge from "@/components/Badge";
+import Photo from "@/components/Photo";
 
-// Lazy load heavy components
-const Photo = lazy(() => import("@/components/Photo"));
+// Lazy load non-critical components
 const Socials = lazy(() => import("@/components/Socials"));
 const Stats = lazy(() => import("@/components/Stats"));
 
@@ -254,7 +254,7 @@ const Home = () => {
             data-testid="home-photo-section"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
             className="order-1 xl:order-none relative"
           >
             <div className="relative">
@@ -265,9 +265,7 @@ const Home = () => {
                 data-testid="home-photo-container"
                 className="relative z-10"
               >
-                <Suspense fallback={<ComponentFallback className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] rounded-full" />}>
-                  <Photo />
-                </Suspense>
+                <Photo />
               </div>
             </div>
           </motion.div>

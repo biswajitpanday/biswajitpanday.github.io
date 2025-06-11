@@ -133,7 +133,8 @@ export default function RootLayout({
         <link rel="sitemap" href="/sitemap.xml" />
         <link rel="sitemap" href="/sitemap-index.xml" />
         <link rel="preload" href="/assets/photo.webp" as="image" type="image/webp" />
-        <link rel="preload" href="/assets/profile/webp/profile-large.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/assets/profile/webp/profile-large.webp" as="image" type="image/webp" fetchPriority="high" />
+        <link rel="preload" href="/assets/profile/webp/profile-medium.webp" as="image" type="image/webp" />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
