@@ -50,50 +50,50 @@ export const metadata: Metadata = {
     "API Development",
     "Microservices",
     "Docker",
-    "Kubernetes",
     "CI/CD",
-    "Agile Development"
+    "Agile Development",
+    "ASP.NET Core",
+    "Next.js Developer",
+    "Software Engineer",
+    "Software Developer",
+    "Software Architect",
+    "Software Engineer",
+    "Software Developer",
+    "Software Architect",
   ],
   authors: [{ name: "Biswajit Panday" }],
   creator: "Biswajit Panday",
   publisher: "Biswajit Panday",
   formatDetection: {
     email: false,
+    address: false,
     telephone: false,
   },
   metadataBase: new URL("https://biswajitpanday.github.io"),
   alternates: {
-    canonical: '/',
+    canonical: "/",
   },
   openGraph: {
     title: "Biswajit Panday - Full-Stack .NET Developer",
-    description: "Professional portfolio showcasing 10+ years of experience in .NET, React, and cloud technologies with professional certifications.",
+    description: "Professional Full-Stack .NET Developer with 10+ years experience specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS.",
     url: "https://biswajitpanday.github.io",
     siteName: "Biswajit Panday Portfolio",
-    type: "website",
-    locale: "en_US",
     images: [
       {
-        url: "https://biswajitpanday.github.io/assets/photo.png",
-        width: 400,
-        height: 400,
+        url: "https://biswajitpanday.github.io/assets/photo.webp",
+        width: 1200,
+        height: 630,
         alt: "Biswajit Panday - Full-Stack .NET Developer",
       },
-      {
-        url: "https://biswajitpanday.github.io/assets/profile/profile-large.png",
-        width: 600,
-        height: 600,
-        alt: "Biswajit Panday - Professional Developer",
-      },
     ],
+    locale: "en_US",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Biswajit Panday - Full-Stack .NET Developer",
-    description: "Professional portfolio showcasing 10+ years of experience in .NET, React, and cloud technologies with certifications.",
-    images: ["https://biswajitpanday.github.io/assets/photo.png"],
-    creator: "@biswajitpanday",
-    site: "@biswajitpanday",
+    description: "Professional Full-Stack .NET Developer with 10+ years experience specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS.",
+    images: ["https://biswajitpanday.github.io/assets/photo.webp"],
   },
   robots: {
     index: true,
@@ -101,13 +101,13 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   verification: {
-    google: "6KDQC-2OeS6NjVA21G1MJ-svIYpHNBhnsWBS0LG85a4", // Get this from Google Search Console after adding your site
+    google: "google-site-verification-code-here",
   },
   category: "technology",
   classification: "Business",
@@ -132,8 +132,8 @@ export default function RootLayout({
         <OrganizationSchema />
         <link rel="sitemap" href="/sitemap.xml" />
         <link rel="sitemap" href="/sitemap-index.xml" />
-        <link rel="preload" href="/assets/photo.png" as="image" />
-        <link rel="preload" href="/assets/profile/profile-large.png" as="image" />
+        <link rel="preload" href="/assets/photo.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/assets/profile/webp/profile-large.webp" as="image" type="image/webp" />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />

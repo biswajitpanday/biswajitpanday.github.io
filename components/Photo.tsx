@@ -12,7 +12,7 @@ const Photo = () => {
       >
         <div className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] mix-blend-lighten absolute">
           <Image
-            src="/assets/profile/profile-large.png"
+            src="/assets/profile/webp/profile-large.webp"
             priority
             quality={85}
             fill
