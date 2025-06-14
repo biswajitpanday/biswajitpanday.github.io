@@ -14,29 +14,45 @@ const Socials = lazy(() => import("@/components/Socials"));
 const Stats = lazy(() => import("@/components/Stats"));
 
 // Optimize icon imports - only import what we need
-const FiDownload = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiDownload })));
-const FiCode = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiCode })));
-const FiCloud = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiCloud })));
-const FiZap = lazy(() => import("react-icons/fi").then(mod => ({ default: mod.FiZap })));
+const FiDownload = lazy(() =>
+  import("react-icons/fi").then((mod) => ({ default: mod.FiDownload }))
+);
+const FiCode = lazy(() =>
+  import("react-icons/fi").then((mod) => ({ default: mod.FiCode }))
+);
+const FiCloud = lazy(() =>
+  import("react-icons/fi").then((mod) => ({ default: mod.FiCloud }))
+);
+const FiZap = lazy(() =>
+  import("react-icons/fi").then((mod) => ({ default: mod.FiZap }))
+);
 
-const SiReact = lazy(() => import("react-icons/si").then(mod => ({ default: mod.SiReact })));
-const SiDotnet = lazy(() => import("react-icons/si").then(mod => ({ default: mod.SiDotnet })));
+const SiReact = lazy(() =>
+  import("react-icons/si").then((mod) => ({ default: mod.SiReact }))
+);
+const SiDotnet = lazy(() =>
+  import("react-icons/si").then((mod) => ({ default: mod.SiDotnet }))
+);
 const AIIcon = lazy(() => import("@/components/icons/AIIcon"));
 
 // Loading fallback components
 const IconFallback = ({ className }: { className?: string }) => (
-  <div className={`w-4 h-4 bg-secondary-default/30 rounded animate-pulse ${className}`} />
+  <div
+    className={`w-4 h-4 bg-secondary-default/30 rounded animate-pulse ${className}`}
+  />
 );
 
 const ComponentFallback = ({ className }: { className?: string }) => (
-  <div className={`bg-gradient-to-br from-[#27272c]/50 to-[#2a2a30]/50 rounded animate-pulse ${className}`} />
+  <div
+    className={`bg-gradient-to-br from-[#27272c]/50 to-[#2a2a30]/50 rounded animate-pulse ${className}`}
+  />
 );
 
 const Home = () => {
   const featuredCertification = getMostRecentCertification();
 
   return (
-    <section 
+    <section
       data-testid="home-page"
       className="min-h-[calc(100vh-136px)] flex flex-col justify-center relative overflow-hidden py-8 xl:py-0"
     >
@@ -48,22 +64,22 @@ const Home = () => {
             color: "secondary",
             animation: "ping",
             position: { top: "5rem", right: "2.5rem" },
-            opacity: 60
+            opacity: 60,
           },
           {
             size: "sm",
             color: "blue",
             animation: "pulse",
             position: { bottom: "8rem", right: "16rem" },
-            opacity: 40
+            opacity: 40,
           },
           {
             size: "md",
             color: "secondary",
             animation: "bounce",
             position: { top: "33.333333%", left: "2rem" },
-            opacity: 50
-          }
+            opacity: 50,
+          },
         ]}
       />
       <div className="absolute top-20 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -95,7 +111,7 @@ const Home = () => {
                 }
                 text={
                   <span className="flex items-center gap-2">
-                    Full-Stack .NET Developer
+                    Full-Stack & AI Innovator .NET Developer
                     <Suspense fallback={<IconFallback />}>
                       <FiZap className="text-lg animate-pulse" />
                     </Suspense>
@@ -135,11 +151,14 @@ const Home = () => {
               <span className="text-secondary-default font-semibold">
                 scalable applications
               </span>{" "}
-              with .NET, React & DevOps while optimizing cloud solutions on
-              Azure & AWS and integrating{" "}
+              with
+              <span className="text-secondary-default font-semibold">.NET, React </span>&{" "}
+              <span className="text-purple-400 font-semibold">DevOps </span>
+              while integrating{" "}
               <span className="text-emerald-300 font-semibold">
-                AI capabilities
-              </span>.
+                AI solutions
+              </span>{" "}
+              and optimizing cloud solutions on Azure & AWS.
             </motion.p>
 
             {/* Tech Stack Highlights */}
@@ -152,7 +171,11 @@ const Home = () => {
             >
               <Badge
                 icon={
-                  <Suspense fallback={<IconFallback className="text-secondary-default" />}>
+                  <Suspense
+                    fallback={
+                      <IconFallback className="text-secondary-default" />
+                    }
+                  >
                     <SiDotnet className="text-secondary-default" />
                   </Suspense>
                 }
@@ -161,7 +184,9 @@ const Home = () => {
               />
               <Badge
                 icon={
-                  <Suspense fallback={<IconFallback className="text-blue-300" />}>
+                  <Suspense
+                    fallback={<IconFallback className="text-blue-300" />}
+                  >
                     <SiReact className="text-blue-300" />
                   </Suspense>
                 }
@@ -170,7 +195,9 @@ const Home = () => {
               />
               <Badge
                 icon={
-                  <Suspense fallback={<IconFallback className="text-purple-300" />}>
+                  <Suspense
+                    fallback={<IconFallback className="text-purple-300" />}
+                  >
                     <FiCloud className="text-purple-300" />
                   </Suspense>
                 }
@@ -179,11 +206,13 @@ const Home = () => {
               />
               <Badge
                 icon={
-                  <Suspense fallback={<IconFallback className="text-emerald-300" />}>
+                  <Suspense
+                    fallback={<IconFallback className="text-emerald-300" />}
+                  >
                     <AIIcon className="text-emerald-300" />
                   </Suspense>
                 }
-                text="AI"
+                text="AI Integration"
                 color="emerald"
               />
             </motion.div>
@@ -197,8 +226,8 @@ const Home = () => {
                 transition={{ delay: 0.9, duration: 0.6 }}
                 className="mb-6"
               >
-                <FeaturedCertificationCard 
-                  certification={featuredCertification} 
+                <FeaturedCertificationCard
+                  certification={featuredCertification}
                   size="small"
                   simplified={true}
                 />
@@ -235,11 +264,13 @@ const Home = () => {
                 </Button>
               </Link>
 
-              <div 
+              <div
                 data-testid="home-social-links"
                 className="flex items-center gap-4"
               >
-                <Suspense fallback={<ComponentFallback className="w-40 h-10" />}>
+                <Suspense
+                  fallback={<ComponentFallback className="w-40 h-10" />}
+                >
                   <Socials
                     containerStyles="flex gap-4"
                     iconStyles="w-10 h-10 border border-secondary-default/50 rounded-full flex justify-center items-center text-secondary-default text-base hover:bg-secondary-default hover:text-primary hover:border-secondary-default hover:shadow-lg hover:shadow-secondary-default/25 transition-all duration-300 hover:scale-110"
@@ -261,10 +292,7 @@ const Home = () => {
               {/* Enhanced Glow Effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-secondary-default/20 to-blue-500/20 rounded-full blur-3xl scale-110 animate-pulse" />
               <div className="absolute -inset-4 bg-gradient-to-tr from-secondary-default/5 to-blue-500/5 rounded-full blur-xl scale-105" />
-              <div 
-                data-testid="home-photo-container"
-                className="relative z-10"
-              >
+              <div data-testid="home-photo-container" className="relative z-10">
                 <Photo />
               </div>
             </div>

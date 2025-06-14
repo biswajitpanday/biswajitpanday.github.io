@@ -35,7 +35,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/microsoft-certified-fundamentals-badge.webp",
     thumbImage: "/assets/certificates/microsoft-certified-fundamentals-badge.svg",
     category: "Professional",
-    issuerLogo: "/assets/logos/microsoft.png",
+    issuerLogo: "/assets/logos/webp/microsoft.webp",
     status: "Active",
     onlineVerifiable: true,
     certificationNumber: "EDV661-807157"
@@ -52,7 +52,7 @@ export const certifications: Certification[] = [
     thumbImage: "/assets/certificates/microsoft-certified-associate-badge.svg",
     category: "Professional",
     isUpcoming: true,
-    issuerLogo: "/assets/logos/microsoft.png",
+    issuerLogo: "/assets/logos/webp/microsoft.webp",
     status: "Upcoming"
   },
   
@@ -69,7 +69,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/AZ-900_Cert_Prep-1.webp",
     thumbImage: "/assets/certificates/thumbnails/AZ-900_Cert_Prep-1.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -85,7 +85,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/AZ-900_Cert_Prep-2.webp",
     thumbImage: "/assets/certificates/thumbnails/AZ-900_Cert_Prep-2.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -101,7 +101,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/AZ-900_Cert_Prep-3.webp",
     thumbImage: "/assets/certificates/thumbnails/AZ-900_Cert_Prep-3.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -117,7 +117,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/AZ-900_Cert_Prep-4.webp",
     thumbImage: "/assets/certificates/thumbnails/AZ-900_Cert_Prep-4.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -135,7 +135,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/ai-automation-with-antropic-claude-api.webp",
     thumbImage: "/assets/certificates/thumbnails/ai-automation-with-antropic-claude-api.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -151,7 +151,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/c-sharp-and-dot-net.webp",
     thumbImage: "/assets/certificates/thumbnails/c-sharp-and-dot-net.png",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -167,7 +167,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/advanced-design-patterns.webp",
     thumbImage: "/assets/certificates/thumbnails/advanced-design-patterns.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -183,7 +183,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/domain-driven-design.webp",
     thumbImage: "/assets/certificates/thumbnails/domain-driven-design.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -199,7 +199,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/git-from-scratch.webp",
     thumbImage: "/assets/certificates/thumbnails/git-from-scratch.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -215,7 +215,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/learning-bigquery.webp",
     thumbImage: "/assets/certificates/thumbnails/learning-bigquery.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -231,7 +231,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/csharp-design-patterns-1.webp",
     thumbImage: "/assets/certificates/thumbnails/csharp-design-patterns-1.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -249,7 +249,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Pluralsight_Design-patterns-overview_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Pluralsight_Design-patterns-overview_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -265,7 +265,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Building-cloud-native-solutions-azure-visual-studio_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Building-cloud-native-solutions-azure-visual-studio_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -281,7 +281,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Csharp-generics_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Csharp-generics_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -297,7 +297,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Docker and Kubernetes The Big Picture_Certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Docker and Kubernetes The Big Picture_Certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -313,7 +313,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Npm-playbook_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Npm-playbook_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -329,7 +329,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Object-oriented-programming-fundamentals-csharp_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Object-oriented-programming-fundamentals-csharp_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -345,7 +345,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/React-big-picture_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/React-big-picture_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -362,7 +362,7 @@ export const certifications: Certification[] = [
   //   featured: false,
   //   image: "/assets/certificates/webp/media-tech-challenge.jpg",
   //   category: "Training",
-  //   issuerLogo: "/assets/logos/dw-akademie.png",
+  //   issuerLogo: "/assets/logos/webp/dw-akademie.png",
   //   status: "Active"
   // },
   // {
@@ -375,7 +375,7 @@ export const certifications: Certification[] = [
   //   featured: false,
   //   image: "/assets/certificates/webp/php-codeigniter.jpg",
   //   category: "Training",
-  //   issuerLogo: "/assets/logos/basis.png",
+  //   issuerLogo: "/assets/logos/webp/basis.png",
   //   status: "Active"
   // }
   
@@ -392,7 +392,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/OOP-Pluralsight_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/OOP-Pluralsight_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -408,7 +408,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/C-sharp-command-pattern_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/C-sharp-command-pattern_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -424,7 +424,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/C-sharp-design-patterns-strategy_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/C-sharp-design-patterns-strategy_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -440,7 +440,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/C-sharp-design-patterns-singleton_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/C-sharp-design-patterns-singleton_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -456,7 +456,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Csharp-fundamentals-csharp5_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Csharp-fundamentals-csharp5_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -472,7 +472,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Efmigrations_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Efmigrations_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -488,7 +488,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Authentication-authorization-aspnet-core_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Authentication-authorization-aspnet-core_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -504,7 +504,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Azure-developer-create-azure-app-service-web-apps_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Azure-developer-create-azure-app-service-web-apps_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -520,7 +520,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Microsoft-azure-developer-implement-iaas-solutions_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Microsoft-azure-developer-implement-iaas-solutions_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -536,7 +536,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Angular-web-api-front-back_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Angular-web-api-front-back_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -552,7 +552,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Angularjs-line-of-business-applications_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Angularjs-line-of-business-applications_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -568,7 +568,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Algorithms and Data Structures - Part 1_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Algorithms and Data Structures - Part 1_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -584,7 +584,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Play-by-play-node-web-api-john-papa-sam-artioli_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Play-by-play-node-web-api-john-papa-sam-artioli_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -600,7 +600,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Grunt-introduction_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Grunt-introduction_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -616,7 +616,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Getting Started with Docker_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Getting Started with Docker_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -632,7 +632,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Getting Started with Kubernetes_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Getting Started with Kubernetes_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -648,7 +648,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Kubernetes Installation and Configuration_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Kubernetes Installation and Configuration_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -664,7 +664,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Jira 8 Getting Started_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Jira 8 Getting Started_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -680,7 +680,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/CertificateOfCompletion_Managing Your Emotions at Work.webp",
     thumbImage: "/assets/certificates/thumbnails/CertificateOfCompletion_Managing Your Emotions at Work.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/linkedin.png",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
     status: "Active",
     onlineVerifiable: true
   },
@@ -696,7 +696,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Ng-conf-enterprise-session-05_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Ng-conf-enterprise-session-05_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   },
@@ -712,7 +712,7 @@ export const certifications: Certification[] = [
     image: "/assets/certificates/webp/Ng-conf-enterprise-session-07_certificate.webp",
     thumbImage: "/assets/certificates/thumbnails/Ng-conf-enterprise-session-07_certificate.jpg",
     category: "Course",
-    issuerLogo: "/assets/logos/pluralsight.webp",
+    issuerLogo: "/assets/logos/webp/pluralsight.webp",
     status: "Active",
     onlineVerifiable: false
   }

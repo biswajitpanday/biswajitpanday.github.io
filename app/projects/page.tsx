@@ -35,7 +35,7 @@ const Projects = () => {
 
   // Calculate stats
   const activeProjects = projects.filter(p => p.isActive).length;
-  const inactiveProjects = projects.filter(p => !p.isActive).length;
+  // const inactiveProjects = projects.filter(p => !p.isActive).length;
 
   // Toggle project stacks display
   const toggleProjectStacks = (projectIndex: number) => {
@@ -114,12 +114,12 @@ const Projects = () => {
                 label: "Active Projects",
                 gradient: "from-blue-500/10 to-secondary-default/10"
               },
-              {
-                icon: FaCogs,
-                value: inactiveProjects,
-                label: "Archived Projects",
-                gradient: "from-purple-500/10 to-blue-500/10"
-              }
+              // {
+              //   icon: FaCogs,
+              //   value: inactiveProjects,
+              //   label: "Archived Projects",
+              //   gradient: "from-purple-500/10 to-blue-500/10"
+              // }
             ]} 
           />
         </SectionHeader>
@@ -140,15 +140,21 @@ const Projects = () => {
           />
           <Badge
             icon={<FaRocket className="text-xs" />}
-            text="Innovative Solutions"
-            color="blue"
-            testId="badge-innovative-solutions"
+            text="AI-Enhanced Solutions"
+            color="emerald"
+            testId="badge-ai-solutions"
           />
           <Badge
             icon={<FaGlobe className="text-xs" />}
-            text="Web Applications"
+            text="Enterprise Applications"
+            color="blue"
+            testId="badge-enterprise-applications"
+          />
+          <Badge
+            icon={<FaCogs className="text-xs" />}
+            text="Automation Tools"
             color="purple"
-            testId="badge-web-applications"
+            testId="badge-automation-tools"
           />
         </motion.div>
 

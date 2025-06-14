@@ -23,6 +23,11 @@ const ClaudeAIIcon = dynamic(() => import('./icons/ClaudeAIIcon'), {
   loading: () => <div className="w-4 h-4 bg-secondary-default/30 animate-pulse rounded-sm"></div>
 });
 
+const PlaywrightIcon = dynamic(() => import('./icons/PlaywrightIcon'), {
+  ssr: true,
+  loading: () => <div className="w-4 h-4 bg-secondary-default/30 animate-pulse rounded-sm"></div>
+});
+
 // Simple icon mapping for better bundle splitting
 const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
   // FA Icons
@@ -83,6 +88,7 @@ const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
   SiNextdotjs: () => import('react-icons/si').then(mod => ({ default: mod.SiNextdotjs })),
   SiOpenai: () => import('react-icons/si').then(mod => ({ default: mod.SiOpenai })),
   SiPostman: () => import('react-icons/si').then(mod => ({ default: mod.SiPostman })),
+  SiPython: () => import('react-icons/si').then(mod => ({ default: mod.SiPython })),
   
   // Other libraries
   VscAzure: () => import('react-icons/vsc').then(mod => ({ default: mod.VscAzure })),
@@ -129,6 +135,10 @@ const DynamicIcon: React.FC<DynamicIconProps> = memo(({
   
   if (iconName === 'ClaudeAI') {
     return <ClaudeAIIcon className={className} />;
+  }
+
+  if (iconName === 'Playwright') {
+    return <PlaywrightIcon className={className} />;
   }
   
   const iconLoader = iconComponents[iconName];

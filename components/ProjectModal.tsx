@@ -20,6 +20,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
       month: 'short', 
       year: 'numeric' 
     });
+    
+    // Check if endDate is current date (ongoing project)
+    const now = new Date();
+    const isOngoing = Math.abs(endDate.getTime() - now.getTime()) < 24 * 60 * 60 * 1000; // Within 24 hours
+    
+    if (isOngoing) {
+      return `${start} - Present`;
+    }
+    
     const end = endDate.toLocaleDateString('en-US', { 
       month: 'short', 
       year: 'numeric' 

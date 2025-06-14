@@ -1,7 +1,7 @@
 export interface Project {
   inactivationReason: string | undefined;
   num: number;
-  category: "Full-Stack" | "Frontend" | "Backend" | "Mobile";
+  category: "Full-Stack" | "Frontend" | "Backend" | "Mobile" | "Windows App";
   title: string;
   longDescription: string;
   shortDescription: string;
@@ -33,6 +33,35 @@ export interface Project {
 export const projects: Project[] = [
   {
     num: 1,
+    category: "Windows App",
+    title: "IntelliMerge - AI-Powered Development Tool",
+    longDescription: "Innovative AI-powered development tool that demonstrates practical AI integration in enterprise software workflows. Features intelligent automation using Google Gemini AI, reducing manual effort by 80-90%. Built with Python 3.11, showcasing modern AI development practices, comprehensive testing, and professional deployment strategies.",
+    shortDescription: "AI-powered development tool showcasing practical AI integration in enterprise workflows with 80-90% efficiency improvement.",
+    stacks: [
+      "Python 3.11",
+      "Google Gemini AI",
+      "PyInstaller",
+      "PowerShell",
+      "Git merge-file",
+      "Colorama",
+      "AI Prompt Engineering",
+      "Three-way Merge Algorithms",
+      "Automated Testing"
+    ],
+    image: "/assets/portfolio/webp/intelliMerge.webp",
+    thumbImage: "/assets/portfolio/thumbnails/intellimerge.png",
+    isActive: true,
+    isOpenSource: false,
+    url: "https://optimizely.com",
+    github: "",
+    associatedWithCompany: "Optimizely",
+    jobRole: "Senior Developer",
+    startDate: new Date('2025-05-01'),
+    endDate: new Date(),
+    inactivationReason: undefined,
+  },
+  {
+    num: 2,
     category: "Full-Stack",
     title: "Optimizely Configured Commerce",
     longDescription: "",
@@ -51,7 +80,7 @@ export const projects: Project[] = [
       "Node.Js",
       "Azure",
     ],
-    image: "/assets/portfolio/optimizely.png",
+    image: "/assets/portfolio/webp/optimizely.webp",
     thumbImage: "/assets/portfolio/thumbnails/optimizely.png",
     isActive: true,
     isOpenSource: false,
@@ -64,7 +93,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 2,
+    num: 3,
     category: "Full-Stack",
     title: "BugBusters",
     longDescription:
@@ -80,7 +109,7 @@ export const projects: Project[] = [
       "TypeScript",
       "Clean Architecture",
     ],
-    image: "/assets/portfolio/bugBusters.png",
+    image: "/assets/portfolio/webp/bugBusters.webp",
     thumbImage: "/assets/portfolio/thumbnails/bugBusters.png",
     isActive: true,
     isOpenSource: true,
@@ -93,7 +122,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 3,
+    num: 4,
     category: "Full-Stack",
     title: "Devensoft",
     longDescription:
@@ -109,7 +138,7 @@ export const projects: Project[] = [
       "Angular",
       "Azure DevOps",
     ],
-    image: "/assets/portfolio/devensoft.png",
+    image: "/assets/portfolio/webp/devensoft.webp",
     thumbImage: "/assets/portfolio/thumbnails/devensoft.png",
     isActive: true,
     isOpenSource: false,
@@ -122,7 +151,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 4,
+    num: 5,
     category: "Full-Stack",
     title: "Reganalytics",
     longDescription:
@@ -142,7 +171,7 @@ export const projects: Project[] = [
       "AWS",
       "Microservices",
     ],
-    image: "/assets/portfolio/reganalytics.png",
+    image: "/assets/portfolio/webp/reganalytics.webp",
     thumbImage: "/assets/portfolio/thumbnails/reganalytics.png",
     isActive: true,
     isOpenSource: false,
@@ -155,7 +184,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 5,
+    num: 6,
     category: "Backend",
     title: "WebEvv (Electronic Visit Verification)",
     longDescription:
@@ -173,7 +202,7 @@ export const projects: Project[] = [
       "Serverless",
       "Clean Architecture",
     ],
-    image: "/assets/portfolio/webevv.png",
+    image: "/assets/portfolio/webp/webevv.webp",
     thumbImage: "/assets/portfolio/thumbnails/webevv.png",
     isActive: true,
     isOpenSource: false,
@@ -186,7 +215,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 6,
+    num: 7,
     category: "Backend",
     title: "Alarm App (Bangladesh Red Crescent Society)",
     longDescription:
@@ -204,7 +233,7 @@ export const projects: Project[] = [
       "AWS CloudFormation",
       "Serverless",
     ],
-    image: "/assets/portfolio/alarmApp.png",
+    image: "/assets/portfolio/webp/alarmApp.webp",
     thumbImage: "/assets/portfolio/thumbnails/alarmApp.png",
     isActive: false,
     isOpenSource: false,
@@ -217,7 +246,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 7,
+    num: 8,
     category: "Backend",
     title: "Subscriber Verification System (SVS)",
     longDescription:
@@ -235,7 +264,7 @@ export const projects: Project[] = [
       "Linux",
       "Automation",
     ],
-    image: "/assets/portfolio/robi.png",
+    image: "/assets/portfolio/webp/robi.webp",
     thumbImage: "/assets/portfolio/thumbnails/robi.png",
     isActive: true,
     isOpenSource: false,
@@ -248,7 +277,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 8,
+    num: 9,
     category: "Full-Stack",
     title: "JoyList",
     longDescription:
@@ -264,7 +293,7 @@ export const projects: Project[] = [
       "AWS S3",
       "AWS Cloud Formation",
     ],
-    image: "/assets/portfolio/joylist.png",
+    image: "/assets/portfolio/webp/joylist.webp",
     thumbImage: "/assets/portfolio/thumbnails/joylist.png",
     isActive: false,
     isOpenSource: false,
@@ -277,7 +306,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 9,
+    num: 10,
     category: "Full-Stack",
     title: "Shopway",
     longDescription:
@@ -292,7 +321,7 @@ export const projects: Project[] = [
       "Mongoose",
       "Flutter",
     ],
-    image: "/assets/portfolio/shopway.png",
+    image: "/assets/portfolio/webp/shopway.webp",
     thumbImage: "/assets/portfolio/thumbnails/shopway.png",
     isActive: false,
     isOpenSource: false,
@@ -305,7 +334,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 10,
+    num: 11,
     category: "Full-Stack",
     title: "EnCue",
     longDescription:
@@ -323,7 +352,7 @@ export const projects: Project[] = [
       "AWS S3",
       "Xamarin",
     ],
-    image: "/assets/portfolio/encue.png",
+    image: "/assets/portfolio/webp/encue.webp",
     thumbImage: "/assets/portfolio/thumbnails/encue.png",
     isActive: false,
     isOpenSource: false,
@@ -336,7 +365,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 11,
+    num: 12,
     category: "Full-Stack",
     title: "OpiGateWay",
     longDescription:
@@ -351,7 +380,7 @@ export const projects: Project[] = [
       "MongoDb",
       "Twilio Voice",
     ],
-    image: "/assets/portfolio/opiGateWay.png",
+    image: "/assets/portfolio/webp/opiGateWay.webp",
     thumbImage: "/assets/portfolio/thumbnails/opiGateWay.png",
     isActive: true,
     isOpenSource: false,
@@ -364,7 +393,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 12,
+    num: 13,
     category: "Full-Stack",
     title: "here'n'now",
     longDescription:
@@ -380,7 +409,7 @@ export const projects: Project[] = [
       "Xamarin",
       "Firebase",
     ],
-    image: "/assets/portfolio/hnn.png",
+    image: "/assets/portfolio/webp/hnn.webp",
     thumbImage: "/assets/portfolio/thumbnails/hnn.png",
     isActive: false,
     isOpenSource: false,
@@ -393,35 +422,15 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 13,
+    num: 14,
     category: "Full-Stack",
     title: "reezcom",
     longDescription:
       "ReezCom is a communication platform for apartments, offices, and towers, enabling fast and efficient interaction with management for emergencies and other needs.",
     shortDescription: "",
     stacks: ["C#", "ASP.NET Core", "Android", "Entity Framework Core", "MSSQL"],
-    image: "/assets/portfolio/reezcom.png",
+    image: "/assets/portfolio/webp/reezcom.webp",
     thumbImage: "/assets/portfolio/thumbnails/reezcom.png",
-    isActive: false,
-    isOpenSource: false,
-    url: "",
-    github: "",
-    associatedWithCompany: "Individual",
-    jobRole: "Freelancer",
-    startDate: new Date(),
-    endDate: new Date(),
-    inactivationReason: "This Project is no longer operational.",
-  },
-  {
-    num: 14,
-    category: "Full-Stack",
-    title: "dobi",
-    longDescription:
-      "Dobi is an online laundry service in Bangladesh, offering home pickup and delivery for wash, iron, or both, along with bulk laundry solutions for hotels, hospitals, and transport services.",
-    shortDescription: "",
-    stacks: ["C#", "ASP.NET Core", "Angular.Js", "Entity Framework", "MSSQL"],
-    image: "/assets/portfolio/dobi.png",
-    thumbImage: "/assets/portfolio/thumbnails/dobi.png",
     isActive: false,
     isOpenSource: false,
     url: "",
@@ -435,12 +444,32 @@ export const projects: Project[] = [
   {
     num: 15,
     category: "Full-Stack",
+    title: "dobi",
+    longDescription:
+      "Dobi is an online laundry service in Bangladesh, offering home pickup and delivery for wash, iron, or both, along with bulk laundry solutions for hotels, hospitals, and transport services.",
+    shortDescription: "",
+    stacks: ["C#", "ASP.NET Core", "Angular.Js", "Entity Framework", "MSSQL"],
+    image: "/assets/portfolio/webp/dobi.webp",
+    thumbImage: "/assets/portfolio/thumbnails/dobi.png",
+    isActive: false,
+    isOpenSource: false,
+    url: "",
+    github: "",
+    associatedWithCompany: "Individual",
+    jobRole: "Freelancer",
+    startDate: new Date(),
+    endDate: new Date(),
+    inactivationReason: "This Project is no longer operational.",
+  },
+  {
+    num: 16,
+    category: "Full-Stack",
     title: "World Tax Analyzer (WTA)",
     longDescription:
       "Contributed to various parts of the World Tax Analyzer (WTA) application, a comprehensive platform offering tax rules, rates, treaty information, and more, as a Full-Stack developer.",
     shortDescription: "",
     stacks: ["C#", "ASP.NET MVC", "Knockout.Js", "MSSQL", "Link To SQL"],
-    image: "/assets/portfolio/regfollower.png",
+    image: "/assets/portfolio/webp/regfollower.webp",
     thumbImage: "/assets/portfolio/thumbnails/regfollower.png",
     isActive: true,
     isOpenSource: false,
@@ -453,14 +482,14 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 16,
+    num: 17,
     category: "Full-Stack",
     title: "Transfer Pricing Analyzer (TPA)",
     longDescription:
       "Contributed to various parts of the Transfer Pricing Analyzer (TPA) application, providing an overview of transfer pricing regulations and tools for FAR analysis and BEPS, as a Full-Stack developer.",
     shortDescription: "",
     stacks: ["C#", "ASP.NET MVC", "Knockout.Js", "MSSQL", "Link To SQL"],
-    image: "/assets/portfolio/regfollower.png",
+    image: "/assets/portfolio/webp/regfollower.webp",
     thumbImage: "/assets/portfolio/thumbnails/regfollower.png",
     isActive: true,
     isOpenSource: false,
@@ -473,7 +502,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 17,
+    num: 18,
     category: "Full-Stack",
     title: "Reganalytics Auth",
     longDescription: "",
@@ -486,7 +515,7 @@ export const projects: Project[] = [
       "Entity Framework",
       "MSSQL",
     ],
-    image: "/assets/portfolio/reganalytics.png",
+    image: "/assets/portfolio/webp/reganalytics.webp",
     thumbImage: "/assets/portfolio/thumbnails/reganalytics.png",
     isActive: false,
     isOpenSource: false,
@@ -499,7 +528,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is running internally.",
   },
   {
-    num: 18,
+    num: 19,
     category: "Full-Stack",
     title: "Notification Hub",
     longDescription: "",
@@ -513,7 +542,7 @@ export const projects: Project[] = [
       "MongoDB",
       "GCM",
     ],
-    image: "/assets/portfolio/chorki.png",
+    image: "/assets/portfolio/webp/chorki.webp",
     thumbImage: "/assets/portfolio/thumbnails/chorki.png",
     isActive: false,
     isOpenSource: false,
@@ -526,14 +555,14 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 19,
+    num: 20,
     category: "Full-Stack",
     title: "News Aggregator",
     longDescription: "",
     shortDescription:
       "Developed a system to scrape, aggregate, and store news from multiple sources for further processing.",
     stacks: ["JavaScript", "Node.js", "Express.js", "MySQL"],
-    image: "/assets/portfolio/chorki.png",
+    image: "/assets/portfolio/webp/chorki.webp",
     thumbImage: "/assets/portfolio/thumbnails/chorki.png",
     isActive: false,
     isOpenSource: false,
@@ -561,7 +590,7 @@ export const projects: Project[] = [
       "HTML",
       "CSS",
     ],
-    image: "/assets/portfolio/placeholderImage.jpg",
+    image: "/assets/portfolio/webp/placeholderImage.webp",
     thumbImage: "/assets/portfolio/thumbnails/placeholderImage.jpg",
     isActive: false,
     isOpenSource: false,
@@ -581,7 +610,7 @@ export const projects: Project[] = [
     shortDescription:
       "Worked as a team player to implement new features and fixing bugs in new and existing features of the Management Portal of Bangladesh College of Physicians and Surgeons (BCPS)",
     stacks: ["C#", "ASP.NET MVC", "Entity Framework", "MSSQL", "HTML", "CSS"],
-    image: "/assets/portfolio/bcps.png",
+    image: "/assets/portfolio/webp/bcps.webp",
     thumbImage: "/assets/portfolio/thumbnails/bcps.png",
     isActive: true,
     isOpenSource: false,

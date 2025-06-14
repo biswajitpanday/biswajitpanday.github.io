@@ -225,6 +225,11 @@ const Skills = () => {
             color="default"
           />
           <Badge
+            icon={<FaRocket className="text-xs" />}
+            text="AI Integration"
+            color="emerald"
+          />
+          <Badge
             icon={<FaDatabase className="text-xs" />}
             text="Database Architecture"
             color="blue"
