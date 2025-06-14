@@ -18,11 +18,12 @@ A modern, responsive portfolio website built with Next.js 15, TypeScript, and Ta
 
 ```bash
 npm run dev       # Development server
-npm run build     # Production build  
+npm run build     # Production build (auto-generates sitemap)
 npm run start     # Production server
 npm run lint      # Code linting
 npm run analyze   # Bundle analysis
 npm run optimize  # Complete image optimization (profile, WebP, thumbnails)
+npm run sitemap   # Generate sitemap.xml for SEO
 ```
 
 ## 🖼️ Image Optimization

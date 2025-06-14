@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { FiFilter, FiChevronDown, FiSearch, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
@@ -56,21 +56,8 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
     return () => clearTimeout(timer);
   }, [searchQuery, isSearchEnabled]);
   
-  // Apply filters when search or filter values change
-  useEffect(() => {
-    applyFilters();
-  }, [debouncedSearch, selectedCategory, selectedCompany, selectedStatus, selectedTech, projects, onFilterChange]);
-  
-  // Toggle filter panel
-  const toggleFilterPanel = () => {
-    setIsExpanded(!isExpanded);
-  };
-  
-  // Check if any filter is active
-  const hasActiveFilters = Boolean(searchQuery || selectedCategory || selectedCompany || selectedStatus || selectedTech);
-  
   // Apply filters
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = [...projects];
     
     // Apply search filter if search is enabled
@@ -113,7 +100,20 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
     
     // Pass filtered results to parent
     onFilterChange(filtered);
+  }, [projects, isSearchEnabled, debouncedSearch, selectedCategory, selectedCompany, selectedStatus, selectedTech, onFilterChange]);
+
+  // Apply filters when search or filter values change
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
+
+  // Toggle filter panel
+  const toggleFilterPanel = () => {
+    setIsExpanded(!isExpanded);
   };
+
+  // Check if any filter is active
+  const hasActiveFilters = Boolean(searchQuery || selectedCategory || selectedCompany || selectedStatus || selectedTech);
   
   // Reset all filters
   const resetFilters = () => {

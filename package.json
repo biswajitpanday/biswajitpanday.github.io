@@ -24,7 +24,9 @@
     "start": "next start",
     "lint": "next lint",
     "analyze": "ANALYZE=true npm run build",
-    "optimize": "node scripts/optimize-images.js"
+    "optimize": "node scripts/optimize-images.js",
+    "sitemap": "node scripts/generate-sitemap.js",
+    "prebuild": "npm run sitemap"
   },
   "homepage": "https://biswajitpanday.github.io/",
   "dependencies": {

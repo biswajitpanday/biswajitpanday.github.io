@@ -243,8 +243,8 @@ const Home = () => {
               className="flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-6 mb-8"
             >
               <Link
-                href="/assets/Biswajit_Panday_Resume.Net.pdf"
-                download="Biswajit_Panday_Resume.Net.pdf"
+                href="/assets/Biswajit_Panday_Resume.pdf"
+                download="Biswajit_Panday_Resume.pdf"
                 passHref
                 target="_blank"
                 data-testid="home-download-resume-link"

@@ -9,7 +9,7 @@ interface MemoryInfo {
 export const performanceMonitor = {
   // Track component render times
   measureRender: (componentName: string, renderFn: () => void) => {
-    if (typeof window !== 'undefined' && window.performance) {
+    if (typeof window !== 'undefined' && window.performance && process.env.NODE_ENV === 'development') {
       const start = performance.now();
       renderFn();
       const end = performance.now();
@@ -21,7 +21,7 @@ export const performanceMonitor = {
 
   // Track bundle loading times
   measureBundleLoad: (bundleName: string) => {
-    if (typeof window !== 'undefined' && window.performance) {
+    if (typeof window !== 'undefined' && window.performance && process.env.NODE_ENV === 'development') {
       const start = performance.now();
       return {
         end: () => {
