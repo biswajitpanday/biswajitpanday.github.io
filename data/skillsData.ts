@@ -146,9 +146,9 @@ export const skills2 = {
     },
     {
       name: "Testing Tools",
-      metadata: { icon: "FaVial" },
+      metadata: { icon: "SiTestinglibrary" },
       children: [
-        { name: "Playwright", metadata: { icon: "Playwright" } },
+        { name: "Playwright", metadata: { icon: "FaVial" } },
         { name: "xUnit", metadata: { icon: "GrTest" } },
         { name: "NUnit", metadata: { icon: "FaFunnelDollar" } },
         { name: "Postman", metadata: { icon: "SiPostman" } },
