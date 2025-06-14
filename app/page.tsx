@@ -1,7 +1,7 @@
 "use client";
 import { lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+
 import { motion } from "framer-motion";
 import { getMostRecentCertification } from "@/data/certificationsData";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
@@ -242,11 +242,11 @@ const Home = () => {
               transition={{ delay: 1.0, duration: 0.8 }}
               className="flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-6 mb-8"
             >
-              <Link
+              <a
                 href="/assets/Biswajit_Panday_Resume.pdf"
                 download="Biswajit_Panday_Resume.pdf"
-                passHref
                 target="_blank"
+                rel="noopener noreferrer"
                 data-testid="home-download-resume-link"
               >
                 <Button
@@ -262,7 +262,7 @@ const Home = () => {
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-secondary-default opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Button>
-              </Link>
+              </a>
 
               <div
                 data-testid="home-social-links"

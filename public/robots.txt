@@ -15,4 +15,10 @@ Host: https://biswajitpanday.github.io
 # Googlebot specific settings
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 1 
+Crawl-delay: 1
+
+# Disallow crawling of certain file types
+Disallow: /*.pdf.txt
+Disallow: /*.json
+Disallow: /_next/
+Disallow: /api/ 

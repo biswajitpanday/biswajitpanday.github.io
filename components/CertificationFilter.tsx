@@ -97,7 +97,7 @@ const CertificationFilter: React.FC<CertificationFilterProps> = ({
   // Apply filters when any filter changes
   React.useEffect(() => {
     applyFilters();
-  }, [searchQuery, selectedIssuer, selectedSkill, selectedYear, applyFilters]);
+  }, [searchQuery, selectedIssuer, selectedSkill, selectedYear]);
   
   return (
     <motion.div 

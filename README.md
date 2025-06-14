@@ -256,6 +256,11 @@ npm install sharp
 npm run optimize
 ```
 
+**Console Warnings:**
+- **Preload warnings**: Removed unnecessary image preloads from layout.tsx
+- **Image aspect ratio**: Added proper width/height styles to Image components
+- **Resume 404**: Changed from Next.js Link to native anchor tag for PDF downloads
+
 **Deployment Issues:**
 - Check GitHub Actions logs
 - Verify environment variables in repository secrets
