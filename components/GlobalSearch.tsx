@@ -29,7 +29,7 @@ const prepareSearchableData = (): SearchResult[] => {
       title: project.title,
       description: project.shortDescription,
       type: "project",
-      url: "/portfolio",
+      url: "/projects",
       category: project.category,
       icon: <FaBriefcase className="text-secondary-default" />
     });
