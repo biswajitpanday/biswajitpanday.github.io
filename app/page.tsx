@@ -151,10 +151,7 @@ const Home = () => {
               <span className="text-secondary-default font-semibold">
                 scalable applications
               </span>{" "}
-              with
-              <span className="text-secondary-default font-semibold">.NET, React </span>&{" "}
-              <span className="text-purple-400 font-semibold">DevOps </span>
-              while integrating{" "}
+              with .NET, React &DevOps while integrating {" "}
               <span className="text-emerald-300 font-semibold">
                 AI solutions
               </span>{" "}
