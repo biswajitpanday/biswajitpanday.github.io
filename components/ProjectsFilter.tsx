@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Project } from "@/data/portfolioData";
 
-interface PortfolioFilterProps {
+interface ProjectsFilterProps {
   projects: Project[];
   onFilterChange: (filtered: Project[]) => void;
   searchQuery: string;
@@ -19,7 +19,7 @@ interface PortfolioFilterProps {
   };
 }
 
-const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
+const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
   projects,
   onFilterChange,
   searchQuery,
@@ -371,5 +371,5 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
   );
 };
 
-export default PortfolioFilter;
+export default ProjectsFilter;
  

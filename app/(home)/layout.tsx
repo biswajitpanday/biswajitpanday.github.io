@@ -8,9 +8,16 @@ export const metadata: Metadata = {
     "Full-Stack Developer", 
     ".NET Developer",
     "React Developer",
+    "Azure Developer",
+    "AWS Developer",
+    "DevOps Engineer",
     "Software Engineer",
-    "Portfolio",
-    "Home",
+    "Microsoft Certified",
+    "Azure Certification",
+    "Projects",
+    "Software Development",
+    "Web Development",
+    "Cloud Solutions",
     "Dhaka Bangladesh"
   ],
   openGraph: {

@@ -42,7 +42,7 @@ export default function Header() {
 
   // Helper to check if a path is active (exact match or starts with path + '/')
   const isPathActive = (path: string) => {
-    // Special case for the portfolio to projects redirect
+    // Special case for legacy portfolio URLs redirecting to projects
     if (path === '/projects' && pathname.startsWith('/portfolio')) {
       return true;
     }
