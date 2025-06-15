@@ -16,6 +16,9 @@ const FaRocket = lazy(() => import("react-icons/fa").then(mod => ({ default: mod
 const FaUsers = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaUsers })));
 const FaCheckCircle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCheckCircle })));
 const FaExclamationTriangle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaExclamationTriangle })));
+const FaGlobe = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaGlobe })));
+const FaComments = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaComments })));
+const FaHandshake = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaHandshake })));
 
 // Loading fallback components
 const IconFallback = ({ className }: { className?: string }) => (
@@ -76,7 +79,8 @@ const info = [
     color: "from-blue-500/20 to-blue-600/20",
     borderColor: "border-blue-500/50",
     textColor: "text-blue-300",
-    hoverColor: "hover:bg-blue-500/30 hover:border-blue-400"
+    hoverColor: "hover:bg-blue-500/30 hover:border-blue-400",
+    testId: "contact-info-phone"
   },
   {
     icon: FaEnvelope,
@@ -85,7 +89,8 @@ const info = [
     color: "from-emerald-500/20 to-emerald-600/20",
     borderColor: "border-emerald-500/50",
     textColor: "text-emerald-300",
-    hoverColor: "hover:bg-emerald-500/30 hover:border-emerald-400"
+    hoverColor: "hover:bg-emerald-500/30 hover:border-emerald-400",
+    testId: "contact-info-email"
   },
   {
     icon: FaSkype,
@@ -94,7 +99,8 @@ const info = [
     color: "from-purple-500/20 to-purple-600/20",
     borderColor: "border-purple-500/50",
     textColor: "text-purple-300",
-    hoverColor: "hover:bg-purple-500/30 hover:border-purple-400"
+    hoverColor: "hover:bg-purple-500/30 hover:border-purple-400",
+    testId: "contact-info-skype"
   },
   {
     icon: FaMapMarkedAlt,
@@ -103,7 +109,8 @@ const info = [
     color: "from-orange-500/20 to-orange-600/20",
     borderColor: "border-orange-500/50",
     textColor: "text-orange-300",
-    hoverColor: "hover:bg-orange-500/30 hover:border-orange-400"
+    hoverColor: "hover:bg-orange-500/30 hover:border-orange-400",
+    testId: "contact-info-address"
   },
 ];
 
@@ -207,7 +214,10 @@ const Contact = () => {
   };
 
   return (
-    <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden">
+    <section 
+      data-testid="contact-page"
+      className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden"
+    >
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary-default/5 pointer-events-none" />
       <div className="absolute top-20 right-10 w-2 h-2 bg-secondary-default rounded-full animate-ping opacity-60" />
@@ -215,12 +225,12 @@ const Contact = () => {
       <div className="absolute top-1/3 left-8 w-1.5 h-1.5 bg-secondary-default rounded-full animate-bounce opacity-50" />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Contact Header */}
         <motion.div
+          data-testid="contact-header"
           variants={PERFORMANCE_VARIANTS.containerSync}
           initial="hidden"
           animate="visible"
-          className="text-center mb-12"
+          className="text-center mb-8"
         >
           {/* Main Heading */}
           <motion.h1
@@ -292,6 +302,38 @@ const Contact = () => {
               </div>
             </motion.div>
           </motion.div>
+        </motion.div>
+
+        {/* Contact Highlight Badges */}
+        <motion.div
+          variants={PERFORMANCE_VARIANTS.containerSync}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-wrap justify-center gap-3 mb-8 -mt-2"
+        >
+          <Suspense fallback={<IconFallback />}>
+            <motion.span
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
+            >
+              <FaGlobe className="text-xs" />
+              Remote Collaboration
+            </motion.span>
+            <motion.span
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 to-transparent backdrop-blur-sm border border-blue-500/30 text-blue-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-500/20 transition-all duration-300"
+            >
+              <FaComments className="text-xs" />
+              Quick Response
+            </motion.span>
+            <motion.span
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-transparent backdrop-blur-sm border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/20 transition-all duration-300"
+            >
+              <FaHandshake className="text-xs" />
+              Project Consultation
+            </motion.span>
+          </Suspense>
         </motion.div>
 
         <motion.div

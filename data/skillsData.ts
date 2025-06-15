@@ -36,6 +36,7 @@ export const skills1 = {
         { name: "C#", metadata: { icon: "TbBrandCSharp" } },
         { name: "TypeScript", metadata: { icon: "SiTypescript" } },
         { name: "JavaScript", metadata: { icon: "FaJs" } },
+        { name: "Python", metadata: { icon: "SiPython" } },
       ],
     },
     {
@@ -79,14 +80,14 @@ export const skills2 = {
   name: "Skills",
   children: [
     {
-      name: "AI Development Tools",
-      metadata: { icon: "FaRobot" },
+      name: "AI/ML Technologies",
+      metadata: { icon: "AI" },
       children: [
+        { name: "Google Gemini AI", metadata: { icon: "GoogleAIStudio" } },
+        { name: "AI Prompt Engineering", metadata: { icon: "SiOpenai" } },
         { name: "GitHub Copilot", metadata: { icon: "FaGithub" } },
         { name: "Cursor IDE", metadata: { icon: "Cursor" } },
         { name: "ChatGPT", metadata: { icon: "SiOpenai" } },
-        { name: "Azure OpenAI", metadata: { icon: "VscAzure" } },
-        { name: "Claude API", metadata: { icon: "FaRobot" } },
       ],
     },
     {
@@ -145,9 +146,9 @@ export const skills2 = {
     },
     {
       name: "Testing Tools",
-      metadata: { icon: "FaVial" },
+      metadata: { icon: "SiTestinglibrary" },
       children: [
-        { name: "Playwright", metadata: { icon: "GrTest" } },
+        { name: "Playwright", metadata: { icon: "FaVial" } },
         { name: "xUnit", metadata: { icon: "GrTest" } },
         { name: "NUnit", metadata: { icon: "FaFunnelDollar" } },
         { name: "Postman", metadata: { icon: "SiPostman" } },

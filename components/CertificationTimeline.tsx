@@ -129,11 +129,11 @@ const CertificationTimeline: React.FC<CertificationTimelineProps> = ({
             <div className="relative p-3 flex items-center justify-center">
               {/* Certificate image - reduced transitions */}
               <div className="relative w-full h-[120px] mt-2 mb-1">
-                {cert.image ? (
+                {cert.thumbImage || cert.image ? (
                   <div className="relative w-full h-full flex items-center justify-center">
                     <div className="absolute inset-0 bg-secondary-default/5 rounded-md blur-md opacity-70" />
                     <Image
-                      src={cert.image}
+                      src={cert.thumbImage || cert.image || ""}
                       alt={cert.name}
                       width={160}
                       height={100}

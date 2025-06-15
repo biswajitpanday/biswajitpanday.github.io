@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaCogs, FaRocket, FaSearch } from "react-icons/fa";
+import { FaCogs, FaRocket, FaSearch, FaCode, FaDatabase, FaCloud } from "react-icons/fa";
 import TreeView, { flattenTree } from "react-accessible-treeview";
 import { skills1, skills2, countAllTechnologies } from "@/data/skillsData";
 import DynamicIcon from "@/components/DynamicIcon";
@@ -9,6 +9,8 @@ import React, { useCallback, useMemo, useState, useEffect } from "react";
 import BackgroundElements from "@/components/BackgroundElements";
 import SectionHeader from "@/components/SectionHeader";
 import SkillsFilter from "@/components/SkillsFilter";
+import { PERFORMANCE_VARIANTS } from "@/constants";
+import Badge from "@/components/Badge";
 
 // Memoized animation variants - created once, reused everywhere
 const TREE_ANIMATIONS = {
@@ -209,6 +211,35 @@ const Skills = () => {
         >
           <StatsCards stats={statsData} />
         </SectionHeader>
+
+        {/* Skill Highlight Badges */}
+        <motion.div
+          variants={PERFORMANCE_VARIANTS.containerSync}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-wrap justify-center gap-3 mb-12 -mt-2"
+        >
+          <Badge
+            icon={<FaCode className="text-xs" />}
+            text="Full-Stack Development"
+            color="default"
+          />
+          <Badge
+            icon={<FaRocket className="text-xs" />}
+            text="AI Integration"
+            color="emerald"
+          />
+          <Badge
+            icon={<FaDatabase className="text-xs" />}
+            text="Database Architecture"
+            color="blue"
+          />
+          <Badge
+            icon={<FaCloud className="text-xs" />}
+            text="Cloud Infrastructure"
+            color="purple"
+          />
+        </motion.div>
 
         {/* Search Section - Using SkillsFilter Component */}
         <SkillsFilter

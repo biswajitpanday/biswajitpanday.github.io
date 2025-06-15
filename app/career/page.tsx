@@ -19,6 +19,7 @@ import TimelineElement from "@/components/TimelineElement";
 import BackgroundElements from "@/components/BackgroundElements";
 import SectionHeader from "@/components/SectionHeader";
 import StatsCards from "@/components/StatsCards";
+import Badge from "@/components/Badge";
 
 const Career = () => {
   const totalExperience = calculateTotalExperience(timeLineItems);
@@ -69,32 +70,26 @@ const Career = () => {
           {/* Career Highlights Badges */}
           <motion.div
             variants={PERFORMANCE_VARIANTS.containerSync}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-wrap justify-center gap-3 mb-12"
+            initial="hidden"
+            animate="visible"
+            className="flex flex-wrap justify-center gap-3 mb-12 -mt-2"
           >
-            <motion.span
-              variants={PERFORMANCE_VARIANTS.cardSync}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
-            >
-              <FaAward className="text-xs" />
-              Full-Stack Leadership
-            </motion.span>
-            <motion.span
-              variants={PERFORMANCE_VARIANTS.cardSync}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 to-transparent backdrop-blur-sm border border-blue-500/30 text-blue-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-500/20 transition-all duration-300"
-            >
-              <FaRocket className="text-xs" />
-              Innovation Driver
-            </motion.span>
-            <motion.span
-              variants={PERFORMANCE_VARIANTS.cardSync}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-transparent backdrop-blur-sm border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/20 transition-all duration-300"
-            >
-              <FaBriefcase className="text-xs" />
-              Team Builder
-            </motion.span>
-        </motion.div>
+            <Badge
+              icon={<FaAward className="text-xs" />}
+              text="Full-Stack Leadership"
+              color="default"
+            />
+            <Badge
+              icon={<FaRocket className="text-xs" />}
+              text="Innovation Driver"
+              color="blue"
+            />
+            <Badge
+              icon={<FaBriefcase className="text-xs" />}
+              text="Team Builder"
+              color="purple"
+            />
+          </motion.div>
 
         {/* Enhanced Timeline with Better Animation */}
         <motion.div

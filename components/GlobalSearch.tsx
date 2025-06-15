@@ -199,43 +199,44 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start justify-center pt-20"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[var(--z-search)] flex items-start justify-center pt-20"
+          style={{ zIndex: 'var(--z-search)' }}
           onClick={onClose}
         >
           <motion.div
             initial={{ opacity: 0, y: -50, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -50, scale: 0.95 }}
-            className="bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/20 rounded-xl p-6 w-full max-w-2xl mx-4 max-h-[80vh] overflow-hidden"
+            className="bg-gradient-to-br from-gray-900/90 to-gray-950/90 border border-secondary-default/20 rounded-xl p-6 w-full max-w-2xl mx-4 max-h-[80vh] overflow-hidden shadow-lg shadow-secondary-default/10"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Search Header */}
             <div className="flex items-center gap-4 mb-6">
               <div className="relative flex-1">
-                <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/40" />
+                <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary-default" />
                 <input
                   type="text"
                   placeholder="Search projects, skills, certifications, pages..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="w-full bg-white/5 border border-white/10 text-white placeholder:text-white/40 pl-12 pr-4 py-3 rounded focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
+                  className="w-full bg-gray-800/50 border border-secondary-default/20 text-white placeholder:text-white/40 pl-12 pr-4 py-3 rounded focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
                   autoFocus
                 />
               </div>
               <button
                 onClick={onClose}
-                className="p-3 text-white/40 hover:text-white transition-colors"
+                className="p-3 text-white/40 hover:text-secondary-default transition-colors"
               >
                 <FaTimes />
               </button>
             </div>
 
             {/* Search Results */}
-            <div className="max-h-96 overflow-y-auto custom-scrollbar">
+            <div className="max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-secondary-default/30 scrollbar-track-gray-800/30">
               {debouncedSearch && filteredResults.length === 0 && (
                 <div className="text-center py-8">
-                  <FaSearch className="text-4xl text-white/40 mx-auto mb-4" />
+                  <FaSearch className="text-4xl text-secondary-default/40 mx-auto mb-4" />
                   <p className="text-white/60">
                     No results found for &ldquo;{debouncedSearch}&rdquo;
                   </p>
@@ -244,14 +245,14 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
 
               {filteredResults.length > 0 && (
                 <div className="space-y-4">
-                  <p className="text-sm text-white/60 mb-4">
+                  <p className="text-sm text-secondary-default mb-4">
                     Found {filteredResults.length} results for &ldquo;{debouncedSearch}&rdquo;
                   </p>
                   
                   {/* Pages */}
                   {groupedResults.page.length > 0 && (
                     <div className="mb-4">
-                      <h3 className="text-xs text-white/50 uppercase mb-2 px-1">Pages</h3>
+                      <h3 className="text-xs text-secondary-default/80 uppercase font-semibold mb-2 px-1">Pages</h3>
                       <div className="space-y-2">
                         {groupedResults.page.map(renderSearchResult)}
                       </div>
@@ -261,7 +262,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
                   {/* Projects */}
                   {groupedResults.project.length > 0 && (
                     <div className="mb-4">
-                      <h3 className="text-xs text-white/50 uppercase mb-2 px-1">Projects</h3>
+                      <h3 className="text-xs text-secondary-default/80 uppercase font-semibold mb-2 px-1">Projects</h3>
                       <div className="space-y-2">
                         {groupedResults.project.map(renderSearchResult)}
                       </div>
@@ -271,7 +272,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
                   {/* Certifications */}
                   {groupedResults.certification.length > 0 && (
                     <div className="mb-4">
-                      <h3 className="text-xs text-white/50 uppercase mb-2 px-1">Certifications</h3>
+                      <h3 className="text-xs text-secondary-default/80 uppercase font-semibold mb-2 px-1">Certifications</h3>
                       <div className="space-y-2">
                         {groupedResults.certification.map(renderSearchResult)}
                       </div>
@@ -281,7 +282,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
                   {/* Skills */}
                   {groupedResults.skill.length > 0 && (
                     <div className="mb-4">
-                      <h3 className="text-xs text-white/50 uppercase mb-2 px-1">Skills</h3>
+                      <h3 className="text-xs text-secondary-default/80 uppercase font-semibold mb-2 px-1">Skills</h3>
                       <div className="space-y-2">
                         {groupedResults.skill.map(renderSearchResult)}
                       </div>
@@ -292,26 +293,26 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
 
               {!debouncedSearch && (
                 <div className="text-center py-8">
-                  <FaSearch className="text-4xl text-white/40 mx-auto mb-4" />
-                  <p className="text-white/60">
+                  <FaSearch className="text-4xl text-secondary-default/40 mx-auto mb-4" />
+                  <p className="text-white/60 mb-4">
                     Start typing to search across projects, skills, certifications, and pages
                   </p>
-                  <div className="mt-4 flex flex-wrap justify-center gap-2">
+                  <div className="flex flex-wrap justify-center gap-2">
                     <button 
                       onClick={() => setSearchQuery("react")}
-                      className="px-3 py-1 text-sm bg-white/5 hover:bg-white/10 rounded-full transition-colors"
+                      className="px-3 py-1 text-sm bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-full transition-colors"
                     >
                       React
                     </button>
                     <button 
                       onClick={() => setSearchQuery("azure")}
-                      className="px-3 py-1 text-sm bg-white/5 hover:bg-white/10 rounded-full transition-colors"
+                      className="px-3 py-1 text-sm bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-300 rounded-full transition-colors"
                     >
                       Azure
                     </button>
                     <button 
                       onClick={() => setSearchQuery("certification")}
-                      className="px-3 py-1 text-sm bg-white/5 hover:bg-white/10 rounded-full transition-colors"
+                      className="px-3 py-1 text-sm bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 rounded-full transition-colors"
                     >
                       Certifications
                     </button>
@@ -321,9 +322,9 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
             </div>
 
             {/* Search Tips */}
-            <div className="mt-6 pt-4 border-t border-white/10">
+            <div className="mt-6 pt-4 border-t border-secondary-default/20">
               <p className="text-xs text-white/40 text-center">
-                Press <kbd className="bg-white/10 px-2 py-1 rounded text-white/60">Esc</kbd> to close
+                Press <kbd className="bg-gray-800/70 px-2 py-1 rounded text-secondary-default border border-secondary-default/20">Esc</kbd> to close
               </p>
             </div>
           </motion.div>
@@ -339,7 +340,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         key={result.id}
         href={result.url}
         onClick={() => handleResultClick()}
-        className="block p-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 rounded transition-all duration-300 group"
+        className="block p-4 bg-gray-800/50 hover:bg-gray-800/80 border border-secondary-default/20 hover:border-secondary-default/50 rounded transition-all duration-300 group"
       >
         <div className="flex items-start gap-3">
           <div className="mt-1">{result.icon}</div>
@@ -351,11 +352,11 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
               {result.description}
             </p>
             <div className="flex items-center gap-2 mt-2">
-              <span className="text-xs bg-secondary-default/20 text-secondary-default px-2 py-1 rounded">
+              <span className="text-xs bg-secondary-default/20 text-secondary-default px-2 py-1 rounded border border-secondary-default/30">
                 {result.type}
               </span>
               {result.category && (
-                <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded">
+                <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded border border-blue-500/30">
                   {result.category}
                 </span>
               )}

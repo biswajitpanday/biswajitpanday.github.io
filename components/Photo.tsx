@@ -2,27 +2,32 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { LIGHTWEIGHT_VARIANTS } from "@/constants";
 
 const Photo = () => {
   return (
     <div className="w-full h-full relative rounded-full overflow-hidden">
       <motion.div
-        {...LIGHTWEIGHT_VARIANTS.fadeIn}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
       >
         <div className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] mix-blend-lighten absolute">
           <Image
-            src="/assets/profile/profile-large.png"
+            src="/assets/profile/webp/profile-large.webp"
             priority
-            quality={80}
+            quality={90}
             fill
-            alt="Biswajit Panday"
+            alt="Biswajit Panday - Full-Stack .NET Developer"
             className="object-contain"
             sizes="(max-width: 1280px) 298px, 498px"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+            loading="eager"
+            fetchPriority="high"
           />
         </div>
         
-        {/* Simplified SVG animation - reduced complexity */}
+        {/* Optimized SVG animation - reduced complexity for better LCP */}
         <svg
           className="w-[300px] xl:w-[506px] h-[300px] xl:h-[506px]"
           fill="transparent"
@@ -43,7 +48,7 @@ const Photo = () => {
               rotate: [0, 360],
             }}
             transition={{
-              duration: 12, // Slower animation for less processing
+              duration: 20, // Slower animation to reduce CPU load during LCP
               repeat: Infinity,
               ease: "linear",
             }}

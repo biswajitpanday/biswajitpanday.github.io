@@ -30,12 +30,12 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
       variants={PERFORMANCE_VARIANTS.containerSync}
       initial="hidden"
       animate="visible"
-      className={`text-center mb-12 ${className}`}
+      className={`text-center mb-6 ${className}`}
     >
       {/* Main Heading */}
       <motion.h1
         variants={PERFORMANCE_VARIANTS.slideUpSync}
-        className={`text-4xl xl:text-6xl font-bold text-white mb-6 leading-tight ${titleClassName}`}
+        className={`text-3xl xl:text-5xl font-bold text-white mb-4 leading-tight ${titleClassName}`}
       >
         {title}{" "}
         <span className={`bg-gradient-to-r ${gradientClass} bg-clip-text text-transparent animate-gradient`}>
@@ -46,7 +46,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
       {/* Description */}
       <motion.p
         variants={PERFORMANCE_VARIANTS.slideUpSync}
-        className={`text-lg xl:text-xl text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed ${descriptionClassName}`}
+        className={`text-lg xl:text-xl text-white/80 mb-6 max-w-4xl mx-auto leading-relaxed ${descriptionClassName}`}
       >
         {description}
       </motion.p>

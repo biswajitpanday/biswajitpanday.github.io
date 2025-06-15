@@ -15,6 +15,7 @@ import CertificationCard from "@/components/CertificationCard";
 import SectionHeader from "@/components/SectionHeader";
 import BackgroundElements from "@/components/BackgroundElements";
 import { FiAward, FiBriefcase, FiBook, FiSlack } from "react-icons/fi";
+import { FaMicrosoft, FaCloudversify, FaCertificate } from "react-icons/fa";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import StatsCards, { StatCard } from "@/components/StatsCards";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
@@ -22,6 +23,7 @@ import UpcomingCertificationsSection from "@/components/UpcomingCertificationsSe
 import CertificationTimeline from "@/components/CertificationTimeline";
 import CertificationFilter from "@/components/CertificationFilter";
 import { PERFORMANCE_VARIANTS } from "@/constants";
+import Badge from "@/components/Badge";
 
 const Certifications = () => {
   const featuredCertification = getMostRecentCertification();
@@ -130,6 +132,30 @@ const Certifications = () => {
         >
           <StatsCards stats={statsData} />
         </SectionHeader>
+
+        {/* Certification Highlight Badges */}
+        <motion.div
+          variants={PERFORMANCE_VARIANTS.containerSync}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-wrap justify-center gap-3 mb-12 -mt-2"
+        >
+          <Badge
+            icon={<FaMicrosoft className="text-xs" />}
+            text="Microsoft Certified"
+            color="default"
+          />
+          <Badge
+            icon={<FaCloudversify className="text-xs" />}
+            text="Cloud Expertise"
+            color="blue"
+          />
+          <Badge
+            icon={<FaCertificate className="text-xs" />}
+            text="Industry Recognized"
+            color="purple"
+          />
+        </motion.div>
 
         {/* Featured Certification Banner */}
         {featuredCertification && (

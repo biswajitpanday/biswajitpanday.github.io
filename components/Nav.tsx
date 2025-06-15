@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { navigationLinks } from "@/data/navigationData";
 import { useEffect } from "react";
 
 const Nav = () => {
   const pathName = usePathname();
+  const router = useRouter();
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -16,14 +17,36 @@ const Nav = () => {
           (link) => link.shortcut?.toLowerCase() === event.key.toLowerCase()
         );
         if (link) {
-          window.location.href = link.path;
+          // Trigger the route change event
+          window.dispatchEvent(new Event('route-change-start'));
+          
+          // Navigate after a short delay
+          setTimeout(() => {
+            router.push(link.path);
+          }, 100);
         }
       }
     };
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [router]);
+  
+  // Handle navigation with loading
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    e.preventDefault();
+    
+    // Only trigger if it's a different page
+    if (pathName !== path) {
+      // Trigger the route change event
+      window.dispatchEvent(new Event('route-change-start'));
+      
+      // Navigate after a short delay
+      setTimeout(() => {
+        router.push(path);
+      }, 100);
+    }
+  };
 
   return (
     <nav 
@@ -43,15 +66,16 @@ const Nav = () => {
           >
           <Link
             href={link.path}
-              className={`
-                relative capitalize font-medium transition-all duration-300
-                ${isActive 
-                  ? "text-secondary-default border-b-2 border-secondary-default pb-1" 
-                  : "text-white/80 hover:text-secondary-default border-b-2 border-transparent pb-1 hover:border-secondary-default/50"
-                }
-              `}
-              aria-label={`Navigate to ${link.name}`}
-              title={`Alt+${link.shortcut}`}
+            onClick={(e) => handleNavClick(e, link.path)}
+            className={`
+              relative capitalize font-medium transition-all duration-300
+              ${isActive 
+                ? "text-secondary-default border-b-2 border-secondary-default pb-1" 
+                : "text-white/80 hover:text-secondary-default border-b-2 border-transparent pb-1 hover:border-secondary-default/50"
+              }
+            `}
+            aria-label={`Navigate to ${link.name}`}
+            title={`Alt+${link.shortcut}`}
           >
               {/* Text */}
               <span className="relative">

@@ -20,12 +20,13 @@ export const timeLineItems: TimelineItem[] = [
     location: "Dhaka, Bangladesh",
     jobType: ["Full-Time", "Hybrid"],
     responsibilities: [
+      "Led development of AI-powered development tools using Google Gemini AI, reducing manual effort by 80-90% and showcasing practical AI integration in enterprise workflows.",
       "Customizing and maintaining the Optimizely Configured Commerce platform, enabling B2B clients to streamline catalog management, pricing, and ERP integrations at scale.",
       "Contributed to two successful system migrations, achieving an average cost reduction of 55% for major clients and improving deployment efficiency by reducing error rates.",
       "Mentoring developers and conducting rigorous code reviews, boosting productivity; reduced defects by 15% over the past two years.",
       "Designing and implementing scalable software architecture patterns, enhancing system reliability, and supporting seamless global deployments.",
     ],
-    icon: "/assets/company-icon/opti.png",
+    icon: "/assets/company-icon/webp/opti.webp",
   },
   {
     position: "Senior Software Engineer",
@@ -41,7 +42,7 @@ export const timeLineItems: TimelineItem[] = [
       "Optimized APIs for millions of users with load-balanced API Gateways, reducing downtime and automating deployments for 40+ services.",
       "Managed and mentored teams of 8–12, increase productivity by 20% through Agile practices and technical guidance.",
     ],
-    icon: "/assets/company-icon/kaz.png",
+    icon: "/assets/company-icon/webp/kaz.webp",
   },
   {
     position: "Software Engineer",
@@ -55,7 +56,7 @@ export const timeLineItems: TimelineItem[] = [
       "Built and maintained features for web applications, focusing on front-end and API interactions.",
       "Collaborated with senior engineers to build scalable solutions for real-time notifications and data aggregation tool.",
     ],
-    icon: "/assets/company-icon/chorki.png",
+    icon: "/assets/company-icon/webp/chorki.webp",
   },
   {
     position: "Intern",
@@ -69,6 +70,6 @@ export const timeLineItems: TimelineItem[] = [
       "Feature implementation and Bug fixing on a Social & Professional networking site named Whooza.",
       "Actively worked on a Management Portal of Bangladesh College of Physicians and Surgeons (BCPS).",
     ],
-    icon: "/assets/company-icon/brain-station-23.png",
+    icon: "/assets/company-icon/webp/brain-station-23.webp",
   },
 ]; 

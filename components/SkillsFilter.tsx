@@ -111,13 +111,13 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden mb-8"
+      className="bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/20 rounded-xl overflow-hidden mb-8 shadow-lg shadow-secondary-default/10"
     >
       {/* Search and Filter Bar */}
       <div className="p-4 flex flex-col sm:flex-row gap-4 items-center">
         {/* Search Input */}
         <div className="relative flex-1 w-full">
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default">
             <FiSearch />
           </div>
           <input
@@ -125,12 +125,12 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
             placeholder={placeholder}
             value={searchQuery}
             onChange={handleSearchChange}
-            className="w-full bg-white/5 border border-white/10 rounded-lg py-2 pl-10 pr-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
+            className="w-full bg-gray-800/50 border border-secondary-default/20 rounded-lg py-2 pl-10 pr-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
           />
           {searchQuery && (
             <button 
               onClick={onClearSearch}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-secondary-default"
             >
               <FiX />
             </button>
@@ -141,7 +141,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
         <Button
           variant="outline"
           onClick={toggleFilterPanel}
-          className={`shrink-0 flex items-center gap-2 ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50' : ''}`}
+          className={`shrink-0 flex items-center gap-2 ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
         >
           <FiFilter className={isExpanded ? 'text-secondary-default' : 'text-white/70'} />
           <span>Filters</span>
@@ -153,7 +153,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
           <Button
             variant="ghost"
             onClick={resetFilters}
-            className="shrink-0 text-white/70 hover:text-white"
+            className="shrink-0 text-white/70 hover:text-secondary-default"
           >
             Reset
           </Button>
@@ -163,7 +163,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
       {/* Results text */}
       {showResults && resultsText && (
         <div className="px-4 pb-2">
-          <p className="text-sm text-secondary-default/80">{resultsText}</p>
+          <p className="text-sm text-secondary-default">{resultsText}</p>
         </div>
       )}
       
@@ -174,18 +174,18 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.2 }}
-          className="px-4 pb-4 border-t border-white/10"
+          className="px-4 pb-4 border-t border-secondary-default/20"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
             {/* Categories Filter */}
             <div>
-              <h4 className="text-white/70 text-sm mb-2">Categories</h4>
+              <h4 className="text-secondary-default text-sm font-semibold mb-2">Categories</h4>
               <div className="flex flex-wrap gap-2">
                 {categories.map(category => (
                   <Badge
                     key={category}
                     variant={selectedCategory === category ? "default" : "outline"}
-                    className={`cursor-pointer ${selectedCategory === category ? 'bg-secondary-default text-primary' : 'text-white/70 hover:text-white'}`}
+                    className={`cursor-pointer ${selectedCategory === category ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
                     onClick={() => handleCategorySelect(category)}
                   >
                     {category}
@@ -196,13 +196,13 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
             
             {/* Technologies Filter */}
             <div>
-              <h4 className="text-white/70 text-sm mb-2">Technologies</h4>
-              <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto scrollbar-thin scrollbar-thumb-secondary-default/20 scrollbar-track-white/5">
+              <h4 className="text-secondary-default text-sm font-semibold mb-2">Technologies</h4>
+              <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto scrollbar-thin scrollbar-thumb-secondary-default/30 scrollbar-track-gray-800/30">
                 {allSkills.map(technology => (
                   <Badge
                     key={technology}
                     variant={selectedTechnology === technology ? "default" : "outline"}
-                    className={`cursor-pointer ${selectedTechnology === technology ? 'bg-secondary-default text-primary' : 'text-white/70 hover:text-white'}`}
+                    className={`cursor-pointer ${selectedTechnology === technology ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
                     onClick={() => handleTechnologySelect(technology)}
                   >
                     {technology}
@@ -224,7 +224,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
             >
               Category: {selectedCategory}
               <FiX 
-                className="cursor-pointer" 
+                className="cursor-pointer hover:text-secondary-default" 
                 onClick={() => {
                   setSelectedCategory(null);
                   onSearchChange("");
@@ -239,7 +239,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
             >
               Technology: {selectedTechnology}
               <FiX 
-                className="cursor-pointer" 
+                className="cursor-pointer hover:text-secondary-default" 
                 onClick={() => {
                   setSelectedTechnology(null);
                   onSearchChange("");
@@ -254,7 +254,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
             >
               Search: {searchQuery}
               <FiX 
-                className="cursor-pointer" 
+                className="cursor-pointer hover:text-secondary-default" 
                 onClick={onClearSearch}
                 size={12}
               />

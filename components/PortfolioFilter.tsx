@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { FiFilter, FiChevronDown, FiSearch, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
@@ -56,21 +56,8 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
     return () => clearTimeout(timer);
   }, [searchQuery, isSearchEnabled]);
   
-  // Apply filters when search or filter values change
-  useEffect(() => {
-    applyFilters();
-  }, [debouncedSearch, selectedCategory, selectedCompany, selectedStatus, selectedTech, projects, onFilterChange]);
-  
-  // Toggle filter panel
-  const toggleFilterPanel = () => {
-    setIsExpanded(!isExpanded);
-  };
-  
-  // Check if any filter is active
-  const hasActiveFilters = Boolean(searchQuery || selectedCategory || selectedCompany || selectedStatus || selectedTech);
-  
   // Apply filters
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = [...projects];
     
     // Apply search filter if search is enabled
@@ -113,7 +100,20 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
     
     // Pass filtered results to parent
     onFilterChange(filtered);
+  }, [projects, isSearchEnabled, debouncedSearch, selectedCategory, selectedCompany, selectedStatus, selectedTech, onFilterChange]);
+
+  // Apply filters when search or filter values change
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
+
+  // Toggle filter panel
+  const toggleFilterPanel = () => {
+    setIsExpanded(!isExpanded);
   };
+
+  // Check if any filter is active
+  const hasActiveFilters = Boolean(searchQuery || selectedCategory || selectedCompany || selectedStatus || selectedTech);
   
   // Reset all filters
   const resetFilters = () => {
@@ -150,14 +150,15 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden mb-8"
+      className="bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/20 rounded-xl overflow-hidden mb-8 shadow-lg shadow-secondary-default/10"
+      data-test-selector="projectFilter"
     >
       {/* Search and Filter Bar */}
       <div className="p-4 flex flex-col sm:flex-row gap-4 items-center">
         {/* Search Input */}
         {isSearchEnabled && (
-          <div className="relative flex-1 w-full">
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50">
+          <div className="relative flex-1 w-full" data-test-selector="projectFilter-search">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default">
               <FiSearch />
             </div>
             <input
@@ -165,12 +166,14 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
               placeholder={placeholder}
               value={searchQuery}
               onChange={handleSearchChange}
-              className="w-full bg-white/5 border border-white/10 rounded-lg py-2 pl-10 pr-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
+              className="w-full bg-gray-800/50 border border-secondary-default/20 rounded-lg py-2 pl-10 pr-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
+              data-test-selector="projectFilter-searchInput"
             />
             {searchQuery && (
               <button 
                 onClick={() => onSearchChange("")}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-secondary-default"
+                data-test-selector="projectFilter-clearSearch"
               >
                 <FiX />
               </button>
@@ -183,7 +186,8 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
           <Button
             variant="outline"
             onClick={toggleFilterPanel}
-            className={`shrink-0 flex items-center gap-2 ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50' : ''}`}
+            className={`shrink-0 flex items-center gap-2 ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
+            data-test-selector="projectFilter-toggleButton"
           >
             <FiFilter className={isExpanded ? 'text-secondary-default' : 'text-white/70'} />
             <span>Filters</span>
@@ -196,7 +200,8 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
           <Button
             variant="ghost"
             onClick={resetFilters}
-            className="shrink-0 text-white/70 hover:text-white"
+            className="shrink-0 text-white/70 hover:text-secondary-default"
+            data-test-selector="projectFilter-resetButton"
           >
             Reset
           </Button>
@@ -206,7 +211,7 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
       {/* Results info */}
       {resultsInfo && (
         <div className="px-4 pb-2">
-          <p className="text-sm text-secondary-default/80">
+          <p className="text-sm text-secondary-default">
             Showing <span className="font-bold">{resultsInfo.filtered}</span> of{" "}
             <span className="font-bold">{resultsInfo.total}</span>{" "}
             {resultsInfo.description || "results"}
@@ -221,18 +226,19 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.2 }}
-          className="px-4 pb-4 border-t border-white/10"
+          className="px-4 pb-4 border-t border-secondary-default/20"
+          data-test-selector="projectFilter-panel"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
             {/* Categories Filter */}
             <div>
-              <h4 className="text-white/70 text-sm mb-2">Categories</h4>
+              <h4 className="text-secondary-default text-sm font-semibold mb-2">Categories</h4>
               <div className="flex flex-wrap gap-2">
                 {categories.map(category => (
                   <Badge
                     key={category}
                     variant={selectedCategory === category ? "default" : "outline"}
-                    className={`cursor-pointer ${selectedCategory === category ? 'bg-secondary-default text-primary' : 'text-white/70 hover:text-white'}`}
+                    className={`cursor-pointer ${selectedCategory === category ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
                     onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
                   >
                     {category}
@@ -243,13 +249,13 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
             
             {/* Companies Filter */}
             <div>
-              <h4 className="text-white/70 text-sm mb-2">Companies</h4>
+              <h4 className="text-secondary-default text-sm font-semibold mb-2">Companies</h4>
               <div className="flex flex-wrap gap-2">
                 {companies.map(company => (
                   <Badge
                     key={company}
                     variant={selectedCompany === company ? "default" : "outline"}
-                    className={`cursor-pointer ${selectedCompany === company ? 'bg-secondary-default text-primary' : 'text-white/70 hover:text-white'}`}
+                    className={`cursor-pointer ${selectedCompany === company ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
                     onClick={() => setSelectedCompany(selectedCompany === company ? null : company)}
                   >
                     {company}
@@ -260,13 +266,13 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
             
             {/* Status Filter */}
             <div>
-              <h4 className="text-white/70 text-sm mb-2">Status</h4>
+              <h4 className="text-secondary-default text-sm font-semibold mb-2">Status</h4>
               <div className="flex flex-wrap gap-2">
                 {statuses.map(status => (
                   <Badge
                     key={status}
                     variant={selectedStatus === status ? "default" : "outline"}
-                    className={`cursor-pointer ${selectedStatus === status ? 'bg-secondary-default text-primary' : 'text-white/70 hover:text-white'}`}
+                    className={`cursor-pointer ${selectedStatus === status ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
                     onClick={() => setSelectedStatus(selectedStatus === status ? null : status)}
                   >
                     {status}
@@ -277,13 +283,13 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
             
             {/* Technologies Filter */}
             <div>
-              <h4 className="text-white/70 text-sm mb-2">Technologies</h4>
-              <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto scrollbar-thin scrollbar-thumb-secondary-default/20 scrollbar-track-white/5">
+              <h4 className="text-secondary-default text-sm font-semibold mb-2">Technologies</h4>
+              <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto scrollbar-thin scrollbar-thumb-secondary-default/30 scrollbar-track-gray-800/30">
                 {technologies.map(tech => (
                   <Badge
                     key={tech}
                     variant={selectedTech === tech ? "default" : "outline"}
-                    className={`cursor-pointer ${selectedTech === tech ? 'bg-secondary-default text-primary' : 'text-white/70 hover:text-white'}`}
+                    className={`cursor-pointer ${selectedTech === tech ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
                     onClick={() => setSelectedTech(selectedTech === tech ? null : tech)}
                   >
                     {tech}
@@ -305,7 +311,7 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
             >
               Category: {selectedCategory}
               <FiX 
-                className="cursor-pointer" 
+                className="cursor-pointer hover:text-secondary-default" 
                 onClick={() => setSelectedCategory(null)}
                 size={12}
               />
@@ -317,7 +323,7 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
             >
               Company: {selectedCompany}
               <FiX 
-                className="cursor-pointer" 
+                className="cursor-pointer hover:text-secondary-default" 
                 onClick={() => setSelectedCompany(null)}
                 size={12}
               />
@@ -329,7 +335,7 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
             >
               Status: {selectedStatus}
               <FiX 
-                className="cursor-pointer" 
+                className="cursor-pointer hover:text-secondary-default" 
                 onClick={() => setSelectedStatus(null)}
                 size={12}
               />
@@ -341,7 +347,7 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
             >
               Technology: {selectedTech}
               <FiX 
-                className="cursor-pointer" 
+                className="cursor-pointer hover:text-secondary-default" 
                 onClick={() => setSelectedTech(null)}
                 size={12}
               />
@@ -353,7 +359,7 @@ const PortfolioFilter: React.FC<PortfolioFilterProps> = ({
             >
               Search: {searchQuery}
               <FiX 
-                className="cursor-pointer" 
+                className="cursor-pointer hover:text-secondary-default" 
                 onClick={() => onSearchChange("")}
                 size={12}
               />

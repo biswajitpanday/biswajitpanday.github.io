@@ -105,15 +105,15 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
               {item.jobType.map((type, typeIndex) => (
                 <span
                   key={typeIndex}
-                  className="inline-flex text-xs font-bold items-center gap-2 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm border border-white/20 text-white/80 py-2 px-4 rounded-full hover:bg-white/20 hover:text-white hover:border-secondary-default hover:scale-105 transition-all duration-300 shadow-md"
+                  className="inline-flex text-xs font-bold items-center gap-1 bg-gradient-to-r from-secondary-default/20 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-secondary-default py-1 px-3 rounded-full hover:bg-secondary-default/30 hover:text-white hover:border-secondary-default hover:scale-105 transition-all duration-300 shadow-md"
                 >
                   {type}
                 </span>
               ))}
             </div>
           </div>
-          <span className="flex items-center gap-3 text-white/70 text-sm mx-auto lg:mx-0 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full hover:bg-white/20 transition-all duration-300 shadow-md">
-            <FaMapMarkedAlt className="text-secondary-default" />
+          <span className="flex items-center gap-2 text-white/80 text-sm mx-auto lg:mx-0 bg-gradient-to-r from-blue-500/20 to-blue-500/10 backdrop-blur-sm border border-blue-500/30 px-3 py-1 rounded-full hover:bg-blue-500/30 transition-all duration-300 shadow-md">
+            <FaMapMarkedAlt className="text-secondary-default text-xs" />
             {item.location}
           </span>
         </div>

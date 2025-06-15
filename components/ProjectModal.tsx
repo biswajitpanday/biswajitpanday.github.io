@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { FaTimes, FaGithub, FaExternalLinkAlt, FaCalendar, FaBuilding, FaCodeBranch } from "react-icons/fa";
+import { FaTimes, FaGithub, FaExternalLinkAlt, FaCalendar, FaBuilding, FaCodeBranch, FaCode } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import { Project } from "@/data/portfolioData";
@@ -20,6 +20,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
       month: 'short', 
       year: 'numeric' 
     });
+    
+    // Check if endDate is current date (ongoing project)
+    const now = new Date();
+    const isOngoing = Math.abs(endDate.getTime() - now.getTime()) < 24 * 60 * 60 * 1000; // Within 24 hours
+    
+    if (isOngoing) {
+      return `${start} - Present`;
+    }
+    
     const end = endDate.toLocaleDateString('en-US', { 
       month: 'short', 
       year: 'numeric' 
@@ -49,11 +58,11 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             initial={{ opacity: 0, scale: 0.9, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 50 }}
-            className="bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/20 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-hidden"
+            className="bg-gradient-to-br from-gray-900/90 to-gray-950/90 border border-secondary-default/20 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-lg shadow-secondary-default/10"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-white/10">
+            <div className="flex items-center justify-between p-6 border-b border-secondary-default/20 bg-secondary-default/5">
               <div className="flex items-center gap-4">
                 <h2 className="text-2xl font-bold text-white">{project.title}</h2>
                 <div className="flex items-center gap-2">
@@ -76,17 +85,17 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
               </div>
               <button
                 onClick={onClose}
-                className="p-2 text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/10"
+                className="p-2 text-white/40 hover:text-secondary-default transition-colors rounded-full hover:bg-white/10"
               >
                 <FaTimes className="text-xl" />
               </button>
             </div>
 
             {/* Modal Content */}
-            <div className="overflow-y-auto max-h-[calc(90vh-80px)]">
+            <div className="overflow-y-auto max-h-[calc(90vh-80px)] scrollbar-thin scrollbar-thumb-secondary-default/30 scrollbar-track-gray-800/30">
               <div className="p-6">
                 {/* Project Image */}
-                <div className="relative overflow-hidden rounded-lg mb-6 bg-white/5">
+                <div className="relative overflow-hidden rounded-lg mb-6 bg-gray-800/50 border border-secondary-default/10">
                   <div className="relative w-full h-64">
                     <Image
                       src={project.image}
@@ -105,7 +114,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   <div className="lg:col-span-2 space-y-6">
                     {/* Description */}
                     <div>
-                      <h3 className="text-lg font-semibold text-white mb-3">Project Description</h3>
+                      <h3 className="text-lg font-semibold text-secondary-default mb-3">Project Description</h3>
                       <p className="text-white/80 leading-relaxed">
                         {project.longDescription || project.shortDescription}
                       </p>
@@ -120,7 +129,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                     {/* Tech Stack */}
                     <div>
-                      <h3 className="text-lg font-semibold text-white mb-3">Technologies Used</h3>
+                      <h3 className="text-lg font-semibold text-secondary-default mb-3">Technologies Used</h3>
                       <div className="flex flex-wrap gap-2">
                         {project.stacks.map((tech, index) => (
                           <span
@@ -137,8 +146,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   {/* Sidebar Info */}
                   <div className="space-y-6">
                     {/* Project Details */}
-                    <div className="bg-white/5 border border-white/10 rounded-lg p-4">
-                      <h3 className="text-lg font-semibold text-white mb-4">Project Details</h3>
+                    <div className="bg-gray-800/50 border border-secondary-default/20 rounded-lg p-4">
+                      <h3 className="text-lg font-semibold text-secondary-default mb-4">Project Details</h3>
                       <div className="space-y-3">
                         <div className="flex items-center gap-3">
                           <FaBuilding className="text-secondary-default" />
@@ -159,14 +168,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <div className="w-4 h-4 bg-blue-500 rounded-full" />
+                          <div className="text-blue-400">
+                            <FaCodeBranch />
+                          </div>
                           <div>
                             <p className="text-xs text-white/60">Category</p>
                             <p className="text-white font-medium">{project.category}</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <div className="w-4 h-4 bg-purple-500 rounded-full" />
+                          <div className="text-purple-400">
+                            <FaCode />
+                          </div>
                           <div>
                             <p className="text-xs text-white/60">Role</p>
                             <p className="text-white font-medium">{project.jobRole}</p>
@@ -181,7 +194,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         <Link
                           href={project.url}
                           target="_blank"
-                          className="flex items-center justify-center gap-2 w-full bg-secondary-default hover:bg-secondary-default/80 text-primary px-4 py-3 rounded-lg transition-all duration-300 font-medium"
+                          className="flex items-center justify-center gap-2 w-full bg-secondary-default hover:bg-secondary-default/80 text-primary px-4 py-3 rounded-lg transition-all duration-300 font-medium shadow-md shadow-secondary-default/10"
                         >
                           <FaExternalLinkAlt />
                           <span>
@@ -200,7 +213,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         <Link
                           href={project.github}
                           target="_blank"
-                          className="flex items-center justify-center gap-2 w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/40 px-4 py-3 rounded-lg transition-all duration-300 font-medium"
+                          className="flex items-center justify-center gap-2 w-full bg-gray-800/70 hover:bg-gray-800 text-white border border-secondary-default/20 hover:border-secondary-default/40 px-4 py-3 rounded-lg transition-all duration-300 font-medium"
                         >
                           <FaGithub />
                           <span>View Source Code</span>
