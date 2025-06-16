@@ -98,7 +98,7 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
       {showLoader ? (
         <motion.div
           key="loader"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-primary"
+          className="fixed inset-0 z-50 flex items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
