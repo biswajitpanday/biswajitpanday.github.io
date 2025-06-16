@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { Triangle } from "react-loader-spinner";
 
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -103,10 +104,15 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <div className="relative w-16 h-16">
-            <div className="absolute top-0 left-0 w-full h-full border-4 border-secondary-default/20 rounded-full"></div>
-            <div className="absolute top-0 left-0 w-full h-full border-4 border-transparent border-t-secondary-default rounded-full animate-spin"></div>
-          </div>
+          <Triangle
+            visible={true}
+            height="60"
+            width="60"
+            color="#00bfff"
+            ariaLabel="triangle-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
         </motion.div>
       ) : (
         <motion.div

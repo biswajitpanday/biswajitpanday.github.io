@@ -75,7 +75,7 @@ const prepareSearchableData = (): SearchResult[] => {
   // Add pages
   const pages = [
     { name: "Home", url: "/", description: "Welcome page with overview and introduction" },
-    { name: "Portfolio", url: "/portfolio", description: "Showcase of projects and work experience" },
+    { name: "Projects", url: "/projects", description: "Showcase of projects and work experience" },
     { name: "Skills", url: "/skills", description: "Technical expertise and technologies" },
     { name: "Career", url: "/career", description: "Professional journey and experience timeline" },
     { name: "Certifications", url: "/certifications", description: "Professional certifications and courses completed" },

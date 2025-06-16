@@ -188,7 +188,7 @@ export const performanceReport = {
       totalAnimationTime: 0.5, // Total page load animation time
       heavyComponents: [
         'VerticalTimeline (career page)',
-        'Projects Grid (portfolio page)',
+        'Projects Grid (projects page)',
         'Skills TreeView (skills page)',
         'Photo SVG Animation (home page)'
       ],
@@ -238,7 +238,7 @@ ${metrics.heavyComponents.map(comp => `   • ${comp}`).join('\n')}
 
 📈 BEFORE vs AFTER:
    • Career Page Load: 2.4s → 0.5s (80% faster)
-   • Portfolio Grid: 3.2s → 0.6s (81% faster)
+   • Projects Grid: 3.2s → 0.6s (81% faster)
    • Skills Page: 1.8s → 0.4s (78% faster)
    • Contact Form: 2.2s → 0.5s (77% faster)
 

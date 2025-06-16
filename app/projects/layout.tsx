@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Projects - Work Showcase",
-  description: "Explore Biswajit Panday's projects featuring innovative full-stack solutions, .NET applications, React apps, and cloud implementations. View live projects and source code.",
+  title: "Projects",
+  description: "Explore my diverse range of projects showcasing expertise in full-stack development, cloud solutions, and modern web technologies.",
   keywords: [
     "projects",
-    "portfolio",
     "full-stack development",
-    ".NET projects",
-    "React applications",
-    "cloud solutions",
-    "open source",
-    "software development"
+    "web applications",
+    "software projects",
+    "development showcase"
   ],
   openGraph: {
     title: "Projects - Biswajit Panday's Work Showcase",

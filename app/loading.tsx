@@ -1,5 +1,6 @@
 "use client";
 import React from 'react';
+import { Triangle } from 'react-loader-spinner';
 import { motion } from 'framer-motion';
 
 export default function Loading() {
@@ -14,47 +15,35 @@ export default function Loading() {
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
           className="text-4xl font-bold text-white"
         >
           Panday<span className="text-secondary-default">.</span>
         </motion.h1>
         
-        {/* Loading Spinner */}
-        <div className="relative">
-          <motion.div
-            className="w-16 h-16 border-4 border-white/20 border-t-secondary-default rounded-full"
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: 1,
-              repeat: Infinity,
-              ease: "linear"
-            }}
+        {/* Triangle Spinner */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2, duration: 0.3 }}
+          className="flex items-center justify-center"
+        >
+          <Triangle
+            visible={true}
+            height="80"
+            width="80"
+            color="#00bfff"
+            ariaLabel="triangle-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
           />
-          
-          {/* Inner dot */}
-          <motion.div
-            className="absolute top-1/2 left-1/2 w-2 h-2 bg-secondary-default rounded-full"
-            style={{ 
-              transform: 'translate(-50%, -50%)',
-            }}
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.7, 1, 0.7],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        </div>
+        </motion.div>
         
         {/* Loading Text */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
+          transition={{ delay: 0.4, duration: 0.3 }}
           className="text-white/60 text-sm font-medium"
         >
           Loading amazing content...

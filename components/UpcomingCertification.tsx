@@ -72,7 +72,7 @@ const UpcomingCertification: React.FC<UpcomingCertificationProps> = ({
       <motion.div 
         initial={{ width: 0 }}
         animate={{ width: `${progressPercentage}%` }}
-        transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
         className="absolute top-0 left-0 h-1.5 bg-gradient-to-r from-secondary-default to-blue-500 rounded-full z-10"
       />
       
@@ -85,7 +85,7 @@ const UpcomingCertification: React.FC<UpcomingCertificationProps> = ({
           <motion.div 
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.3, delay: 0.05 }}
             className="relative w-full h-32 flex justify-center items-center"
           >
             {image ? (
@@ -94,7 +94,7 @@ const UpcomingCertification: React.FC<UpcomingCertificationProps> = ({
                   src={image}
                   alt={name}
                   fill
-                  className="object-contain p-3 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                  className="object-contain p-3 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
                 />
                 
                 {/* Pulsing overlay */}
@@ -104,7 +104,7 @@ const UpcomingCertification: React.FC<UpcomingCertificationProps> = ({
                     scale: [1, 1.05, 1]
                   }}
                   transition={{ 
-                    duration: 3,
+                    duration: 2,
                     repeat: Infinity,
                     repeatType: "reverse"
                   }}
@@ -122,7 +122,7 @@ const UpcomingCertification: React.FC<UpcomingCertificationProps> = ({
                     scale: [1, 1.05, 1]
                   }}
                   transition={{ 
-                    duration: 3,
+                    duration: 2,
                     repeat: Infinity,
                     repeatType: "reverse"
                   }}

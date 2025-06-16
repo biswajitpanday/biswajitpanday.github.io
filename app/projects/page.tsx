@@ -15,7 +15,7 @@ import StatsCards from "@/components/StatsCards";
 import BackgroundElements from "@/components/BackgroundElements";
 import SectionHeader from "@/components/SectionHeader";
 import ProjectCard from "@/components/ProjectCard";
-import PortfolioFilter from "@/components/PortfolioFilter";
+import ProjectsFilter from "@/components/ProjectsFilter";
 import Badge from "@/components/Badge";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import type { Project } from "@/data/portfolioData";
@@ -85,7 +85,7 @@ const Projects = () => {
       />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Enhanced Portfolio Header - Using SectionHeader Component */}
+        {/* Enhanced Projects Header - Using SectionHeader Component */}
         <SectionHeader
           title="My"
           highlightText="Projects"
@@ -99,7 +99,7 @@ const Projects = () => {
             </>
           }
         >
-          {/* Portfolio Stats */}
+          {/* Projects Stats */}
           <StatsCards 
             stats={[
               {
@@ -161,7 +161,7 @@ const Projects = () => {
         {/* Project Filtering */}
         {isFilterEnabled && (
           <div data-testid="projects-filter-section">
-            <PortfolioFilter 
+            <ProjectsFilter 
               projects={projects}
               onFilterChange={setFilteredProjects}
               searchQuery={searchQuery}

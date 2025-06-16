@@ -26,7 +26,7 @@ const PROFILE_SIZES = [
 const DIRS_TO_PROCESS = [
   assetsDir, // Main assets directory
   path.join(assetsDir, 'certificates'),
-  path.join(assetsDir, 'portfolio'),
+      path.join(assetsDir, 'portfolio'), // Keep folder name for asset organization
   path.join(assetsDir, 'profile'),
   path.join(assetsDir, 'logos'),
   path.join(assetsDir, 'company-icon')
