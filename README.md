@@ -113,7 +113,7 @@ This command performs the following operations in sequence:
         ├── certificates/  # Certificate images
         │   ├── thumbnails/# Certificate thumbnails (WebP)
         │   └── webp/      # WebP versions of certificates
-        ├── portfolio/     # Portfolio project images
+        ├── portfolio/     # Projects images
         │   ├── thumbnails/# Project thumbnails (WebP)
         │   └── webp/      # WebP versions of projects
         └── profile/       # Profile images in various sizes/formats
@@ -204,7 +204,7 @@ vercel --prod
 
 ### Pages
 - **Home**: Hero section with animated elements and statistics
-- **Portfolio**: Project showcase with search and filtering
+- **Projects**: Project showcase with search and filtering
 - **Skills**: Technical skills with proficiency indicators
 - **Career**: Professional timeline with company details
 - **Contact**: Functional form with validation and email notifications
@@ -227,8 +227,8 @@ vercel --prod
 
 ### Feature Control Performance Impact
 - **Disabling Search**: Saves ~70KB runtime memory, ~300ms faster TTI
-- **Disabling Filters**: 15-20% faster initial render on portfolio page
-- **Both Disabled**: Optimal performance for static portfolio viewing
+- **Disabling Filters**: 15-20% faster initial render on projects page
+- **Both Disabled**: Optimal performance for static projects viewing
 
 ## 🐛 Troubleshooting
 
