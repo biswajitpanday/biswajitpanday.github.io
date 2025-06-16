@@ -5,9 +5,9 @@ import { motion } from 'framer-motion';
 
 export default function Loading() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primary relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary-default/5 pointer-events-none" />
+      <div className="absolute inset-0  pointer-events-none" />
       
       {/* Loading Content */}
       <div className="relative z-10 flex flex-col items-center gap-8">
