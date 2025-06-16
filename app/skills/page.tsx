@@ -17,17 +17,17 @@ const TREE_ANIMATIONS = {
   container: {
     initial: { opacity: 0, y: 50 },
     animate: { opacity: 1, y: 0 },
-    transition: { delay: 0.2, duration: 0.8 }
+    transition: { delay: 0.1, duration: 0.4 }
   },
   leftCard: {
     initial: { opacity: 0, x: -30 },
     animate: { opacity: 1, x: 0 },
-    transition: { delay: 0.4, duration: 0.6 }
+    transition: { delay: 0.15, duration: 0.4 }
   },
   rightCard: {
     initial: { opacity: 0, x: 30 },
     animate: { opacity: 1, x: 0 },
-    transition: { delay: 0.4, duration: 0.6 }
+    transition: { delay: 0.15, duration: 0.4 }
   }
 } as const;
 

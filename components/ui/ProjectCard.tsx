@@ -85,7 +85,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       key={index}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.1 + index * 0.1, duration: 0.6 }}
+      transition={{ delay: 0.1 + index * 0.1, duration: 0.4 }}
       className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02] flex flex-col justify-between will-change-transform"
     >
       <div className="relative">

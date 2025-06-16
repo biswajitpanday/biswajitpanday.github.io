@@ -10,11 +10,11 @@ export const ANIMATION_DELAYS = {
 } as const;
 
 export const ANIMATION_DURATIONS = {
-  INSTANT: 0.2,
-  FAST: 0.3,
-  NORMAL: 0.4,
-  SLOW: 0.6,
-  VERY_SLOW: 0.8,
+  INSTANT: 0.1,
+  FAST: 0.2,
+  NORMAL: 0.2,
+  SLOW: 0.3,
+  VERY_SLOW: 0.4,
 } as const;
 
 // Performance-optimized animation variants
@@ -71,28 +71,28 @@ export const LIGHTWEIGHT_VARIANTS = {
   fadeIn: {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
-    transition: { duration: 0.6, ease: "easeOut" }
+    transition: { duration: 0.3, ease: "easeOut" }
   },
 
   // Simple slide up - reduced complexity
   slideUp: {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, ease: "easeOut" }
+    transition: { duration: 0.3, ease: "easeOut" }
   },
 
   // Simple slide in from left
   slideLeft: {
     initial: { opacity: 0, x: -30 },
     animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.6, ease: "easeOut" }
+    transition: { duration: 0.3, ease: "easeOut" }
   },
 
   // Simple slide in from right
   slideRight: {
     initial: { opacity: 0, x: 30 },
     animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.6, ease: "easeOut" }
+    transition: { duration: 0.3, ease: "easeOut" }
   },
 
   // Button hover - minimal animation

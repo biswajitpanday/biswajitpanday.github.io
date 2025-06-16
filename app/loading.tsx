@@ -14,25 +14,18 @@ export default function Loading() {
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
           className="text-4xl font-bold text-white"
         >
           Panday<span className="text-secondary-default">.</span>
         </motion.h1>
         
-        {/* Loading Spinner */}
+        {/* Loading Spinner - Fixed with CSS animation */}
         <div className="relative">
-          <motion.div
-            className="w-16 h-16 border-4 border-white/20 border-t-secondary-default rounded-full"
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: 1,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
+          {/* Outer spinning ring - Pure CSS for reliability */}
+          <div className="w-16 h-16 border-4 border-white/20 border-t-secondary-default rounded-full animate-spin" />
           
-          {/* Inner dot */}
+          {/* Inner pulsing dot */}
           <motion.div
             className="absolute top-1/2 left-1/2 w-2 h-2 bg-secondary-default rounded-full"
             style={{ 
@@ -43,7 +36,7 @@ export default function Loading() {
               opacity: [0.7, 1, 0.7],
             }}
             transition={{
-              duration: 1.5,
+              duration: 0.4,
               repeat: Infinity,
               ease: "easeInOut"
             }}
@@ -54,7 +47,7 @@ export default function Loading() {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
           className="text-white/60 text-sm font-medium"
         >
           Loading amazing content...

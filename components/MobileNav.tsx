@@ -198,7 +198,7 @@ const MobileNav = () => {
           className="mt-auto mb-8 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
         >
           <p className="text-white/50 text-sm">
             Swipe or tap outside to close
