@@ -1,60 +1,65 @@
 "use client";
 
-import React from 'react';
+import { useEffect } from 'react';
 
+interface SocialPreviewProps {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: 'website' | 'article' | 'profile';
+  twitterCard?: 'summary' | 'summary_large_image';
+}
 
-// Component for generating social media preview content
-const SocialPreviewGenerator = () => {
-  const socialPreviewData = {
-    title: "Biswajit Panday - Full-Stack .NET Developer",
-    subtitle: "Expert in Cloud Solutions & Modern Web Development",
-    skills: [".NET", "React", "Azure", "AWS", "DevOps"],
-    experience: "10+ Years",
-    certification: "Microsoft Certified",
-    location: "Dhaka, Bangladesh"
-  };
+const SocialPreviewGenerator = ({
+  title = "Biswajit Panday - Full-Stack .NET Developer & Cloud Solutions Expert",
+  description = "Expert Full-Stack .NET Developer with 10+ years experience. Specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS. Microsoft Certified.",
+  image = "https://biswajitpanday.github.io/assets/profile/profile-large.webp",
+  url = "https://biswajitpanday.github.io",
+  type = "website",
+  twitterCard = "summary_large_image"
+}: SocialPreviewProps) => {
+  
+  useEffect(() => {
+    // Update meta tags dynamically for SPA navigation
+    const updateMetaTag = (property: string, content: string) => {
+      let meta = document.querySelector(`meta[property="${property}"]`) as HTMLMetaElement;
+      if (!meta) {
+        meta = document.querySelector(`meta[name="${property}"]`) as HTMLMetaElement;
+      }
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute(property.startsWith('og:') || property.startsWith('twitter:') ? 'property' : 'name', property);
+        document.head.appendChild(meta);
+      }
+      meta.content = content;
+    };
 
-  // This component helps visualize what your social media preview will look like
-  return (
-    <div className="max-w-2xl mx-auto p-6 bg-gradient-to-br from-primary via-primary/95 to-secondary-default/20 rounded-lg border border-secondary-default/30">
-      <div className="flex items-center space-x-4 mb-4">
-        <div className="w-16 h-16 bg-secondary-default/20 rounded-full flex items-center justify-center">
-          <span className="text-2xl font-bold text-secondary-default">BP</span>
-        </div>
-        <div>
-          <h1 className="text-xl font-bold text-white">{socialPreviewData.title}</h1>
-          <p className="text-secondary-default text-sm">{socialPreviewData.subtitle}</p>
-        </div>
-      </div>
-      
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="bg-white/10 rounded-lg p-3">
-          <span className="text-xs text-white/60">Experience</span>
-          <p className="text-white font-semibold">{socialPreviewData.experience}</p>
-        </div>
-        <div className="bg-white/10 rounded-lg p-3">
-          <span className="text-xs text-white/60">Status</span>
-          <p className="text-secondary-default font-semibold">{socialPreviewData.certification}</p>
-        </div>
-      </div>
-      
-      <div className="flex flex-wrap gap-2 mb-4">
-        {socialPreviewData.skills.map((skill, index) => (
-          <span 
-            key={index}
-            className="px-2 py-1 bg-secondary-default/20 text-secondary-default text-xs rounded-full border border-secondary-default/30"
-          >
-            {skill}
-          </span>
-        ))}
-      </div>
-      
-      <div className="text-center">
-        <p className="text-white/80 text-sm">{socialPreviewData.location}</p>
-        <p className="text-xs text-white/60 mt-1">biswajitpanday.github.io</p>
-      </div>
-    </div>
-  );
+    // Update Open Graph tags
+    updateMetaTag('og:title', title);
+    updateMetaTag('og:description', description);
+    updateMetaTag('og:image', image);
+    updateMetaTag('og:url', url);
+    updateMetaTag('og:type', type);
+    updateMetaTag('og:image:secure_url', image);
+    updateMetaTag('og:image:width', '1200');
+    updateMetaTag('og:image:height', '630');
+    updateMetaTag('og:image:alt', title);
+
+    // Update Twitter Card tags
+    updateMetaTag('twitter:card', twitterCard);
+    updateMetaTag('twitter:title', title);
+    updateMetaTag('twitter:description', description);
+    updateMetaTag('twitter:image', image);
+    updateMetaTag('twitter:image:alt', title);
+
+    // Update general meta tags
+    updateMetaTag('description', description);
+    document.title = title;
+
+  }, [title, description, image, url, type, twitterCard]);
+
+  return null;
 };
 
 export default SocialPreviewGenerator; 
