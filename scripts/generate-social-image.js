@@ -55,17 +55,20 @@ const generateSocialImageTemplate = () => {
         .content {
             flex: 1;
             z-index: 2;
-            max-width: 650px;
+            max-width: 700px;
         }
         
         .profile-section {
             flex-shrink: 0;
             z-index: 2;
             margin-left: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .name {
-            font-size: 48px;
+            font-size: 52px;
             font-weight: 800;
             color: white;
             margin: 0 0 16px 0;
@@ -73,7 +76,7 @@ const generateSocialImageTemplate = () => {
         }
         
         .title {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 600;
             color: #00ff99;
             margin: 0 0 24px 0;
@@ -81,7 +84,7 @@ const generateSocialImageTemplate = () => {
         }
         
         .description {
-            font-size: 18px;
+            font-size: 20px;
             color: rgba(255, 255, 255, 0.8);
             margin: 0 0 32px 0;
             line-height: 1.4;
@@ -106,22 +109,40 @@ const generateSocialImageTemplate = () => {
         
         .website {
             color: rgba(255, 255, 255, 0.6);
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 500;
         }
         
         .profile-image {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             background: linear-gradient(135deg, #00ff99, #00d4aa);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 72px;
+            font-size: 64px;
             font-weight: 800;
             color: #1c1c22;
             box-shadow: 0 20px 40px rgba(0, 255, 153, 0.3);
+            margin-bottom: 20px;
+        }
+        
+        .profile-text {
+            text-align: center;
+            color: white;
+        }
+        
+        .experience {
+            font-size: 16px;
+            color: #00ff99;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .certification {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
         }
         
         .accent-circle {
@@ -133,16 +154,58 @@ const generateSocialImageTemplate = () => {
             top: -150px;
             right: -150px;
         }
+        
+        /* Alternative layout - Text-focused */
+        .text-focused {
+            justify-content: center;
+            text-align: center;
+            padding: 80px 60px;
+        }
+        
+        .text-focused .content {
+            max-width: 1000px;
+            text-align: center;
+        }
+        
+        .text-focused .profile-section {
+            display: none;
+        }
+        
+        .text-focused .name {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+        
+        .text-focused .title {
+            font-size: 36px;
+            margin-bottom: 32px;
+        }
+        
+        .text-focused .description {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .text-focused .skills {
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+        
+        .text-focused .skill {
+            font-size: 16px;
+            padding: 10px 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="social-card">
+    <!-- Version 1: With Profile Image (if you have a good full-body or well-framed photo) -->
+    <div class="social-card" id="version1">
         <div class="accent-circle"></div>
         
         <div class="content">
             <h1 class="name">Biswajit Panday</h1>
-            <h2 class="title">Full-Stack .NET Developer & Cloud Expert</h2>
-            <p class="description">10+ years experience building scalable applications with .NET, React, Azure & AWS. Microsoft Certified Developer.</p>
+            <h2 class="title">Full-Stack .NET Developer</h2>
+            <p class="description">10+ years building scalable applications with .NET, React, Azure & AWS</p>
             
             <div class="skills">
                 <span class="skill">.NET Core</span>
@@ -150,7 +213,6 @@ const generateSocialImageTemplate = () => {
                 <span class="skill">Azure</span>
                 <span class="skill">AWS</span>
                 <span class="skill">DevOps</span>
-                <span class="skill">TypeScript</span>
             </div>
             
             <div class="website">biswajitpanday.github.io</div>
@@ -158,19 +220,52 @@ const generateSocialImageTemplate = () => {
         
         <div class="profile-section">
             <div class="profile-image">BP</div>
+            <div class="profile-text">
+                <div class="experience">10+ Years Experience</div>
+                <div class="certification">Microsoft Certified</div>
+            </div>
         </div>
     </div>
     
-    <script>
-        // Instructions for generating the image:
-        // 1. Open this HTML file in a browser
-        // 2. Take a screenshot of the social-card div (1200x630)
-        // 3. Save as social-preview.webp in public/assets/
-        // 4. Or use tools like Puppeteer to automate this process
+    <!-- Version 2: Text-Focused (No profile photo issues) -->
+    <div class="social-card text-focused" id="version2" style="display: none;">
+        <div class="accent-circle"></div>
         
-        console.log('Social media preview template loaded');
+        <div class="content">
+            <h1 class="name">Biswajit Panday</h1>
+            <h2 class="title">Full-Stack .NET Developer & Cloud Expert</h2>
+            <p class="description">Building scalable applications with 10+ years experience in .NET, React, Azure & AWS</p>
+            
+            <div class="skills">
+                <span class="skill">.NET Core</span>
+                <span class="skill">React</span>
+                <span class="skill">TypeScript</span>
+                <span class="skill">Azure</span>
+                <span class="skill">AWS</span>
+                <span class="skill">DevOps</span>
+                <span class="skill">Microsoft Certified</span>
+            </div>
+            
+            <div class="website">biswajitpanday.github.io • Portfolio & Contact</div>
+        </div>
+    </div>
+    
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
+        <button onclick="showVersion(1)" style="margin: 5px; padding: 10px; background: #00ff99; border: none; border-radius: 4px; cursor: pointer;">Version 1</button>
+        <button onclick="showVersion(2)" style="margin: 5px; padding: 10px; background: #00ff99; border: none; border-radius: 4px; cursor: pointer;">Version 2</button>
+    </div>
+    
+    <script>
+        function showVersion(version) {
+            document.getElementById('version1').style.display = version === 1 ? 'flex' : 'none';
+            document.getElementById('version2').style.display = version === 2 ? 'flex' : 'none';
+        }
+        
+        console.log('Social media preview templates loaded');
         console.log('Card dimensions: 1200x630px');
-        console.log('Perfect for Facebook, LinkedIn, Twitter, etc.');
+        console.log('Version 1: With profile avatar');
+        console.log('Version 2: Text-focused (recommended for now)');
+        console.log('Use browser screenshot tools to capture at exactly 1200x630px');
     </script>
 </body>
 </html>`;
@@ -178,12 +273,16 @@ const generateSocialImageTemplate = () => {
   const outputPath = path.join(__dirname, '../public/social-preview-template.html');
   fs.writeFileSync(outputPath, htmlTemplate);
   
-  console.log('✅ Social media preview template generated at public/social-preview-template.html');
-  console.log('📝 Instructions:');
-  console.log('   1. Open the HTML file in your browser');
-  console.log('   2. Take a screenshot of the card (1200x630px)');
-  console.log('   3. Save as social-preview.webp in public/assets/');
-  console.log('   4. Update your meta tags to use the new image');
+  console.log('✅ Updated social media preview template generated');
+  console.log('📝 Two versions available:');
+  console.log('   Version 1: With profile avatar (BP initials)');
+  console.log('   Version 2: Text-focused (recommended)');
+  console.log('🎯 Recommendation: Use Version 2 (text-focused) to avoid photo cropping issues');
+  console.log('📸 Instructions:');
+  console.log('   1. Open public/social-preview-template.html in browser');
+  console.log('   2. Click "Version 2" button');
+  console.log('   3. Take screenshot at 1200x630px');
+  console.log('   4. Save as social-preview.webp in public/assets/');
 };
 
 generateSocialImageTemplate(); 
