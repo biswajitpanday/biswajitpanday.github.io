@@ -6,7 +6,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const DOMAIN = 'https://biswajitpanday.github.io';
-const OUTPUT_PATH = path.join(__dirname, '../public/sitemap.xml');
+const SITEMAP_OUTPUT_PATH = path.join(__dirname, '../public/sitemap.xml');
+const SITEMAP_INDEX_OUTPUT_PATH = path.join(__dirname, '../public/sitemap-index.xml');
 
 // Define your site's pages
 const pages = [
@@ -21,8 +22,12 @@ const pages = [
 function generateSitemap() {
   const currentDate = new Date().toISOString().split('T')[0];
   
+  // Generate main sitemap.xml with proper XML formatting
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 ${pages.map(page => `  <url>
     <loc>${DOMAIN}${page.url}</loc>
     <lastmod>${currentDate}</lastmod>
@@ -31,9 +36,26 @@ ${pages.map(page => `  <url>
   </url>`).join('\n')}
 </urlset>`;
 
-  fs.writeFileSync(OUTPUT_PATH, sitemap);
+  // Generate sitemap-index.xml with proper XML formatting
+  const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+              http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd">
+  <sitemap>
+    <loc>${DOMAIN}/sitemap.xml</loc>
+    <lastmod>${currentDate}</lastmod>
+  </sitemap>
+</sitemapindex>`;
+
+  // Write both files
+  fs.writeFileSync(SITEMAP_OUTPUT_PATH, sitemap);
+  fs.writeFileSync(SITEMAP_INDEX_OUTPUT_PATH, sitemapIndex);
+  
   console.log('✅ Sitemap generated successfully at public/sitemap.xml');
+  console.log('✅ Sitemap index generated successfully at public/sitemap-index.xml');
   console.log(`📊 Generated ${pages.length} URLs`);
+  console.log(`🕒 Last modified: ${currentDate}`);
 }
 
 generateSitemap(); 

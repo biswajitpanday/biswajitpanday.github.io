@@ -162,7 +162,8 @@ export const SOCIAL_LINKS = {
   LINKEDIN: "https://linkedin.com/in/biswajitpanday",
   EMAIL: "biswajitmailid@gmail.com",
   PHONE: "+880 1681642502",
-  SKYPE: "biswajit_panday",
+  WHATSAPP: "+880 1681642502",
+  TEAMS: "biswajitpanday@live.com",
 } as const;
 
 export default {
