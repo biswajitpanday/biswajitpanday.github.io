@@ -21,7 +21,7 @@ const generateSocialImageTemplate = () => {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1c1c22 0%, #27272c 50%, #00ff99 100%);
+            background: linear-gradient(135deg, #1c1c22 0%, #27272c 50%, #00bfff 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -31,7 +31,7 @@ const generateSocialImageTemplate = () => {
         .social-card {
             width: 1200px;
             height: 630px;
-            background: linear-gradient(135deg, #1c1c22 0%, #27272c 70%, #00ff99 100%);
+            background: linear-gradient(135deg, #1c1c22 0%, #27272c 70%, #00bfff 100%);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -41,6 +41,7 @@ const generateSocialImageTemplate = () => {
             overflow: hidden;
         }
         
+        /* Floating dots pattern from homepage */
         .social-card::before {
             content: '';
             position: absolute;
@@ -48,7 +49,69 @@ const generateSocialImageTemplate = () => {
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%2300ff99" fill-opacity="0.05"><circle cx="30" cy="30" r="2"/></g></g></svg>') repeat;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%2300bfff" fill-opacity="0.05"><circle cx="30" cy="30" r="2"/></g></g></svg>') repeat;
+            pointer-events: none;
+        }
+        
+        /* Floating dots - matching homepage design */
+        .floating-dot {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .dot-1 {
+            width: 8px;
+            height: 8px;
+            background: #00bfff;
+            top: 80px;
+            right: 40px;
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+            opacity: 0.6;
+        }
+        
+        .dot-2 {
+            width: 6px;
+            height: 6px;
+            background: #00bfff;
+            bottom: 120px;
+            right: 200px;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            opacity: 0.4;
+        }
+        
+        .dot-3 {
+            width: 8px;
+            height: 8px;
+            background: #00bfff;
+            top: 200px;
+            left: 40px;
+            animation: bounce 1s infinite;
+            opacity: 0.5;
+        }
+        
+        /* Blur effects from homepage */
+        .blur-circle-1 {
+            position: absolute;
+            width: 256px;
+            height: 256px;
+            background: rgba(0, 191, 255, 0.05);
+            border-radius: 50%;
+            filter: blur(48px);
+            top: 80px;
+            left: 25%;
+            pointer-events: none;
+        }
+        
+        .blur-circle-2 {
+            position: absolute;
+            width: 256px;
+            height: 256px;
+            background: rgba(0, 191, 255, 0.05);
+            border-radius: 50%;
+            filter: blur(48px);
+            bottom: 80px;
+            right: 25%;
             pointer-events: none;
         }
         
@@ -67,6 +130,21 @@ const generateSocialImageTemplate = () => {
             align-items: center;
         }
         
+        /* Badge styling matching homepage */
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 191, 255, 0.1);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            color: #00bfff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+        
         .name {
             font-size: 52px;
             font-weight: 800;
@@ -75,10 +153,25 @@ const generateSocialImageTemplate = () => {
             line-height: 1.1;
         }
         
+        /* Gradient text effect from homepage */
+        .gradient-text {
+            background: linear-gradient(to right, #00bfff, #0099cc, #00bfff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 3s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
         .title {
             font-size: 32px;
             font-weight: 600;
-            color: #00ff99;
+            color: #00bfff;
             margin: 0 0 24px 0;
             line-height: 1.2;
         }
@@ -90,6 +183,16 @@ const generateSocialImageTemplate = () => {
             line-height: 1.4;
         }
         
+        .highlight {
+            color: #00bfff;
+            font-weight: 600;
+        }
+        
+        .ai-highlight {
+            color: #10b981;
+            font-weight: 600;
+        }
+        
         .skills {
             display: flex;
             flex-wrap: wrap;
@@ -98,13 +201,31 @@ const generateSocialImageTemplate = () => {
         }
         
         .skill {
-            background: rgba(0, 255, 153, 0.1);
-            border: 1px solid rgba(0, 255, 153, 0.3);
-            color: #00ff99;
+            background: rgba(0, 191, 255, 0.1);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            color: #00bfff;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: 500;
+        }
+        
+        .skill.react {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+            color: #3b82f6;
+        }
+        
+        .skill.devops {
+            background: rgba(147, 51, 234, 0.1);
+            border-color: rgba(147, 51, 234, 0.3);
+            color: #9333ea;
+        }
+        
+        .skill.ai {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+            color: #10b981;
         }
         
         .website {
@@ -117,14 +238,14 @@ const generateSocialImageTemplate = () => {
             width: 180px;
             height: 180px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #00ff99, #00d4aa);
+            background: linear-gradient(135deg, #00bfff, #0099cc);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 64px;
             font-weight: 800;
             color: #1c1c22;
-            box-shadow: 0 20px 40px rgba(0, 255, 153, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 191, 255, 0.3);
             margin-bottom: 20px;
         }
         
@@ -135,7 +256,7 @@ const generateSocialImageTemplate = () => {
         
         .experience {
             font-size: 16px;
-            color: #00ff99;
+            color: #00bfff;
             font-weight: 600;
             margin-bottom: 8px;
         }
@@ -143,16 +264,6 @@ const generateSocialImageTemplate = () => {
         .certification {
             font-size: 14px;
             color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .accent-circle {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 255, 153, 0.1) 0%, transparent 70%);
-            top: -150px;
-            right: -150px;
         }
         
         /* Alternative layout - Text-focused */
@@ -195,24 +306,57 @@ const generateSocialImageTemplate = () => {
             font-size: 16px;
             padding: 10px 20px;
         }
+        
+        /* Animations */
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes pulse {
+            50% {
+                opacity: .5;
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-25%);
+                animation-timing-function: cubic-bezier(0.8,0,1,1);
+            }
+            50% {
+                transform: none;
+                animation-timing-function: cubic-bezier(0,0,0.2,1);
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Version 1: With Profile Image (if you have a good full-body or well-framed photo) -->
+    <!-- Version 1: With Profile Image -->
     <div class="social-card" id="version1">
-        <div class="accent-circle"></div>
+        <div class="floating-dot dot-1"></div>
+        <div class="floating-dot dot-2"></div>
+        <div class="floating-dot dot-3"></div>
+        <div class="blur-circle-1"></div>
+        <div class="blur-circle-2"></div>
         
         <div class="content">
-            <h1 class="name">Biswajit Panday</h1>
+            <div class="role-badge">
+                ⚡ Full-Stack & AI Innovator .NET Developer
+            </div>
+            <h1 class="name">Hi, I'm <span class="gradient-text">Biswajit Panday</span></h1>
             <h2 class="title">Full-Stack .NET Developer</h2>
-            <p class="description">10+ years building scalable applications with .NET, React, Azure & AWS</p>
+            <p class="description">Crafting <span class="highlight">high-performance</span>, <span class="highlight">scalable applications</span> with .NET, React & DevOps while integrating <span class="ai-highlight">AI solutions</span> and optimizing cloud solutions on Azure & AWS.</p>
             
             <div class="skills">
-                <span class="skill">.NET Core</span>
-                <span class="skill">React</span>
+                <span class="skill">.NET</span>
+                <span class="skill react">React</span>
+                <span class="skill devops">DevOps</span>
+                <span class="skill ai">AI Integration</span>
                 <span class="skill">Azure</span>
                 <span class="skill">AWS</span>
-                <span class="skill">DevOps</span>
             </div>
             
             <div class="website">biswajitpanday.github.io</div>
@@ -227,32 +371,40 @@ const generateSocialImageTemplate = () => {
         </div>
     </div>
     
-    <!-- Version 2: Text-Focused (No profile photo issues) -->
+    <!-- Version 2: Text-Focused -->
     <div class="social-card text-focused" id="version2" style="display: none;">
-        <div class="accent-circle"></div>
+        <div class="floating-dot dot-1"></div>
+        <div class="floating-dot dot-2"></div>
+        <div class="floating-dot dot-3"></div>
+        <div class="blur-circle-1"></div>
+        <div class="blur-circle-2"></div>
         
         <div class="content">
-            <h1 class="name">Biswajit Panday</h1>
+            <div class="role-badge">
+                ⚡ Full-Stack & AI Innovator .NET Developer
+            </div>
+            <h1 class="name">Hi, I'm <span class="gradient-text">Biswajit Panday</span></h1>
             <h2 class="title">Full-Stack .NET Developer & Cloud Expert</h2>
-            <p class="description">Building scalable applications with 10+ years experience in .NET, React, Azure & AWS</p>
+            <p class="description">Crafting <span class="highlight">high-performance</span>, <span class="highlight">scalable applications</span> with 10+ years experience in .NET, React & DevOps while integrating <span class="ai-highlight">AI solutions</span></p>
             
             <div class="skills">
-                <span class="skill">.NET Core</span>
-                <span class="skill">React</span>
+                <span class="skill">.NET</span>
+                <span class="skill react">React</span>
                 <span class="skill">TypeScript</span>
+                <span class="skill devops">DevOps</span>
+                <span class="skill ai">AI Integration</span>
                 <span class="skill">Azure</span>
                 <span class="skill">AWS</span>
-                <span class="skill">DevOps</span>
                 <span class="skill">Microsoft Certified</span>
             </div>
             
-            <div class="website">biswajitpanday.github.io • Portfolio & Contact</div>
+            <div class="website">biswajitpanday.github.io</div>
         </div>
     </div>
     
     <div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
-        <button onclick="showVersion(1)" style="margin: 5px; padding: 10px; background: #00ff99; border: none; border-radius: 4px; cursor: pointer;">Version 1</button>
-        <button onclick="showVersion(2)" style="margin: 5px; padding: 10px; background: #00ff99; border: none; border-radius: 4px; cursor: pointer;">Version 2</button>
+        <button onclick="showVersion(1)" style="margin: 5px; padding: 10px; background: #00bfff; color: #1c1c22; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Version 1</button>
+        <button onclick="showVersion(2)" style="margin: 5px; padding: 10px; background: #00bfff; color: #1c1c22; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Version 2</button>
     </div>
     
     <script>
@@ -261,11 +413,13 @@ const generateSocialImageTemplate = () => {
             document.getElementById('version2').style.display = version === 2 ? 'flex' : 'none';
         }
         
-        console.log('Social media preview templates loaded');
-        console.log('Card dimensions: 1200x630px');
-        console.log('Version 1: With profile avatar');
-        console.log('Version 2: Text-focused (recommended for now)');
-        console.log('Use browser screenshot tools to capture at exactly 1200x630px');
+        console.log('🎨 Social media preview templates loaded with your site theme!');
+        console.log('🎯 Theme colors: #00bfff (secondary), #1c1c22 (primary)');
+        console.log('✨ Features: Floating dots, gradient text, blur effects');
+        console.log('📏 Card dimensions: 1200x630px');
+        console.log('🔥 Version 1: With profile avatar + homepage styling');
+        console.log('🚀 Version 2: Text-focused + homepage styling (recommended)');
+        console.log('📸 Use browser screenshot tools to capture at exactly 1200x630px');
     </script>
 </body>
 </html>`;
@@ -273,16 +427,19 @@ const generateSocialImageTemplate = () => {
   const outputPath = path.join(__dirname, '../public/social-preview-template.html');
   fs.writeFileSync(outputPath, htmlTemplate);
   
-  console.log('✅ Updated social media preview template generated');
+  console.log('🎨 ✅ Social media preview template updated with your site theme!');
+  console.log('🎯 Theme Integration:');
+  console.log('   • Primary color: #1c1c22 (dark background)');
+  console.log('   • Secondary color: #00bfff (accent/highlights)');
+  console.log('   • Floating dots animation (from homepage)');
+  console.log('   • Gradient text effect (matching your name)');
+  console.log('   • Blur circle effects (background ambiance)');
+  console.log('   • Badge styling (matching your role badge)');
+  console.log('   • Color-coded skill badges (matching your tech stack)');
   console.log('📝 Two versions available:');
-  console.log('   Version 1: With profile avatar (BP initials)');
-  console.log('   Version 2: Text-focused (recommended)');
-  console.log('🎯 Recommendation: Use Version 2 (text-focused) to avoid photo cropping issues');
-  console.log('📸 Instructions:');
-  console.log('   1. Open public/social-preview-template.html in browser');
-  console.log('   2. Click "Version 2" button');
-  console.log('   3. Take screenshot at 1200x630px');
-  console.log('   4. Save as social-preview.webp in public/assets/');
+  console.log('   Version 1: With profile avatar + full homepage styling');
+  console.log('   Version 2: Text-focused + homepage styling (recommended)');
+  console.log('🚀 Ready to generate your branded social media preview!');
 };
 
 generateSocialImageTemplate(); 
