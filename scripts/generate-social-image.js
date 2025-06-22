@@ -344,7 +344,7 @@ const generateSocialImageTemplate = () => {
         
         <div class="content">
             <div class="role-badge">
-                ⚡ Full-Stack & AI Innovator .NET Developer
+                ⚡ AI-Powered Full-Stack & .NET Developer
             </div>
             <h1 class="name">Hi, I'm <span class="gradient-text">Biswajit Panday</span></h1>
             <h2 class="title">Full-Stack .NET Developer</h2>
@@ -381,7 +381,7 @@ const generateSocialImageTemplate = () => {
         
         <div class="content">
             <div class="role-badge">
-                ⚡ Full-Stack & AI Innovator .NET Developer
+                ⚡ AI-Powered Full-Stack & .NET Developer
             </div>
             <h1 class="name">Hi, I'm <span class="gradient-text">Biswajit Panday</span></h1>
             <h2 class="title">Full-Stack .NET Developer & Cloud Expert</h2>

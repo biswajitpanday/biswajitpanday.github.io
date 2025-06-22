@@ -120,7 +120,7 @@ const Home = () => {
                 }
                 text={
                   <span className="flex items-center gap-2">
-                    Full-Stack & AI Innovator .NET Developer
+                    AI-Powered Full-Stack & .NET Developer
                     <Suspense fallback={<IconFallback />}>
                       <FiZap className="text-lg animate-pulse" />
                     </Suspense>
