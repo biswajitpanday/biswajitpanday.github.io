@@ -8,6 +8,7 @@ import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 import BackgroundElements from "@/components/BackgroundElements";
 import Badge from "@/components/Badge";
 import Photo from "@/components/Photo";
+import SocialPreviewGenerator from "@/components/SocialPreviewGenerator";
 
 // Lazy load non-critical components
 const Socials = lazy(() => import("@/components/Socials"));
@@ -52,10 +53,18 @@ const Home = () => {
   const featuredCertification = getMostRecentCertification();
 
   return (
-    <section
-      data-testid="home-page"
-      className="min-h-[calc(100vh-136px)] flex flex-col justify-center relative overflow-hidden py-8 xl:py-0"
-    >
+    <>
+      <SocialPreviewGenerator 
+        title="Biswajit Panday - Full-Stack .NET Developer & Cloud Solutions Expert"
+        description="Expert Full-Stack .NET Developer with 10+ years experience. Specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS. Microsoft Certified."
+        image="https://biswajitpanday.github.io/assets/profile/profile-large.webp"
+        url="https://biswajitpanday.github.io"
+        type="website"
+      />
+      <section
+        data-testid="home-page"
+        className="min-h-[calc(100vh-136px)] flex flex-col justify-center relative overflow-hidden py-8 xl:py-0"
+      >
       {/* Enhanced Background Elements */}
       <BackgroundElements
         floatingDots={[
@@ -111,7 +120,7 @@ const Home = () => {
                 }
                 text={
                   <span className="flex items-center gap-2">
-                    Full-Stack & AI Innovator .NET Developer
+                    AI-Powered Full-Stack & .NET Developer
                     <Suspense fallback={<IconFallback />}>
                       <FiZap className="text-lg animate-pulse" />
                     </Suspense>
@@ -308,10 +317,11 @@ const Home = () => {
             <Stats />
           </Suspense>
         </motion.div>
-      </div>
-    </section>
-  );
-};
+             </div>
+     </section>
+   </>
+   );
+ };
 
 export default Home;
 

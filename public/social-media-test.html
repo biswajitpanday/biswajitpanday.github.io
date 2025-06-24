@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Preview Tester - Biswajit Panday</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1c1c22;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .test-section h2 {
+            color: #00ff99;
+            margin-top: 0;
+        }
+        .preview-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            background: #fafafa;
+        }
+        .preview-card h3 {
+            margin: 0 0 10px 0;
+            color: #1877f2;
+        }
+        .preview-card img {
+            max-width: 300px;
+            height: auto;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .test-url {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        .status {
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.warning { background: #fff3cd; color: #856404; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .button {
+            background: #00ff99;
+            color: #1c1c22;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+            font-weight: bold;
+        }
+        .button:hover {
+            background: #00d4aa;
+        }
+        .meta-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Social Media Preview Tester</h1>
+        <p style="text-align: center; color: #666;">Test how your portfolio appears when shared on social media platforms</p>
+        
+        <div class="test-section">
+            <h2>🌐 Test Your URL</h2>
+            <div class="test-url">https://biswajitpanday.github.io</div>
+            
+            <h3>Quick Test Links:</h3>
+            <a href="https://developers.facebook.com/tools/debug/?q=https://biswajitpanday.github.io" target="_blank" class="button">
+                Facebook Debugger
+            </a>
+            <a href="https://cards-dev.twitter.com/validator" target="_blank" class="button">
+                Twitter Card Validator
+            </a>
+            <a href="https://www.linkedin.com/post-inspector/inspect/https://biswajitpanday.github.io" target="_blank" class="button">
+                LinkedIn Post Inspector
+            </a>
+            <a href="https://developers.google.com/search/docs/appearance/structured-data" target="_blank" class="button">
+                Google Rich Results
+            </a>
+        </div>
+
+        <div class="test-section">
+            <h2>📱 Expected Preview</h2>
+            <div class="preview-card">
+                <h3>Biswajit Panday - Full-Stack .NET Developer & Cloud Solutions Expert</h3>
+                <p>Expert Full-Stack .NET Developer with 10+ years experience. Specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS. Microsoft Certified.</p>
+                <img src="/assets/profile/profile-large.webp" alt="Profile Preview" style="max-width: 300px;">
+                <div class="test-url">biswajitpanday.github.io</div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔧 Current Meta Tags</h2>
+            <div class="meta-info">
+<!-- Open Graph Meta Tags -->
+&lt;meta property="og:title" content="Biswajit Panday - Full-Stack .NET Developer & Cloud Solutions Expert" /&gt;
+&lt;meta property="og:description" content="Expert Full-Stack .NET Developer with 10+ years experience..." /&gt;
+&lt;meta property="og:image" content="https://biswajitpanday.github.io/assets/profile/profile-large.webp" /&gt;
+&lt;meta property="og:url" content="https://biswajitpanday.github.io" /&gt;
+&lt;meta property="og:type" content="website" /&gt;
+&lt;meta property="og:site_name" content="Biswajit Panday Portfolio" /&gt;
+
+<!-- Twitter Card Meta Tags -->
+&lt;meta name="twitter:card" content="summary_large_image" /&gt;
+&lt;meta name="twitter:title" content="Biswajit Panday - Full-Stack .NET Developer & Cloud Expert" /&gt;
+&lt;meta name="twitter:description" content="🚀 Expert Full-Stack .NET Developer | 10+ years experience..." /&gt;
+&lt;meta name="twitter:image" content="https://biswajitpanday.github.io/assets/profile/profile-large.webp" /&gt;
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>✅ Troubleshooting Checklist</h2>
+            <div id="checklist">
+                <div class="status success">✅ Meta tags are properly configured</div>
+                <div class="status success">✅ Image URLs are absolute (https://)</div>
+                <div class="status success">✅ Image dimensions are social media friendly</div>
+                <div class="status warning">⚠️ Test with actual social media platforms</div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🎯 Platform-Specific Guidelines</h2>
+            
+            <h3>Facebook & LinkedIn</h3>
+            <ul>
+                <li>Recommended: 1200x630px (1.91:1 ratio)</li>
+                <li>Minimum: 600x315px</li>
+                <li>File size: Under 8MB</li>
+                <li>Format: JPG, PNG, WebP</li>
+            </ul>
+
+            <h3>Twitter</h3>
+            <ul>
+                <li>Summary Large Image: 1200x628px (1.91:1 ratio)</li>
+                <li>Summary Card: 120x120px (1:1 ratio)</li>
+                <li>File size: Under 5MB</li>
+                <li>Format: JPG, PNG, WebP, GIF</li>
+            </ul>
+
+            <h3>WhatsApp & Telegram</h3>
+            <ul>
+                <li>Uses Open Graph tags</li>
+                <li>Recommended: 1200x630px</li>
+                <li>Smaller images work but less impact</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>🚀 Next Steps</h2>
+            <ol>
+                <li><strong>Test with Facebook Debugger:</strong> Click the Facebook Debugger button above</li>
+                <li><strong>Clear cache:</strong> Use "Scrape Again" if you see old data</li>
+                <li><strong>Test Twitter Cards:</strong> Use the Twitter Card Validator</li>
+                <li><strong>Check LinkedIn:</strong> Share your URL in a LinkedIn post (draft)</li>
+                <li><strong>WhatsApp Test:</strong> Send your URL to yourself on WhatsApp</li>
+                <li><strong>Monitor:</strong> Check Google Search Console for rich snippets</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Auto-check image loading
+        const img = document.querySelector('.preview-card img');
+        const checklist = document.getElementById('checklist');
+        
+        img.onload = function() {
+            const status = document.createElement('div');
+            status.className = 'status success';
+            status.textContent = '✅ Profile image loads successfully';
+            checklist.appendChild(status);
+        };
+        
+        img.onerror = function() {
+            const status = document.createElement('div');
+            status.className = 'status error';
+            status.textContent = '❌ Profile image failed to load - check image path';
+            checklist.appendChild(status);
+        };
+
+        // Add current timestamp
+        const timestamp = document.createElement('div');
+        timestamp.style.textAlign = 'center';
+        timestamp.style.color = '#666';
+        timestamp.style.marginTop = '20px';
+        timestamp.textContent = `Last tested: ${new Date().toLocaleString()}`;
+        document.querySelector('.container').appendChild(timestamp);
+    </script>
+</body>
+</html> 

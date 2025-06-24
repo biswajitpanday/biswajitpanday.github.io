@@ -10,7 +10,7 @@ import FormSection from "@/components/FormSection";
 const FaEnvelope = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaEnvelope })));
 const FaMapMarkedAlt = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaMapMarkedAlt })));
 const FaPhoneAlt = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaPhoneAlt })));
-const FaSkype = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaSkype })));
+const BsMicrosoftTeams  = lazy(() => import("react-icons/bs").then(mod => ({ default: mod.BsMicrosoftTeams })));
 const FaPaperPlane = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaPaperPlane })));
 const FaRocket = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaRocket })));
 const FaUsers = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaUsers })));
@@ -74,13 +74,16 @@ const validateForm = (data: FormData) => {
 const info = [
   {
     icon: FaPhoneAlt,
-    title: "Phone",
+    title: "Phone & WhatsApp",
     description: "+880 1681642502",
     color: "from-secondary-default/10 to-blue-500/10",
     borderColor: "border-secondary-default/30",
     textColor: "text-secondary-default",
     hoverColor: "hover:bg-secondary-default/20 hover:border-secondary-default/50",
-    testId: "contact-info-phone"
+    testId: "contact-info-phone",
+    clickable: true,
+    action: () => window.open("tel:+8801681642502", "_self"),
+    actionLabel: "Call or WhatsApp"
   },
   {
     icon: FaEnvelope,
@@ -90,17 +93,35 @@ const info = [
     borderColor: "border-blue-500/30",
     textColor: "text-blue-400",
     hoverColor: "hover:bg-blue-500/20 hover:border-blue-500/50",
-    testId: "contact-info-email"
+    testId: "contact-info-email",
+    clickable: true,
+    action: () => window.open("mailto:biswajitmailid@gmail.com", "_self"),
+    actionLabel: "Send Email"
   },
   {
-    icon: FaSkype,
-    title: "Skype",
-    description: "biswajit_panday",
+    icon: BsMicrosoftTeams,
+    title: "Microsoft Teams",
+    description: "biswajitpanday@live.com",
     color: "from-purple-500/10 to-secondary-default/10",
     borderColor: "border-purple-500/30",
     textColor: "text-purple-400",
     hoverColor: "hover:bg-purple-500/20 hover:border-purple-500/50",
-    testId: "contact-info-skype"
+    testId: "contact-info-teams",
+    clickable: true,
+    action: () => {
+      // Try to open Teams app first, fallback to web version
+      const teamsAppUrl = `msteams://l/chat/0/0?users=biswajitpanday@live.com`;
+      const teamsWebUrl = `https://teams.microsoft.com/l/chat/0/0?users=biswajitpanday@live.com`;
+      
+      // Attempt to open Teams app
+      window.location.href = teamsAppUrl;
+      
+      // Fallback to web version after a brief delay if app doesn't open
+      setTimeout(() => {
+        window.open(teamsWebUrl, "_blank");
+      }, 1000);
+    },
+    actionLabel: "Start Teams Chat"
   },
   {
     icon: FaMapMarkedAlt,
@@ -110,7 +131,10 @@ const info = [
     borderColor: "border-emerald-500/30",
     textColor: "text-emerald-400",
     hoverColor: "hover:bg-emerald-500/20 hover:border-emerald-500/50",
-    testId: "contact-info-address"
+    testId: "contact-info-address",
+    clickable: true,
+    action: () => window.open("https://www.google.com/maps/search/Dhaka,+Bangladesh", "_blank"),
+    actionLabel: "View on Map"
   },
 ];
 
@@ -500,7 +524,19 @@ const Contact = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.6 + index * 0.1, duration: 0.4 }}
-                    className={`group relative bg-gradient-to-r ${item.color} backdrop-blur-sm border ${item.borderColor} p-4 rounded ${item.hoverColor} transition-all duration-300 hover:scale-105 hover:shadow-lg`}
+                    className={`group relative bg-gradient-to-r ${item.color} backdrop-blur-sm border ${item.borderColor} p-4 rounded ${item.hoverColor} transition-all duration-300 hover:scale-105 hover:shadow-lg ${
+                      item.clickable ? 'cursor-pointer' : ''
+                    }`}
+                    onClick={item.clickable ? item.action : undefined}
+                    role={item.clickable ? 'button' : undefined}
+                    tabIndex={item.clickable ? 0 : undefined}
+                    onKeyDown={item.clickable ? (e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        item.action();
+                      }
+                    } : undefined}
+                    aria-label={item.clickable ? item.actionLabel : undefined}
                   >
                     <div className="flex items-center gap-4">
                       <div className={`w-12 h-12 xl:w-14 xl:h-14 bg-gradient-to-br from-white/10 to-white/5 ${item.textColor} rounded flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
@@ -513,7 +549,19 @@ const Contact = () => {
                       <div className="flex-1">
                         <p className="text-white/60 text-sm font-medium mb-1">{item.title}</p>
                         <h4 className="text-white font-semibold text-sm xl:text-base break-all">{item.description}</h4>
+                        {item.clickable && (
+                          <p className="text-white/50 text-xs mt-1 group-hover:text-white/70 transition-colors duration-300">
+                            Click to {item.actionLabel?.toLowerCase()}
+                          </p>
+                        )}
                       </div>
+                      {item.clickable && (
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center">
+                            <div className="w-2 h-2 rounded-full bg-white/50"></div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 ))}
