@@ -1,7 +1,6 @@
 "use client";
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
-
 import { motion } from "framer-motion";
 import { getMostRecentCertification } from "@/data/certificationsData";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
@@ -10,44 +9,18 @@ import Badge from "@/components/Badge";
 import Photo from "@/components/Photo";
 import SocialPreviewGenerator from "@/components/SocialPreviewGenerator";
 
-// Lazy load non-critical components
-const Socials = lazy(() => import("@/components/Socials"));
-const Stats = lazy(() => import("@/components/Stats"));
+// Import optimized lazy components
+import { 
+  LazyStats, 
+  LazySocials, 
+  LazyIcon,
+  IconFallback,
+  ComponentFallback 
+} from "@/components/LazyComponents";
 
-// Optimize icon imports - only import what we need
-const FiDownload = lazy(() =>
-  import("react-icons/fi").then((mod) => ({ default: mod.FiDownload }))
-);
-const FiCode = lazy(() =>
-  import("react-icons/fi").then((mod) => ({ default: mod.FiCode }))
-);
-const FiCloud = lazy(() =>
-  import("react-icons/fi").then((mod) => ({ default: mod.FiCloud }))
-);
-const FiZap = lazy(() =>
-  import("react-icons/fi").then((mod) => ({ default: mod.FiZap }))
-);
-
-const SiReact = lazy(() =>
-  import("react-icons/si").then((mod) => ({ default: mod.SiReact }))
-);
-const SiDotnet = lazy(() =>
-  import("react-icons/si").then((mod) => ({ default: mod.SiDotnet }))
-);
+// Lazy load AI icon
+import { lazy } from "react";
 const AIIcon = lazy(() => import("@/components/icons/AIIcon"));
-
-// Loading fallback components
-const IconFallback = ({ className }: { className?: string }) => (
-  <div
-    className={`w-4 h-4 bg-secondary-default/30 rounded animate-pulse ${className}`}
-  />
-);
-
-const ComponentFallback = ({ className }: { className?: string }) => (
-  <div
-    className={`bg-gradient-to-br from-[#27272c]/50 to-[#2a2a30]/50 rounded animate-pulse ${className}`}
-  />
-);
 
 const Home = () => {
   const featuredCertification = getMostRecentCertification();
@@ -112,22 +85,18 @@ const Home = () => {
               transition={{ delay: 0.05, duration: 0.3 }}
               className="mb-6"
             >
-              <Badge
-                icon={
-                  <Suspense fallback={<IconFallback />}>
-                    <FiCode className="text-lg" />
-                  </Suspense>
-                }
-                text={
-                  <span className="flex items-center gap-2">
-                    AI-Powered Full-Stack & .NET Developer
-                    <Suspense fallback={<IconFallback />}>
-                      <FiZap className="text-lg animate-pulse" />
-                    </Suspense>
-                  </span>
-                }
-                color="default"
-              />
+                          <Badge
+              icon={
+                <LazyIcon iconName="FiCode" className="text-lg" />
+              }
+              text={
+                <span className="flex items-center gap-2">
+                  AI-Powered Full-Stack & .NET Developer
+                  <LazyIcon iconName="FiZap" className="text-lg animate-pulse" />
+                </span>
+              }
+              color="default"
+            />
             </motion.div>
 
             {/* Main Heading */}
@@ -177,35 +146,21 @@ const Home = () => {
             >
               <Badge
                 icon={
-                  <Suspense
-                    fallback={
-                      <IconFallback className="text-secondary-default" />
-                    }
-                  >
-                    <SiDotnet className="text-secondary-default" />
-                  </Suspense>
+                  <LazyIcon iconName="SiDotnet" className="text-secondary-default" />
                 }
                 text=".NET"
                 color="default"
               />
               <Badge
                 icon={
-                  <Suspense
-                    fallback={<IconFallback className="text-blue-300" />}
-                  >
-                    <SiReact className="text-blue-300" />
-                  </Suspense>
+                  <LazyIcon iconName="SiReact" className="text-blue-300" />
                 }
                 text="React"
                 color="blue"
               />
               <Badge
                 icon={
-                  <Suspense
-                    fallback={<IconFallback className="text-purple-300" />}
-                  >
-                    <FiCloud className="text-purple-300" />
-                  </Suspense>
+                  <LazyIcon iconName="FiCloud" className="text-purple-300" />
                 }
                 text="DevOps"
                 color="purple"
@@ -262,9 +217,7 @@ const Home = () => {
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     <span>Download Resume</span>
-                    <Suspense fallback={<IconFallback />}>
-                      <FiDownload className="text-lg group-hover:animate-bounce" />
-                    </Suspense>
+                    <LazyIcon iconName="FiDownload" className="text-lg group-hover:animate-bounce" />
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-secondary-default opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Button>
@@ -277,7 +230,7 @@ const Home = () => {
                 <Suspense
                   fallback={<ComponentFallback className="w-40 h-10" />}
                 >
-                  <Socials
+                  <LazySocials
                     containerStyles="flex gap-4"
                     iconStyles="w-10 h-10 border border-secondary-default/50 rounded-full flex justify-center items-center text-secondary-default text-base hover:bg-secondary-default hover:text-primary hover:border-secondary-default hover:shadow-lg hover:shadow-secondary-default/25 transition-all duration-300 hover:scale-110"
                   />
@@ -314,7 +267,7 @@ const Home = () => {
           className="mt-12 xl:mt-12"
         >
           <Suspense fallback={<ComponentFallback className="w-full h-32" />}>
-            <Stats />
+            <LazyStats />
           </Suspense>
         </motion.div>
              </div>
