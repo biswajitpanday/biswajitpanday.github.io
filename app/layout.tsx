@@ -131,7 +131,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "google-site-verification-code-here",
+    google: "6KDQC-2OeS6NjVA21G1MJ-svIYpHNBhnsWBS0LG85a4",
   },
   category: "technology",
   classification: "Business",
@@ -161,6 +161,8 @@ export default function RootLayout({
         <OrganizationSchema />
         <link rel="sitemap" href="/sitemap.xml" />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="//www.google-analytics.com" />
+        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <meta name="theme-color" content="#00ff99" />
