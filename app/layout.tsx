@@ -8,6 +8,7 @@ import { PersonSchema, WebSiteSchema, OrganizationSchema } from "@/components/St
 import DebugMode from "@/components/DebugMode";
 import SEOOptimizer from "@/components/SEOOptimizer";
 import WebVitalsTracker from "@/components/WebVitalsTracker";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const jetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -168,6 +169,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className={jetBrainsMono.variable}>
+        <GoogleAnalytics />
         <Header />
         {/* <StairTransition /> */}
         <PageTransition>{children}</PageTransition>
