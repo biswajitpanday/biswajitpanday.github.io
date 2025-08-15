@@ -6,7 +6,8 @@
       "Bash(npm run lint)",
       "Bash(npm run build:*)",
       "Bash(ANALYZE=true npm run build)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(npm run analyze:*)"
     ],
     "deny": [],
     "ask": []
