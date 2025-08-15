@@ -104,7 +104,9 @@ interface GlobalSearchProps {
 const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [searchableData] = useState<SearchResult[]>(prepareSearchableData());
+  
+  // Memoize searchable data to prevent recreation on every render
+  const searchableData = useMemo(() => prepareSearchableData(), []);
 
   // Debounce search query
   useEffect(() => {

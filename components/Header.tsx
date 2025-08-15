@@ -13,7 +13,7 @@ import {
   FaMedium
 } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
-import MobileNavUpdated from "./MobileNavUpdated";
+import MobileNav from "./MobileNav";
 import GlobalSearch from "./GlobalSearch";
 
 // Header navigation links with correct mapping
@@ -204,7 +204,7 @@ export default function Header() {
         {/* Mobile Navigation Menu */}
         <AnimatePresence>
           {isMenuOpen && (
-            <MobileNavUpdated 
+            <MobileNav 
               navigationItems={NAVIGATION_ITEMS} 
               socialLinks={SOCIAL_LINKS} 
               currentPath={pathname}

@@ -1,11 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
+import { CSS_ANIMATIONS } from "@/constants";
 import Image from "next/image";
 import { Certification } from "@/data/certificationsData";
 import { FiAward, FiCalendar, FiExternalLink, FiKey, FiCheck, FiActivity, FiHash } from "react-icons/fi";
-import { PERFORMANCE_VARIANTS } from "@/constants";
 import {
   Tooltip,
   TooltipContent,
@@ -88,18 +87,15 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 
   return (
     <>
-      <motion.div
+      <div
         data-testid={`certification-card-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
-        variants={PERFORMANCE_VARIANTS.cardSync}
-        initial="hidden"
-        animate="visible"
         className={`group relative bg-gradient-to-b from-white/5 to-white/[0.02] backdrop-blur-sm border ${
           featured
             ? "border-secondary-default/40"
             : isUpcoming 
               ? "border-dashed border-white/20" 
               : "border-white/10"
-        } rounded-xl overflow-hidden transition-colors duration-300 hover:border-secondary-default/30 hover:-translate-y-1 flex flex-col`}
+        } rounded-xl overflow-hidden transition-colors duration-300 hover:border-secondary-default/30 hover:-translate-y-1 flex flex-col performance-card ${CSS_ANIMATIONS.FADE_IN_UP}`}
         style={{
           willChange: "transform",
           backfaceVisibility: "hidden",
@@ -330,7 +326,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
             closeOnPullDown: true,
           }}
         />
-      </motion.div>
+      </div>
     </>
   );
 };

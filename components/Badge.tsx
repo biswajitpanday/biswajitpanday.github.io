@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
-import { PERFORMANCE_VARIANTS } from "@/constants";
 
 interface BadgeProps {
   icon?: React.ReactNode;
@@ -65,14 +63,13 @@ const Badge: React.FC<BadgeProps> = ({
   };
 
   return (
-    <motion.span
+    <span
       data-testid={generateTestId()}
-      variants={PERFORMANCE_VARIANTS.cardSync}
-      className={`inline-flex items-center gap-2 bg-gradient-to-r ${selectedColor.gradient} backdrop-blur-sm border ${selectedColor.border} ${selectedColor.text} px-4 py-2 rounded-full text-sm font-medium ${selectedColor.hover} transition-all duration-300 ${className}`}
+      className={`inline-flex items-center gap-2 bg-gradient-to-r ${selectedColor.gradient} backdrop-blur-sm border ${selectedColor.border} ${selectedColor.text} px-4 py-2 rounded-full text-sm font-medium ${selectedColor.hover} transition-all duration-300 animate-fade-in-up ${className}`}
     >
       {icon && <span className="text-xs">{icon}</span>}
       {text}
-    </motion.span>
+    </span>
   );
 };
 

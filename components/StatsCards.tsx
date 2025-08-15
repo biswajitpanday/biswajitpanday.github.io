@@ -1,9 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import { IconType } from "react-icons";
-import { PERFORMANCE_VARIANTS } from "@/constants";
 
 export interface StatCard {
   icon: IconType;
@@ -31,20 +29,16 @@ const StatsCards: React.FC<StatsCardsProps> = ({
   ];
 
   return (
-    <motion.div
-      variants={PERFORMANCE_VARIANTS.containerSync}
-      className={`flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 mb-8 ${className}`}
-    >
+    <div className={`flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 mb-8 animate-fade-in ${className}`}>
       {stats.map((stat, index) => {
         const IconComponent = stat.icon;
         const gradient = stat.gradient || defaultGradients[index % defaultGradients.length];
         const iconColor = stat.iconColor || "text-secondary-default";
 
         return (
-          <motion.div
+          <div
             key={`${stat.label}-${index}`}
-            variants={PERFORMANCE_VARIANTS.cardSync}
-            className={`group relative overflow-hidden bg-gradient-to-r ${gradient} backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button`}
+            className={`group relative overflow-hidden bg-gradient-to-r ${gradient} backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button animate-fade-in-up animate-stagger-${index + 1}`}
           >
             <div className="flex items-center gap-3">
               <IconComponent 
@@ -59,10 +53,10 @@ const StatsCards: React.FC<StatsCardsProps> = ({
                 </span>
               </div>
             </div>
-          </motion.div>
+          </div>
         );
       })}
-    </motion.div>
+    </div>
   );
 };
 
