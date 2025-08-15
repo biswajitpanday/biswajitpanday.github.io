@@ -42,6 +42,22 @@ export const certifications: Certification[] = [
   },
   {
     id: 2,
+    name: "Model Context Protocol (MCP): Hands-On with Agentic AI",
+    issuer: "LinkedIn Learning",
+    date: "2025-08",
+    link: "https://www.linkedin.com/learning/certificates/f0f432812fb5e04abe76473f670adb5a405424cae5a2941753d8f674b24a232a?trk=share_certificate",
+    description: "Understanding Model Context Protocol (MCP) to add agent behavior to language models, enabling them to interface with data and applications consistently.",
+    skills: ["Model Context Protocol (MCP)", "Anthropic Claude", "AI Agents", "Python", "Node.js"],
+    featured: false,
+    image: "/assets/certificates/webp/Model-Context-Protocol-MCP-HandsOn-with-Agentic-AI-1.webp",
+    thumbImage: "/assets/certificates/thumbnails/Model-Context-Protocol-MCP-HandsOn-with-Agentic-AI-1.webp",
+    category: "Course",
+    issuerLogo: "/assets/logos/webp/linkedin.webp",
+    status: "Active",
+    onlineVerifiable: true
+  },
+  {
+    id: 3,
     name: "Microsoft Certified: Azure Developer Associate",
     issuer: "Microsoft",
     date: "2025-06",
