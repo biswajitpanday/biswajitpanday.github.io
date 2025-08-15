@@ -17,6 +17,7 @@ import SectionHeader from "@/components/SectionHeader";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectsFilter from "@/components/ProjectsFilter";
 import Badge from "@/components/Badge";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import type { Project } from "@/data/portfolioData";
 
@@ -176,21 +177,23 @@ const Projects = () => {
         )}
 
         {/* Projects Grid */}
-        <div 
-          data-testid="projects-grid"
-          className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
-        >
-          {filteredProjects.map((project, index) => (
-            <ProjectCard
-              key={project.num}
-              project={project}
-              index={index}
-              isExpanded={expandedProjects.has(index)}
-              onToggleStacks={toggleProjectStacks}
-              onOpenModal={openProjectModal}
-            />
-          ))}
-        </div>
+        <ErrorBoundary section="projects">
+          <div 
+            data-testid="projects-grid"
+            className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+          >
+            {filteredProjects.map((project, index) => (
+              <ProjectCard
+                key={project.num}
+                project={project}
+                index={index}
+                isExpanded={expandedProjects.has(index)}
+                onToggleStacks={toggleProjectStacks}
+                onOpenModal={openProjectModal}
+              />
+            ))}
+          </div>
+        </ErrorBoundary>
 
         {/* Show when no projects match the filter */}
         {filteredProjects.length === 0 && (

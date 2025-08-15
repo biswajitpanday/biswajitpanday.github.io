@@ -23,7 +23,6 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ['react-icons', 'framer-motion', 'lucide-react'],
-    optimizeCss: true,
   },
   // Disable server-side features for static export
   eslint: {
