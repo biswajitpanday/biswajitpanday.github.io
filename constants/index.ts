@@ -65,7 +65,28 @@ export const PERFORMANCE_VARIANTS = {
   },
 } as const;
 
-// Lightweight animation variants for better performance
+// CSS-based animations for performance optimization
+export const CSS_ANIMATIONS = {
+  // CSS classes for simple animations (replaces Framer Motion)
+  FADE_IN: 'animate-fade-in',
+  FADE_IN_UP: 'animate-fade-in-up',
+  SLIDE_LEFT: 'animate-slide-in-left',
+  SLIDE_RIGHT: 'animate-slide-in-right',
+  
+  // Staggered delays for list animations
+  STAGGER_1: 'animate-stagger-1',
+  STAGGER_2: 'animate-stagger-2',
+  STAGGER_3: 'animate-stagger-3',
+  STAGGER_4: 'animate-stagger-4',
+  STAGGER_5: 'animate-stagger-5',
+  
+  // Performance optimized classes
+  PERFORMANCE_CARD: 'performance-card',
+  PERFORMANCE_BUTTON: 'performance-button',
+  SYNC_FADE_IN: 'sync-fade-in'
+} as const;
+
+// Lightweight animation variants for better performance (Framer Motion fallback)
 export const LIGHTWEIGHT_VARIANTS = {
   // Simple fade in - minimal processing
   fadeIn: {
@@ -146,6 +167,36 @@ export const PERFORMANCE = {
 export const BUNDLE_CONFIG = {
   CHUNK_SIZE_WARNING: 244000, // 244KB
   MAX_INITIAL_CHUNK_SIZE: 512000, // 512KB
+  FRAMER_MOTION_TARGET_SIZE: 50000, // Target 50KB after optimization
+} as const;
+
+// Animation strategy configuration
+export const ANIMATION_STRATEGY = {
+  // Components that MUST use Framer Motion (complex animations)
+  FRAMER_MOTION_COMPONENTS: [
+    'PageTransition',
+    'StairTransition', 
+    'Stairs',
+    'ProjectModal',
+    'GlobalSearch',
+    'Header' // For mobile nav AnimatePresence
+  ],
+  
+  // Components that should use CSS animations
+  CSS_ANIMATION_COMPONENTS: [
+    'CertificationCard',
+    'ProjectCard',
+    'SearchBar',
+    'FormSection',
+    'FilterPanel',
+    'SkillsFilter',
+    'CertificationFilter',
+    'Stats',
+    'TimelineElement'
+  ],
+  
+  // Environment flag to force CSS animations
+  USE_CSS_ANIMATIONS: true
 } as const;
 
 // SEO constants
@@ -170,6 +221,7 @@ export default {
   ANIMATION_DELAYS,
   ANIMATION_DURATIONS,
   PERFORMANCE_VARIANTS,
+  CSS_ANIMATIONS,
   LIGHTWEIGHT_VARIANTS,
   BREAKPOINTS,
   COLORS,
@@ -177,6 +229,7 @@ export default {
   RATE_LIMIT,
   PERFORMANCE,
   BUNDLE_CONFIG,
+  ANIMATION_STRATEGY,
   SEO,
   SOCIAL_LINKS,
 }; 

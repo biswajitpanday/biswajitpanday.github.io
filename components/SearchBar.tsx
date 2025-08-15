@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { FaSearch, FaTimes } from "react-icons/fa";
-import { PERFORMANCE_VARIANTS } from "@/constants";
+import { CSS_ANIMATIONS } from "@/constants";
 
 interface SearchBarProps {
   searchQuery: string;
@@ -56,16 +55,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
   }
 
   return (
-    <motion.div
-      variants={PERFORMANCE_VARIANTS.containerSync}
-      initial="hidden"
-      animate="visible"
-      className={`mb-8 ${className}`}
-    >
-      <motion.div
-        variants={PERFORMANCE_VARIANTS.cardSync}
-        className="relative max-w-2xl mx-auto"
-      >
+    <div className={`mb-8 ${className} ${CSS_ANIMATIONS.FADE_IN}`}>
+      <div className={`relative max-w-2xl mx-auto ${CSS_ANIMATIONS.FADE_IN_UP}`}>
         <div className="relative">
           <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/40" />
           <input
@@ -84,22 +75,18 @@ const SearchBar: React.FC<SearchBarProps> = ({
             </button>
           )}
         </div>
-      </motion.div>
+      </div>
 
       {/* Search Results Info */}
       {showResults && debouncedSearch && resultsText && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mt-4"
-        >
+        <div className={`text-center mt-4 ${CSS_ANIMATIONS.FADE_IN}`}>
           <span className="inline-flex items-center gap-2 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded text-sm font-medium">
             <FaSearch className="text-xs" />
             {resultsText}
           </span>
-        </motion.div>
+        </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 

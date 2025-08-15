@@ -1,16 +1,15 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { CSS_ANIMATIONS } from "@/constants";
 import {
   FaGithub,
   FaBuilding,
   FaCodeBranch,
   FaExternalLinkAlt,
 } from "react-icons/fa";
-import { PERFORMANCE_VARIANTS } from "@/constants";
 import type { Project } from "@/data/portfolioData";
 
 interface ProjectCardProps {
@@ -39,12 +38,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   // Determine which image to use (thumbnail or full image)
   const displayImage = project.thumbImage || project.image;
 
+  // Get stagger animation class based on index
+  const staggerClass = index < 5 ? `animate-stagger-${index + 1}` : '';
+
   return (
-    <motion.div
+    <div
       key={project.num}
       data-testid={`project-card-${project.num}`}
-      variants={PERFORMANCE_VARIANTS.cardSync}
-      className={`group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 performance-card flex flex-col justify-between ${className}`}
+      className={`group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded border border-secondary-default/20 hover:border-secondary-default/40 performance-card flex flex-col justify-between ${className} ${CSS_ANIMATIONS.FADE_IN_UP} ${staggerClass}`}
     >
       {/* Project Image */}
       <div 
@@ -211,7 +212,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </Link>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
