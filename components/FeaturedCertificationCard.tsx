@@ -13,13 +13,15 @@ interface FeaturedCertificationCardProps {
   size?: "small" | "large";
   className?: string;
   simplified?: boolean;
+  headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
 const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
   certification,
   size = "large",
   className = "",
-  simplified = true
+  simplified = true,
+  headingLevel = 2
 }) => {
   if (!certification) return null;
 
@@ -94,7 +96,13 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
             <Badge variant="secondary" className="mb-1.5 text-xs inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-default/20 border border-secondary-default/30 text-secondary-default font-medium">
               Recent Certification
             </Badge>
-            <h3 className={`${isSmall ? "text-sm" : "text-base"} font-bold mb-1 line-clamp-1`}>{name}</h3>
+            {React.createElement(
+              `h${headingLevel}`,
+              {
+                className: `${isSmall ? "text-sm" : "text-base"} font-bold mb-1 line-clamp-1`
+              },
+              name
+            )}
             <div className="flex flex-wrap items-center justify-center sm:justify-start text-xs gap-2 text-white/70">
               <span className="text-secondary-default">{issuer}</span>
               <span className="text-white/30">•</span>
@@ -109,6 +117,7 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
           <Link 
             href="/certifications" 
             className="bg-secondary-default/10 hover:bg-secondary-default/20 text-secondary-default rounded-full p-2 transition-colors flex-shrink-0 sm:self-center"
+            aria-label="View all certifications"
           >
             <FiArrowRight />
           </Link>

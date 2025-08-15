@@ -236,6 +236,7 @@ const Home = () => {
                   certification={featuredCertification}
                   size="small"
                   simplified={true}
+                  headingLevel={2}
                 />
               </motion.div>
             )}
