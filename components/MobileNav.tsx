@@ -1,219 +1,216 @@
 "use client";
-import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+
+import React, { useEffect } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { CiMenuFries } from "react-icons/ci";
-import { IoClose } from "react-icons/io5";
-import { navigationLinks } from "@/data/navigationData";
-import { useState } from "react";
+import { motion } from "framer-motion";
+import { FaTimes } from "react-icons/fa";
 
-const MobileNav = () => {
-  const pathName = usePathname();
-  const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
+interface NavigationItem {
+  name: string;
+  href: string;
+}
 
+interface SocialLink {
+  name: string;
+  href: string;
+  icon: React.ElementType;
+}
+
+interface MobileNavProps {
+  navigationItems: NavigationItem[];
+  socialLinks: SocialLink[];
+  currentPath: string;
+  isPathActive?: (path: string) => boolean;
+  onClose: () => void;
+}
+
+export default function MobileNav({
+  navigationItems,
+  socialLinks,
+  currentPath,
+  isPathActive,
+  onClose,
+}: MobileNavProps) {
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
+  // Check if a path is active
+  const checkIsActive = (path: string) => {
+    if (isPathActive) {
+      return isPathActive(path);
+    }
+    return currentPath === path;
+  };
+
+  // Animation variants
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, x: "100%" },
     visible: {
       opacity: 1,
+      x: 0,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
+        type: "tween",
+        duration: 0.3,
+        when: "beforeChildren",
+        staggerChildren: 0.05,
+      },
+    },
+    exit: {
+      opacity: 0,
+      x: "100%",
+      transition: {
+        type: "tween",
+        duration: 0.3,
+        when: "afterChildren",
+        staggerChildren: 0.05,
+        staggerDirection: -1,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { x: -20, opacity: 0 },
+    hidden: { opacity: 0, x: 20 },
     visible: {
-      x: 0,
       opacity: 1,
+      x: 0,
       transition: {
         type: "spring",
         stiffness: 300,
         damping: 24,
       },
     },
-  };
-
-  const logoVariants = {
-    hidden: { y: -20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
+    exit: {
+      opacity: 0,
+      x: 20,
       transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 25,
+        duration: 0.2,
       },
     },
   };
-  
-  // Handle navigation with loading
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
-    e.preventDefault();
-    setIsOpen(false);
-    
-    // Only trigger if it's a different page
-    if (pathName !== path) {
-      // Trigger the route change event
-      window.dispatchEvent(new Event('route-change-start'));
-      
-      // Navigate after a short delay
-      setTimeout(() => {
-        router.push(path);
-      }, 100);
-    }
-  };
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
-        <button
-          className="relative p-2 rounded text-secondary-default cursor-pointer 
-                     hover:bg-white/5 transition-all duration-300 group"
-          aria-label="Open mobile navigation menu"
-          onClick={() => setIsOpen(true)}
-        >
-          <motion.div
-            whileHover={{ rotate: 90 }}
-            whileTap={{ scale: 0.9 }}
-            transition={{ duration: 0.2 }}
-          >
-            <CiMenuFries className="text-2xl group-hover:text-secondary-hover" />
-          </motion.div>
-        </button>
-      </SheetTrigger>
-      
-      <SheetContent 
-        className="flex flex-col items-center text-center bg-primary/95 backdrop-blur-sm border-l border-white/10"
-        side="right"
-        hideCloseButton
-        style={{ zIndex: 100 }}
+    <div 
+      data-testid="mobile-nav-overlay"
+      className="fixed inset-0 z-[var(--z-mobile-nav)]" 
+      style={{ zIndex: 'var(--z-mobile-nav)' }}
+    >
+      <motion.div
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
       >
-        <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
-        <SheetDescription className="sr-only">
-          Navigation links for mobile devices. Contains links to main pages of the website.
-        </SheetDescription>
-        
-        {/* Close Button */}
-        <div className="absolute top-6 right-6 z-10">
-          <SheetClose asChild>
-            <button
-              className="p-2 rounded text-white/70 hover:text-secondary-default 
-                         hover:bg-white/5 transition-all duration-300"
-              aria-label="Close mobile navigation menu"
-            >
-              <motion.div
-                whileHover={{ rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <IoClose className="text-xl" />
-              </motion.div>
-            </button>
-          </SheetClose>
-        </div>
-
-        {/* Logo */}
-        <motion.div 
-          className="mt-16 mb-12"
-          variants={logoVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <Link href="/" onClick={(e) => handleNavClick(e, "/")}>
-            <motion.h1 
-              className="text-4xl font-semibold hover:scale-105 transition-transform duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Panday<span className="text-secondary-default">.</span>
-            </motion.h1>
-          </Link>
-        </motion.div>
-
-        {/* Navigation Links */}
-        <motion.nav 
-          className="flex flex-col gap-4 w-full px-6"
+        <motion.div
+          data-testid="mobile-nav-menu"
+          className="fixed top-0 right-0 h-[100vh] w-full max-w-xs bg-gradient-to-br from-[#1e1e24] to-[#27272f] border-l border-secondary-default/20 shadow-lg overflow-y-auto"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          role="navigation"
-          aria-label="Mobile navigation"
+          exit="exit"
+          onClick={(e) => e.stopPropagation()}
         >
-          <AnimatePresence>
-            {navigationLinks.map((link, index) => {
-              const isActive = pathName === link.path || pathName.startsWith(link.path + "/");
-              
-              return (
-                <motion.div
-                  key={link.path}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="relative"
-                >
+          {/* Decorative elements */}
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-secondary-default/10 to-transparent opacity-40 pointer-events-none"></div>
+          <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-t from-secondary-default/10 to-transparent opacity-30 pointer-events-none rounded-full blur-xl"></div>
+          
+          <div className="relative z-10 p-6">
+            <div className="flex justify-between items-center mb-8">
+              <motion.h2 
+                className="text-xl font-semibold text-white"
+                variants={itemVariants}
+              >
+                Menu
+              </motion.h2>
+              <motion.button
+                data-testid="mobile-nav-close"
+                className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-secondary-default transition-colors"
+                onClick={onClose}
+                variants={itemVariants}
+                aria-label="Close menu"
+              >
+                <FaTimes className="w-5 h-5" />
+              </motion.button>
+            </div>
+
+            <nav 
+              data-testid="mobile-nav-navigation"
+              className="mb-10"
+            >
+              <ul className="space-y-3">
+                {navigationItems.map((item) => {
+                  const isActive = checkIsActive(item.href);
+                  return (
+                    <motion.li key={item.name} variants={itemVariants}>
+                      <Link
+                        href={item.href}
+                        data-testid={`mobile-nav-link-${item.name.toLowerCase()}`}
+                        className={`flex items-center py-3 px-4 text-base font-medium rounded-md transition-all duration-300 relative overflow-hidden group ${
+                          isActive
+                            ? "bg-secondary-default/10 text-secondary-default"
+                            : "text-white/80 hover:bg-white/5 hover:text-secondary-default"
+                        }`}
+                        onClick={onClose}
+                      >
+                        <span className="relative z-10">{item.name}</span>
+                        
+                        {/* Active indicator */}
+                        {isActive && (
+                          <>
+                            <span className="absolute left-0 top-0 bottom-0 w-1 bg-secondary-default rounded-r"></span>
+                            <span className="absolute inset-0 bg-secondary-default/5 rounded-md"></span>
+                          </>
+                        )}
+                        
+                        {/* Hover effect */}
+                        <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-secondary-default transform transition-transform duration-300 ${
+                          isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                        }`} style={{ transformOrigin: 'left' }}></span>
+                      </Link>
+                    </motion.li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            <motion.div 
+              variants={itemVariants} 
+              className="mt-auto pt-6 border-t border-white/10"
+            >
+              <h3 className="text-sm font-medium text-white/50 mb-4">Connect</h3>
+              <div 
+                data-testid="mobile-nav-social-links"
+                className="flex space-x-4"
+              >
+                {socialLinks.map((social) => (
                   <Link
-                    href={link.path}
-                    onClick={(e) => handleNavClick(e, link.path)}
-                    className={`
-                      relative flex items-center justify-center px-6 py-4
-                      text-lg font-medium transition-all duration-300 group overflow-hidden
-                      ${isActive 
-                        ? "text-secondary-default border-b-2 border-secondary-default" 
-                        : "text-white/80 hover:text-secondary-default border-b-2 border-transparent hover:border-secondary-default/50"
-                      }
-                    `}
-                    aria-label={`Navigate to ${link.name}`}
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-testid={`mobile-social-link-${social.name.toLowerCase()}`}
+                    className="p-2 rounded-full bg-white/5 text-white/70 hover:text-secondary-default hover:bg-white/10 transition-all duration-300 border border-transparent hover:border-secondary-default/30 hover:shadow-glow"
+                    aria-label={social.name}
                   >
-                    {/* Text */}
-                    <span className="capitalize font-medium relative z-10">
-                      {link.name}
-                    </span>
-
-                    {/* Active indicator */}
-                    {isActive && (
-                      <motion.div
-                        className="absolute right-4 w-2 h-2 bg-secondary-default rounded-full"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ 
-                          type: "spring", 
-                          stiffness: 400, 
-                          damping: 20,
-                          delay: index * 0.1 
-                        }}
-                      />
-                    )}
+                    <social.icon className="w-5 h-5" />
                   </Link>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </motion.nav>
-
-        {/* Footer info */}
-        <motion.div 
-          className="mt-auto mb-8 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
-        >
-          <p className="text-white/50 text-sm">
-            Swipe or tap outside to close
-          </p>
-          <motion.div 
-            className="mt-2 text-xs text-white/30"
-            animate={{ opacity: [0.3, 0.8, 0.3] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            ✨ Built with passion
-          </motion.div>
+                ))}
+              </div>
+              
+              <div className="mt-8 mb-4 text-center">
+                <p className="text-xs text-white/40">
+                  © {new Date().getFullYear()} Biswajit Panday
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
-      </SheetContent>
-    </Sheet>
+      </motion.div>
+    </div>
   );
-};
-
-export default MobileNav;
+} 
