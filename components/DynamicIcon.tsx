@@ -10,12 +10,6 @@ const CursorIcon = dynamic(() => import("./icons/CursorIcon"), {
   ),
 });
 
-const AIIcon = dynamic(() => import("./icons/AIIcon"), {
-  ssr: true,
-  loading: () => (
-    <div className="w-4 h-4 bg-secondary-default/30 animate-pulse rounded-sm"></div>
-  ),
-});
 
 const GoogleAIStudioIcon = dynamic(() => import("./icons/GoogleAIStudioIcon"), {
   ssr: true,
@@ -32,6 +26,13 @@ const ClaudeAIIcon = dynamic(() => import("./icons/ClaudeAIIcon"), {
 });
 
 const PlaywrightIcon = dynamic(() => import("./icons/PlaywrightIcon"), {
+  ssr: true,
+  loading: () => (
+    <div className="w-4 h-4 bg-secondary-default/30 animate-pulse rounded-sm"></div>
+  ),
+});
+
+const MCPIcon = dynamic(() => import("./icons/MCPIcon"), {
   ssr: true,
   loading: () => (
     <div className="w-4 h-4 bg-secondary-default/30 animate-pulse rounded-sm"></div>
@@ -191,6 +192,10 @@ const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
     import("react-icons/md").then((mod) => ({ default: mod.MdSecurity })),
   PiKanban: () =>
     import("react-icons/pi").then((mod) => ({ default: mod.PiKanban })),
+  RiRobot3Fill: () =>
+    import("react-icons/ri").then((mod) => ({ default: mod.RiRobot3Fill })),
+  GoCopilot: () =>
+    import("react-icons/go").then((mod) => ({ default: mod.GoCopilot })),
 };
 
 interface DynamicIconProps {
@@ -220,9 +225,6 @@ const DynamicIcon: React.FC<DynamicIconProps> = memo(
       return <CursorIcon className={className} />;
     }
 
-    if (iconName === "AI") {
-      return <AIIcon className={className} />;
-    }
 
     if (iconName === "GoogleAIStudio") {
       return <GoogleAIStudioIcon className={className} />;
@@ -234,6 +236,10 @@ const DynamicIcon: React.FC<DynamicIconProps> = memo(
 
     if (iconName === "Playwright") {
       return <PlaywrightIcon className={className} />;
+    }
+
+    if (iconName === "MCP") {
+      return <MCPIcon className={className} />;
     }
 
     const iconLoader = iconComponents[iconName];

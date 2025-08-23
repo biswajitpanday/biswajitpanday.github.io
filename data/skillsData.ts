@@ -81,13 +81,14 @@ export const skills2 = {
   children: [
     {
       name: "AI/ML Technologies",
-      metadata: { icon: "AI" },
+      metadata: { icon: "RiRobot3Fill" },
       children: [
-        { name: "Google Gemini AI", metadata: { icon: "GoogleAIStudio" } },
+        { name: "Model Context Protocol (MCP)", metadata: { icon: "MCP" } },
+        { name: "Claude AI & Agent Development", metadata: { icon: "ClaudeAI" } },
         { name: "AI Prompt Engineering", metadata: { icon: "SiOpenai" } },
-        { name: "GitHub Copilot", metadata: { icon: "FaGithub" } },
-        { name: "Cursor IDE", metadata: { icon: "Cursor" } },
-        { name: "ChatGPT", metadata: { icon: "SiOpenai" } },
+        { name: "Cursor IDE & Rules", metadata: { icon: "Cursor" } },
+        { name: "GitHub Copilot", metadata: { icon: "GoCopilot" } },
+        { name: "AI Tool Development", metadata: { icon: "RiRobot3Fill" } },
       ],
     },
     {

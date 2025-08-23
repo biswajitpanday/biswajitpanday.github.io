@@ -10,11 +10,13 @@ This is a professional portfolio website for Biswajit Panday, built with Next.js
 
 ### Essential Commands
 ```bash
-npm run dev      # Start development server (localhost:3000)
-npm run build    # Production build (includes sitemap generation)
-npm run start    # Start production server
-npm run lint     # Run ESLint for code quality
-npm run analyze  # Analyze bundle size (ANALYZE=true npm run build)
+npm run dev               # Start development server (localhost:3000)
+npm run build             # Production build (includes sitemap generation)
+npm run start             # Start production server
+npm run lint              # Run ESLint for code quality
+npm run analyze           # Analyze bundle size (ANALYZE=true npm run build)
+npm run analyze-motion    # Analyze Framer Motion usage in components
+npm run test-performance  # Test animation performance across components
 ```
 
 ### Image Optimization
@@ -30,10 +32,12 @@ npm run sitemap  # Generate sitemap.xml for SEO
 ## Architecture & Structure
 
 ### Next.js App Router Structure
-- Uses Next.js 15 App Router with TypeScript
-- Static export configuration (`output: "export"`) for GitHub Pages
-- All pages are in `app/` directory with nested layouts
-- Each page has its own layout.tsx for SEO metadata
+- Uses Next.js 15 App Router with TypeScript strict mode
+- Static export configuration (`output: "export"`) for GitHub Pages compatibility
+- All pages are in `app/` directory with nested layouts for route grouping
+- Each page has its own layout.tsx for SEO metadata and structured data
+- Path aliases configured (@/* points to root directory)
+- Bundle analyzer integration for performance monitoring
 
 ### Data Architecture
 All content is centralized in `data/` directory:
@@ -62,11 +66,14 @@ All content is centralized in `data/` directory:
 ## Key Features & Integrations
 
 ### Performance Optimizations
-- Image optimization pipeline with WebP conversion
-- Bundle analysis with @next/bundle-analyzer
-- Tree shaking and code splitting
-- Hardware-accelerated CSS animations
+- Image optimization pipeline with WebP conversion and multiple size variants
+- Bundle analysis with @next/bundle-analyzer (npm run analyze)
+- Tree shaking and code splitting with vendor/common chunk separation
+- Hardware-accelerated CSS animations (0.4s duration for consistency)
 - Debounced search (300ms) and memoized filters
+- Package import optimization for react-icons, framer-motion, and lucide-react
+- Console.log removal in production builds
+- Webpack fallbacks configured for client-side only operations
 
 ### SEO & Analytics
 - Comprehensive metadata with OpenGraph and Twitter cards
@@ -122,18 +129,21 @@ NEXT_PUBLIC_PAGECLIP_API_KEY=    # Contact form service (optional)
 4. Environment variables set in repository secrets
 
 ### Pre-deployment Checklist
-- Run `npm run lint` to ensure code quality
-- Run `npm run build` to verify production build
-- Run `npm run optimize` for image optimization
-- Test all pages and features locally
-- Verify environment variables if using contact form
+- Run `npm run lint` to ensure code quality (strict linting enabled)
+- Run `npm run build` to verify production build (includes sitemap generation via prebuild)
+- Run `npm run optimize` for image optimization (WebP conversion, thumbnails, cleanup)
+- Run `npm run analyze` to check bundle size and optimization
+- Test all pages and features locally with static export
+- Verify environment variables if using contact form or analytics
+- Ensure TypeScript compilation passes without build errors
 
 ## Important Configuration Files
 
-- `next.config.ts` - Next.js configuration with bundle optimization
+- `next.config.ts` - Next.js configuration with bundle optimization, static export, and webpack customizations
 - `tailwind.config.js` - Custom theme and responsive breakpoints
-- `tsconfig.json` - TypeScript strict mode enabled
+- `tsconfig.json` - TypeScript strict mode enabled with path aliases (@/*)
 - `eslint.config.mjs` - ESLint configuration for code quality
+- `postcss.config.cjs` - PostCSS configuration for Tailwind CSS processing
 - `.github/workflows/deploy.yml` - GitHub Actions deployment pipeline
 
 ## Performance Monitoring

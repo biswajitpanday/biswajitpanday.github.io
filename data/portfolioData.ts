@@ -33,6 +33,36 @@ export interface Project {
 export const projects: Project[] = [
   {
     num: 1,
+    category: "Backend",
+    title: "CurrentDT-mcp - Real-time DateTime MCP Server",
+    longDescription: "Open-source TypeScript MCP server providing real-time date and time access for AI assistants via Model Context Protocol. Features zero configuration, multiple datetime formats (ISO 8601, custom formats), local and remote time providers, and compatibility with Cursor IDE, Claude Desktop, VS Code, and Windsurf. Built for AI, Built with AI - designed to enhance AI assistant capabilities through intelligent datetime tooling.",
+    shortDescription: "Real-time datetime access for AI assistants via Model Context Protocol with zero configuration and multi-format support.",
+    stacks: [
+      "TypeScript",
+      "Model Context Protocol (MCP)",
+      "Node.js",
+      "NPM Package Development",
+      "Claude AI",
+      "Cursor IDE",
+      "VS Code Extensions",
+      "Open Source Development",
+      "AI Tool Integration",
+      "DateTime Processing"
+    ],
+    image: "/assets/portfolio/webp/currentdt-mcp.webp",
+    thumbImage: "/assets/portfolio/thumbnails/currentdt-mcp.webp",
+    isActive: true,
+    isOpenSource: true,
+    url: "https://www.npmjs.com/package/@strix-ai/currentdt-mcp",
+    github: "https://github.com/biswajitpanday/CurrentDT-mcp",
+    associatedWithCompany: "Individual",
+    jobRole: "Senior Developer",
+    startDate: new Date('2025-08-23'),
+    endDate: new Date(),
+    inactivationReason: undefined,
+  },
+  {
+    num: 2,
     category: "Windows App",
     title: "IntelliMerge - AI-Powered Development Tool",
     longDescription: "Innovative AI-powered development tool that demonstrates practical AI integration in enterprise software workflows. Features intelligent automation using Google Gemini AI, reducing manual effort by 80-90%. Built with Python 3.11, showcasing modern AI development practices, comprehensive testing, and professional deployment strategies.",
@@ -61,7 +91,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 2,
+    num: 3,
     category: "Full-Stack",
     title: "Optimizely Configured Commerce",
     longDescription: "",
@@ -93,7 +123,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 3,
+    num: 4,
     category: "Full-Stack",
     title: "BugBusters",
     longDescription:
@@ -122,7 +152,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 4,
+    num: 5,
     category: "Full-Stack",
     title: "Devensoft",
     longDescription:
@@ -151,7 +181,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 5,
+    num: 6,
     category: "Full-Stack",
     title: "Reganalytics",
     longDescription:
@@ -184,7 +214,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 6,
+    num: 7,
     category: "Backend",
     title: "WebEvv (Electronic Visit Verification)",
     longDescription:
@@ -215,7 +245,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 7,
+    num: 8,
     category: "Backend",
     title: "Alarm App (Bangladesh Red Crescent Society)",
     longDescription:
@@ -246,7 +276,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 8,
+    num: 9,
     category: "Backend",
     title: "Subscriber Verification System (SVS)",
     longDescription:
@@ -277,7 +307,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 9,
+    num: 10,
     category: "Full-Stack",
     title: "JoyList",
     longDescription:
@@ -306,7 +336,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 10,
+    num: 11,
     category: "Full-Stack",
     title: "Shopway",
     longDescription:
@@ -334,7 +364,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 11,
+    num: 12,
     category: "Full-Stack",
     title: "EnCue",
     longDescription:
@@ -365,7 +395,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 12,
+    num: 13,
     category: "Full-Stack",
     title: "OpiGateWay",
     longDescription:
@@ -393,7 +423,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 13,
+    num: 14,
     category: "Full-Stack",
     title: "here'n'now",
     longDescription:
@@ -422,7 +452,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 14,
+    num: 15,
     category: "Full-Stack",
     title: "reezcom",
     longDescription:
@@ -442,7 +472,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 15,
+    num: 16,
     category: "Full-Stack",
     title: "dobi",
     longDescription:
@@ -462,7 +492,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 16,
+    num: 17,
     category: "Full-Stack",
     title: "World Tax Analyzer (WTA)",
     longDescription:
@@ -482,7 +512,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 17,
+    num: 18,
     category: "Full-Stack",
     title: "Transfer Pricing Analyzer (TPA)",
     longDescription:
@@ -502,7 +532,7 @@ export const projects: Project[] = [
     inactivationReason: undefined,
   },
   {
-    num: 18,
+    num: 19,
     category: "Full-Stack",
     title: "Reganalytics Auth",
     longDescription: "",
@@ -528,7 +558,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is running internally.",
   },
   {
-    num: 19,
+    num: 20,
     category: "Full-Stack",
     title: "Notification Hub",
     longDescription: "",
@@ -555,7 +585,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 20,
+    num: 21,
     category: "Full-Stack",
     title: "News Aggregator",
     longDescription: "",
@@ -575,7 +605,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 21,
+    num: 22,
     category: "Full-Stack",
     title: "Whooza",
     longDescription: "",
@@ -603,7 +633,7 @@ export const projects: Project[] = [
     inactivationReason: "This Project is no longer operational.",
   },
   {
-    num: 22,
+    num: 23,
     category: "Full-Stack",
     title: "BCPS Management Portal",
     longDescription: "",

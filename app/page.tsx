@@ -34,7 +34,9 @@ const SiReact = lazy(() =>
 const SiDotnet = lazy(() =>
   import("react-icons/si").then((mod) => ({ default: mod.SiDotnet }))
 );
-const AIIcon = lazy(() => import("@/components/icons/AIIcon"));
+const RiRobot3Fill = lazy(() =>
+  import("react-icons/ri").then((mod) => ({ default: mod.RiRobot3Fill }))
+);
 
 // Loading fallback components
 const IconFallback = ({ className }: { className?: string }) => (
@@ -215,7 +217,7 @@ const Home = () => {
                   <Suspense
                     fallback={<IconFallback className="text-emerald-300" />}
                   >
-                    <AIIcon className="text-emerald-300" />
+                    <RiRobot3Fill className="text-emerald-300" />
                   </Suspense>
                 }
                 text="AI Integration"
