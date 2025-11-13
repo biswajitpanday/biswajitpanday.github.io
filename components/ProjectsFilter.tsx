@@ -229,72 +229,78 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
           className="px-4 pb-4 border-t border-secondary-default/20"
           data-test-selector="projectFilter-panel"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-            {/* Categories Filter */}
-            <div>
-              <h4 className="text-secondary-default text-sm font-semibold mb-2">Categories</h4>
-              <div className="flex flex-wrap gap-2">
-                {categories.map(category => (
-                  <Badge
-                    key={category}
-                    variant={selectedCategory === category ? "default" : "outline"}
-                    className={`cursor-pointer ${selectedCategory === category ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
-                    onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
-                  >
-                    {category}
-                  </Badge>
-                ))}
+          <div className="pt-4">
+            {/* Two Column Layout: Left (Categories/Companies/Status) | Right (Technologies) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Left Column: Categories, Companies, Status */}
+              <div className="space-y-4">
+                {/* Categories Filter */}
+                <div>
+                  <h4 className="text-secondary-default text-sm font-semibold mb-2">Categories</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {categories.map(category => (
+                      <Badge
+                        key={category}
+                        variant={selectedCategory === category ? "default" : "outline"}
+                        className={`cursor-pointer ${selectedCategory === category ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
+                        onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
+                      >
+                        {category}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Companies Filter */}
+                <div>
+                  <h4 className="text-secondary-default text-sm font-semibold mb-2">Companies</h4>
+                  <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto custom-scrollbar">
+                    {companies.map(company => (
+                      <Badge
+                        key={company}
+                        variant={selectedCompany === company ? "default" : "outline"}
+                        className={`cursor-pointer ${selectedCompany === company ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
+                        onClick={() => setSelectedCompany(selectedCompany === company ? null : company)}
+                      >
+                        {company}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Status Filter */}
+                <div>
+                  <h4 className="text-secondary-default text-sm font-semibold mb-2">Status</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {statuses.map(status => (
+                      <Badge
+                        key={status}
+                        variant={selectedStatus === status ? "default" : "outline"}
+                        className={`cursor-pointer ${selectedStatus === status ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
+                        onClick={() => setSelectedStatus(selectedStatus === status ? null : status)}
+                      >
+                        {status}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
-            
-            {/* Companies Filter */}
-            <div>
-              <h4 className="text-secondary-default text-sm font-semibold mb-2">Companies</h4>
-              <div className="flex flex-wrap gap-2">
-                {companies.map(company => (
-                  <Badge
-                    key={company}
-                    variant={selectedCompany === company ? "default" : "outline"}
-                    className={`cursor-pointer ${selectedCompany === company ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
-                    onClick={() => setSelectedCompany(selectedCompany === company ? null : company)}
-                  >
-                    {company}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-            
-            {/* Status Filter */}
-            <div>
-              <h4 className="text-secondary-default text-sm font-semibold mb-2">Status</h4>
-              <div className="flex flex-wrap gap-2">
-                {statuses.map(status => (
-                  <Badge
-                    key={status}
-                    variant={selectedStatus === status ? "default" : "outline"}
-                    className={`cursor-pointer ${selectedStatus === status ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
-                    onClick={() => setSelectedStatus(selectedStatus === status ? null : status)}
-                  >
-                    {status}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-            
-            {/* Technologies Filter */}
-            <div>
-              <h4 className="text-secondary-default text-sm font-semibold mb-2">Technologies</h4>
-              <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto custom-scrollbar">
-                {technologies.map(tech => (
-                  <Badge
-                    key={tech}
-                    variant={selectedTech === tech ? "default" : "outline"}
-                    className={`cursor-pointer ${selectedTech === tech ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
-                    onClick={() => setSelectedTech(selectedTech === tech ? null : tech)}
-                  >
-                    {tech}
-                  </Badge>
-                ))}
+
+              {/* Right Column: Technologies Only */}
+              <div>
+                <h4 className="text-secondary-default text-sm font-semibold mb-2">Technologies</h4>
+                <div className="flex flex-wrap gap-2 max-h-[150px] overflow-y-auto custom-scrollbar">
+                  {technologies.map(tech => (
+                    <Badge
+                      key={tech}
+                      variant={selectedTech === tech ? "default" : "outline"}
+                      className={`cursor-pointer ${selectedTech === tech ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
+                      onClick={() => setSelectedTech(selectedTech === tech ? null : tech)}
+                    >
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
