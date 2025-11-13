@@ -8,7 +8,7 @@ import {
   FaLaptopCode,
   FaGlobe
 } from "react-icons/fa";
-import { projects } from "@/data/portfolioData";
+import { projects, getFeaturedProjects } from "@/data/portfolioData";
 import { useState } from "react";
 import ProjectModal from "@/components/ProjectModal";
 import StatsCards from "@/components/StatsCards";
@@ -36,6 +36,7 @@ const Projects = () => {
 
   // Calculate stats
   const activeProjects = projects.filter(p => p.isActive).length;
+  const featuredProjects = getFeaturedProjects();
   // const inactiveProjects = projects.filter(p => !p.isActive).length;
 
   // Toggle project stacks display
@@ -162,7 +163,7 @@ const Projects = () => {
         {/* Project Filtering */}
         {isFilterEnabled && (
           <div data-testid="projects-filter-section">
-            <ProjectsFilter 
+            <ProjectsFilter
               projects={projects}
               onFilterChange={setFilteredProjects}
               searchQuery={searchQuery}
@@ -173,6 +174,53 @@ const Projects = () => {
                 description: "projects"
               }}
             />
+          </div>
+        )}
+
+        {/* Featured Projects Section */}
+        {featuredProjects.length > 0 && !searchQuery && (
+          <motion.div
+            variants={PERFORMANCE_VARIANTS.containerSync}
+            initial="hidden"
+            animate="visible"
+            className="mt-8 mb-12"
+          >
+            <div className="mb-6">
+              <h2 className="text-2xl xl:text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                <FaRocket className="text-secondary-default" />
+                Featured Projects
+              </h2>
+              <p className="text-white/70 text-sm">
+                Highlighted projects showcasing AI integration, scalability, and measurable business impact
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {featuredProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.num}
+                  project={project}
+                  index={index}
+                  isExpanded={expandedProjects.has(index)}
+                  onToggleStacks={toggleProjectStacks}
+                  onOpenModal={openProjectModal}
+                  className="border-secondary-default/40 shadow-lg shadow-secondary-default/10"
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* All Projects Heading */}
+        {featuredProjects.length > 0 && !searchQuery && (
+          <div className="mb-6 mt-12">
+            <h2 className="text-2xl xl:text-3xl font-bold text-white mb-2 flex items-center gap-3">
+              <FaCode className="text-blue-400" />
+              All Projects
+            </h2>
+            <p className="text-white/70 text-sm">
+              Complete portfolio of {projects.length} projects across various technologies and domains
+            </p>
           </div>
         )}
 

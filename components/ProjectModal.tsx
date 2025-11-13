@@ -49,7 +49,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[var(--z-modal)] flex items-center justify-center p-4 pt-20 pb-8"
+          style={{ zIndex: 'var(--z-modal)' }}
           onClick={onClose}
           onKeyDown={handleKeyDown}
           tabIndex={-1}
@@ -58,7 +59,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             initial={{ opacity: 0, scale: 0.9, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 50 }}
-            className="bg-gradient-to-br from-gray-900/90 to-gray-950/90 border border-secondary-default/20 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-lg shadow-secondary-default/10"
+            className="bg-gradient-to-br from-gray-900/90 to-gray-950/90 border border-secondary-default/20 rounded-xl w-full max-w-4xl max-h-[calc(100vh-160px)] overflow-hidden shadow-lg shadow-secondary-default/10"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -92,7 +93,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             </div>
 
             {/* Modal Content */}
-            <div className="overflow-y-auto max-h-[calc(90vh-80px)] custom-scrollbar">
+            <div className="overflow-y-auto max-h-[calc(100vh-240px)] custom-scrollbar">
               <div className="p-6">
                 {/* Project Image */}
                 <div className="relative overflow-hidden rounded-lg mb-6 bg-gray-800/50 border border-secondary-default/10">

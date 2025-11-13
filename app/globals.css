@@ -15,6 +15,7 @@
     --z-header: 50;
     --z-mobile-nav: 60;
     --z-search: 70;
+    --z-modal: 100;
   }
   
   /* Common utility classes for components that were using document manipulation */

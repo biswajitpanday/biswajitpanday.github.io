@@ -10,6 +10,7 @@ export interface Project {
   thumbImage?: string;
   isActive: boolean;
   isOpenSource: boolean;
+  isFeatured?: boolean;
   url: string;
   github: string;
   associatedWithCompany:
@@ -53,6 +54,7 @@ export const projects: Project[] = [
     thumbImage: "/assets/portfolio/thumbnails/currentdt-mcp.webp",
     isActive: true,
     isOpenSource: true,
+    isFeatured: true,
     url: "https://www.npmjs.com/package/@strix-ai/currentdt-mcp",
     github: "https://github.com/biswajitpanday/CurrentDT-mcp",
     associatedWithCompany: "Individual",
@@ -83,6 +85,7 @@ export const projects: Project[] = [
     thumbImage: "/assets/portfolio/thumbnails/intelliMerge.webp",
     isActive: true,
     isOpenSource: false,
+    isFeatured: true,
     url: "https://optimizely.com",
     github: "",
     associatedWithCompany: "Optimizely",
@@ -95,6 +98,7 @@ export const projects: Project[] = [
     num: 3,
     category: "Full-Stack",
     title: "Optimizely Configured Commerce",
+    isFeatured: true,
     longDescription: "Supporting 20+ enterprise B2B clients by implementing high-performance customizations on Optimizely's Configured Commerce platform. Responsible for hands-on development of customer-specific features, performance optimization, and technical solutions that enable Fortune 500 companies to scale their digital commerce operations. Key achievements include developing IntelliMerge (AI-powered upgrade automation tool using GPT-5 that reduced upgrade time from 40 hours to 8 hours—an 80% efficiency gain), creating OpalSpark (a .NET 9 template framework that streamlines Opal platform development and eliminates authentication/setup complexity), and building integration tools that connect Sitecore CMS with Opal for seamless content management. Contributed to two successful system migrations achieving 55% average cost reduction for major clients while improving deployment efficiency and reducing error rates. Actively leveraging AI tools (Claude Code, Cursor, GitHub Copilot) to enhance team productivity, mentor developers through code reviews (15% defect reduction), and design scalable architecture patterns supporting global deployments. Technologies: C#, ASP.NET Core, .NET 9, WCF, React, Angular, TypeScript, Azure, MSSQL, Entity Framework Core, AI Integration (GPT-5, Claude AI), Opal Platform.",
     shortDescription:
       "Enterprise B2B commerce platform supporting 20+ clients with custom high-performance solutions, AI-powered tooling (80% efficiency gain), and scalable architecture.",
@@ -190,6 +194,7 @@ export const projects: Project[] = [
     num: 6,
     category: "Full-Stack",
     title: "Reganalytics",
+    isFeatured: true,
     longDescription:
       "Led the upgrade of a legacy application to a Microservices architecture, deploying in Docker with multiple .NET 6, React, and Angular applications.",
     shortDescription: "Modernizing a regulatory analytics platform.",
@@ -285,6 +290,7 @@ export const projects: Project[] = [
     num: 9,
     category: "Backend",
     title: "Subscriber Verification System (SVS)",
+    isFeatured: true,
     longDescription:
       "Led the modernization of Robi's Subscriber Verification System (SVS), migrating a legacy .NET app to .NET Core for Linux deployment, improving performance, and ensuring scalability. Developed key features, automated deployments across 40+ servers, and optimized API performance for millions of users.",
     shortDescription:
@@ -660,4 +666,24 @@ export const projects: Project[] = [
     endDate: new Date('2014-11-31'),
     inactivationReason: undefined,
   },
-]; 
+];
+
+// Helper function to get featured projects
+export const getFeaturedProjects = (): Project[] => {
+  return projects.filter(project => project.isFeatured === true);
+};
+
+// Helper function to get projects by category
+export const getProjectsByCategory = (category: Project["category"]): Project[] => {
+  return projects.filter(project => project.category === category);
+};
+
+// Helper function to get active projects
+export const getActiveProjects = (): Project[] => {
+  return projects.filter(project => project.isActive === true);
+};
+
+// Helper function to get open source projects
+export const getOpenSourceProjects = (): Project[] => {
+  return projects.filter(project => project.isOpenSource === true);
+}; 

@@ -116,7 +116,7 @@ export default function Header() {
                       key={item.name}
                       href={item.href}
                       data-testid={`nav-link-${item.name.toLowerCase()}`}
-                      className={`px-3 py-2 text-sm font-medium rounded-md transition-colors relative group ${
+                      className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative group ${
                         isActive
                           ? "text-secondary-default"
                           : "text-text-primary hover:text-secondary-default"

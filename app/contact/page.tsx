@@ -259,7 +259,7 @@ const Contact = () => {
           {/* Main Heading */}
           <motion.h1
             variants={PERFORMANCE_VARIANTS.slideUpSync}
-            className="text-4xl xl:text-6xl font-bold text-white mb-6 leading-tight"
+            className="text-3xl xl:text-4xl font-bold text-white mb-6 leading-tight"
           >
             Get In{" "}
             <span className="bg-gradient-to-r from-secondary-default via-blue-400 to-secondary-default bg-clip-text text-transparent animate-gradient">
@@ -270,7 +270,7 @@ const Contact = () => {
           {/* Description */}
           <motion.p
             variants={PERFORMANCE_VARIANTS.slideUpSync}
-            className="text-lg xl:text-xl text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed"
+            className="text-base xl:text-lg text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed"
           >
             Let&apos;s discuss your{" "}
             <span className="text-secondary-default font-semibold px-2 py-1 rounded">
