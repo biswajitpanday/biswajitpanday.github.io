@@ -235,7 +235,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
             </div>
 
             {/* Search Results */}
-            <div className="max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-secondary-default/30 scrollbar-track-gray-800/30">
+            <div className="max-h-96 overflow-y-auto custom-scrollbar">
               {debouncedSearch && filteredResults.length === 0 && (
                 <div className="text-center py-8">
                   <FaSearch className="text-4xl text-secondary-default/40 mx-auto mb-4" />

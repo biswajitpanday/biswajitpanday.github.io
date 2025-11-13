@@ -136,6 +136,7 @@ export const projects: Project[] = [
     num: 4,
     category: "Full-Stack",
     title: "BugBusters",
+    isFeatured: true,
     longDescription:
       "Open-source developer collaboration platform built as a secure, self-hosted alternative to Stack Overflow for internal teams. Implemented using Clean Architecture principles with .NET 7, Entity Framework Core, React 18, and TypeScript, demonstrating best practices in domain-driven design and separation of concerns. Features include real-time Q&A with markdown support, code syntax highlighting, tagging and search, user reputation system, and JWT-based authentication. Architecture showcases CQRS patterns, repository pattern, and dependency injection for testability. Published on GitHub as a reference implementation for building maintainable, scalable enterprise applications. Technologies: C#, .NET 7, Entity Framework Core, MSSQL, JWT, React v18, TypeScript, Clean Architecture.",
     shortDescription: "Open-source internal developer collaboration platform showcasing Clean Architecture with .NET 7 and React 18.",
@@ -284,7 +285,7 @@ export const projects: Project[] = [
     jobRole: "Software Engineer",
     startDate: new Date('2021-08-01'),
     endDate: new Date('2021-07-31'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Successfully delivered emergency alert system for Bangladesh Red Crescent Society; project completed as planned and transitioned to client operations.",
   },
   {
     num: 9,
@@ -345,7 +346,7 @@ export const projects: Project[] = [
     jobRole: "Software Engineer",
     startDate: new Date('2020-01-01'),
     endDate: new Date('2020-11-31'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Successfully delivered scalable social platform MVP; client pivoted business model based on market insights gained during development.",
   },
   {
     num: 11,
@@ -373,7 +374,7 @@ export const projects: Project[] = [
     jobRole: "Freelancer",
     startDate: new Date('2018-05-01'),
     endDate: new Date('2020-04-31'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Completed location-based e-commerce platform development; project fulfilled contracted scope and delivered intended functionality.",
   },
   {
     num: 12,
@@ -461,7 +462,7 @@ export const projects: Project[] = [
     jobRole: "Associate Software Engineer",
     startDate: new Date('2018-02-01'),
     endDate: new Date('2018-10-30'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Successfully delivered MVP demonstrating concept viability; project completed technical objectives and provided valuable market validation.",
   },
   {
     num: 15,
@@ -596,7 +597,7 @@ export const projects: Project[] = [
     jobRole: "Software Engineer",
     startDate: new Date('2015-06-01'),
     endDate: new Date('2015-10-31'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Delivered cross-platform real-time notification service as specified; project completed development milestone and transitioned to client maintenance.",
   },
   {
     num: 21,
@@ -616,7 +617,7 @@ export const projects: Project[] = [
     jobRole: "Software Engineer",
     startDate: new Date(),
     endDate: new Date(),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Successfully implemented news aggregation platform; project completed as planned and achieved technical requirements.",
   },
   {
     num: 22,
@@ -644,7 +645,7 @@ export const projects: Project[] = [
     jobRole: "Intern",
     startDate: new Date('2014-08-01'),
     endDate: new Date('2014-10-31'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Delivered social connection platform MVP; project completed contracted development phase and met initial business objectives.",
   },
   {
     num: 23,

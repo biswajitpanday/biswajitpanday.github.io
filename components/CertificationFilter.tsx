@@ -183,7 +183,7 @@ const CertificationFilter: React.FC<CertificationFilterProps> = ({
             {/* Skills Filter */}
             <div>
               <h4 className="text-secondary-default text-sm font-semibold mb-2">Skills</h4>
-              <div className="flex flex-wrap gap-2 max-h-28 overflow-y-auto scrollbar-thin scrollbar-thumb-secondary-default/30 scrollbar-track-gray-800/30">
+              <div className="flex flex-wrap gap-2 max-h-28 overflow-y-auto custom-scrollbar">
                 {uniqueSkills.map(skill => (
                   <Badge
                     key={skill}

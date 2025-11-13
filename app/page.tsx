@@ -5,7 +5,6 @@ import Link from "next/link";
 
 import { motion } from "framer-motion";
 import { getMostRecentCertification } from "@/data/certificationsData";
-import { getFeaturedProjects } from "@/data/portfolioData";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 import BackgroundElements from "@/components/BackgroundElements";
 import Badge from "@/components/Badge";
@@ -55,7 +54,6 @@ const ComponentFallback = ({ className }: { className?: string }) => (
 
 const Home = () => {
   const featuredCertification = getMostRecentCertification();
-  const featuredProjects = getFeaturedProjects().slice(0, 3); // Show top 3 featured projects
 
   return (
     <>
@@ -326,99 +324,6 @@ const Home = () => {
             <Stats />
           </Suspense>
         </motion.div>
-
-        {/* Featured Projects Section */}
-        {featuredProjects.length > 0 && (
-          <motion.div
-            data-testid="home-featured-projects"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.4 }}
-            className="mt-12 xl:mt-16"
-          >
-            <div className="text-center mb-8">
-              <h2 className="text-2xl xl:text-3xl font-bold text-white mb-2">
-                Featured{" "}
-                <span className="bg-gradient-to-r from-secondary-default via-blue-400 to-secondary-default bg-clip-text text-transparent">
-                  Projects
-                </span>
-              </h2>
-              <p className="text-white/70 text-sm max-w-2xl mx-auto">
-                Showcasing AI-powered solutions, enterprise platforms, and scalable architectures
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {featuredProjects.map((project, index) => (
-                <motion.div
-                  key={project.num}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.45 + index * 0.1, duration: 0.3 }}
-                  className="group relative bg-gradient-to-b from-white/5 to-white/[0.02] border border-secondary-default/20 hover:border-secondary-default/40 rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-secondary-default/10"
-                >
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-lg bg-secondary-default/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-secondary-default font-bold text-lg">
-                        #{project.num}
-                      </span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-bold text-white mb-1 line-clamp-2 group-hover:text-secondary-default transition-colors duration-300">
-                        {project.title}
-                      </h3>
-                      <p className="text-xs text-white/60">{project.category}</p>
-                    </div>
-                  </div>
-
-                  <p className="text-white/70 text-sm mb-4 line-clamp-3">
-                    {project.shortDescription}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.stacks.slice(0, 3).map((tech, i) => (
-                      <span
-                        key={i}
-                        className="text-xs px-2 py-1 bg-secondary-default/10 text-secondary-default border border-secondary-default/30 rounded"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.stacks.length > 3 && (
-                      <span className="text-xs px-2 py-1 text-white/60">
-                        +{project.stacks.length - 3} more
-                      </span>
-                    )}
-                  </div>
-
-                  {project.isActive && (
-                    <div className="absolute top-4 right-4">
-                      <span className="bg-green-500/20 text-green-300 text-xs px-2 py-1 rounded border border-green-500/30">
-                        Active
-                      </span>
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.3 }}
-              className="text-center mt-8"
-            >
-              <Link href="/projects">
-                <Button
-                  size="lg"
-                  className="bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default px-8 py-3 rounded transition-all duration-300 hover:scale-105"
-                >
-                  View All Projects
-                </Button>
-              </Link>
-            </motion.div>
-          </motion.div>
-        )}
              </div>
      </section>
    </>
