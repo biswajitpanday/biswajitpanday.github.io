@@ -2,6 +2,40 @@
 
 import React from "react";
 
+/**
+ * Large decorative badge component for page headers and visual indicators
+ *
+ * @component Badge
+ *
+ * @description
+ * This is the PRIMARY badge component for display purposes. Use this for:
+ * - Role badges on homepage (e.g., "Senior .NET Architect")
+ * - Category labels on project/skill cards
+ * - Feature highlights and visual indicators
+ * - Any badge that needs to be prominent and decorative
+ *
+ * DO NOT use for:
+ * - Filter tags (use @/components/ui/badge instead - smaller, clickable)
+ * - Interactive toggles (use @/components/ui/badge with variants)
+ *
+ * @example
+ * ```tsx
+ * <Badge
+ *   icon={<FiCode />}
+ *   text="Senior .NET Developer"
+ *   color="default"
+ * />
+ * ```
+ *
+ * @features
+ * - Icon support (left side only)
+ * - 5 color variants: default (cyan), blue, purple, emerald, orange
+ * - Gradient backgrounds with backdrop blur
+ * - Hover effects
+ * - Size: px-4 py-2 (larger, more prominent)
+ * - Rounded-full shape
+ * - Auto-generated test IDs
+ */
 interface BadgeProps {
   icon?: React.ReactNode;
   text: React.ReactNode;

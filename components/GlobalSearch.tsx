@@ -215,14 +215,14 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
             {/* Search Header */}
             <div className="flex items-center gap-4 mb-6">
               <div className="relative flex-1">
-                <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary-default" />
+                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default" />
                 <input
                   type="text"
                   placeholder="Search projects, skills, certifications, pages..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="w-full bg-gray-800/50 border border-secondary-default/20 text-white placeholder:text-white/40 pl-12 pr-4 py-3 rounded focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
+                  className="w-full bg-gray-800/50 border border-secondary-default/20 text-white placeholder:text-white/40 pl-10 pr-4 py-3 rounded focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
                   autoFocus
                 />
               </div>
