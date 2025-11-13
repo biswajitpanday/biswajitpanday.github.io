@@ -8,7 +8,7 @@ const Photo = () => {
       <div className="animate-fade-in">
         <div className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] mix-blend-lighten absolute">
           <Image
-            src="/assets/profile/webp/profile-large.webp"
+            src="/assets/photo.webp"
             priority
             quality={90}
             fill
