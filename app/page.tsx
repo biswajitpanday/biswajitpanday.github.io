@@ -65,7 +65,7 @@ const Home = () => {
       />
       <section
         data-testid="home-page"
-        className="min-h-[calc(100vh-136px)] flex flex-col justify-center relative overflow-hidden py-8 xl:py-0"
+        className="min-h-[calc(100vh-136px)] flex flex-col justify-center relative overflow-hidden py-8 xl:py-0 pb-12 xl:pb-16"
       >
       {/* Enhanced Background Elements */}
       <BackgroundElements

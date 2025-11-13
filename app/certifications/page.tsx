@@ -37,6 +37,10 @@ const Certifications = () => {
   const [filteredCertifications, setFilteredCertifications] = useState(certifications.filter(cert => !cert.isUpcoming));
   const [filteredByCategory, setFilteredByCategory] = useState<Certification[]>([]);
   const [activeTab, setActiveTab] = useState("all");
+  const [showAllCertifications, setShowAllCertifications] = useState(false);
+
+  // Define initial display limit (show important certifications first)
+  const INITIAL_DISPLAY_COUNT = 12;
   
   // Stats data
   const statsData: StatCard[] = [
@@ -89,19 +93,68 @@ const Certifications = () => {
     setFilteredCertifications(filtered.filter(cert => !cert.isUpcoming));
   };
   
+  // Get important certifications for initial display
+  const getImportantCertifications = (certs: Certification[]): Certification[] => {
+    // Sort by date (most recent first) and return the first N certifications
+    const sortedByDate = [...certs].sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
+
+    // Prioritize Professional certifications and recent courses
+    const professional = sortedByDate.filter(cert => cert.category === "Professional");
+    const courses = sortedByDate.filter(cert => cert.category === "Course");
+
+    // Combine: all professional + top courses to reach INITIAL_DISPLAY_COUNT
+    const important = [...professional];
+    const remainingSlots = INITIAL_DISPLAY_COUNT - professional.length;
+
+    if (remainingSlots > 0) {
+      important.push(...courses.slice(0, remainingSlots));
+    }
+
+    return important;
+  };
+
   // Get the final filtered list based on both category and search/filter
   const getDisplayedCertifications = () => {
+    let baseCertifications: Certification[] = [];
+
     if (activeTab === "all") {
-      return filteredCertifications;
+      baseCertifications = filteredCertifications;
+    } else {
+      // Intersection of category filter and search/other filters
+      baseCertifications = filteredCertifications.filter(cert =>
+        filteredByCategory.some(c => c.id === cert.id)
+      );
     }
-    
-    // Intersection of category filter and search/other filters
-    return filteredCertifications.filter(cert => 
-      filteredByCategory.some(c => c.id === cert.id)
-    );
+
+    // Apply show more/less logic only if no search/filter is active
+    // (filteredCertifications equals all certifications means no filter applied)
+    const allCerts = certifications.filter(cert => !cert.isUpcoming);
+    const isFilterActive = filteredCertifications.length !== allCerts.length;
+
+    if (!showAllCertifications && !isFilterActive) {
+      const importantCerts = getImportantCertifications(baseCertifications);
+      return baseCertifications.filter(cert =>
+        importantCerts.some(ic => ic.id === cert.id)
+      );
+    }
+
+    return baseCertifications;
   };
-  
+
   const displayedCertifications = getDisplayedCertifications();
+
+  // Check if "Show More" button should be displayed
+  const allCerts = certifications.filter(cert => !cert.isUpcoming);
+  const isFilterActive = filteredCertifications.length !== allCerts.length;
+  const shouldShowMoreButton = !isFilterActive && (
+    (activeTab === "all" && allCerts.length > INITIAL_DISPLAY_COUNT) ||
+    (activeTab === "professional" && professionalCerts.filter(cert => !cert.isUpcoming).length > INITIAL_DISPLAY_COUNT) ||
+    (activeTab === "courses" && courseCerts.length > INITIAL_DISPLAY_COUNT)
+  );
   
   return (
     <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-8">
@@ -207,19 +260,37 @@ const Certifications = () => {
           {/* All Certifications */}
           <TabsContent value="all" className="mt-0">
             {displayedCertifications.length > 0 ? (
-              <motion.div
-                variants={PERFORMANCE_VARIANTS.containerSync}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              >
-                {displayedCertifications.map((certification) => (
-                  <CertificationCard
-                    key={certification.id}
-                    certification={certification}
-                  />
-                ))}
-              </motion.div>
+              <>
+                <motion.div
+                  variants={PERFORMANCE_VARIANTS.containerSync}
+                  initial="hidden"
+                  animate="visible"
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                  {displayedCertifications.map((certification) => (
+                    <CertificationCard
+                      key={certification.id}
+                      certification={certification}
+                    />
+                  ))}
+                </motion.div>
+
+                {/* Show More/Less Button */}
+                {shouldShowMoreButton && (
+                  <div className="flex justify-center mt-8">
+                    <button
+                      onClick={() => setShowAllCertifications(!showAllCertifications)}
+                      className="px-6 py-3 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 hover:scale-105 font-medium"
+                    >
+                      {showAllCertifications ? (
+                        <>Show Less Certifications</>
+                      ) : (
+                        <>Show All {allCerts.length} Certifications</>
+                      )}
+                    </button>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-center py-16 bg-white/5 rounded-lg">
                 <FiAward className="text-4xl text-white/40 mx-auto mb-4" />
@@ -234,19 +305,37 @@ const Certifications = () => {
           {/* Professional Certifications */}
           <TabsContent value="professional" className="mt-0">
             {displayedCertifications.length > 0 ? (
-              <motion.div
-                variants={PERFORMANCE_VARIANTS.containerSync}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              >
-                {displayedCertifications.map((certification) => (
-                  <CertificationCard
-                    key={certification.id}
-                    certification={certification}
-                  />
-                ))}
-              </motion.div>
+              <>
+                <motion.div
+                  variants={PERFORMANCE_VARIANTS.containerSync}
+                  initial="hidden"
+                  animate="visible"
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                  {displayedCertifications.map((certification) => (
+                    <CertificationCard
+                      key={certification.id}
+                      certification={certification}
+                    />
+                  ))}
+                </motion.div>
+
+                {/* Show More/Less Button */}
+                {shouldShowMoreButton && activeTab === "professional" && (
+                  <div className="flex justify-center mt-8">
+                    <button
+                      onClick={() => setShowAllCertifications(!showAllCertifications)}
+                      className="px-6 py-3 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 hover:scale-105 font-medium"
+                    >
+                      {showAllCertifications ? (
+                        <>Show Less Certifications</>
+                      ) : (
+                        <>Show All {professionalCerts.filter(cert => !cert.isUpcoming).length} Certifications</>
+                      )}
+                    </button>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-center py-16 bg-white/5 rounded-lg">
                 <FiAward className="text-4xl text-white/40 mx-auto mb-4" />
@@ -261,19 +350,37 @@ const Certifications = () => {
           {/* Course Certifications */}
           <TabsContent value="courses" className="mt-0">
             {displayedCertifications.length > 0 ? (
-              <motion.div
-                variants={PERFORMANCE_VARIANTS.containerSync}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              >
-                {displayedCertifications.map((certification) => (
-                  <CertificationCard
-                    key={certification.id}
-                    certification={certification}
-                  />
-                ))}
-              </motion.div>
+              <>
+                <motion.div
+                  variants={PERFORMANCE_VARIANTS.containerSync}
+                  initial="hidden"
+                  animate="visible"
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                  {displayedCertifications.map((certification) => (
+                    <CertificationCard
+                      key={certification.id}
+                      certification={certification}
+                    />
+                  ))}
+                </motion.div>
+
+                {/* Show More/Less Button */}
+                {shouldShowMoreButton && activeTab === "courses" && (
+                  <div className="flex justify-center mt-8">
+                    <button
+                      onClick={() => setShowAllCertifications(!showAllCertifications)}
+                      className="px-6 py-3 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 hover:scale-105 font-medium"
+                    >
+                      {showAllCertifications ? (
+                        <>Show Less Certifications</>
+                      ) : (
+                        <>Show All {courseCerts.length} Certifications</>
+                      )}
+                    </button>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-center py-16 bg-white/5 rounded-lg">
                 <FiBook className="text-4xl text-white/40 mx-auto mb-4" />
@@ -288,19 +395,37 @@ const Certifications = () => {
           {/* Training Certifications */}
           <TabsContent value="training" className="mt-0">
             {displayedCertifications.length > 0 ? (
-              <motion.div
-                variants={PERFORMANCE_VARIANTS.containerSync}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              >
-                {displayedCertifications.map((certification) => (
-                  <CertificationCard
-                    key={certification.id}
-                    certification={certification}
-                  />
-                ))}
-              </motion.div>
+              <>
+                <motion.div
+                  variants={PERFORMANCE_VARIANTS.containerSync}
+                  initial="hidden"
+                  animate="visible"
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                  {displayedCertifications.map((certification) => (
+                    <CertificationCard
+                      key={certification.id}
+                      certification={certification}
+                    />
+                  ))}
+                </motion.div>
+
+                {/* Show More/Less Button */}
+                {shouldShowMoreButton && activeTab === "training" && trainingCerts.length > INITIAL_DISPLAY_COUNT && (
+                  <div className="flex justify-center mt-8">
+                    <button
+                      onClick={() => setShowAllCertifications(!showAllCertifications)}
+                      className="px-6 py-3 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 hover:scale-105 font-medium"
+                    >
+                      {showAllCertifications ? (
+                        <>Show Less Certifications</>
+                      ) : (
+                        <>Show All {trainingCerts.length} Certifications</>
+                      )}
+                    </button>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-center py-16 bg-white/5 rounded-lg">
                 <FiSlack className="text-4xl text-white/40 mx-auto mb-4" />

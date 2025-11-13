@@ -238,9 +238,9 @@ const Contact = () => {
   };
 
   return (
-    <section 
+    <section
       data-testid="contact-page"
-      className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden"
+      className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-8 pb-12 xl:pb-16"
     >
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary-default/5 pointer-events-none" />

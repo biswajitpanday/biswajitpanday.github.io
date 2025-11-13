@@ -79,19 +79,27 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Status Overlay */}
         <div className="absolute top-2 right-2">
           {project.isActive ? (
-            <span 
+            <span
               data-testid={`project-status-active-${project.num}`}
               className="bg-green-500/90 text-white text-xs px-2 py-1 rounded backdrop-blur-sm"
             >
               Active
             </span>
           ) : (
-            <span 
-              data-testid={`project-status-inactive-${project.num}`}
-              className="bg-red-500/90 text-white text-xs px-2 py-1 rounded backdrop-blur-sm"
-            >
-              No Longer Active
-            </span>
+            <div className="group/status relative">
+              <span
+                data-testid={`project-status-inactive-${project.num}`}
+                className="bg-red-500/90 text-white text-xs px-2 py-1 rounded backdrop-blur-sm cursor-help"
+                title={project.inactivationReason || "This project is no longer active"}
+              >
+                No Longer Active
+              </span>
+              {project.inactivationReason && (
+                <div className="absolute top-full right-0 mt-2 w-64 p-2 bg-gray-900/95 text-white text-xs rounded shadow-lg opacity-0 invisible group-hover/status:opacity-100 group-hover/status:visible transition-all duration-200 z-10 backdrop-blur-sm">
+                  {project.inactivationReason}
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>

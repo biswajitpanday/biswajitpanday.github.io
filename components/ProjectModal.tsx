@@ -92,7 +92,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             </div>
 
             {/* Modal Content */}
-            <div className="overflow-y-auto max-h-[calc(90vh-80px)] scrollbar-thin scrollbar-thumb-secondary-default/30 scrollbar-track-gray-800/30">
+            <div className="overflow-y-auto max-h-[calc(90vh-80px)] custom-scrollbar">
               <div className="p-6">
                 {/* Project Image */}
                 <div className="relative overflow-hidden rounded-lg mb-6 bg-gray-800/50 border border-secondary-default/10">
