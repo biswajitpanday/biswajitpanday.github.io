@@ -9,8 +9,8 @@ export const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Biswajit Panday",
-  jobTitle: "Full-Stack .NET Developer",
-  description: "Professional Full-Stack .NET Developer with 10+ years of experience specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS.",
+  jobTitle: "Senior .NET Architect & AI Solutions Engineer",
+  description: "Senior full-stack developer with 10+ years of experience specializing in .NET, React, and cloud solutions. Built scalable enterprise applications and developed IntelliMerge, an AI tool that achieved 80-90% efficiency gains for development teams.",
   url: baseUrl,
   sameAs: [
     "https://github.com/biswajitpanday",
@@ -27,11 +27,14 @@ export const personSchema = {
   telephone: "+880 1681642502",
   knowsAbout: [
     ".NET Development",
-    "React Development", 
+    "Enterprise Architecture",
+    "AI Integration",
+    "Microservices Architecture",
+    "Cloud Migration",
     "Azure Cloud",
     "AWS Cloud",
     "DevOps",
-    "Full-Stack Development"
+    "System Modernization"
   ]
 };
 

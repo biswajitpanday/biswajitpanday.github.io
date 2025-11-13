@@ -56,9 +56,9 @@ const Home = () => {
 
   return (
     <>
-      <SocialPreviewGenerator 
-        title="Biswajit Panday - Full-Stack .NET Developer & Cloud Solutions Expert"
-        description="Expert Full-Stack .NET Developer with 10+ years experience. Specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS. Microsoft Certified."
+      <SocialPreviewGenerator
+        title="Biswajit Panday - Senior .NET Architect & AI Solutions Engineer"
+        description="Senior full-stack developer with 10+ years specializing in .NET, React, and cloud solutions. Built IntelliMerge, an AI tool achieving 80-90% efficiency gains for development teams at Optimizely. Microsoft Certified."
         image="https://biswajitpanday.github.io/assets/profile/profile-large.webp"
         url="https://biswajitpanday.github.io"
         type="website"
@@ -122,7 +122,7 @@ const Home = () => {
                 }
                 text={
                   <span className="flex items-center gap-2">
-                    AI-Powered Full-Stack & .NET Developer
+                    Senior .NET Architect & AI Solutions Engineer
                     <Suspense fallback={<IconFallback />}>
                       <FiZap className="text-lg animate-pulse" />
                     </Suspense>
@@ -154,19 +154,22 @@ const Home = () => {
               transition={{ delay: 0.15, duration: 0.3 }}
               className="text-lg xl:text-xl mb-8 text-white/80 leading-relaxed max-w-[600px] mx-auto xl:mx-0"
             >
-              Crafting{" "}
+              Senior full-stack developer specializing in{" "}
               <span className="text-secondary-default font-semibold">
-                high-performance
-              </span>
-              ,{" "}
-              <span className="text-secondary-default font-semibold">
-                scalable applications
+                .NET, React, and cloud solutions
               </span>{" "}
-              with .NET, React & DevOps while integrating {" "}
+              with 10+ years of experience. I build{" "}
+              <span className="text-secondary-default font-semibold">
+                scalable enterprise applications
+              </span>{" "}
+              and integrate modern technologies—recently developed{" "}
               <span className="text-emerald-300 font-semibold">
-                AI solutions
+                IntelliMerge
+              </span>, an AI tool that reduced merge effort by{" "}
+              <span className="text-emerald-300 font-semibold">
+                80-90%
               </span>{" "}
-              and optimizing cloud solutions on Azure & AWS.
+              for development teams at Optimizely.
             </motion.p>
 
             {/* Tech Stack Highlights */}
@@ -249,7 +252,7 @@ const Home = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-6 mb-8"
+              className="flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-6 mb-2"
             >
               <a
                 href="/assets/Biswajit_Panday_Resume.pdf"
@@ -314,7 +317,7 @@ const Home = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.4 }}
-          className="mt-12 xl:mt-12"
+          className="mt-4 xl:mt-6"
         >
           <Suspense fallback={<ComponentFallback className="w-full h-32" />}>
             <Stats />
