@@ -29,7 +29,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({
   ];
 
   return (
-    <div className={`flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 mb-8 animate-fade-in ${className}`}>
+    <div className={`flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 animate-fade-in ${className}`}>
       {stats.map((stat, index) => {
         const IconComponent = stat.icon;
         const gradient = stat.gradient || defaultGradients[index % defaultGradients.length];
