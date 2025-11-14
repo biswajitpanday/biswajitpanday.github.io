@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import { useState } from "react";
 import FormSection from "@/components/FormSection";
-import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 // Lazy load icons only (not hooks/utilities)
 const FaEnvelope = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaEnvelope })));
@@ -250,12 +249,6 @@ const Contact = () => {
       <div className="absolute top-1/3 left-8 w-1.5 h-1.5 bg-secondary-default rounded-full animate-bounce opacity-50" />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Breadcrumb Navigation */}
-        <BreadcrumbSchema
-          items={[{ name: 'Contact', url: '/contact' }]}
-          showVisual={true}
-        />
-
         <motion.div
           data-testid="contact-header"
           variants={PERFORMANCE_VARIANTS.containerSync}

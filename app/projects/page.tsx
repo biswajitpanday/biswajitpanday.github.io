@@ -18,7 +18,6 @@ import ProjectCard from "@/components/ProjectCard";
 import ProjectsFilter from "@/components/ProjectsFilter";
 import Badge from "@/components/Badge";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import type { Project } from "@/data/portfolioData";
 
@@ -88,12 +87,6 @@ const Projects = () => {
       />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Breadcrumb Navigation */}
-        <BreadcrumbSchema
-          items={[{ name: 'Projects', url: '/projects' }]}
-          showVisual={true}
-        />
-
         {/* Enhanced Projects Header - Using SectionHeader Component */}
         <SectionHeader
           title="My"
