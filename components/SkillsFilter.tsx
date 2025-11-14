@@ -51,8 +51,8 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
   
   // Extract categories and technologies
   const categories = [
-    ...skills1.children.map(c => c.name),
-    ...skills2.children.map(c => c.name)
+    ...(skills1.children?.map(c => c.name) || []),
+    ...(skills2.children?.map(c => c.name) || [])
   ].sort();
   
   // Extract all individual skills/technologies

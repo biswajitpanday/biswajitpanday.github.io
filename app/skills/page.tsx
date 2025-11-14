@@ -114,7 +114,7 @@ const Skills = () => {
   
   // Calculate totals
   const totalTechnologies = countAllTechnologies();
-  const totalCategories = skills1.children.length + skills2.children.length; // Count actual main categories from both trees
+  const totalCategories = (skills1.children?.length || 0) + (skills2.children?.length || 0); // Count actual main categories from both trees
   const filteredCount = data1.length + data2.length - 2; // Subtract root nodes
 
   // Stats data for StatsCards component

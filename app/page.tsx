@@ -1,7 +1,6 @@
 "use client";
 import { lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 import { motion } from "framer-motion";
 import { getMostRecentCertification } from "@/data/certificationsData";

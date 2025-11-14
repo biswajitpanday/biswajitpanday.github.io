@@ -9,7 +9,7 @@ interface SkillNode {
   children?: SkillNode[];
 }
 
-export const skills1 = {
+export const skills1: SkillNode = {
   name: "Skills",
   children: [
     {
@@ -81,7 +81,7 @@ export const skills1 = {
   ],
 };
 
-export const skills2 = {
+export const skills2: SkillNode = {
   name: "Skills",
   children: [
     {
@@ -182,13 +182,13 @@ export const countAllTechnologies = () => {
   };
 
   // Count technologies from both skill trees
-  const skills1Count = skills1.children.reduce((total, category) => {
+  const skills1Count = skills1.children?.reduce((total, category) => {
     return total + countSkillsRecursively(category);
-  }, 0);
+  }, 0) || 0;
 
-  const skills2Count = skills2.children.reduce((total, category) => {
+  const skills2Count = skills2.children?.reduce((total, category) => {
     return total + countSkillsRecursively(category);
-  }, 0);
+  }, 0) || 0;
 
   return skills1Count + skills2Count;
 }; 

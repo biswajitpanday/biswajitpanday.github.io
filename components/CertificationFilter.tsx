@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { FiFilter, FiChevronDown, FiSearch, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
@@ -35,42 +35,42 @@ const CertificationFilter: React.FC<CertificationFilterProps> = ({
   )).sort((a, b) => parseInt(b) - parseInt(a)); // Sort years in descending order
   
   // Apply filters
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = [...certifications];
-    
+
     // Apply search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(cert => 
-        cert.name.toLowerCase().includes(query) || 
+      filtered = filtered.filter(cert =>
+        cert.name.toLowerCase().includes(query) ||
         cert.description?.toLowerCase().includes(query) ||
         cert.issuer.toLowerCase().includes(query) ||
         (cert.skills && cert.skills.some(skill => skill.toLowerCase().includes(query)))
       );
     }
-    
+
     // Apply issuer filter
     if (selectedIssuer) {
       filtered = filtered.filter(cert => cert.issuer === selectedIssuer);
     }
-    
+
     // Apply skill filter
     if (selectedSkill) {
-      filtered = filtered.filter(cert => 
+      filtered = filtered.filter(cert =>
         cert.skills && cert.skills.includes(selectedSkill)
       );
     }
-    
+
     // Apply year filter
     if (selectedYear) {
-      filtered = filtered.filter(cert => 
+      filtered = filtered.filter(cert =>
         new Date(cert.date).getFullYear().toString() === selectedYear
       );
     }
-    
+
     // Pass filtered results to parent
     onFilterChange(filtered);
-  };
+  }, [certifications, searchQuery, selectedIssuer, selectedSkill, selectedYear, onFilterChange]);
   
   // Reset all filters
   const resetFilters = () => {
@@ -97,7 +97,7 @@ const CertificationFilter: React.FC<CertificationFilterProps> = ({
   // Apply filters when any filter changes
   React.useEffect(() => {
     applyFilters();
-  }, [searchQuery, selectedIssuer, selectedSkill, selectedYear]);
+  }, [applyFilters]);
   
   return (
     <motion.div 

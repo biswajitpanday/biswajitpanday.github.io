@@ -69,8 +69,8 @@ const prepareSearchableData = (): SearchResult[] => {
     }
   };
 
-  skills1.children.forEach((category) => addSkillsRecursively(category));
-  skills2.children.forEach((category) => addSkillsRecursively(category));
+  skills1.children?.forEach((category) => addSkillsRecursively(category));
+  skills2.children?.forEach((category) => addSkillsRecursively(category));
 
   // Add pages
   const pages = [
