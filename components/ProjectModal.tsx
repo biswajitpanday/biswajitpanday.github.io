@@ -77,11 +77,11 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-xl border border-secondary-default/30 rounded-2xl w-full max-w-5xl max-h-[calc(100vh-160px)] overflow-hidden shadow-2xl shadow-secondary-default/20"
+            className="bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-xl border border-secondary-default/30 rounded-2xl w-full max-w-5xl max-h-[calc(100vh-160px)] overflow-hidden shadow-2xl shadow-secondary-default/20 flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Enhanced Modal Header */}
-            <div className="relative p-6 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/10 via-transparent to-secondary-default/10">
+            <div className="relative p-6 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/10 via-transparent to-secondary-default/10 flex-shrink-0">
               {/* Project Number Badge */}
               <div className="absolute top-4 left-4">
                 <div className="flex items-center gap-2 bg-secondary-default/20 backdrop-blur-sm border border-secondary-default/40 rounded-full px-3 py-1">
@@ -145,8 +145,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             </div>
 
             {/* Modal Content */}
-            <div className="overflow-y-auto max-h-[calc(100vh-300px)] custom-scrollbar">
-              <div className="p-6 pb-8">
+            <div className="overflow-y-auto flex-1 custom-scrollbar">
+              <div className="p-6 pb-6">
                 {/* Project Image - Enhanced */}
                 <div className="relative overflow-hidden rounded-xl mb-8 bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-secondary-default/20 shadow-lg">
                   <div className="relative w-full h-64 md:h-80 lg:h-96">
@@ -201,13 +201,13 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       </div>
 
                       {/* Key Technologies */}
-                      <div className="mb-4">
+                      <div className="mb-6">
                         <p className="text-white/60 text-sm mb-3 font-medium">Key Technologies</p>
                         <div className="flex flex-wrap gap-2">
                           {keyTechnologies.map((tech, index) => (
                             <span
                               key={index}
-                              className="bg-gradient-to-r from-secondary-default/20 to-blue-500/20 text-secondary-default border border-secondary-default/40 px-4 py-2 rounded-lg text-sm font-medium hover:from-secondary-default/30 hover:to-blue-500/30 hover:scale-105 transition-all duration-200 shadow-sm"
+                              className="bg-gradient-to-r from-secondary-default/20 to-blue-500/20 text-secondary-default border border-secondary-default/40 px-4 py-2 rounded-lg text-sm font-medium hover:from-secondary-default/30 hover:to-blue-500/30 hover:scale-105 transition-all duration-200 shadow-sm whitespace-nowrap"
                             >
                               {tech}
                             </span>
@@ -219,11 +219,11 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       {otherTechnologies.length > 0 && (
                         <div>
                           <p className="text-white/60 text-sm mb-3 font-medium">Additional Technologies</p>
-                          <div className="flex flex-wrap gap-2">
+                          <div className="flex flex-wrap gap-2 max-h-[200px] overflow-y-auto custom-scrollbar pr-2">
                             {otherTechnologies.map((tech, index) => (
                               <span
                                 key={index}
-                                className="bg-white/5 text-white/80 border border-white/20 px-3 py-1.5 rounded-lg text-sm hover:bg-white/10 hover:border-white/30 transition-all duration-200"
+                                className="bg-white/5 text-white/80 border border-white/20 px-3 py-1.5 rounded-lg text-sm hover:bg-white/10 hover:border-white/30 transition-all duration-200 whitespace-nowrap"
                               >
                                 {tech}
                               </span>
