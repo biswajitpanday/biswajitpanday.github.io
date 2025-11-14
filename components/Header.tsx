@@ -103,14 +103,15 @@ export default function Header() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex items-center justify-between h-16 md:h-20">
               {/* Logo */}
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 data-testid="header-logo"
                 className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+                aria-label="Home"
               >
-                <h1 className="text-2xl font-semibold">
+                <div className="text-2xl font-semibold">
                   Panday<span className="text-secondary-default">.</span>
-                </h1>
+                </div>
               </Link>
 
               {/* Desktop Navigation */}

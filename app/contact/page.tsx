@@ -376,10 +376,10 @@ const Contact = () => {
                 variants={PERFORMANCE_VARIANTS.fadeInFast}
                 className="mb-6"
               >
-                <h3 className="text-3xl xl:text-4xl font-bold text-white mb-4">
+                <h1 className="text-3xl xl:text-4xl font-bold text-white mb-4">
                   Let&apos;s work{" "}
                   <span className="text-secondary-default">together</span>
-                </h3>
+                </h1>
                 <p className="text-white/70 leading-relaxed">
                   Ready to bring your vision to life? Tell me about your project and let&apos;s create something extraordinary together.
                 </p>
