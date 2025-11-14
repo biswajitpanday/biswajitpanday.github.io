@@ -85,7 +85,16 @@ export default function Header() {
 
   return (
     <>
-      <header 
+      {/* Skip Navigation Link - WCAG 2.1 Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-6 focus:py-3 focus:bg-secondary-default focus:text-primary focus:rounded-lg focus:outline-none focus:ring-4 focus:ring-secondary-default/50 focus:shadow-lg focus:font-semibold focus:transition-all focus:duration-200"
+        data-testid="skip-to-content"
+      >
+        Skip to main content
+      </a>
+
+      <header
         data-testid="main-header"
         className="fixed top-0 left-0 w-full transition-all duration-300 backdrop-blur-md z-[var(--z-header)]"
         style={{ zIndex: 'var(--z-header)' }}
