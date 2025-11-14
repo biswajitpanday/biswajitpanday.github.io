@@ -36,7 +36,7 @@ const Certifications = () => {
   // State for filtered certifications
   const [filteredCertifications, setFilteredCertifications] = useState(certifications.filter(cert => !cert.isUpcoming));
   const [filteredByCategory, setFilteredByCategory] = useState<Certification[]>([]);
-  const [activeTab, setActiveTab] = useState("all");
+  const [activeTab, setActiveTab] = useState<"all" | "professional" | "courses" | "training">("all");
   const [showAllCertifications, setShowAllCertifications] = useState(false);
 
   // Define initial display limit (show important certifications first)
@@ -66,7 +66,7 @@ const Certifications = () => {
   
   // Handle tab change
   const handleTabChange = (value: string) => {
-    setActiveTab(value);
+    setActiveTab(value as "all" | "professional" | "courses" | "training");
     
     // Update filtered results based on category
     let filtered: Certification[] = [];
@@ -153,7 +153,8 @@ const Certifications = () => {
   const shouldShowMoreButton = !isFilterActive && (
     (activeTab === "all" && allCerts.length > INITIAL_DISPLAY_COUNT) ||
     (activeTab === "professional" && professionalCerts.filter(cert => !cert.isUpcoming).length > INITIAL_DISPLAY_COUNT) ||
-    (activeTab === "courses" && courseCerts.length > INITIAL_DISPLAY_COUNT)
+    (activeTab === "courses" && courseCerts.length > INITIAL_DISPLAY_COUNT) ||
+    (activeTab === "training" && trainingCerts.length > INITIAL_DISPLAY_COUNT)
   );
   
   return (
@@ -411,7 +412,7 @@ const Certifications = () => {
                 </motion.div>
 
                 {/* Show More/Less Button */}
-                {shouldShowMoreButton && activeTab === "training" && trainingCerts.length > INITIAL_DISPLAY_COUNT && (
+                {shouldShowMoreButton && activeTab === "training" && (
                   <div className="flex justify-center mt-8">
                     <button
                       onClick={() => setShowAllCertifications(!showAllCertifications)}
