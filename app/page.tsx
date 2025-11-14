@@ -93,7 +93,7 @@ const Home = () => {
               data-testid="home-role-badge"
               initial={isMounted ? { opacity: 0, y: -20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0, duration: 0.3 }}
+              transition={{ delay: isMounted ? 0.05 : 0, duration: 0.3 }}
               className="mb-6"
             >
               <Badge
@@ -113,7 +113,7 @@ const Home = () => {
               data-testid="home-main-heading"
               initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0, duration: 0.3 }}
+              transition={{ delay: isMounted ? 0.1 : 0, duration: 0.3 }}
               className="text-3xl xl:text-4xl font-bold mb-6 leading-tight"
             >
               Hi, I&apos;m <br className="hidden xl:block" />
@@ -127,7 +127,7 @@ const Home = () => {
               data-testid="home-description"
               initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0, duration: 0.3 }}
+              transition={{ delay: isMounted ? 0.15 : 0, duration: 0.3 }}
               className="text-base xl:text-lg mb-8 text-white/80 leading-relaxed max-w-[600px] mx-auto xl:mx-0"
             >
               Senior full-stack developer specializing in{" "}
@@ -153,7 +153,7 @@ const Home = () => {
               data-testid="home-tech-stack"
               initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0, duration: 0.3 }}
+              transition={{ delay: isMounted ? 0.2 : 0, duration: 0.3 }}
               className="flex flex-wrap justify-center xl:justify-start gap-3 mb-8"
             >
               <Badge
@@ -184,7 +184,7 @@ const Home = () => {
                 data-testid="home-featured-certification"
                 initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0, duration: 0.3 }}
+                transition={{ delay: isMounted ? 0.25 : 0, duration: 0.3 }}
                 className="mb-6"
               >
                 <FeaturedCertificationCard
@@ -201,7 +201,7 @@ const Home = () => {
               data-testid="home-action-buttons"
               initial={isMounted ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0, duration: 0.3 }}
+              transition={{ delay: isMounted ? 0.3 : 0, duration: 0.3 }}
               className="flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-6 mb-2"
             >
               <a
@@ -245,7 +245,7 @@ const Home = () => {
             data-testid="home-photo-section"
             initial={isMounted ? { opacity: 0, x: 50 } : { opacity: 1, x: 0 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0, duration: 0.4 }}
+            transition={{ delay: isMounted ? 0.1 : 0, duration: 0.4 }}
             className="order-1 xl:order-none relative"
           >
             <div className="relative">
@@ -264,7 +264,7 @@ const Home = () => {
           data-testid="home-stats-section"
           initial={isMounted ? { opacity: 0, y: 50 } : { opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0, duration: 0.4 }}
+          transition={{ delay: isMounted ? 0.35 : 0, duration: 0.4 }}
           className="mt-4 xl:mt-6"
         >
           <Suspense fallback={<ComponentFallback className="w-full h-32" />}>
