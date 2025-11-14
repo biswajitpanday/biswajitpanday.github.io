@@ -1,5 +1,5 @@
 "use client";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 import { motion } from "framer-motion";
@@ -10,41 +10,16 @@ import Badge from "@/components/Badge";
 import Photo from "@/components/Photo";
 import SocialPreviewGenerator from "@/components/SocialPreviewGenerator";
 
-// Lazy load non-critical components
+// Import critical above-the-fold icons directly (no lazy loading)
+import { FiDownload, FiCode, FiCloud, FiZap } from "react-icons/fi";
+import { SiReact, SiDotnet } from "react-icons/si";
+import { RiRobot3Fill } from "react-icons/ri";
+
+// Lazy load only non-critical below-the-fold components
 const Socials = lazy(() => import("@/components/Socials"));
 const Stats = lazy(() => import("@/components/Stats"));
 
-// Optimize icon imports - only import what we need
-const FiDownload = lazy(() =>
-  import("react-icons/fi").then((mod) => ({ default: mod.FiDownload }))
-);
-const FiCode = lazy(() =>
-  import("react-icons/fi").then((mod) => ({ default: mod.FiCode }))
-);
-const FiCloud = lazy(() =>
-  import("react-icons/fi").then((mod) => ({ default: mod.FiCloud }))
-);
-const FiZap = lazy(() =>
-  import("react-icons/fi").then((mod) => ({ default: mod.FiZap }))
-);
-
-const SiReact = lazy(() =>
-  import("react-icons/si").then((mod) => ({ default: mod.SiReact }))
-);
-const SiDotnet = lazy(() =>
-  import("react-icons/si").then((mod) => ({ default: mod.SiDotnet }))
-);
-const RiRobot3Fill = lazy(() =>
-  import("react-icons/ri").then((mod) => ({ default: mod.RiRobot3Fill }))
-);
-
 // Loading fallback components
-const IconFallback = ({ className }: { className?: string }) => (
-  <div
-    className={`w-4 h-4 bg-secondary-default/30 rounded animate-pulse ${className}`}
-  />
-);
-
 const ComponentFallback = ({ className }: { className?: string }) => (
   <div
     className={`bg-gradient-to-br from-[#27272c]/50 to-[#2a2a30]/50 rounded animate-pulse ${className}`}
@@ -53,6 +28,13 @@ const ComponentFallback = ({ className }: { className?: string }) => (
 
 const Home = () => {
   const featuredCertification = getMostRecentCertification();
+
+  // Track if component is mounted (client-side) for conditional animations
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <>
@@ -101,7 +83,7 @@ const Home = () => {
           {/* Content Section */}
           <motion.div
             data-testid="home-content"
-            initial={{ opacity: 0, x: -50 }}
+            initial={isMounted ? { opacity: 0, x: -50 } : { opacity: 1, x: 0 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="text-center xl:text-left order-2 xl:order-none max-w-2xl"
@@ -109,23 +91,17 @@ const Home = () => {
             {/* Role Badge */}
             <motion.div
               data-testid="home-role-badge"
-              initial={{ opacity: 0, y: -20 }}
+              initial={isMounted ? { opacity: 0, y: -20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.05, duration: 0.3 }}
+              transition={{ delay: 0, duration: 0.3 }}
               className="mb-6"
             >
               <Badge
-                icon={
-                  <Suspense fallback={<IconFallback />}>
-                    <FiCode className="text-lg" />
-                  </Suspense>
-                }
+                icon={<FiCode className="text-lg" />}
                 text={
                   <span className="flex items-center gap-2">
                     Senior .NET Architect & AI Solutions Engineer
-                    <Suspense fallback={<IconFallback />}>
-                      <FiZap className="text-lg animate-pulse" />
-                    </Suspense>
+                    <FiZap className="text-lg animate-pulse" />
                   </span>
                 }
                 color="default"
@@ -135,9 +111,9 @@ const Home = () => {
             {/* Main Heading */}
             <motion.h1
               data-testid="home-main-heading"
-              initial={{ opacity: 0, y: 20 }}
+              initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.3 }}
+              transition={{ delay: 0, duration: 0.3 }}
               className="text-3xl xl:text-4xl font-bold mb-6 leading-tight"
             >
               Hi, I&apos;m <br className="hidden xl:block" />
@@ -149,9 +125,9 @@ const Home = () => {
             {/* Description */}
             <motion.p
               data-testid="home-description"
-              initial={{ opacity: 0, y: 20 }}
+              initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15, duration: 0.3 }}
+              transition={{ delay: 0, duration: 0.3 }}
               className="text-base xl:text-lg mb-8 text-white/80 leading-relaxed max-w-[600px] mx-auto xl:mx-0"
             >
               Senior full-stack developer specializing in{" "}
@@ -175,54 +151,28 @@ const Home = () => {
             {/* Tech Stack Highlights */}
             <motion.div
               data-testid="home-tech-stack"
-              initial={{ opacity: 0, y: 20 }}
+              initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.3 }}
+              transition={{ delay: 0, duration: 0.3 }}
               className="flex flex-wrap justify-center xl:justify-start gap-3 mb-8"
             >
               <Badge
-                icon={
-                  <Suspense
-                    fallback={
-                      <IconFallback className="text-secondary-default" />
-                    }
-                  >
-                    <SiDotnet className="text-secondary-default" />
-                  </Suspense>
-                }
+                icon={<SiDotnet className="text-secondary-default" />}
                 text=".NET"
                 color="default"
               />
               <Badge
-                icon={
-                  <Suspense
-                    fallback={<IconFallback className="text-blue-300" />}
-                  >
-                    <SiReact className="text-blue-300" />
-                  </Suspense>
-                }
+                icon={<SiReact className="text-blue-300" />}
                 text="React"
                 color="blue"
               />
               <Badge
-                icon={
-                  <Suspense
-                    fallback={<IconFallback className="text-purple-300" />}
-                  >
-                    <FiCloud className="text-purple-300" />
-                  </Suspense>
-                }
+                icon={<FiCloud className="text-purple-300" />}
                 text="DevOps"
                 color="purple"
               />
               <Badge
-                icon={
-                  <Suspense
-                    fallback={<IconFallback className="text-emerald-300" />}
-                  >
-                    <RiRobot3Fill className="text-emerald-300" />
-                  </Suspense>
-                }
+                icon={<RiRobot3Fill className="text-emerald-300" />}
                 text="AI Integration"
                 color="emerald"
               />
@@ -232,9 +182,9 @@ const Home = () => {
             {featuredCertification && (
               <motion.div
                 data-testid="home-featured-certification"
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25, duration: 0.3 }}
+                transition={{ delay: 0, duration: 0.3 }}
                 className="mb-6"
               >
                 <FeaturedCertificationCard
@@ -249,9 +199,9 @@ const Home = () => {
             {/* Action Buttons */}
             <motion.div
               data-testid="home-action-buttons"
-              initial={{ opacity: 0, y: 30 }}
+              initial={isMounted ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.3 }}
+              transition={{ delay: 0, duration: 0.3 }}
               className="flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-6 mb-2"
             >
               <a
@@ -268,9 +218,7 @@ const Home = () => {
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     <span>Download Resume</span>
-                    <Suspense fallback={<IconFallback />}>
-                      <FiDownload className="text-lg group-hover:animate-bounce" />
-                    </Suspense>
+                    <FiDownload className="text-lg group-hover:animate-bounce" />
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-secondary-default opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Button>
@@ -295,9 +243,9 @@ const Home = () => {
           {/* Photo Section */}
           <motion.div
             data-testid="home-photo-section"
-            initial={{ opacity: 0, x: 50 }}
+            initial={isMounted ? { opacity: 0, x: 50 } : { opacity: 1, x: 0 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1, duration: 0.4 }}
+            transition={{ delay: 0, duration: 0.4 }}
             className="order-1 xl:order-none relative"
           >
             <div className="relative">
@@ -314,9 +262,9 @@ const Home = () => {
         {/* Stats Section */}
         <motion.div
           data-testid="home-stats-section"
-          initial={{ opacity: 0, y: 50 }}
+          initial={isMounted ? { opacity: 0, y: 50 } : { opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.4 }}
+          transition={{ delay: 0, duration: 0.4 }}
           className="mt-4 xl:mt-6"
         >
           <Suspense fallback={<ComponentFallback className="w-full h-32" />}>
