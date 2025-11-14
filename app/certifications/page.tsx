@@ -21,7 +21,6 @@ import StatsCards, { StatCard } from "@/components/StatsCards";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 import UpcomingCertificationsSection from "@/components/UpcomingCertificationsSection";
 import CertificationTimeline from "@/components/CertificationTimeline";
-import CertificationFilter from "@/components/CertificationFilter";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import Badge from "@/components/Badge";
 
@@ -33,8 +32,7 @@ const Certifications = () => {
   const upcomingCerts = getUpcomingCertifications();
   const certCounts = getCertificationCounts();
   
-  // State for filtered certifications
-  const [filteredCertifications, setFilteredCertifications] = useState(certifications.filter(cert => !cert.isUpcoming));
+  // State for certifications display
   const [filteredByCategory, setFilteredByCategory] = useState<Certification[]>([]);
   const [activeTab, setActiveTab] = useState<"all" | "professional" | "courses" | "training">("all");
   const [showAllCertifications, setShowAllCertifications] = useState(false);
@@ -88,11 +86,6 @@ const Certifications = () => {
     setFilteredByCategory(filtered);
   };
   
-  // Handle filter changes from the filter component
-  const handleFilterChange = (filtered: Certification[]) => {
-    setFilteredCertifications(filtered.filter(cert => !cert.isUpcoming));
-  };
-  
   // Get important certifications for initial display
   const getImportantCertifications = (certs: Certification[]): Certification[] => {
     // Sort by date (most recent first) and return the first N certifications
@@ -117,25 +110,17 @@ const Certifications = () => {
     return important;
   };
 
-  // Get the final filtered list based on both category and search/filter
+  // Get the final displayed certifications based on active tab
   const getDisplayedCertifications = () => {
     let baseCertifications: Certification[] = [];
 
     if (activeTab === "all") {
-      baseCertifications = filteredCertifications;
+      baseCertifications = certifications.filter(cert => !cert.isUpcoming);
     } else {
-      // Intersection of category filter and search/other filters
-      baseCertifications = filteredCertifications.filter(cert =>
-        filteredByCategory.some(c => c.id === cert.id)
-      );
+      baseCertifications = filteredByCategory;
     }
 
-    // Apply show more/less logic only if no search/filter is active
-    // (filteredCertifications equals all certifications means no filter applied)
-    const allCerts = certifications.filter(cert => !cert.isUpcoming);
-    const isFilterActive = filteredCertifications.length !== allCerts.length;
-
-    if (!showAllCertifications && !isFilterActive) {
+    if (!showAllCertifications) {
       const importantCerts = getImportantCertifications(baseCertifications);
       return baseCertifications.filter(cert =>
         importantCerts.some(ic => ic.id === cert.id)
@@ -149,8 +134,7 @@ const Certifications = () => {
 
   // Check if "Show More" button should be displayed
   const allCerts = certifications.filter(cert => !cert.isUpcoming);
-  const isFilterActive = filteredCertifications.length !== allCerts.length;
-  const shouldShowMoreButton = !isFilterActive && (
+  const shouldShowMoreButton = (
     (activeTab === "all" && allCerts.length > INITIAL_DISPLAY_COUNT) ||
     (activeTab === "professional" && professionalCerts.filter(cert => !cert.isUpcoming).length > INITIAL_DISPLAY_COUNT) ||
     (activeTab === "courses" && courseCerts.length > INITIAL_DISPLAY_COUNT) ||
@@ -230,12 +214,6 @@ const Certifications = () => {
 
         {/* Upcoming Certifications Section */}
         <UpcomingCertificationsSection certifications={upcomingCerts} show={false} />
-        
-        {/* Advanced Certification Filters */}
-        <CertificationFilter 
-          certifications={certifications.filter(cert => !cert.isUpcoming)}
-          onFilterChange={handleFilterChange}
-        />
 
         {/* Certifications Tabs */}
         <Tabs defaultValue="all" className="mt-8" onValueChange={handleTabChange}>
