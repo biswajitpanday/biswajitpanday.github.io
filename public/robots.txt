@@ -1,24 +1,12 @@
-# Allow all web crawlers
+# robots.txt for biswajitpanday.github.io
+# Allow all crawlers to access all content
+
 User-agent: *
 Allow: /
 
-# Disallow specific directories if needed
-Disallow: /private/
-Disallow: /admin/
-Disallow: /api/
-
 # Sitemap location
 Sitemap: https://biswajitpanday.github.io/sitemap.xml
-Sitemap: https://biswajitpanday.github.io/sitemap-index.xml
-Host: https://biswajitpanday.github.io
 
-# Googlebot specific settings
-User-agent: Googlebot
-Allow: /
+# Crawl-delay (optional, helps prevent server overload)
+# Most modern crawlers ignore this, but it's good practice
 Crawl-delay: 1
-
-# Disallow crawling of certain file types
-Disallow: /*.pdf.txt
-Disallow: /*.json
-Disallow: /_next/
-Disallow: /api/ 
