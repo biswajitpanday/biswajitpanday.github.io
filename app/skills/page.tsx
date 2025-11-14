@@ -9,6 +9,7 @@ import React, { useCallback, useMemo, useState, useEffect } from "react";
 import BackgroundElements from "@/components/BackgroundElements";
 import SectionHeader from "@/components/SectionHeader";
 import SkillsFilter from "@/components/SkillsFilter";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import Badge from "@/components/Badge";
 
@@ -191,6 +192,12 @@ const Skills = () => {
       <BackgroundElements />
 
       <div className="container mx-auto px-4 relative z-10">
+        {/* Breadcrumb Navigation */}
+        <BreadcrumbSchema
+          items={[{ name: 'Skills', url: '/skills' }]}
+          showVisual={true}
+        />
+
         {/* Skills Header - Using SectionHeader Component */}
         <SectionHeader
           title="Technical"

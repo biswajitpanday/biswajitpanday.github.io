@@ -60,7 +60,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           >
             <Image
               src={displayImage}
-              alt={project.title}
+              alt={`${project.title} project screenshot`}
               width={500}
               height={300}
               className="rounded transition-transform duration-300 group-hover:scale-105"
@@ -69,7 +69,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         ) : (
           <Image
             src={displayImage}
-            alt={project.title}
+            alt={`${project.title} project screenshot`}
             width={500}
             height={300}
             className="rounded opacity-80"

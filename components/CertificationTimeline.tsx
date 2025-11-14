@@ -134,7 +134,7 @@ const CertificationTimeline: React.FC<CertificationTimelineProps> = ({
                     <div className="absolute inset-0 bg-secondary-default/5 rounded-md blur-md opacity-70" />
                     <Image
                       src={cert.thumbImage || cert.image || ""}
-                      alt={cert.name}
+                      alt={`${cert.name} certificate`}
                       width={160}
                       height={100}
                       className="object-contain z-10"
@@ -174,7 +174,7 @@ const CertificationTimeline: React.FC<CertificationTimelineProps> = ({
                     <div className="w-5 h-5 bg-white/10 rounded-full overflow-hidden flex items-center justify-center border border-white/10">
                       <Image
                         src={cert.issuerLogo}
-                        alt={cert.issuer}
+                        alt={`${cert.issuer} logo`}
                         width={12}
                         height={12}
                         className="object-contain"

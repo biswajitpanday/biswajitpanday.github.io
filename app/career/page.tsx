@@ -19,6 +19,7 @@ import TimelineElement from "@/components/TimelineElement";
 import BackgroundElements from "@/components/BackgroundElements";
 import SectionHeader from "@/components/SectionHeader";
 import StatsCards from "@/components/StatsCards";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import Badge from "@/components/Badge";
 
 const Career = () => {
@@ -31,6 +32,12 @@ const Career = () => {
       <BackgroundElements />
 
       <div className="container mx-auto px-4 relative z-10">
+        {/* Breadcrumb Navigation */}
+        <BreadcrumbSchema
+          items={[{ name: 'Career', url: '/career' }]}
+          showVisual={true}
+        />
+
         {/* Enhanced Professional Header - Using SectionHeader Component */}
         <SectionHeader
           title="Professional"
