@@ -116,7 +116,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
             >
               <Image
                 src={displayImage}
-                alt={name}
+                alt={`${name} certificate`}
                 fill
                 className="object-contain p-2 transition-transform duration-300 hover:scale-105"
               />
@@ -140,7 +140,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
             >
               <Image
                 src={issuerLogo}
-                alt={issuer}
+                alt={`${issuer} logo`}
                 width={24}
                 height={24}
                 className="object-contain"

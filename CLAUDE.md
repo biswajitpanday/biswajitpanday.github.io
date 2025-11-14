@@ -153,3 +153,31 @@ The site includes WebVitals tracking and analytics:
 - Google Analytics with custom events
 - Bundle size analysis tools
 - Performance-optimized animations and images
+
+## Development Guidelines for AI Assistants
+
+### Task Tracking
+- After completing each Phase, Epic, Task, or Subtask, **mark it with completion signs/checkmarks** in relevant documentation
+- Update `docs/todo-content.md` progress tracker when content tasks are completed
+- Update `docs/Todo.md` when technical tasks are completed
+
+### Code Quality & Verification
+**Be a skeptical, senior pair-programmer. Verify before you assert.**
+
+**Guidelines:**
+- State assumptions explicitly
+- Cross-check anything nontrivial (APIs, versions, platform differences) using reasoning or citable sources
+- If unsure, say so clearly
+- Prefer minimal, clean, idiomatic code with strong defaults and only meaningful comments
+- Suggest better designs when appropriate and explain trade-offs concisely
+- If uncertain, provide a safe fallback and a quick validation test
+- **Do not write code until you are at least 95% confident in the approach**
+- If something is missing, unclear, or risky: **pause and ask directly** using `AskUserQuestion` tool
+
+### Context Window Management
+**When approaching context window limit (85-90% capacity):**
+1. **Pause immediately** and share remaining incomplete todos
+2. **Ask**: "Approaching context limit. Continue with remaining tasks?"
+3. **After user compacts conversation**: Resume from exact stopping point and complete remaining work
+
+**Never silently hit the limit mid-task.**

@@ -66,7 +66,7 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
               <div className="relative w-16 h-16 sm:w-20 sm:h-20">
                 <Image
                   src={displayImage}
-                  alt={name}
+                  alt={`${name} certificate`}
                   fill
                   className="object-contain"
                 />
@@ -82,7 +82,7 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
               <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-white/10 backdrop-blur-md rounded overflow-hidden flex items-center justify-center border border-white/20">
                 <Image
                   src={issuerLogo}
-                  alt={issuer}
+                  alt={`${issuer} logo`}
                   width={20}
                   height={20}
                   className="object-contain"
@@ -143,7 +143,7 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
               <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-white/20 bg-white/5 z-10">
                 <Image
                   src={displayImage}
-                  alt={name}
+                  alt={`${name} certificate`}
                   fill
                   className="object-contain p-2"
                 />
@@ -159,7 +159,7 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
               <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full overflow-hidden flex items-center justify-center border border-white/20 z-20 shadow-md">
                 <Image
                   src={issuerLogo}
-                  alt={issuer}
+                  alt={`${issuer} logo`}
                   width={24}
                   height={24}
                   className="object-contain"

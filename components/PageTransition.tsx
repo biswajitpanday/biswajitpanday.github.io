@@ -115,15 +115,17 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
           />
         </motion.div>
       ) : (
-        <motion.div
+        <motion.main
+          id="main-content"
           key={`content-${key}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
+          tabIndex={-1}
         >
           {displayChildren}
-        </motion.div>
+        </motion.main>
       )}
     </AnimatePresence>
   );

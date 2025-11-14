@@ -26,7 +26,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
   return (
     <div className={`text-center mb-6 animate-fade-in ${className}`}>
       {/* Main Heading */}
-      <h1 className={`text-3xl xl:text-5xl font-bold text-white mb-4 leading-tight animate-fade-in-up ${titleClassName}`}>
+      <h1 className={`text-3xl xl:text-4xl font-bold text-white mb-4 leading-tight animate-fade-in-up ${titleClassName}`}>
         {title}{" "}
         <span className={`bg-gradient-to-r ${gradientClass} bg-clip-text text-transparent animate-gradient`}>
           {highlightText}
@@ -34,7 +34,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
       </h1>
 
       {/* Description */}
-      <p className={`text-lg xl:text-xl text-white/80 mb-6 max-w-4xl mx-auto leading-relaxed animate-fade-in-up animate-stagger-1 ${descriptionClassName}`}>
+      <p className={`text-base xl:text-lg text-white/80 mb-6 max-w-4xl mx-auto leading-relaxed animate-fade-in-up animate-stagger-1 ${descriptionClassName}`}>
         {description}
       </p>
 

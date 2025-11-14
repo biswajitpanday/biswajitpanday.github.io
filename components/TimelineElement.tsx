@@ -70,7 +70,7 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
           <div className="relative overflow-hidden rounded-full">
             <Image
               src={item.icon}
-              alt={item.company}
+              alt={`${item.company} company logo`}
               width={90}
               height={90}
               className="rounded-full object-cover"

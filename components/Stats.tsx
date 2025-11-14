@@ -73,7 +73,7 @@ const stats = [
                   duration={5}
                   delay={2}
                   suffix={item.suffix}
-                  className={`text-4xl xl:text-6xl font-extrabold ${item.textColor}`}
+                  className={`text-4xl xl:text-5xl font-extrabold ${item.textColor}`}
                 />
                 <p
                   className={`${

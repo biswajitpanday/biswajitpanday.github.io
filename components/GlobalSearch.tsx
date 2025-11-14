@@ -215,14 +215,14 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
             {/* Search Header */}
             <div className="flex items-center gap-4 mb-6">
               <div className="relative flex-1">
-                <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary-default" />
+                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default" />
                 <input
                   type="text"
                   placeholder="Search projects, skills, certifications, pages..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="w-full bg-gray-800/50 border border-secondary-default/20 text-white placeholder:text-white/40 pl-12 pr-4 py-3 rounded focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
+                  className="w-full bg-gray-800/50 border border-secondary-default/20 text-white placeholder:text-white/40 pl-10 pr-4 py-3 rounded focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
                   autoFocus
                 />
               </div>
@@ -235,7 +235,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
             </div>
 
             {/* Search Results */}
-            <div className="max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-secondary-default/30 scrollbar-track-gray-800/30">
+            <div className="max-h-96 overflow-y-auto custom-scrollbar">
               {debouncedSearch && filteredResults.length === 0 && (
                 <div className="text-center py-8">
                   <FaSearch className="text-4xl text-secondary-default/40 mx-auto mb-4" />

@@ -2,6 +2,41 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
+/**
+ * Small interactive badge component for filters and clickable tags
+ *
+ * @component Badge (Shadcn UI)
+ *
+ * @description
+ * This is the FILTER badge component for interactive UI elements. Use this for:
+ * - Filter tags in ProjectsFilter, SkillsFilter, CertificationFilter
+ * - Toggleable options in filter panels
+ * - Clickable tags that change state
+ * - Compact indicators that need user interaction
+ *
+ * DO NOT use for:
+ * - Large display badges (use @/components/Badge instead - decorative, prominent)
+ * - Role/category labels that are purely visual
+ * - Non-interactive decorative badges
+ *
+ * @example
+ * ```tsx
+ * <Badge
+ *   variant={isSelected ? "default" : "outline"}
+ *   onClick={() => setSelected(!isSelected)}
+ * >
+ *   Filter Option
+ * </Badge>
+ * ```
+ *
+ * @features
+ * - Based on Shadcn UI with Class Variance Authority (CVA)
+ * - 4 variants: default, secondary, destructive, outline
+ * - Clickable with onClick support
+ * - Size: px-2.5 py-0.5 (smaller, compact)
+ * - Focus ring for accessibility
+ * - Used extensively in filter components
+ */
 const badgeVariants = cva(
   "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {

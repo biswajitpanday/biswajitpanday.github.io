@@ -238,9 +238,9 @@ const Contact = () => {
   };
 
   return (
-    <section 
+    <section
       data-testid="contact-page"
-      className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden"
+      className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-8 pb-12 xl:pb-16"
     >
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary-default/5 pointer-events-none" />
@@ -259,7 +259,7 @@ const Contact = () => {
           {/* Main Heading */}
           <motion.h1
             variants={PERFORMANCE_VARIANTS.slideUpSync}
-            className="text-4xl xl:text-6xl font-bold text-white mb-6 leading-tight"
+            className="text-3xl xl:text-4xl font-bold text-white mb-6 leading-tight"
           >
             Get In{" "}
             <span className="bg-gradient-to-r from-secondary-default via-blue-400 to-secondary-default bg-clip-text text-transparent animate-gradient">
@@ -270,7 +270,7 @@ const Contact = () => {
           {/* Description */}
           <motion.p
             variants={PERFORMANCE_VARIANTS.slideUpSync}
-            className="text-lg xl:text-xl text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed"
+            className="text-base xl:text-lg text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed"
           >
             Let&apos;s discuss your{" "}
             <span className="text-secondary-default font-semibold px-2 py-1 rounded">
@@ -376,10 +376,10 @@ const Contact = () => {
                 variants={PERFORMANCE_VARIANTS.fadeInFast}
                 className="mb-6"
               >
-                <h3 className="text-3xl xl:text-4xl font-bold text-white mb-4">
+                <h1 className="text-3xl xl:text-4xl font-bold text-white mb-4">
                   Let&apos;s work{" "}
                   <span className="text-secondary-default">together</span>
-                </h3>
+                </h1>
                 <p className="text-white/70 leading-relaxed">
                   Ready to bring your vision to life? Tell me about your project and let&apos;s create something extraordinary together.
                 </p>

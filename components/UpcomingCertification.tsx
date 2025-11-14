@@ -92,7 +92,7 @@ const UpcomingCertification: React.FC<UpcomingCertificationProps> = ({
               <div className="relative w-32 h-32 bg-white/5 rounded-full overflow-hidden border-2 border-secondary-default/40 group">
                 <Image
                   src={image}
-                  alt={name}
+                  alt={`${name} certification badge`}
                   fill
                   className="object-contain p-3 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
                 />
@@ -144,7 +144,7 @@ const UpcomingCertification: React.FC<UpcomingCertificationProps> = ({
               >
                 <Image
                   src={issuerLogo}
-                  alt={issuer}
+                  alt={`${issuer} logo`}
                   width={24}
                   height={24}
                   className="object-contain"

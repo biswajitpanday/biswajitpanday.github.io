@@ -85,7 +85,16 @@ export default function Header() {
 
   return (
     <>
-      <header 
+      {/* Skip Navigation Link - WCAG 2.1 Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-6 focus:py-3 focus:bg-secondary-default focus:text-primary focus:rounded-lg focus:outline-none focus:ring-4 focus:ring-secondary-default/50 focus:shadow-lg focus:font-semibold focus:transition-all focus:duration-200"
+        data-testid="skip-to-content"
+      >
+        Skip to main content
+      </a>
+
+      <header
         data-testid="main-header"
         className="fixed top-0 left-0 w-full transition-all duration-300 backdrop-blur-md z-[var(--z-header)]"
         style={{ zIndex: 'var(--z-header)' }}
@@ -94,14 +103,15 @@ export default function Header() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex items-center justify-between h-16 md:h-20">
               {/* Logo */}
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 data-testid="header-logo"
                 className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+                aria-label="Home"
               >
-                <h1 className="text-2xl font-semibold">
+                <div className="text-2xl font-semibold">
                   Panday<span className="text-secondary-default">.</span>
-                </h1>
+                </div>
               </Link>
 
               {/* Desktop Navigation */}
@@ -116,7 +126,7 @@ export default function Header() {
                       key={item.name}
                       href={item.href}
                       data-testid={`nav-link-${item.name.toLowerCase()}`}
-                      className={`px-3 py-2 text-sm font-medium rounded-md transition-colors relative group ${
+                      className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative group ${
                         isActive
                           ? "text-secondary-default"
                           : "text-text-primary hover:text-secondary-default"

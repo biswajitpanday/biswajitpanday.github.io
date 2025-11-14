@@ -1,6 +1,11 @@
 interface SkillNode {
   name: string;
-  metadata?: { icon: string };
+  metadata?: {
+    icon: string;
+    level?: "Expert" | "Advanced" | "Intermediate" | "Familiar";
+    yearsOfExperience?: number;
+    lastUsed?: string; // e.g., "2024", "Current"
+  };
   children?: SkillNode[];
 }
 
@@ -11,10 +16,10 @@ export const skills1 = {
       name: "Frameworks",
       metadata: { icon: "SiFramework" },
       children: [
-        { name: "ASP.NET Core", metadata: { icon: "SiDotnet" } },
-        { name: "ASP.NET MVC", metadata: { icon: "DiDotnet" } },
-        { name: "Blazor", metadata: { icon: "SiBlazor" } },
-        { name: "Express.js", metadata: { icon: "SiExpress" } },
+        { name: "ASP.NET Core", metadata: { icon: "SiDotnet", level: "Expert", yearsOfExperience: 8, lastUsed: "Current" } },
+        { name: "ASP.NET MVC", metadata: { icon: "DiDotnet", level: "Expert", yearsOfExperience: 10, lastUsed: "Current" } },
+        { name: "Blazor", metadata: { icon: "SiBlazor", level: "Intermediate", yearsOfExperience: 2, lastUsed: "2024" } },
+        { name: "Express.js", metadata: { icon: "SiExpress", level: "Advanced", yearsOfExperience: 5, lastUsed: "Current" } },
       ],
     },
     {
@@ -33,10 +38,10 @@ export const skills1 = {
       name: "Programming Languages",
       metadata: { icon: "FaCode" },
       children: [
-        { name: "C#", metadata: { icon: "TbBrandCSharp" } },
-        { name: "TypeScript", metadata: { icon: "SiTypescript" } },
-        { name: "JavaScript", metadata: { icon: "FaJs" } },
-        { name: "Python", metadata: { icon: "SiPython" } },
+        { name: "C#", metadata: { icon: "TbBrandCSharp", level: "Expert", yearsOfExperience: 10, lastUsed: "Current" } },
+        { name: "TypeScript", metadata: { icon: "SiTypescript", level: "Advanced", yearsOfExperience: 7, lastUsed: "Current" } },
+        { name: "JavaScript", metadata: { icon: "FaJs", level: "Advanced", yearsOfExperience: 8, lastUsed: "Current" } },
+        { name: "Python", metadata: { icon: "SiPython", level: "Intermediate", yearsOfExperience: 2, lastUsed: "Current" } },
       ],
     },
     {
@@ -97,26 +102,26 @@ export const skills2 = {
       children: [
         {
           name: "Azure",
-          metadata: { icon: "VscAzure" },
+          metadata: { icon: "VscAzure", level: "Advanced", yearsOfExperience: 6, lastUsed: "Current" },
           children: [
-            { name: "Azure Active Directory", metadata: { icon: "VscAzure" } },
-            { name: "Azure DevOps", metadata: { icon: "VscAzureDevops" } },
-            { name: "App Services", metadata: { icon: "VscAzure" } },
-            { name: "Azure Functions", metadata: { icon: "FaServer" } },
-            { name: "Virtual Machine", metadata: { icon: "GrVirtualMachine" } },
+            { name: "Azure Active Directory", metadata: { icon: "VscAzure", level: "Advanced", yearsOfExperience: 5, lastUsed: "Current" } },
+            { name: "Azure DevOps", metadata: { icon: "VscAzureDevops", level: "Advanced", yearsOfExperience: 6, lastUsed: "Current" } },
+            { name: "App Services", metadata: { icon: "VscAzure", level: "Advanced", yearsOfExperience: 6, lastUsed: "Current" } },
+            { name: "Azure Functions", metadata: { icon: "FaServer", level: "Intermediate", yearsOfExperience: 4, lastUsed: "Current" } },
+            { name: "Virtual Machine", metadata: { icon: "GrVirtualMachine", level: "Intermediate", yearsOfExperience: 5, lastUsed: "Current" } },
           ],
         },
         {
           name: "AWS",
-          metadata: { icon: "FaAws" },
+          metadata: { icon: "FaAws", level: "Advanced", yearsOfExperience: 7, lastUsed: "Current" },
           children: [
-            { name: "AWS Lambda", metadata: { icon: "SiAwslambda" } },
-            { name: "Amazon S3", metadata: { icon: "SiAmazons3" } },
-            { name: "Identity and access management (IAM)", metadata: { icon: "MdSecurity" } },
-            { name: "Amazon Elastic Compute Cloud (EC2)", metadata: { icon: "SiAmazonec2" } },
-            { name: "Amazon Simple Notification Service (SNS)", metadata: { icon: "MdNotifications" } },
-            { name: "Amazon Simple Queue Service (SQS)", metadata: { icon: "SiAmazonsqs" } },
-            { name: "Amazon Simple Email Service (SES)", metadata: { icon: "SiAmazonsimpleemailservice" } },
+            { name: "AWS Lambda", metadata: { icon: "SiAwslambda", level: "Advanced", yearsOfExperience: 5, lastUsed: "Current" } },
+            { name: "Amazon S3", metadata: { icon: "SiAmazons3", level: "Advanced", yearsOfExperience: 7, lastUsed: "Current" } },
+            { name: "Identity and access management (IAM)", metadata: { icon: "MdSecurity", level: "Advanced", yearsOfExperience: 7, lastUsed: "Current" } },
+            { name: "Amazon Elastic Compute Cloud (EC2)", metadata: { icon: "SiAmazonec2", level: "Advanced", yearsOfExperience: 7, lastUsed: "Current" } },
+            { name: "Amazon Simple Notification Service (SNS)", metadata: { icon: "MdNotifications", level: "Intermediate", yearsOfExperience: 5, lastUsed: "Current" } },
+            { name: "Amazon Simple Queue Service (SQS)", metadata: { icon: "SiAmazonsqs", level: "Intermediate", yearsOfExperience: 5, lastUsed: "Current" } },
+            { name: "Amazon Simple Email Service (SES)", metadata: { icon: "SiAmazonsimpleemailservice", level: "Intermediate", yearsOfExperience: 4, lastUsed: "2024" } },
           ],
         },
       ],
@@ -125,12 +130,12 @@ export const skills2 = {
       name: "Front-End Technologies",
       metadata: { icon: "SiFrontendmentor" },
       children: [
-        { name: "React", metadata: { icon: "SiReact" } },
-        { name: "Next.js", metadata: { icon: "SiNextdotjs" } },
-        { name: "Redux", metadata: { icon: "SiRedux" } },
-        { name: "Angular", metadata: { icon: "SiAngular" } },
-        { name: "Bootstrap", metadata: { icon: "FaBootstrap" } },
-        { name: "Tailwind CSS", metadata: { icon: "TbBrandTailwind" } },
+        { name: "React", metadata: { icon: "SiReact", level: "Advanced", yearsOfExperience: 7, lastUsed: "Current" } },
+        { name: "Next.js", metadata: { icon: "SiNextdotjs", level: "Advanced", yearsOfExperience: 4, lastUsed: "Current" } },
+        { name: "Redux", metadata: { icon: "SiRedux", level: "Advanced", yearsOfExperience: 5, lastUsed: "Current" } },
+        { name: "Angular", metadata: { icon: "SiAngular", level: "Advanced", yearsOfExperience: 6, lastUsed: "2024" } },
+        { name: "Bootstrap", metadata: { icon: "FaBootstrap", level: "Advanced", yearsOfExperience: 8, lastUsed: "2024" } },
+        { name: "Tailwind CSS", metadata: { icon: "TbBrandTailwind", level: "Advanced", yearsOfExperience: 3, lastUsed: "Current" } },
       ],
     },
     {

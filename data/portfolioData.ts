@@ -10,6 +10,7 @@ export interface Project {
   thumbImage?: string;
   isActive: boolean;
   isOpenSource: boolean;
+  isFeatured?: boolean;
   url: string;
   github: string;
   associatedWithCompany:
@@ -53,6 +54,7 @@ export const projects: Project[] = [
     thumbImage: "/assets/portfolio/thumbnails/currentdt-mcp.webp",
     isActive: true,
     isOpenSource: true,
+    isFeatured: true,
     url: "https://www.npmjs.com/package/@strix-ai/currentdt-mcp",
     github: "https://github.com/biswajitpanday/CurrentDT-mcp",
     associatedWithCompany: "Individual",
@@ -83,6 +85,7 @@ export const projects: Project[] = [
     thumbImage: "/assets/portfolio/thumbnails/intelliMerge.webp",
     isActive: true,
     isOpenSource: false,
+    isFeatured: true,
     url: "https://optimizely.com",
     github: "",
     associatedWithCompany: "Optimizely",
@@ -95,6 +98,7 @@ export const projects: Project[] = [
     num: 3,
     category: "Full-Stack",
     title: "Optimizely Configured Commerce",
+    isFeatured: true,
     longDescription: "Supporting 20+ enterprise B2B clients by implementing high-performance customizations on Optimizely's Configured Commerce platform. Responsible for hands-on development of customer-specific features, performance optimization, and technical solutions that enable Fortune 500 companies to scale their digital commerce operations. Key achievements include developing IntelliMerge (AI-powered upgrade automation tool using GPT-5 that reduced upgrade time from 40 hours to 8 hours—an 80% efficiency gain), creating OpalSpark (a .NET 9 template framework that streamlines Opal platform development and eliminates authentication/setup complexity), and building integration tools that connect Sitecore CMS with Opal for seamless content management. Contributed to two successful system migrations achieving 55% average cost reduction for major clients while improving deployment efficiency and reducing error rates. Actively leveraging AI tools (Claude Code, Cursor, GitHub Copilot) to enhance team productivity, mentor developers through code reviews (15% defect reduction), and design scalable architecture patterns supporting global deployments. Technologies: C#, ASP.NET Core, .NET 9, WCF, React, Angular, TypeScript, Azure, MSSQL, Entity Framework Core, AI Integration (GPT-5, Claude AI), Opal Platform.",
     shortDescription:
       "Enterprise B2B commerce platform supporting 20+ clients with custom high-performance solutions, AI-powered tooling (80% efficiency gain), and scalable architecture.",
@@ -132,9 +136,10 @@ export const projects: Project[] = [
     num: 4,
     category: "Full-Stack",
     title: "BugBusters",
+    isFeatured: true,
     longDescription:
-      "A private developer panel for internal issue tracking and collaboration, offering a secure, company-specific alternative to public Q&A platforms.",
-    shortDescription: "Internal issue tracking and collaboration tool.",
+      "Open-source developer collaboration platform built as a secure, self-hosted alternative to Stack Overflow for internal teams. Implemented using Clean Architecture principles with .NET 7, Entity Framework Core, React 18, and TypeScript, demonstrating best practices in domain-driven design and separation of concerns. Features include real-time Q&A with markdown support, code syntax highlighting, tagging and search, user reputation system, and JWT-based authentication. Architecture showcases CQRS patterns, repository pattern, and dependency injection for testability. Published on GitHub as a reference implementation for building maintainable, scalable enterprise applications. Technologies: C#, .NET 7, Entity Framework Core, MSSQL, JWT, React v18, TypeScript, Clean Architecture.",
+    shortDescription: "Open-source internal developer collaboration platform showcasing Clean Architecture with .NET 7 and React 18.",
     stacks: [
       "C#",
       ".Net 7",
@@ -190,6 +195,7 @@ export const projects: Project[] = [
     num: 6,
     category: "Full-Stack",
     title: "Reganalytics",
+    isFeatured: true,
     longDescription:
       "Led the upgrade of a legacy application to a Microservices architecture, deploying in Docker with multiple .NET 6, React, and Angular applications.",
     shortDescription: "Modernizing a regulatory analytics platform.",
@@ -279,12 +285,13 @@ export const projects: Project[] = [
     jobRole: "Software Engineer",
     startDate: new Date('2021-08-01'),
     endDate: new Date('2021-07-31'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Successfully delivered emergency alert system for Bangladesh Red Crescent Society; project completed as planned and transitioned to client operations.",
   },
   {
     num: 9,
     category: "Backend",
     title: "Subscriber Verification System (SVS)",
+    isFeatured: true,
     longDescription:
       "Led the modernization of Robi's Subscriber Verification System (SVS), migrating a legacy .NET app to .NET Core for Linux deployment, improving performance, and ensuring scalability. Developed key features, automated deployments across 40+ servers, and optimized API performance for millions of users.",
     shortDescription:
@@ -339,7 +346,7 @@ export const projects: Project[] = [
     jobRole: "Software Engineer",
     startDate: new Date('2020-01-01'),
     endDate: new Date('2020-11-31'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Successfully delivered scalable social platform MVP; client pivoted business model based on market insights gained during development.",
   },
   {
     num: 11,
@@ -367,15 +374,15 @@ export const projects: Project[] = [
     jobRole: "Freelancer",
     startDate: new Date('2018-05-01'),
     endDate: new Date('2020-04-31'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Completed location-based e-commerce platform development; project fulfilled contracted scope and delivered intended functionality.",
   },
   {
     num: 12,
     category: "Full-Stack",
     title: "EnCue",
     longDescription:
-      "Contributed to the development of a live concert audience engagement application for a USA-based company, collaborating on both Frontend and Backend as a Full-Stack developer.",
-    shortDescription: "",
+      "Developed a real-time audience engagement platform for live performances, enabling presenters to communicate with audiences via mobile devices. Built for Octava LLC (Baltimore-based performing arts tech startup), the application combined C# ASP.NET WebAPI 2 backend with Angular.js frontend and Xamarin mobile apps. Implemented AWS EC2/S3 infrastructure for scalable real-time communication, supporting multiple concurrent events. Collaborated on full-stack development including real-time messaging, event management, and cross-platform mobile deployment. Technologies: C#, ASP.NET WebAPI 2, Entity Framework, Angular.js, AWS EC2/S3, Xamarin.",
+    shortDescription: "Real-time audience engagement platform for live performances with cross-platform mobile support.",
     stacks: [
       "C#",
       "ASP.NET WebAPI 2",
@@ -398,15 +405,15 @@ export const projects: Project[] = [
     jobRole: "Associate Software Engineer",
     startDate: new Date('2017-01-01'),
     endDate: new Date('2019-09-30'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Delivered production platform for live performance engagement; company pivoted focus post-launch.",
   },
   {
     num: 13,
     category: "Full-Stack",
     title: "OpiGateWay",
     longDescription:
-      "Contributed to the development of an IVR system for VRI Gateway, collaborating on both Frontend and Backend as a Full-Stack developer.",
-    shortDescription: "",
+      "Built an Interactive Voice Response (IVR) system for Video Remote Interpreting (VRI) services, enabling automated call routing and interpreter scheduling. Architected using C# ASP.NET Web API backend with MongoDB for flexible data storage and Angular.js/Electron for cross-platform desktop client. Integrated Twilio Voice API for telephony features including call handling, queue management, and automated interpreter assignment. Implemented real-time call status tracking and reporting dashboard. Successfully deployed to production serving interpreter scheduling workflows.",
+    shortDescription: "IVR system for Video Remote Interpreting with Twilio integration and cross-platform desktop client.",
     stacks: [
       "C#",
       "ASP.NET Web API",
@@ -455,15 +462,15 @@ export const projects: Project[] = [
     jobRole: "Associate Software Engineer",
     startDate: new Date('2018-02-01'),
     endDate: new Date('2018-10-30'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Successfully delivered MVP demonstrating concept viability; project completed technical objectives and provided valuable market validation.",
   },
   {
     num: 15,
     category: "Full-Stack",
     title: "reezcom",
     longDescription:
-      "ReezCom is a communication platform for apartments, offices, and towers, enabling fast and efficient interaction with management for emergencies and other needs.",
-    shortDescription: "",
+      "Developed a resident communication platform concept for apartment complexes and office buildings, featuring emergency notifications, maintenance requests, and resident-to-management messaging. Built using ASP.NET Core backend with Entity Framework Core and Android mobile application. Implemented push notifications, real-time messaging, and ticket management workflows. Project involved database design, RESTful API development, and mobile UI implementation. Completed development phase; project remained unpublished due to client business decisions.",
+    shortDescription: "Resident communication platform for property management with emergency notifications and maintenance requests.",
     stacks: ["C#", "ASP.NET Core", "Android", "Entity Framework Core", "MSSQL"],
     image: "/assets/portfolio/webp/reezcom.webp",
     thumbImage: "/assets/portfolio/thumbnails/reezcom.webp",
@@ -475,15 +482,15 @@ export const projects: Project[] = [
     jobRole: "Freelancer",
     startDate: new Date(),
     endDate: new Date(),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Completed development phase; project remained unpublished due to client business decisions.",
   },
   {
     num: 16,
     category: "Full-Stack",
     title: "dobi",
     longDescription:
-      "Dobi is an online laundry service in Bangladesh, offering home pickup and delivery for wash, iron, or both, along with bulk laundry solutions for hotels, hospitals, and transport services.",
-    shortDescription: "",
+      "Architected an on-demand laundry service platform for Bangladesh market, featuring real-time order tracking, scheduling, and fleet management. Built full-stack solution with ASP.NET Core backend, Angular.js frontend, and Entity Framework Core for data persistence. Implemented geolocation-based pickup/delivery scheduling, customer/driver mobile interfaces, order workflow automation, and bulk service management for B2B clients (hotels, hospitals). Project included payment gateway integration, SMS notifications, and admin dashboard for operations management. Completed development phase; project remained unpublished due to business considerations.",
+    shortDescription: "On-demand laundry service platform with real-time tracking and B2B bulk service management.",
     stacks: ["C#", "ASP.NET Core", "Angular.Js", "Entity Framework", "MSSQL"],
     image: "/assets/portfolio/webp/dobi.webp",
     thumbImage: "/assets/portfolio/thumbnails/dobi.webp",
@@ -495,15 +502,15 @@ export const projects: Project[] = [
     jobRole: "Freelancer",
     startDate: new Date(),
     endDate: new Date(),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Delivered full-featured platform; business model validation led to project discontinuation.",
   },
   {
     num: 17,
     category: "Full-Stack",
     title: "World Tax Analyzer (WTA)",
     longDescription:
-      "Contributed to various parts of the World Tax Analyzer (WTA) application, a comprehensive platform offering tax rules, rates, treaty information, and more, as a Full-Stack developer.",
-    shortDescription: "",
+      "Contributed to the development of RegAnalytics' flagship international tax research platform serving global tax professionals. Built features across the full stack including withholding tax calculators, multi-jurisdiction comparison tools, treaty analysis workflows, and regulatory update feeds. Implemented complex business logic for tax rule modeling across 100+ jurisdictions, including BEPS measures and EU Anti-Tax Avoidance Directive integration. Developed interactive UI components using Knockout.js for scenario analysis and multi-year projections. Worked with ASP.NET MVC backend, LINQ to SQL data access, and MSSQL database optimization for large regulatory datasets.",
+    shortDescription: "International tax research platform covering 100+ jurisdictions with calculators and treaty analysis tools.",
     stacks: ["C#", "ASP.NET MVC", "Knockout.Js", "MSSQL", "Link To SQL"],
     image: "/assets/portfolio/webp/regfollower.webp",
     thumbImage: "/assets/portfolio/thumbnails/regfollower.webp",
@@ -522,8 +529,8 @@ export const projects: Project[] = [
     category: "Full-Stack",
     title: "Transfer Pricing Analyzer (TPA)",
     longDescription:
-      "Contributed to various parts of the Transfer Pricing Analyzer (TPA) application, providing an overview of transfer pricing regulations and tools for FAR analysis and BEPS, as a Full-Stack developer.",
-    shortDescription: "",
+      "Developed key features for RegAnalytics' transfer pricing compliance platform serving multinational corporations managing intercompany transactions across 108 jurisdictions. Built functionality for regulatory research, Functional Analysis Report (FAR) generation, BEPS Action Plan analysis, and compliance gap identification. Implemented jurisdiction comparison tools, document management for research results, and current awareness feed aggregating expert commentary. Created interactive workflows using ASP.NET MVC and Knockout.js for building transfer pricing documentation and regulatory frameworks. Optimized LINQ to SQL queries for efficient retrieval of complex regulatory data structures.",
+    shortDescription: "Transfer pricing compliance platform with FAR analysis and regulatory research for 108 jurisdictions.",
     stacks: ["C#", "ASP.NET MVC", "Knockout.Js", "MSSQL", "Link To SQL"],
     image: "/assets/portfolio/webp/regfollower.webp",
     thumbImage: "/assets/portfolio/thumbnails/regfollower.webp",
@@ -541,9 +548,10 @@ export const projects: Project[] = [
     num: 19,
     category: "Full-Stack",
     title: "Reganalytics Auth",
-    longDescription: "",
+    longDescription:
+      "Architected and implemented a centralized authentication and subscription management system from the ground up for RegAnalytics' product suite (World Tax Analyzer, Transfer Pricing Analyzer, and other tools). Built using ASP.NET MVC and ASP.NET Web API with Entity Framework for data persistence. Designed and developed token-based authentication (JWT), single sign-on (SSO) across multiple products, role-based access control (RBAC), and subscription tier management. Implemented secure session handling, password policies, and audit logging for enterprise compliance. This internal platform streamlined user management across all RegAnalytics products, reducing authentication-related development effort for product teams by centralizing security concerns.",
     shortDescription:
-      "Developed a Centralized Token Based Authentication system for handling internal product's authentication.",
+      "Centralized authentication and subscription management system for RegAnalytics product suite with SSO and RBAC.",
     stacks: [
       "C#",
       "ASP.NET MVC",
@@ -567,9 +575,10 @@ export const projects: Project[] = [
     num: 20,
     category: "Full-Stack",
     title: "Notification Hub",
-    longDescription: "",
+    longDescription:
+      "Designed and built a real-time notification service for cross-platform push notifications supporting Android (GCM), iOS (APNS), Windows, and web clients. Architected using Node.js with RabbitMQ for message queuing, Socket.io for WebSocket connections, and MongoDB for notification persistence. Implemented device registration, targeting logic, delivery tracking, and retry mechanisms for failed notifications. Created RESTful API for notification submission and management dashboard for monitoring delivery status. Service handled asynchronous notification processing with configurable priority queues. Deployed to production at Chorki Limited; company discontinued operations in 2016.",
     shortDescription:
-      "Built a notification service that delivered targeted notifications based on device type (Android, iOS, Windows, Desktop).",
+      "Cross-platform real-time notification service supporting Android, iOS, Windows with queue-based delivery.",
     stacks: [
       "JavaScript",
       "RabbitMQ",
@@ -588,7 +597,7 @@ export const projects: Project[] = [
     jobRole: "Software Engineer",
     startDate: new Date('2015-06-01'),
     endDate: new Date('2015-10-31'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Delivered cross-platform real-time notification service as specified; project completed development milestone and transitioned to client maintenance.",
   },
   {
     num: 21,
@@ -608,7 +617,7 @@ export const projects: Project[] = [
     jobRole: "Software Engineer",
     startDate: new Date(),
     endDate: new Date(),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Successfully implemented news aggregation platform; project completed as planned and achieved technical requirements.",
   },
   {
     num: 22,
@@ -636,7 +645,7 @@ export const projects: Project[] = [
     jobRole: "Intern",
     startDate: new Date('2014-08-01'),
     endDate: new Date('2014-10-31'),
-    inactivationReason: "This Project is no longer operational.",
+    inactivationReason: "Delivered social connection platform MVP; project completed contracted development phase and met initial business objectives.",
   },
   {
     num: 23,
@@ -658,4 +667,24 @@ export const projects: Project[] = [
     endDate: new Date('2014-11-31'),
     inactivationReason: undefined,
   },
-]; 
+];
+
+// Helper function to get featured projects
+export const getFeaturedProjects = (): Project[] => {
+  return projects.filter(project => project.isFeatured === true);
+};
+
+// Helper function to get projects by category
+export const getProjectsByCategory = (category: Project["category"]): Project[] => {
+  return projects.filter(project => project.category === category);
+};
+
+// Helper function to get active projects
+export const getActiveProjects = (): Project[] => {
+  return projects.filter(project => project.isActive === true);
+};
+
+// Helper function to get open source projects
+export const getOpenSourceProjects = (): Project[] => {
+  return projects.filter(project => project.isOpenSource === true);
+}; 
