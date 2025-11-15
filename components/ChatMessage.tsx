@@ -1,0 +1,95 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { FaUser, FaRobot, FaCopy, FaCheck } from "react-icons/fa";
+import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+interface Message {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  timestamp: Date;
+}
+
+interface ChatMessageProps {
+  message: Message;
+}
+
+export default function ChatMessage({ message }: ChatMessageProps) {
+  const [copied, setCopied] = useState(false);
+
+  const isUser = message.role === "user";
+
+  // Copy message to clipboard
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(message.content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  // Format timestamp
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className={`flex gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
+    >
+      {/* Avatar */}
+      <div
+        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+          isUser
+            ? 'bg-blue-500/20 text-blue-400'
+            : 'bg-secondary-default/20 text-secondary-default'
+        }`}
+      >
+        {isUser ? <FaUser className="text-sm" /> : <FaRobot className="text-sm" />}
+      </div>
+
+      {/* Message Content */}
+      <div className={`flex-1 ${isUser ? 'text-right' : 'text-left'}`}>
+        <div
+          className={`inline-block max-w-[85%] rounded-lg px-4 py-2 ${
+            isUser
+              ? 'bg-gradient-to-r from-blue-500/20 to-secondary-default/20 border border-blue-500/20'
+              : 'bg-white/5 border border-secondary-default/10'
+          }`}
+        >
+          {/* Message text with markdown rendering */}
+          <div className="text-sm break-words prose prose-invert prose-sm max-w-none markdown-content">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {message.content}
+            </ReactMarkdown>
+          </div>
+
+          {/* Timestamp and actions */}
+          <div className={`flex items-center gap-2 mt-1 text-xs text-white/40 ${isUser ? 'justify-end' : 'justify-start'}`}>
+            <span>{formatTime(message.timestamp)}</span>
+
+            {/* Copy button (only for assistant messages) */}
+            {!isUser && (
+              <button
+                onClick={copyToClipboard}
+                className="hover:text-secondary-default transition-colors p-1"
+                aria-label="Copy message"
+                title="Copy to clipboard"
+              >
+                {copied ? <FaCheck className="text-xs" /> : <FaCopy className="text-xs" />}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
