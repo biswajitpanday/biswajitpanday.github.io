@@ -74,9 +74,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         transformStyle: 'preserve-3d',
       }}
     >
-      {/* Featured Badge - Top Right Corner */}
+      {/* Featured Badge - Top Left Corner */}
       {isFeatured && (
-        <div className="absolute -top-3 -right-3 z-10">
+        <div className="absolute -top-3 -left-3 z-10">
           <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 text-xs font-bold animate-pulse">
             <FaStar className="text-white" />
             <span>Featured</span>

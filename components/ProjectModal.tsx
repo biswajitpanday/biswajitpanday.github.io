@@ -55,7 +55,7 @@ const getMetricIcon = (key: string) => {
 };
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState<"overview" | "case-study" | "details">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "case-study">("overview");
 
   // Deep linking support - update URL when modal opens
   useEffect(() => {
@@ -152,79 +152,74 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                 </button>
               </div>
 
-              {/* Tags Row - Subtle, non-interactive appearance */}
-              <div className="flex flex-wrap items-center gap-2 mt-3">
-                {/* Category Tag */}
-                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md bg-gradient-to-r ${categoryStyle} opacity-80`}>
-                  <FiLayers className="text-xs" />
-                  {project.category}
-                </span>
-
-                {/* Status Tag */}
-                {project.isActive ? (
-                  <span className="inline-flex items-center gap-1.5 bg-green-500/20 text-green-300 text-xs font-medium px-2.5 py-1 rounded-md border border-green-500/40 opacity-80">
-                    <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                    Active
-                  </span>
+              {/* Buttons (Left) and Tags (Right) Row */}
+              <div className="flex items-center justify-between gap-4 mt-3 border-t border-white/5 pt-3">
+                {/* Tab Buttons - Left Side (only if case study exists) */}
+                {hasCaseStudy ? (
+                  <div className="flex gap-1.5">
+                    <button
+                      onClick={() => setActiveTab("overview")}
+                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                        activeTab === "overview"
+                          ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white"
+                          : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+                      }`}
+                    >
+                      Overview
+                    </button>
+                    <button
+                      onClick={() => setActiveTab("case-study")}
+                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                        activeTab === "case-study"
+                          ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white"
+                          : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+                      }`}
+                    >
+                      Case Study
+                    </button>
+                  </div>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 bg-white/10 text-white/70 text-xs font-medium px-2.5 py-1 rounded-md border border-white/20 opacity-80">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white/50" />
-                    Completed
-                  </span>
+                  <div></div>
                 )}
 
-                {/* Open Source Tag */}
-                {project.isOpenSource && (
-                  <span className="inline-flex items-center gap-1.5 bg-blue-500/20 text-blue-300 text-xs font-medium px-2.5 py-1 rounded-md border border-blue-500/40 opacity-80">
-                    <FaCodeBranch className="text-xs" />
-                    Open Source
+                {/* Tags - Right Side - Subtle, non-interactive appearance */}
+                <div className="flex flex-wrap items-center gap-2 justify-end">
+                  {/* Category Tag */}
+                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md bg-gradient-to-r ${categoryStyle} opacity-80`}>
+                    <FiLayers className="text-xs" />
+                    {project.category}
                   </span>
-                )}
 
-                {/* Featured Tag */}
-                {project.isFeatured && (
-                  <span className="inline-flex items-center gap-1.5 bg-yellow-500/20 text-yellow-300 text-xs font-medium px-2.5 py-1 rounded-md border border-yellow-500/40 opacity-80">
-                    <FaStar className="text-xs" />
-                    Featured
-                  </span>
-                )}
-              </div>
+                  {/* Status Tag */}
+                  {project.isActive ? (
+                    <span className="inline-flex items-center gap-1.5 bg-green-500/20 text-green-300 text-xs font-medium px-2.5 py-1 rounded-md border border-green-500/40 opacity-80">
+                      <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                      Active
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 bg-white/10 text-white/70 text-xs font-medium px-2.5 py-1 rounded-md border border-white/20 opacity-80">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white/50" />
+                      Completed
+                    </span>
+                  )}
 
-              {/* Tab Buttons - Bold, interactive appearance (only if case study exists) */}
-              {hasCaseStudy && (
-                <div className="flex gap-2 mt-3 border-t border-white/5 pt-3">
-                  <button
-                    onClick={() => setActiveTab("overview")}
-                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-sm ${
-                      activeTab === "overview"
-                        ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-secondary-default/30"
-                        : "bg-white/10 text-white/70 hover:bg-white/15 hover:text-white border border-white/20"
-                    }`}
-                  >
-                    Overview
-                  </button>
-                  <button
-                    onClick={() => setActiveTab("case-study")}
-                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-sm ${
-                      activeTab === "case-study"
-                        ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-secondary-default/30"
-                        : "bg-white/10 text-white/70 hover:bg-white/15 hover:text-white border border-white/20"
-                    }`}
-                  >
-                    Case Study
-                  </button>
-                  <button
-                    onClick={() => setActiveTab("details")}
-                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-sm ${
-                      activeTab === "details"
-                        ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-secondary-default/30"
-                        : "bg-white/10 text-white/70 hover:bg-white/15 hover:text-white border border-white/20"
-                    }`}
-                  >
-                    Details
-                  </button>
+                  {/* Open Source Tag */}
+                  {project.isOpenSource && (
+                    <span className="inline-flex items-center gap-1.5 bg-blue-500/20 text-blue-300 text-xs font-medium px-2.5 py-1 rounded-md border border-blue-500/40 opacity-80">
+                      <FaCodeBranch className="text-xs" />
+                      Open Source
+                    </span>
+                  )}
+
+                  {/* Featured Tag */}
+                  {project.isFeatured && (
+                    <span className="inline-flex items-center gap-1.5 bg-yellow-500/20 text-yellow-300 text-xs font-medium px-2.5 py-1 rounded-md border border-yellow-500/40 opacity-80">
+                      <FaStar className="text-xs" />
+                      Featured
+                    </span>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Modal Content */}
@@ -576,50 +571,6 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   </div>
                 )}
 
-                {/* Details Tab - Compact view */}
-                {activeTab === "details" && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Project Information */}
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-bold text-white mb-4">Project Information</h3>
-                      <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3">
-                        <div>
-                          <p className="text-xs text-white/50 uppercase tracking-wide mb-1">Company</p>
-                          <p className="text-white font-medium">{project.associatedWithCompany || "Individual"}</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-white/50 uppercase tracking-wide mb-1">Role</p>
-                          <p className="text-white font-medium">{project.jobRole}</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-white/50 uppercase tracking-wide mb-1">Duration</p>
-                          <p className="text-white font-medium">{formatDateRange(project.startDate, project.endDate)}</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-white/50 uppercase tracking-wide mb-1">Category</p>
-                          <p className="text-white font-medium">{project.category}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Tech Stack */}
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-bold text-white mb-4">Technology Stack</h3>
-                      <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                        <div className="flex flex-wrap gap-2">
-                          {project.stacks.map((tech, index) => (
-                            <span
-                              key={index}
-                              className="bg-secondary-default/10 text-secondary-default border border-secondary-default/30 px-3 py-1.5 rounded-lg text-xs font-medium"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           </motion.div>
