@@ -75,20 +75,25 @@ export default function SkillProficiencySummary() {
   const intermediateCount = allSkills.filter(s => s.metadata?.level === 'Intermediate').length;
   const familiarCount = allSkills.filter(s => s.metadata?.level === 'Familiar').length;
 
-  // Get top 12 skills (prioritize Expert, then Advanced, then by years of experience)
-  const topSkills = allSkills
-    .sort((a, b) => {
-      const levelOrder = { 'Expert': 4, 'Advanced': 3, 'Intermediate': 2, 'Familiar': 1 };
-      const aLevel = levelOrder[a.metadata?.level || 'Familiar'];
-      const bLevel = levelOrder[b.metadata?.level || 'Familiar'];
+  // Get top 12 skills with balanced representation across all levels
+  // 5 Expert + 3 Advanced + 2 Intermediate + 2 Familiar = 12 total
+  const getTopSkillsByLevel = (level: string, count: number) => {
+    return allSkills
+      .filter(s => s.metadata?.level === level)
+      .sort((a, b) => {
+        const aYears = a.metadata?.yearsOfExperience || 0;
+        const bYears = b.metadata?.yearsOfExperience || 0;
+        return bYears - aYears;
+      })
+      .slice(0, count);
+  };
 
-      if (aLevel !== bLevel) return bLevel - aLevel;
-
-      const aYears = a.metadata?.yearsOfExperience || 0;
-      const bYears = b.metadata?.yearsOfExperience || 0;
-      return bYears - aYears;
-    })
-    .slice(0, 12);
+  const topSkills = [
+    ...getTopSkillsByLevel('Expert', 5),
+    ...getTopSkillsByLevel('Advanced', 3),
+    ...getTopSkillsByLevel('Intermediate', 2),
+    ...getTopSkillsByLevel('Familiar', 2),
+  ];
 
   return (
     <>
