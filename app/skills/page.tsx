@@ -11,6 +11,7 @@ import SectionHeader from "@/components/SectionHeader";
 import SkillsFilter from "@/components/SkillsFilter";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import Badge from "@/components/Badge";
+import SkillProficiencySummary from "@/components/SkillProficiencySummary";
 
 // Memoized animation variants - created once, reused everywhere
 const TREE_ANIMATIONS = {
@@ -240,6 +241,9 @@ const Skills = () => {
             color="purple"
           />
         </motion.div>
+
+        {/* Skills Proficiency Summary - Compact Heat Map */}
+        <SkillProficiencySummary />
 
         {/* Search Section - Using SkillsFilter Component */}
         <SkillsFilter

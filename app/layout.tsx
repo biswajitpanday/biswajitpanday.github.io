@@ -10,6 +10,7 @@ import WebVitalsTracker from "@/components/WebVitalsTracker";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import AIChatbot from "@/components/AIChatbot";
 import ResumeAnalyticsLoader from "@/components/ResumeAnalyticsLoader";
+import HeatmapTracker from "@/components/HeatmapTracker";
 
 const jetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -168,6 +169,7 @@ export default function RootLayout({
         <SEOOptimizer />
         <WebVitalsTracker />
         <ResumeAnalyticsLoader />
+        <HeatmapTracker />
         <DebugMode />
         <AIChatbot />
       </body>

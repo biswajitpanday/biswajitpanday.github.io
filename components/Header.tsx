@@ -24,6 +24,7 @@ const NAVIGATION_ITEMS = [
   { name: "Certifications", href: "/certifications" },
   { name: "Skills", href: "/skills" },
   { name: "Performance", href: "/performance" },
+  { name: "Activity", href: "/activity" },
   { name: "Contact", href: "/contact" },
 ];
 
