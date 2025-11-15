@@ -79,6 +79,7 @@ jobs:
           NEXT_PUBLIC_PAGECLIP_API_KEY: ${{ secrets.NEXT_PUBLIC_PAGECLIP_API_KEY }}
           NEXT_PUBLIC_ENABLE_SEARCH: ${{ secrets.NEXT_PUBLIC_ENABLE_SEARCH }}
           NEXT_PUBLIC_ENABLE_FILTER: ${{ secrets.NEXT_PUBLIC_ENABLE_FILTER }}
+          NEXT_PUBLIC_CHATBOT_API_URL: ${{ secrets.NEXT_PUBLIC_CHATBOT_API_URL }}
 
       - name: Ensure output directory exists
         run: mkdir -p ./out
