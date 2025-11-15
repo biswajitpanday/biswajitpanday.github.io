@@ -15,6 +15,7 @@ export interface Testimonial {
   author: string;
   role: string;
   company?: string;
+  approved?: boolean; // Show only if approved (default: true)
 }
 
 // Case Study interface
@@ -31,6 +32,7 @@ export interface Recognition {
   title: string;
   description: string;
   icon?: string; // Icon name for rendering
+  approved?: boolean; // Show only if approved (default: true)
 }
 
 export interface Project {
@@ -130,12 +132,14 @@ export const projects: Project[] = [
       {
         title: "Open Source Contribution",
         description: "Published on NPM for the AI development community",
-        icon: "code"
+        icon: "code",
+        approved: true
       },
       {
         title: "AI Tool Integration",
         description: "Enhances AI assistant capabilities across multiple IDEs",
-        icon: "lightbulb"
+        icon: "lightbulb",
+        approved: true
       }
     ]
   },
@@ -180,7 +184,8 @@ export const projects: Project[] = [
         quote: "IntelliMerge transformed our upgrade process. What used to take a full week now takes a single day with better accuracy. This is the future of enterprise software maintenance.",
         author: "Development Team Lead",
         role: "Senior Technical Manager",
-        company: "Optimizely"
+        company: "Optimizely",
+        approved: true
       }
     ],
     caseStudy: {
@@ -205,12 +210,14 @@ export const projects: Project[] = [
       {
         title: "Innovation Award Nominee",
         description: "Nominated for internal innovation award for breakthrough automation",
-        icon: "trophy"
+        icon: "trophy",
+        approved: true
       },
       {
         title: "Team Impact",
         description: "Enabled 5x faster client upgrade delivery",
-        icon: "users"
+        icon: "users",
+        approved: true
       }
     ]
   },
@@ -263,7 +270,8 @@ export const projects: Project[] = [
         quote: "The custom solutions delivered have significantly improved our B2B commerce operations. The performance optimizations and seamless integrations exceeded our expectations.",
         author: "Enterprise Client",
         role: "Director of Digital Commerce",
-        company: "Fortune 500 Company"
+        company: "Fortune 500 Company",
+        approved: true
       }
     ],
     caseStudy: {
@@ -290,12 +298,14 @@ export const projects: Project[] = [
       {
         title: "Client Success",
         description: "Supporting Fortune 500 companies with mission-critical commerce solutions",
-        icon: "award"
+        icon: "award",
+        approved: true
       },
       {
         title: "Innovation Leader",
         description: "Created IntelliMerge & OpalSpark tools adopted company-wide",
-        icon: "lightbulb"
+        icon: "lightbulb",
+        approved: true
       }
     ]
   },
@@ -355,7 +365,8 @@ export const projects: Project[] = [
       {
         title: "Open Source",
         description: "Educational reference implementation for Clean Architecture",
-        icon: "code"
+        icon: "code",
+        approved: true
       }
     ]
   },
@@ -449,7 +460,8 @@ export const projects: Project[] = [
       {
         title: "Modernization Lead",
         description: "Successfully led legacy-to-microservices transformation",
-        icon: "rocket"
+        icon: "rocket",
+        approved: true
       }
     ]
   },
@@ -575,12 +587,14 @@ export const projects: Project[] = [
       {
         title: "Telecom Scale",
         description: "Served millions of subscribers with reliable verification",
-        icon: "users"
+        icon: "users",
+        approved: true
       },
       {
         title: "Modernization Success",
         description: "Migrated legacy platform to modern .NET Core architecture",
-        icon: "award"
+        icon: "award",
+        approved: true
       }
     ]
   },

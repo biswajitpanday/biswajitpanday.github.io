@@ -132,104 +132,99 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             className="bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-xl border border-secondary-default/30 rounded-2xl w-full max-w-6xl max-h-[calc(100vh-160px)] overflow-hidden shadow-2xl shadow-secondary-default/20 flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Enhanced Modal Header */}
-            <div className="relative p-6 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/10 via-transparent to-secondary-default/10 flex-shrink-0">
-              {/* Project Number Badge */}
-              <div className="absolute top-4 left-4">
-                <div className="flex items-center gap-2 bg-secondary-default/20 backdrop-blur-sm border border-secondary-default/40 rounded-full px-3 py-1">
-                  <FaCheckCircle className="text-secondary-default text-xs" />
-                  <span className="text-secondary-default font-bold text-sm">#{project.num}</span>
-                </div>
-              </div>
-
-              {/* Close Button - Enhanced */}
-              <button
-                onClick={onClose}
-                className="absolute top-4 right-4 p-2.5 text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-full z-10"
-                aria-label="Close modal"
-              >
-                <FaTimes className="text-lg" />
-              </button>
-
-              {/* Title and Badges */}
-              <div className="mt-8">
-                <h2 className="text-xl xl:text-2xl font-bold text-white mb-4 pr-12">
-                  {project.title}
+            {/* Compact Modal Header */}
+            <div className="relative p-4 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/10 via-transparent to-secondary-default/10 flex-shrink-0">
+              {/* Compact Title Row: #N | Project Title || X Button */}
+              <div className="flex items-center justify-between gap-4">
+                <h2 className="text-lg xl:text-xl font-bold text-white flex items-center gap-3 flex-1">
+                  <span className="text-secondary-default text-base">#{project.num}</span>
+                  <span className="text-white/30">|</span>
+                  <span className="flex-1">{project.title}</span>
                 </h2>
 
-                <div className="flex flex-wrap items-center gap-2">
-                  {/* Category Badge */}
-                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-gradient-to-r ${categoryStyle}`}>
-                    <FiLayers className="text-sm" />
-                    {project.category}
+                {/* Close Button */}
+                <button
+                  onClick={onClose}
+                  className="p-2 text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-full flex-shrink-0"
+                  aria-label="Close modal"
+                >
+                  <FaTimes className="text-base" />
+                </button>
+              </div>
+
+              {/* Tags Row - Subtle, non-interactive appearance */}
+              <div className="flex flex-wrap items-center gap-2 mt-3">
+                {/* Category Tag */}
+                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md bg-gradient-to-r ${categoryStyle} opacity-80`}>
+                  <FiLayers className="text-xs" />
+                  {project.category}
+                </span>
+
+                {/* Status Tag */}
+                {project.isActive ? (
+                  <span className="inline-flex items-center gap-1.5 bg-green-500/20 text-green-300 text-xs font-medium px-2.5 py-1 rounded-md border border-green-500/40 opacity-80">
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                    Active
                   </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 bg-white/10 text-white/70 text-xs font-medium px-2.5 py-1 rounded-md border border-white/20 opacity-80">
+                    <div className="w-1.5 h-1.5 rounded-full bg-white/50" />
+                    Completed
+                  </span>
+                )}
 
-                  {/* Status Badge */}
-                  {project.isActive ? (
-                    <span className="inline-flex items-center gap-1.5 bg-green-500/20 text-green-300 text-xs font-medium px-3 py-1.5 rounded-full border border-green-500/40">
-                      <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                      Active Project
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1.5 bg-white/10 text-white/70 text-xs font-medium px-3 py-1.5 rounded-full border border-white/20">
-                      <div className="w-2 h-2 rounded-full bg-white/50" />
-                      Completed
-                    </span>
-                  )}
+                {/* Open Source Tag */}
+                {project.isOpenSource && (
+                  <span className="inline-flex items-center gap-1.5 bg-blue-500/20 text-blue-300 text-xs font-medium px-2.5 py-1 rounded-md border border-blue-500/40 opacity-80">
+                    <FaCodeBranch className="text-xs" />
+                    Open Source
+                  </span>
+                )}
 
-                  {/* Open Source Badge */}
-                  {project.isOpenSource && (
-                    <span className="inline-flex items-center gap-1.5 bg-blue-500/20 text-blue-300 text-xs font-medium px-3 py-1.5 rounded-full border border-blue-500/40">
-                      <FaCodeBranch />
-                      Open Source
-                    </span>
-                  )}
-
-                  {/* Featured Badge */}
-                  {project.isFeatured && (
-                    <span className="inline-flex items-center gap-1.5 bg-yellow-500/20 text-yellow-300 text-xs font-medium px-3 py-1.5 rounded-full border border-yellow-500/40">
-                      <FaStar />
-                      Featured
-                    </span>
-                  )}
-                </div>
-
-                {/* Tabs - Only show if has case study */}
-                {hasCaseStudy && (
-                  <div className="flex gap-2 mt-4">
-                    <button
-                      onClick={() => setActiveTab("overview")}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                        activeTab === "overview"
-                          ? "bg-secondary-default/20 text-secondary-default border border-secondary-default/40"
-                          : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/10"
-                      }`}
-                    >
-                      Overview
-                    </button>
-                    <button
-                      onClick={() => setActiveTab("case-study")}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                        activeTab === "case-study"
-                          ? "bg-secondary-default/20 text-secondary-default border border-secondary-default/40"
-                          : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/10"
-                      }`}
-                    >
-                      Case Study
-                    </button>
-                    <button
-                      onClick={() => setActiveTab("details")}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                        activeTab === "details"
-                          ? "bg-secondary-default/20 text-secondary-default border border-secondary-default/40"
-                          : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/10"
-                      }`}
-                    >
-                      Details
-                    </button>
-                  </div>
+                {/* Featured Tag */}
+                {project.isFeatured && (
+                  <span className="inline-flex items-center gap-1.5 bg-yellow-500/20 text-yellow-300 text-xs font-medium px-2.5 py-1 rounded-md border border-yellow-500/40 opacity-80">
+                    <FaStar className="text-xs" />
+                    Featured
+                  </span>
                 )}
               </div>
+
+              {/* Tab Buttons - Bold, interactive appearance (only if case study exists) */}
+              {hasCaseStudy && (
+                <div className="flex gap-2 mt-3 border-t border-white/5 pt-3">
+                  <button
+                    onClick={() => setActiveTab("overview")}
+                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-sm ${
+                      activeTab === "overview"
+                        ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-secondary-default/30"
+                        : "bg-white/10 text-white/70 hover:bg-white/15 hover:text-white border border-white/20"
+                    }`}
+                  >
+                    Overview
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("case-study")}
+                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-sm ${
+                      activeTab === "case-study"
+                        ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-secondary-default/30"
+                        : "bg-white/10 text-white/70 hover:bg-white/15 hover:text-white border border-white/20"
+                    }`}
+                  >
+                    Case Study
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("details")}
+                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-sm ${
+                      activeTab === "details"
+                        ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-secondary-default/30"
+                        : "bg-white/10 text-white/70 hover:bg-white/15 hover:text-white border border-white/20"
+                    }`}
+                  >
+                    Details
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Modal Content */}
@@ -315,15 +310,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         </div>
                       )}
 
-                      {/* Testimonials - If exists */}
-                      {project.testimonials && project.testimonials.length > 0 && (
+                      {/* Testimonials - If exists and approved */}
+                      {project.testimonials && project.testimonials.filter(t => t.approved !== false).length > 0 && (
                         <div>
                           <div className="flex items-center gap-2 mb-4">
                             <FaQuoteLeft className="text-secondary-default" />
                             <h3 className="text-xl font-bold text-white">Testimonials</h3>
                           </div>
                           <div className="space-y-4">
-                            {project.testimonials.map((testimonial, idx) => (
+                            {project.testimonials.filter(t => t.approved !== false).map((testimonial, idx) => (
                               <div
                                 key={idx}
                                 className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-xl p-5 relative"
@@ -349,15 +344,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         </div>
                       )}
 
-                      {/* Recognition/Awards - If exists */}
-                      {project.recognition && project.recognition.length > 0 && (
+                      {/* Recognition/Awards - If exists and approved */}
+                      {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
                         <div>
                           <div className="flex items-center gap-2 mb-4">
                             <FaTrophy className="text-secondary-default" />
                             <h3 className="text-xl font-bold text-white">Recognition & Awards</h3>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {project.recognition.map((rec, idx) => (
+                            {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
                               <div
                                 key={idx}
                                 className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-lg p-4 flex items-start gap-3"

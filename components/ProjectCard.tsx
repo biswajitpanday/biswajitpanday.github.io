@@ -217,10 +217,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {project.shortDescription}
       </p>
 
-      {/* Recognition/Awards - If exists */}
-      {project.recognition && project.recognition.length > 0 && (
+      {/* Recognition/Awards - If exists and approved */}
+      {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
         <div className="mb-4 flex flex-wrap gap-2">
-          {project.recognition.slice(0, 2).map((rec, idx) => (
+          {project.recognition.filter(r => r.approved !== false).slice(0, 2).map((rec, idx) => (
             <div
               key={idx}
               className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/30 text-yellow-300"
