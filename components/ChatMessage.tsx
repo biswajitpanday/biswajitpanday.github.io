@@ -66,7 +66,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
           }`}
         >
           {/* Message text with markdown rendering */}
-          <div className="text-sm break-words prose prose-invert prose-sm max-w-none markdown-content">
+          <div className="text-sm break-words prose prose-invert prose-sm max-w-none markdown-content overflow-hidden">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {message.content}
             </ReactMarkdown>

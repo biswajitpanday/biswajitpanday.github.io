@@ -454,6 +454,9 @@
 /* Chatbot markdown styling */
 .markdown-content {
   color: rgba(255, 255, 255, 0.95);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .markdown-content p {
@@ -497,6 +500,7 @@
   padding: 0.75rem;
   margin: 0.75rem 0;
   overflow-x: auto;
+  max-width: 100%;
 }
 
 .markdown-content pre code {
@@ -509,6 +513,7 @@
   color: var(--color-secondary-default);
   text-decoration: underline;
   text-underline-offset: 2px;
+  word-break: break-all;
 }
 
 .markdown-content a:hover {
