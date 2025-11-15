@@ -125,7 +125,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
             placeholder={placeholder}
             value={searchQuery}
             onChange={handleSearchChange}
-            className="w-full bg-gray-800/50 border border-secondary-default/20 rounded-lg py-1.5 pl-9 pr-9 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
+            className="w-full h-9 bg-gray-800/50 border border-secondary-default/20 rounded-lg pl-9 pr-9 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
           />
           {searchQuery && (
             <button
@@ -142,7 +142,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
           variant="outline"
           onClick={toggleFilterPanel}
           size="sm"
-          className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
+          className={`shrink-0 flex items-center gap-1.5 text-xs ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
         >
           <FiFilter className={`text-sm ${isExpanded ? 'text-secondary-default' : 'text-white/70'}`} />
           <span>Filters</span>

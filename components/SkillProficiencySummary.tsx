@@ -17,12 +17,12 @@ interface SkillNode {
   children?: SkillNode[];
 }
 
-// Updated level to color mapping (replaced amber with purple/cyan)
+// Updated level to color mapping with glassmorphism theme
 const levelToColor = {
-  'Expert': 'bg-emerald-500/90 border-emerald-500 text-white',
-  'Advanced': 'bg-blue-500/90 border-blue-500 text-white',
-  'Intermediate': 'bg-purple-500/90 border-purple-500 text-white', // Changed from amber
-  'Familiar': 'bg-slate-500/70 border-slate-500 text-white',
+  'Expert': 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/30 border-emerald-500/50 text-white backdrop-blur-sm',
+  'Advanced': 'bg-gradient-to-br from-blue-500/20 to-blue-600/30 border-blue-500/50 text-white backdrop-blur-sm',
+  'Intermediate': 'bg-gradient-to-br from-purple-500/20 to-purple-600/30 border-purple-500/50 text-white backdrop-blur-sm',
+  'Familiar': 'bg-gradient-to-br from-slate-500/20 to-slate-600/30 border-slate-500/50 text-white backdrop-blur-sm',
 };
 
 const levelToGradient = {
