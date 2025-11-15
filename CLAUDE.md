@@ -115,9 +115,10 @@ All content is centralized in `data/` directory:
 
 ## Key Features & Integrations
 
-### AI Chatbot Integration
+### AI Chatbot Integration ✨ DEPLOYED
 - **Provider:** Google Gemini AI (free tier)
 - **Architecture:** Frontend UI (React) → Vercel Serverless API → Gemini AI
+- **Status:** ✅ **Live in production** at https://biswajitpanday.github.io
 - **Features:**
   - Floating chat button with expandable window
   - Suggested questions for common queries
@@ -125,8 +126,11 @@ All content is centralized in `data/` directory:
   - CORS security (only allows requests from portfolio domain)
   - Conversation history (last 4 messages)
   - Mobile-responsive design
+  - Thumbs up/down feedback system
+  - Google Analytics event tracking
 - **Knowledge Base:** Hardcoded portfolio data (projects, skills, certifications)
 - **Deployment:** Separate Vercel project (see Multi-Repository Architecture)
+- **API Repository:** https://github.com/biswajitpanday/portfolio-chatbot-api
 
 ### Performance Optimizations
 - Image optimization pipeline with WebP conversion and multiple size variants

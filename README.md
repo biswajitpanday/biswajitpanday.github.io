@@ -13,9 +13,14 @@ A modern, responsive portfolio website built with Next.js 15, TypeScript, and Ta
 - **Accessibility**: ARIA compliant and keyboard navigation
 - **SEO Optimized**: Meta tags and structured data
 - **Image Optimization**: Unified workflow for WebP conversion, thumbnails, and profile optimization
+- **AI Chatbot Assistant**: 24/7 recruiter support powered by Google Gemini AI ✨ NEW
+  - Interactive chat UI with suggested questions
+  - Answers questions about projects, skills, and experience
+  - Conversation analytics with feedback system
+  - Deployed on Vercel serverless functions
 - **Analytics & Insights**:
   - **Heatmap Analytics**: Track user interactions, clicks, hovers, scroll depth, and section engagement
-  - **Skills Heat Map**: Interactive color-coded visualization of technical proficiency levels
+  - **Skills Heat Map**: Interactive color-coded visualization with proficiency level filtering ✨ ENHANCED
   - **Activity Graph**: GitHub-style contribution graph showing portfolio development activity
   - **Performance Metrics**: Real-time Core Web Vitals and Lighthouse scores dashboard
   - **Resume Analytics**: Track resume downloads with context (time on page, referrer)
