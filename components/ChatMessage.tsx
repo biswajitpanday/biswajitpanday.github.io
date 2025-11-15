@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaUser, FaRobot, FaCopy, FaCheck } from "react-icons/fa";
+import { FaUser, FaRobot, FaCopy, FaCheck, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { trackChatbotFeedback } from "@/lib/analytics";
 
 interface Message {
   id: string;
@@ -19,6 +20,7 @@ interface ChatMessageProps {
 
 export default function ChatMessage({ message }: ChatMessageProps) {
   const [copied, setCopied] = useState(false);
+  const [feedback, setFeedback] = useState<'positive' | 'negative' | null>(null);
 
   const isUser = message.role === "user";
 
@@ -36,6 +38,12 @@ export default function ChatMessage({ message }: ChatMessageProps) {
       minute: '2-digit',
       hour12: true
     });
+  };
+
+  // Handle feedback
+  const handleFeedback = (rating: 'positive' | 'negative') => {
+    setFeedback(rating);
+    trackChatbotFeedback(message.id, rating);
   };
 
   return (
@@ -78,14 +86,42 @@ export default function ChatMessage({ message }: ChatMessageProps) {
 
             {/* Copy button (only for assistant messages) */}
             {!isUser && (
-              <button
-                onClick={copyToClipboard}
-                className="hover:text-secondary-default transition-colors p-1"
-                aria-label="Copy message"
-                title="Copy to clipboard"
-              >
-                {copied ? <FaCheck className="text-xs" /> : <FaCopy className="text-xs" />}
-              </button>
+              <>
+                <button
+                  onClick={copyToClipboard}
+                  className="hover:text-secondary-default transition-colors p-1"
+                  aria-label="Copy message"
+                  title="Copy to clipboard"
+                >
+                  {copied ? <FaCheck className="text-xs" /> : <FaCopy className="text-xs" />}
+                </button>
+
+                {/* Feedback buttons (thumbs up/down) */}
+                <div className="flex items-center gap-1 border-l border-white/10 pl-2">
+                  <button
+                    onClick={() => handleFeedback('positive')}
+                    className={`hover:text-green-400 transition-colors p-1 ${
+                      feedback === 'positive' ? 'text-green-400' : ''
+                    }`}
+                    aria-label="Helpful response"
+                    title="Helpful"
+                    disabled={feedback !== null}
+                  >
+                    <FaThumbsUp className="text-xs" />
+                  </button>
+                  <button
+                    onClick={() => handleFeedback('negative')}
+                    className={`hover:text-red-400 transition-colors p-1 ${
+                      feedback === 'negative' ? 'text-red-400' : ''
+                    }`}
+                    aria-label="Not helpful response"
+                    title="Not helpful"
+                    disabled={feedback !== null}
+                  >
+                    <FaThumbsDown className="text-xs" />
+                  </button>
+                </div>
+              </>
             )}
           </div>
         </div>

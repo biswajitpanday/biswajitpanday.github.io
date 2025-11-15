@@ -25,14 +25,19 @@ export const navigationLinks: NavigationLink[] = [
     path: "/skills", 
     shortcut: "S"
   },
-  { 
-    name: "certifications", 
-    path: "/certifications", 
+  {
+    name: "certifications",
+    path: "/certifications",
     shortcut: "R"
   },
-  { 
-    name: "contact", 
-    path: "/contact", 
+  {
+    name: "performance",
+    path: "/performance",
+    shortcut: "F"
+  },
+  {
+    name: "contact",
+    path: "/contact",
     shortcut: "T"
   },
 ]; 

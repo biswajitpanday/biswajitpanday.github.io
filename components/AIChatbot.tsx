@@ -5,6 +5,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaRobot, FaTimes, FaMinus, FaPaperPlane } from "react-icons/fa";
 import ChatMessage from "./ChatMessage";
 import SuggestedQuestions from "./SuggestedQuestions";
+import {
+  trackChatbotOpen,
+  trackChatbotClose,
+  trackChatbotMinimize,
+  trackChatbotMessage,
+  trackChatbotSuggestedQuestion,
+  trackChatbotError,
+  trackChatbotConversation,
+  trackChatbotClear
+} from "@/lib/analytics";
 
 interface Message {
   id: string;
@@ -29,6 +39,7 @@ export default function AIChatbot() {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [conversationStartTime, setConversationStartTime] = useState<number>(Date.now());
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -54,6 +65,9 @@ export default function AIChatbot() {
   // Send message to AI
   const sendMessage = async (messageText: string) => {
     if (!messageText.trim() || isLoading) return;
+
+    // Track message sent
+    trackChatbotMessage(messageText.trim(), messageText.trim().length);
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -108,6 +122,11 @@ export default function AIChatbot() {
     } catch (err: unknown) {
       console.error('Chatbot error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Sorry, I encountered an error. Please try again.';
+      const errorType = err instanceof Error ? err.name : 'UnknownError';
+
+      // Track error
+      trackChatbotError(errorType, errorMessage);
+
       setError(errorMessage);
 
       // Add error message to chat
@@ -132,6 +151,8 @@ export default function AIChatbot() {
 
   // Handle suggested question click
   const handleSuggestedQuestion = (question: string) => {
+    // Track suggested question click
+    trackChatbotSuggestedQuestion(question);
     sendMessage(question);
   };
 
@@ -145,6 +166,10 @@ export default function AIChatbot() {
 
   // Clear conversation
   const clearConversation = () => {
+    // Track conversation clear (exclude welcome message)
+    const userMessagesCount = messages.filter(m => m.role === 'user').length;
+    trackChatbotClear(userMessagesCount);
+
     setMessages([{
       id: "welcome",
       role: "assistant",
@@ -152,6 +177,34 @@ export default function AIChatbot() {
       timestamp: new Date()
     }]);
     setError(null);
+
+    // Reset conversation timer
+    setConversationStartTime(Date.now());
+  };
+
+  // Handle open/close/minimize with tracking
+  const handleOpen = () => {
+    setIsOpen(true);
+    setConversationStartTime(Date.now());
+    trackChatbotOpen();
+  };
+
+  const handleClose = () => {
+    // Track conversation end with metrics
+    const userMessagesCount = messages.filter(m => m.role === 'user').length;
+    const durationSeconds = Math.floor((Date.now() - conversationStartTime) / 1000);
+
+    if (userMessagesCount > 0) {
+      trackChatbotConversation(userMessagesCount, durationSeconds);
+    }
+
+    trackChatbotClose();
+    setIsOpen(false);
+  };
+
+  const handleMinimize = () => {
+    setIsMinimized(!isMinimized);
+    trackChatbotMinimize();
   };
 
   return (
@@ -165,7 +218,7 @@ export default function AIChatbot() {
             exit={{ scale: 0, opacity: 0 }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => setIsOpen(true)}
+            onClick={handleOpen}
             className="w-14 h-14 rounded-full bg-gradient-to-r from-secondary-default to-blue-500 text-primary shadow-lg hover:shadow-2xl transition-shadow flex items-center justify-center group"
             aria-label="Open chatbot"
           >
@@ -202,7 +255,7 @@ export default function AIChatbot() {
               <div className="flex items-center gap-2">
                 {/* Minimize button */}
                 <button
-                  onClick={() => setIsMinimized(!isMinimized)}
+                  onClick={handleMinimize}
                   className="hover:bg-white/10 p-1.5 rounded transition-colors"
                   aria-label={isMinimized ? "Expand" : "Minimize"}
                 >
@@ -211,7 +264,7 @@ export default function AIChatbot() {
 
                 {/* Close button */}
                 <button
-                  onClick={() => setIsOpen(false)}
+                  onClick={handleClose}
                   className="hover:bg-white/10 p-1.5 rounded transition-colors"
                   aria-label="Close chatbot"
                 >

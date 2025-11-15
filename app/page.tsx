@@ -9,6 +9,7 @@ import BackgroundElements from "@/components/BackgroundElements";
 import Badge from "@/components/Badge";
 import Photo from "@/components/Photo";
 import SocialPreviewGenerator from "@/components/SocialPreviewGenerator";
+import { trackResumeDownload } from "@/lib/analytics";
 
 // Import critical above-the-fold icons directly (no lazy loading)
 import { FiDownload, FiCode, FiCloud, FiZap } from "react-icons/fi";
@@ -31,10 +32,22 @@ const Home = () => {
 
   // Track if component is mounted (client-side) for conditional animations
   const [isMounted, setIsMounted] = useState(false);
+  const [pageLoadTime, setPageLoadTime] = useState(0);
 
   useEffect(() => {
     setIsMounted(true);
+    setPageLoadTime(Date.now());
   }, []);
+
+  // Handle resume download tracking
+  const handleResumeDownload = () => {
+    const timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // seconds
+    trackResumeDownload('Homepage Hero', {
+      timeOnPage,
+      pageUrl: window.location.href,
+      referrer: document.referrer,
+    });
+  };
 
   return (
     <>
@@ -209,6 +222,7 @@ const Home = () => {
                 download="Biswajit_Panday_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={handleResumeDownload}
                 data-testid="home-download-resume-link"
               >
                 <Button

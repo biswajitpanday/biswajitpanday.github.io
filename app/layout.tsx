@@ -9,6 +9,7 @@ import SEOOptimizer from "@/components/SEOOptimizer";
 import WebVitalsTracker from "@/components/WebVitalsTracker";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import AIChatbot from "@/components/AIChatbot";
+import ResumeAnalyticsLoader from "@/components/ResumeAnalyticsLoader";
 
 const jetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -166,6 +167,7 @@ export default function RootLayout({
         <PageTransition>{children}</PageTransition>
         <SEOOptimizer />
         <WebVitalsTracker />
+        <ResumeAnalyticsLoader />
         <DebugMode />
         <AIChatbot />
       </body>
