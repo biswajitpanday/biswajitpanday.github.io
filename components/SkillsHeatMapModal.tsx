@@ -17,12 +17,19 @@ interface SkillNode {
   children?: SkillNode[];
 }
 
-// Level to color mapping
+// Updated level to color mapping (replaced amber with purple)
 const levelToColor = {
-  'Expert': 'bg-emerald-500/90 border-emerald-400',
-  'Advanced': 'bg-blue-500/80 border-blue-400',
-  'Intermediate': 'bg-amber-500/70 border-amber-400',
-  'Familiar': 'bg-slate-500/60 border-slate-400',
+  'Expert': 'bg-emerald-500/90 border-emerald-500',
+  'Advanced': 'bg-blue-500/90 border-blue-500',
+  'Intermediate': 'bg-purple-500/90 border-purple-500', // Changed from amber
+  'Familiar': 'bg-slate-500/70 border-slate-500',
+};
+
+const levelToTextColor = {
+  'Expert': 'text-emerald-400',
+  'Advanced': 'text-blue-400',
+  'Intermediate': 'text-purple-400', // Changed from amber
+  'Familiar': 'text-slate-400',
 };
 
 interface SkillsHeatMapModalProps {
@@ -90,38 +97,39 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/80 backdrop-blur-md"
         />
 
-        {/* Modal */}
+        {/* Modal - Matching ProjectModal structure */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.3 }}
-          className="relative w-full max-w-6xl max-h-[90vh] bg-primary border-2 border-secondary-default/30 rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+          transition={{ duration: 0.2 }}
+          className="bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-xl border border-secondary-default/30 rounded-2xl w-full max-w-6xl max-h-[calc(100vh-160px)] overflow-hidden shadow-2xl shadow-secondary-default/20 flex flex-col relative"
+          onClick={(e) => e.stopPropagation()}
         >
-          {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+          {/* Header - flex-shrink-0 prevents header from scrolling */}
+          <div className="flex items-center justify-between px-6 py-4 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/10 via-transparent to-secondary-default/10 flex-shrink-0">
             <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-secondary-default bg-clip-text text-transparent">
               Skills Heat Map
             </h2>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white/5 rounded-lg transition-colors"
+              className="p-2.5 text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-full"
               aria-label="Close modal"
             >
-              <FiX className="text-2xl text-white/70 hover:text-white" />
+              <FiX className="text-lg" />
             </button>
           </div>
 
-          {/* Content */}
-          <div className="flex-1 overflow-y-auto px-6 py-6">
+          {/* Scrollable Content Area */}
+          <div className="overflow-y-auto px-6 py-6 flex-1">
             {/* Category Filter */}
-            <div className="flex flex-wrap gap-3 mb-8">
+            <div className="flex flex-wrap gap-2 mb-6">
               <button
                 onClick={() => setSelectedCategory(null)}
-                className={`px-4 py-2 rounded-lg transition-all text-sm ${
+                className={`px-3 py-1.5 rounded-lg transition-all text-xs ${
                   selectedCategory === null
                     ? 'bg-secondary-default text-primary'
                     : 'bg-white/5 text-white/70 hover:bg-white/10'
@@ -133,7 +141,7 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-lg transition-all text-sm ${
+                  className={`px-3 py-1.5 rounded-lg transition-all text-xs ${
                     selectedCategory === category
                       ? 'bg-secondary-default text-primary'
                       : 'bg-white/5 text-white/70 hover:bg-white/10'
@@ -145,32 +153,32 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
             </div>
 
             {/* Legend */}
-            <div className="flex flex-wrap gap-6 justify-center mb-8 pb-6 border-b border-white/10">
+            <div className="flex flex-wrap gap-4 justify-center mb-6 pb-4 border-b border-white/10">
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-emerald-500/90 border border-emerald-400 rounded" />
-                <span className="text-sm text-white/80">Expert</span>
+                <div className="w-5 h-5 bg-emerald-500/90 border border-emerald-500 rounded" />
+                <span className="text-xs text-white/70">Expert</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-blue-500/80 border border-blue-400 rounded" />
-                <span className="text-sm text-white/80">Advanced</span>
+                <div className="w-5 h-5 bg-blue-500/90 border border-blue-500 rounded" />
+                <span className="text-xs text-white/70">Advanced</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-amber-500/70 border border-amber-400 rounded" />
-                <span className="text-sm text-white/80">Intermediate</span>
+                <div className="w-5 h-5 bg-purple-500/90 border border-purple-500 rounded" />
+                <span className="text-xs text-white/70">Intermediate</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-slate-500/60 border border-slate-400 rounded" />
-                <span className="text-sm text-white/80">Familiar</span>
+                <div className="w-5 h-5 bg-slate-500/70 border border-slate-500 rounded" />
+                <span className="text-xs text-white/70">Familiar</span>
               </div>
             </div>
 
             {/* Heat Map Grid */}
-            <div className="space-y-10">
-              {displayedCategories.map(({ category, skills }, categoryIndex) => (
+            <div className="space-y-8">
+              {displayedCategories.map(({ category, skills }) => (
                 <div key={category}>
-                  <h3 className="text-xl font-semibold text-white/90 mb-4">{category}</h3>
+                  <h3 className="text-lg font-semibold text-white/90 mb-4">{category}</h3>
 
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                     {skills.map((skill, skillIndex) => {
                       const level = skill.metadata?.level || 'Familiar';
                       const colorClass = levelToColor[level];
@@ -182,47 +190,49 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                           key={skill.name}
                           initial={{ opacity: 0, scale: 0.9 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3, delay: skillIndex * 0.02 }}
+                          transition={{ duration: 0.2, delay: skillIndex * 0.015 }}
                           whileHover={{ scale: 1.05 }}
-                          onMouseEnter={() => setHoveredSkill(skill)}
-                          onMouseLeave={() => setHoveredSkill(null)}
-                          className={`relative p-4 rounded-lg border-2 ${colorClass} cursor-pointer transition-all`}
+                          className="relative group"
                         >
-                          {/* Skill Name */}
-                          <div className="text-white font-semibold text-sm mb-2">{skill.name}</div>
+                          <div
+                            className={`p-3 rounded-lg border-2 ${colorClass} cursor-pointer transition-all`}
+                          >
+                            {/* Skill Name */}
+                            <div className="text-white font-semibold text-sm mb-1.5">{skill.name}</div>
 
-                          {/* Experience Badge */}
-                          {experience && (
-                            <div className="text-xs text-white/90 mb-1">
-                              {experience}+ {experience === 1 ? 'year' : 'years'}
-                            </div>
-                          )}
+                            {/* Experience Badge */}
+                            {experience && (
+                              <div className="text-xs text-white/80 mb-1">
+                                {experience}+ {experience === 1 ? 'year' : 'years'}
+                              </div>
+                            )}
 
-                          {/* Level Badge */}
-                          <div className="text-xs text-white/80">{level}</div>
+                            {/* Level Badge */}
+                            <div className="text-xs text-white/70">{level}</div>
 
-                          {/* Last Used */}
-                          {lastUsed && (
-                            <div className="text-xs text-white/60 mt-1">
-                              {lastUsed === 'Current' ? '🟢 Current' : `Last: ${lastUsed}`}
-                            </div>
-                          )}
+                            {/* Last Used */}
+                            {lastUsed && (
+                              <div className="text-xs text-white/60 mt-1">
+                                {lastUsed === 'Current' ? '🟢 Current' : `Last: ${lastUsed}`}
+                              </div>
+                            )}
+                          </div>
 
-                          {/* Hover Tooltip */}
-                          {hoveredSkill === skill && (
-                            <motion.div
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              className="absolute z-10 top-full left-0 mt-2 p-3 bg-primary border border-secondary-default/30 rounded-lg shadow-xl min-w-[200px]"
-                            >
-                              <div className="text-sm font-semibold text-white mb-1">{skill.name}</div>
-                              <div className="text-xs text-white/70 space-y-1">
-                                <div>Level: {level}</div>
+                          {/* Fixed Tooltip - Shows ABOVE with proper z-index */}
+                          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                            <div className="bg-gray-900/95 backdrop-blur-sm border border-secondary-default/40 rounded-lg px-3 py-2 shadow-xl min-w-[180px]">
+                              <div className="text-xs font-semibold text-white mb-1.5">{skill.name}</div>
+                              <div className="text-[10px] text-white/70 space-y-0.5">
+                                <div>Level: <span className={levelToTextColor[level]}>{level}</span></div>
                                 {experience && <div>Experience: {experience} years</div>}
                                 {lastUsed && <div>Last Used: {lastUsed}</div>}
                               </div>
-                            </motion.div>
-                          )}
+                              {/* Tooltip Arrow */}
+                              <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
+                                <div className="border-4 border-transparent border-t-gray-900/95"></div>
+                              </div>
+                            </div>
+                          </div>
                         </motion.div>
                       );
                     })}
@@ -232,10 +242,10 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="px-6 py-4 border-t border-white/10 bg-white/5">
-            <p className="text-sm text-white/50 text-center">
-              Click outside or press ESC to close
+          {/* Footer - flex-shrink-0 prevents footer from scrolling */}
+          <div className="px-6 py-3 border-t border-secondary-default/20 bg-white/5 flex-shrink-0">
+            <p className="text-xs text-white/40 text-center">
+              Press ESC or click outside to close
             </p>
           </div>
         </motion.div>
