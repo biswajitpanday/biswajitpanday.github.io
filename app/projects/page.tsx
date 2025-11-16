@@ -6,7 +6,9 @@ import {
   FaCode,
   FaCogs,
   FaLaptopCode,
-  FaGlobe
+  FaGlobe,
+  FaTh,
+  FaClock
 } from "react-icons/fa";
 import { projects, getFeaturedProjects } from "@/data/portfolioData";
 import { useState } from "react";
@@ -21,6 +23,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import type { Project } from "@/data/portfolioData";
 import { useCountUp } from "@/hooks/useCountUp";
+import ProjectTimeline from "@/components/ProjectTimeline";
 
 const Projects = () => {
   // Environment flags
@@ -31,6 +34,7 @@ const Projects = () => {
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
   const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set());
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"grid" | "timeline">("grid");
 
   // Modal State
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -187,16 +191,61 @@ const Projects = () => {
           />
         </motion.div>
 
-        {/* Project Filtering */}
-        {isFilterEnabled && (
-          <div data-testid="projects-filter-section">
-            <ProjectsFilter
-              projects={projects}
-              onFilterChange={setFilteredProjects}
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-              resultsInfo={{
-                filtered: filteredProjects.length,
+        {/* View Mode Toggle */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="flex justify-center gap-3 mb-8"
+        >
+          <button
+            onClick={() => setViewMode("grid")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
+              viewMode === "grid"
+                ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-lg shadow-secondary-default/20"
+                : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
+            }`}
+          >
+            <FaTh />
+            Grid View
+          </button>
+          <button
+            onClick={() => setViewMode("timeline")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
+              viewMode === "timeline"
+                ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-lg shadow-secondary-default/20"
+                : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
+            }`}
+          >
+            <FaClock />
+            Timeline View
+          </button>
+        </motion.div>
+
+        {/* Timeline View */}
+        {viewMode === "timeline" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <ProjectTimeline />
+          </motion.div>
+        )}
+
+        {/* Grid View Content */}
+        {viewMode === "grid" && (
+          <>
+            {/* Project Filtering */}
+            {isFilterEnabled && (
+              <div data-testid="projects-filter-section">
+                <ProjectsFilter
+                  projects={projects}
+                  onFilterChange={setFilteredProjects}
+                  searchQuery={searchQuery}
+                  onSearchChange={setSearchQuery}
+                  resultsInfo={{
+                    filtered: filteredProjects.length,
                 total: projects.length,
                 description: "projects"
               }}
@@ -376,7 +425,7 @@ const Projects = () => {
 
         {/* Show when no projects match the filter */}
         {filteredProjects.length === 0 && (
-          <motion.div 
+          <motion.div
             data-testid="projects-no-results"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -386,6 +435,8 @@ const Projects = () => {
             <h3 className="text-xl font-semibold text-white mb-2">No projects found</h3>
             <p className="text-white/70">Try adjusting your search or filter criteria</p>
           </motion.div>
+        )}
+          </>
         )}
 
         {/* Project Details Modal */}
