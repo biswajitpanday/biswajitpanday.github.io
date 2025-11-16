@@ -115,6 +115,20 @@ export const projects: Project[] = [
     caseStudy: {
       problem: "AI assistants like Claude Code, Cursor, and other MCP-enabled tools lack real-time awareness of current date and time, limiting their ability to provide accurate temporal context. Developers needed a simple, zero-configuration solution to give AI assistants reliable datetime access.",
       solution: "Built CurrentDT-mcp, an open-source TypeScript MCP server that provides real-time datetime access through the Model Context Protocol. Supports multiple datetime formats (ISO 8601, custom), local and remote time providers, and works seamlessly with Cursor IDE, Claude Desktop, VS Code, and Windsurf with zero configuration required.",
+      architectureDiagram: `graph TB
+    A[AI Assistant] -->|Request DateTime| B[CurrentDT-mcp Server]
+    B -->|MCP Protocol| C[DateTime Provider]
+    C -->|Local Time| D[System Clock]
+    C -->|Remote Time| E[Time API]
+    D --> F[Format Engine]
+    E --> F
+    F -->|ISO 8601| G[Formatted DateTime]
+    F -->|Custom Format| G
+    G -->|MCP Response| A
+
+    style A fill:#4CAF50
+    style B fill:#2196F3
+    style G fill:#FF9800`,
       results: [
         "Published as open-source NPM package for the AI development community",
         "Zero-configuration setup for immediate use",
@@ -197,6 +211,19 @@ export const projects: Project[] = [
     caseStudy: {
       problem: "Upgrading Optimizely Configured Commerce for 20+ enterprise clients required 32-40 hours of manual Git merge conflict resolution per upgrade. Each client had custom implementations that conflicted with new platform updates, creating a bottleneck that delayed upgrades and frustrated both the team and clients.",
       solution: "Built IntelliMerge, an AI-powered automation tool using GPT-5 API with advanced prompt engineering. The tool analyzes three-way merge conflicts, understands code context, and automatically generates intelligent merge resolutions. Human developers only verify the output instead of manually resolving each conflict.",
+      architectureDiagram: `graph TB
+    A[Developer] -->|Triggers Upgrade| B[IntelliMerge CLI]
+    B -->|Read Files| C[Three-Way Merge Analysis]
+    C -->|Extract Conflicts| D[Conflict Parser]
+    D -->|Send Context| E[GPT-5 API]
+    E -->|AI Resolution| F[Merge Resolution Engine]
+    F -->|Generate Code| G[Automated Merge Output]
+    G -->|Review & Verify| H[Human Verification]
+    H -->|Approved| I[Upgraded Codebase]
+
+    style E fill:#4CAF50
+    style F fill:#2196F3
+    style I fill:#FF9800`,
       results: [
         "Reduced upgrade time from 40 hours to 8 hours (80% efficiency gain)",
         "Enabled 20+ enterprise clients to adopt updates 5x faster",
@@ -285,6 +312,20 @@ export const projects: Project[] = [
     caseStudy: {
       problem: "Fortune 500 companies needed custom B2B commerce features that weren't available out-of-the-box in Optimizely's platform. Clients faced slow upgrade cycles (40hrs per upgrade), complex integrations with CMS systems, and lack of developer-friendly tooling for rapid customization.",
       solution: "Built a comprehensive ecosystem of tools and customizations: (1) IntelliMerge for automated upgrades, (2) OpalSpark template framework for rapid development, (3) Sitecore-Opal integration bridge for content management, (4) Performance optimization layer for global deployments. Leveraged AI tools (GPT-5, Claude Code) for enhanced productivity.",
+      architectureDiagram: `graph LR
+    A[Client] --> B[Opal Platform]
+    B --> C[Custom Features]
+    B --> D[IntelliMerge Tool]
+    B --> E[Sitecore CMS]
+    C --> F[.NET 9 API]
+    F --> G[Azure Cloud]
+    D --> H[GPT-5 AI]
+    E --> I[Content Sync]
+    I --> F
+
+    style B fill:#4CAF50
+    style F fill:#2196F3
+    style G fill:#FF9800`,
       results: [
         "Serving 20+ enterprise B2B clients with high-performance customizations",
         "Achieved 55% average cost reduction for major clients via system migrations",
@@ -355,6 +396,20 @@ export const projects: Project[] = [
     caseStudy: {
       problem: "Internal development teams often need secure, self-hosted Q&A platforms for proprietary codebases but lack good architectural examples. Most solutions either compromise on architecture quality or require expensive SaaS subscriptions.",
       solution: "Built BugBusters as an open-source reference implementation demonstrating Clean Architecture principles with .NET 7 and React 18. Implemented CQRS patterns, repository pattern, dependency injection, and domain-driven design for a maintainable, testable, and scalable architecture.",
+      architectureDiagram: `graph TB
+    A[React 18 UI] --> B[API Gateway]
+    B --> C[CQRS Layer]
+    C --> D[Commands]
+    C --> E[Queries]
+    D --> F[Domain Layer]
+    E --> F
+    F --> G[Repository]
+    G --> H[EF Core]
+    H --> I[MSSQL]
+
+    style A fill:#4CAF50
+    style C fill:#2196F3
+    style I fill:#FF9800`,
       results: [
         "Published as open-source educational resource on GitHub",
         "Demonstrates Clean Architecture principles in practice",
@@ -397,7 +452,7 @@ export const projects: Project[] = [
     subtitle: "M&A Process Management & Team Collaboration Platform",
     longDescription:
       "Upgraded technology stacks and implemented new features for a USA-based company's M&A process management and team collaboration solution.",
-    shortDescription: "M&A process management platform upgrade.",
+    shortDescription: "Enterprise M&A process management and team collaboration platform with upgraded tech stack featuring ASP.NET MVC, Angular, and Azure DevOps integration.",
     stacks: [
       "C#",
       "ASP.NET",
@@ -428,7 +483,7 @@ export const projects: Project[] = [
     isFeatured: true,
     longDescription:
       "Led the upgrade of a legacy application to a Microservices architecture, deploying in Docker with multiple .NET 6, React, and Angular applications.",
-    shortDescription: "Modernizing a regulatory analytics platform.",
+    shortDescription: "Regulatory analytics platform modernized from legacy monolith to microservices architecture with Docker containerization, .NET 6 APIs, and AWS cloud deployment.",
     stacks: [
       "C#",
       ".NET 6",
@@ -461,6 +516,20 @@ export const projects: Project[] = [
     caseStudy: {
       problem: "Legacy monolithic regulatory analytics platform faced scalability issues, deployment bottlenecks, and difficulty maintaining multiple product features in a single codebase. The architecture limited independent team development and deployment velocity.",
       solution: "Led comprehensive modernization: (1) Decomposed monolith into microservices architecture, (2) Containerized with Docker for consistent deployments, (3) Migrated to .NET 6 with modern Web APIs, (4) Implemented React and Angular frontends for different products, (5) Deployed on AWS with independent service scaling.",
+      architectureDiagram: `graph LR
+    A[Client Apps] --> B[API Gateway]
+    B --> C[Auth Service]
+    B --> D[Analytics API]
+    B --> E[Reports API]
+    C --> F[Docker Container]
+    D --> F
+    E --> F
+    F --> G[AWS Cloud]
+    F --> H[MSSQL]
+
+    style A fill:#4CAF50
+    style F fill:#2196F3
+    style G fill:#FF9800`,
       results: [
         "Successfully migrated legacy application to microservices",
         "Enabled independent deployment of multiple products",
@@ -504,7 +573,7 @@ export const projects: Project[] = [
     subtitle: "Scalable Electronic Visit Verification for Home Care",
     longDescription:
       "Led Backend development, deployment, and managed the delivery of a scalable electronic visit verification platform for home care management.",
-    shortDescription: "Home care visit verification system.",
+    shortDescription: "Scalable electronic visit verification platform for home care agencies built with ASP.NET Core 3.1, DynamoDB, React, Flutter, and AWS serverless architecture.",
     stacks: [
       "C#",
       "ASP.NET Core 3.1",
@@ -536,7 +605,7 @@ export const projects: Project[] = [
     subtitle: "Emergency Alert System for Bangladesh Red Crescent Society",
     longDescription:
       "Led the development of a Flutter-based Mobile app for the Bangladesh Red Crescent Society (BDRCS), with a Backend and an Angular admin dashboard. Designed and deployed the system on AWS, ensuring scalability and best software practices.",
-    shortDescription: "Emergency alert and communication app.",
+    shortDescription: "Emergency alert and communication system for Bangladesh Red Crescent Society featuring Flutter mobile app, .NET 5 backend, Angular admin dashboard, and AWS deployment.",
     stacks: [
       "C#",
       "NET 5",
@@ -601,6 +670,18 @@ export const projects: Project[] = [
     caseStudy: {
       problem: "Robi's legacy Subscriber Verification System (SVS) ran on Windows with .NET Framework, limiting Linux deployment, scalability, and performance. The manual deployment process across 40+ servers was error-prone and time-consuming. The system needed modernization to handle millions of user verification requests efficiently.",
       solution: "Led comprehensive modernization: (1) Migrated from .NET Framework to .NET Core 2.2 for cross-platform compatibility, (2) Optimized REST APIs for high-throughput telecom operations, (3) Automated deployment pipeline for 40+ servers, (4) Improved database queries with Entity Framework optimizations, (5) Deployed on Linux for better performance and cost efficiency.",
+      architectureDiagram: `graph TB
+    A[Telecom Users] --> B[Load Balancer]
+    B --> C[40+ Linux Servers]
+    C --> D[.NET Core API]
+    D --> E[Entity Framework]
+    E --> F[Oracle DB]
+    C --> G[Automated Deploy]
+    G --> H[CI/CD Pipeline]
+
+    style A fill:#4CAF50
+    style D fill:#2196F3
+    style F fill:#FF9800`,
       results: [
         "Successfully migrated telecom platform serving millions of users",
         "Enabled Linux deployment for better performance and scalability",
@@ -650,7 +731,7 @@ export const projects: Project[] = [
     subtitle: "Social Platform Combining Twitter, Yelp & Facebook",
     longDescription:
       "Led the development and deployment of JoyList, a scalable platform combining elements of Twitter, Yelp, and Facebook for users to share curated lists of favorite experiences.",
-    shortDescription: "Social platform for experience sharing.",
+    shortDescription: "Scalable social platform combining Twitter, Yelp, and Facebook elements for curated experience sharing, built with TypeScript, Node.js, hapi.js, React, MongoDB, and AWS infrastructure.",
     stacks: [
       "TypeScript",
       "Node.js",
@@ -680,7 +761,7 @@ export const projects: Project[] = [
     subtitle: "Location-Based E-Commerce with Flutter & MEAN Stack",
     longDescription:
       "Contributed to the development of a location-based e-commerce platform, working on both Frontend and Backend as a Full-Stack developer.",
-    shortDescription: "A location-based e-commerce platform.",
+    shortDescription: "Location-based e-commerce platform with geolocation features, built as a full-stack solution using Node.js, Express.js, Angular, MongoDB (MEAN stack), and Flutter for mobile.",
     stacks: [
       "JavaScript",
       "Node.js",
@@ -770,7 +851,7 @@ export const projects: Project[] = [
     subtitle: "Live Engagement App with Cross-Platform Support",
     longDescription:
       "Contributed to the development of a live engagement app, working on both Frontend and Backend as a Full-Stack developer.",
-    shortDescription: "No Longer Operational",
+    shortDescription: "Live engagement application with cross-platform support built using ASP.NET Web API backend, Angular.js frontend, Xamarin mobile apps, and Firebase integration (completed MVP).",
     stacks: [
       "C#",
       "ASP.NET Web API",

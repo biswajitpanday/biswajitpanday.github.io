@@ -57,6 +57,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   // Featured project gets special styling
   const isFeatured = project.isFeatured === true;
 
+  // Company logo mapping
+  const getCompanyLogo = (company: string) => {
+    const logoMap: Record<string, string> = {
+      "Brain Station-23": "/assets/company-icon/webp/brain-station-23.webp",
+      "Chorki Limited": "/assets/company-icon/webp/chorki.webp",
+      "Kaz Software": "/assets/company-icon/webp/kaz.webp",
+      "Optimizely": "/assets/company-icon/webp/opti.webp",
+    };
+    return logoMap[company] || null;
+  };
+
+  const companyLogo = project.associatedWithCompany ? getCompanyLogo(project.associatedWithCompany) : null;
+
   // Get primary metric for display
   const getPrimaryMetric = () => {
     if (project.metrics?.efficiency) return { icon: FaRocket, text: project.metrics.efficiency, label: "Efficiency" };
@@ -230,9 +243,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {project.associatedWithCompany && (
             <span
               data-testid={`project-company-badge-${project.num}`}
-              className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded bg-secondary-default/10 border border-secondary-default/30 text-secondary-default/90"
+              className="inline-flex items-center gap-1.5 text-xs font-medium px-2 py-0.5 rounded bg-secondary-default/10 border border-secondary-default/30 text-secondary-default/90"
             >
-              <FaBuilding className="text-xs" />
+              {companyLogo ? (
+                <Image
+                  src={companyLogo}
+                  alt={`${project.associatedWithCompany} logo`}
+                  width={16}
+                  height={16}
+                  className="rounded-sm"
+                />
+              ) : (
+                <FaBuilding className="text-xs" />
+              )}
               {project.associatedWithCompany}
             </span>
           )}

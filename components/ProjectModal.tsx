@@ -25,6 +25,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Project } from "@/data/portfolioData";
 import { useState, useEffect } from "react";
+import MermaidDiagram from "@/components/MermaidDiagram";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -55,7 +56,7 @@ const getMetricIcon = (key: string) => {
 };
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState<"overview" | "case-study">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "case-study" | "architecture">("overview");
 
   // Deep linking support - update URL when modal opens
   useEffect(() => {
@@ -111,6 +112,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
   // Check if has case study
   const hasCaseStudy = project.caseStudy !== undefined;
 
+  // Check if has architecture diagram
+  const hasArchitecture = project.caseStudy?.architectureDiagram !== undefined;
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -154,8 +158,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
               {/* Buttons (Left) and Tags (Right) Row */}
               <div className="flex items-center justify-between gap-4 mt-3 border-t border-white/5 pt-3">
-                {/* Tab Buttons - Left Side (only if case study exists) */}
-                {hasCaseStudy ? (
+                {/* Tab Buttons - Left Side (only if case study or architecture exists) */}
+                {hasCaseStudy || hasArchitecture ? (
                   <div className="flex gap-2">
                     <button
                       onClick={() => setActiveTab("overview")}
@@ -176,25 +180,48 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         </>
                       )}
                     </button>
-                    <button
-                      onClick={() => setActiveTab("case-study")}
-                      className={`relative px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 overflow-hidden ${
-                        activeTab === "case-study"
-                          ? "bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-purple-500/20 border border-purple-500/40 text-white shadow-lg shadow-purple-500/20"
-                          : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
-                      }`}
-                    >
-                      <span className="relative z-10 flex items-center gap-2">
-                        <FaLightbulb className="text-sm" />
-                        Case Study
-                      </span>
-                      {activeTab === "case-study" && (
-                        <>
-                          <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
-                          <span className="absolute inset-0 rounded-lg blur-md bg-gradient-to-r from-emerald-500/30 via-blue-500/30 to-purple-500/30 opacity-50" />
-                        </>
-                      )}
-                    </button>
+                    {hasCaseStudy && (
+                      <button
+                        onClick={() => setActiveTab("case-study")}
+                        className={`relative px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 overflow-hidden ${
+                          activeTab === "case-study"
+                            ? "bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-purple-500/20 border border-purple-500/40 text-white shadow-lg shadow-purple-500/20"
+                            : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
+                        }`}
+                      >
+                        <span className="relative z-10 flex items-center gap-2">
+                          <FaLightbulb className="text-sm" />
+                          Case Study
+                        </span>
+                        {activeTab === "case-study" && (
+                          <>
+                            <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
+                            <span className="absolute inset-0 rounded-lg blur-md bg-gradient-to-r from-emerald-500/30 via-blue-500/30 to-purple-500/30 opacity-50" />
+                          </>
+                        )}
+                      </button>
+                    )}
+                    {hasArchitecture && (
+                      <button
+                        onClick={() => setActiveTab("architecture")}
+                        className={`relative px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 overflow-hidden ${
+                          activeTab === "architecture"
+                            ? "bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-500/40 text-white shadow-lg shadow-cyan-500/20"
+                            : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
+                        }`}
+                      >
+                        <span className="relative z-10 flex items-center gap-2">
+                          <FiLayers className="text-sm" />
+                          Architecture
+                        </span>
+                        {activeTab === "architecture" && (
+                          <>
+                            <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
+                            <span className="absolute inset-0 rounded-lg blur-md bg-gradient-to-r from-emerald-500/30 via-blue-500/30 to-purple-500/30 opacity-50" />
+                          </>
+                        )}
+                      </button>
+                    )}
                   </div>
                 ) : (
                   <div></div>
@@ -588,6 +615,22 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           ))}
                         </div>
                       </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Architecture Tab */}
+                {activeTab === "architecture" && project.caseStudy?.architectureDiagram && (
+                  <div className="space-y-8">
+                    {/* Architecture Diagram Section */}
+                    <div>
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center">
+                          <FiLayers className="text-purple-400" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white">Architecture Flow</h3>
+                      </div>
+                      <MermaidDiagram chart={project.caseStudy.architectureDiagram} />
                     </div>
                   </div>
                 )}
