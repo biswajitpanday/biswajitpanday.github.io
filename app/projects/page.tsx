@@ -20,6 +20,7 @@ import Badge from "@/components/Badge";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import type { Project } from "@/data/portfolioData";
+import { useCountUp } from "@/hooks/useCountUp";
 
 const Projects = () => {
   // Environment flags
@@ -38,6 +39,12 @@ const Projects = () => {
   const activeProjects = projects.filter(p => p.isActive).length;
   const featuredProjects = getFeaturedProjects();
   // const inactiveProjects = projects.filter(p => !p.isActive).length;
+
+  // Animated counters for stats dashboard
+  const totalCount = useCountUp({ end: projects.length, duration: 2000 });
+  const featuredCount = useCountUp({ end: featuredProjects.length, duration: 1800, start: 0 });
+  const hoursSavedCount = useCountUp({ end: 32, duration: 2200, suffix: "+" });
+  const clientsCount = useCountUp({ end: 20, duration: 2000, suffix: "+" });
 
   // Toggle project stacks display
   const toggleProjectStacks = (projectIndex: number) => {
@@ -211,9 +218,61 @@ const Projects = () => {
           </motion.div>
         )}
 
+        {/* Quick Stats Dashboard - Aggregate Impact */}
+        {featuredProjects.length > 0 && !searchQuery && (
+          <motion.div
+            variants={PERFORMANCE_VARIANTS.containerSync}
+            initial="hidden"
+            animate="visible"
+            className="mt-12 mb-8"
+          >
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {/* Total Projects */}
+              <div ref={totalCount.ref} className="bg-gradient-to-br from-secondary-default/10 to-blue-500/10 border border-secondary-default/30 rounded-xl p-5 hover:scale-105 transition-transform duration-300">
+                <div className="flex items-center justify-between mb-2">
+                  <FaCode className="text-secondary-default text-2xl" />
+                  <span className="text-xs text-white/50 uppercase tracking-wide font-semibold">Total</span>
+                </div>
+                <div className="text-3xl font-bold text-white mb-1">{totalCount.count}</div>
+                <div className="text-xs text-white/70">Projects Delivered</div>
+              </div>
+
+              {/* Featured Projects */}
+              <div ref={featuredCount.ref} className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-5 hover:scale-105 transition-transform duration-300">
+                <div className="flex items-center justify-between mb-2">
+                  <FaRocket className="text-purple-400 text-2xl" />
+                  <span className="text-xs text-white/50 uppercase tracking-wide font-semibold">Featured</span>
+                </div>
+                <div className="text-3xl font-bold text-white mb-1">{featuredCount.count}</div>
+                <div className="text-xs text-white/70">Top Impact Projects</div>
+              </div>
+
+              {/* Hours Saved (from IntelliMerge) */}
+              <div ref={hoursSavedCount.ref} className="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30 rounded-xl p-5 hover:scale-105 transition-transform duration-300">
+                <div className="flex items-center justify-between mb-2">
+                  <FaRocket className="text-emerald-400 text-2xl" />
+                  <span className="text-xs text-white/50 uppercase tracking-wide font-semibold">Efficiency</span>
+                </div>
+                <div className="text-3xl font-bold text-white mb-1">{hoursSavedCount.count}</div>
+                <div className="text-xs text-white/70">Hours Saved Per Cycle</div>
+              </div>
+
+              {/* Clients Served */}
+              <div ref={clientsCount.ref} className="bg-gradient-to-br from-blue-500/10 to-secondary-default/10 border border-blue-500/30 rounded-xl p-5 hover:scale-105 transition-transform duration-300">
+                <div className="flex items-center justify-between mb-2">
+                  <FaGlobe className="text-blue-400 text-2xl" />
+                  <span className="text-xs text-white/50 uppercase tracking-wide font-semibold">Scale</span>
+                </div>
+                <div className="text-3xl font-bold text-white mb-1">{clientsCount.count}</div>
+                <div className="text-xs text-white/70">Enterprise Clients</div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {/* All Projects Heading */}
         {featuredProjects.length > 0 && !searchQuery && (
-          <div className="mb-6 mt-12">
+          <div className="mb-6">
             <h2 className="text-2xl xl:text-3xl font-bold text-white mb-2 flex items-center gap-3">
               <FaCode className="text-blue-400" />
               All Projects

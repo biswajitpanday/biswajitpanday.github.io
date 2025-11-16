@@ -71,6 +71,8 @@ export interface Project {
   testimonials?: Testimonial[];
   caseStudy?: CaseStudy;
   recognition?: Recognition[];
+  // Skills Highlighted (3-4 key skills learned/demonstrated)
+  skillsHighlighted?: string[];
 }
 
 export const projects: Project[] = [
@@ -141,7 +143,8 @@ export const projects: Project[] = [
         icon: "lightbulb",
         approved: true
       }
-    ]
+    ],
+    skillsHighlighted: ["TypeScript", "MCP Protocol", "NPM Publishing", "AI Integration"]
   },
   {
     num: 2,
@@ -219,7 +222,8 @@ export const projects: Project[] = [
         icon: "users",
         approved: true
       }
-    ]
+    ],
+    skillsHighlighted: ["AI/ML Integration", "Python Automation", "Git Internals", "API Design"]
   },
   {
     num: 3,
@@ -307,7 +311,8 @@ export const projects: Project[] = [
         icon: "lightbulb",
         approved: true
       }
-    ]
+    ],
+    skillsHighlighted: ["Enterprise Architecture", "Performance Optimization", "Team Leadership", "AI-Powered Tools"]
   },
   {
     num: 4,
@@ -368,7 +373,8 @@ export const projects: Project[] = [
         icon: "code",
         approved: true
       }
-    ]
+    ],
+    skillsHighlighted: ["Clean Architecture", "CQRS Pattern", "Domain-Driven Design", "Open Source"]
   },
   {
     num: 5,
@@ -463,7 +469,8 @@ export const projects: Project[] = [
         icon: "rocket",
         approved: true
       }
-    ]
+    ],
+    skillsHighlighted: ["Microservices", "Docker", "System Migration", "Technical Leadership"]
   },
   {
     num: 7,
@@ -596,7 +603,8 @@ export const projects: Project[] = [
         icon: "award",
         approved: true
       }
-    ]
+    ],
+    skillsHighlighted: ["Platform Migration", "High-Scale Systems", "DevOps", "Linux Deployment"]
   },
   {
     num: 10,

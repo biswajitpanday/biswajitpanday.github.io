@@ -156,26 +156,44 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
               <div className="flex items-center justify-between gap-4 mt-3 border-t border-white/5 pt-3">
                 {/* Tab Buttons - Left Side (only if case study exists) */}
                 {hasCaseStudy ? (
-                  <div className="flex gap-1.5">
+                  <div className="flex gap-2">
                     <button
                       onClick={() => setActiveTab("overview")}
-                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                      className={`relative px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 overflow-hidden ${
                         activeTab === "overview"
-                          ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white"
-                          : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+                          ? "bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-purple-500/20 border border-emerald-500/40 text-white shadow-lg shadow-emerald-500/20"
+                          : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
                       }`}
                     >
-                      Overview
+                      <span className="relative z-10 flex items-center gap-2">
+                        <FaInfoCircle className="text-sm" />
+                        Overview
+                      </span>
+                      {activeTab === "overview" && (
+                        <>
+                          <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
+                          <span className="absolute inset-0 rounded-lg blur-md bg-gradient-to-r from-emerald-500/30 via-blue-500/30 to-purple-500/30 opacity-50" />
+                        </>
+                      )}
                     </button>
                     <button
                       onClick={() => setActiveTab("case-study")}
-                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                      className={`relative px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 overflow-hidden ${
                         activeTab === "case-study"
-                          ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white"
-                          : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+                          ? "bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-purple-500/20 border border-purple-500/40 text-white shadow-lg shadow-purple-500/20"
+                          : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
                       }`}
                     >
-                      Case Study
+                      <span className="relative z-10 flex items-center gap-2">
+                        <FaLightbulb className="text-sm" />
+                        Case Study
+                      </span>
+                      {activeTab === "case-study" && (
+                        <>
+                          <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
+                          <span className="absolute inset-0 rounded-lg blur-md bg-gradient-to-r from-emerald-500/30 via-blue-500/30 to-purple-500/30 opacity-50" />
+                        </>
+                      )}
                     </button>
                   </div>
                 ) : (
@@ -213,7 +231,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                   {/* Featured Tag */}
                   {project.isFeatured && (
-                    <span className="inline-flex items-center gap-1.5 bg-yellow-500/20 text-yellow-300 text-xs font-medium px-2.5 py-1 rounded-md border border-yellow-500/40 opacity-80">
+                    <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-300 text-xs font-semibold px-2.5 py-1 rounded-md border border-purple-500/50 shadow-md shadow-purple-500/20">
                       <FaStar className="text-xs" />
                       Featured
                     </span>
@@ -421,83 +439,86 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                     {/* Sidebar Info - 1/3 width */}
                     <div className="space-y-6">
-                      {/* Project Details Card */}
-                      <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-secondary-default/30 rounded-xl p-5 shadow-lg sticky top-0">
-                        <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                          <FaBuilding className="text-secondary-default" />
-                          Project Details
-                        </h3>
-                        <div className="space-y-4">
-                          {/* Company */}
-                          <div className="flex items-start gap-3 pb-4 border-b border-white/10">
-                            <div className="p-2 bg-secondary-default/10 rounded-lg">
-                              <FaBuilding className="text-secondary-default text-sm" />
+                      {/* Sticky Container for Details + Buttons */}
+                      <div className="sticky top-0 space-y-4">
+                        {/* Project Details Card */}
+                        <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-secondary-default/30 rounded-xl p-5 shadow-lg">
+                          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <FaBuilding className="text-secondary-default" />
+                            Project Details
+                          </h3>
+                          <div className="space-y-4">
+                            {/* Company */}
+                            <div className="flex items-start gap-3 pb-4 border-b border-white/10">
+                              <div className="p-2 bg-secondary-default/10 rounded-lg">
+                                <FaBuilding className="text-secondary-default text-sm" />
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-xs text-white/50 font-medium uppercase tracking-wide mb-1">Company</p>
+                                <p className="text-white font-semibold">
+                                  {project.associatedWithCompany || "Individual Project"}
+                                </p>
+                              </div>
                             </div>
-                            <div className="flex-1">
-                              <p className="text-xs text-white/50 font-medium uppercase tracking-wide mb-1">Company</p>
-                              <p className="text-white font-semibold">
-                                {project.associatedWithCompany || "Individual Project"}
-                              </p>
-                            </div>
-                          </div>
 
-                          {/* Duration */}
-                          <div className="flex items-start gap-3 pb-4 border-b border-white/10">
-                            <div className="p-2 bg-blue-500/10 rounded-lg">
-                              <FaCalendar className="text-blue-400 text-sm" />
+                            {/* Duration */}
+                            <div className="flex items-start gap-3 pb-4 border-b border-white/10">
+                              <div className="p-2 bg-blue-500/10 rounded-lg">
+                                <FaCalendar className="text-blue-400 text-sm" />
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-xs text-white/50 font-medium uppercase tracking-wide mb-1">Duration</p>
+                                <p className="text-white font-semibold text-sm">
+                                  {formatDateRange(project.startDate, project.endDate)}
+                                </p>
+                              </div>
                             </div>
-                            <div className="flex-1">
-                              <p className="text-xs text-white/50 font-medium uppercase tracking-wide mb-1">Duration</p>
-                              <p className="text-white font-semibold text-sm">
-                                {formatDateRange(project.startDate, project.endDate)}
-                              </p>
-                            </div>
-                          </div>
 
-                          {/* Role */}
-                          <div className="flex items-start gap-3">
-                            <div className="p-2 bg-purple-500/10 rounded-lg">
-                              <FaCode className="text-purple-400 text-sm" />
-                            </div>
-                            <div className="flex-1">
-                              <p className="text-xs text-white/50 font-medium uppercase tracking-wide mb-1">Role</p>
-                              <p className="text-white font-semibold">{project.jobRole}</p>
+                            {/* Role */}
+                            <div className="flex items-start gap-3">
+                              <div className="p-2 bg-purple-500/10 rounded-lg">
+                                <FaCode className="text-purple-400 text-sm" />
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-xs text-white/50 font-medium uppercase tracking-wide mb-1">Role</p>
+                                <p className="text-white font-semibold">{project.jobRole}</p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Action Buttons - Compact */}
-                      <div className="space-y-2">
-                        {project.url && project.url.trim() !== "" && (
-                          <Link
-                            href={project.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group flex items-center justify-center gap-2 w-full bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-white px-4 py-2.5 rounded-lg transition-all duration-300 font-medium text-sm shadow-md shadow-secondary-default/20 hover:shadow-secondary-default/40 hover:scale-105"
-                          >
-                            <FaExternalLinkAlt className="text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                            <span>View Live Project</span>
-                          </Link>
-                        )}
-                        {project.github && project.github.trim() !== "" && (
-                          <Link
-                            href={project.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group flex items-center justify-center gap-2 w-full bg-gray-800/70 hover:bg-gray-800 text-white border-2 border-secondary-default/30 hover:border-secondary-default/60 px-4 py-2.5 rounded-lg transition-all duration-300 font-medium text-sm hover:scale-105"
-                          >
-                            <FaGithub className="text-base group-hover:rotate-12 transition-transform" />
-                            <span>View Source Code</span>
-                          </Link>
-                        )}
+                        {/* Action Buttons - Fixed Below Details */}
+                        <div className="space-y-2">
+                          {project.url && project.url.trim() !== "" && (
+                            <Link
+                              href={project.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group flex items-center justify-center gap-2 w-full bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-white px-4 py-2.5 rounded-lg transition-all duration-300 font-medium text-sm shadow-md shadow-secondary-default/20 hover:shadow-secondary-default/40 hover:scale-105"
+                            >
+                              <FaExternalLinkAlt className="text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                              <span>View Live Project</span>
+                            </Link>
+                          )}
+                          {project.github && project.github.trim() !== "" && (
+                            <Link
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group flex items-center justify-center gap-2 w-full bg-gray-800/70 hover:bg-gray-800 text-white border-2 border-secondary-default/30 hover:border-secondary-default/60 px-4 py-2.5 rounded-lg transition-all duration-300 font-medium text-sm hover:scale-105"
+                            >
+                              <FaGithub className="text-base group-hover:rotate-12 transition-transform" />
+                              <span>View Source Code</span>
+                            </Link>
+                          )}
 
-                        {/* If no links available */}
-                        {(!project.url || project.url.trim() === "") && (!project.github || project.github.trim() === "") && (
-                          <div className="text-center p-3 bg-white/5 border border-white/10 rounded-lg">
-                            <p className="text-white/50 text-xs">No public links available</p>
-                          </div>
-                        )}
+                          {/* If no links available */}
+                          {(!project.url || project.url.trim() === "") && (!project.github || project.github.trim() === "") && (
+                            <div className="text-center p-3 bg-white/5 border border-white/10 rounded-lg">
+                              <p className="text-white/50 text-xs">No public links available</p>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
