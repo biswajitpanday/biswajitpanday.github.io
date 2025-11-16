@@ -127,45 +127,28 @@ export default function GitHubActivityGraph() {
   }, [activityMap]);
 
   return (
-    <section className="py-20 bg-gradient-to-br from-primary via-primary/95 to-primary">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <motion.div
+    <div className="space-y-6">
+      {/* Stats */}
+      <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
         >
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-secondary-default bg-clip-text text-transparent">
-            Activity Graph
-          </h2>
-          <p className="text-white/70 max-w-2xl mx-auto">
-            A visual representation of portfolio development activity over the past year.
-          </p>
-        </motion.div>
-
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
-        >
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-emerald-400 mb-2">{totalActivities}</div>
-            <div className="text-sm text-white/60">Total Contributions</div>
+          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 text-center hover:border-secondary-default/40 transition-all duration-300">
+            <div className="text-2xl font-bold text-emerald-400 mb-1">{totalActivities}</div>
+            <div className="text-xs text-white/60">Total Contributions</div>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-blue-400 mb-2">{activeDays}</div>
-            <div className="text-sm text-white/60">Active Days</div>
+          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 text-center hover:border-secondary-default/40 transition-all duration-300">
+            <div className="text-2xl font-bold text-blue-400 mb-1">{activeDays}</div>
+            <div className="text-xs text-white/60">Active Days</div>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-secondary-default mb-2">{currentStreak}</div>
-            <div className="text-sm text-white/60">Current Streak</div>
+          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 text-center hover:border-secondary-default/40 transition-all duration-300">
+            <div className="text-2xl font-bold text-secondary-default mb-1">{currentStreak}</div>
+            <div className="text-xs text-white/60">Current Streak</div>
           </div>
         </motion.div>
 
@@ -174,8 +157,8 @@ export default function GitHubActivityGraph() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-6 overflow-x-auto"
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 overflow-x-auto"
         >
           <div className="min-w-[800px]">
             {/* Month labels */}
@@ -270,32 +253,32 @@ export default function GitHubActivityGraph() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4"
+          transition={{ duration: 0.4, delay: 0.3 }}
+          className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3"
         >
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-blue-400 mb-1">
+          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 text-center hover:border-blue-400/40 transition-all duration-300">
+            <div className="text-xl font-bold text-blue-400 mb-0.5">
               {activities.filter(a => a.type === 'project').length}
             </div>
             <div className="text-xs text-white/60">Projects</div>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-purple-400 mb-1">
+          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 text-center hover:border-purple-400/40 transition-all duration-300">
+            <div className="text-xl font-bold text-purple-400 mb-0.5">
               {activities.filter(a => a.type === 'certification').length}
             </div>
             <div className="text-xs text-white/60">Certifications</div>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-amber-400 mb-1">
+          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 text-center hover:border-amber-400/40 transition-all duration-300">
+            <div className="text-xl font-bold text-amber-400 mb-0.5">
               {activities.filter(a => a.type === 'skill').length}
             </div>
             <div className="text-xs text-white/60">Skills Added</div>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-emerald-400 mb-1">
+          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 text-center hover:border-emerald-400/40 transition-all duration-300">
+            <div className="text-xl font-bold text-emerald-400 mb-0.5">
               {activities.filter(a => a.type === 'commit').length}
             </div>
             <div className="text-xs text-white/60">Commits</div>
@@ -307,14 +290,13 @@ export default function GitHubActivityGraph() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-center mt-8"
+          transition={{ duration: 0.4, delay: 0.4 }}
+          className="text-center mt-6"
         >
           <p className="text-xs text-white/40">
-            📊 Activity data represents portfolio development, projects, certifications, and skills updates over the past year
+            Activity data from the past year - projects, certifications, and skills updates
           </p>
         </motion.div>
-      </div>
-    </section>
+    </div>
   );
 }

@@ -26,6 +26,7 @@ import Link from "next/link";
 import { Project } from "@/data/portfolioData";
 import { useState, useEffect } from "react";
 import MermaidDiagram from "@/components/MermaidDiagram";
+import ProjectPerformanceMetrics from "@/components/ProjectPerformanceMetrics";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -309,44 +310,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                             <FaChartLine className="text-secondary-default" />
                             <h3 className="text-xl font-bold text-white">Impact & Metrics</h3>
                           </div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {Object.entries(project.metrics).map(([key, value]) => {
-                              if (key === "other" && Array.isArray(value)) {
-                                return value.map((item, idx) => {
-                                  const Icon = FaCheckCircle;
-                                  return (
-                                    <div
-                                      key={`other-${idx}`}
-                                      className="bg-gradient-to-br from-secondary-default/10 to-blue-500/10 border border-secondary-default/30 rounded-lg p-4 flex items-start gap-3 hover:scale-105 transition-transform"
-                                    >
-                                      <Icon className="text-secondary-default text-lg mt-1 flex-shrink-0" />
-                                      <div>
-                                        <p className="text-white font-semibold text-sm">{item}</p>
-                                      </div>
-                                    </div>
-                                  );
-                                });
-                              }
-                              if (value && typeof value === "string") {
-                                const Icon = getMetricIcon(key);
-                                return (
-                                  <div
-                                    key={key}
-                                    className="bg-gradient-to-br from-secondary-default/10 to-blue-500/10 border border-secondary-default/30 rounded-lg p-4 flex items-start gap-3 hover:scale-105 transition-transform"
-                                  >
-                                    <Icon className="text-secondary-default text-lg mt-1 flex-shrink-0" />
-                                    <div>
-                                      <p className="text-white/60 text-xs uppercase tracking-wide mb-1">
-                                        {key.replace(/_/g, ' ')}
-                                      </p>
-                                      <p className="text-white font-semibold">{value}</p>
-                                    </div>
-                                  </div>
-                                );
-                              }
-                              return null;
-                            })}
-                          </div>
+                          <ProjectPerformanceMetrics metrics={project.metrics} />
                         </div>
                       )}
 

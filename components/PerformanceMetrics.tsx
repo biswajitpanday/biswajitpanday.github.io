@@ -109,43 +109,26 @@ export default function PerformanceMetrics() {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-primary via-primary/95 to-primary">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <motion.div
+    <div className="space-y-8">
+      {/* Lighthouse Scores */}
+      <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="mb-8"
         >
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-secondary-default bg-clip-text text-transparent">
-            Performance Metrics
-          </h2>
-          <p className="text-white/70 max-w-2xl mx-auto">
-            I&apos;m obsessed with performance. Here&apos;s the proof — real metrics from this portfolio.
-          </p>
-        </motion.div>
-
-        {/* Lighthouse Scores */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-16"
-        >
-          <h3 className="text-2xl font-semibold mb-6 text-center text-white/90">
+          <h3 className="text-xl font-semibold mb-4 text-center text-white/90">
             Google Lighthouse Scores
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <MetricCard
               title="Performance"
               score={lighthouseScores.performance}
               maxScore={100}
               color={getScoreColor(lighthouseScores.performance)}
               icon={<FiZap />}
-              description="Perfect Lighthouse score"
+              description="Perfect score"
             />
             <MetricCard
               title="SEO"
@@ -153,7 +136,7 @@ export default function PerformanceMetrics() {
               maxScore={100}
               color={getScoreColor(lighthouseScores.seo)}
               icon={<FiSearch />}
-              description="Search engine optimized"
+              description="SEO optimized"
             />
             <MetricCard
               title="Accessibility"
@@ -161,7 +144,7 @@ export default function PerformanceMetrics() {
               maxScore={100}
               color={getScoreColor(lighthouseScores.accessibility)}
               icon={<FiEye />}
-              description="WCAG 2.1 Level AA"
+              description="WCAG 2.1 AA"
             />
             <MetricCard
               title="Best Practices"
@@ -169,7 +152,7 @@ export default function PerformanceMetrics() {
               maxScore={100}
               color={getScoreColor(lighthouseScores.bestPractices)}
               icon={<FiCheckCircle />}
-              description="Modern web standards"
+              description="Modern standards"
             />
           </div>
         </motion.div>
@@ -179,35 +162,35 @@ export default function PerformanceMetrics() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-16"
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="mb-8"
         >
-          <h3 className="text-2xl font-semibold mb-6 text-center text-white/90">
+          <h3 className="text-xl font-semibold mb-4 text-center text-white/90">
             Core Web Vitals
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {webVitals.map((vital, index) => (
               <motion.div
                 key={vital.name}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-6 hover:border-secondary-default/40 transition-all duration-300"
+                transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+                className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 hover:border-secondary-default/40 transition-all duration-300"
               >
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-secondary-default/20 rounded-lg flex items-center justify-center text-secondary-default text-2xl flex-shrink-0">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-secondary-default/20 rounded-lg flex items-center justify-center text-secondary-default text-xl flex-shrink-0">
                     {vital.icon}
                   </div>
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-white/90 mb-2">{vital.name}</h4>
-                    <p className="text-xs text-white/50 mb-3">{vital.description}</p>
-                    <div className="flex items-center gap-3">
-                      <span className={`px-3 py-1 rounded-full text-sm font-bold border ${getVitalStatusColor(vital.status)}`}>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-semibold text-sm text-white/90 mb-1 truncate">{vital.name}</h4>
+                    <p className="text-xs text-white/50 mb-2">{vital.description}</p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${getVitalStatusColor(vital.status)}`}>
                         {vital.value}
                       </span>
                       <span className="text-xs text-white/40">
-                        (threshold: {vital.threshold})
+                        ≤ {vital.threshold}
                       </span>
                     </div>
                   </div>
@@ -222,53 +205,52 @@ export default function PerformanceMetrics() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-8 max-w-2xl mx-auto"
+          transition={{ duration: 0.4, delay: 0.4 }}
+          className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-5 max-w-xl mx-auto"
         >
-          <h3 className="text-2xl font-semibold mb-6 text-center text-white/90">
+          <h3 className="text-xl font-semibold mb-4 text-center text-white/90">
             Bundle Size
           </h3>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-2 gap-6">
             <div className="text-center">
-              <p className="text-sm text-white/60 mb-2">Homepage</p>
-              <p className="text-4xl font-bold text-secondary-default">3.48 KB</p>
+              <p className="text-xs text-white/60 mb-1.5">Homepage</p>
+              <p className="text-3xl font-bold text-secondary-default">3.48 KB</p>
               <p className="text-xs text-white/40 mt-1">Page bundle</p>
             </div>
             <div className="text-center">
-              <p className="text-sm text-white/60 mb-2">First Load JS</p>
-              <p className="text-4xl font-bold text-secondary-default">9.11 MB</p>
+              <p className="text-xs text-white/60 mb-1.5">First Load JS</p>
+              <p className="text-3xl font-bold text-secondary-default">9.11 MB</p>
               <p className="text-xs text-white/40 mt-1">Includes vendors</p>
             </div>
           </div>
-          <div className="mt-6 pt-6 border-t border-white/10 text-center">
+          <div className="mt-4 pt-4 border-t border-white/10 text-center">
             <p className="text-xs text-white/40">
-              Bundle size optimized with code splitting and tree shaking
+              Optimized with code splitting and tree shaking
             </p>
           </div>
         </motion.div>
 
-        {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="text-center mt-12"
-        >
-          <p className="text-sm text-white/50">
-            {Object.keys(realWebVitals).length > 0 ? (
-              <>
-                <span className="inline-flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                  Real user metrics · Updated {new Date(Math.max(...Object.values(realWebVitals).map(v => v.timestamp))).toLocaleString()}
-                </span>
-              </>
-            ) : (
-              <>Lighthouse metrics · Last checked: {new Date().toLocaleDateString()}</>
-            )}
-          </p>
-        </motion.div>
-      </div>
-    </section>
+      {/* Footer */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, delay: 0.5 }}
+        className="text-center"
+      >
+        <p className="text-xs text-white/50">
+          {Object.keys(realWebVitals).length > 0 ? (
+            <>
+              <span className="inline-flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                Real metrics · {new Date(Math.max(...Object.values(realWebVitals).map(v => v.timestamp))).toLocaleString()}
+              </span>
+            </>
+          ) : (
+            <>Lighthouse metrics · {new Date().toLocaleDateString()}</>
+          )}
+        </p>
+      </motion.div>
+    </div>
   );
 }

@@ -24,14 +24,14 @@ const NAVIGATION_ITEMS = [
   { name: "Projects", href: "/projects" },
   { name: "Certifications", href: "/certifications" },
   { name: "Skills", href: "/skills" },
-  {
-    name: "Insights",
-    href: "#",
-    dropdown: [
-      { name: "Performance", href: "/performance" },
-      { name: "Activity", href: "/activity" },
-    ]
-  },
+  // {
+  //   name: "Insights",
+  //   href: "#",
+  //   dropdown: [
+  //     { name: "Performance", href: "/performance" },
+  //     { name: "Activity", href: "/activity" },
+  //   ]
+  // },
   { name: "Contact", href: "/contact" },
 ];
 

@@ -891,8 +891,8 @@ export const projects: Project[] = [
     github: "",
     associatedWithCompany: "Individual",
     jobRole: "Freelancer",
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: new Date('2018-06-01'),
+    endDate: new Date('2018-12-31'),
     inactivationReason: "Completed development phase; project remained unpublished due to client business decisions.",
   },
   {
@@ -912,8 +912,8 @@ export const projects: Project[] = [
     github: "",
     associatedWithCompany: "Individual",
     jobRole: "Freelancer",
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: new Date('2020-03-01'),
+    endDate: new Date('2020-08-31'),
     inactivationReason: "Delivered full-featured platform; business model validation led to project discontinuation.",
   },
   {
@@ -1032,8 +1032,8 @@ export const projects: Project[] = [
     github: "",
     associatedWithCompany: "Chorki Limited",
     jobRole: "Software Engineer",
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: new Date('2015-06-01'),
+    endDate: new Date('2015-10-31'),
     inactivationReason: "Successfully implemented news aggregation platform; project completed as planned and achieved technical requirements.",
   },
   {
