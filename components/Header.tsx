@@ -163,7 +163,7 @@ export default function Header() {
 
                         {/* Dropdown Menu */}
                         {openDropdown === item.name && (
-                          <div className="absolute top-full left-0 mt-1 bg-bg-default/95 backdrop-blur-md border border-secondary-default/20 rounded-md shadow-lg py-2 min-w-[160px] z-50">
+                          <div className="absolute top-full left-0 pt-2 -mt-2 bg-bg-default/95 backdrop-blur-md border border-secondary-default/20 rounded-md shadow-lg py-2 min-w-[160px] z-50">
                             {item.dropdown.map((dropdownItem: any) => {
                               const isDropdownActive = isPathActive(dropdownItem.href);
                               return (
