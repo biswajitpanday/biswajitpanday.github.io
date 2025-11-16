@@ -26,10 +26,11 @@ const generateSampleActivities = (): Activity[] => {
     // Random activity generation (you would replace this with real data)
     const random = Math.random();
     if (random > 0.7) {
+      const types: Array<'project' | 'certification' | 'skill' | 'commit'> = ['project', 'certification', 'skill', 'commit'];
       activities.push({
         date: currentDate.toISOString().split('T')[0],
         count: Math.floor(Math.random() * 10) + 1,
-        type: ['project', 'certification', 'skill', 'commit'][Math.floor(Math.random() * 4)] as any,
+        type: types[Math.floor(Math.random() * 4)],
         details: [`Activity on ${currentDate.toDateString()}`]
       });
     }
@@ -39,7 +40,7 @@ const generateSampleActivities = (): Activity[] => {
 };
 
 export default function GitHubActivityGraph() {
-  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
+  const [, setSelectedActivity] = useState<Activity | null>(null);
   const [hoveredCell, setHoveredCell] = useState<{ x: number; y: number } | null>(null);
 
   const activities = useMemo(() => generateSampleActivities(), []);

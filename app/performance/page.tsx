@@ -20,7 +20,7 @@ export default function PerformancePage() {
           },
           {
             size: "md",
-            color: "green",
+            color: "blue",
             animation: "ping",
             position: { bottom: "20%", left: "15%" },
             opacity: 50

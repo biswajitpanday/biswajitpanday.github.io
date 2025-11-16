@@ -13,7 +13,7 @@ export default function ActivityPage() {
         floatingDots={[
           {
             size: "lg",
-            color: "emerald",
+            color: "secondary",
             animation: "pulse",
             position: { top: "20%", right: "15%" },
             opacity: 50

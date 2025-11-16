@@ -10,11 +10,15 @@ import {
   type HeatmapInteraction
 } from '@/lib/heatmapAnalytics';
 
+interface SectionEngagement {
+  sectionId: string;
+  viewTime: number;
+}
+
 export default function HeatmapVisualization() {
   const [interactions, setInteractions] = useState<HeatmapInteraction[]>([]);
   const [scrollDepth, setScrollDepth] = useState<Record<string, number>>({});
-  const [sectionEngagement, setSectionEngagement] = useState<Record<string, any>>({});
-  const [showHeatmap, setShowHeatmap] = useState(false);
+  const [sectionEngagement, setSectionEngagement] = useState<Record<string, SectionEngagement>>({});
 
   useEffect(() => {
     loadHeatmapData();
@@ -64,7 +68,7 @@ export default function HeatmapVisualization() {
 
   // Section engagement sorted by view time
   const topSections = Object.values(sectionEngagement)
-    .sort((a: any, b: any) => b.viewTime - a.viewTime)
+    .sort((a: SectionEngagement, b: SectionEngagement) => b.viewTime - a.viewTime)
     .slice(0, 5);
 
   return (
@@ -184,7 +188,7 @@ export default function HeatmapVisualization() {
           <h3 className="text-lg font-semibold text-white/90 mb-3">Section Engagement</h3>
           {topSections.length > 0 ? (
             <div className="space-y-2.5">
-              {topSections.map((section: any, index) => (
+              {topSections.map((section: SectionEngagement, index) => (
                 <div key={section.sectionId} className="flex items-center gap-2">
                   <span className="text-xs text-white/40 w-6">#{index + 1}</span>
                   <div className="flex-1">
