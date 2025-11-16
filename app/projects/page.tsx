@@ -228,43 +228,63 @@ const Projects = () => {
           >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {/* Total Projects */}
-              <div ref={totalCount.ref} className="bg-gradient-to-br from-secondary-default/10 to-blue-500/10 border border-secondary-default/30 rounded-xl p-5 hover:scale-105 transition-transform duration-300">
-                <div className="flex items-center justify-between mb-2">
-                  <FaCode className="text-secondary-default text-2xl" />
-                  <span className="text-xs text-white/50 uppercase tracking-wide font-semibold">Total</span>
+              <div ref={totalCount.ref} className="group relative bg-gradient-to-br from-secondary-default/10 to-blue-500/10 border border-secondary-default/30 rounded-xl p-6 hover:scale-105 hover:border-secondary-default/50 transition-all duration-300 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-secondary-default/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="p-2.5 bg-secondary-default/20 rounded-lg">
+                      <FaCode className="text-secondary-default text-xl" />
+                    </div>
+                    <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Total</span>
+                  </div>
+                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-secondary-default to-blue-500 mb-1 tabular-nums">{totalCount.count}</div>
+                  <div className="text-xs text-white/80 font-medium">Projects Delivered</div>
                 </div>
-                <div className="text-3xl font-bold text-white mb-1">{totalCount.count}</div>
-                <div className="text-xs text-white/70">Projects Delivered</div>
               </div>
 
               {/* Featured Projects */}
-              <div ref={featuredCount.ref} className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-5 hover:scale-105 transition-transform duration-300">
-                <div className="flex items-center justify-between mb-2">
-                  <FaRocket className="text-purple-400 text-2xl" />
-                  <span className="text-xs text-white/50 uppercase tracking-wide font-semibold">Featured</span>
+              <div ref={featuredCount.ref} className="group relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-6 hover:scale-105 hover:border-purple-500/50 transition-all duration-300 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="p-2.5 bg-purple-500/20 rounded-lg">
+                      <FaRocket className="text-purple-400 text-xl" />
+                    </div>
+                    <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Featured</span>
+                  </div>
+                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 mb-1 tabular-nums">{featuredCount.count}</div>
+                  <div className="text-xs text-white/80 font-medium">Top Impact Projects</div>
                 </div>
-                <div className="text-3xl font-bold text-white mb-1">{featuredCount.count}</div>
-                <div className="text-xs text-white/70">Top Impact Projects</div>
               </div>
 
               {/* Hours Saved (from IntelliMerge) */}
-              <div ref={hoursSavedCount.ref} className="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30 rounded-xl p-5 hover:scale-105 transition-transform duration-300">
-                <div className="flex items-center justify-between mb-2">
-                  <FaRocket className="text-emerald-400 text-2xl" />
-                  <span className="text-xs text-white/50 uppercase tracking-wide font-semibold">Efficiency</span>
+              <div ref={hoursSavedCount.ref} className="group relative bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30 rounded-xl p-6 hover:scale-105 hover:border-emerald-500/50 transition-all duration-300 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="p-2.5 bg-emerald-500/20 rounded-lg">
+                      <FaRocket className="text-emerald-400 text-xl" />
+                    </div>
+                    <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Efficiency</span>
+                  </div>
+                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 mb-1 tabular-nums">{hoursSavedCount.count}</div>
+                  <div className="text-xs text-white/80 font-medium">Hours Saved Per Cycle</div>
                 </div>
-                <div className="text-3xl font-bold text-white mb-1">{hoursSavedCount.count}</div>
-                <div className="text-xs text-white/70">Hours Saved Per Cycle</div>
               </div>
 
               {/* Clients Served */}
-              <div ref={clientsCount.ref} className="bg-gradient-to-br from-blue-500/10 to-secondary-default/10 border border-blue-500/30 rounded-xl p-5 hover:scale-105 transition-transform duration-300">
-                <div className="flex items-center justify-between mb-2">
-                  <FaGlobe className="text-blue-400 text-2xl" />
-                  <span className="text-xs text-white/50 uppercase tracking-wide font-semibold">Scale</span>
+              <div ref={clientsCount.ref} className="group relative bg-gradient-to-br from-blue-500/10 to-secondary-default/10 border border-blue-500/30 rounded-xl p-6 hover:scale-105 hover:border-blue-500/50 transition-all duration-300 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="p-2.5 bg-blue-500/20 rounded-lg">
+                      <FaGlobe className="text-blue-400 text-xl" />
+                    </div>
+                    <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Scale</span>
+                  </div>
+                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default mb-1 tabular-nums">{clientsCount.count}</div>
+                  <div className="text-xs text-white/80 font-medium">Enterprise Clients</div>
                 </div>
-                <div className="text-3xl font-bold text-white mb-1">{clientsCount.count}</div>
-                <div className="text-xs text-white/70">Enterprise Clients</div>
               </div>
             </div>
           </motion.div>

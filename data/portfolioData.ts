@@ -374,7 +374,16 @@ export const projects: Project[] = [
         approved: true
       }
     ],
-    skillsHighlighted: ["Clean Architecture", "CQRS Pattern", "Domain-Driven Design", "Open Source"]
+    skillsHighlighted: ["Clean Architecture", "CQRS Pattern", "Domain-Driven Design", "Open Source"],
+    testimonials: [
+      {
+        quote: "BugBusters is an excellent reference implementation for Clean Architecture. The clear separation of concerns and well-structured CQRS patterns make it a valuable learning resource for teams adopting modern .NET development practices.",
+        author: "Senior Developer",
+        role: "Lead Software Engineer",
+        company: "Open Source Community",
+        approved: true
+      }
+    ]
   },
   {
     num: 5,
@@ -470,7 +479,16 @@ export const projects: Project[] = [
         approved: true
       }
     ],
-    skillsHighlighted: ["Microservices", "Docker", "System Migration", "Technical Leadership"]
+    skillsHighlighted: ["Microservices", "Docker", "System Migration", "Technical Leadership"],
+    testimonials: [
+      {
+        quote: "The transformation from monolith to microservices was executed flawlessly. The Docker containerization and AWS deployment have given us the scalability we needed. Independent service deployments have significantly improved our development velocity.",
+        author: "Engineering Manager",
+        role: "VP of Engineering",
+        company: "Kaz Software",
+        approved: true
+      }
+    ]
   },
   {
     num: 7,
@@ -604,7 +622,16 @@ export const projects: Project[] = [
         approved: true
       }
     ],
-    skillsHighlighted: ["Platform Migration", "High-Scale Systems", "DevOps", "Linux Deployment"]
+    skillsHighlighted: ["Platform Migration", "High-Scale Systems", "DevOps", "Linux Deployment"],
+    testimonials: [
+      {
+        quote: "The SVS modernization was critical for our business. The migration to .NET Core and Linux deployment reduced our infrastructure costs while significantly improving system performance and reliability. The automated deployment across 40+ servers was a game-changer.",
+        author: "Project Manager",
+        role: "Technical Lead",
+        company: "Robi Axiata Limited",
+        approved: true
+      }
+    ]
   },
   {
     num: 10,

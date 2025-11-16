@@ -194,7 +194,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {/* Bottom Section - Tags, Skills, Tech Stack above buttons */}
-      <div className="mt-auto space-y-3">
+      <div className="mt-auto space-y-3 mb-4">
         {/* Compact Tags Row */}
         <div
           data-testid={`project-badges-${project.num}`}
