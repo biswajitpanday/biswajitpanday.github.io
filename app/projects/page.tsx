@@ -30,6 +30,7 @@ const Projects = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
   const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set());
+  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
 
   // Modal State
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -66,6 +67,25 @@ const Projects = () => {
   const closeProjectModal = () => {
     setSelectedProject(null);
     setIsModalOpen(false);
+  };
+
+  // Handle skill filter
+  const handleSkillFilter = (skill: string) => {
+    if (selectedSkill === skill) {
+      // Clear filter
+      setSelectedSkill(null);
+      setFilteredProjects(projects);
+    } else {
+      // Apply filter
+      setSelectedSkill(skill);
+      const filtered = projects.filter(project =>
+        project.stacks.some(stack => stack.toLowerCase() === skill.toLowerCase()) ||
+        project.skillsHighlighted?.some(s => s.toLowerCase() === skill.toLowerCase())
+      );
+      setFilteredProjects(filtered);
+    }
+    // Clear search when filtering by skill
+    setSearchQuery("");
   };
 
   return (
@@ -211,6 +231,8 @@ const Projects = () => {
                   isExpanded={expandedProjects.has(index)}
                   onToggleStacks={toggleProjectStacks}
                   onOpenModal={openProjectModal}
+                  onSkillClick={handleSkillFilter}
+                  selectedSkill={selectedSkill}
                   className="border-secondary-default/40 shadow-lg shadow-secondary-default/10"
                 />
               ))}
@@ -226,63 +248,63 @@ const Projects = () => {
             animate="visible"
             className="mt-12 mb-8"
           >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {/* Total Projects */}
-              <div ref={totalCount.ref} className="group relative bg-gradient-to-br from-secondary-default/10 to-blue-500/10 border border-secondary-default/30 rounded-xl p-6 hover:scale-105 hover:border-secondary-default/50 transition-all duration-300 overflow-hidden">
+              <div ref={totalCount.ref} className="group relative bg-gradient-to-br from-secondary-default/10 to-blue-500/10 border border-secondary-default/30 rounded-xl p-4 hover:scale-105 hover:border-secondary-default/50 transition-all duration-300 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-secondary-default/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="p-2.5 bg-secondary-default/20 rounded-lg">
-                      <FaCode className="text-secondary-default text-xl" />
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="p-2 bg-secondary-default/20 rounded-lg">
+                      <FaCode className="text-secondary-default text-lg" />
                     </div>
                     <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Total</span>
                   </div>
-                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-secondary-default to-blue-500 mb-1 tabular-nums">{totalCount.count}</div>
+                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-secondary-default to-blue-500 mb-0.5 tabular-nums">{totalCount.count}</div>
                   <div className="text-xs text-white/80 font-medium">Projects Delivered</div>
                 </div>
               </div>
 
               {/* Featured Projects */}
-              <div ref={featuredCount.ref} className="group relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-6 hover:scale-105 hover:border-purple-500/50 transition-all duration-300 overflow-hidden">
+              <div ref={featuredCount.ref} className="group relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4 hover:scale-105 hover:border-purple-500/50 transition-all duration-300 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="p-2.5 bg-purple-500/20 rounded-lg">
-                      <FaRocket className="text-purple-400 text-xl" />
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="p-2 bg-purple-500/20 rounded-lg">
+                      <FaRocket className="text-purple-400 text-lg" />
                     </div>
                     <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Featured</span>
                   </div>
-                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 mb-1 tabular-nums">{featuredCount.count}</div>
+                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 mb-0.5 tabular-nums">{featuredCount.count}</div>
                   <div className="text-xs text-white/80 font-medium">Top Impact Projects</div>
                 </div>
               </div>
 
               {/* Hours Saved (from IntelliMerge) */}
-              <div ref={hoursSavedCount.ref} className="group relative bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30 rounded-xl p-6 hover:scale-105 hover:border-emerald-500/50 transition-all duration-300 overflow-hidden">
+              <div ref={hoursSavedCount.ref} className="group relative bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30 rounded-xl p-4 hover:scale-105 hover:border-emerald-500/50 transition-all duration-300 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="p-2.5 bg-emerald-500/20 rounded-lg">
-                      <FaRocket className="text-emerald-400 text-xl" />
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="p-2 bg-emerald-500/20 rounded-lg">
+                      <FaRocket className="text-emerald-400 text-lg" />
                     </div>
                     <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Efficiency</span>
                   </div>
-                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 mb-1 tabular-nums">{hoursSavedCount.count}</div>
+                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 mb-0.5 tabular-nums">{hoursSavedCount.count}</div>
                   <div className="text-xs text-white/80 font-medium">Hours Saved Per Cycle</div>
                 </div>
               </div>
 
               {/* Clients Served */}
-              <div ref={clientsCount.ref} className="group relative bg-gradient-to-br from-blue-500/10 to-secondary-default/10 border border-blue-500/30 rounded-xl p-6 hover:scale-105 hover:border-blue-500/50 transition-all duration-300 overflow-hidden">
+              <div ref={clientsCount.ref} className="group relative bg-gradient-to-br from-blue-500/10 to-secondary-default/10 border border-blue-500/30 rounded-xl p-4 hover:scale-105 hover:border-blue-500/50 transition-all duration-300 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="p-2.5 bg-blue-500/20 rounded-lg">
-                      <FaGlobe className="text-blue-400 text-xl" />
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="p-2 bg-blue-500/20 rounded-lg">
+                      <FaGlobe className="text-blue-400 text-lg" />
                     </div>
                     <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Scale</span>
                   </div>
-                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default mb-1 tabular-nums">{clientsCount.count}</div>
+                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default mb-0.5 tabular-nums">{clientsCount.count}</div>
                   <div className="text-xs text-white/80 font-medium">Enterprise Clients</div>
                 </div>
               </div>
@@ -303,6 +325,34 @@ const Projects = () => {
           </div>
         )}
 
+        {/* Active Filter Indicator */}
+        {selectedSkill && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 flex items-center gap-3 bg-gradient-to-r from-emerald-500/10 via-purple-500/10 to-blue-500/10 border border-emerald-500/30 rounded-lg p-4"
+          >
+            <div className="flex items-center gap-2 flex-1">
+              <FaCogs className="text-emerald-400 text-lg" />
+              <span className="text-white font-medium">
+                Filtered by skill:
+              </span>
+              <span className="bg-gradient-to-r from-emerald-500/30 to-purple-500/30 text-white px-3 py-1 rounded-md font-bold border border-emerald-400/50">
+                {selectedSkill}
+              </span>
+              <span className="text-white/60 text-sm">
+                ({filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'})
+              </span>
+            </div>
+            <button
+              onClick={() => handleSkillFilter(selectedSkill)}
+              className="flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 text-red-300 px-4 py-2 rounded-lg transition-all duration-200 border border-red-500/40 hover:border-red-500/60"
+            >
+              <span className="text-sm font-medium">Clear Filter</span>
+            </button>
+          </motion.div>
+        )}
+
         {/* Projects Grid */}
         <ErrorBoundary section="projects">
           <div 
@@ -317,6 +367,8 @@ const Projects = () => {
                 isExpanded={expandedProjects.has(index)}
                 onToggleStacks={toggleProjectStacks}
                 onOpenModal={openProjectModal}
+                onSkillClick={handleSkillFilter}
+                selectedSkill={selectedSkill}
               />
             ))}
           </div>

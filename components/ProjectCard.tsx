@@ -24,6 +24,8 @@ interface ProjectCardProps {
   onToggleStacks: (index: number) => void;
   onOpenModal: (project: Project) => void;
   className?: string;
+  onSkillClick?: (skill: string) => void;
+  selectedSkill?: string | null;
 }
 
 const MAX_DESCRIPTION_LINES = 4;
@@ -34,7 +36,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   isExpanded,
   onToggleStacks,
   onOpenModal,
-  className = ""
+  className = "",
+  onSkillClick,
+  selectedSkill
 }) => {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = React.useState(false);
 
@@ -175,30 +179,47 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </h3>
       </div>
 
-      {/* Project Description - Clamped to 4 lines with expand */}
+      {/* Project Description - Clamped to 3 lines with inline expand */}
       <div className="mb-4">
         <p
           data-testid={`project-description-${project.num}`}
-          className={`text-white/70 text-sm leading-relaxed ${!isDescriptionExpanded ? 'line-clamp-4' : ''}`}
+          className="text-white/70 text-sm leading-relaxed"
         >
-          {project.shortDescription}
+          {!isDescriptionExpanded && project.shortDescription.length > 100 ? (
+            <>
+              {project.shortDescription.slice(0, 100)}...{' '}
+              <span
+                onClick={() => setIsDescriptionExpanded(true)}
+                className="text-secondary-default hover:text-secondary-default/80 transition-colors font-medium cursor-pointer inline"
+              >
+                See more
+              </span>
+            </>
+          ) : (
+            <>
+              {project.shortDescription}
+              {isDescriptionExpanded && project.shortDescription.length > 100 && (
+                <>
+                  {' '}
+                  <span
+                    onClick={() => setIsDescriptionExpanded(false)}
+                    className="text-secondary-default hover:text-secondary-default/80 transition-colors font-medium cursor-pointer inline"
+                  >
+                    Show less
+                  </span>
+                </>
+              )}
+            </>
+          )}
         </p>
-        {project.shortDescription.length > 150 && (
-          <button
-            onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-            className="text-xs text-secondary-default hover:text-secondary-default/80 transition-colors mt-1 font-medium"
-          >
-            {isDescriptionExpanded ? 'Show less' : 'See more'}
-          </button>
-        )}
       </div>
 
-      {/* Bottom Section - Tags, Skills, Tech Stack above buttons */}
-      <div className="mt-auto space-y-3 mb-4">
+      {/* Bottom Section - Fixed layout from bottom: Buttons -> Tech Stack -> Key Skills -> Tags */}
+      <div className="mt-auto">
         {/* Compact Tags Row */}
         <div
           data-testid={`project-badges-${project.num}`}
-          className="flex items-center gap-1.5 flex-wrap"
+          className="flex items-center gap-1.5 flex-wrap mb-3"
         >
           {/* Company Badge */}
           {project.associatedWithCompany && (
@@ -249,7 +270,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
         {/* Skills Highlighted */}
         {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
-          <div>
+          <div className="mb-3">
             <h4 className="text-xs font-semibold text-secondary-default/80 mb-1.5 uppercase tracking-wide flex items-center gap-1.5">
               <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
               Key Skills
@@ -258,7 +279,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               {project.skillsHighlighted.map((skill, idx) => (
                 <span
                   key={idx}
-                  className="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-md bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 text-emerald-300 border border-emerald-500/40 hover:from-emerald-500/30 hover:to-cyan-500/30 transition-all duration-200"
+                  onClick={() => onSkillClick?.(skill)}
+                  className={`inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-md transition-all duration-200 cursor-pointer ${
+                    selectedSkill?.toLowerCase() === skill.toLowerCase()
+                      ? 'bg-gradient-to-r from-emerald-500/40 via-purple-500/40 to-purple-500/40 text-white border-2 border-emerald-400 shadow-lg shadow-emerald-500/30 scale-105'
+                      : 'bg-gradient-to-r from-emerald-500/20 via-purple-500/20 to-purple-500/20 text-emerald-300 border border-emerald-500/40 hover:from-emerald-500/30 hover:via-purple-500/30 hover:to-purple-500/30'
+                  }`}
                 >
                   {skill}
                 </span>
@@ -270,7 +296,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Tech Stack - Compact 2-Column List */}
         <div
           data-testid={`project-tech-stack-${project.num}`}
-          className="bg-white/5 rounded-lg p-3 border border-white/10"
+          className="bg-white/5 rounded-lg p-3 border border-white/10 mb-3"
         >
           <div className="flex items-center justify-between mb-2">
             <h4 className="text-xs font-semibold text-white/70 uppercase tracking-wide flex items-center gap-1.5">
@@ -292,9 +318,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               <div
                 key={stackIndex}
                 data-testid={`project-tech-${project.num}-${stackIndex}`}
-                className="flex items-center gap-1.5 text-xs text-white/80"
+                onClick={() => onSkillClick?.(stack)}
+                className={`flex items-center gap-1.5 text-xs cursor-pointer transition-all duration-200 ${
+                  selectedSkill?.toLowerCase() === stack.toLowerCase()
+                    ? 'text-secondary-default font-bold scale-105'
+                    : 'text-white/80 hover:text-secondary-default/80'
+                }`}
               >
-                <span className="w-1 h-1 rounded-full bg-secondary-default/60 flex-shrink-0"></span>
+                <span className={`w-1 h-1 rounded-full flex-shrink-0 ${
+                  selectedSkill?.toLowerCase() === stack.toLowerCase()
+                    ? 'bg-secondary-default'
+                    : 'bg-secondary-default/60'
+                }`}></span>
                 <span className="truncate">{stack}</span>
               </div>
             ))}
@@ -302,10 +337,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
       </div>
 
-      {/* Action Buttons */}
+      {/* Action Buttons - Fixed at bottom */}
       <div
         data-testid={`project-actions-${project.num}`}
-        className="flex gap-3 mt-auto"
+        className="flex gap-3"
       >
         {/* View Details Button */}
         <button
