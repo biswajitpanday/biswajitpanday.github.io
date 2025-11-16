@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaChevronDown } from "react-icons/fa";
 
 interface NavigationItem {
   name: string;
   href: string;
+  dropdown?: { name: string; href: string }[];
 }
 
 interface SocialLink {
@@ -31,6 +32,8 @@ export default function MobileNav({
   isPathActive,
   onClose,
 }: MobileNavProps) {
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
   // Lock body scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -144,7 +147,75 @@ export default function MobileNav({
             >
               <ul className="space-y-3">
                 {navigationItems.map((item) => {
-                  const isActive = checkIsActive(item.href);
+                  const hasActiveChild = item.dropdown?.some((child) => checkIsActive(child.href));
+                  const isActive = checkIsActive(item.href) || hasActiveChild;
+
+                  // Render dropdown item
+                  if (item.dropdown) {
+                    return (
+                      <motion.li key={item.name} variants={itemVariants}>
+                        <button
+                          onClick={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
+                          data-testid={`mobile-nav-link-${item.name.toLowerCase()}`}
+                          className={`flex items-center justify-between w-full py-3 px-4 text-base font-medium rounded-md transition-all duration-300 relative overflow-hidden group ${
+                            isActive
+                              ? "bg-secondary-default/10 text-secondary-default"
+                              : "text-white/80 hover:bg-white/5 hover:text-secondary-default"
+                          }`}
+                        >
+                          <span className="relative z-10">{item.name}</span>
+                          <FaChevronDown className={`relative z-10 text-xs transition-transform duration-200 ${openDropdown === item.name ? 'rotate-180' : ''}`} />
+
+                          {/* Active indicator */}
+                          {isActive && (
+                            <>
+                              <span className="absolute left-0 top-0 bottom-0 w-1 bg-secondary-default rounded-r"></span>
+                              <span className="absolute inset-0 bg-secondary-default/5 rounded-md"></span>
+                            </>
+                          )}
+                        </button>
+
+                        {/* Dropdown items */}
+                        {openDropdown === item.name && (
+                          <motion.ul
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="mt-2 ml-4 space-y-2"
+                          >
+                            {item.dropdown.map((dropdownItem) => {
+                              const isDropdownActive = checkIsActive(dropdownItem.href);
+                              return (
+                                <li key={dropdownItem.name}>
+                                  <Link
+                                    href={dropdownItem.href}
+                                    className={`flex items-center py-2 px-4 text-sm font-medium rounded-md transition-all duration-300 relative overflow-hidden group ${
+                                      isDropdownActive
+                                        ? "bg-secondary-default/10 text-secondary-default"
+                                        : "text-white/70 hover:bg-white/5 hover:text-secondary-default"
+                                    }`}
+                                    onClick={onClose}
+                                  >
+                                    <span className="relative z-10">{dropdownItem.name}</span>
+
+                                    {/* Active indicator */}
+                                    {isDropdownActive && (
+                                      <>
+                                        <span className="absolute left-0 top-0 bottom-0 w-1 bg-secondary-default rounded-r"></span>
+                                        <span className="absolute inset-0 bg-secondary-default/5 rounded-md"></span>
+                                      </>
+                                    )}
+                                  </Link>
+                                </li>
+                              );
+                            })}
+                          </motion.ul>
+                        )}
+                      </motion.li>
+                    );
+                  }
+
+                  // Render regular link
                   return (
                     <motion.li key={item.name} variants={itemVariants}>
                       <Link
@@ -158,7 +229,7 @@ export default function MobileNav({
                         onClick={onClose}
                       >
                         <span className="relative z-10">{item.name}</span>
-                        
+
                         {/* Active indicator */}
                         {isActive && (
                           <>
@@ -166,7 +237,7 @@ export default function MobileNav({
                             <span className="absolute inset-0 bg-secondary-default/5 rounded-md"></span>
                           </>
                         )}
-                        
+
                         {/* Hover effect */}
                         <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-secondary-default transform transition-transform duration-300 ${
                           isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'

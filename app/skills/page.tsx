@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaCogs, FaRocket, FaSearch, FaCode, FaDatabase, FaCloud } from "react-icons/fa";
+import { FaCogs, FaRocket, FaSearch, FaCode, FaDatabase, FaCloud, FaList, FaTh } from "react-icons/fa";
 import TreeView, { flattenTree } from "react-accessible-treeview";
 import { skills1, skills2, countAllTechnologies } from "@/data/skillsData";
 import DynamicIcon from "@/components/DynamicIcon";
@@ -11,6 +11,8 @@ import SectionHeader from "@/components/SectionHeader";
 import SkillsFilter from "@/components/SkillsFilter";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import Badge from "@/components/Badge";
+import SkillProficiencySummary from "@/components/SkillProficiencySummary";
+import TechStackVisualization from "@/components/TechStackVisualization";
 
 // Memoized animation variants - created once, reused everywhere
 const TREE_ANIMATIONS = {
@@ -84,6 +86,7 @@ const Skills = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [viewMode, setViewMode] = useState<"tree" | "grid">("tree");
 
   // Debounce search query - only if search is enabled
   useEffect(() => {
@@ -241,22 +244,69 @@ const Skills = () => {
           />
         </motion.div>
 
-        {/* Search Section - Using SkillsFilter Component */}
-        <SkillsFilter
-          searchQuery={searchQuery}
-          onSearchChange={(value) => setSearchQuery(value)}
-          onClearSearch={() => setSearchQuery("")}
-          placeholder="Search technologies, frameworks, tools..."
-          showResults={true}
-          resultsText={debouncedSearch ? (
-            filteredCount > 0 ? 
-              `Found ${filteredCount} technologies matching "${debouncedSearch}"` :
-              `No technologies found matching "${debouncedSearch}"`
-          ) : ""}
-        />
+        {/* Skills Proficiency Summary - Compact Heat Map */}
+        <SkillProficiencySummary />
+
+        {/* View Mode Toggle */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="flex justify-center gap-3 mb-8"
+        >
+          <button
+            onClick={() => setViewMode("grid")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
+              viewMode === "grid"
+                ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-lg shadow-secondary-default/20"
+                : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
+            }`}
+          >
+            <FaTh />
+            Grid View
+          </button>
+          <button
+            onClick={() => setViewMode("tree")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
+              viewMode === "tree"
+                ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-lg shadow-secondary-default/20"
+                : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
+            }`}
+          >
+            <FaList />
+            Tree View
+          </button>
+        </motion.div>
+
+        {/* Search Section - Using SkillsFilter Component (only for tree view) */}
+        {viewMode === "tree" && (
+          <SkillsFilter
+            searchQuery={searchQuery}
+            onSearchChange={(value) => setSearchQuery(value)}
+            onClearSearch={() => setSearchQuery("")}
+            placeholder="Search technologies, frameworks, tools..."
+            showResults={true}
+            resultsText={debouncedSearch ? (
+              filteredCount > 0 ?
+                `Found ${filteredCount} technologies matching "${debouncedSearch}"` :
+                `No technologies found matching "${debouncedSearch}"`
+            ) : ""}
+          />
+        )}
+
+        {/* Grid Visualization */}
+        {viewMode === "grid" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <TechStackVisualization />
+          </motion.div>
+        )}
 
         {/* No Results */}
-        {isSearchEnabled && debouncedSearch && filteredCount === 0 && (
+        {viewMode === "tree" && isSearchEnabled && debouncedSearch && filteredCount === 0 && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -279,7 +329,7 @@ const Skills = () => {
         )}
 
         {/* Skills Trees */}
-        {(!debouncedSearch || filteredCount > 0) && (
+        {viewMode === "tree" && (!debouncedSearch || filteredCount > 0) && (
           <motion.div
             initial={TREE_ANIMATIONS.container.initial}
             animate={TREE_ANIMATIONS.container.animate}

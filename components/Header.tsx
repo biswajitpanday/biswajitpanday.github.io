@@ -4,26 +4,34 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { 
-  FaGithub, 
-  FaLinkedin, 
+import {
+  FaGithub,
+  FaLinkedin,
   FaBars,
   FaTimes,
   FaSearch,
-  FaMedium
+  FaMedium,
+  FaChevronDown
 } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
 import MobileNav from "./MobileNav";
 import GlobalSearch from "./GlobalSearch";
 
-// Header navigation links with correct mapping
+// Header navigation links with Insights dropdown
 const NAVIGATION_ITEMS = [
   { name: "Home", href: "/" },
   { name: "Career", href: "/career" },
   { name: "Projects", href: "/projects" },
   { name: "Certifications", href: "/certifications" },
   { name: "Skills", href: "/skills" },
-  { name: "Performance", href: "/performance" },
+  // {
+  //   name: "Insights",
+  //   href: "#",
+  //   dropdown: [
+  //     { name: "Performance", href: "/performance" },
+  //     { name: "Activity", href: "/activity" },
+  //   ]
+  // },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -39,6 +47,7 @@ export default function Header() {
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const isSearchEnabled = process.env.NEXT_PUBLIC_ENABLE_SEARCH !== 'false';
 
   // Helper to check if a path is active (exact match or starts with path + '/')
@@ -116,12 +125,68 @@ export default function Header() {
               </Link>
 
               {/* Desktop Navigation */}
-              <nav 
+              <nav
                 data-testid="desktop-navigation"
                 className="hidden md:hidden lg:flex items-center space-x-1"
               >
                 {NAVIGATION_ITEMS.map((item) => {
-                  const isActive = isPathActive(item.href);
+                  // Check if dropdown item has any active child
+                  const hasActiveChild = item.dropdown?.some((child: any) => isPathActive(child.href));
+                  const isActive = isPathActive(item.href) || hasActiveChild;
+
+                  // Render dropdown menu
+                  if (item.dropdown) {
+                    return (
+                      <div
+                        key={item.name}
+                        className="relative"
+                        onMouseEnter={() => setOpenDropdown(item.name)}
+                        onMouseLeave={() => setOpenDropdown(null)}
+                      >
+                        <button
+                          data-testid={`nav-link-${item.name.toLowerCase()}`}
+                          className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative group flex items-center gap-1 ${
+                            isActive
+                              ? "text-secondary-default"
+                              : "text-text-primary hover:text-secondary-default"
+                          }`}
+                        >
+                          {item.name}
+                          <FaChevronDown className={`text-xs transition-transform duration-200 ${openDropdown === item.name ? 'rotate-180' : ''}`} />
+                          <span
+                            className={`absolute bottom-0 left-0 w-full h-0.5 bg-secondary-default transform transition-transform duration-300 ${
+                              isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                            }`}
+                            style={{ transformOrigin: 'left' }}
+                          ></span>
+                        </button>
+
+                        {/* Dropdown Menu */}
+                        {openDropdown === item.name && (
+                          <div className="absolute top-full left-0 pt-2 -mt-2 bg-bg-default/95 backdrop-blur-md border border-secondary-default/20 rounded-md shadow-lg py-2 min-w-[160px] z-50">
+                            {item.dropdown.map((dropdownItem: any) => {
+                              const isDropdownActive = isPathActive(dropdownItem.href);
+                              return (
+                                <Link
+                                  key={dropdownItem.name}
+                                  href={dropdownItem.href}
+                                  className={`block px-4 py-2 text-sm font-medium transition-colors ${
+                                    isDropdownActive
+                                      ? "text-secondary-default bg-secondary-default/10"
+                                      : "text-text-primary hover:text-secondary-default hover:bg-white/5"
+                                  }`}
+                                >
+                                  {dropdownItem.name}
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+
+                  // Render regular link
                   return (
                     <Link
                       key={item.name}
@@ -134,7 +199,7 @@ export default function Header() {
                       }`}
                     >
                       {item.name}
-                      <span 
+                      <span
                         className={`absolute bottom-0 left-0 w-full h-0.5 bg-secondary-default transform transition-transform duration-300 ${
                           isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                         }`}

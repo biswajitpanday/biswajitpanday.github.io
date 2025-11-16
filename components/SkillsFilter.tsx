@@ -107,17 +107,17 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
   };
   
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/20 rounded-xl overflow-hidden mb-8 shadow-lg shadow-secondary-default/10"
+      className="bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/20 rounded-lg overflow-hidden mb-6 shadow-md"
     >
-      {/* Search and Filter Bar */}
-      <div className="p-4 flex flex-col sm:flex-row gap-4 items-center">
-        {/* Search Input */}
+      {/* Compact Search and Filter Bar */}
+      <div className="p-3 flex flex-col sm:flex-row gap-2 items-center">
+        {/* Compact Search Input */}
         <div className="relative flex-1 w-full">
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default">
+          <div className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-secondary-default text-sm">
             <FiSearch />
           </div>
           <input
@@ -125,58 +125,60 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
             placeholder={placeholder}
             value={searchQuery}
             onChange={handleSearchChange}
-            className="w-full bg-gray-800/50 border border-secondary-default/20 rounded-lg py-2 pl-10 pr-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
+            className="w-full h-9 bg-gray-800/50 border border-secondary-default/20 rounded-lg pl-9 pr-9 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
           />
           {searchQuery && (
-            <button 
+            <button
               onClick={onClearSearch}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-secondary-default"
+              className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-secondary-default"
             >
-              <FiX />
+              <FiX className="text-sm" />
             </button>
           )}
         </div>
-        
-        {/* Filter Toggle Button */}
+
+        {/* Compact Filter Toggle Button */}
         <Button
           variant="outline"
           onClick={toggleFilterPanel}
-          className={`shrink-0 flex items-center gap-2 ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
+          size="sm"
+          className={`shrink-0 flex items-center gap-1.5 text-xs ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
         >
-          <FiFilter className={isExpanded ? 'text-secondary-default' : 'text-white/70'} />
+          <FiFilter className={`text-sm ${isExpanded ? 'text-secondary-default' : 'text-white/70'}`} />
           <span>Filters</span>
-          <FiChevronDown className={`transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+          <FiChevronDown className={`text-sm transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
         </Button>
-        
-        {/* Reset Button (only shown when filters are active) */}
+
+        {/* Compact Reset Button */}
         {hasActiveFilters && (
           <Button
             variant="ghost"
+            size="sm"
             onClick={resetFilters}
-            className="shrink-0 text-white/70 hover:text-secondary-default"
+            className="shrink-0 text-white/70 hover:text-secondary-default px-3 py-1.5 text-xs"
           >
             Reset
           </Button>
         )}
       </div>
 
-      {/* Results text */}
+      {/* Compact Results text */}
       {showResults && resultsText && (
-        <div className="px-4 pb-2">
-          <p className="text-sm text-secondary-default">{resultsText}</p>
+        <div className="px-3 pb-2">
+          <p className="text-xs text-secondary-default">{resultsText}</p>
         </div>
       )}
       
-      {/* Expanded Filter Panel */}
+      {/* Compact Expanded Filter Panel */}
       {isExpanded && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.2 }}
-          className="px-4 pb-4 border-t border-secondary-default/20"
+          className="px-3 pb-3 border-t border-secondary-default/20"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-3">
             {/* Categories Filter */}
             <div>
               <h4 className="text-secondary-default text-sm font-semibold mb-2">Categories</h4>
@@ -214,10 +216,10 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
         </motion.div>
       )}
       
-      {/* Active Filters */}
+      {/* Compact Active Filters */}
       {hasActiveFilters && (
-        <div className="px-4 pb-4 flex flex-wrap gap-2 items-center">
-          <span className="text-white/50 text-xs">Active filters:</span>
+        <div className="px-3 pb-3 flex flex-wrap gap-1.5 items-center">
+          <span className="text-white/50 text-[10px]">Active filters:</span>
           {selectedCategory && (
             <Badge 
               className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"

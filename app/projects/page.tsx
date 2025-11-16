@@ -6,7 +6,9 @@ import {
   FaCode,
   FaCogs,
   FaLaptopCode,
-  FaGlobe
+  FaGlobe,
+  FaTh,
+  FaClock
 } from "react-icons/fa";
 import { projects, getFeaturedProjects } from "@/data/portfolioData";
 import { useState } from "react";
@@ -20,6 +22,8 @@ import Badge from "@/components/Badge";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import type { Project } from "@/data/portfolioData";
+import { useCountUp } from "@/hooks/useCountUp";
+import ProjectTimeline from "@/components/ProjectTimeline";
 
 const Projects = () => {
   // Environment flags
@@ -29,6 +33,8 @@ const Projects = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
   const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set());
+  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"grid" | "timeline">("grid");
 
   // Modal State
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -38,6 +44,12 @@ const Projects = () => {
   const activeProjects = projects.filter(p => p.isActive).length;
   const featuredProjects = getFeaturedProjects();
   // const inactiveProjects = projects.filter(p => !p.isActive).length;
+
+  // Animated counters for stats dashboard
+  const totalCount = useCountUp({ end: projects.length, duration: 2000 });
+  const featuredCount = useCountUp({ end: featuredProjects.length, duration: 1800, start: 0 });
+  const hoursSavedCount = useCountUp({ end: 32, duration: 2200, suffix: "+" });
+  const clientsCount = useCountUp({ end: 20, duration: 2000, suffix: "+" });
 
   // Toggle project stacks display
   const toggleProjectStacks = (projectIndex: number) => {
@@ -59,6 +71,25 @@ const Projects = () => {
   const closeProjectModal = () => {
     setSelectedProject(null);
     setIsModalOpen(false);
+  };
+
+  // Handle skill filter
+  const handleSkillFilter = (skill: string) => {
+    if (selectedSkill === skill) {
+      // Clear filter
+      setSelectedSkill(null);
+      setFilteredProjects(projects);
+    } else {
+      // Apply filter
+      setSelectedSkill(skill);
+      const filtered = projects.filter(project =>
+        project.stacks.some(stack => stack.toLowerCase() === skill.toLowerCase()) ||
+        project.skillsHighlighted?.some(s => s.toLowerCase() === skill.toLowerCase())
+      );
+      setFilteredProjects(filtered);
+    }
+    // Clear search when filtering by skill
+    setSearchQuery("");
   };
 
   return (
@@ -160,16 +191,61 @@ const Projects = () => {
           />
         </motion.div>
 
-        {/* Project Filtering */}
-        {isFilterEnabled && (
-          <div data-testid="projects-filter-section">
-            <ProjectsFilter
-              projects={projects}
-              onFilterChange={setFilteredProjects}
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-              resultsInfo={{
-                filtered: filteredProjects.length,
+        {/* View Mode Toggle */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="flex justify-center gap-3 mb-8"
+        >
+          <button
+            onClick={() => setViewMode("grid")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
+              viewMode === "grid"
+                ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-lg shadow-secondary-default/20"
+                : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
+            }`}
+          >
+            <FaTh />
+            Grid View
+          </button>
+          <button
+            onClick={() => setViewMode("timeline")}
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
+              viewMode === "timeline"
+                ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-lg shadow-secondary-default/20"
+                : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
+            }`}
+          >
+            <FaClock />
+            Timeline View
+          </button>
+        </motion.div>
+
+        {/* Timeline View */}
+        {viewMode === "timeline" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <ProjectTimeline />
+          </motion.div>
+        )}
+
+        {/* Grid View Content */}
+        {viewMode === "grid" && (
+          <>
+            {/* Project Filtering */}
+            {isFilterEnabled && (
+              <div data-testid="projects-filter-section">
+                <ProjectsFilter
+                  projects={projects}
+                  onFilterChange={setFilteredProjects}
+                  searchQuery={searchQuery}
+                  onSearchChange={setSearchQuery}
+                  resultsInfo={{
+                    filtered: filteredProjects.length,
                 total: projects.length,
                 description: "projects"
               }}
@@ -204,6 +280,8 @@ const Projects = () => {
                   isExpanded={expandedProjects.has(index)}
                   onToggleStacks={toggleProjectStacks}
                   onOpenModal={openProjectModal}
+                  onSkillClick={handleSkillFilter}
+                  selectedSkill={selectedSkill}
                   className="border-secondary-default/40 shadow-lg shadow-secondary-default/10"
                 />
               ))}
@@ -211,9 +289,81 @@ const Projects = () => {
           </motion.div>
         )}
 
+        {/* Quick Stats Dashboard - Aggregate Impact */}
+        {featuredProjects.length > 0 && !searchQuery && (
+          <motion.div
+            variants={PERFORMANCE_VARIANTS.containerSync}
+            initial="hidden"
+            animate="visible"
+            className="mt-12 mb-8"
+          >
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {/* Total Projects */}
+              <div ref={totalCount.ref} className="group relative bg-gradient-to-br from-secondary-default/10 to-blue-500/10 border border-secondary-default/30 rounded-xl p-4 hover:scale-105 hover:border-secondary-default/50 transition-all duration-300 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-secondary-default/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="p-2 bg-secondary-default/20 rounded-lg">
+                      <FaCode className="text-secondary-default text-lg" />
+                    </div>
+                    <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Total</span>
+                  </div>
+                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-secondary-default to-blue-500 mb-0.5 tabular-nums">{totalCount.count}</div>
+                  <div className="text-xs text-white/80 font-medium">Projects Delivered</div>
+                </div>
+              </div>
+
+              {/* Featured Projects */}
+              <div ref={featuredCount.ref} className="group relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4 hover:scale-105 hover:border-purple-500/50 transition-all duration-300 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="p-2 bg-purple-500/20 rounded-lg">
+                      <FaRocket className="text-purple-400 text-lg" />
+                    </div>
+                    <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Featured</span>
+                  </div>
+                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 mb-0.5 tabular-nums">{featuredCount.count}</div>
+                  <div className="text-xs text-white/80 font-medium">Top Impact Projects</div>
+                </div>
+              </div>
+
+              {/* Hours Saved (from IntelliMerge) */}
+              <div ref={hoursSavedCount.ref} className="group relative bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30 rounded-xl p-4 hover:scale-105 hover:border-emerald-500/50 transition-all duration-300 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="p-2 bg-emerald-500/20 rounded-lg">
+                      <FaRocket className="text-emerald-400 text-lg" />
+                    </div>
+                    <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Efficiency</span>
+                  </div>
+                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 mb-0.5 tabular-nums">{hoursSavedCount.count}</div>
+                  <div className="text-xs text-white/80 font-medium">Hours Saved Per Cycle</div>
+                </div>
+              </div>
+
+              {/* Clients Served */}
+              <div ref={clientsCount.ref} className="group relative bg-gradient-to-br from-blue-500/10 to-secondary-default/10 border border-blue-500/30 rounded-xl p-4 hover:scale-105 hover:border-blue-500/50 transition-all duration-300 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="p-2 bg-blue-500/20 rounded-lg">
+                      <FaGlobe className="text-blue-400 text-lg" />
+                    </div>
+                    <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Scale</span>
+                  </div>
+                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default mb-0.5 tabular-nums">{clientsCount.count}</div>
+                  <div className="text-xs text-white/80 font-medium">Enterprise Clients</div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {/* All Projects Heading */}
         {featuredProjects.length > 0 && !searchQuery && (
-          <div className="mb-6 mt-12">
+          <div className="mb-6">
             <h2 className="text-2xl xl:text-3xl font-bold text-white mb-2 flex items-center gap-3">
               <FaCode className="text-blue-400" />
               All Projects
@@ -222,6 +372,34 @@ const Projects = () => {
               Complete portfolio of {projects.length} projects across various technologies and domains
             </p>
           </div>
+        )}
+
+        {/* Active Filter Indicator */}
+        {selectedSkill && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 flex items-center gap-3 bg-gradient-to-r from-emerald-500/10 via-purple-500/10 to-blue-500/10 border border-emerald-500/30 rounded-lg p-4"
+          >
+            <div className="flex items-center gap-2 flex-1">
+              <FaCogs className="text-emerald-400 text-lg" />
+              <span className="text-white font-medium">
+                Filtered by skill:
+              </span>
+              <span className="bg-gradient-to-r from-emerald-500/30 to-purple-500/30 text-white px-3 py-1 rounded-md font-bold border border-emerald-400/50">
+                {selectedSkill}
+              </span>
+              <span className="text-white/60 text-sm">
+                ({filteredProjects.length} {filteredProjects.length === 1 ? 'project' : 'projects'})
+              </span>
+            </div>
+            <button
+              onClick={() => handleSkillFilter(selectedSkill)}
+              className="flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 text-red-300 px-4 py-2 rounded-lg transition-all duration-200 border border-red-500/40 hover:border-red-500/60"
+            >
+              <span className="text-sm font-medium">Clear Filter</span>
+            </button>
+          </motion.div>
         )}
 
         {/* Projects Grid */}
@@ -238,6 +416,8 @@ const Projects = () => {
                 isExpanded={expandedProjects.has(index)}
                 onToggleStacks={toggleProjectStacks}
                 onOpenModal={openProjectModal}
+                onSkillClick={handleSkillFilter}
+                selectedSkill={selectedSkill}
               />
             ))}
           </div>
@@ -245,7 +425,7 @@ const Projects = () => {
 
         {/* Show when no projects match the filter */}
         {filteredProjects.length === 0 && (
-          <motion.div 
+          <motion.div
             data-testid="projects-no-results"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -255,6 +435,8 @@ const Projects = () => {
             <h3 className="text-xl font-semibold text-white mb-2">No projects found</h3>
             <p className="text-white/70">Try adjusting your search or filter criteria</p>
           </motion.div>
+        )}
+          </>
         )}
 
         {/* Project Details Modal */}

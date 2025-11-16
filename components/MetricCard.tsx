@@ -51,67 +51,67 @@ export default function MetricCard({
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className={`relative bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-6 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-xl ${colors.glow} group`}
+      transition={{ duration: 0.4 }}
+      className={`relative bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg ${colors.glow} group`}
     >
       {/* Icon */}
-      <div className={`w-12 h-12 ${colors.bg} rounded-lg flex items-center justify-center ${colors.text} mb-4 text-2xl group-hover:scale-110 transition-transform`}>
+      <div className={`w-10 h-10 ${colors.bg} rounded-lg flex items-center justify-center ${colors.text} mb-3 text-xl group-hover:scale-110 transition-transform`}>
         {icon}
       </div>
 
       {/* Title */}
-      <h3 className="text-sm font-medium text-white/60 mb-2">{title}</h3>
+      <h3 className="text-xs font-medium text-white/60 mb-1.5">{title}</h3>
 
       {/* Score */}
-      <div className="flex items-baseline gap-2">
+      <div className="flex items-baseline gap-1.5">
         <motion.span
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className={`text-4xl font-bold ${colors.text}`}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className={`text-3xl font-bold ${colors.text}`}
         >
           {score}
         </motion.span>
-        <span className="text-2xl text-white/40">/ {maxScore}</span>
+        <span className="text-xl text-white/40">/ {maxScore}</span>
       </div>
 
       {/* Circular Progress Indicator */}
-      <div className="absolute top-6 right-6">
-        <svg width="48" height="48" className="transform -rotate-90">
+      <div className="absolute top-4 right-4">
+        <svg width="40" height="40" className="transform -rotate-90">
           {/* Background circle */}
           <circle
-            cx="24"
-            cy="24"
-            r="20"
+            cx="20"
+            cy="20"
+            r="16"
             fill="none"
             stroke="rgba(255,255,255,0.1)"
-            strokeWidth="4"
+            strokeWidth="3"
           />
           {/* Progress circle */}
           <motion.circle
-            cx="24"
-            cy="24"
-            r="20"
+            cx="20"
+            cy="20"
+            r="16"
             fill="none"
             className={colors.ring}
-            strokeWidth="4"
+            strokeWidth="3"
             strokeLinecap="round"
-            strokeDasharray={`${2 * Math.PI * 20}`}
-            initial={{ strokeDashoffset: 2 * Math.PI * 20 }}
-            whileInView={{ strokeDashoffset: 2 * Math.PI * 20 * (1 - percentage / 100) }}
+            strokeDasharray={`${2 * Math.PI * 16}`}
+            initial={{ strokeDashoffset: 2 * Math.PI * 16 }}
+            whileInView={{ strokeDashoffset: 2 * Math.PI * 16 * (1 - percentage / 100) }}
             viewport={{ once: true }}
-            transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
           />
         </svg>
-        <span className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-bold ${colors.text}`}>
+        <span className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[10px] font-bold ${colors.text}`}>
           {Math.round(percentage)}%
         </span>
       </div>
 
       {/* Description */}
       {description && (
-        <p className="text-xs text-white/40 mt-2">{description}</p>
+        <p className="text-[10px] text-white/40 mt-1.5">{description}</p>
       )}
     </motion.div>
   );
