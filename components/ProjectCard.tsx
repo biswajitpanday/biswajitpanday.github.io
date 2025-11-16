@@ -171,12 +171,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       <div className="mb-3">
         <h3
           data-testid={`project-title-${project.num}`}
-          className={`font-bold mb-2 group-hover:text-secondary-default transition-colors duration-300 leading-tight ${
+          className={`font-bold group-hover:text-secondary-default transition-colors duration-300 leading-tight ${
             isFeatured ? 'text-xl text-white' : 'text-lg text-white'
-          }`}
+          } ${project.subtitle ? 'mb-1.5' : 'mb-2'}`}
         >
           {project.title}
         </h3>
+        {project.subtitle && (
+          <p className="text-sm font-medium bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent leading-relaxed">
+            {project.subtitle}
+          </p>
+        )}
       </div>
 
       {/* Project Description - Clamped to 3 lines with inline expand */}
@@ -235,7 +240,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {/* Category Badge */}
           <span
             data-testid={`project-category-badge-${project.num}`}
-            className="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/30 text-blue-300/90"
+            className="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded bg-gradient-to-r from-secondary-default/10 via-purple-500/10 to-emerald-500/10 border border-secondary-default/30 text-secondary-default"
           >
             {project.category}
           </span>
@@ -257,7 +262,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               {project.recognition.filter(r => r.approved !== false).slice(0, 2).map((rec, idx) => (
                 <span
                   key={idx}
-                  className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/30 text-yellow-300/90"
+                  className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded bg-gradient-to-r from-purple-500/15 via-emerald-500/15 to-secondary-default/15 border border-purple-500/40 text-purple-300"
                   title={rec.description}
                 >
                   <FaTrophy className="text-xs" />
@@ -296,7 +301,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Tech Stack - Compact 2-Column List */}
         <div
           data-testid={`project-tech-stack-${project.num}`}
-          className="bg-white/5 rounded-lg p-3 border border-white/10 mb-3"
+          className="bg-gradient-to-br from-secondary-default/5 via-purple-500/5 to-blue-500/5 rounded-lg p-3 border border-white/10 mb-3"
         >
           <div className="flex items-center justify-between mb-2">
             <h4 className="text-xs font-semibold text-white/70 uppercase tracking-wide flex items-center gap-1.5">

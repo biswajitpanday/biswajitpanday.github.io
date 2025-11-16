@@ -40,6 +40,7 @@ export interface Project {
   num: number;
   category: "Full-Stack" | "Frontend" | "Backend" | "Mobile" | "Windows App";
   title: string;
+  subtitle?: string; // Optional subtitle for enriched project titles
   longDescription: string;
   shortDescription: string;
   stacks: string[];
@@ -79,7 +80,8 @@ export const projects: Project[] = [
   {
     num: 1,
     category: "Backend",
-    title: "CurrentDT-mcp - Real-time DateTime MCP Server",
+    title: "CurrentDT-mcp",
+    subtitle: "Real-time DateTime MCP Server for AI Assistants",
     longDescription: "Open-source TypeScript MCP server providing real-time date and time access for AI assistants via Model Context Protocol. Features zero configuration, multiple datetime formats (ISO 8601, custom formats), local and remote time providers, and compatibility with Cursor IDE, Claude Desktop, VS Code, and Windsurf. Built for AI, Built with AI - designed to enhance AI assistant capabilities through intelligent datetime tooling.",
     shortDescription: "Real-time datetime access for AI assistants via Model Context Protocol with zero configuration and multi-format support.",
     stacks: [
@@ -149,7 +151,8 @@ export const projects: Project[] = [
   {
     num: 2,
     category: "Windows App",
-    title: "IntelliMerge - AI-Powered Git Merge Automation (80% Efficiency Gain)",
+    title: "IntelliMerge",
+    subtitle: "AI-Powered Git Merge Automation (80% Efficiency Gain)",
     longDescription: "Revolutionary AI-powered development tool that transforms the Optimizely Configured Commerce upgrade process by automating complex Git merge operations. Leveraging ChatGPT API (GPT-5), IntelliMerge intelligently handles merge conflicts and customizations that previously required 32-40 hours of manual developer effort per upgrade. The tool performs automated merge analysis and resolution in minutes, with human verification requiring only 4-8 hours—achieving an 80% time reduction (32+ hours saved per upgrade). This breakthrough automation enables 20+ enterprise clients to adopt platform updates faster while maintaining their custom implementations. Built with Python 3.11, the tool employs advanced prompt engineering, three-way merge algorithms, and comprehensive testing strategies to ensure reliability across diverse codebases. Impact: Transformed a 40-hour manual process into an 8-hour automated workflow, allowing the development team to handle more clients and accelerate upgrade cycles across the entire customer portfolio.",
     shortDescription: "AI-powered Git merge automation tool using GPT-5 that reduced Optimizely upgrade time from 40 hours to 8 hours (80% efficiency gain).",
     stacks: [

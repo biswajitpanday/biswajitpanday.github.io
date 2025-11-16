@@ -203,7 +203,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                 {/* Tags - Right Side - Subtle, non-interactive appearance */}
                 <div className="flex flex-wrap items-center gap-2 justify-end">
                   {/* Category Tag */}
-                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md bg-gradient-to-r ${categoryStyle} opacity-80`}>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md bg-gradient-to-r from-secondary-default/10 via-purple-500/10 to-emerald-500/10 border border-secondary-default/30 text-secondary-default">
                     <FiLayers className="text-xs" />
                     {project.category}
                   </span>
@@ -368,9 +368,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                             {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
                               <div
                                 key={idx}
-                                className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-lg p-4 flex items-start gap-3"
+                                className="bg-gradient-to-br from-purple-500/15 via-emerald-500/15 to-secondary-default/15 border border-purple-500/40 rounded-lg p-4 flex items-start gap-3"
                               >
-                                <FaTrophy className="text-yellow-400 text-lg mt-1 flex-shrink-0" />
+                                <FaTrophy className="text-purple-400 text-lg mt-1 flex-shrink-0" />
                                 <div>
                                   <p className="text-white font-semibold text-sm mb-1">{rec.title}</p>
                                   <p className="text-white/70 text-xs">{rec.description}</p>
@@ -426,7 +426,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               {otherTechnologies.map((tech, index) => (
                                 <span
                                   key={index}
-                                  className="bg-white/5 text-white/80 border border-white/20 px-3 py-1.5 rounded-lg text-sm hover:bg-white/10 hover:border-white/30 transition-all duration-200 whitespace-nowrap"
+                                  className="bg-gradient-to-r from-secondary-default/5 via-purple-500/5 to-blue-500/5 text-white/80 border border-white/20 px-3 py-1.5 rounded-lg text-sm hover:from-secondary-default/10 hover:via-purple-500/10 hover:to-blue-500/10 hover:border-white/30 transition-all duration-200 whitespace-nowrap"
                                 >
                                   {tech}
                                 </span>
