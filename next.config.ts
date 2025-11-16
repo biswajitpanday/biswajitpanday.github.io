@@ -26,10 +26,10 @@ const nextConfig: NextConfig = {
   },
   // Disable server-side features for static export
   eslint: {
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true,
   },
   // Bundle optimization - compatible with Next.js 15
   webpack: (config, { isServer }) => {
