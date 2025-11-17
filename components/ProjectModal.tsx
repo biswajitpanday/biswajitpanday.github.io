@@ -35,13 +35,13 @@ interface ProjectModalProps {
   onClose: () => void;
 }
 
-// Category color mapping
+// Category color mapping (matching ProjectCard and ProjectTimeline)
 const categoryColors = {
-  "Full-Stack": "from-purple-500/20 to-blue-500/20 border-purple-500/30 text-purple-300",
-  "Frontend": "from-blue-500/20 to-cyan-500/20 border-blue-500/30 text-blue-300",
-  "Backend": "from-emerald-500/20 to-green-500/20 border-emerald-500/30 text-emerald-300",
-  "Mobile": "from-pink-500/20 to-rose-500/20 border-pink-500/30 text-pink-300",
-  "Windows App": "from-cyan-500/20 to-teal-500/20 border-cyan-500/30 text-cyan-300",
+  "Full-Stack": "from-emerald-500/20 to-cyan-500/20 border-emerald-500/40 text-emerald-300",
+  "Frontend": "from-blue-500/20 to-cyan-500/20 border-blue-500/40 text-blue-300",
+  "Backend": "from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-300",
+  "Mobile": "from-orange-500/20 to-red-500/20 border-orange-500/40 text-orange-300",
+  "Windows App": "from-yellow-500/20 to-orange-500/20 border-yellow-500/40 text-yellow-300",
 };
 
 // Metric icon mapping
@@ -316,45 +316,43 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                     />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-xl pointer-events-none" />
+
+                  {/* Primary Metric Badge - Bottom Left of Image */}
+                  {(() => {
+                    const getPrimaryMetric = () => {
+                      if (project.metrics?.efficiency) return { icon: FaRocket, text: project.metrics.efficiency, label: "Efficiency" };
+                      if (project.metrics?.users) return { icon: FaUsers, text: project.metrics.users, label: "Impact" };
+                      if (project.metrics?.performance) return { icon: FaChartLine, text: project.metrics.performance, label: "Performance" };
+                      if (project.metrics?.revenue) return { icon: FaChartLine, text: project.metrics.revenue, label: "Cost Savings" };
+                      if (project.metrics?.downloads) return { icon: FaUsers, text: project.metrics.downloads, label: "Downloads" };
+                      return null;
+                    };
+                    const primaryMetric = getPrimaryMetric();
+
+                    return primaryMetric ? (
+                      <div className="absolute bottom-3 left-3">
+                        <span className={`inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-full backdrop-blur-md shadow-lg border ${
+                          primaryMetric.label === "Efficiency"
+                            ? "bg-gradient-to-r from-emerald-500/80 to-green-500/80 border-emerald-400/70 text-white"
+                            : primaryMetric.label === "Impact" || primaryMetric.label === "Downloads"
+                            ? "bg-gradient-to-r from-blue-500/80 to-cyan-500/80 border-blue-400/70 text-white"
+                            : primaryMetric.label === "Performance"
+                            ? "bg-gradient-to-r from-purple-500/80 to-pink-500/80 border-purple-400/70 text-white"
+                            : primaryMetric.label === "Cost Savings"
+                            ? "bg-gradient-to-r from-orange-500/80 to-amber-500/80 border-orange-400/70 text-white"
+                            : "bg-gradient-to-r from-secondary-default/80 to-blue-500/80 border-secondary-default/70 text-white"
+                        }`}>
+                          <primaryMetric.icon className="text-base" />
+                          <span>{primaryMetric.text}</span>
+                        </span>
+                      </div>
+                    ) : null;
+                  })()}
                 </div>
 
                 {/* Tab Content */}
                 {activeTab === "overview" && (
                   <div className="space-y-5">
-                      {/* Project Details Bar - Compact Info */}
-                      <div className="bg-gradient-to-r from-secondary-default/10 via-purple-500/5 to-blue-500/10 border border-secondary-default/20 rounded-lg p-3">
-                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 justify-center text-xs">
-                          {/* Company */}
-                          <div className="flex items-center gap-1.5">
-                            <FaBuilding className="text-secondary-default text-xs" />
-                            <span className="text-white/50 font-medium">Company:</span>
-                            <span className="text-white font-semibold">
-                              {project.associatedWithCompany || "Individual Project"}
-                            </span>
-                          </div>
-                          
-                          <span className="text-white/20">|</span>
-                          
-                          {/* Duration */}
-                          <div className="flex items-center gap-1.5">
-                            <FaCalendar className="text-blue-400 text-xs" />
-                            <span className="text-white/50 font-medium">Duration:</span>
-                            <span className="text-white font-semibold text-xs">
-                              {formatDateRange(project.startDate, project.endDate)}
-                            </span>
-                          </div>
-                          
-                          <span className="text-white/20">|</span>
-                          
-                          {/* Role */}
-                          <div className="flex items-center gap-1.5">
-                            <FaCode className="text-purple-400 text-xs" />
-                            <span className="text-white/50 font-medium">Role:</span>
-                            <span className="text-white font-semibold">{project.jobRole}</span>
-                          </div>
-                        </div>
-                      </div>
-
                       {/* Description Section */}
                       <div>
                         <div className="flex items-center gap-2 mb-3">
@@ -367,6 +365,28 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           </p>
                         </div>
                       </div>
+
+                      {/* Key Skills Section - If exists */}
+                      {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
+                        <div>
+                          <div className="flex items-center gap-2 mb-3">
+                            <FaCode className="text-secondary-default text-sm" />
+                            <h3 className="text-lg font-bold text-white">Key Skills</h3>
+                          </div>
+                          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                            <div className="flex flex-wrap gap-2">
+                              {project.skillsHighlighted.map((skill, idx) => (
+                                <span
+                                  key={idx}
+                                  className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md bg-gradient-to-r from-emerald-500/20 via-purple-500/20 to-purple-500/20 text-emerald-300 border border-emerald-500/40 hover:from-emerald-500/30 hover:via-purple-500/30 hover:to-purple-500/30 transition-all duration-200"
+                                >
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
                       {/* Responsibilities Section - If exists */}
                       {project.responsibilities && project.responsibilities.length > 0 && (
