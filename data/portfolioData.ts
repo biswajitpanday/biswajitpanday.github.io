@@ -517,6 +517,7 @@ export const projects: Project[] = [
       performance: "48% shorter integrations",
       other: ["7x deal volume increase", "6 integrated modules"]
     },
+    skillsHighlighted: ["ASP.NET MVC", "Angular", "Azure DevOps", "M&A Platforms"],
   },
   {
     num: 6,
@@ -658,6 +659,7 @@ export const projects: Project[] = [
       performance: "Serverless AWS architecture for scalability",
       other: ["Multi-platform (Web + Mobile)", "Real-time visit verification"]
     },
+    skillsHighlighted: ["AWS Lambda", "DynamoDB", "Serverless", "Healthcare Compliance"],
   },
   {
     num: 8,
@@ -697,6 +699,7 @@ export const projects: Project[] = [
       "Implemented push notification system for critical emergency alerts and real-time communication features",
       "Delivered production system adhering to software best practices and disaster response requirements"
     ],
+    skillsHighlighted: ["Flutter", ".NET 5", "AWS Serverless", "Emergency Systems"],
   },
   {
     num: 9,
@@ -835,6 +838,7 @@ export const projects: Project[] = [
       "Deployed production infrastructure on AWS (EC2, S3, CloudFormation) ensuring high availability and performance at scale",
       "Managed full project lifecycle from architecture design through deployment and delivery"
     ],
+    skillsHighlighted: ["Node.js", "hapi.js", "MongoDB", "Social Platforms"],
   },
   {
     num: 11,
@@ -871,6 +875,7 @@ export const projects: Project[] = [
       "Designed MongoDB schema for efficient product catalog management and user location data storage",
       "Contributed to both frontend and backend development as full-stack developer across web and mobile platforms"
     ],
+    skillsHighlighted: ["MEAN Stack", "Flutter", "Geolocation", "E-Commerce"],
   },
   {
     num: 12,
@@ -910,6 +915,7 @@ export const projects: Project[] = [
       "Developed event management features, audience interaction workflows, and analytics dashboard using Entity Framework and MSSQL",
       "Contributed to full-stack development including API design, database schema, frontend UI, and mobile app deployment"
     ],
+    skillsHighlighted: ["Xamarin", "ASP.NET WebAPI", "Real-Time Systems", "Event Management"],
   },
   {
     num: 13,
@@ -951,6 +957,7 @@ export const projects: Project[] = [
       users: "44+ languages + ASL support",
       other: ["5.0/5.0 App Store rating", "Hundreds of global interpreters"]
     },
+    skillsHighlighted: ["Twilio API", "Electron", "IVR Systems", "Multilingual Support"],
   },
   {
     num: 14,
@@ -988,6 +995,7 @@ export const projects: Project[] = [
       "Designed MSSQL database schema supporting engagement workflows, user profiles, and event tracking",
       "Contributed to MVP delivery demonstrating concept viability across web and mobile platforms"
     ],
+    skillsHighlighted: ["Firebase", "Xamarin", "JWT Auth", "Live Engagement"],
   },
   {
     num: 15,
@@ -1016,6 +1024,7 @@ export const projects: Project[] = [
       "Designed resident-to-management messaging system with Entity Framework Core and MSSQL for persistent communication history",
       "Completed development phase with full feature implementation for apartment complexes and office buildings"
     ],
+    skillsHighlighted: ["ASP.NET Core", "Android", "Push Notifications", "Property Management"],
   },
   {
     num: 16,
@@ -1044,6 +1053,7 @@ export const projects: Project[] = [
       "Integrated payment gateway and SMS notification services for seamless customer experience and real-time order tracking",
       "Built admin dashboard for operations management using Entity Framework and MSSQL with fleet management features"
     ],
+    skillsHighlighted: ["On-Demand Services", "Geolocation", "Payment Integration", "B2B Solutions"],
   },
   {
     num: 17,
@@ -1077,6 +1087,7 @@ export const projects: Project[] = [
       performance: "3,000+ bilateral treaty scenarios",
       other: ["Weekly regulatory updates", "Multi-year tax projections"]
     },
+    skillsHighlighted: ["Tax Compliance", "Knockout.js", "BEPS/ATAD", "Regulatory Research"],
   },
   {
     num: 18,
@@ -1110,6 +1121,7 @@ export const projects: Project[] = [
       performance: "Compliance gap identification",
       other: ["60% of $1B+ companies need better TP solutions", "Regulatory framework builder"]
     },
+    skillsHighlighted: ["Transfer Pricing", "FAR Analysis", "BEPS Compliance", "Global Tax"],
   },
   {
     num: 19,
@@ -1145,6 +1157,7 @@ export const projects: Project[] = [
       "Built secure session handling, password policies, and audit logging features meeting enterprise security requirements",
       "Reduced authentication-related development effort for product teams by centralizing security concerns across all RegAnalytics products"
     ],
+    skillsHighlighted: ["SSO/JWT", "RBAC", "Security", "Enterprise Auth"],
   },
   {
     num: 20,
@@ -1181,6 +1194,7 @@ export const projects: Project[] = [
       "Developed RESTful API for notification submission, device registration, targeting logic, and retry mechanisms for failed deliveries",
       "Deployed production service with MongoDB for notification persistence and delivery status tracking"
     ],
+    skillsHighlighted: ["RabbitMQ", "Socket.io", "Push Notifications", "Message Queuing"],
   },
   {
     num: 21,
@@ -1208,6 +1222,7 @@ export const projects: Project[] = [
       "Designed MySQL database schema for efficient storage and retrieval of aggregated news content with metadata indexing",
       "Built automated scheduling system for continuous news monitoring and real-time content updates"
     ],
+    skillsHighlighted: ["Web Scraping", "Data Aggregation", "Content Processing", "Automation"],
   },
   {
     num: 22,
@@ -1243,6 +1258,7 @@ export const projects: Project[] = [
       "Fixed bugs in user profile management, connection workflows, and messaging features across frontend and backend",
       "Collaborated with development team to deliver MVP demonstrating platform concept and achieving initial business objectives"
     ],
+    skillsHighlighted: ["MEAN Stack", "Socket.io", "Social Networking", "MVP Development"],
   },
   {
     num: 23,
@@ -1273,6 +1289,7 @@ export const projects: Project[] = [
       users: "National medical education institution",
       other: ["Since 1972", "FCPS/MCPS examination system"]
     },
+    skillsHighlighted: ["ASP.NET MVC", "Entity Framework", "Medical Systems", "Education Platforms"],
   },
 ];
 

@@ -138,7 +138,7 @@ export default function ProjectPerformanceMetrics({ metrics }: ProjectPerformanc
     <div className="space-y-6">
       {/* Main Metrics Grid */}
       {visualizations.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           {visualizations.map((viz, index) => (
             <motion.div
               key={index}
@@ -147,25 +147,23 @@ export default function ProjectPerformanceMetrics({ metrics }: ProjectPerformanc
               transition={{ delay: index * 0.05 }}
               className={`bg-gradient-to-br ${
                 colorClasses[viz.color as keyof typeof colorClasses] || colorClasses.secondary
-              } border rounded-xl p-5 relative overflow-hidden`}
+              } border rounded-lg p-3 relative overflow-hidden`}
             >
               {/* Background Glow Effect */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl" />
+              <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full blur-2xl" />
 
               <div className="relative z-10">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 bg-white/10 rounded-lg">
-                      {viz.icon}
-                    </div>
-                    <h4 className="font-semibold text-sm">{viz.label}</h4>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="p-1.5 bg-white/10 rounded-md text-xs">
+                    {viz.icon}
                   </div>
+                  <h4 className="font-semibold text-xs">{viz.label}</h4>
                 </div>
 
                 {/* Value Display */}
-                <div className="mb-4">
-                  <p className="text-4xl font-bold mb-1">{viz.value}</p>
+                <div className="mb-2">
+                  <p className="text-2xl font-bold mb-0.5">{viz.value}</p>
                   {viz.improvement && (
                     <div className="flex items-center gap-2">
                       <FaArrowUp className="text-green-400" />

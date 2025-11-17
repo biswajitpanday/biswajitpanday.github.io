@@ -134,141 +134,168 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3, type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-xl border border-secondary-default/30 rounded-2xl w-full max-w-6xl max-h-[calc(100vh-160px)] overflow-hidden shadow-2xl shadow-secondary-default/20 flex flex-col"
+            className={`backdrop-blur-xl rounded-2xl w-full max-w-6xl max-h-[calc(100vh-160px)] overflow-hidden shadow-2xl flex flex-col ${
+              project.isFeatured
+                ? "bg-gradient-to-br from-purple-900/30 via-gray-900/95 to-blue-900/30 border border-purple-500/30 shadow-purple-500/20"
+                : "bg-gradient-to-br from-gray-900/95 to-gray-950/95 border border-secondary-default/30 shadow-secondary-default/20"
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Compact Modal Header */}
-            <div className="relative p-4 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/10 via-transparent to-secondary-default/10 flex-shrink-0">
-              {/* Compact Title Row: #N | Project Title || X Button */}
-              <div className="flex items-center justify-between gap-4">
-                <h2 className="text-lg xl:text-xl font-bold text-white flex items-center gap-3 flex-1">
-                  <span className="text-secondary-default text-base">#{project.num}</span>
-                  <span className="text-white/30">|</span>
-                  <span className="flex-1">{project.title}</span>
+            {/* Ultra-Compact Modal Header */}
+            <div className="relative px-4 py-3 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/5 via-transparent to-secondary-default/5 flex-shrink-0">
+              {/* Single Row: Title + Badges (right-aligned) + Close Button */}
+              <div className="flex items-center justify-between gap-3">
+                {/* Left: Title */}
+                <h2 className="text-base xl:text-lg font-bold text-white flex items-center gap-2 flex-shrink-0">
+                  <span className="text-secondary-default text-sm">#{project.num}</span>
+                  <span className="text-white/30 text-xs">|</span>
+                  <span>{project.title}</span>
                 </h2>
 
-                {/* Close Button */}
-                <button
-                  onClick={onClose}
-                  className="p-2 text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-full flex-shrink-0"
-                  aria-label="Close modal"
-                >
-                  <FaTimes className="text-base" />
-                </button>
-              </div>
-
-              {/* Buttons (Left) and Tags (Right) Row */}
-              <div className="flex items-center justify-between gap-4 mt-3 border-t border-white/5 pt-3">
-                {/* Tab Buttons - Left Side (only if case study or architecture exists) */}
-                {hasCaseStudy || hasArchitecture ? (
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setActiveTab("overview")}
-                      className={`relative px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 overflow-hidden ${
-                        activeTab === "overview"
-                          ? "bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-purple-500/20 border border-emerald-500/40 text-white shadow-lg shadow-emerald-500/20"
-                          : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
-                      }`}
-                    >
-                      <span className="relative z-10 flex items-center gap-2">
-                        <FaInfoCircle className="text-sm" />
-                        Overview
-                      </span>
-                      {activeTab === "overview" && (
-                        <>
-                          <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
-                          <span className="absolute inset-0 rounded-lg blur-md bg-gradient-to-r from-emerald-500/30 via-blue-500/30 to-purple-500/30 opacity-50" />
-                        </>
-                      )}
-                    </button>
-                    {hasCaseStudy && (
-                      <button
-                        onClick={() => setActiveTab("case-study")}
-                        className={`relative px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 overflow-hidden ${
-                          activeTab === "case-study"
-                            ? "bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-purple-500/20 border border-purple-500/40 text-white shadow-lg shadow-purple-500/20"
-                            : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
-                        }`}
-                      >
-                        <span className="relative z-10 flex items-center gap-2">
-                          <FaLightbulb className="text-sm" />
-                          Case Study
-                        </span>
-                        {activeTab === "case-study" && (
-                          <>
-                            <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
-                            <span className="absolute inset-0 rounded-lg blur-md bg-gradient-to-r from-emerald-500/30 via-blue-500/30 to-purple-500/30 opacity-50" />
-                          </>
-                        )}
-                      </button>
-                    )}
-                    {hasArchitecture && (
-                      <button
-                        onClick={() => setActiveTab("architecture")}
-                        className={`relative px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 overflow-hidden ${
-                          activeTab === "architecture"
-                            ? "bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-500/40 text-white shadow-lg shadow-cyan-500/20"
-                            : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
-                        }`}
-                      >
-                        <span className="relative z-10 flex items-center gap-2">
-                          <FiLayers className="text-sm" />
-                          Architecture
-                        </span>
-                        {activeTab === "architecture" && (
-                          <>
-                            <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-purple-500/10 animate-pulse" />
-                            <span className="absolute inset-0 rounded-lg blur-md bg-gradient-to-r from-emerald-500/30 via-blue-500/30 to-purple-500/30 opacity-50" />
-                          </>
-                        )}
-                      </button>
-                    )}
-                  </div>
-                ) : (
-                  <div></div>
-                )}
-
-                {/* Tags - Right Side - Matching ProjectCard design */}
-                <div className="flex flex-wrap items-center gap-2 justify-end">
-                  {/* Category Tag - Matching ProjectCard */}
-                  <span className="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-md bg-gradient-to-r from-secondary-default/10 via-purple-500/10 to-emerald-500/10 border border-secondary-default/30 text-secondary-default">
-                    {project.category}
-                  </span>
-
-                  {/* Company Badge - Matching ProjectCard */}
+                {/* Right: Badges + Close Button */}
+                <div className="flex items-center gap-2 flex-wrap justify-end">
+                  {/* Company Badge - Subtle with @ prefix */}
                   {project.associatedWithCompany && (
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md bg-secondary-default/10 border border-secondary-default/30 text-secondary-default/90">
-                      <FaBuilding className="text-xs" />
-                      {project.associatedWithCompany}
+                    <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-gray-800/50 border border-white/20 text-white/90 font-medium">
+                      <FaBuilding className="text-[10px] text-white/50" />
+                      <span className="text-white/50">@</span>
+                      <span>{project.associatedWithCompany}</span>
                     </span>
                   )}
 
-                  {/* Status Tag - Matching ProjectCard */}
+                  {/* Category Badge */}
+                  <span className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg font-bold uppercase tracking-wide bg-gradient-to-r shadow-sm border ${
+                    project.category === "Full-Stack" ? "from-emerald-500/20 to-cyan-500/20 border-emerald-500/40 text-emerald-300" :
+                    project.category === "Frontend" ? "from-blue-500/20 to-cyan-500/20 border-blue-500/40 text-blue-300" :
+                    project.category === "Backend" ? "from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-300" :
+                    project.category === "Mobile" ? "from-orange-500/20 to-red-500/20 border-orange-500/40 text-orange-300" :
+                    project.category === "Windows App" ? "from-yellow-500/20 to-orange-500/20 border-yellow-500/40 text-yellow-300" :
+                    "from-gray-500/20 to-gray-600/20 border-gray-500/40 text-gray-300"
+                  }`}>
+                    <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                    {project.category}
+                  </span>
+
+                  {/* Divider */}
+                  <span className="text-white/30 text-xs">|</span>
+
+                  {/* Open Source Badge */}
+                  {project.isOpenSource && (
+                    <>
+                      <span className="inline-flex items-center gap-1.5 text-[10px] px-2 py-1 rounded-md bg-gradient-to-r from-green-500/25 to-emerald-500/25 border border-green-500/50 text-green-200 font-semibold">
+                        <FaCodeBranch className="text-[9px]" />
+                        <span>Open Source</span>
+                      </span>
+                      <span className="text-white/30 text-xs">|</span>
+                    </>
+                  )}
+
+                  {/* Featured Badge */}
+                  {project.isFeatured && (
+                    <>
+                      <span className="inline-flex items-center gap-1.5 text-[10px] px-2 py-1 rounded-md bg-gradient-to-r from-purple-500/25 to-pink-500/25 border border-purple-500/50 text-purple-200 font-semibold">
+                        <FaStar className="text-[9px]" />
+                        <span>Featured</span>
+                      </span>
+                      <span className="text-white/30 text-xs">|</span>
+                    </>
+                  )}
+
+                  {/* Status Badge */}
                   {project.isActive ? (
-                    <span className="inline-flex items-center gap-1.5 bg-green-500/90 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm shadow-lg">
-                      <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                    <span className="inline-flex items-center gap-1 bg-green-500/90 text-white text-[10px] font-medium px-2 py-1 rounded-full">
+                      <div className="w-1 h-1 rounded-full bg-white animate-pulse" />
                       Active
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 bg-red-500/90 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm shadow-lg">
+                    <span className="inline-flex items-center gap-1 bg-red-500/90 text-white text-[10px] font-medium px-2 py-1 rounded-full">
                       Completed
                     </span>
                   )}
 
-                  {/* Open Source Tag - Matching ProjectCard */}
-                  {project.isOpenSource && (
-                    <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-md bg-green-500/10 border border-green-500/30 text-green-300/90">
-                      <FaCodeBranch className="text-xs" />
-                      Open Source
-                    </span>
-                  )}
+                  {/* Close Button */}
+                  <button
+                    onClick={onClose}
+                    className="p-1.5 text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg flex-shrink-0 ml-1"
+                    aria-label="Close modal"
+                  >
+                    <FaTimes className="text-sm" />
+                  </button>
+                </div>
+              </div>
 
-                  {/* Featured Tag - Matching ProjectCard */}
-                  {project.isFeatured && (
-                    <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white px-2.5 py-1 rounded-md text-xs font-semibold shadow-lg shadow-purple-500/30">
-                      <FaStar className="text-white text-xs" />
-                      Featured
+              {/* Tab Buttons Row + Action Buttons */}
+              <div className="flex items-center justify-between gap-3 mt-2 pt-2 border-t border-white/5">
+                {/* Left: Tab Buttons */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setActiveTab("overview")}
+                    className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 ${
+                      activeTab === "overview"
+                        ? "bg-secondary-default/20 border border-secondary-default/50 text-secondary-default"
+                        : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
+                    }`}
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <FaInfoCircle className="text-xs" />
+                      Overview
                     </span>
+                  </button>
+                  {hasCaseStudy && (
+                    <button
+                      onClick={() => setActiveTab("case-study")}
+                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        activeTab === "case-study"
+                          ? "bg-purple-500/20 border border-purple-500/50 text-purple-300"
+                          : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
+                      }`}
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <FaLightbulb className="text-xs" />
+                        Case Study
+                      </span>
+                    </button>
+                  )}
+                  {hasArchitecture && (
+                    <button
+                      onClick={() => setActiveTab("architecture")}
+                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        activeTab === "architecture"
+                          ? "bg-cyan-500/20 border border-cyan-500/50 text-cyan-300"
+                          : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
+                      }`}
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <FiLayers className="text-xs" />
+                        Architecture
+                      </span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Right: Action Buttons */}
+                <div className="flex gap-2">
+                  {project.url && project.url.trim() !== "" && (
+                    <Link
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-3 py-1.5 rounded-md text-xs font-bold hover:shadow-lg hover:scale-105 transition-all duration-200"
+                    >
+                      <FaExternalLinkAlt className="text-[10px]" />
+                      View Live
+                    </Link>
+                  )}
+                  {project.github && project.github.trim() !== "" && (
+                    <Link
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 bg-gray-800 hover:bg-gray-700 text-white px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 border border-white/20 hover:border-secondary-default/50"
+                    >
+                      <FaGithub className="text-[10px]" />
+                      View Code
+                    </Link>
                   )}
                 </div>
               </div>
@@ -293,17 +320,49 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                 {/* Tab Content */}
                 {activeTab === "overview" && (
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Main Content - 2/3 width */}
-                    <div className="lg:col-span-2 space-y-8">
+                  <div className="space-y-5">
+                      {/* Project Details Bar - Compact Info */}
+                      <div className="bg-gradient-to-r from-secondary-default/10 via-purple-500/5 to-blue-500/10 border border-secondary-default/20 rounded-lg p-3">
+                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 justify-center text-xs">
+                          {/* Company */}
+                          <div className="flex items-center gap-1.5">
+                            <FaBuilding className="text-secondary-default text-xs" />
+                            <span className="text-white/50 font-medium">Company:</span>
+                            <span className="text-white font-semibold">
+                              {project.associatedWithCompany || "Individual Project"}
+                            </span>
+                          </div>
+                          
+                          <span className="text-white/20">|</span>
+                          
+                          {/* Duration */}
+                          <div className="flex items-center gap-1.5">
+                            <FaCalendar className="text-blue-400 text-xs" />
+                            <span className="text-white/50 font-medium">Duration:</span>
+                            <span className="text-white font-semibold text-xs">
+                              {formatDateRange(project.startDate, project.endDate)}
+                            </span>
+                          </div>
+                          
+                          <span className="text-white/20">|</span>
+                          
+                          {/* Role */}
+                          <div className="flex items-center gap-1.5">
+                            <FaCode className="text-purple-400 text-xs" />
+                            <span className="text-white/50 font-medium">Role:</span>
+                            <span className="text-white font-semibold">{project.jobRole}</span>
+                          </div>
+                        </div>
+                      </div>
+
                       {/* Description Section */}
                       <div>
-                        <div className="flex items-center gap-2 mb-4">
-                          <FaInfoCircle className="text-secondary-default" />
-                          <h3 className="text-xl font-bold text-white">Project Overview</h3>
+                        <div className="flex items-center gap-2 mb-3">
+                          <FaInfoCircle className="text-secondary-default text-sm" />
+                          <h3 className="text-lg font-bold text-white">Project Overview</h3>
                         </div>
                         <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                          <p className="text-white/70 leading-relaxed text-base">
+                          <p className="text-white/70 leading-relaxed text-sm">
                             {project.longDescription || project.shortDescription}
                           </p>
                         </div>
@@ -312,18 +371,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       {/* Responsibilities Section - If exists */}
                       {project.responsibilities && project.responsibilities.length > 0 && (
                         <div>
-                          <div className="flex items-center gap-2 mb-4">
-                            <FaBriefcase className="text-secondary-default" />
-                            <h3 className="text-xl font-bold text-white">Key Responsibilities & Achievements</h3>
+                          <div className="flex items-center gap-2 mb-3">
+                            <FaBriefcase className="text-secondary-default text-sm" />
+                            <h3 className="text-lg font-bold text-white">Key Responsibilities & Achievements</h3>
                           </div>
-                          <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                            <ul className="space-y-3">
+                          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                            <ul className="space-y-2.5">
                               {project.responsibilities.map((responsibility, idx) => (
                                 <li
                                   key={idx}
-                                  className="flex items-start gap-3 text-white/80 leading-relaxed"
+                                  className="flex items-start gap-2.5 text-white/80 leading-relaxed text-sm"
                                 >
-                                  <span className="text-secondary-default mt-1.5 flex-shrink-0">▸</span>
+                                  <span className="text-secondary-default mt-1 flex-shrink-0 text-xs">▸</span>
                                   <span>{responsibility}</span>
                                 </li>
                               ))}
@@ -332,68 +391,72 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         </div>
                       )}
 
-                      {/* Metrics Display - If exists */}
+                      {/* Metrics Display - If exists - Much More Compact */}
                       {project.metrics && (
                         <div>
-                          <div className="flex items-center gap-2 mb-4">
-                            <FaChartLine className="text-secondary-default" />
-                            <h3 className="text-xl font-bold text-white">Impact & Metrics</h3>
+                          <div className="flex items-center gap-2 mb-2">
+                            <FaChartLine className="text-secondary-default text-xs" />
+                            <h3 className="text-sm font-bold text-white">Impact & Metrics</h3>
                           </div>
-                          <ProjectPerformanceMetrics metrics={project.metrics} />
+                          <div className="scale-90 origin-top-left -ml-2">
+                            <ProjectPerformanceMetrics metrics={project.metrics} />
+                          </div>
                         </div>
                       )}
+
+                      {/* Tech Stack - Matching Timeline Card Style (List Format) */}
+                      <div className="bg-gradient-to-br from-secondary-default/5 via-purple-500/5 to-blue-500/5 rounded-lg p-4 border border-white/10">
+                        <h4 className="text-sm font-semibold text-white mb-3 uppercase tracking-wide flex items-center gap-2">
+                          <FaCode className="text-secondary-default text-sm" />
+                          <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
+                          Technology Stack
+                        </h4>
+                        
+                        {/* Grid List Format - Like Timeline Card */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-1.5">
+                          {[...keyTechnologies, ...otherTechnologies].map((tech, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center gap-2 text-xs text-white/80"
+                            >
+                              <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                                index < keyTechnologies.length 
+                                  ? 'bg-secondary-default' 
+                                  : 'bg-secondary-default/40'
+                              }`}></span>
+                              <span className="truncate">{tech}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
 
                       {/* Testimonials - If exists and approved */}
                       {project.testimonials && project.testimonials.filter(t => t.approved !== false).length > 0 && (
                         <div>
-                          <div className="flex items-center gap-2 mb-4">
-                            <FaQuoteLeft className="text-secondary-default" />
-                            <h3 className="text-xl font-bold text-white">Testimonials</h3>
+                          <div className="flex items-center gap-2 mb-3">
+                            <FaQuoteLeft className="text-secondary-default text-sm" />
+                            <h3 className="text-lg font-bold text-white">Testimonials</h3>
                           </div>
-                          <div className="space-y-4">
+                          <div className="space-y-3">
                             {project.testimonials.filter(t => t.approved !== false).map((testimonial, idx) => (
                               <div
                                 key={idx}
-                                className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-xl p-5 relative"
+                                className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-xl p-4 relative"
                               >
-                                <FaQuoteLeft className="text-purple-400/30 text-3xl absolute top-4 right-4" />
-                                <p className="text-white/90 italic leading-relaxed mb-4 relative z-10">
+                                <FaQuoteLeft className="text-purple-400/30 text-2xl absolute top-3 right-3" />
+                                <p className="text-sm font-medium bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent leading-relaxed mb-3 relative z-10 italic">
                                   &ldquo;{testimonial.quote}&rdquo;
                                 </p>
-                                <div className="flex items-center gap-3">
-                                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-secondary-default to-blue-500 flex items-center justify-center text-white font-bold">
+                                <div className="flex items-center gap-2.5">
+                                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-secondary-default to-blue-500 flex items-center justify-center text-white font-bold text-xs">
                                     {testimonial.author.charAt(0)}
                                   </div>
                                   <div>
-                                    <p className="text-white font-semibold text-sm">{testimonial.author}</p>
-                                    <p className="text-white/60 text-xs">
+                                    <p className="text-white font-semibold text-xs">{testimonial.author}</p>
+                                    <p className="text-white/60 text-[10px]">
                                       {testimonial.role}{testimonial.company ? ` at ${testimonial.company}` : ''}
                                     </p>
                                   </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Recognition/Awards - If exists and approved */}
-                      {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
-                        <div>
-                          <div className="flex items-center gap-2 mb-4">
-                            <FaTrophy className="text-secondary-default" />
-                            <h3 className="text-xl font-bold text-white">Recognition & Awards</h3>
-                          </div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
-                              <div
-                                key={idx}
-                                className="bg-gradient-to-br from-purple-500/15 via-emerald-500/15 to-secondary-default/15 border border-purple-500/40 rounded-lg p-4 flex items-start gap-3"
-                              >
-                                <FaTrophy className="text-purple-400 text-lg mt-1 flex-shrink-0" />
-                                <div>
-                                  <p className="text-white font-semibold text-sm mb-1">{rec.title}</p>
-                                  <p className="text-white/70 text-xs">{rec.description}</p>
                                 </div>
                               </div>
                             ))}
@@ -416,131 +479,29 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         </div>
                       )}
 
-                      {/* Tech Stack - Enhanced with Key Technologies */}
-                      <div>
-                        <div className="flex items-center gap-2 mb-4">
-                          <FaCode className="text-secondary-default" />
-                          <h3 className="text-xl font-bold text-white">Technology Stack</h3>
-                        </div>
-
-                        {/* Key Technologies */}
-                        <div className="mb-6">
-                          <p className="text-white/60 text-sm mb-3 font-medium">Key Technologies</p>
-                          <div className="flex flex-wrap gap-2">
-                            {keyTechnologies.map((tech, index) => (
-                              <span
-                                key={index}
-                                className="bg-gradient-to-r from-secondary-default/20 to-blue-500/20 text-secondary-default border border-secondary-default/40 px-4 py-2 rounded-lg text-sm font-medium hover:from-secondary-default/30 hover:to-blue-500/30 hover:scale-105 transition-all duration-200 shadow-sm whitespace-nowrap"
+                      {/* Recognition/Awards - If exists and approved */}
+                      {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
+                        <div>
+                          <div className="flex items-center gap-2 mb-3">
+                            <FaTrophy className="text-secondary-default text-sm" />
+                            <h3 className="text-lg font-bold text-white">Recognition & Awards</h3>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                            {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
+                              <div
+                                key={idx}
+                                className="bg-gradient-to-br from-purple-500/15 via-emerald-500/15 to-secondary-default/15 border border-purple-500/40 rounded-lg p-3 flex items-start gap-2.5"
                               >
-                                {tech}
-                              </span>
+                                <FaTrophy className="text-purple-400 text-sm mt-0.5 flex-shrink-0" />
+                                <div>
+                                  <p className="text-white font-semibold text-xs mb-0.5">{rec.title}</p>
+                                  <p className="text-white/70 text-[10px] leading-relaxed">{rec.description}</p>
+                                </div>
+                              </div>
                             ))}
                           </div>
                         </div>
-
-                        {/* Other Technologies */}
-                        {otherTechnologies.length > 0 && (
-                          <div>
-                            <p className="text-white/60 text-sm mb-3 font-medium">Additional Technologies</p>
-                            <div className="flex flex-wrap gap-2 max-h-[200px] overflow-y-auto custom-scrollbar pr-2">
-                              {otherTechnologies.map((tech, index) => (
-                                <span
-                                  key={index}
-                                  className="bg-gradient-to-r from-secondary-default/5 via-purple-500/5 to-blue-500/5 text-white/80 border border-white/20 px-3 py-1.5 rounded-lg text-sm hover:from-secondary-default/10 hover:via-purple-500/10 hover:to-blue-500/10 hover:border-white/30 transition-all duration-200 whitespace-nowrap"
-                                >
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Sidebar Info - 1/3 width */}
-                    <div className="space-y-6">
-                      {/* Sticky Container for Details + Buttons */}
-                      <div className="sticky top-0 space-y-4">
-                        {/* Project Details Card */}
-                        <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-secondary-default/30 rounded-xl p-5 shadow-lg">
-                          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                            <FaBuilding className="text-secondary-default" />
-                            Project Details
-                          </h3>
-                          <div className="space-y-4">
-                            {/* Company */}
-                            <div className="flex items-start gap-3 pb-4 border-b border-white/10">
-                              <div className="p-2 bg-secondary-default/10 rounded-lg">
-                                <FaBuilding className="text-secondary-default text-sm" />
-                              </div>
-                              <div className="flex-1">
-                                <p className="text-xs text-white/50 font-medium uppercase tracking-wide mb-1">Company</p>
-                                <p className="text-white font-semibold">
-                                  {project.associatedWithCompany || "Individual Project"}
-                                </p>
-                              </div>
-                            </div>
-
-                            {/* Duration */}
-                            <div className="flex items-start gap-3 pb-4 border-b border-white/10">
-                              <div className="p-2 bg-blue-500/10 rounded-lg">
-                                <FaCalendar className="text-blue-400 text-sm" />
-                              </div>
-                              <div className="flex-1">
-                                <p className="text-xs text-white/50 font-medium uppercase tracking-wide mb-1">Duration</p>
-                                <p className="text-white font-semibold text-sm">
-                                  {formatDateRange(project.startDate, project.endDate)}
-                                </p>
-                              </div>
-                            </div>
-
-                            {/* Role */}
-                            <div className="flex items-start gap-3">
-                              <div className="p-2 bg-purple-500/10 rounded-lg">
-                                <FaCode className="text-purple-400 text-sm" />
-                              </div>
-                              <div className="flex-1">
-                                <p className="text-xs text-white/50 font-medium uppercase tracking-wide mb-1">Role</p>
-                                <p className="text-white font-semibold">{project.jobRole}</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Action Buttons - Fixed Below Details */}
-                        <div className="space-y-2">
-                          {project.url && project.url.trim() !== "" && (
-                            <Link
-                              href={project.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="group flex items-center justify-center gap-2 w-full bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-white px-4 py-2.5 rounded-lg transition-all duration-300 font-medium text-sm shadow-md shadow-secondary-default/20 hover:shadow-secondary-default/40 hover:scale-105"
-                            >
-                              <FaExternalLinkAlt className="text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                              <span>View Live Project</span>
-                            </Link>
-                          )}
-                          {project.github && project.github.trim() !== "" && (
-                            <Link
-                              href={project.github}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="group flex items-center justify-center gap-2 w-full bg-gray-800/70 hover:bg-gray-800 text-white border-2 border-secondary-default/30 hover:border-secondary-default/60 px-4 py-2.5 rounded-lg transition-all duration-300 font-medium text-sm hover:scale-105"
-                            >
-                              <FaGithub className="text-base group-hover:rotate-12 transition-transform" />
-                              <span>View Source Code</span>
-                            </Link>
-                          )}
-
-                          {/* If no links available */}
-                          {(!project.url || project.url.trim() === "") && (!project.github || project.github.trim() === "") && (
-                            <div className="text-center p-3 bg-white/5 border border-white/10 rounded-lg">
-                              <p className="text-white/50 text-xs">No public links available</p>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                      )}
                   </div>
                 )}
 
