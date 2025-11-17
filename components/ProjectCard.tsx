@@ -141,7 +141,27 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           />
         )}
 
-        {/* Status Overlay */}
+        {/* Primary Metric Badge - Bottom Left of Image */}
+        {primaryMetric && (
+          <div className="absolute bottom-2 left-2">
+            <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg border flex-shrink-0 ${
+              primaryMetric.label === "Efficiency" 
+                ? "bg-gradient-to-r from-emerald-500/80 to-green-500/80 border-emerald-400/70 text-white"
+                : primaryMetric.label === "Impact" || primaryMetric.label === "Downloads"
+                ? "bg-gradient-to-r from-blue-500/80 to-cyan-500/80 border-blue-400/70 text-white"
+                : primaryMetric.label === "Performance"
+                ? "bg-gradient-to-r from-purple-500/80 to-pink-500/80 border-purple-400/70 text-white"
+                : primaryMetric.label === "Cost Savings"
+                ? "bg-gradient-to-r from-orange-500/80 to-amber-500/80 border-orange-400/70 text-white"
+                : "bg-gradient-to-r from-secondary-default/80 to-blue-500/80 border-secondary-default/70 text-white"
+            }`}>
+              <primaryMetric.icon className="text-xs" />
+              <span>{primaryMetric.text}</span>
+            </span>
+          </div>
+        )}
+
+        {/* Status Overlay - Top Right */}
         <div className="absolute top-2 right-2">
           {project.isActive ? (
             <span
@@ -169,15 +189,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           )}
         </div>
 
-        {/* Primary Metric Badge - Bottom Left of Image - Enhanced */}
-        {primaryMetric && (
-          <div className="absolute bottom-2 left-2">
-            <div className="bg-gradient-to-r from-secondary-default to-blue-500 text-white px-3 py-1.5 rounded-lg backdrop-blur-sm shadow-xl shadow-secondary-default/40 flex items-center gap-2 text-xs font-bold border border-white/20">
-              <primaryMetric.icon className="text-sm" />
-              <span>{primaryMetric.text}</span>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Project Title - Enhanced */}
@@ -234,65 +245,81 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
       {/* Bottom Section - Fixed layout from bottom: Buttons -> Tech Stack -> Key Skills -> Tags */}
       <div className="mt-auto">
-        {/* Compact Tags Row */}
-        <div
+        {/* Project Metadata - Restructured for Better Clarity (Matching Timeline) */}
+        <div 
           data-testid={`project-badges-${project.num}`}
-          className="flex items-center gap-1.5 flex-wrap mb-3"
+          className="space-y-2 mb-3"
         >
-          {/* Company Badge */}
-          {project.associatedWithCompany && (
+          {/* Row 1: Category (Primary) + Company (if exists) */}
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Category Badge - Large, Prominent with Icon-like styling */}
             <span
-              data-testid={`project-company-badge-${project.num}`}
-              className="inline-flex items-center gap-1.5 text-xs font-medium px-2 py-0.5 rounded bg-secondary-default/10 border border-secondary-default/30 text-secondary-default/90"
+              data-testid={`project-category-badge-${project.num}`}
+              className={`inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg font-bold uppercase tracking-wide bg-gradient-to-r shadow-sm ${
+                project.category === "Full-Stack" ? "from-emerald-500/20 to-cyan-500/20 border-emerald-500/40 text-emerald-300" :
+                project.category === "Frontend" ? "from-blue-500/20 to-cyan-500/20 border-blue-500/40 text-blue-300" :
+                project.category === "Backend" ? "from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-300" :
+                project.category === "Mobile" ? "from-orange-500/20 to-red-500/20 border-orange-500/40 text-orange-300" :
+                project.category === "Windows App" ? "from-yellow-500/20 to-orange-500/20 border-yellow-500/40 text-yellow-300" :
+                "from-gray-500/20 to-gray-600/20 border-gray-500/40 text-gray-300"
+              } border`}
             >
-              {companyLogo ? (
-                <Image
-                  src={companyLogo}
-                  alt={`${project.associatedWithCompany} logo`}
-                  width={16}
-                  height={16}
-                  className="rounded-sm"
-                />
-              ) : (
-                <FaBuilding className="text-xs" />
-              )}
-              {project.associatedWithCompany}
+              <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+              {project.category}
             </span>
-          )}
 
-          {/* Category Badge */}
-          <span
-            data-testid={`project-category-badge-${project.num}`}
-            className="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded bg-gradient-to-r from-secondary-default/10 via-purple-500/10 to-emerald-500/10 border border-secondary-default/30 text-secondary-default"
-          >
-            {project.category}
-          </span>
+            {/* Company Badge - Subtle, with "at" prefix for context */}
+            {project.associatedWithCompany && (
+              <span
+                data-testid={`project-company-badge-${project.num}`}
+                className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-gray-800/50 border border-white/20 text-white/90 font-medium"
+              >
+                <FaBuilding className="text-[10px] text-white/50" />
+                <span className="text-white/50">@</span>
+                {companyLogo && (
+                  <Image
+                    src={companyLogo}
+                    alt={`${project.associatedWithCompany} logo`}
+                    width={14}
+                    height={14}
+                    className="rounded-sm"
+                  />
+                )}
+                <span>{project.associatedWithCompany}</span>
+              </span>
+            )}
+          </div>
 
-          {/* Open Source Badge */}
-          {project.isOpenSource && (
-            <span
-              data-testid={`project-opensource-badge-${project.num}`}
-              className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded bg-green-500/10 border border-green-500/30 text-green-300/90"
-            >
-              <FaCodeBranch className="text-xs" />
-              Open Source
-            </span>
-          )}
-
-          {/* Recognition/Awards - Inline with tags */}
-          {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
-            <>
-              {project.recognition.filter(r => r.approved !== false).slice(0, 2).map((rec, idx) => (
+          {/* Row 2: Special Badges (Open Source + Recognition/Awards) */}
+          {(project.isOpenSource || (project.recognition && project.recognition.filter(r => r.approved !== false).length > 0)) && (
+            <div className="flex flex-wrap items-center gap-2">
+              {/* Open Source Badge */}
+              {project.isOpenSource && (
                 <span
-                  key={idx}
-                  className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded bg-gradient-to-r from-purple-500/15 via-emerald-500/15 to-secondary-default/15 border border-purple-500/40 text-purple-300"
-                  title={rec.description}
+                  data-testid={`project-opensource-badge-${project.num}`}
+                  className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-md bg-gradient-to-r from-green-500/25 to-emerald-500/25 border border-green-500/50 text-green-200 font-semibold shadow-sm shadow-green-500/20"
                 >
-                  <FaTrophy className="text-xs" />
-                  <span className="font-medium">{rec.title}</span>
+                  <FaCodeBranch className="text-[10px]" />
+                  <span>Open Source</span>
                 </span>
-              ))}
-            </>
+              )}
+
+              {/* Recognition/Awards Badges - Gold/Trophy styling */}
+              {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
+                <>
+                  {project.recognition.filter(r => r.approved !== false).slice(0, 2).map((rec, idx) => (
+                    <span
+                      key={idx}
+                      className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-md bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-orange-500/20 border border-amber-400/50 text-amber-200 font-semibold shadow-sm shadow-amber-500/20"
+                      title={rec.description}
+                    >
+                      <FaTrophy className="text-[10px] text-amber-300" />
+                      <span>{rec.title}</span>
+                    </span>
+                  ))}
+                </>
+              )}
+            </div>
           )}
         </div>
 

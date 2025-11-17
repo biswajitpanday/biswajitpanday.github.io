@@ -212,7 +212,7 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
-          className="absolute left-0 right-0 top-full mt-2 bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-md border border-secondary-default/30 rounded-lg shadow-2xl z-50 p-4"
+          className="absolute left-0 right-0 top-full mt-2 bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-md border border-secondary-default/30 rounded-lg shadow-2xl z-[120] p-4"
           data-test-selector="projectFilter-panel"
         >
           {/* Two Column Layout: Left (Categories/Companies/Status) | Right (Technologies) */}

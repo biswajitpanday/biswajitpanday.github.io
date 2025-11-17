@@ -67,6 +67,8 @@ export interface Project {
   | "Freelancer";
   startDate: Date;
   endDate: Date;
+  // Project-specific responsibilities and achievements
+  responsibilities?: string[];
   // Social Proof & Metrics
   metrics?: ProjectMetrics;
   testimonials?: Testimonial[];
@@ -108,6 +110,13 @@ export const projects: Project[] = [
     startDate: new Date('2025-08-23'),
     endDate: new Date(),
     inactivationReason: undefined,
+    responsibilities: [
+      "Architected and published open-source TypeScript MCP server enabling real-time datetime access for AI assistants across multiple IDEs (Cursor, Claude Desktop, VS Code, Windsurf)",
+      "Designed zero-configuration architecture with multi-format datetime support (ISO 8601, custom formats) and dual provider system (local/remote)",
+      "Implemented Model Context Protocol (MCP) integration following industry standards for AI tool interoperability",
+      "Published and maintained NPM package for the AI development community with comprehensive documentation and examples",
+      "Built for AI, Built with AI - showcasing modern AI-assisted development workflow and best practices"
+    ],
     metrics: {
       downloads: "NPM package for AI assistants",
       other: ["Zero-config setup", "Multi-IDE support (Cursor, Claude, VS Code)"]
@@ -193,6 +202,13 @@ export const projects: Project[] = [
     startDate: new Date('2025-05-01'),
     endDate: new Date(),
     inactivationReason: undefined,
+    responsibilities: [
+      "Architected AI-powered automation tool using GPT-5 API that reduced Optimizely upgrade time from 40 hours to 8 hours (80% efficiency gain)",
+      "Designed advanced prompt engineering strategy for three-way merge conflict resolution, enabling intelligent code context understanding",
+      "Implemented Python-based CLI tool with PowerShell integration, packaged using PyInstaller for easy distribution to 20+ enterprise clients",
+      "Developed comprehensive testing framework ensuring reliability across diverse client codebases and custom implementations",
+      "Automated deployment workflow for 40+ servers, transforming manual upgrade process into streamlined verification workflow"
+    ],
     metrics: {
       efficiency: "80% time reduction (40hrs → 8hrs)",
       users: "20+ enterprise clients",
@@ -293,6 +309,14 @@ export const projects: Project[] = [
     startDate: new Date('2023-04-01'),
     endDate: new Date(),
     inactivationReason: undefined,
+    responsibilities: [
+      "Architected and delivered custom B2B commerce features for 20+ Fortune 500 clients, optimizing catalog management, pricing engines, and ERP integrations at enterprise scale",
+      "Led two successful system migrations achieving 55% average cost reduction for major clients while improving deployment efficiency and reducing error rates",
+      "Mentored development team through rigorous code reviews and technical guidance, resulting in 15% defect reduction across key modules and improved team productivity",
+      "Designed and implemented IntelliMerge (AI-powered upgrade automation) and OpalSpark (.NET 9 template framework) tools adopted company-wide for development acceleration",
+      "Built integration bridge connecting Sitecore CMS with Opal platform for seamless content management across global deployments",
+      "Leveraged AI tools (Claude Code, Cursor, GitHub Copilot) to enhance team productivity and design scalable architecture patterns supporting worldwide operations"
+    ],
     metrics: {
       users: "20+ Fortune 500 clients",
       revenue: "55% average cost reduction",
@@ -389,6 +413,13 @@ export const projects: Project[] = [
     startDate: new Date('2023-05-01'),
     endDate: new Date('2023-08-31'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Architected open-source Q&A platform from scratch demonstrating Clean Architecture, CQRS patterns, and domain-driven design principles",
+      "Implemented full-stack solution using .NET 7 backend with Entity Framework Core and React 18 frontend with TypeScript for type safety",
+      "Designed repository pattern with dependency injection for testability and maintainability across application layers",
+      "Built real-time Q&A features with markdown support, code syntax highlighting, tagging/search, and JWT-based authentication",
+      "Published on GitHub as reference implementation for building scalable, maintainable enterprise applications using modern best practices"
+    ],
     metrics: {
       github_stars: "Educational reference project",
       other: ["Clean Architecture showcase", "Open-source contribution"]
@@ -474,6 +505,18 @@ export const projects: Project[] = [
     startDate: new Date('2022-09-01'),
     endDate: new Date('2023-03-31'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Architected technology stack upgrade from legacy ASP.NET to modern ASP.NET MVC and Angular framework for enterprise M&A platform serving Fortune 500 clients",
+      "Implemented features across 6 core modules: Pipeline Management, Due Diligence, Post-Merger Integrations, Synergy Tracking, Legal Workflow, and Reporting & Analytics",
+      "Developed backend APIs and frontend Angular components delivering measurable efficiency: 56% faster due diligence, 48% shorter integrations, 7x deal volume increase",
+      "Configured Azure DevOps CI/CD pipeline for automated deployments and integrated testing workflows",
+      "Collaborated with USA-based client stakeholders to translate M&A process requirements into scalable technical deliverables"
+    ],
+    metrics: {
+      efficiency: "56% faster due diligence",
+      performance: "48% shorter integrations",
+      other: ["7x deal volume increase", "6 integrated modules"]
+    },
   },
   {
     num: 6,
@@ -509,6 +552,13 @@ export const projects: Project[] = [
     startDate: new Date('2022-01-01'),
     endDate: new Date('2022-08-30'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Led comprehensive modernization of legacy monolithic regulatory analytics platform to Microservices architecture, achieving 10x performance improvement",
+      "Architected multi-container Docker deployment strategy enabling independent scaling and deployment of .NET 6, React, and Angular services",
+      "Migrated platform to AWS cloud infrastructure with containerized services, enabling cross-platform deployment to both Linux and Windows environments",
+      "Designed API gateway layer for microservices communication, implementing service discovery and load balancing for high availability",
+      "Reduced deployment time from hours to minutes through automated CI/CD pipelines and infrastructure-as-code practices"
+    ],
     metrics: {
       performance: "Modernized legacy monolith to microservices",
       other: ["Multi-container Docker deployment", "AWS cloud migration"]
@@ -597,6 +647,17 @@ export const projects: Project[] = [
     startDate: new Date('2021-08-01'),
     endDate: new Date('2022-02-31'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Led backend development and deployment of electronic visit verification (EVV) platform for home care agencies to ensure Medicaid compliance",
+      "Architected serverless backend using ASP.NET Core 3.1 with DynamoDB for flexible data storage and AWS Lambda for scalable processing",
+      "Developed REST APIs supporting multi-platform clients (React web, Flutter mobile) for GPS-based visit tracking, caregiver scheduling, and patient documentation",
+      "Implemented real-time visit validation workflows and automated compliance reporting for regulatory requirements",
+      "Managed AWS deployment using CloudFormation for infrastructure-as-code, ensuring high availability and scalability"
+    ],
+    metrics: {
+      performance: "Serverless AWS architecture for scalability",
+      other: ["Multi-platform (Web + Mobile)", "Real-time visit verification"]
+    },
   },
   {
     num: 8,
@@ -629,6 +690,13 @@ export const projects: Project[] = [
     startDate: new Date('2021-08-01'),
     endDate: new Date('2021-07-31'),
     inactivationReason: "Successfully delivered emergency alert system for Bangladesh Red Crescent Society; project completed as planned and transitioned to client operations.",
+    responsibilities: [
+      "Led development of emergency alert mobile application for Bangladesh Red Crescent Society (BDRCS) using Flutter with .NET 5 backend and Angular admin dashboard",
+      "Architected clean architecture backend with Entity Framework Core and MySQL for reliable emergency communication workflows",
+      "Designed and deployed serverless AWS infrastructure using Lambda, S3, RDS, and CloudFormation for scalability and high availability",
+      "Implemented push notification system for critical emergency alerts and real-time communication features",
+      "Delivered production system adhering to software best practices and disaster response requirements"
+    ],
   },
   {
     num: 9,
@@ -662,6 +730,13 @@ export const projects: Project[] = [
     startDate: new Date('2020-03-01'),
     endDate: new Date('2021-01-31'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Led modernization of Robi's Subscriber Verification System (SVS) serving millions of telecom users, migrating from .NET Framework to .NET Core 2.2 for cross-platform Linux deployment",
+      "Developed and optimized REST APIs for high-throughput telecom operations, handling millions of daily verification requests with minimal latency",
+      "Architected automated deployment pipeline for 40+ production servers using CI/CD practices, reducing deployment errors and downtime",
+      "Implemented Entity Framework optimizations and Oracle Database query tuning for improved system performance and scalability",
+      "Managed load-balanced infrastructure deployment enabling horizontal scaling for growing subscriber base"
+    ],
     metrics: {
       users: "Millions of telecom subscribers",
       performance: "Optimized API for high-traffic telecom operations",
@@ -753,6 +828,13 @@ export const projects: Project[] = [
     startDate: new Date('2020-01-01'),
     endDate: new Date('2020-11-31'),
     inactivationReason: "Successfully delivered scalable social platform MVP; client pivoted business model based on market insights gained during development.",
+    responsibilities: [
+      "Led backend development for social platform combining Twitter, Yelp, and Facebook elements using Node.js, hapi.js, and MongoDB",
+      "Architected scalable API layer supporting curated experience sharing, social feeds, and location-based recommendations",
+      "Developed React frontend for responsive web experience with real-time updates and interactive user engagement features",
+      "Deployed production infrastructure on AWS (EC2, S3, CloudFormation) ensuring high availability and performance at scale",
+      "Managed full project lifecycle from architecture design through deployment and delivery"
+    ],
   },
   {
     num: 11,
@@ -782,6 +864,13 @@ export const projects: Project[] = [
     startDate: new Date('2018-05-01'),
     endDate: new Date('2020-04-31'),
     inactivationReason: "Completed location-based e-commerce platform development; project fulfilled contracted scope and delivered intended functionality.",
+    responsibilities: [
+      "Developed location-based e-commerce platform using MEAN stack (MongoDB, Express.js, Angular, Node.js) with Flutter mobile application",
+      "Implemented geolocation features for proximity-based product discovery and location-aware shopping experiences",
+      "Built RESTful APIs with Express.js for seamless integration between web and mobile clients",
+      "Designed MongoDB schema for efficient product catalog management and user location data storage",
+      "Contributed to both frontend and backend development as full-stack developer across web and mobile platforms"
+    ],
   },
   {
     num: 12,
@@ -814,6 +903,13 @@ export const projects: Project[] = [
     startDate: new Date('2017-01-01'),
     endDate: new Date('2019-09-30'),
     inactivationReason: "Delivered production platform for live performance engagement; company pivoted focus post-launch.",
+    responsibilities: [
+      "Developed real-time audience engagement platform for live performances using ASP.NET WebAPI 2 backend and Angular.js frontend for USA-based performing arts startup",
+      "Implemented cross-platform Xamarin mobile applications (iOS/Android) enabling real-time presenter-to-audience communication during events",
+      "Built scalable AWS infrastructure (EC2, S3) supporting multiple concurrent events with real-time messaging capabilities",
+      "Developed event management features, audience interaction workflows, and analytics dashboard using Entity Framework and MSSQL",
+      "Contributed to full-stack development including API design, database schema, frontend UI, and mobile app deployment"
+    ],
   },
   {
     num: 13,
@@ -843,6 +939,18 @@ export const projects: Project[] = [
     startDate: new Date('2018-03-01'),
     endDate: new Date('2018-07-30'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Developed Interactive Voice Response (IVR) system backend using ASP.NET Web API with MongoDB for VRI Gateway platform supporting 44 languages + ASL",
+      "Integrated Twilio Voice API for automated call handling, intelligent queue management, and interpreter routing based on language requirements and availability",
+      "Built cross-platform desktop client using Angular.js and Electron for interpreter dispatch management and real-time session monitoring",
+      "Implemented call status tracking dashboard and reporting features for service quality metrics and performance analysis",
+      "Delivered production system achieving 5.0/5.0 App Store rating, enabling access to hundreds of qualified interpreters globally"
+    ],
+    metrics: {
+      performance: "Real-time interpreter routing",
+      users: "44+ languages + ASL support",
+      other: ["5.0/5.0 App Store rating", "Hundreds of global interpreters"]
+    },
   },
   {
     num: 14,
@@ -873,6 +981,13 @@ export const projects: Project[] = [
     startDate: new Date('2018-02-01'),
     endDate: new Date('2018-10-30'),
     inactivationReason: "Successfully delivered MVP demonstrating concept viability; project completed technical objectives and provided valuable market validation.",
+    responsibilities: [
+      "Developed live engagement application using ASP.NET Web API backend with Angular.js frontend and Xamarin cross-platform mobile apps",
+      "Implemented real-time features using Firebase for instant messaging and live event interactions",
+      "Built authentication and authorization system using JWT with Entity Framework for user management",
+      "Designed MSSQL database schema supporting engagement workflows, user profiles, and event tracking",
+      "Contributed to MVP delivery demonstrating concept viability across web and mobile platforms"
+    ],
   },
   {
     num: 15,
@@ -894,6 +1009,13 @@ export const projects: Project[] = [
     startDate: new Date('2018-06-01'),
     endDate: new Date('2018-12-31'),
     inactivationReason: "Completed development phase; project remained unpublished due to client business decisions.",
+    responsibilities: [
+      "Developed resident communication platform for property management using ASP.NET Core backend with Android mobile application",
+      "Implemented emergency notification system with push notifications for urgent building-wide alerts and safety communications",
+      "Built maintenance request workflows enabling residents to submit and track service tickets with real-time status updates",
+      "Designed resident-to-management messaging system with Entity Framework Core and MSSQL for persistent communication history",
+      "Completed development phase with full feature implementation for apartment complexes and office buildings"
+    ],
   },
   {
     num: 16,
@@ -915,6 +1037,13 @@ export const projects: Project[] = [
     startDate: new Date('2020-03-01'),
     endDate: new Date('2020-08-31'),
     inactivationReason: "Delivered full-featured platform; business model validation led to project discontinuation.",
+    responsibilities: [
+      "Architected on-demand laundry service platform for Bangladesh market using ASP.NET Core backend with Angular.js frontend",
+      "Implemented geolocation-based pickup/delivery scheduling system for customer and driver mobile interfaces",
+      "Developed order workflow automation supporting B2B clients (hotels, hospitals) with bulk service management capabilities",
+      "Integrated payment gateway and SMS notification services for seamless customer experience and real-time order tracking",
+      "Built admin dashboard for operations management using Entity Framework and MSSQL with fleet management features"
+    ],
   },
   {
     num: 17,
@@ -936,6 +1065,18 @@ export const projects: Project[] = [
     startDate: new Date('2016-09-01'),
     endDate: new Date('2019-05-30'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Developed full-stack features for international tax research platform covering 100+ jurisdictions with 3,000+ bilateral treaty scenarios",
+      "Implemented withholding tax calculators, CIT modeling, and passive income optimization tools using ASP.NET MVC backend and Knockout.js interactive UI",
+      "Built complex business logic for tax rule modeling integrating BEPS measures and EU Anti-Tax Avoidance Directive requirements across jurisdictions",
+      "Optimized MSSQL database queries using LINQ to SQL for efficient retrieval of large regulatory datasets including treaties, forms, and statutory excerpts",
+      "Integrated with Regfollower news feed for multiple-times-weekly regulatory updates, enabling tax professionals to track compliance changes in real-time"
+    ],
+    metrics: {
+      efficiency: "100+ jurisdictions coverage",
+      performance: "3,000+ bilateral treaty scenarios",
+      other: ["Weekly regulatory updates", "Multi-year tax projections"]
+    },
   },
   {
     num: 18,
@@ -957,6 +1098,18 @@ export const projects: Project[] = [
     startDate: new Date('2016-09-01'),
     endDate: new Date('2019-05-30'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Developed transfer pricing compliance features for platform covering 108 jurisdictions, serving multinational corporations managing intercompany transactions",
+      "Implemented Functional Analysis Report (FAR) data collection workflows and BEPS position assessment tools for group entities using ASP.NET MVC and Knockout.js",
+      "Built regulatory framework builder enabling jurisdiction comparison with direct links to government source documents and expert commentary",
+      "Created centralized project storage system for research results, compliance tracking, and curated news updates across all 108 jurisdictions",
+      "Optimized LINQ to SQL queries for complex regulatory data retrieval including laws, regulations, treaty articles, and BEPS/ATAD provisions"
+    ],
+    metrics: {
+      efficiency: "108 jurisdictions with FAR/BEPS analysis",
+      performance: "Compliance gap identification",
+      other: ["60% of $1B+ companies need better TP solutions", "Regulatory framework builder"]
+    },
   },
   {
     num: 19,
@@ -985,6 +1138,13 @@ export const projects: Project[] = [
     startDate: new Date('2016-11-01'),
     endDate: new Date('2017-03-30'),
     inactivationReason: "This Project is running internally.",
+    responsibilities: [
+      "Architected centralized authentication and subscription management system from scratch for RegAnalytics product suite (WTA, TPA, and other tools)",
+      "Implemented token-based authentication (JWT) and single sign-on (SSO) across multiple products using ASP.NET MVC and Web API",
+      "Designed role-based access control (RBAC) and subscription tier management with Entity Framework for enterprise compliance",
+      "Built secure session handling, password policies, and audit logging features meeting enterprise security requirements",
+      "Reduced authentication-related development effort for product teams by centralizing security concerns across all RegAnalytics products"
+    ],
   },
   {
     num: 20,
@@ -1014,6 +1174,13 @@ export const projects: Project[] = [
     startDate: new Date('2015-06-01'),
     endDate: new Date('2015-10-31'),
     inactivationReason: "Delivered cross-platform real-time notification service as specified; project completed development milestone and transitioned to client maintenance.",
+    responsibilities: [
+      "Designed and built real-time notification service supporting cross-platform push notifications (Android GCM, iOS APNS, Windows, web clients)",
+      "Architected message queuing system using Node.js with RabbitMQ for asynchronous notification processing with configurable priority queues",
+      "Implemented WebSocket connections using Socket.io for real-time delivery tracking and management dashboard monitoring",
+      "Developed RESTful API for notification submission, device registration, targeting logic, and retry mechanisms for failed deliveries",
+      "Deployed production service with MongoDB for notification persistence and delivery status tracking"
+    ],
   },
   {
     num: 21,
@@ -1035,6 +1202,12 @@ export const projects: Project[] = [
     startDate: new Date('2015-06-01'),
     endDate: new Date('2015-10-31'),
     inactivationReason: "Successfully implemented news aggregation platform; project completed as planned and achieved technical requirements.",
+    responsibilities: [
+      "Developed multi-source news scraping and aggregation system using Node.js and Express.js for content processing pipeline",
+      "Implemented web scraping algorithms extracting news articles from various sources with data normalization and deduplication",
+      "Designed MySQL database schema for efficient storage and retrieval of aggregated news content with metadata indexing",
+      "Built automated scheduling system for continuous news monitoring and real-time content updates"
+    ],
   },
   {
     num: 22,
@@ -1064,6 +1237,12 @@ export const projects: Project[] = [
     startDate: new Date('2014-08-01'),
     endDate: new Date('2014-10-31'),
     inactivationReason: "Delivered social connection platform MVP; project completed contracted development phase and met initial business objectives.",
+    responsibilities: [
+      "Implemented features for social and professional networking platform MVP combining Facebook-like social features with LinkedIn-style professional networking",
+      "Developed full-stack features using MEAN stack (MongoDB, Express.js, Angular.js, Node.js) with real-time Socket.io messaging",
+      "Fixed bugs in user profile management, connection workflows, and messaging features across frontend and backend",
+      "Collaborated with development team to deliver MVP demonstrating platform concept and achieving initial business objectives"
+    ],
   },
   {
     num: 23,
@@ -1084,6 +1263,16 @@ export const projects: Project[] = [
     startDate: new Date('2014-11-01'),
     endDate: new Date('2014-11-31'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Implemented new features for examination management system supporting FCPS/MCPS preliminary and final level exams for Bangladesh's premier medical education institution",
+      "Fixed bugs in trainee registration workflows, online examination platform, and result management modules",
+      "Developed administrative dashboard features for exam scheduling and candidate tracking across affiliated medical colleges and hospitals nationwide",
+      "Collaborated with senior developers to deliver features supporting continuing professional development (CPD) programs and research dissertation tracking"
+    ],
+    metrics: {
+      users: "National medical education institution",
+      other: ["Since 1972", "FCPS/MCPS examination system"]
+    },
   },
 ];
 

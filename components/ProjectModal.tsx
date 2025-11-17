@@ -19,6 +19,7 @@ import {
   FaChartLine,
   FaLightbulb,
   FaDownload,
+  FaBriefcase,
 } from "react-icons/fa";
 import { FiLayers } from "react-icons/fi";
 import Image from "next/image";
@@ -123,8 +124,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[var(--z-modal)] flex items-center justify-center p-4 pt-20 pb-8"
-          style={{ zIndex: 'var(--z-modal)' }}
+          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[150] flex items-center justify-center p-4 pt-20 pb-8"
           onClick={onClose}
           onKeyDown={handleKeyDown}
           tabIndex={-1}
@@ -228,39 +228,45 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   <div></div>
                 )}
 
-                {/* Tags - Right Side - Subtle, non-interactive appearance */}
+                {/* Tags - Right Side - Matching ProjectCard design */}
                 <div className="flex flex-wrap items-center gap-2 justify-end">
-                  {/* Category Tag */}
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md bg-gradient-to-r from-secondary-default/10 via-purple-500/10 to-emerald-500/10 border border-secondary-default/30 text-secondary-default">
-                    <FiLayers className="text-xs" />
+                  {/* Category Tag - Matching ProjectCard */}
+                  <span className="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-md bg-gradient-to-r from-secondary-default/10 via-purple-500/10 to-emerald-500/10 border border-secondary-default/30 text-secondary-default">
                     {project.category}
                   </span>
 
-                  {/* Status Tag */}
+                  {/* Company Badge - Matching ProjectCard */}
+                  {project.associatedWithCompany && (
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md bg-secondary-default/10 border border-secondary-default/30 text-secondary-default/90">
+                      <FaBuilding className="text-xs" />
+                      {project.associatedWithCompany}
+                    </span>
+                  )}
+
+                  {/* Status Tag - Matching ProjectCard */}
                   {project.isActive ? (
-                    <span className="inline-flex items-center gap-1.5 bg-green-500/20 text-green-300 text-xs font-medium px-2.5 py-1 rounded-md border border-green-500/40 opacity-80">
-                      <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                    <span className="inline-flex items-center gap-1.5 bg-green-500/90 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm shadow-lg">
+                      <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
                       Active
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 bg-white/10 text-white/70 text-xs font-medium px-2.5 py-1 rounded-md border border-white/20 opacity-80">
-                      <div className="w-1.5 h-1.5 rounded-full bg-white/50" />
+                    <span className="inline-flex items-center gap-1.5 bg-red-500/90 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm shadow-lg">
                       Completed
                     </span>
                   )}
 
-                  {/* Open Source Tag */}
+                  {/* Open Source Tag - Matching ProjectCard */}
                   {project.isOpenSource && (
-                    <span className="inline-flex items-center gap-1.5 bg-blue-500/20 text-blue-300 text-xs font-medium px-2.5 py-1 rounded-md border border-blue-500/40 opacity-80">
+                    <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-md bg-green-500/10 border border-green-500/30 text-green-300/90">
                       <FaCodeBranch className="text-xs" />
                       Open Source
                     </span>
                   )}
 
-                  {/* Featured Tag */}
+                  {/* Featured Tag - Matching ProjectCard */}
                   {project.isFeatured && (
-                    <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-300 text-xs font-semibold px-2.5 py-1 rounded-md border border-purple-500/50 shadow-md shadow-purple-500/20">
-                      <FaStar className="text-xs" />
+                    <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white px-2.5 py-1 rounded-md text-xs font-semibold shadow-lg shadow-purple-500/30">
+                      <FaStar className="text-white text-xs" />
                       Featured
                     </span>
                   )}
@@ -297,11 +303,34 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                           <h3 className="text-xl font-bold text-white">Project Overview</h3>
                         </div>
                         <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                          <p className="text-white/90 leading-relaxed text-base">
+                          <p className="text-white/70 leading-relaxed text-base">
                             {project.longDescription || project.shortDescription}
                           </p>
                         </div>
                       </div>
+
+                      {/* Responsibilities Section - If exists */}
+                      {project.responsibilities && project.responsibilities.length > 0 && (
+                        <div>
+                          <div className="flex items-center gap-2 mb-4">
+                            <FaBriefcase className="text-secondary-default" />
+                            <h3 className="text-xl font-bold text-white">Key Responsibilities & Achievements</h3>
+                          </div>
+                          <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                            <ul className="space-y-3">
+                              {project.responsibilities.map((responsibility, idx) => (
+                                <li
+                                  key={idx}
+                                  className="flex items-start gap-3 text-white/80 leading-relaxed"
+                                >
+                                  <span className="text-secondary-default mt-1.5 flex-shrink-0">▸</span>
+                                  <span>{responsibility}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      )}
 
                       {/* Metrics Display - If exists */}
                       {project.metrics && (

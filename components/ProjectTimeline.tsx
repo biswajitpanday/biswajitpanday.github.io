@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { FaCalendar, FaBuilding, FaCode, FaStar, FaClock, FaRocket } from "react-icons/fa";
+import { FaCalendar, FaBuilding, FaCode, FaStar, FaClock, FaRocket, FaExternalLinkAlt, FaGithub, FaCodeBranch, FaTrophy, FaChartLine, FaUsers } from "react-icons/fa";
 import { projects, Project } from "@/data/portfolioData";
 import Image from "next/image";
+import Link from "next/link";
 
 interface TimelineProject extends Project {
   durationMonths: number;
@@ -13,9 +14,55 @@ interface TimelineProject extends Project {
 
 interface ProjectTimelineProps {
   selectedTech?: string | null;
+  onOpenModal?: (project: Project) => void;
 }
 
-export default function ProjectTimeline({ selectedTech }: ProjectTimelineProps) {
+export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTimelineProps) {
+  const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set());
+
+  // Toggle project stacks display
+  const toggleProjectStacks = (projectNum: number) => {
+    const newExpanded = new Set(expandedProjects);
+    if (newExpanded.has(projectNum)) {
+      newExpanded.delete(projectNum);
+    } else {
+      newExpanded.add(projectNum);
+    }
+    setExpandedProjects(newExpanded);
+  };
+
+  // Company logo mapping (same as ProjectCard)
+  const getCompanyLogo = (company: string) => {
+    const logoMap: Record<string, string> = {
+      "Brain Station-23": "/assets/company-icon/webp/brain-station-23.webp",
+      "Chorki Limited": "/assets/company-icon/webp/chorki.webp",
+      "Kaz Software": "/assets/company-icon/webp/kaz.webp",
+      "Optimizely": "/assets/company-icon/webp/opti.webp",
+    };
+    return logoMap[company] || null;
+  };
+
+  // Category color mapping (same as ProjectCard)
+  const getCategoryColor = (category: string) => {
+    const colorMap: Record<string, string> = {
+      "Full-Stack": "from-emerald-500/20 to-cyan-500/20 border-emerald-500/40 text-emerald-300",
+      "Frontend": "from-blue-500/20 to-cyan-500/20 border-blue-500/40 text-blue-300",
+      "Backend": "from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-300",
+      "Mobile": "from-orange-500/20 to-red-500/20 border-orange-500/40 text-orange-300",
+      "Windows App": "from-yellow-500/20 to-orange-500/20 border-yellow-500/40 text-yellow-300",
+    };
+    return colorMap[category] || "from-gray-500/20 to-gray-600/20 border-gray-500/40 text-gray-300";
+  };
+
+  // Get primary metric for display (same as ProjectCard)
+  const getPrimaryMetric = (project: Project) => {
+    if (project.metrics?.efficiency) return { icon: FaRocket, text: project.metrics.efficiency, label: "Efficiency" };
+    if (project.metrics?.users) return { icon: FaUsers, text: project.metrics.users, label: "Impact" };
+    if (project.metrics?.performance) return { icon: FaChartLine, text: project.metrics.performance, label: "Performance" };
+    if (project.metrics?.revenue) return { icon: FaChartLine, text: project.metrics.revenue, label: "Cost Savings" };
+    if (project.metrics?.downloads) return { icon: FaUsers, text: project.metrics.downloads, label: "Downloads" };
+    return null;
+  };
 
   // Process projects for timeline
   const timelineProjects = useMemo(() => {
@@ -172,7 +219,8 @@ export default function ProjectTimeline({ selectedTech }: ProjectTimelineProps) 
         <div className="space-y-6">
           {filteredProjects.map((project, index) => {
             const isFeatured = project.isFeatured === true;
-            
+            const primaryMetric = getPrimaryMetric(project);
+
             return (
               <motion.div
                 key={project.num}
@@ -208,7 +256,7 @@ export default function ProjectTimeline({ selectedTech }: ProjectTimelineProps) 
                     <div className="relative w-full md:w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden border border-white/10 bg-gradient-to-br from-secondary-default/10 to-transparent">
                       <Image
                         src={project.thumbImage || project.image}
-                        alt={project.title}
+                        alt={`${project.title} project screenshot`}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                         sizes="(max-width: 768px) 100vw, 128px"
@@ -217,29 +265,121 @@ export default function ProjectTimeline({ selectedTech }: ProjectTimelineProps) 
 
                     {/* Project Info */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
                         <div className="flex-1">
                           <h3 className="text-lg font-bold text-white mb-1 group-hover:text-secondary-default transition-colors">
                             {project.title}
                           </h3>
                           {project.subtitle && (
-                            <p className="text-sm text-white/70">{project.subtitle}</p>
+                            <p className="text-sm font-medium bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent leading-relaxed mb-2">
+                              {project.subtitle}
+                            </p>
+                          )}
+
+                           {/* Project Metadata - Restructured for Better Clarity */}
+                           <div className="space-y-2 mb-2">
+                             {/* Row 1: Category (Primary) + Company (if exists) */}
+                             <div className="flex flex-wrap items-center gap-2">
+                               {/* Category Badge - Large, Prominent with Icon-like styling */}
+                               <span className={`inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg font-bold uppercase tracking-wide bg-gradient-to-r ${getCategoryColor(project.category)} shadow-sm`}>
+                                 <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                                 {project.category}
+                               </span>
+ 
+                               {/* Company Badge - Subtle, with "at" prefix for context */}
+                               {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
+                                 <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-gray-800/50 border border-white/20 text-white/90 font-medium">
+                                   <FaBuilding className="text-[10px] text-white/50" />
+                                   <span className="text-white/50">@</span>
+                                   {getCompanyLogo(project.associatedWithCompany) && (
+                                     <Image
+                                       src={getCompanyLogo(project.associatedWithCompany)!}
+                                       alt={`${project.associatedWithCompany} logo`}
+                                       width={14}
+                                       height={14}
+                                       className="rounded-sm"
+                                     />
+                                   )}
+                                   <span>{project.associatedWithCompany}</span>
+                                 </span>
+                               )}
+                             </div>
+ 
+                             {/* Row 2: Special Badges (Open Source + Recognition/Awards) */}
+                             {(project.isOpenSource || (project.recognition && project.recognition.filter(r => r.approved !== false).length > 0)) && (
+                               <div className="flex flex-wrap items-center gap-2">
+                                 {/* Open Source Badge */}
+                                 {project.isOpenSource && (
+                                   <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-md bg-gradient-to-r from-green-500/25 to-emerald-500/25 border border-green-500/50 text-green-200 font-semibold shadow-sm shadow-green-500/20">
+                                     <FaCodeBranch className="text-[10px]" />
+                                     <span>Open Source</span>
+                                   </span>
+                                 )}
+ 
+                                 {/* Recognition/Awards Badges - Gold/Trophy styling */}
+                                 {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
+                                   <>
+                                     {project.recognition.filter(r => r.approved !== false).slice(0, 2).map((rec, idx) => (
+                                       <span
+                                         key={idx}
+                                         className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-md bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-orange-500/20 border border-amber-400/50 text-amber-200 font-semibold shadow-sm shadow-amber-500/20"
+                                         title={rec.description}
+                                       >
+                                         <FaTrophy className="text-[10px] text-amber-300" />
+                                         <span>{rec.title}</span>
+                                       </span>
+                                     ))}
+                                   </>
+                                 )}
+                               </div>
+                             )}
+                           </div>
+                        </div>
+                        <div className="flex flex-wrap gap-2 items-center justify-end">
+                          {/* Primary Metric - Compact Inline Badge */}
+                          {primaryMetric && (
+                            <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm shadow-md border flex-shrink-0 ${
+                              primaryMetric.label === "Efficiency" 
+                                ? "bg-gradient-to-r from-emerald-500/20 to-green-500/20 border-emerald-400/50 text-emerald-200"
+                                : primaryMetric.label === "Impact" || primaryMetric.label === "Downloads"
+                                ? "bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-blue-400/50 text-blue-200"
+                                : primaryMetric.label === "Performance"
+                                ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-400/50 text-purple-200"
+                                : primaryMetric.label === "Cost Savings"
+                                ? "bg-gradient-to-r from-orange-500/20 to-amber-500/20 border-orange-400/50 text-orange-200"
+                                : "bg-gradient-to-r from-secondary-default/20 to-blue-500/20 border-secondary-default/50 text-secondary-default"
+                            }`}>
+                              <primaryMetric.icon className="text-xs" />
+                              <span>{primaryMetric.text}</span>
+                            </span>
+                          )}
+                          
+                          {/* Divider */}
+                          {primaryMetric && <span className="text-white/30 text-xs">|</span>}
+                          
+                          {/* Active/Completed Status Badge */}
+                          {project.isActive ? (
+                            <span className="inline-flex items-center gap-1.5 bg-green-500/90 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm shadow-md flex-shrink-0">
+                              <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                              Active
+                            </span>
+                          ) : (
+                            <div className="group/status relative">
+                              <span className="inline-flex items-center gap-1.5 bg-red-500/90 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm shadow-md cursor-help flex-shrink-0">
+                                Completed
+                              </span>
+                              {project.inactivationReason && (
+                                <div className="absolute top-full right-0 mt-2 w-64 p-3 bg-gray-900/95 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover/status:opacity-100 group-hover/status:visible transition-all duration-200 z-10 backdrop-blur-sm border border-white/10">
+                                  {project.inactivationReason}
+                                </div>
+                              )}
+                            </div>
                           )}
                         </div>
-                        {project.isActive && (
-                          <span className="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-2.5 py-1 rounded-md border border-emerald-500/40 w-fit">
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                            Active
-                          </span>
-                        )}
                       </div>
 
-                      {/* Company & Role */}
+                      {/* Role Info */}
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-3 text-xs">
-                        <div className="flex items-center gap-1.5 text-white/60">
-                          <FaBuilding className="text-secondary-default" />
-                          <span>{project.associatedWithCompany || "Individual"}</span>
-                        </div>
                         <div className="flex items-center gap-1.5 text-white/60">
                           <FaCode className="text-secondary-default" />
                           <span>{project.jobRole}</span>
@@ -263,20 +403,78 @@ export default function ProjectTimeline({ selectedTech }: ProjectTimelineProps) 
                         {project.shortDescription}
                       </p>
 
-                      {/* Tech Stack */}
-                      <div className="flex flex-wrap gap-2">
-                        {project.stacks.slice(0, 8).map((tech, idx) => (
-                          <span
-                            key={idx}
-                            className="bg-white/5 hover:bg-white/10 text-white/80 text-xs px-2.5 py-1 rounded-md border border-white/10 hover:border-secondary-default/40 transition-all duration-200"
+                      {/* Skills Highlighted */}
+                      {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
+                        <div className="mb-3">
+                          <h4 className="text-xs font-semibold text-secondary-default/80 mb-1.5 uppercase tracking-wide flex items-center gap-1.5">
+                            <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
+                            Key Skills
+                          </h4>
+                          <div className="flex flex-wrap gap-1.5">
+                            {project.skillsHighlighted.map((skill, idx) => (
+                              <span
+                                key={idx}
+                                className="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-md transition-all duration-200 bg-gradient-to-r from-emerald-500/20 via-purple-500/20 to-purple-500/20 text-emerald-300 border border-emerald-500/40 hover:from-emerald-500/30 hover:via-purple-500/30 hover:to-purple-500/30"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                       {/* Tech Stack - Expandable with 3 columns */}
+                       <div className="bg-gradient-to-br from-secondary-default/5 via-purple-500/5 to-blue-500/5 rounded-lg p-3 border border-white/10 mb-3">
+                         <div className="flex items-center justify-between mb-2">
+                           <h4 className="text-xs font-semibold text-white/70 uppercase tracking-wide flex items-center gap-1.5">
+                             <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
+                             Tech Stack
+                           </h4>
+                           {project.stacks.length > 9 && (
+                             <button
+                               onClick={() => toggleProjectStacks(project.num)}
+                               className="text-xs text-secondary-default hover:text-secondary-default/80 transition-colors font-medium"
+                             >
+                               {expandedProjects.has(project.num) ? "Show less" : `+${project.stacks.length - 9} more`}
+                             </button>
+                           )}
+                         </div>
+                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-3 gap-y-1">
+                           {(expandedProjects.has(project.num) ? project.stacks : project.stacks.slice(0, 9)).map((stack, stackIndex) => (
+                             <div
+                               key={stackIndex}
+                               className="flex items-center gap-1.5 text-xs text-white/80"
+                             >
+                               <span className="w-1 h-1 rounded-full bg-secondary-default/60 flex-shrink-0"></span>
+                               <span className="truncate">{stack}</span>
+                             </div>
+                           ))}
+                         </div>
+                       </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex gap-3 pt-2 border-t border-white/10">
+                        {/* View Details Button */}
+                        {onOpenModal && (
+                          <button
+                            onClick={() => onOpenModal(project)}
+                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-secondary-default/20 text-xs font-medium"
                           >
-                            {tech}
-                          </span>
-                        ))}
-                        {project.stacks.length > 8 && (
-                          <span className="text-white/50 text-xs px-2 py-1">
-                            +{project.stacks.length - 8} more
-                          </span>
+                            <FaExternalLinkAlt className="text-xs" />
+                            <span>View Details</span>
+                          </button>
+                        )}
+
+                        {/* GitHub Button */}
+                        {project.github && project.github.trim() !== "" && (
+                          <Link
+                            href={project.github}
+                            target="_blank"
+                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 border border-blue-500/30 hover:border-blue-500/50 text-blue-300 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/20 text-xs font-medium"
+                          >
+                            <FaGithub className="text-sm" />
+                            <span>Source</span>
+                          </Link>
                         )}
                       </div>
                     </div>

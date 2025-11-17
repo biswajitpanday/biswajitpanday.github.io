@@ -20,6 +20,7 @@ import { PERFORMANCE_VARIANTS } from "@/constants";
 import type { Project } from "@/data/portfolioData";
 import { useCountUp } from "@/hooks/useCountUp";
 import ProjectTimeline from "@/components/ProjectTimeline";
+import TimelineFilter from "@/components/TimelineFilter";
 
 const Projects = () => {
   // Environment flags
@@ -174,7 +175,7 @@ const Projects = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="relative bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 mb-6 shadow-md"
+          className="relative bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 mb-6 shadow-md z-[110]"
           data-testid="projects-toolbar"
         >
           <div className="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center">
@@ -228,19 +229,11 @@ const Projects = () => {
 
             {/* Timeline Filters - Integrated for Timeline View */}
             {viewMode === "timeline" && (
-              <div className="flex-1 flex flex-col sm:flex-row gap-2">
-                <select
-                  value={selectedSkill || "All"}
-                  onChange={(e) => setSelectedSkill(e.target.value === "All" ? null : e.target.value)}
-                  className="flex-1 h-9 bg-gray-800/50 border border-secondary-default/20 rounded-lg px-3 text-xs text-white focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
-                  data-testid="timeline-filter-skill"
-                >
-                  <option value="All" className="bg-gray-900">All Technologies</option>
-                  {Array.from(new Set(projects.flatMap(p => p.stacks))).sort().map(tech => (
-                    <option key={tech} value={tech} className="bg-gray-900">{tech}</option>
-                  ))}
-                </select>
-              </div>
+              <TimelineFilter
+                selectedSkill={selectedSkill}
+                onSkillChange={setSelectedSkill}
+                projects={projects}
+              />
             )}
           </div>
         </motion.div>
@@ -253,7 +246,10 @@ const Projects = () => {
             transition={{ delay: 0.3 }}
             data-testid="timeline-view"
           >
-            <ProjectTimeline selectedTech={selectedSkill} />
+            <ProjectTimeline
+              selectedTech={selectedSkill}
+              onOpenModal={openProjectModal}
+            />
           </motion.div>
         )}
 
@@ -270,11 +266,11 @@ const Projects = () => {
             className="mt-8 mb-12"
           >
             <div className="mb-6">
-              <h2 className="text-2xl xl:text-3xl font-bold text-white mb-2 flex items-center gap-3">
-                <FaRocket className="text-secondary-default" />
-                Featured Projects
+              <h2 className="text-xl xl:text-2xl font-bold text-white/90 mb-2 flex items-center gap-2.5 border-l-4 border-secondary-default pl-4">
+                <FaRocket className="text-secondary-default text-lg" />
+                <span>Featured Projects</span>
               </h2>
-              <p className="text-white/70 text-sm">
+              <p className="text-white/70 text-sm pl-4 ml-[4px]">
                 Highlighted projects showcasing AI integration, scalability, and measurable business impact
               </p>
             </div>
@@ -351,11 +347,11 @@ const Projects = () => {
         {/* All Projects Heading */}
         {featuredProjects.length > 0 && !searchQuery && (
           <div className="mb-6">
-            <h2 className="text-2xl xl:text-3xl font-bold text-white mb-2 flex items-center gap-3">
-              <FaCode className="text-blue-400" />
-              All Projects
+            <h2 className="text-xl xl:text-2xl font-bold text-white/90 mb-2 flex items-center gap-2.5 border-l-4 border-blue-400 pl-4">
+              <FaCode className="text-blue-400 text-lg" />
+              <span>All Projects</span>
             </h2>
-            <p className="text-white/70 text-sm">
+            <p className="text-white/70 text-sm pl-4 ml-[4px]">
               Complete portfolio of {projects.length} projects across various technologies and domains
             </p>
           </div>
