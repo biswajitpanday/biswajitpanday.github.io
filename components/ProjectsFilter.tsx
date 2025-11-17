@@ -146,18 +146,15 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
   }
   
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/20 rounded-lg overflow-hidden mb-6 shadow-md"
+    <div
+      className="flex-1"
       data-test-selector="projectFilter"
     >
-      {/* Compact Search and Filter Bar */}
-      <div className="p-3 flex flex-col sm:flex-row gap-2 items-center">
+      {/* Inline Search and Filter Bar */}
+      <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
         {/* Compact Search Input */}
         {isSearchEnabled && (
-          <div className="relative flex-1 w-full" data-test-selector="projectFilter-search">
+          <div className="relative flex-1" data-test-selector="projectFilter-search">
             <div className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-secondary-default text-sm">
               <FiSearch />
             </div>
@@ -166,7 +163,7 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
               placeholder={placeholder}
               value={searchQuery}
               onChange={handleSearchChange}
-              className="w-full h-10 bg-gray-800/50 border border-secondary-default/20 rounded-lg pl-9 pr-9 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
+              className="w-full h-9 bg-gray-800/50 border border-secondary-default/20 rounded-lg pl-9 pr-9 text-xs text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
               data-test-selector="projectFilter-searchInput"
             />
             {searchQuery && (
@@ -175,7 +172,7 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
                 className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-secondary-default"
                 data-test-selector="projectFilter-clearSearch"
               >
-                <FiX className="text-sm" />
+                <FiX className="text-xs" />
               </button>
             )}
           </div>
@@ -186,12 +183,12 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
           <Button
             variant="outline"
             onClick={toggleFilterPanel}
-            className={`shrink-0 flex items-center gap-1.5 text-sm ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
+            className={`shrink-0 flex items-center gap-1.5 text-xs h-9 ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
             data-test-selector="projectFilter-toggleButton"
           >
-            <FiFilter className={`text-sm ${isExpanded ? 'text-secondary-default' : 'text-white/70'}`} />
+            <FiFilter className={`text-xs ${isExpanded ? 'text-secondary-default' : 'text-white/70'}`} />
             <span>Filters</span>
-            <FiChevronDown className={`text-sm transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+            <FiChevronDown className={`text-xs transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
           </Button>
         )}
         
@@ -200,7 +197,7 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
           <Button
             variant="ghost"
             onClick={resetFilters}
-            className="shrink-0 text-white/70 hover:text-secondary-default text-sm"
+            className="shrink-0 text-white/70 hover:text-secondary-default text-xs h-9"
             data-test-selector="projectFilter-resetButton"
           >
             Reset
@@ -208,19 +205,18 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
         )}
       </div>
 
-      {/* Expanded Filter Panel */}
+      {/* Expanded Filter Panel - Positioned Absolutely */}
       {isFilterEnabled && isExpanded && (
         <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
-          className="px-4 pb-4 border-t border-secondary-default/20"
+          className="absolute left-0 right-0 top-full mt-2 bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-md border border-secondary-default/30 rounded-lg shadow-2xl z-50 p-4"
           data-test-selector="projectFilter-panel"
         >
-          <div className="pt-4">
-            {/* Two Column Layout: Left (Categories/Companies/Status) | Right (Technologies) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Two Column Layout: Left (Categories/Companies/Status) | Right (Technologies) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Left Column: Categories, Companies, Status */}
               <div className="space-y-4">
                 {/* Categories Filter */}
@@ -292,77 +288,76 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
                 </div>
               </div>
             </div>
-          </div>
+
+            {/* Active Filters - Inside Dropdown */}
+            {hasActiveFilters && (
+              <div className="mt-4 pt-4 border-t border-secondary-default/20 flex flex-wrap gap-2 items-center">
+                <span className="text-white/50 text-xs">Active filters:</span>
+                {selectedCategory && (
+                  <Badge 
+                    className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
+                  >
+                    Category: {selectedCategory}
+                    <FiX 
+                      className="cursor-pointer hover:text-secondary-default" 
+                      onClick={() => setSelectedCategory(null)}
+                      size={12}
+                    />
+                  </Badge>
+                )}
+                {selectedCompany && (
+                  <Badge 
+                    className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
+                  >
+                    Company: {selectedCompany}
+                    <FiX 
+                      className="cursor-pointer hover:text-secondary-default" 
+                      onClick={() => setSelectedCompany(null)}
+                      size={12}
+                    />
+                  </Badge>
+                )}
+                {selectedStatus && (
+                  <Badge 
+                    className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
+                  >
+                    Status: {selectedStatus}
+                    <FiX 
+                      className="cursor-pointer hover:text-secondary-default" 
+                      onClick={() => setSelectedStatus(null)}
+                      size={12}
+                    />
+                  </Badge>
+                )}
+                {selectedTech && (
+                  <Badge 
+                    className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
+                  >
+                    Technology: {selectedTech}
+                    <FiX 
+                      className="cursor-pointer hover:text-secondary-default" 
+                      onClick={() => setSelectedTech(null)}
+                      size={12}
+                    />
+                  </Badge>
+                )}
+                {searchQuery && (
+                  <Badge 
+                    className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
+                  >
+                    Search: {searchQuery}
+                    <FiX 
+                      className="cursor-pointer hover:text-secondary-default" 
+                      onClick={() => onSearchChange("")}
+                      size={12}
+                    />
+                  </Badge>
+                )}
+              </div>
+            )}
         </motion.div>
       )}
-      
-      {/* Active Filters */}
-      {hasActiveFilters && (
-        <div className="px-4 pb-4 flex flex-wrap gap-2 items-center">
-          <span className="text-white/50 text-xs">Active filters:</span>
-          {selectedCategory && (
-            <Badge 
-              className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
-            >
-              Category: {selectedCategory}
-              <FiX 
-                className="cursor-pointer hover:text-secondary-default" 
-                onClick={() => setSelectedCategory(null)}
-                size={12}
-              />
-            </Badge>
-          )}
-          {selectedCompany && (
-            <Badge 
-              className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
-            >
-              Company: {selectedCompany}
-              <FiX 
-                className="cursor-pointer hover:text-secondary-default" 
-                onClick={() => setSelectedCompany(null)}
-                size={12}
-              />
-            </Badge>
-          )}
-          {selectedStatus && (
-            <Badge 
-              className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
-            >
-              Status: {selectedStatus}
-              <FiX 
-                className="cursor-pointer hover:text-secondary-default" 
-                onClick={() => setSelectedStatus(null)}
-                size={12}
-              />
-            </Badge>
-          )}
-          {selectedTech && (
-            <Badge 
-              className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
-            >
-              Technology: {selectedTech}
-              <FiX 
-                className="cursor-pointer hover:text-secondary-default" 
-                onClick={() => setSelectedTech(null)}
-                size={12}
-              />
-            </Badge>
-          )}
-          {searchQuery && (
-            <Badge 
-              className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
-            >
-              Search: {searchQuery}
-              <FiX 
-                className="cursor-pointer hover:text-secondary-default" 
-                onClick={() => onSearchChange("")}
-                size={12}
-              />
-            </Badge>
-          )}
-        </div>
-      )}
-    </motion.div>
+    </div>
   );
 };
 
