@@ -161,11 +161,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {/* Featured Badge - Icon Only */}
           {isFeatured && (
             <div className="relative group/featured cursor-help">
-              <div className="bg-gradient-to-r from-purple-500/95 to-pink-500/95 backdrop-blur-sm text-white p-2 rounded-md shadow-lg shadow-purple-500/30 flex items-center justify-center">
+              <div className="bg-gradient-to-r from-purple-500/95 to-pink-500/95 backdrop-blur-sm text-white w-7 h-7 rounded-md shadow-lg shadow-purple-500/30 flex items-center justify-center">
                 <FaStar className="text-white text-sm" />
               </div>
               {/* Tooltip */}
-              <div className="absolute right-0 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/featured:opacity-100 group-hover/featured:visible transition-all duration-200 z-10 backdrop-blur-sm border border-purple-400/30 whitespace-nowrap">
+              <div className="absolute right-0 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/featured:opacity-100 group-hover/featured:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-purple-400/30 whitespace-nowrap">
                 Featured Project
               </div>
             </div>
@@ -176,12 +176,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             <div className="relative group/active cursor-help">
               <div
                 data-testid={`project-status-active-${project.num}`}
-                className="bg-green-500/95 text-white backdrop-blur-sm shadow-lg p-2 rounded-md flex items-center justify-center"
+                className="bg-green-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
               </div>
               {/* Tooltip */}
-              <div className="absolute right-0 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/active:opacity-100 group-hover/active:visible transition-all duration-200 z-10 backdrop-blur-sm border border-green-400/30 whitespace-nowrap">
+              <div className="absolute right-0 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/active:opacity-100 group-hover/active:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-green-400/30 whitespace-nowrap">
                 Active Project
               </div>
             </div>
@@ -189,12 +189,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             <div className="group/status relative cursor-help">
               <div
                 data-testid={`project-status-inactive-${project.num}`}
-                className="bg-red-500/95 text-white backdrop-blur-sm shadow-lg p-2 rounded-md flex items-center justify-center"
+                className="bg-red-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-white" />
               </div>
               {/* Tooltip */}
-              <div className="absolute right-0 top-full mt-2 w-64 p-3 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/status:opacity-100 group-hover/status:visible transition-all duration-200 z-10 backdrop-blur-sm border border-red-400/30">
+              <div className="absolute right-0 top-full mt-2 w-64 p-3 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/status:opacity-100 group-hover/status:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-red-400/30">
                 {project.inactivationReason || "This project is no longer active"}
               </div>
             </div>
@@ -296,7 +296,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                   <FaCodeBranch className="text-sm text-green-300 " />
                 </span>
                 {/* Enhanced Tooltip */}
-                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/opensource:opacity-100 group-hover/opensource:visible transition-all duration-200 z-10 backdrop-blur-sm border border-green-400/30 whitespace-nowrap">
+                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/opensource:opacity-100 group-hover/opensource:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-green-400/30 whitespace-nowrap">
                   Open Source Project
                 </div>
               </div>
@@ -316,7 +316,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 </span>
 
                 {/* Tooltip on hover */}
-                <div className="absolute bottom-full mb-2 left-0 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-white/10 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-10 shadow-xl">
+                <div className="absolute bottom-full mb-2 left-0 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-white/10 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-[150] shadow-xl">
                   <div className="space-y-2">
                     {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
                       <div key={idx} className="flex items-start gap-2">

@@ -263,7 +263,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         {/* Featured Badge - Icon Only with Tooltip */}
                         {isFeatured && (
                           <div className="relative group/featured">
-                            <div className={`bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white flex items-center justify-center shadow-lg shadow-purple-500/30 cursor-help ${FEATURED_BADGE_CLASSES}`}>
+                            <div className="bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white w-7 h-7 flex items-center justify-center shadow-lg shadow-purple-500/30 cursor-help rounded-md">
                               <FaStar className="text-white text-xs" />
                             </div>
                             {/* Tooltip */}
@@ -339,9 +339,9 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                            {/* Project Metadata - Single Consolidated Badge Row */}
                            <div className="mb-2">
                              {/* Single Row: All Badges Together - Fixed Heights */}
-                             <div className="flex flex-wrap items-stretch gap-2">
-                               {/* Category Badge - h-7 for consistent height */}
-                               <span className={`inline-flex items-center gap-1.5 shadow-sm border h-7 ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}>
+                             <div className="flex flex-wrap items-center gap-2">
+                               {/* Category Badge */}
+                               <span className={`inline-flex items-center gap-1.5 shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}>
                                  <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
                                  {project.category}
                                </span>
@@ -372,7 +372,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                                {/* Recognition/Awards - Counter with Top Tooltip */}
                                {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
                                  <div className="relative group/awards">
-                                   <span className={`inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help h-7 ${RECOGNITION_BADGE_CLASSES}`}>
+                                   <span className={`inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help ${RECOGNITION_BADGE_CLASSES}`}>
                                      <FaTrophy className="text-[10px] text-amber-300" />
                                      <span>{project.recognition.filter(r => r.approved !== false).length} {project.recognition.filter(r => r.approved !== false).length === 1 ? 'Award' : 'Awards'}</span>
                                    </span>
