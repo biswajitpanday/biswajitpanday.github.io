@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { FaCalendar, FaBuilding, FaCode, FaStar, FaClock, FaExternalLinkAlt, FaGithub, FaCodeBranch, FaTrophy, FaRocket, FaUser } from "react-icons/fa";
+import { FaCalendar, FaBuilding, FaCode, FaStar, FaClock, FaExternalLinkAlt, FaGithub, FaCodeBranch, FaTrophy, FaRocket, FaUser, FaEye } from "react-icons/fa";
 import { projects, Project } from "@/data/portfolioData";
 import Image from "next/image";
 import Link from "next/link";
@@ -115,6 +115,19 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
   // Format date for display
   const formatDate = (date: Date) => {
     return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+  };
+
+  // Smart format duration (years + months for 12+ months, otherwise just months)
+  const formatDuration = (months: number) => {
+    if (months >= 12) {
+      const years = Math.floor(months / 12);
+      const remainingMonths = months % 12;
+      if (remainingMonths === 0) {
+        return `${years}y`;
+      }
+      return `${years}y ${remainingMonths}m`;
+    }
+    return `${months} ${months === 1 ? 'month' : 'months'}`;
   };
 
   return (
@@ -434,11 +447,11 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         </div>
                         <div className="flex items-center gap-1.5 text-white/60">
                           <FaClock className="text-emerald-400" />
-                          <span>{project.durationMonths} months</span>
+                          <span>{formatDuration(project.durationMonths)}</span>
                         </div>
                       </div>
 
-                      {/* Skills Highlighted - Minimal Tags with Centered Heading */}
+                      {/* Skills Highlighted - Show All Skills */}
                       {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
                         <div className="mb-3">
                           {/* Centered heading with gradient lines */}
@@ -449,7 +462,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                             </h4>
                             <div className="flex-1 h-px bg-gradient-to-r from-secondary-default/20 via-secondary-default/40 to-transparent"></div>
                           </div>
-                          <div className="flex flex-wrap gap-1 max-h-[3.2rem] overflow-hidden">
+                          <div className="flex flex-wrap gap-1 items-center">
                             {project.skillsHighlighted.map((skill, idx) => (
                               <span
                                 key={idx}
@@ -499,7 +512,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                             onClick={() => onOpenModal(project)}
                             className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/20 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c]"
                           >
-                            <FaExternalLinkAlt className="text-xs" />
+                            <FaEye className="text-sm" />
                             <span>View Details</span>
                           </button>
                         )}

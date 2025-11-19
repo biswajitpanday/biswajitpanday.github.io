@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CSS_ANIMATIONS } from "@/constants";
@@ -15,6 +15,7 @@ import {
   FaCode,
   FaCalendar,
   FaClock,
+  FaEye,
 } from "react-icons/fa";
 import type { Project } from "@/data/portfolioData";
 import { getPrimaryMetric, getMetricBadgeClasses } from "@/utils/projectHelpers";
@@ -52,6 +53,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   onSkillClick,
   selectedSkill
 }) => {
+  // Local state for skills expansion
+  const [isSkillsExpanded, setIsSkillsExpanded] = useState(false);
+  
   const displayStacks = isExpanded
     ? project.stacks
     : project.stacks.slice(0, 6);
@@ -75,6 +79,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const durationMonths = Math.round(
     (project.endDate.getTime() - project.startDate.getTime()) / (1000 * 60 * 60 * 24 * 30)
   );
+
+  // Smart format duration (years + months for 12+ months, otherwise just months)
+  const formatDuration = (months: number) => {
+    if (months >= 12) {
+      const years = Math.floor(months / 12);
+      const remainingMonths = months % 12;
+      if (remainingMonths === 0) {
+        return `${years}y`;
+      }
+      return `${years}y ${remainingMonths}m`;
+    }
+    return `${months} ${months === 1 ? 'month' : 'months'}`;
+  };
 
   // Format date for display
   const formatDate = (date: Date) => {
@@ -335,11 +352,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
           <div className="flex items-center gap-1.5 text-white/60">
             <FaClock className="text-emerald-400" />
-            <span>{durationMonths} months</span>
+            <span>{formatDuration(durationMonths)}</span>
           </div>
         </div>
 
-        {/* Skills Highlighted - Minimal Tags with Centered Heading */}
+        {/* Skills Highlighted - Expandable Display */}
         {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
           <div>
             {/* Centered heading with gradient lines */}
@@ -351,13 +368,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               <div className="flex-1 h-px bg-gradient-to-r from-secondary-default/20 via-secondary-default/40 to-transparent"></div>
             </div>
 
-            <div className="flex flex-wrap gap-1 max-h-[3.3rem] overflow-hidden">
-              {project.skillsHighlighted.map((skill, idx) => (
+            <div className={`flex ${isSkillsExpanded ? 'flex-wrap' : ''} gap-1 items-center ${isSkillsExpanded ? '' : 'overflow-hidden'}`}>
+              {(isSkillsExpanded ? project.skillsHighlighted : project.skillsHighlighted.slice(0, 2)).map((skill, idx) => (
                 <button
                   key={idx}
                   type="button"
                   onClick={() => onSkillClick?.(skill)}
-                  className={`text-[9px] px-1.5 py-0.5 rounded bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90 hover:bg-[#00BFFF]/20 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#00BFFF]/50 ${selectedSkill?.toLowerCase() === skill.toLowerCase()
+                  className={`text-[9px] px-1.5 py-0.5 rounded bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90 hover:bg-[#00BFFF]/20 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#00BFFF]/50 whitespace-nowrap ${selectedSkill?.toLowerCase() === skill.toLowerCase()
                     ? 'bg-[#00BFFF]/30 border-[#00BFFF]/60 font-semibold'
                     : ''
                     }`}
@@ -367,6 +384,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                   {skill}
                 </button>
               ))}
+              {project.skillsHighlighted.length > 2 && (
+                <button
+                  onClick={() => setIsSkillsExpanded(!isSkillsExpanded)}
+                  className="text-[9px] px-1.5 py-0.5 text-secondary-default/80 hover:text-secondary-default transition-colors font-medium whitespace-nowrap flex-shrink-0 cursor-pointer"
+                >
+                  {isSkillsExpanded ? 'Show less' : `+${project.skillsHighlighted.length - 2} more`}
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -429,7 +454,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           onClick={() => onOpenModal(project)}
           className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2.5 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/20 text-sm font-medium"
         >
-          <FaExternalLinkAlt className="text-xs" />
+          <FaEye className="text-sm" />
           <span>View Details</span>
         </button>
 
