@@ -128,11 +128,11 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
         <div className="flex flex-wrap items-center justify-center gap-6">
           {/* Total Projects */}
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-secondary-default/20 rounded-lg">
-              <FaCode className="text-secondary-default text-xl" />
+            <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
+              <FaCode className="text-[#00BFFF] text-xl" />
             </div>
             <div>
-              <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-secondary-default to-blue-500 tabular-nums">{stats.total}</div>
+              <div className="text-2xl font-bold text-[#00BFFF] tabular-nums">{stats.total}</div>
               <div className="text-xs text-white/60">Total Projects</div>
             </div>
           </div>
@@ -141,11 +141,11 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
 
           {/* Active Projects */}
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-emerald-500/20 rounded-lg">
-              <FaRocket className="text-emerald-400 text-xl" />
+            <div className="p-2 bg-[#00BFFF]/15 rounded-lg">
+              <FaRocket className="text-[#00BFFF]/90 text-xl" />
             </div>
             <div>
-              <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500 tabular-nums">{stats.activeCount}</div>
+              <div className="text-2xl font-bold text-[#00BFFF]/90 tabular-nums">{stats.activeCount}</div>
               <div className="text-xs text-white/60">Active</div>
             </div>
           </div>
@@ -154,11 +154,11 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
 
           {/* Featured */}
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-purple-500/20 rounded-lg">
-              <FaStar className="text-purple-400 text-xl" />
+            <div className="p-2 bg-[#00BFFF]/25 rounded-lg">
+              <FaStar className="text-[#00BFFF] text-xl" />
             </div>
             <div>
-              <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">{stats.featuredCount}</div>
+              <div className="text-2xl font-bold text-[#00BFFF] tabular-nums">{stats.featuredCount}</div>
               <div className="text-xs text-white/60">Featured</div>
             </div>
           </div>
@@ -167,11 +167,11 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
 
           {/* Companies */}
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-500/20 rounded-lg">
-              <FaBuilding className="text-blue-400 text-xl" />
+            <div className="p-2 bg-[#00BFFF]/15 rounded-lg">
+              <FaBuilding className="text-[#00BFFF]/80 text-xl" />
             </div>
             <div>
-              <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-500 tabular-nums">{stats.companiesCount}</div>
+              <div className="text-2xl font-bold text-[#00BFFF]/80 tabular-nums">{stats.companiesCount}</div>
               <div className="text-xs text-white/60">Companies</div>
             </div>
           </div>
@@ -180,11 +180,11 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
 
           {/* Timeline Span */}
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-orange-500/20 rounded-lg">
-              <FaCalendar className="text-orange-400 text-xl" />
+            <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
+              <FaCalendar className="text-[#00BFFF]/90 text-xl" />
             </div>
             <div>
-              <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 tabular-nums">{stats.totalYears}y</div>
+              <div className="text-2xl font-bold text-[#00BFFF]/90 tabular-nums">{stats.totalYears}y</div>
               <div className="text-xs text-white/60">Timeline Span</div>
             </div>
           </div>
@@ -258,69 +258,82 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
                         <div className="flex-1">
-                          <h3 className="text-lg font-bold text-white mb-1 group-hover:text-secondary-default transition-colors">
+                          <h3 className={`text-lg font-bold mb-1 group-hover:text-secondary-default transition-colors ${
+                            isFeatured
+                              ? 'bg-gradient-to-r from-[#00BFFF] to-white bg-clip-text text-transparent'
+                              : 'text-white'
+                          }`}>
                             {project.title}
                           </h3>
                           {project.subtitle && (
-                            <p className="text-sm font-medium bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent leading-relaxed mb-2">
+                            <p className="text-sm font-medium text-[#00BFFF] leading-relaxed mb-2">
                               {project.subtitle}
                             </p>
                           )}
 
+                          {/* Company - Inline text below title (no badge styling) */}
+                          {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
+                            <div className="text-xs text-white/60 flex items-center gap-1 mb-2">
+                              <FaBuilding className="text-[10px]" />
+                              {getCompanyLogo(project.associatedWithCompany) && (
+                                <Image
+                                  src={getCompanyLogo(project.associatedWithCompany)!}
+                                  alt={`${project.associatedWithCompany} logo`}
+                                  width={12}
+                                  height={12}
+                                  className="rounded-sm"
+                                />
+                              )}
+                              <span>@ {project.associatedWithCompany}</span>
+                            </div>
+                          )}
+
                            {/* Project Metadata - Restructured for Better Clarity */}
                            <div className="space-y-2 mb-2">
-                             {/* Row 1: Category (Primary) + Company (if exists) */}
+                             {/* Row 1: Category (Primary) */}
                              <div className="flex flex-wrap items-center gap-2">
                                {/* Category Badge - Large, Prominent with Icon-like styling */}
-                               <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}>
+                               <span className={`inline-flex items-center gap-1.5 shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}>
                                  <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
                                  {project.category}
                                </span>
- 
-                               {/* Company Badge - Subtle, with "at" prefix for context */}
-                               {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
-                                 <span className={`inline-flex items-center gap-1.5 bg-gray-800/50 border border-white/20 text-white/90 ${COMPANY_BADGE_CLASSES}`}>
-                                   <FaBuilding className="text-[10px] text-white/50" />
-                                   <span className="text-white/50">@</span>
-                                   {getCompanyLogo(project.associatedWithCompany) && (
-                                     <Image
-                                       src={getCompanyLogo(project.associatedWithCompany)!}
-                                       alt={`${project.associatedWithCompany} logo`}
-                                       width={14}
-                                       height={14}
-                                       className="rounded-sm"
-                                     />
-                                   )}
-                                   <span>{project.associatedWithCompany}</span>
-                                 </span>
-                               )}
                              </div>
  
                              {/* Row 2: Special Badges (Open Source + Recognition/Awards) */}
                              {(project.isOpenSource || (project.recognition && project.recognition.filter(r => r.approved !== false).length > 0)) && (
                                <div className="flex flex-wrap items-center gap-2">
-                                 {/* Open Source Badge */}
+                                 {/* Open Source Badge - Icon Only */}
                                  {project.isOpenSource && (
-                                   <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-green-500/25 to-emerald-500/25 border border-green-500/50 text-green-200 shadow-sm shadow-green-500/20 ${OPEN_SOURCE_BADGE_CLASSES}`}>
-                                     <FaCodeBranch className="text-[10px]" />
-                                     <span>Open Source</span>
+                                   <span className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help" title="Open Source Project">
+                                     <FaCodeBranch className="text-sm text-green-300" />
                                    </span>
                                  )}
 
-                                 {/* Recognition/Awards Badges - Gold/Trophy styling */}
+                                 {/* Recognition/Awards - Counter with Tooltip */}
                                  {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
-                                   <>
-                                     {project.recognition.filter(r => r.approved !== false).slice(0, 2).map((rec, idx) => (
-                                       <span
-                                         key={idx}
-                                         className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-orange-500/20 border border-amber-400/50 text-amber-200 shadow-sm shadow-amber-500/20 ${RECOGNITION_BADGE_CLASSES}`}
-                                         title={rec.description}
-                                       >
-                                         <FaTrophy className="text-[10px] text-amber-300" />
-                                         <span>{rec.title}</span>
-                                       </span>
-                                     ))}
-                                   </>
+                                   <div className="relative group/awards">
+                                     <span className={`inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help ${RECOGNITION_BADGE_CLASSES}`}>
+                                       <FaTrophy className="text-[10px] text-amber-300" />
+                                       <span>{project.recognition.filter(r => r.approved !== false).length} {project.recognition.filter(r => r.approved !== false).length === 1 ? 'Award' : 'Awards'}</span>
+                                     </span>
+
+                                     {/* Tooltip on hover */}
+                                     <div className="absolute bottom-full mb-2 left-0 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-white/10 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-10 shadow-xl">
+                                       <div className="space-y-2">
+                                         {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
+                                           <div key={idx} className="flex items-start gap-2">
+                                             <FaTrophy className="text-amber-300 text-xs mt-0.5 flex-shrink-0" />
+                                             <div>
+                                               <div className="text-white text-xs font-semibold">{rec.title}</div>
+                                               {rec.description && (
+                                                 <div className="text-white/70 text-xs mt-0.5">{rec.description}</div>
+                                               )}
+                                             </div>
+                                           </div>
+                                         ))}
+                                       </div>
+                                     </div>
+                                   </div>
                                  )}
                                </div>
                              )}
@@ -411,20 +424,18 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         )}
                       </div>
 
-                      {/* Skills Highlighted */}
+                      {/* Skills Highlighted - Bullet List */}
                       {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
                         <div className="mb-3">
                           <h4 className="text-xs font-semibold text-secondary-default/80 mb-1.5 uppercase tracking-wide flex items-center gap-1.5">
                             <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
                             Key Skills
                           </h4>
-                          <div className="flex flex-wrap gap-1.5">
+                          <div className="text-xs text-white/70 leading-relaxed">
                             {project.skillsHighlighted.map((skill, idx) => (
-                              <span
-                                key={idx}
-                                className="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-md transition-all duration-200 bg-gradient-to-r from-emerald-500/20 via-purple-500/20 to-purple-500/20 text-emerald-300 border border-emerald-500/40 hover:from-emerald-500/30 hover:via-purple-500/30 hover:to-purple-500/30"
-                              >
-                                {skill}
+                              <span key={idx}>
+                                {idx > 0 && '  •  '}
+                                <span className="text-white/80">{skill}</span>
                               </span>
                             ))}
                           </div>

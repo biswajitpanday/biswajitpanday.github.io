@@ -173,15 +173,34 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <h3
           data-testid={`project-title-${project.num}`}
           className={`font-bold group-hover:text-secondary-default transition-colors duration-300 leading-tight ${
-            isFeatured ? 'text-xl text-white' : 'text-lg text-white'
+            isFeatured
+              ? 'text-xl bg-gradient-to-r from-[#00BFFF] to-white bg-clip-text text-transparent'
+              : 'text-lg text-white'
           } ${project.subtitle ? 'mb-1.5' : 'mb-2'}`}
         >
           {project.title}
         </h3>
         {project.subtitle && (
-          <p className="text-sm font-medium bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent leading-relaxed">
+          <p className="text-sm font-medium text-[#00BFFF] leading-relaxed">
             {project.subtitle}
           </p>
+        )}
+
+        {/* Company - Inline text below title (no badge styling) */}
+        {project.associatedWithCompany && (
+          <div className="text-xs text-white/60 flex items-center gap-1 mt-2">
+            <FaBuilding className="text-[10px]" />
+            {companyLogo && (
+              <Image
+                src={companyLogo}
+                alt={`${project.associatedWithCompany} logo`}
+                width={12}
+                height={12}
+                className="rounded-sm"
+              />
+            )}
+            <span>@ {project.associatedWithCompany}</span>
+          </div>
         )}
       </div>
 
@@ -229,95 +248,87 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           data-testid={`project-badges-${project.num}`}
           className="space-y-2 mb-3"
         >
-          {/* Row 1: Category (Primary) + Company (if exists) */}
+          {/* Row 1: Category (Primary) */}
           <div className="flex flex-wrap items-center gap-2">
             {/* Category Badge - Large, Prominent with Icon-like styling */}
             <span
               data-testid={`project-category-badge-${project.num}`}
-              className={`inline-flex items-center gap-1.5 bg-gradient-to-r shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}
+              className={`inline-flex items-center gap-1.5 shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
               {project.category}
             </span>
-
-            {/* Company Badge - Subtle, with "at" prefix for context */}
-            {project.associatedWithCompany && (
-              <span
-                data-testid={`project-company-badge-${project.num}`}
-                className={`inline-flex items-center gap-1.5 bg-gray-800/50 border border-white/20 text-white/90 ${COMPANY_BADGE_CLASSES}`}
-              >
-                <FaBuilding className="text-[10px] text-white/50" />
-                <span className="text-white/50">@</span>
-                {companyLogo && (
-                  <Image
-                    src={companyLogo}
-                    alt={`${project.associatedWithCompany} logo`}
-                    width={14}
-                    height={14}
-                    className="rounded-sm"
-                  />
-                )}
-                <span>{project.associatedWithCompany}</span>
-              </span>
-            )}
           </div>
 
           {/* Row 2: Special Badges (Open Source + Recognition/Awards) */}
           {(project.isOpenSource || (project.recognition && project.recognition.filter(r => r.approved !== false).length > 0)) && (
             <div className="flex flex-wrap items-center gap-2">
-              {/* Open Source Badge */}
+              {/* Open Source Badge - Icon Only */}
               {project.isOpenSource && (
                 <span
                   data-testid={`project-opensource-badge-${project.num}`}
-                  className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-green-500/25 to-emerald-500/25 border border-green-500/50 text-green-200 shadow-sm shadow-green-500/20 ${OPEN_SOURCE_BADGE_CLASSES}`}
+                  className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help"
+                  title="Open Source Project"
                 >
-                  <FaCodeBranch className="text-[10px]" />
-                  <span>Open Source</span>
+                  <FaCodeBranch className="text-sm text-green-300" />
                 </span>
               )}
 
-              {/* Recognition/Awards Badges - Gold/Trophy styling */}
+              {/* Recognition/Awards - Counter with Tooltip */}
               {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
-                <>
-                  {project.recognition.filter(r => r.approved !== false).slice(0, 2).map((rec, idx) => (
-                    <span
-                      key={idx}
-                      className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-orange-500/20 border border-amber-400/50 text-amber-200 shadow-sm shadow-amber-500/20 ${RECOGNITION_BADGE_CLASSES}`}
-                      title={rec.description}
-                    >
-                      <FaTrophy className="text-[10px] text-amber-300" />
-                      <span>{rec.title}</span>
-                    </span>
-                  ))}
-                </>
+                <div className="relative group/awards">
+                  <span className={`inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help ${RECOGNITION_BADGE_CLASSES}`}>
+                    <FaTrophy className="text-[10px] text-amber-300" />
+                    <span>{project.recognition.filter(r => r.approved !== false).length} {project.recognition.filter(r => r.approved !== false).length === 1 ? 'Award' : 'Awards'}</span>
+                  </span>
+
+                  {/* Tooltip on hover */}
+                  <div className="absolute bottom-full mb-2 left-0 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-white/10 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-10 shadow-xl">
+                    <div className="space-y-2">
+                      {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
+                        <div key={idx} className="flex items-start gap-2">
+                          <FaTrophy className="text-amber-300 text-xs mt-0.5 flex-shrink-0" />
+                          <div>
+                            <div className="text-white text-xs font-semibold">{rec.title}</div>
+                            {rec.description && (
+                              <div className="text-white/70 text-xs mt-0.5">{rec.description}</div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           )}
         </div>
 
-        {/* Skills Highlighted */}
+        {/* Skills Highlighted - Bullet List */}
         {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
           <div className="mb-3">
             <h4 className="text-xs font-semibold text-secondary-default/80 mb-1.5 uppercase tracking-wide flex items-center gap-1.5">
               <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
               Key Skills
             </h4>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="text-xs text-white/70 leading-relaxed">
               {project.skillsHighlighted.map((skill, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => onSkillClick?.(skill)}
-                  className={`inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-md transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
-                    selectedSkill?.toLowerCase() === skill.toLowerCase()
-                      ? 'bg-gradient-to-r from-emerald-500/40 via-purple-500/40 to-purple-500/40 text-white border-2 border-emerald-400 shadow-lg shadow-emerald-500/30 scale-105'
-                      : 'bg-gradient-to-r from-emerald-500/20 via-purple-500/20 to-purple-500/20 text-emerald-300 border border-emerald-500/40 hover:from-emerald-500/30 hover:via-purple-500/30 hover:to-purple-500/30'
-                  }`}
-                  aria-label={`Filter projects by skill: ${skill}`}
-                  aria-pressed={selectedSkill?.toLowerCase() === skill.toLowerCase()}
-                >
-                  {skill}
-                </button>
+                <span key={idx}>
+                  {idx > 0 && '  •  '}
+                  <button
+                    type="button"
+                    onClick={() => onSkillClick?.(skill)}
+                    className={`transition-colors duration-200 cursor-pointer hover:text-secondary-default focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] rounded-sm ${
+                      selectedSkill?.toLowerCase() === skill.toLowerCase()
+                        ? 'text-secondary-default font-semibold'
+                        : 'text-white/80'
+                    }`}
+                    aria-label={`Filter projects by skill: ${skill}`}
+                    aria-pressed={selectedSkill?.toLowerCase() === skill.toLowerCase()}
+                  >
+                    {skill}
+                  </button>
+                </span>
               ))}
             </div>
           </div>

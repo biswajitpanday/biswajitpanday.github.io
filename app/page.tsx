@@ -130,7 +130,7 @@ const Home = () => {
               className="text-3xl xl:text-4xl font-bold mb-6 leading-tight"
             >
               Hi, I&apos;m <br className="hidden xl:block" />
-              <span className="bg-gradient-to-r from-secondary-default via-blue-400 to-secondary-default bg-clip-text text-transparent animate-gradient">
+              <span className="bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
                 Biswajit Panday
               </span>
             </motion.h1>

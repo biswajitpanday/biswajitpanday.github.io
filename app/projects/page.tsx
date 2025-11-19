@@ -125,10 +125,8 @@ const Projects = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
             {/* Title Section */}
             <div className="flex-1">
-              <h1 className="text-3xl xl:text-4xl font-bold mb-2 leading-tight">
-                <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
-                  My Projects
-                </span>
+              <h1 className="text-3xl xl:text-4xl font-bold mb-2 leading-tight bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
+                My Projects
               </h1>
               <p className="text-sm font-medium leading-relaxed">
                 <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
@@ -279,8 +277,8 @@ const Projects = () => {
             className="mt-8 mb-12"
           >
             <div className="mb-6">
-              <h2 className="text-xl xl:text-2xl font-bold text-white/90 mb-2 flex items-center gap-2.5 border-l-4 border-secondary-default pl-4">
-                <FaRocket className="text-secondary-default text-lg" />
+              <h2 className="text-xl xl:text-2xl font-bold mb-2 flex items-center gap-2.5 border-l-4 border-purple-500 pl-4 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+                <FaRocket className="text-purple-400 text-lg" />
                 <span>Featured Projects</span>
               </h2>
               <p className="text-white/70 text-sm pl-4 ml-[4px]">
@@ -360,8 +358,8 @@ const Projects = () => {
         {/* All Projects Heading */}
         {featuredProjects.length > 0 && !searchQuery && (
           <div className="mb-6">
-            <h2 className="text-xl xl:text-2xl font-bold text-white/90 mb-2 flex items-center gap-2.5 border-l-4 border-blue-400 pl-4">
-              <FaCode className="text-blue-400 text-lg" />
+            <h2 className="text-xl xl:text-2xl font-bold mb-2 flex items-center gap-2.5 border-l-4 border-[#00BFFF] pl-4 bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
+              <FaCode className="text-[#00BFFF] text-lg" />
               <span>All Projects</span>
             </h2>
             <p className="text-white/70 text-sm pl-4 ml-[4px]">

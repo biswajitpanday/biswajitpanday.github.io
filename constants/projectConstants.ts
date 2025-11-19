@@ -2,14 +2,14 @@
  * Category color mapping for project badges
  * Used across ProjectCard, ProjectTimeline, and ProjectModal
  *
- * Each category has a consistent gradient background with border and text colors
+ * Each category has a consistent solid background with border and text colors
  */
 export const CATEGORY_COLORS: Record<string, string> = {
-  "Full-Stack": "from-emerald-500/20 to-cyan-500/20 border-emerald-500/40 text-emerald-300",
-  "Frontend": "from-blue-500/20 to-cyan-500/20 border-blue-500/40 text-blue-300",
-  "Backend": "from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-300",
-  "Mobile": "from-orange-500/20 to-red-500/20 border-orange-500/40 text-orange-300",
-  "Windows App": "from-yellow-500/20 to-orange-500/20 border-yellow-500/40 text-yellow-300",
+  "Full-Stack": "bg-emerald-500/15 border-emerald-500/40 text-emerald-300",
+  "Frontend": "bg-blue-500/15 border-blue-500/40 text-blue-300",
+  "Backend": "bg-purple-500/15 border-purple-500/40 text-purple-300",
+  "Mobile": "bg-orange-500/15 border-orange-500/40 text-orange-300",
+  "Windows App": "bg-yellow-500/15 border-yellow-500/40 text-yellow-300",
 };
 
 /**
@@ -20,7 +20,7 @@ export const CATEGORY_COLORS: Record<string, string> = {
  * @returns Tailwind CSS class string
  */
 export function getCategoryColor(category: string): string {
-  return CATEGORY_COLORS[category] || "from-gray-500/20 to-gray-600/20 border-gray-500/40 text-gray-300";
+  return CATEGORY_COLORS[category] || "bg-gray-500/15 border-gray-500/40 text-gray-300";
 }
 
 /**

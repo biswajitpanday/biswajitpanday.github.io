@@ -2,6 +2,11 @@
  * Standardized badge size classes for consistent styling
  * across ProjectCard, ProjectTimeline, and ProjectModal
  *
+ * BADGE STYLING PHILOSOPHY (Phase 8 - Updated 2025-11-19):
+ * - Solid backgrounds (no gradients) for cleaner appearance
+ * - Category-specific colors defined in projectConstants.ts
+ * - Consistent sizing for visual hierarchy
+ *
  * All badge sizes follow this convention:
  * - text-xs: Standard badges (Status, Featured, Primary Metric, Category)
  * - text-[11px]: Smaller badges (Open Source, Recognition)

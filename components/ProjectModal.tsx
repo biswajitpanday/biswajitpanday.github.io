@@ -138,27 +138,25 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                     <span className="text-white/30 text-xs">|</span>
                     <span>{project.title}</span>
                   </h2>
-                  {/* Subtitle - NEW */}
+                  {/* Subtitle */}
                   {project.subtitle && (
-                    <p className="text-sm font-medium bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent leading-relaxed mt-1">
+                    <p className="text-sm font-medium text-[#00BFFF] leading-relaxed mt-1">
                       {project.subtitle}
                     </p>
+                  )}
+                  {/* Company - Inline text below title/subtitle (no badge styling) */}
+                  {project.associatedWithCompany && (
+                    <div className="text-xs text-white/60 flex items-center gap-1 mt-1.5">
+                      <FaBuilding className="text-[10px]" />
+                      <span>@ {project.associatedWithCompany}</span>
+                    </div>
                   )}
                 </div>
 
                 {/* Right: Badges + Close Button */}
                 <div className="flex items-center gap-2 flex-wrap justify-end">
-                  {/* Company Badge - Subtle with @ prefix */}
-                  {project.associatedWithCompany && (
-                    <span className={`inline-flex items-center gap-1.5 bg-gray-800/50 border border-white/20 text-white/90 ${COMPANY_BADGE_CLASSES}`}>
-                      <FaBuilding className="text-[10px] text-white/50" />
-                      <span className="text-white/50">@</span>
-                      <span>{project.associatedWithCompany}</span>
-                    </span>
-                  )}
-
                   {/* Category Badge */}
-                  <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}>
+                  <span className={`inline-flex items-center gap-1.5 shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}>
                     <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
                     {project.category}
                   </span>
@@ -166,12 +164,11 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   {/* Divider */}
                   <span className="text-white/30 text-xs">|</span>
 
-                  {/* Open Source Badge */}
+                  {/* Open Source Badge - Icon Only */}
                   {project.isOpenSource && (
                     <>
-                      <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-green-500/25 to-emerald-500/25 border border-green-500/50 text-green-200 shadow-sm shadow-green-500/20 ${OPEN_SOURCE_BADGE_CLASSES}`}>
-                        <FaCodeBranch className="text-[10px]" />
-                        <span>Open Source</span>
+                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help" title="Open Source Project">
+                        <FaCodeBranch className="text-sm text-green-300" />
                       </span>
                       <span className="text-white/30 text-xs">|</span>
                     </>
@@ -331,7 +328,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         </div>
                       </div>
 
-                      {/* Key Skills Section - If exists */}
+                      {/* Key Skills Section - Bullet List */}
                       {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
                         <div>
                           <div className="flex items-center gap-2 mb-3">
@@ -339,12 +336,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                             <h3 className="text-lg font-bold text-white">Key Skills</h3>
                           </div>
                           <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                            <div className="flex flex-wrap gap-2">
+                            <div className="text-sm text-white/70 leading-relaxed">
                               {project.skillsHighlighted.map((skill, idx) => (
-                                <span
-                                  key={idx}
-                                  className={`inline-flex items-center bg-gradient-to-r from-emerald-500/20 via-purple-500/20 to-purple-500/20 text-emerald-300 border border-emerald-500/40 hover:from-emerald-500/30 hover:via-purple-500/30 hover:to-purple-500/30 transition-all duration-200 ${KEY_SKILLS_BADGE_MODAL_CLASSES}`}
-                                >
+                                <span key={idx} className="text-white/80">
+                                  {idx > 0 && '  •  '}
                                   {skill}
                                 </span>
                               ))}
@@ -429,7 +424,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                                 className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-xl p-4 relative"
                               >
                                 <FaQuoteLeft className="text-purple-400/30 text-2xl absolute top-3 right-3" />
-                                <p className="text-sm font-medium bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent leading-relaxed mb-3 relative z-10 italic">
+                                <p className="text-sm font-medium text-white/90 leading-relaxed mb-3 relative z-10 italic">
                                   &ldquo;{testimonial.quote}&rdquo;
                                 </p>
                                 <div className="flex items-center gap-2.5">
