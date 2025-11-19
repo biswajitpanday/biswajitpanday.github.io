@@ -213,7 +213,7 @@ export const projects: Project[] = [
       "Consolidated codebase by 30.3% (4,497 lines removed), simplifying from 5-layer to 3-layer architecture while maintaining full feature parity and test coverage"
     ],
     metrics: {
-      efficiency: "80% time reduction (40hrs â†’ 8hrs)",
+      efficiency: "80% time reduction (40hrs → 8hrs)",
       users: "20+ enterprise clients",
       performance: "32+ hours saved per upgrade",
       other: [
@@ -296,7 +296,7 @@ export const projects: Project[] = [
   {
     num: 3,
     category: "Full-Stack",
-    title: "Optimizely Configured Commerce",
+    title: "Configured Commerce",
     subtitle: "Enterprise B2B Platform for 20+ Fortune 500 Clients",
     isFeatured: true,
     longDescription: "Supporting 20+ enterprise B2B clients by implementing high-performance customizations on Optimizely's Configured Commerce platform. Responsible for hands-on development of customer-specific features, performance optimization, and technical solutions that enable Fortune 500 companies to scale their digital commerce operations. Key achievements include developing IntelliMerge (AI-powered upgrade automation tool using GPT-5 that reduced upgrade time from 40 hours to 8 hoursâ€”an 80% efficiency gain), creating OpalSpark (a .NET 9 template framework that streamlines Opal platform development and eliminates authentication/setup complexity), and building integration tools that connect Sitecore CMS with Opal for seamless content management. Contributed to two successful system migrations achieving 55% average cost reduction for major clients while improving deployment efficiency and reducing error rates. Actively leveraging AI tools (Claude Code, Cursor, GitHub Copilot) to enhance team productivity, mentor developers through code reviews (15% defect reduction), and design scalable architecture patterns supporting global deployments. Technologies: C#, ASP.NET Core, .NET 9, WCF, React, Angular, TypeScript, Azure, MSSQL, Entity Framework Core, AI Integration (GPT-5, Claude AI), Opal Platform.",

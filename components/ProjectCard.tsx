@@ -11,6 +11,10 @@ import {
   FaExternalLinkAlt,
   FaTrophy,
   FaStar,
+  FaUser,
+  FaCode,
+  FaCalendar,
+  FaClock,
 } from "react-icons/fa";
 import type { Project } from "@/data/portfolioData";
 import { getPrimaryMetric, getMetricBadgeClasses } from "@/utils/projectHelpers";
@@ -67,15 +71,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const companyLogo = project.associatedWithCompany ? getCompanyLogo(project.associatedWithCompany) : null;
   const primaryMetric = getPrimaryMetric(project);
 
+  // Calculate duration in months
+  const durationMonths = Math.round(
+    (project.endDate.getTime() - project.startDate.getTime()) / (1000 * 60 * 60 * 24 * 30)
+  );
+
+  // Format date for display
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+  };
+
   return (
     <div
       key={project.num}
       data-testid={`project-card-${project.num}`}
-      className={`group relative p-5 rounded-xl border transition-all duration-500 flex flex-col justify-between ${className} ${CSS_ANIMATIONS.FADE_IN_UP} ${staggerClass} hover:scale-[1.02] hover:shadow-2xl hover:-translate-y-1 ${
-        isFeatured
-          ? 'bg-gradient-to-br from-purple-500/5 via-[#27272c] to-[#2a2a30] border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
-          : 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
-      }`}
+      className={`group relative p-5 rounded-xl border transition-all duration-500 flex flex-col justify-between ${className} ${CSS_ANIMATIONS.FADE_IN_UP} ${staggerClass} hover:scale-[1.02] hover:shadow-2xl hover:-translate-y-1 ${isFeatured
+        ? 'bg-gradient-to-br from-purple-500/5 via-[#27272c] to-[#2a2a30] border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
+        : 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
+        }`}
       style={{
         transformStyle: 'preserve-3d',
       }}
@@ -116,49 +129,57 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           />
         )}
 
-        {/* Primary Metric Badge - Bottom Left of Image */}
+        {/* Primary Metric Badge - Bottom Left of Image - Enhanced visibility */}
         {primaryMetric && (
           <div className="absolute bottom-2 left-2">
-            <span className={`inline-flex items-center gap-1.5 ${PRIMARY_METRIC_BADGE_CLASSES} backdrop-blur-md shadow-lg border flex-shrink-0 ${getMetricBadgeClasses(primaryMetric.label)}`}>
+            <span className={`inline-flex items-center gap-1.5 ${PRIMARY_METRIC_BADGE_CLASSES} bg-gray-900/95 backdrop-blur-md shadow-lg border flex-shrink-0 ${getMetricBadgeClasses(primaryMetric.label)}`}>
               <primaryMetric.icon className="text-xs" />
               <span>{primaryMetric.text}</span>
             </span>
           </div>
         )}
 
-        {/* Badge Overlay - Top Right Corner */}
+        {/* Badge Overlay - Top Right Corner - Icons Only with Tooltips */}
         <div className="absolute top-2 right-2 flex flex-col gap-2 items-end">
-          {/* Featured Badge - Image Overlay */}
+          {/* Featured Badge - Icon Only */}
           {isFeatured && (
-            <div className={`bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white flex items-center gap-1.5 shadow-lg shadow-purple-500/30 ${FEATURED_BADGE_CLASSES}`}>
-              <FaStar className="text-white text-xs" />
-              <span>Featured</span>
+            <div className="relative group/featured cursor-help">
+              <div className="bg-gradient-to-r from-purple-500/95 to-pink-500/95 backdrop-blur-sm text-white p-2 rounded-md shadow-lg shadow-purple-500/30 flex items-center justify-center">
+                <FaStar className="text-white text-sm" />
+              </div>
+              {/* Tooltip */}
+              <div className="absolute right-0 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/featured:opacity-100 group-hover/featured:visible transition-all duration-200 z-10 backdrop-blur-sm border border-purple-400/30 whitespace-nowrap">
+                Featured Project
+              </div>
             </div>
           )}
 
-          {/* Status Badge */}
+          {/* Status Badge - Icon Only */}
           {project.isActive ? (
-            <span
-              data-testid={`project-status-active-${project.num}`}
-              className={`bg-green-500/90 text-white backdrop-blur-sm shadow-lg flex items-center gap-1.5 ${STATUS_BADGE_CLASSES}`}
-            >
-              <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-              Active
-            </span>
-          ) : (
-            <div className="group/status relative">
-              <span
-                data-testid={`project-status-inactive-${project.num}`}
-                className={`bg-red-500/90 text-white backdrop-blur-sm cursor-help shadow-lg ${STATUS_BADGE_CLASSES}`}
-                title={project.inactivationReason || "This project is no longer active"}
+            <div className="relative group/active cursor-help">
+              <div
+                data-testid={`project-status-active-${project.num}`}
+                className="bg-green-500/95 text-white backdrop-blur-sm shadow-lg p-2 rounded-md flex items-center justify-center"
               >
-                Completed
-              </span>
-              {project.inactivationReason && (
-                <div className="absolute top-full right-0 mt-2 w-64 p-3 bg-gray-900/95 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover/status:opacity-100 group-hover/status:visible transition-all duration-200 z-10 backdrop-blur-sm border border-white/10">
-                  {project.inactivationReason}
-                </div>
-              )}
+                <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
+              </div>
+              {/* Tooltip */}
+              <div className="absolute right-0 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/active:opacity-100 group-hover/active:visible transition-all duration-200 z-10 backdrop-blur-sm border border-green-400/30 whitespace-nowrap">
+                Active Project
+              </div>
+            </div>
+          ) : (
+            <div className="group/status relative cursor-help">
+              <div
+                data-testid={`project-status-inactive-${project.num}`}
+                className="bg-red-500/95 text-white backdrop-blur-sm shadow-lg p-2 rounded-md flex items-center justify-center"
+              >
+                <div className="w-2.5 h-2.5 rounded-full bg-white" />
+              </div>
+              {/* Tooltip */}
+              <div className="absolute right-0 top-full mt-2 w-64 p-3 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/status:opacity-100 group-hover/status:visible transition-all duration-200 z-10 backdrop-blur-sm border border-red-400/30">
+                {project.inactivationReason || "This project is no longer active"}
+              </div>
             </div>
           )}
         </div>
@@ -167,46 +188,70 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
       {/* Project Title - Enhanced with Gradients */}
       <div className="mb-3">
-        <h3
-          data-testid={`project-title-${project.num}`}
-          className={`font-bold transition-colors duration-300 leading-tight ${
-            isFeatured
-              ? 'text-xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
-              : 'text-lg bg-gradient-to-r from-[#00BFFF] to-emerald-400 bg-clip-text text-transparent'
-          } ${project.subtitle ? 'mb-1.5' : 'mb-2'}`}
-        >
-          {project.title}
-        </h3>
-        {project.subtitle && (
-          <p className="text-sm font-medium text-[#00BFFF] leading-relaxed">
-            {project.subtitle}
-          </p>
-        )}
+        {/* Company Logo/Icon before Title - with tooltip */}
+        <div className="flex items-center gap-2 mb-1.5">
+          {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
+            <div className="relative group/company cursor-help">
+              {companyLogo ? (
+                <Image
+                  src={companyLogo}
+                  alt={`${project.associatedWithCompany} logo`}
+                  width={20}
+                  height={20}
+                  className="rounded-sm opacity-80 group-hover/company:opacity-100 transition-opacity"
+                />
+              ) : (
+                <div className="w-5 h-5 rounded-sm bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-400/30 flex items-center justify-center">
+                  {project.associatedWithCompany.toLowerCase().includes('individual') || 
+                   project.associatedWithCompany.toLowerCase().includes('freelance') || 
+                   project.associatedWithCompany.toLowerCase().includes('personal') ? (
+                    <FaUser className="text-[10px] text-blue-300" />
+                  ) : (
+                    <FaBuilding className="text-[10px] text-blue-300" />
+                  )}
+                </div>
+              )}
+              {/* Company Tooltip */}
+              <div className="absolute left-0 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/company:opacity-100 group-hover/company:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-white/10 whitespace-nowrap pointer-events-none">
+                @ {project.associatedWithCompany}
+              </div>
+            </div>
+          )}
 
-        {/* Company - Inline text below title (no badge styling) */}
-        {project.associatedWithCompany && (
-          <div className="text-xs text-white/60 flex items-center gap-1 mt-2">
-            <FaBuilding className="text-[10px]" />
-            {companyLogo && (
-              <Image
-                src={companyLogo}
-                alt={`${project.associatedWithCompany} logo`}
-                width={12}
-                height={12}
-                className="rounded-sm"
-              />
+          <h3
+            data-testid={`project-title-${project.num}`}
+            className={`font-bold transition-colors duration-300 leading-tight flex-1 ${isFeatured
+              ? 'text-xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+              : 'text-lg bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent'
+              }`}
+          >
+            {project.title}
+          </h3>
+        </div>
+
+        {project.subtitle && (
+          <div className="relative">
+            <p className={`text-sm font-medium text-[#00BFFF] leading-relaxed ${isExpanded ? '' : 'line-clamp-2'
+              }`}>
+              {project.subtitle}
+            </p>
+            {project.subtitle.length > 100 && (
+              <button
+                onClick={() => onToggleStacks(index)}
+                className="text-xs text-secondary-default/80 hover:text-secondary-default transition-colors mt-0.5 font-medium"
+              >
+                {isExpanded ? 'Show less' : 'See more'}
+              </button>
             )}
-            <span>@ {project.associatedWithCompany}</span>
           </div>
         )}
       </div>
 
-      {/* Bottom Section - Fixed layout from bottom: Buttons -> Tech Stack -> Key Skills -> Tags */}
-      <div className="mt-auto">
+      {/* Bottom Section - Compact layout */}
+      <div className="mt-auto space-y-3">
         {/* Project Metadata - Single Consolidated Badge Row */}
         <div
           data-testid={`project-badges-${project.num}`}
-          className="mb-3"
         >
           {/* Single Row: All Badges Together */}
           <div className="flex flex-wrap items-center gap-2">
@@ -224,15 +269,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               <span className="text-white/30 text-xs">|</span>
             )}
 
-            {/* Open Source Badge - Icon Only */}
+            {/* Open Source Badge - Icon Only with Enhanced Tooltip */}
             {project.isOpenSource && (
-              <span
-                data-testid={`project-opensource-badge-${project.num}`}
-                className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help"
-                title="Open Source Project"
-              >
-                <FaCodeBranch className="text-sm text-green-300" />
-              </span>
+              <div className="relative group/opensource" >
+                <span
+                  data-testid={`project-opensource-badge-${project.num}`}
+                  className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help"
+                >
+                  <FaCodeBranch className="text-sm text-green-300 " />
+                </span>
+                {/* Enhanced Tooltip */}
+                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/opensource:opacity-100 group-hover/opensource:visible transition-all duration-200 z-10 backdrop-blur-sm border border-green-400/30 whitespace-nowrap">
+                  Open Source Project
+                </div>
+              </div>
             )}
 
             {/* Separator */}
@@ -269,49 +319,67 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
 
-        {/* Skills Highlighted - Minimal Tags */}
-        {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
-          <div className="mb-3">
-            <h4 className="text-xs font-semibold text-secondary-default/80 mb-1.5 uppercase tracking-wide flex items-center gap-1.5">
-              <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
-              Key Skills
-            </h4>
+        {/* Role Info */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+          <div className="flex items-center gap-1.5 text-white/60">
+            <FaCode className="text-secondary-default" />
+            <span>{project.jobRole}</span>
+          </div>
+        </div>
 
-            <div className="flex flex-wrap gap-2">
-              {project.skillsHighlighted.slice(0, 4).map((skill, idx) => (
+        {/* Timeline Info */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+          <div className="flex items-center gap-1.5 text-white/60">
+            <FaCalendar className="text-blue-400" />
+            <span>{formatDate(project.startDate)} - {formatDate(project.endDate)}</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-white/60">
+            <FaClock className="text-emerald-400" />
+            <span>{durationMonths} months</span>
+          </div>
+        </div>
+
+        {/* Skills Highlighted - Minimal Tags with Centered Heading */}
+        {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
+          <div>
+            {/* Centered heading with gradient lines */}
+            <div className="flex items-center gap-2 mb-1.5">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-secondary-default/40 to-secondary-default/20"></div>
+              <h4 className="text-[10px] font-semibold text-secondary-default/80 uppercase tracking-wide whitespace-nowrap">
+                Key Skills
+              </h4>
+              <div className="flex-1 h-px bg-gradient-to-r from-secondary-default/20 via-secondary-default/40 to-transparent"></div>
+            </div>
+
+            <div className="flex flex-wrap gap-1 max-h-[3.3rem] overflow-hidden">
+              {project.skillsHighlighted.map((skill, idx) => (
                 <button
                   key={idx}
                   type="button"
                   onClick={() => onSkillClick?.(skill)}
-                  className={`text-xs px-2.5 py-1 rounded-md bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90 hover:bg-[#00BFFF]/20 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00BFFF]/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
-                    selectedSkill?.toLowerCase() === skill.toLowerCase()
-                      ? 'bg-[#00BFFF]/30 border-[#00BFFF]/60 font-semibold'
-                      : ''
-                  }`}
+                  className={`text-[9px] px-1.5 py-0.5 rounded bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90 hover:bg-[#00BFFF]/20 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#00BFFF]/50 ${selectedSkill?.toLowerCase() === skill.toLowerCase()
+                    ? 'bg-[#00BFFF]/30 border-[#00BFFF]/60 font-semibold'
+                    : ''
+                    }`}
                   aria-label={`Filter projects by skill: ${skill}`}
                   aria-pressed={selectedSkill?.toLowerCase() === skill.toLowerCase()}
                 >
                   {skill}
                 </button>
               ))}
-              {project.skillsHighlighted.length > 4 && (
-                <span className="text-xs px-2.5 py-1 text-white/50">
-                  +{project.skillsHighlighted.length - 4} more
-                </span>
-              )}
             </div>
           </div>
         )}
 
-        {/* Tech Stack - Compact 2-Column List */}
+        {/* Tech Stacks - Compact 2-Column List */}
         <div
           data-testid={`project-tech-stack-${project.num}`}
-          className="bg-gradient-to-br from-secondary-default/5 via-purple-500/5 to-blue-500/5 rounded-lg p-3 border border-white/10 mb-3"
+          className="bg-gradient-to-br from-secondary-default/5 via-purple-500/5 to-blue-500/5 rounded-lg p-3 border border-white/10"
         >
           <div className="flex items-center justify-between mb-2">
             <h4 className="text-xs font-semibold text-white/70 uppercase tracking-wide flex items-center gap-1.5">
               <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
-              Tech Stack
+              Tech Stacks
             </h4>
             {hasMoreStacks && (
               <button
@@ -332,19 +400,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 type="button"
                 data-testid={`project-tech-${project.num}-${stackIndex}`}
                 onClick={() => onSkillClick?.(stack)}
-                className={`flex items-center gap-1.5 text-xs cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c] rounded-sm ${
-                  selectedSkill?.toLowerCase() === stack.toLowerCase()
-                    ? 'text-secondary-default font-bold scale-105'
-                    : 'text-white/80 hover:text-secondary-default/80'
-                }`}
+                className={`flex items-center gap-1.5 text-xs cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c] rounded-sm ${selectedSkill?.toLowerCase() === stack.toLowerCase()
+                  ? 'text-secondary-default font-bold scale-105'
+                  : 'text-white/80 hover:text-secondary-default/80'
+                  }`}
                 aria-label={`Filter projects by ${stack}`}
                 aria-pressed={selectedSkill?.toLowerCase() === stack.toLowerCase()}
               >
-                <span className={`w-1 h-1 rounded-full flex-shrink-0 ${
-                  selectedSkill?.toLowerCase() === stack.toLowerCase()
-                    ? 'bg-secondary-default'
-                    : 'bg-secondary-default/60'
-                }`}></span>
+                <span className={`w-1 h-1 rounded-full flex-shrink-0 ${selectedSkill?.toLowerCase() === stack.toLowerCase()
+                  ? 'bg-secondary-default'
+                  : 'bg-secondary-default/60'
+                  }`}></span>
                 <span className="truncate">{stack}</span>
               </button>
             ))}
@@ -355,7 +421,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       {/* Action Buttons - Fixed at bottom */}
       <div
         data-testid={`project-actions-${project.num}`}
-        className="flex gap-3"
+        className="flex gap-3 mt-3"
       >
         {/* View Details Button */}
         <button

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { FaCalendar, FaBuilding, FaCode, FaStar, FaClock, FaExternalLinkAlt, FaGithub, FaCodeBranch, FaTrophy, FaRocket } from "react-icons/fa";
+import { FaCalendar, FaBuilding, FaCode, FaStar, FaClock, FaExternalLinkAlt, FaGithub, FaCodeBranch, FaTrophy, FaRocket, FaUser } from "react-icons/fa";
 import { projects, Project } from "@/data/portfolioData";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,6 +30,7 @@ interface ProjectTimelineProps {
 
 export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTimelineProps) {
   const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set());
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(new Set());
 
   // Toggle project stacks display
   const toggleProjectStacks = (projectNum: number) => {
@@ -40,6 +41,17 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
       newExpanded.add(projectNum);
     }
     setExpandedProjects(newExpanded);
+  };
+
+  // Toggle description expansion
+  const toggleDescription = (projectNum: number) => {
+    const newExpanded = new Set(expandedDescriptions);
+    if (newExpanded.has(projectNum)) {
+      newExpanded.delete(projectNum);
+    } else {
+      newExpanded.add(projectNum);
+    }
+    setExpandedDescriptions(newExpanded);
   };
 
   // Process projects for timeline
@@ -222,22 +234,29 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                 >
                   <div className="flex flex-col md:flex-row gap-4">
                     {/* Project Image with Badge Overlay */}
-                    <div className="relative w-full md:w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden border border-white/10 bg-gradient-to-br from-secondary-default/10 to-transparent">
-                      <Image
-                        src={project.thumbImage || project.image}
-                        alt={`${project.title} project screenshot`}
-                        fill
-                        className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-transform duration-500"
-                        sizes="(max-width: 768px) 100vw, 128px"
-                      />
+                    <div className="relative w-full md:w-32 h-32 flex-shrink-0">
+                      <div className="absolute inset-0 rounded-lg overflow-hidden border border-white/10 bg-gradient-to-br from-secondary-default/10 to-transparent">
+                        <Image
+                          src={project.thumbImage || project.image}
+                          alt={`${project.title} project screenshot`}
+                          fill
+                          className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-transform duration-500"
+                          sizes="(max-width: 768px) 100vw, 128px"
+                        />
+                      </div>
 
-                      {/* Badge Overlay - Top Right Corner */}
-                      <div className="absolute top-2 right-2 flex flex-col gap-1.5 items-end">
-                        {/* Featured Badge - Image Overlay */}
+                      {/* Badge Overlay - Top Right Corner (Outside overflow-hidden) */}
+                      <div className="absolute top-2 right-2 flex flex-col gap-1.5 items-end z-10">
+                        {/* Featured Badge - Icon Only with Tooltip */}
                         {isFeatured && (
-                          <div className={`bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white flex items-center gap-1.5 shadow-lg shadow-purple-500/30 ${FEATURED_BADGE_CLASSES}`}>
-                            <FaStar className="text-white text-xs" />
-                            <span>Featured</span>
+                          <div className="relative group/featured">
+                            <div className={`bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white flex items-center justify-center shadow-lg shadow-purple-500/30 cursor-help ${FEATURED_BADGE_CLASSES}`}>
+                              <FaStar className="text-white text-xs" />
+                            </div>
+                            {/* Tooltip */}
+                            <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/featured:opacity-100 group-hover/featured:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-purple-400/30 whitespace-nowrap pointer-events-none">
+                              Featured Project
+                            </div>
                           </div>
                         )}
                       </div>
@@ -247,73 +266,106 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
                         <div className="flex-1">
-                          <h3 className={`text-lg font-bold mb-1 transition-colors duration-300 ${
-                            isFeatured
-                              ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
-                              : 'bg-gradient-to-r from-[#00BFFF] to-emerald-400 bg-clip-text text-transparent'
-                          }`}>
-                            {project.title}
-                          </h3>
-                          {project.subtitle && (
-                            <p className="text-sm font-medium text-[#00BFFF] leading-relaxed mb-2">
-                              {project.subtitle}
-                            </p>
-                          )}
+                          {/* Company Logo/Icon before Title - with tooltip */}
+                          <div className="flex items-center gap-2 mb-1.5">
+                            {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
+                              <div className="relative group/company cursor-help">
+                                {getCompanyLogo(project.associatedWithCompany) ? (
+                                  <Image
+                                    src={getCompanyLogo(project.associatedWithCompany)!}
+                                    alt={`${project.associatedWithCompany} logo`}
+                                    width={20}
+                                    height={20}
+                                    className="rounded-sm opacity-80 group-hover/company:opacity-100 transition-opacity"
+                                  />
+                                ) : (
+                                  <div className="w-5 h-5 rounded-sm bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-400/30 flex items-center justify-center">
+                                    {project.associatedWithCompany.toLowerCase().includes('individual') || 
+                                     project.associatedWithCompany.toLowerCase().includes('freelance') || 
+                                     project.associatedWithCompany.toLowerCase().includes('personal') ? (
+                                      <FaUser className="text-[10px] text-blue-300" />
+                                    ) : (
+                                      <FaBuilding className="text-[10px] text-blue-300" />
+                                    )}
+                                  </div>
+                                )}
+                                {/* Company Tooltip */}
+                                <div className="absolute left-0 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/company:opacity-100 group-hover/company:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-white/10 whitespace-nowrap pointer-events-none">
+                                  @ {project.associatedWithCompany}
+                                </div>
+                              </div>
+                            )}
 
-                          {/* Company - Inline text below title (no badge styling) */}
-                          {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
-                            <div className="text-xs text-white/60 flex items-center gap-1 mb-2">
-                              <FaBuilding className="text-[10px]" />
-                              {getCompanyLogo(project.associatedWithCompany) && (
-                                <Image
-                                  src={getCompanyLogo(project.associatedWithCompany)!}
-                                  alt={`${project.associatedWithCompany} logo`}
-                                  width={12}
-                                  height={12}
-                                  className="rounded-sm"
-                                />
+                            <h3 className={`text-lg font-bold transition-colors duration-300 flex-1 ${
+                              isFeatured
+                                ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+                                : 'bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent'
+                            }`}>
+                              {project.title}
+                            </h3>
+                          </div>
+
+                          {project.subtitle && (
+                            <div className="relative mb-2">
+                              <p className={`text-sm font-medium text-[#00BFFF] leading-relaxed ${
+                                expandedDescriptions.has(project.num) ? '' : 'line-clamp-2'
+                              }`}>
+                                {project.subtitle}
+                              </p>
+                              {project.subtitle.length > 100 && (
+                                <button
+                                  onClick={() => toggleDescription(project.num)}
+                                  className="text-xs text-secondary-default/80 hover:text-secondary-default transition-colors mt-0.5 font-medium"
+                                >
+                                  {expandedDescriptions.has(project.num) ? 'Show less' : 'See more'}
+                                </button>
                               )}
-                              <span>@ {project.associatedWithCompany}</span>
                             </div>
                           )}
 
                            {/* Project Metadata - Single Consolidated Badge Row */}
                            <div className="mb-2">
-                             {/* Single Row: All Badges Together */}
-                             <div className="flex flex-wrap items-center gap-2">
-                               {/* Category Badge */}
-                               <span className={`inline-flex items-center gap-1.5 shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}>
+                             {/* Single Row: All Badges Together - Fixed Heights */}
+                             <div className="flex flex-wrap items-stretch gap-2">
+                               {/* Category Badge - h-7 for consistent height */}
+                               <span className={`inline-flex items-center gap-1.5 shadow-sm border h-7 ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}>
                                  <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
                                  {project.category}
                                </span>
 
                                {/* Separator */}
                                {(project.isOpenSource || (project.recognition && project.recognition.filter(r => r.approved !== false).length > 0)) && (
-                                 <span className="text-white/30 text-xs">|</span>
+                                 <span className="text-white/30 text-xs flex items-center">|</span>
                                )}
 
-                               {/* Open Source Badge - Icon Only */}
+                               {/* Open Source Badge - Icon Only with Top Tooltip */}
                                {project.isOpenSource && (
-                                 <span className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help" title="Open Source Project">
-                                   <FaCodeBranch className="text-sm text-green-300" />
-                                 </span>
+                                 <div className="relative group/opensource">
+                                   <span className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help">
+                                     <FaCodeBranch className="text-sm text-green-300" />
+                                   </span>
+                                   {/* Top Tooltip with Higher Z-Index */}
+                                   <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/opensource:opacity-100 group-hover/opensource:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-green-400/30 whitespace-nowrap pointer-events-none">
+                                     Open Source Project
+                                   </div>
+                                 </div>
                                )}
 
                                {/* Separator */}
                                {project.isOpenSource && project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
-                                 <span className="text-white/30 text-xs">|</span>
+                                 <span className="text-white/30 text-xs flex items-center">|</span>
                                )}
 
-                               {/* Recognition/Awards - Counter with Tooltip */}
+                               {/* Recognition/Awards - Counter with Top Tooltip */}
                                {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
                                  <div className="relative group/awards">
-                                   <span className={`inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help ${RECOGNITION_BADGE_CLASSES}`}>
+                                   <span className={`inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help h-7 ${RECOGNITION_BADGE_CLASSES}`}>
                                      <FaTrophy className="text-[10px] text-amber-300" />
                                      <span>{project.recognition.filter(r => r.approved !== false).length} {project.recognition.filter(r => r.approved !== false).length === 1 ? 'Award' : 'Awards'}</span>
                                    </span>
 
-                                   {/* Tooltip on hover */}
-                                   <div className="absolute bottom-full mb-2 left-0 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-white/10 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-10 shadow-xl">
+                                   {/* Top Tooltip with Higher Z-Index */}
+                                   <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-amber-400/30 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-[150] shadow-xl pointer-events-none">
                                      <div className="space-y-2">
                                        {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
                                          <div key={idx} className="flex items-start gap-2">
@@ -386,37 +438,36 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         </div>
                       </div>
 
-                      {/* Skills Highlighted - Minimal Tags */}
+                      {/* Skills Highlighted - Minimal Tags with Centered Heading */}
                       {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
                         <div className="mb-3">
-                          <h4 className="text-xs font-semibold text-secondary-default/80 mb-1.5 uppercase tracking-wide flex items-center gap-1.5">
-                            <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
-                            Key Skills
-                          </h4>
-                          <div className="flex flex-wrap gap-2">
-                            {project.skillsHighlighted.slice(0, 4).map((skill, idx) => (
+                          {/* Centered heading with gradient lines */}
+                          <div className="flex items-center gap-2 mb-1.5">
+                            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-secondary-default/40 to-secondary-default/20"></div>
+                            <h4 className="text-[10px] font-semibold text-secondary-default/80 uppercase tracking-wide whitespace-nowrap">
+                              Key Skills
+                            </h4>
+                            <div className="flex-1 h-px bg-gradient-to-r from-secondary-default/20 via-secondary-default/40 to-transparent"></div>
+                          </div>
+                          <div className="flex flex-wrap gap-1 max-h-[3.2rem] overflow-hidden">
+                            {project.skillsHighlighted.map((skill, idx) => (
                               <span
                                 key={idx}
-                                className="text-xs px-2.5 py-1 rounded-md bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90 hover:bg-[#00BFFF]/20 transition-colors cursor-default"
+                                className="text-[9px] px-1.5 py-0.5 rounded bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90 hover:bg-[#00BFFF]/20 transition-colors cursor-default"
                               >
                                 {skill}
                               </span>
                             ))}
-                            {project.skillsHighlighted.length > 4 && (
-                              <span className="text-xs px-2.5 py-1 text-white/50">
-                                +{project.skillsHighlighted.length - 4} more
-                              </span>
-                            )}
                           </div>
                         </div>
                       )}
 
-                       {/* Tech Stack - Expandable with 3 columns */}
+                       {/* Tech Stacks - Expandable with 3 columns */}
                        <div className="bg-gradient-to-br from-secondary-default/5 via-purple-500/5 to-blue-500/5 rounded-lg p-3 border border-white/10 mb-3">
                          <div className="flex items-center justify-between mb-2">
                            <h4 className="text-xs font-semibold text-white/70 uppercase tracking-wide flex items-center gap-1.5">
                              <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
-                             Tech Stack
+                             Tech Stacks
                            </h4>
                            {project.stacks.length > 9 && (
                              <button

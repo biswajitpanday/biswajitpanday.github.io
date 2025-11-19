@@ -33,9 +33,9 @@ export const OPEN_SOURCE_BADGE_CLASSES = "text-[11px] px-2.5 py-1 rounded-md fon
 
 /**
  * Recognition/Awards badge
- * Size: Small (text-[11px])
+ * Size: Compact (text-[10px]) - Reduced for Phase 8 refinement
  */
-export const RECOGNITION_BADGE_CLASSES = "text-[11px] px-2.5 py-1 rounded-md font-semibold";
+export const RECOGNITION_BADGE_CLASSES = "text-[10px] px-2 py-0.5 rounded-md font-semibold";
 
 /**
  * Primary Metric badge (on image)
@@ -52,9 +52,9 @@ export const PRIMARY_METRIC_BADGE_MODAL_CLASSES = "text-sm px-4 py-2 rounded-ful
 
 /**
  * Category badge
- * Size: Standard (text-xs)
+ * Size: Compact (text-[11px]) - Reduced for Phase 8 refinement
  */
-export const CATEGORY_BADGE_CLASSES = "text-xs px-3 py-1.5 rounded-lg font-bold uppercase tracking-wide";
+export const CATEGORY_BADGE_CLASSES = "text-[11px] px-2.5 py-1 rounded-lg font-bold uppercase tracking-wide";
 
 /**
  * Company badge
@@ -64,9 +64,9 @@ export const COMPANY_BADGE_CLASSES = "text-xs px-2.5 py-1 rounded-md font-medium
 
 /**
  * Key Skills badge
- * Size: Standard (text-xs for modal, text-xs for cards)
+ * Size: Compact (text-[11px]) - Reduced for Phase 8 refinement to fit more in one line
  */
-export const KEY_SKILLS_BADGE_CLASSES = "text-xs px-2.5 py-0.5 rounded-md font-medium";
+export const KEY_SKILLS_BADGE_CLASSES = "text-[11px] px-2 py-0.5 rounded-md font-medium";
 
 /**
  * Key Skills badge for Modal (slightly larger)
