@@ -2,10 +2,21 @@
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { FaCalendar, FaBuilding, FaCode, FaStar, FaClock, FaRocket, FaExternalLinkAlt, FaGithub, FaCodeBranch, FaTrophy, FaChartLine, FaUsers } from "react-icons/fa";
+import { FaCalendar, FaBuilding, FaCode, FaStar, FaClock, FaExternalLinkAlt, FaGithub, FaCodeBranch, FaTrophy, FaRocket } from "react-icons/fa";
 import { projects, Project } from "@/data/portfolioData";
 import Image from "next/image";
 import Link from "next/link";
+import { getPrimaryMetric, getMetricBadgeClassesLight } from "@/utils/projectHelpers";
+import { getCategoryColor, getCompanyLogo } from "@/constants/projectConstants";
+import {
+  STATUS_BADGE_CLASSES,
+  FEATURED_BADGE_CLASSES,
+  OPEN_SOURCE_BADGE_CLASSES,
+  RECOGNITION_BADGE_CLASSES,
+  PRIMARY_METRIC_BADGE_CLASSES,
+  CATEGORY_BADGE_CLASSES,
+  COMPANY_BADGE_CLASSES,
+} from "@/constants/badgeSizes";
 
 interface TimelineProject extends Project {
   durationMonths: number;
@@ -19,6 +30,7 @@ interface ProjectTimelineProps {
 
 export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTimelineProps) {
   const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set());
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(new Set());
 
   // Toggle project stacks display
   const toggleProjectStacks = (projectNum: number) => {
@@ -31,37 +43,15 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
     setExpandedProjects(newExpanded);
   };
 
-  // Company logo mapping (same as ProjectCard)
-  const getCompanyLogo = (company: string) => {
-    const logoMap: Record<string, string> = {
-      "Brain Station-23": "/assets/company-icon/webp/brain-station-23.webp",
-      "Chorki Limited": "/assets/company-icon/webp/chorki.webp",
-      "Kaz Software": "/assets/company-icon/webp/kaz.webp",
-      "Optimizely": "/assets/company-icon/webp/opti.webp",
-    };
-    return logoMap[company] || null;
-  };
-
-  // Category color mapping (same as ProjectCard)
-  const getCategoryColor = (category: string) => {
-    const colorMap: Record<string, string> = {
-      "Full-Stack": "from-emerald-500/20 to-cyan-500/20 border-emerald-500/40 text-emerald-300",
-      "Frontend": "from-blue-500/20 to-cyan-500/20 border-blue-500/40 text-blue-300",
-      "Backend": "from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-300",
-      "Mobile": "from-orange-500/20 to-red-500/20 border-orange-500/40 text-orange-300",
-      "Windows App": "from-yellow-500/20 to-orange-500/20 border-yellow-500/40 text-yellow-300",
-    };
-    return colorMap[category] || "from-gray-500/20 to-gray-600/20 border-gray-500/40 text-gray-300";
-  };
-
-  // Get primary metric for display (same as ProjectCard)
-  const getPrimaryMetric = (project: Project) => {
-    if (project.metrics?.efficiency) return { icon: FaRocket, text: project.metrics.efficiency, label: "Efficiency" };
-    if (project.metrics?.users) return { icon: FaUsers, text: project.metrics.users, label: "Impact" };
-    if (project.metrics?.performance) return { icon: FaChartLine, text: project.metrics.performance, label: "Performance" };
-    if (project.metrics?.revenue) return { icon: FaChartLine, text: project.metrics.revenue, label: "Cost Savings" };
-    if (project.metrics?.downloads) return { icon: FaUsers, text: project.metrics.downloads, label: "Downloads" };
-    return null;
+  // Toggle description expansion
+  const toggleDescription = (projectNum: number) => {
+    const newExpanded = new Set(expandedDescriptions);
+    if (newExpanded.has(projectNum)) {
+      newExpanded.delete(projectNum);
+    } else {
+      newExpanded.add(projectNum);
+    }
+    setExpandedDescriptions(newExpanded);
   };
 
   // Process projects for timeline
@@ -220,6 +210,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
           {filteredProjects.map((project, index) => {
             const isFeatured = project.isFeatured === true;
             const primaryMetric = getPrimaryMetric(project);
+            const isDescriptionExpanded = expandedDescriptions.has(project.num);
 
             return (
               <motion.div
@@ -244,7 +235,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                   {/* Featured Badge */}
                   {isFeatured && (
                     <div className="absolute top-2 left-2 z-10">
-                      <div className="bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white px-2.5 py-1 rounded-md flex items-center gap-1.5 text-xs font-semibold shadow-lg shadow-purple-500/30">
+                      <div className={`bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white flex items-center gap-1.5 shadow-lg shadow-purple-500/30 ${FEATURED_BADGE_CLASSES}`}>
                         <FaStar className="text-white text-xs" />
                         <span>Featured</span>
                       </div>
@@ -258,7 +249,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         src={project.thumbImage || project.image}
                         alt={`${project.title} project screenshot`}
                         fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-transform duration-500"
                         sizes="(max-width: 768px) 100vw, 128px"
                       />
                     </div>
@@ -281,14 +272,14 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                              {/* Row 1: Category (Primary) + Company (if exists) */}
                              <div className="flex flex-wrap items-center gap-2">
                                {/* Category Badge - Large, Prominent with Icon-like styling */}
-                               <span className={`inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg font-bold uppercase tracking-wide bg-gradient-to-r ${getCategoryColor(project.category)} shadow-sm`}>
+                               <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}>
                                  <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
                                  {project.category}
                                </span>
  
                                {/* Company Badge - Subtle, with "at" prefix for context */}
                                {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
-                                 <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-gray-800/50 border border-white/20 text-white/90 font-medium">
+                                 <span className={`inline-flex items-center gap-1.5 bg-gray-800/50 border border-white/20 text-white/90 ${COMPANY_BADGE_CLASSES}`}>
                                    <FaBuilding className="text-[10px] text-white/50" />
                                    <span className="text-white/50">@</span>
                                    {getCompanyLogo(project.associatedWithCompany) && (
@@ -310,19 +301,19 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                                <div className="flex flex-wrap items-center gap-2">
                                  {/* Open Source Badge */}
                                  {project.isOpenSource && (
-                                   <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-md bg-gradient-to-r from-green-500/25 to-emerald-500/25 border border-green-500/50 text-green-200 font-semibold shadow-sm shadow-green-500/20">
+                                   <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-green-500/25 to-emerald-500/25 border border-green-500/50 text-green-200 shadow-sm shadow-green-500/20 ${OPEN_SOURCE_BADGE_CLASSES}`}>
                                      <FaCodeBranch className="text-[10px]" />
                                      <span>Open Source</span>
                                    </span>
                                  )}
- 
+
                                  {/* Recognition/Awards Badges - Gold/Trophy styling */}
                                  {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
                                    <>
                                      {project.recognition.filter(r => r.approved !== false).slice(0, 2).map((rec, idx) => (
                                        <span
                                          key={idx}
-                                         className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-md bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-orange-500/20 border border-amber-400/50 text-amber-200 font-semibold shadow-sm shadow-amber-500/20"
+                                         className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-orange-500/20 border border-amber-400/50 text-amber-200 shadow-sm shadow-amber-500/20 ${RECOGNITION_BADGE_CLASSES}`}
                                          title={rec.description}
                                        >
                                          <FaTrophy className="text-[10px] text-amber-300" />
@@ -338,34 +329,24 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         <div className="flex flex-wrap gap-2 items-center justify-end">
                           {/* Primary Metric - Compact Inline Badge */}
                           {primaryMetric && (
-                            <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm shadow-md border flex-shrink-0 ${
-                              primaryMetric.label === "Efficiency" 
-                                ? "bg-gradient-to-r from-emerald-500/20 to-green-500/20 border-emerald-400/50 text-emerald-200"
-                                : primaryMetric.label === "Impact" || primaryMetric.label === "Downloads"
-                                ? "bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-blue-400/50 text-blue-200"
-                                : primaryMetric.label === "Performance"
-                                ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-400/50 text-purple-200"
-                                : primaryMetric.label === "Cost Savings"
-                                ? "bg-gradient-to-r from-orange-500/20 to-amber-500/20 border-orange-400/50 text-orange-200"
-                                : "bg-gradient-to-r from-secondary-default/20 to-blue-500/20 border-secondary-default/50 text-secondary-default"
-                            }`}>
+                            <span className={`inline-flex items-center gap-1.5 backdrop-blur-sm shadow-md border flex-shrink-0 ${PRIMARY_METRIC_BADGE_CLASSES} ${getMetricBadgeClassesLight(primaryMetric.label)}`}>
                               <primaryMetric.icon className="text-xs" />
                               <span>{primaryMetric.text}</span>
                             </span>
                           )}
-                          
+
                           {/* Divider */}
                           {primaryMetric && <span className="text-white/30 text-xs">|</span>}
-                          
+
                           {/* Active/Completed Status Badge */}
                           {project.isActive ? (
-                            <span className="inline-flex items-center gap-1.5 bg-green-500/90 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm shadow-md flex-shrink-0">
+                            <span className={`inline-flex items-center gap-1.5 bg-green-500/90 text-white backdrop-blur-sm shadow-md flex-shrink-0 ${STATUS_BADGE_CLASSES}`}>
                               <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                               Active
                             </span>
                           ) : (
                             <div className="group/status relative">
-                              <span className="inline-flex items-center gap-1.5 bg-red-500/90 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm shadow-md cursor-help flex-shrink-0">
+                              <span className={`inline-flex items-center gap-1.5 bg-red-500/90 text-white backdrop-blur-sm shadow-md cursor-help flex-shrink-0 ${STATUS_BADGE_CLASSES}`}>
                                 Completed
                               </span>
                               {project.inactivationReason && (
@@ -398,10 +379,37 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         </div>
                       </div>
 
-                      {/* Description */}
-                      <p className="text-white/70 text-sm mb-3 line-clamp-2">
-                        {project.shortDescription}
-                      </p>
+                      {/* Description - Expandable */}
+                      <div className="text-white/70 text-sm mb-3">
+                        {!isDescriptionExpanded && project.shortDescription.length > 150 ? (
+                          <>
+                            {project.shortDescription.slice(0, 150)}...{' '}
+                            <button
+                              onClick={() => toggleDescription(project.num)}
+                              className="text-secondary-default hover:text-secondary-default/80 transition-colors font-medium inline underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c] rounded-sm"
+                              aria-label="Expand project description"
+                            >
+                              See more
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            {project.shortDescription}
+                            {isDescriptionExpanded && project.shortDescription.length > 150 && (
+                              <>
+                                {' '}
+                                <button
+                                  onClick={() => toggleDescription(project.num)}
+                                  className="text-secondary-default hover:text-secondary-default/80 transition-colors font-medium inline underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c] rounded-sm"
+                                  aria-label="Collapse project description"
+                                >
+                                  Show less
+                                </button>
+                              </>
+                            )}
+                          </>
+                        )}
+                      </div>
 
                       {/* Skills Highlighted */}
                       {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
@@ -458,7 +466,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         {onOpenModal && (
                           <button
                             onClick={() => onOpenModal(project)}
-                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-secondary-default/20 text-xs font-medium"
+                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/20 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c]"
                           >
                             <FaExternalLinkAlt className="text-xs" />
                             <span>View Details</span>
@@ -470,7 +478,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                           <Link
                             href={project.github}
                             target="_blank"
-                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 border border-blue-500/30 hover:border-blue-500/50 text-blue-300 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/20 text-xs font-medium"
+                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 border border-blue-500/30 hover:border-blue-500/50 text-blue-300 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-[#27272c]"
                           >
                             <FaGithub className="text-sm" />
                             <span>Source</span>

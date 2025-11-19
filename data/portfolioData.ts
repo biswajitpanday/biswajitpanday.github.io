@@ -38,7 +38,7 @@ export interface Recognition {
 export interface Project {
   inactivationReason: string | undefined;
   num: number;
-  category: "Full-Stack" | "Frontend" | "Backend" | "Mobile" | "Windows App";
+  category: "Full-Stack" | "Frontend" | "Backend" | "Mobile" | "Desktop Application";
   title: string;
   subtitle?: string; // Optional subtitle for enriched project titles
   longDescription: string;
@@ -173,25 +173,27 @@ export const projects: Project[] = [
   },
   {
     num: 2,
-    category: "Windows App",
-    title: "IntelliMerge",
-    subtitle: "AI-Powered Git Merge Automation (80% Efficiency Gain)",
-    longDescription: "Revolutionary AI-powered development tool that transforms the Optimizely Configured Commerce upgrade process by automating complex Git merge operations. Leveraging ChatGPT API (GPT-5), IntelliMerge intelligently handles merge conflicts and customizations that previously required 32-40 hours of manual developer effort per upgrade. The tool performs automated merge analysis and resolution in minutes, with human verification requiring only 4-8 hours—achieving an 80% time reduction (32+ hours saved per upgrade). This breakthrough automation enables 20+ enterprise clients to adopt platform updates faster while maintaining their custom implementations. Built with Python 3.11, the tool employs advanced prompt engineering, three-way merge algorithms, and comprehensive testing strategies to ensure reliability across diverse codebases. Impact: Transformed a 40-hour manual process into an 8-hour automated workflow, allowing the development team to handle more clients and accelerate upgrade cycles across the entire customer portfolio.",
-    shortDescription: "AI-powered Git merge automation tool using GPT-5 that reduced Optimizely upgrade time from 40 hours to 8 hours (80% efficiency gain).",
+    category: "Desktop Application",
+    title: "SpireWiz",
+    subtitle: "AI-Powered Blueprint Upgrade Automation with Interactive TUI (80% Time Reduction)",
+    longDescription: "Enterprise-grade AI-powered development tool that revolutionizes the Optimizely Configured Commerce (Spire) upgrade process through intelligent three-way merge automation. SpireWiz combines advanced AI conflict resolution with a professional Textual-based terminal UI, transforming 32-40 hours of manual merge work into an 8-hour automated workflow with human verification. The system employs a unified merge architecture with seven intelligent merge rules, leveraging OpenAI's GPT-4o API for semantic code analysis and conflict resolution. Built with Python 3.10+, the tool features comprehensive budget management ($5/session limit), 90%+ test coverage, and a modular provider-agnostic AI integration supporting multiple LLM backends. The interactive TUI provides real-time progress tracking, configuration management, and detailed merge analytics with success ratio reporting. Impact: Enables 20+ enterprise clients to adopt platform updates 5x faster while maintaining custom implementations, saving 32+ hours per upgrade cycle and accelerating the entire customer portfolio's upgrade timeline.",
+    shortDescription: "AI-powered blueprint upgrade automation with professional TUI using GPT-4o, reducing Optimizely upgrade cycles from 40 hours to 8 hours (80% efficiency gain) for 20+ enterprise clients.",
     stacks: [
-      "Python 3.11",
-      "ChatGPT API (GPT-5)",
-      "OpenAI Integration",
+      "Python 3.10+",
+      "OpenAI GPT-4o API",
+      "Textual TUI Framework",
       "PyInstaller",
-      "PowerShell",
+      "Pydantic (Type Safety)",
+      "Pytest (90%+ Coverage)",
       "Git merge-file",
-      "Colorama",
+      "Structlog (Logging)",
+      "Rich (Terminal UI)",
       "AI Prompt Engineering",
-      "Three-way Merge Algorithms",
-      "Automated Testing"
+      "Three-Way Merge Algorithms",
+      "Async I/O (aiohttp)"
     ],
-    image: "/assets/portfolio/webp/intelliMerge.webp",
-    thumbImage: "/assets/portfolio/thumbnails/intelliMerge.webp",
+    image: "/assets/portfolio/webp/spireWiz.webp",
+    thumbImage: "/assets/portfolio/thumbnails/spireWiz.webp",
     isActive: true,
     isOpenSource: false,
     isFeatured: true,
@@ -203,21 +205,28 @@ export const projects: Project[] = [
     endDate: new Date(),
     inactivationReason: undefined,
     responsibilities: [
-      "Architected AI-powered automation tool using GPT-5 API that reduced Optimizely upgrade time from 40 hours to 8 hours (80% efficiency gain)",
-      "Designed advanced prompt engineering strategy for three-way merge conflict resolution, enabling intelligent code context understanding",
-      "Implemented Python-based CLI tool with PowerShell integration, packaged using PyInstaller for easy distribution to 20+ enterprise clients",
-      "Developed comprehensive testing framework ensuring reliability across diverse client codebases and custom implementations",
-      "Automated deployment workflow for 40+ servers, transforming manual upgrade process into streamlined verification workflow"
+      "Architected unified merge system (v3.0) with AI-powered conflict resolution using GPT-4o, reducing 40-hour upgrade process to 8 hours (80% efficiency gain)",
+      "Designed and implemented professional Textual-based TUI with 9 interactive screens, custom widgets, and real-time merge analytics for enhanced developer experience",
+      "Engineered provider-agnostic AI integration layer supporting OpenAI (primary), Gemini, and Anthropic with cost tracking, circuit breaker pattern, and $5/session budget management",
+      "Developed comprehensive testing framework achieving 90%+ code coverage with unit, integration, and AI-specific test suites using pytest",
+      "Built production-ready Windows executable with PyInstaller (35.5MB standalone), including PowerShell scripts for code signing and automated distribution to 20+ enterprise clients",
+      "Consolidated codebase by 30.3% (4,497 lines removed), simplifying from 5-layer to 3-layer architecture while maintaining full feature parity and test coverage"
     ],
     metrics: {
-      efficiency: "80% time reduction (40hrs → 8hrs)",
+      efficiency: "80% time reduction (40hrs â†’ 8hrs)",
       users: "20+ enterprise clients",
       performance: "32+ hours saved per upgrade",
-      other: ["100% automation rate", "Handles complex 3-way merges"]
+      other: [
+        "90%+ test coverage",
+        "30.3% codebase reduction",
+        "34.4% avg success ratio",
+        "$5 budget management",
+        "9 interactive TUI screens"
+      ]
     },
-    testimonials: [
+   testimonials: [
       {
-        quote: "IntelliMerge transformed our upgrade process. What used to take a full week now takes a single day with better accuracy. This is the future of enterprise software maintenance.",
+        quote: "SpireWiz has completely transformed our upgrade workflow. The interactive UI makes complex merge operations intuitive, and the AI-powered conflict resolution is remarkably accurate. What used to take a full week now takes a single day.",
         author: "Development Team Lead",
         role: "Senior Technical Manager",
         company: "Optimizely",
@@ -225,51 +234,64 @@ export const projects: Project[] = [
       }
     ],
     caseStudy: {
-      problem: "Upgrading Optimizely Configured Commerce for 20+ enterprise clients required 32-40 hours of manual Git merge conflict resolution per upgrade. Each client had custom implementations that conflicted with new platform updates, creating a bottleneck that delayed upgrades and frustrated both the team and clients.",
-      solution: "Built IntelliMerge, an AI-powered automation tool using GPT-5 API with advanced prompt engineering. The tool analyzes three-way merge conflicts, understands code context, and automatically generates intelligent merge resolutions. Human developers only verify the output instead of manually resolving each conflict.",
-      architectureDiagram: `graph TB
-    A[Developer] -->|Triggers Upgrade| B[IntelliMerge CLI]
-    B -->|Read Files| C[Three-Way Merge Analysis]
-    C -->|Extract Conflicts| D[Conflict Parser]
-    D -->|Send Context| E[GPT-5 API]
-    E -->|AI Resolution| F[Merge Resolution Engine]
-    F -->|Generate Code| G[Automated Merge Output]
-    G -->|Review & Verify| H[Human Verification]
-    H -->|Approved| I[Upgraded Codebase]
-
-    style E fill:#4CAF50
-    style F fill:#2196F3
-    style I fill:#FF9800`,
+      problem: "Upgrading Optimizely Configured Commerce blueprints for 20+ enterprise clients required 32-40 hours of manual Git three-way merge conflict resolution per upgrade cycle. Each client maintained extensive customizations that conflicted with new platform updates, creating a critical bottleneck that delayed adoption, frustrated teams, and limited the ability to serve multiple clients simultaneously.",
+      solution: "Built SpireWiz, a production-grade AI automation platform combining OpenAI's GPT-4o API with a professional Textual TUI. The system implements seven intelligent merge rules (preserve customizations, apply upgrades, propagate deletions, handle redundant customizations, manage refactoring, identify true conflicts, and maintain safety/failure modes) with comprehensive budget tracking and provider-agnostic architecture. Developers interact through an intuitive terminal UI with real-time progress, configuration management, and detailed analytics.",
+      architectureDiagram: "graph TB\n      A[Developer] -->|Launch| B[SpireWiz Textual TUI]\n      B -->|Configure| C[Main Menu & Settings]\n      C -->|Start Merge| D[Merge Coordinator]\n      D -->|Scan Files| E[File Scanner]\n      E -->|Detect Changes| F[Change Detector]\n      F -->|Extract Conflicts| G[Conflict Extractor]\n      G -->|Send to AI| H[OpenAI GPT-4o API]\n      H -->|Resolve| I[AI Conflict Resolver]\n      I -->|Apply Rules| J[Unified Merge Engine]\n      J -->|Track Costs| K[Budget Manager]\n      K -->|Generate Output| L[Merge Results]\n      L -->|Display Analytics| M[Results Screen]\n      M -->|Review| A\n\n\n      style H fill:#4CAF50\n      style J fill:#2196F3\n      style B fill:#bd93f9\n      style M fill:#FF9800",
       results: [
-        "Reduced upgrade time from 40 hours to 8 hours (80% efficiency gain)",
-        "Enabled 20+ enterprise clients to adopt updates 5x faster",
-        "Saved 32+ hours of developer time per upgrade cycle",
-        "Improved merge accuracy with AI-powered context understanding",
-        "Accelerated platform adoption across entire customer portfolio"
+        "Reduced upgrade time from 40 hours to 8 hours (80% efficiency gain, 32+ hours saved per cycle)",
+        "Enabled 20+ enterprise clients to adopt platform updates 5x faster",
+        "Achieved 34.4% average merge success ratio with intelligent conflict resolution",
+        "Consolidated codebase by 30.3% (4,497 lines removed) while improving maintainability",
+        "Maintained 90%+ test coverage across 1,000+ lines of test code",
+        "Implemented comprehensive budget management preventing cost overruns ($5/session limit)",
+        "Created professional developer experience with 9-screen interactive TUI"
       ],
       technicalHighlights: [
-        "GPT-5 API integration with custom prompt engineering",
-        "Three-way merge algorithm implementation",
-        "Python-based automation with PowerShell integration",
-        "Comprehensive testing framework for reliability",
-        "PyInstaller packaging for easy distribution"
+        "Unified three-way merge architecture (1,400+ line consolidated implementation)",
+        "Provider-agnostic AI integration supporting OpenAI, Gemini, Anthropic",
+        "Professional Textual TUI with custom widgets, tooltips, and error recovery modals",
+        "Advanced budget tracking with real-time cost monitoring and session limits",
+        "Comprehensive testing: unit tests, integration tests, AI-specific test suites (90%+ coverage)",
+        "Seven intelligent merge rules with semantic code analysis",
+        "PyInstaller build system with code signing and automated distribution",
+        "Type-safe configuration with Pydantic validation and INI format support"
       ]
     },
     recognition: [
       {
-        title: "Innovation Award Nominee",
-        description: "Nominated for internal innovation award for breakthrough automation",
-        icon: "trophy",
+        title: "Production Release v3.0.0",
+        description: "Successfully deployed production-ready version with 30.3% codebase consolidation",
+        icon: "rocket",
         approved: true
       },
       {
-        title: "Team Impact",
-        description: "Enabled 5x faster client upgrade delivery",
+        title: "Architecture Innovation",
+        description: "Simplified 5-layer architecture to 3-layer while maintaining feature parity",
+        icon: "code",
+        approved: true
+      },
+      {
+        title: "Team Efficiency Impact",
+        description: "Enabled 5x faster client upgrade delivery across entire portfolio",
         icon: "users",
+        approved: true
+      },
+      {
+        title: "Quality Excellence",
+        description: "Maintained 90%+ test coverage through major refactoring",
+        icon: "check-circle",
         approved: true
       }
     ],
-    skillsHighlighted: ["AI/ML Integration", "Python Automation", "Git Internals", "API Design"]
+    skillsHighlighted: [
+      "AI/ML Integration",
+      "Python Architecture",
+      "Terminal UI/UX Design",
+      "Git Internals",
+      "API Design",
+      "Test-Driven Development",
+      "Cost Optimization"
+    ]
   },
   {
     num: 3,
@@ -277,7 +299,7 @@ export const projects: Project[] = [
     title: "Optimizely Configured Commerce",
     subtitle: "Enterprise B2B Platform for 20+ Fortune 500 Clients",
     isFeatured: true,
-    longDescription: "Supporting 20+ enterprise B2B clients by implementing high-performance customizations on Optimizely's Configured Commerce platform. Responsible for hands-on development of customer-specific features, performance optimization, and technical solutions that enable Fortune 500 companies to scale their digital commerce operations. Key achievements include developing IntelliMerge (AI-powered upgrade automation tool using GPT-5 that reduced upgrade time from 40 hours to 8 hours—an 80% efficiency gain), creating OpalSpark (a .NET 9 template framework that streamlines Opal platform development and eliminates authentication/setup complexity), and building integration tools that connect Sitecore CMS with Opal for seamless content management. Contributed to two successful system migrations achieving 55% average cost reduction for major clients while improving deployment efficiency and reducing error rates. Actively leveraging AI tools (Claude Code, Cursor, GitHub Copilot) to enhance team productivity, mentor developers through code reviews (15% defect reduction), and design scalable architecture patterns supporting global deployments. Technologies: C#, ASP.NET Core, .NET 9, WCF, React, Angular, TypeScript, Azure, MSSQL, Entity Framework Core, AI Integration (GPT-5, Claude AI), Opal Platform.",
+    longDescription: "Supporting 20+ enterprise B2B clients by implementing high-performance customizations on Optimizely's Configured Commerce platform. Responsible for hands-on development of customer-specific features, performance optimization, and technical solutions that enable Fortune 500 companies to scale their digital commerce operations. Key achievements include developing IntelliMerge (AI-powered upgrade automation tool using GPT-5 that reduced upgrade time from 40 hours to 8 hoursâ€”an 80% efficiency gain), creating OpalSpark (a .NET 9 template framework that streamlines Opal platform development and eliminates authentication/setup complexity), and building integration tools that connect Sitecore CMS with Opal for seamless content management. Contributed to two successful system migrations achieving 55% average cost reduction for major clients while improving deployment efficiency and reducing error rates. Actively leveraging AI tools (Claude Code, Cursor, GitHub Copilot) to enhance team productivity, mentor developers through code reviews (15% defect reduction), and design scalable architecture patterns supporting global deployments. Technologies: C#, ASP.NET Core, .NET 9, WCF, React, Angular, TypeScript, Azure, MSSQL, Entity Framework Core, AI Integration (GPT-5, Claude AI), Opal Platform.",
     shortDescription:
       "Enterprise B2B commerce platform supporting 20+ clients with custom high-performance solutions, AI-powered tooling (80% efficiency gain), and scalable architecture.",
     stacks: [

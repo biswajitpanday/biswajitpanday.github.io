@@ -125,44 +125,57 @@ const Projects = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
             {/* Title Section */}
             <div className="flex-1">
-              <h1 className="text-3xl xl:text-4xl font-bold text-white mb-2 leading-tight">
-                My{" "}
-                <span className="bg-gradient-to-r from-secondary-default via-blue-400 to-secondary-default bg-clip-text text-transparent">
-                  Projects
+              <h1 className="text-3xl xl:text-4xl font-bold mb-2 leading-tight">
+                <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                  My Projects
                 </span>
               </h1>
-              <p className="text-sm text-white/70">
-                A showcase of my technical expertise through {projects.length} completed and ongoing projects
+              <p className="text-sm font-medium leading-relaxed">
+                <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                  A showcase of my technical expertise through{" "}
+                </span>
+                <span className="text-lg font-bold bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-400 bg-clip-text text-transparent">
+                  {projects.length}
+                </span>
+                <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                  {" "}completed and ongoing projects
+                </span>
               </p>
             </div>
 
             {/* Inline Compact Stats */}
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2.5">
               <div 
                 data-testid="stat-total-projects"
-                className="group relative bg-gradient-to-br from-secondary-default/10 to-blue-500/10 border border-secondary-default/30 rounded-xl px-5 py-3 hover:scale-105 hover:border-secondary-default/50 transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-secondary-default/20"
+                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3.5 py-2.5 hover:scale-[1.02] hover:border-secondary-default/60 hover:-translate-y-0.5 transition-all duration-500 shadow-md shadow-secondary-default/10 hover:shadow-xl hover:shadow-secondary-default/30"
               >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-secondary-default/20 rounded-lg group-hover:bg-secondary-default/30 transition-colors">
-                    <FaCode className="text-secondary-default text-xl" />
+                <div className="flex items-center gap-2.5">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-secondary-default to-blue-500 rounded-lg blur-sm opacity-50 group-hover:opacity-75 transition-opacity" />
+                    <div className="relative p-2 bg-gradient-to-br from-secondary-default/20 to-blue-500/20 rounded-lg group-hover:from-secondary-default/30 group-hover:to-blue-500/30 transition-all border border-secondary-default/30">
+                      <FaCode className="text-secondary-default text-lg" />
+                    </div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-secondary-default to-blue-500">{projects.length}</div>
-                    <div className="text-xs text-white/70 font-medium">Total Projects</div>
+                    <div className="text-xl font-bold bg-gradient-to-r from-secondary-default via-blue-400 to-secondary-default bg-clip-text text-transparent">{projects.length}</div>
+                    <div className="text-[10px] text-white/60 font-medium tracking-wide">Total Projects</div>
                   </div>
                 </div>
               </div>
               <div 
                 data-testid="stat-active-projects"
-                className="group relative bg-gradient-to-br from-blue-500/10 to-secondary-default/10 border border-blue-500/30 rounded-xl px-5 py-3 hover:scale-105 hover:border-blue-500/50 transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-blue-500/20"
+                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-emerald-500/30 rounded-lg px-3.5 py-2.5 hover:scale-[1.02] hover:border-emerald-500/60 hover:-translate-y-0.5 transition-all duration-500 shadow-md shadow-emerald-500/10 hover:shadow-xl hover:shadow-emerald-500/30"
               >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-500/20 rounded-lg group-hover:bg-blue-500/30 transition-colors">
-                    <FaRocket className="text-blue-400 text-xl" />
+                <div className="flex items-center gap-2.5">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-lg blur-sm opacity-50 group-hover:opacity-75 transition-opacity" />
+                    <div className="relative p-2 bg-gradient-to-br from-emerald-500/20 to-blue-500/20 rounded-lg group-hover:from-emerald-500/30 group-hover:to-blue-500/30 transition-all border border-emerald-500/30">
+                      <FaRocket className="text-emerald-400 text-lg" />
+                    </div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default">{activeProjects}</div>
-                    <div className="text-xs text-white/70 font-medium">Active Projects</div>
+                    <div className="text-xl font-bold bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">{activeProjects}</div>
+                    <div className="text-[10px] text-white/60 font-medium tracking-wide">Active Projects</div>
                   </div>
                 </div>
               </div>

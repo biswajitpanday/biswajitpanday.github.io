@@ -5,7 +5,6 @@ import {
   FaTimes,
   FaGithub,
   FaExternalLinkAlt,
-  FaCalendar,
   FaBuilding,
   FaCodeBranch,
   FaCode,
@@ -14,12 +13,9 @@ import {
   FaStar,
   FaQuoteLeft,
   FaTrophy,
-  FaRocket,
-  FaUsers,
-  FaChartLine,
   FaLightbulb,
-  FaDownload,
   FaBriefcase,
+  FaChartLine,
 } from "react-icons/fa";
 import { FiLayers } from "react-icons/fi";
 import Image from "next/image";
@@ -28,6 +24,17 @@ import { Project } from "@/data/portfolioData";
 import { useState, useEffect } from "react";
 import MermaidDiagram from "@/components/MermaidDiagram";
 import ProjectPerformanceMetrics from "@/components/ProjectPerformanceMetrics";
+import { getPrimaryMetric, getMetricBadgeClasses } from "@/utils/projectHelpers";
+import { getCategoryColor } from "@/constants/projectConstants";
+import {
+  STATUS_BADGE_CLASSES,
+  FEATURED_BADGE_CLASSES,
+  OPEN_SOURCE_BADGE_CLASSES,
+  CATEGORY_BADGE_CLASSES,
+  COMPANY_BADGE_CLASSES,
+  PRIMARY_METRIC_BADGE_MODAL_CLASSES,
+  KEY_SKILLS_BADGE_MODAL_CLASSES,
+} from "@/constants/badgeSizes";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -35,27 +42,6 @@ interface ProjectModalProps {
   onClose: () => void;
 }
 
-// Category color mapping (matching ProjectCard and ProjectTimeline)
-const categoryColors = {
-  "Full-Stack": "from-emerald-500/20 to-cyan-500/20 border-emerald-500/40 text-emerald-300",
-  "Frontend": "from-blue-500/20 to-cyan-500/20 border-blue-500/40 text-blue-300",
-  "Backend": "from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-300",
-  "Mobile": "from-orange-500/20 to-red-500/20 border-orange-500/40 text-orange-300",
-  "Windows App": "from-yellow-500/20 to-orange-500/20 border-yellow-500/40 text-yellow-300",
-};
-
-// Metric icon mapping
-const getMetricIcon = (key: string) => {
-  switch (key) {
-    case "efficiency": return FaRocket;
-    case "users": return FaUsers;
-    case "performance": return FaChartLine;
-    case "revenue": return FaChartLine;
-    case "downloads": return FaDownload;
-    case "github_stars": return FaStar;
-    default: return FaCheckCircle;
-  }
-};
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState<"overview" | "case-study" | "architecture">("overview");
@@ -104,8 +90,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
     }
   };
 
-  // Get category styling
-  const categoryStyle = categoryColors[project.category] || categoryColors["Full-Stack"];
+  // Get primary metric using centralized utility
+  const primaryMetric = getPrimaryMetric(project);
 
   // Split technologies into key and other
   const keyTechnologies = project.stacks.slice(0, 6);
@@ -143,20 +129,28 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
           >
             {/* Ultra-Compact Modal Header */}
             <div className="relative px-4 py-3 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/5 via-transparent to-secondary-default/5 flex-shrink-0">
-              {/* Single Row: Title + Badges (right-aligned) + Close Button */}
-              <div className="flex items-center justify-between gap-3">
+              {/* Title + Subtitle Section */}
+              <div className="flex items-center justify-between gap-3 mb-2">
                 {/* Left: Title */}
-                <h2 className="text-base xl:text-lg font-bold text-white flex items-center gap-2 flex-shrink-0">
-                  <span className="text-secondary-default text-sm">#{project.num}</span>
-                  <span className="text-white/30 text-xs">|</span>
-                  <span>{project.title}</span>
-                </h2>
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-base xl:text-lg font-bold text-white flex items-center gap-2 flex-shrink-0">
+                    <span className="text-secondary-default text-sm">#{project.num}</span>
+                    <span className="text-white/30 text-xs">|</span>
+                    <span>{project.title}</span>
+                  </h2>
+                  {/* Subtitle - NEW */}
+                  {project.subtitle && (
+                    <p className="text-sm font-medium bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent leading-relaxed mt-1">
+                      {project.subtitle}
+                    </p>
+                  )}
+                </div>
 
                 {/* Right: Badges + Close Button */}
                 <div className="flex items-center gap-2 flex-wrap justify-end">
                   {/* Company Badge - Subtle with @ prefix */}
                   {project.associatedWithCompany && (
-                    <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-gray-800/50 border border-white/20 text-white/90 font-medium">
+                    <span className={`inline-flex items-center gap-1.5 bg-gray-800/50 border border-white/20 text-white/90 ${COMPANY_BADGE_CLASSES}`}>
                       <FaBuilding className="text-[10px] text-white/50" />
                       <span className="text-white/50">@</span>
                       <span>{project.associatedWithCompany}</span>
@@ -164,14 +158,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   )}
 
                   {/* Category Badge */}
-                  <span className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg font-bold uppercase tracking-wide bg-gradient-to-r shadow-sm border ${
-                    project.category === "Full-Stack" ? "from-emerald-500/20 to-cyan-500/20 border-emerald-500/40 text-emerald-300" :
-                    project.category === "Frontend" ? "from-blue-500/20 to-cyan-500/20 border-blue-500/40 text-blue-300" :
-                    project.category === "Backend" ? "from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-300" :
-                    project.category === "Mobile" ? "from-orange-500/20 to-red-500/20 border-orange-500/40 text-orange-300" :
-                    project.category === "Windows App" ? "from-yellow-500/20 to-orange-500/20 border-yellow-500/40 text-yellow-300" :
-                    "from-gray-500/20 to-gray-600/20 border-gray-500/40 text-gray-300"
-                  }`}>
+                  <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}>
                     <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
                     {project.category}
                   </span>
@@ -182,8 +169,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   {/* Open Source Badge */}
                   {project.isOpenSource && (
                     <>
-                      <span className="inline-flex items-center gap-1.5 text-[10px] px-2 py-1 rounded-md bg-gradient-to-r from-green-500/25 to-emerald-500/25 border border-green-500/50 text-green-200 font-semibold">
-                        <FaCodeBranch className="text-[9px]" />
+                      <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-green-500/25 to-emerald-500/25 border border-green-500/50 text-green-200 shadow-sm shadow-green-500/20 ${OPEN_SOURCE_BADGE_CLASSES}`}>
+                        <FaCodeBranch className="text-[10px]" />
                         <span>Open Source</span>
                       </span>
                       <span className="text-white/30 text-xs">|</span>
@@ -193,8 +180,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   {/* Featured Badge */}
                   {project.isFeatured && (
                     <>
-                      <span className="inline-flex items-center gap-1.5 text-[10px] px-2 py-1 rounded-md bg-gradient-to-r from-purple-500/25 to-pink-500/25 border border-purple-500/50 text-purple-200 font-semibold">
-                        <FaStar className="text-[9px]" />
+                      <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-500/25 to-pink-500/25 border border-purple-500/50 text-purple-200 shadow-sm shadow-purple-500/20 ${FEATURED_BADGE_CLASSES}`}>
+                        <FaStar className="text-[10px]" />
                         <span>Featured</span>
                       </span>
                       <span className="text-white/30 text-xs">|</span>
@@ -203,12 +190,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                   {/* Status Badge */}
                   {project.isActive ? (
-                    <span className="inline-flex items-center gap-1 bg-green-500/90 text-white text-[10px] font-medium px-2 py-1 rounded-full">
+                    <span className={`inline-flex items-center gap-1 bg-green-500/90 text-white ${STATUS_BADGE_CLASSES}`}>
                       <div className="w-1 h-1 rounded-full bg-white animate-pulse" />
                       Active
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 bg-red-500/90 text-white text-[10px] font-medium px-2 py-1 rounded-full">
+                    <span className={`inline-flex items-center gap-1 bg-red-500/90 text-white ${STATUS_BADGE_CLASSES}`}>
                       Completed
                     </span>
                   )}
@@ -216,7 +203,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   {/* Close Button */}
                   <button
                     onClick={onClose}
-                    className="p-1.5 text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg flex-shrink-0 ml-1"
+                    className="p-1.5 text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg flex-shrink-0 ml-1 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
                     aria-label="Close modal"
                   >
                     <FaTimes className="text-sm" />
@@ -230,7 +217,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                 <div className="flex gap-2">
                   <button
                     onClick={() => setActiveTab("overview")}
-                    className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 ${
+                    className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
                       activeTab === "overview"
                         ? "bg-secondary-default/20 border border-secondary-default/50 text-secondary-default"
                         : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
@@ -244,7 +231,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   {hasCaseStudy && (
                     <button
                       onClick={() => setActiveTab("case-study")}
-                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 ${
+                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
                         activeTab === "case-study"
                           ? "bg-purple-500/20 border border-purple-500/50 text-purple-300"
                           : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
@@ -259,7 +246,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   {hasArchitecture && (
                     <button
                       onClick={() => setActiveTab("architecture")}
-                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 ${
+                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
                         activeTab === "architecture"
                           ? "bg-cyan-500/20 border border-cyan-500/50 text-cyan-300"
                           : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
@@ -280,7 +267,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-3 py-1.5 rounded-md text-xs font-bold hover:shadow-lg hover:scale-105 transition-all duration-200"
+                      className="flex items-center gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-3 py-1.5 rounded-md text-xs font-bold hover:shadow-lg hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
                     >
                       <FaExternalLinkAlt className="text-[10px]" />
                       View Live
@@ -291,7 +278,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 bg-gray-800 hover:bg-gray-700 text-white px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 border border-white/20 hover:border-secondary-default/50"
+                      className="flex items-center gap-1.5 bg-gray-800 hover:bg-gray-700 text-white px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 border border-white/20 hover:border-secondary-default/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
                     >
                       <FaGithub className="text-[10px]" />
                       View Code
@@ -318,36 +305,14 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-xl pointer-events-none" />
 
                   {/* Primary Metric Badge - Bottom Left of Image */}
-                  {(() => {
-                    const getPrimaryMetric = () => {
-                      if (project.metrics?.efficiency) return { icon: FaRocket, text: project.metrics.efficiency, label: "Efficiency" };
-                      if (project.metrics?.users) return { icon: FaUsers, text: project.metrics.users, label: "Impact" };
-                      if (project.metrics?.performance) return { icon: FaChartLine, text: project.metrics.performance, label: "Performance" };
-                      if (project.metrics?.revenue) return { icon: FaChartLine, text: project.metrics.revenue, label: "Cost Savings" };
-                      if (project.metrics?.downloads) return { icon: FaUsers, text: project.metrics.downloads, label: "Downloads" };
-                      return null;
-                    };
-                    const primaryMetric = getPrimaryMetric();
-
-                    return primaryMetric ? (
-                      <div className="absolute bottom-3 left-3">
-                        <span className={`inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-full backdrop-blur-md shadow-lg border ${
-                          primaryMetric.label === "Efficiency"
-                            ? "bg-gradient-to-r from-emerald-500/80 to-green-500/80 border-emerald-400/70 text-white"
-                            : primaryMetric.label === "Impact" || primaryMetric.label === "Downloads"
-                            ? "bg-gradient-to-r from-blue-500/80 to-cyan-500/80 border-blue-400/70 text-white"
-                            : primaryMetric.label === "Performance"
-                            ? "bg-gradient-to-r from-purple-500/80 to-pink-500/80 border-purple-400/70 text-white"
-                            : primaryMetric.label === "Cost Savings"
-                            ? "bg-gradient-to-r from-orange-500/80 to-amber-500/80 border-orange-400/70 text-white"
-                            : "bg-gradient-to-r from-secondary-default/80 to-blue-500/80 border-secondary-default/70 text-white"
-                        }`}>
-                          <primaryMetric.icon className="text-base" />
-                          <span>{primaryMetric.text}</span>
-                        </span>
-                      </div>
-                    ) : null;
-                  })()}
+                  {primaryMetric && (
+                    <div className="absolute bottom-3 left-3">
+                      <span className={`inline-flex items-center gap-2 backdrop-blur-md shadow-lg border ${PRIMARY_METRIC_BADGE_MODAL_CLASSES} ${getMetricBadgeClasses(primaryMetric.label)}`}>
+                        <primaryMetric.icon className="text-base" />
+                        <span>{primaryMetric.text}</span>
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Tab Content */}
@@ -378,7 +343,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               {project.skillsHighlighted.map((skill, idx) => (
                                 <span
                                   key={idx}
-                                  className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md bg-gradient-to-r from-emerald-500/20 via-purple-500/20 to-purple-500/20 text-emerald-300 border border-emerald-500/40 hover:from-emerald-500/30 hover:via-purple-500/30 hover:to-purple-500/30 transition-all duration-200"
+                                  className={`inline-flex items-center bg-gradient-to-r from-emerald-500/20 via-purple-500/20 to-purple-500/20 text-emerald-300 border border-emerald-500/40 hover:from-emerald-500/30 hover:via-purple-500/30 hover:to-purple-500/30 transition-all duration-200 ${KEY_SKILLS_BADGE_MODAL_CLASSES}`}
                                 >
                                   {skill}
                                 </span>

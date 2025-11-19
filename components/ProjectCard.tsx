@@ -10,12 +10,20 @@ import {
   FaCodeBranch,
   FaExternalLinkAlt,
   FaTrophy,
-  FaChartLine,
-  FaUsers,
   FaStar,
-  FaRocket,
 } from "react-icons/fa";
 import type { Project } from "@/data/portfolioData";
+import { getPrimaryMetric, getMetricBadgeClasses } from "@/utils/projectHelpers";
+import { getCategoryColor, getCompanyLogo } from "@/constants/projectConstants";
+import {
+  STATUS_BADGE_CLASSES,
+  FEATURED_BADGE_CLASSES,
+  OPEN_SOURCE_BADGE_CLASSES,
+  RECOGNITION_BADGE_CLASSES,
+  PRIMARY_METRIC_BADGE_CLASSES,
+  CATEGORY_BADGE_CLASSES,
+  COMPANY_BADGE_CLASSES,
+} from "@/constants/badgeSizes";
 
 interface ProjectCardProps {
   project: Project;
@@ -57,30 +65,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   // Featured project gets special styling
   const isFeatured = project.isFeatured === true;
 
-  // Company logo mapping
-  const getCompanyLogo = (company: string) => {
-    const logoMap: Record<string, string> = {
-      "Brain Station-23": "/assets/company-icon/webp/brain-station-23.webp",
-      "Chorki Limited": "/assets/company-icon/webp/chorki.webp",
-      "Kaz Software": "/assets/company-icon/webp/kaz.webp",
-      "Optimizely": "/assets/company-icon/webp/opti.webp",
-    };
-    return logoMap[company] || null;
-  };
-
+  // Get company logo and primary metric using centralized utilities
   const companyLogo = project.associatedWithCompany ? getCompanyLogo(project.associatedWithCompany) : null;
-
-  // Get primary metric for display
-  const getPrimaryMetric = () => {
-    if (project.metrics?.efficiency) return { icon: FaRocket, text: project.metrics.efficiency, label: "Efficiency" };
-    if (project.metrics?.users) return { icon: FaUsers, text: project.metrics.users, label: "Impact" };
-    if (project.metrics?.performance) return { icon: FaChartLine, text: project.metrics.performance, label: "Performance" };
-    if (project.metrics?.revenue) return { icon: FaChartLine, text: project.metrics.revenue, label: "Cost Savings" };
-    if (project.metrics?.downloads) return { icon: FaUsers, text: project.metrics.downloads, label: "Downloads" };
-    return null;
-  };
-
-  const primaryMetric = getPrimaryMetric();
+  const primaryMetric = getPrimaryMetric(project);
 
   return (
     <div
@@ -98,7 +85,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       {/* Featured Badge - Top Left Corner - Purple gradient */}
       {isFeatured && (
         <div className="absolute top-2 left-2 z-10">
-          <div className="bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white px-2.5 py-1 rounded-md flex items-center gap-1.5 text-xs font-semibold shadow-lg shadow-purple-500/30">
+          <div className={`bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white flex items-center gap-1.5 shadow-lg shadow-purple-500/30 ${FEATURED_BADGE_CLASSES}`}>
             <FaStar className="text-white text-xs" />
             <span>Featured</span>
           </div>
@@ -144,17 +131,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Primary Metric Badge - Bottom Left of Image */}
         {primaryMetric && (
           <div className="absolute bottom-2 left-2">
-            <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg border flex-shrink-0 ${
-              primaryMetric.label === "Efficiency" 
-                ? "bg-gradient-to-r from-emerald-500/80 to-green-500/80 border-emerald-400/70 text-white"
-                : primaryMetric.label === "Impact" || primaryMetric.label === "Downloads"
-                ? "bg-gradient-to-r from-blue-500/80 to-cyan-500/80 border-blue-400/70 text-white"
-                : primaryMetric.label === "Performance"
-                ? "bg-gradient-to-r from-purple-500/80 to-pink-500/80 border-purple-400/70 text-white"
-                : primaryMetric.label === "Cost Savings"
-                ? "bg-gradient-to-r from-orange-500/80 to-amber-500/80 border-orange-400/70 text-white"
-                : "bg-gradient-to-r from-secondary-default/80 to-blue-500/80 border-secondary-default/70 text-white"
-            }`}>
+            <span className={`inline-flex items-center gap-1.5 ${PRIMARY_METRIC_BADGE_CLASSES} backdrop-blur-md shadow-lg border flex-shrink-0 ${getMetricBadgeClasses(primaryMetric.label)}`}>
               <primaryMetric.icon className="text-xs" />
               <span>{primaryMetric.text}</span>
             </span>
@@ -166,7 +143,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {project.isActive ? (
             <span
               data-testid={`project-status-active-${project.num}`}
-              className="bg-green-500/90 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-sm font-medium shadow-lg flex items-center gap-1.5"
+              className={`bg-green-500/90 text-white backdrop-blur-sm shadow-lg flex items-center gap-1.5 ${STATUS_BADGE_CLASSES}`}
             >
               <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
               Active
@@ -175,7 +152,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             <div className="group/status relative">
               <span
                 data-testid={`project-status-inactive-${project.num}`}
-                className="bg-red-500/90 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-sm cursor-help font-medium shadow-lg"
+                className={`bg-red-500/90 text-white backdrop-blur-sm cursor-help shadow-lg ${STATUS_BADGE_CLASSES}`}
                 title={project.inactivationReason || "This project is no longer active"}
               >
                 Completed
@@ -217,12 +194,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {!isDescriptionExpanded && project.shortDescription.length > 100 ? (
             <>
               {project.shortDescription.slice(0, 100)}...{' '}
-              <span
+              <button
                 onClick={() => setIsDescriptionExpanded(true)}
-                className="text-secondary-default hover:text-secondary-default/80 transition-colors font-medium cursor-pointer inline"
+                className="text-secondary-default hover:text-secondary-default/80 transition-colors font-medium inline underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] rounded-sm"
+                aria-label="Expand project description"
               >
                 See more
-              </span>
+              </button>
             </>
           ) : (
             <>
@@ -230,12 +208,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               {isDescriptionExpanded && project.shortDescription.length > 100 && (
                 <>
                   {' '}
-                  <span
+                  <button
                     onClick={() => setIsDescriptionExpanded(false)}
-                    className="text-secondary-default hover:text-secondary-default/80 transition-colors font-medium cursor-pointer inline"
+                    className="text-secondary-default hover:text-secondary-default/80 transition-colors font-medium inline underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] rounded-sm"
+                    aria-label="Collapse project description"
                   >
                     Show less
-                  </span>
+                  </button>
                 </>
               )}
             </>
@@ -255,14 +234,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             {/* Category Badge - Large, Prominent with Icon-like styling */}
             <span
               data-testid={`project-category-badge-${project.num}`}
-              className={`inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg font-bold uppercase tracking-wide bg-gradient-to-r shadow-sm ${
-                project.category === "Full-Stack" ? "from-emerald-500/20 to-cyan-500/20 border-emerald-500/40 text-emerald-300" :
-                project.category === "Frontend" ? "from-blue-500/20 to-cyan-500/20 border-blue-500/40 text-blue-300" :
-                project.category === "Backend" ? "from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-300" :
-                project.category === "Mobile" ? "from-orange-500/20 to-red-500/20 border-orange-500/40 text-orange-300" :
-                project.category === "Windows App" ? "from-yellow-500/20 to-orange-500/20 border-yellow-500/40 text-yellow-300" :
-                "from-gray-500/20 to-gray-600/20 border-gray-500/40 text-gray-300"
-              } border`}
+              className={`inline-flex items-center gap-1.5 bg-gradient-to-r shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
               {project.category}
@@ -272,7 +244,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             {project.associatedWithCompany && (
               <span
                 data-testid={`project-company-badge-${project.num}`}
-                className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-gray-800/50 border border-white/20 text-white/90 font-medium"
+                className={`inline-flex items-center gap-1.5 bg-gray-800/50 border border-white/20 text-white/90 ${COMPANY_BADGE_CLASSES}`}
               >
                 <FaBuilding className="text-[10px] text-white/50" />
                 <span className="text-white/50">@</span>
@@ -297,7 +269,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               {project.isOpenSource && (
                 <span
                   data-testid={`project-opensource-badge-${project.num}`}
-                  className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-md bg-gradient-to-r from-green-500/25 to-emerald-500/25 border border-green-500/50 text-green-200 font-semibold shadow-sm shadow-green-500/20"
+                  className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-green-500/25 to-emerald-500/25 border border-green-500/50 text-green-200 shadow-sm shadow-green-500/20 ${OPEN_SOURCE_BADGE_CLASSES}`}
                 >
                   <FaCodeBranch className="text-[10px]" />
                   <span>Open Source</span>
@@ -310,7 +282,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                   {project.recognition.filter(r => r.approved !== false).slice(0, 2).map((rec, idx) => (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-md bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-orange-500/20 border border-amber-400/50 text-amber-200 font-semibold shadow-sm shadow-amber-500/20"
+                      className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-orange-500/20 border border-amber-400/50 text-amber-200 shadow-sm shadow-amber-500/20 ${RECOGNITION_BADGE_CLASSES}`}
                       title={rec.description}
                     >
                       <FaTrophy className="text-[10px] text-amber-300" />
@@ -332,17 +304,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             </h4>
             <div className="flex flex-wrap gap-1.5">
               {project.skillsHighlighted.map((skill, idx) => (
-                <span
+                <button
                   key={idx}
+                  type="button"
                   onClick={() => onSkillClick?.(skill)}
-                  className={`inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-md transition-all duration-200 cursor-pointer ${
+                  className={`inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-md transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
                     selectedSkill?.toLowerCase() === skill.toLowerCase()
                       ? 'bg-gradient-to-r from-emerald-500/40 via-purple-500/40 to-purple-500/40 text-white border-2 border-emerald-400 shadow-lg shadow-emerald-500/30 scale-105'
                       : 'bg-gradient-to-r from-emerald-500/20 via-purple-500/20 to-purple-500/20 text-emerald-300 border border-emerald-500/40 hover:from-emerald-500/30 hover:via-purple-500/30 hover:to-purple-500/30'
                   }`}
+                  aria-label={`Filter projects by skill: ${skill}`}
+                  aria-pressed={selectedSkill?.toLowerCase() === skill.toLowerCase()}
                 >
                   {skill}
-                </span>
+                </button>
               ))}
             </div>
           </div>
@@ -370,15 +345,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
           <div className="grid grid-cols-2 gap-x-3 gap-y-1">
             {displayStacks.map((stack, stackIndex) => (
-              <div
+              <button
                 key={stackIndex}
+                type="button"
                 data-testid={`project-tech-${project.num}-${stackIndex}`}
                 onClick={() => onSkillClick?.(stack)}
-                className={`flex items-center gap-1.5 text-xs cursor-pointer transition-all duration-200 ${
+                className={`flex items-center gap-1.5 text-xs cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c] rounded-sm ${
                   selectedSkill?.toLowerCase() === stack.toLowerCase()
                     ? 'text-secondary-default font-bold scale-105'
                     : 'text-white/80 hover:text-secondary-default/80'
                 }`}
+                aria-label={`Filter projects by ${stack}`}
+                aria-pressed={selectedSkill?.toLowerCase() === stack.toLowerCase()}
               >
                 <span className={`w-1 h-1 rounded-full flex-shrink-0 ${
                   selectedSkill?.toLowerCase() === stack.toLowerCase()
@@ -386,7 +364,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     : 'bg-secondary-default/60'
                 }`}></span>
                 <span className="truncate">{stack}</span>
-              </div>
+              </button>
             ))}
           </div>
         </div>

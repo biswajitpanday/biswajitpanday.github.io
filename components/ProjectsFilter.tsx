@@ -152,10 +152,10 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
     >
       {/* Inline Search and Filter Bar */}
       <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
-        {/* Compact Search Input */}
+        {/* Compact Search Input - Enhanced */}
         {isSearchEnabled && (
-          <div className="relative flex-1" data-test-selector="projectFilter-search">
-            <div className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-secondary-default text-sm">
+          <div className="relative flex-1 group" data-test-selector="projectFilter-search">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default/70 group-focus-within:text-secondary-default transition-colors text-sm">
               <FiSearch />
             </div>
             <input
@@ -163,71 +163,88 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
               placeholder={placeholder}
               value={searchQuery}
               onChange={handleSearchChange}
-              className="w-full h-9 bg-gray-800/50 border border-secondary-default/20 rounded-lg pl-9 pr-9 text-xs text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
+              className="w-full h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg pl-9 pr-9 text-xs text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 shadow-sm focus:shadow-md focus:shadow-secondary-default/20"
               data-test-selector="projectFilter-searchInput"
             />
             {searchQuery && (
               <button 
                 onClick={() => onSearchChange("")}
-                className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-secondary-default"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-red-400 transition-colors duration-200"
                 data-test-selector="projectFilter-clearSearch"
               >
-                <FiX className="text-xs" />
+                <FiX className="text-sm" />
               </button>
             )}
           </div>
         )}
         
-        {/* Compact Filter Toggle Button */}
+        {/* Compact Filter Toggle Button - Enhanced */}
         {isFilterEnabled && (
           <Button
             variant="outline"
             onClick={toggleFilterPanel}
-            className={`shrink-0 flex items-center gap-1.5 text-xs h-9 ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
+            className={`shrink-0 flex items-center gap-2 text-xs h-9 px-4 rounded-lg font-medium transition-all duration-300 ${
+              isExpanded 
+                ? 'bg-gradient-to-r from-secondary-default/20 to-blue-500/20 border-secondary-default/60 text-secondary-default shadow-md shadow-secondary-default/20' 
+                : 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-white/20 text-white/70 hover:text-white hover:border-secondary-default/50 hover:shadow-md'
+            }`}
             data-test-selector="projectFilter-toggleButton"
           >
-            <FiFilter className={`text-xs ${isExpanded ? 'text-secondary-default' : 'text-white/70'}`} />
+            <FiFilter className={`text-sm transition-all duration-300 ${isExpanded ? 'text-secondary-default' : 'text-white/60'}`} />
             <span>Filters</span>
-            <FiChevronDown className={`text-xs transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+            <FiChevronDown className={`text-sm transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
           </Button>
         )}
         
-        {/* Compact Reset Button */}
+        {/* Compact Reset Button - Enhanced */}
         {hasActiveFilters && (
-          <Button
-            variant="ghost"
-            onClick={resetFilters}
-            className="shrink-0 text-white/70 hover:text-secondary-default text-xs h-9"
-            data-test-selector="projectFilter-resetButton"
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
           >
-            Reset
-          </Button>
+            <Button
+              variant="ghost"
+              onClick={resetFilters}
+              className="shrink-0 bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 text-red-300 hover:text-red-200 hover:bg-red-500/20 hover:border-red-500/50 text-xs h-9 px-4 rounded-lg font-medium transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-red-500/20"
+              data-test-selector="projectFilter-resetButton"
+            >
+              Reset
+            </Button>
+          </motion.div>
         )}
       </div>
 
       {/* Expanded Filter Panel - Positioned Absolutely */}
       {isFilterEnabled && isExpanded && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.2 }}
-          className="absolute left-0 right-0 top-full mt-2 bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-md border border-secondary-default/30 rounded-lg shadow-2xl z-[120] p-4"
+          initial={{ opacity: 0, y: -10, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -10, scale: 0.98 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="absolute left-0 right-0 top-full mt-2 bg-gradient-to-br from-[#27272c] via-[#2a2a30] to-[#27272c] backdrop-blur-xl border border-secondary-default/40 rounded-xl shadow-2xl shadow-secondary-default/20 z-[120] p-5"
           data-test-selector="projectFilter-panel"
         >
           {/* Two Column Layout: Left (Categories/Companies/Status) | Right (Technologies) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Left Column: Categories, Companies, Status */}
-              <div className="space-y-4">
+              <div className="space-y-5">
                 {/* Categories Filter */}
                 <div>
-                  <h4 className="text-secondary-default text-sm font-semibold mb-2">Categories</h4>
+                  <h4 className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-400 text-sm font-bold mb-3 flex items-center gap-2">
+                    <span className="w-1 h-4 bg-gradient-to-b from-emerald-400 to-blue-400 rounded-full"></span>
+                    Categories
+                  </h4>
                   <div className="flex flex-wrap gap-2">
                     {categories.map(category => (
                       <Badge
                         key={category}
                         variant={selectedCategory === category ? "default" : "outline"}
-                        className={`cursor-pointer ${selectedCategory === category ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
+                        className={`cursor-pointer transition-all duration-300 ${
+                          selectedCategory === category 
+                            ? 'bg-gradient-to-r from-secondary-default to-blue-500 text-white border-secondary-default/50 shadow-lg shadow-secondary-default/30 scale-105' 
+                            : 'bg-white/5 text-white/70 border-white/20 hover:text-white hover:bg-white/10 hover:border-secondary-default/50 hover:scale-105 hover:shadow-md'
+                        }`}
                         onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
                       >
                         {category}
@@ -238,13 +255,20 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
 
                 {/* Companies Filter */}
                 <div>
-                  <h4 className="text-secondary-default text-sm font-semibold mb-2">Companies</h4>
-                  <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto custom-scrollbar">
+                  <h4 className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 text-sm font-bold mb-3 flex items-center gap-2">
+                    <span className="w-1 h-4 bg-gradient-to-b from-purple-400 to-pink-400 rounded-full"></span>
+                    Companies
+                  </h4>
+                  <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto custom-scrollbar pr-2">
                     {companies.map(company => (
                       <Badge
                         key={company}
                         variant={selectedCompany === company ? "default" : "outline"}
-                        className={`cursor-pointer ${selectedCompany === company ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
+                        className={`cursor-pointer transition-all duration-300 ${
+                          selectedCompany === company 
+                            ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white border-purple-400/50 shadow-lg shadow-purple-500/30 scale-105' 
+                            : 'bg-white/5 text-white/70 border-white/20 hover:text-white hover:bg-white/10 hover:border-purple-400/50 hover:scale-105 hover:shadow-md'
+                        }`}
                         onClick={() => setSelectedCompany(selectedCompany === company ? null : company)}
                       >
                         {company}
@@ -255,13 +279,22 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
 
                 {/* Status Filter */}
                 <div>
-                  <h4 className="text-secondary-default text-sm font-semibold mb-2">Status</h4>
+                  <h4 className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400 text-sm font-bold mb-3 flex items-center gap-2">
+                    <span className="w-1 h-4 bg-gradient-to-b from-orange-400 to-amber-400 rounded-full"></span>
+                    Status
+                  </h4>
                   <div className="flex flex-wrap gap-2">
                     {statuses.map(status => (
                       <Badge
                         key={status}
                         variant={selectedStatus === status ? "default" : "outline"}
-                        className={`cursor-pointer ${selectedStatus === status ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
+                        className={`cursor-pointer transition-all duration-300 ${
+                          selectedStatus === status 
+                            ? status === "Active"
+                              ? 'bg-gradient-to-r from-emerald-500 to-green-500 text-white border-emerald-400/50 shadow-lg shadow-emerald-500/30 scale-105'
+                              : 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400/50 shadow-lg shadow-orange-500/30 scale-105'
+                            : 'bg-white/5 text-white/70 border-white/20 hover:text-white hover:bg-white/10 hover:border-orange-400/50 hover:scale-105 hover:shadow-md'
+                        }`}
                         onClick={() => setSelectedStatus(selectedStatus === status ? null : status)}
                       >
                         {status}
@@ -273,13 +306,20 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
 
               {/* Right Column: Technologies Only */}
               <div>
-                <h4 className="text-secondary-default text-sm font-semibold mb-2">Technologies</h4>
-                <div className="flex flex-wrap gap-2 max-h-[150px] overflow-y-auto custom-scrollbar">
+                <h4 className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 text-sm font-bold mb-3 flex items-center gap-2">
+                  <span className="w-1 h-4 bg-gradient-to-b from-blue-400 to-cyan-400 rounded-full"></span>
+                  Technologies
+                </h4>
+                <div className="flex flex-wrap gap-2 max-h-[150px] overflow-y-auto custom-scrollbar pr-2">
                   {technologies.map(tech => (
                     <Badge
                       key={tech}
                       variant={selectedTech === tech ? "default" : "outline"}
-                      className={`cursor-pointer ${selectedTech === tech ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
+                      className={`cursor-pointer transition-all duration-300 ${
+                        selectedTech === tech 
+                          ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-blue-400/50 shadow-lg shadow-blue-500/30 scale-105' 
+                          : 'bg-white/5 text-white/70 border-white/20 hover:text-white hover:bg-white/10 hover:border-blue-400/50 hover:scale-105 hover:shadow-md'
+                      }`}
                       onClick={() => setSelectedTech(selectedTech === tech ? null : tech)}
                     >
                       {tech}
@@ -291,69 +331,98 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
 
             {/* Active Filters - Inside Dropdown */}
             {hasActiveFilters && (
-              <div className="mt-4 pt-4 border-t border-secondary-default/20 flex flex-wrap gap-2 items-center">
-                <span className="text-white/50 text-xs">Active filters:</span>
+              <motion.div 
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-5 pt-4 border-t border-gradient-to-r from-secondary-default/20 via-secondary-default/40 to-secondary-default/20 flex flex-wrap gap-2 items-center"
+              >
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white/70 to-white/50 text-xs font-semibold">Active filters:</span>
                 {selectedCategory && (
-                  <Badge 
-                    className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
                   >
-                    Category: {selectedCategory}
-                    <FiX 
-                      className="cursor-pointer hover:text-secondary-default" 
-                      onClick={() => setSelectedCategory(null)}
-                      size={12}
-                    />
-                  </Badge>
+                    <Badge 
+                      className="bg-gradient-to-r from-emerald-500/20 to-blue-500/20 text-emerald-200 border border-emerald-400/40 flex items-center gap-1.5 hover:from-emerald-500/30 hover:to-blue-500/30 transition-all duration-300 shadow-sm"
+                    >
+                      <span className="text-xs">Category:</span> <span className="font-semibold">{selectedCategory}</span>
+                      <FiX 
+                        className="cursor-pointer hover:text-red-400 transition-colors ml-1" 
+                        onClick={() => setSelectedCategory(null)}
+                        size={14}
+                      />
+                    </Badge>
+                  </motion.div>
                 )}
                 {selectedCompany && (
-                  <Badge 
-                    className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
                   >
-                    Company: {selectedCompany}
-                    <FiX 
-                      className="cursor-pointer hover:text-secondary-default" 
-                      onClick={() => setSelectedCompany(null)}
-                      size={12}
-                    />
-                  </Badge>
+                    <Badge 
+                      className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-200 border border-purple-400/40 flex items-center gap-1.5 hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-300 shadow-sm"
+                    >
+                      <span className="text-xs">Company:</span> <span className="font-semibold">{selectedCompany}</span>
+                      <FiX 
+                        className="cursor-pointer hover:text-red-400 transition-colors ml-1" 
+                        onClick={() => setSelectedCompany(null)}
+                        size={14}
+                      />
+                    </Badge>
+                  </motion.div>
                 )}
                 {selectedStatus && (
-                  <Badge 
-                    className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
                   >
-                    Status: {selectedStatus}
-                    <FiX 
-                      className="cursor-pointer hover:text-secondary-default" 
-                      onClick={() => setSelectedStatus(null)}
-                      size={12}
-                    />
-                  </Badge>
+                    <Badge 
+                      className="bg-gradient-to-r from-orange-500/20 to-amber-500/20 text-orange-200 border border-orange-400/40 flex items-center gap-1.5 hover:from-orange-500/30 hover:to-amber-500/30 transition-all duration-300 shadow-sm"
+                    >
+                      <span className="text-xs">Status:</span> <span className="font-semibold">{selectedStatus}</span>
+                      <FiX 
+                        className="cursor-pointer hover:text-red-400 transition-colors ml-1" 
+                        onClick={() => setSelectedStatus(null)}
+                        size={14}
+                      />
+                    </Badge>
+                  </motion.div>
                 )}
                 {selectedTech && (
-                  <Badge 
-                    className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
                   >
-                    Technology: {selectedTech}
-                    <FiX 
-                      className="cursor-pointer hover:text-secondary-default" 
-                      onClick={() => setSelectedTech(null)}
-                      size={12}
-                    />
-                  </Badge>
+                    <Badge 
+                      className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-200 border border-blue-400/40 flex items-center gap-1.5 hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-300 shadow-sm"
+                    >
+                      <span className="text-xs">Technology:</span> <span className="font-semibold">{selectedTech}</span>
+                      <FiX 
+                        className="cursor-pointer hover:text-red-400 transition-colors ml-1" 
+                        onClick={() => setSelectedTech(null)}
+                        size={14}
+                      />
+                    </Badge>
+                  </motion.div>
                 )}
                 {searchQuery && (
-                  <Badge 
-                    className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
                   >
-                    Search: {searchQuery}
-                    <FiX 
-                      className="cursor-pointer hover:text-secondary-default" 
-                      onClick={() => onSearchChange("")}
-                      size={12}
-                    />
-                  </Badge>
+                    <Badge 
+                      className="bg-gradient-to-r from-secondary-default/20 to-blue-500/20 text-secondary-default border border-secondary-default/40 flex items-center gap-1.5 hover:from-secondary-default/30 hover:to-blue-500/30 transition-all duration-300 shadow-sm"
+                    >
+                      <span className="text-xs">Search:</span> <span className="font-semibold">{searchQuery}</span>
+                      <FiX 
+                        className="cursor-pointer hover:text-red-400 transition-colors ml-1" 
+                        onClick={() => onSearchChange("")}
+                        size={14}
+                      />
+                    </Badge>
+                  </motion.div>
                 )}
-              </div>
+              </motion.div>
             )}
         </motion.div>
       )}

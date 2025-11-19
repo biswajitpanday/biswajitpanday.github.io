@@ -1,0 +1,69 @@
+/**
+ * Standardized badge size classes for consistent styling
+ * across ProjectCard, ProjectTimeline, and ProjectModal
+ *
+ * All badge sizes follow this convention:
+ * - text-xs: Standard badges (Status, Featured, Primary Metric, Category)
+ * - text-[11px]: Smaller badges (Open Source, Recognition)
+ * - text-[10px]: Tiny badges (used sparingly for compact layouts)
+ */
+
+/**
+ * Status badge (Active/Completed)
+ * Size: Standard (text-xs)
+ */
+export const STATUS_BADGE_CLASSES = "text-xs px-3 py-1.5 rounded-full font-medium";
+
+/**
+ * Featured badge
+ * Size: Standard (text-xs)
+ */
+export const FEATURED_BADGE_CLASSES = "text-xs px-2.5 py-1 rounded-md font-semibold";
+
+/**
+ * Open Source badge
+ * Size: Small (text-[11px])
+ */
+export const OPEN_SOURCE_BADGE_CLASSES = "text-[11px] px-2.5 py-1 rounded-md font-semibold";
+
+/**
+ * Recognition/Awards badge
+ * Size: Small (text-[11px])
+ */
+export const RECOGNITION_BADGE_CLASSES = "text-[11px] px-2.5 py-1 rounded-md font-semibold";
+
+/**
+ * Primary Metric badge (on image)
+ * Size: Standard (text-xs)
+ * Note: ProjectCard and Timeline use text-xs px-3 py-1.5
+ */
+export const PRIMARY_METRIC_BADGE_CLASSES = "text-xs px-3 py-1.5 rounded-full font-semibold";
+
+/**
+ * Primary Metric badge for Modal (slightly larger on hero image)
+ * Size: Slightly larger (text-sm px-4 py-2) for prominence
+ */
+export const PRIMARY_METRIC_BADGE_MODAL_CLASSES = "text-sm px-4 py-2 rounded-full font-semibold";
+
+/**
+ * Category badge
+ * Size: Standard (text-xs)
+ */
+export const CATEGORY_BADGE_CLASSES = "text-xs px-3 py-1.5 rounded-lg font-bold uppercase tracking-wide";
+
+/**
+ * Company badge
+ * Size: Standard (text-xs)
+ */
+export const COMPANY_BADGE_CLASSES = "text-xs px-2.5 py-1 rounded-md font-medium";
+
+/**
+ * Key Skills badge
+ * Size: Standard (text-xs for modal, text-xs for cards)
+ */
+export const KEY_SKILLS_BADGE_CLASSES = "text-xs px-2.5 py-0.5 rounded-md font-medium";
+
+/**
+ * Key Skills badge for Modal (slightly larger)
+ */
+export const KEY_SKILLS_BADGE_MODAL_CLASSES = "text-sm px-3 py-1.5 rounded-md font-medium";
