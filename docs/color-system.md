@@ -193,9 +193,10 @@ The following colors should **NOT** be used (except in specific legacy cases):
 ### When to Use Gradients
 
 ✅ **DO Use Gradients:**
-- Page titles (H1) - Brand gradient
+- Page titles (H1) - Brand gradient (`from-[#00BFFF] to-[#0080FF]`)
 - Section titles (H2) - Brand or Featured gradient
-- Featured project titles - Subtle brand gradient
+- Featured project titles - Purple to pink (`from-purple-400 to-pink-400`)
+- Non-featured project titles - Cyan to green (`from-[#00BFFF] to-emerald-400`)
 - Featured badges - Purple to pink
 
 ❌ **DON'T Use Gradients:**
@@ -220,11 +221,13 @@ The following colors should **NOT** be used (except in specific legacy cases):
 - **After Phase 8:** 3 gradients maximum (strategic emphasis)
 
 **Gradient Locations:**
-1. Page title (H1) - if on page
-2. Section title (H2) - if in featured section
-3. Project title - if featured project ONLY
+1. Page title (H1) - Brand gradient (cyan to blue)
+2. Section title (H2) - Brand or Featured gradient
+3. Project titles:
+   - Featured: Purple to pink (special emphasis)
+   - Non-Featured: Cyan to green (brand consistency)
 
-This scarcity makes gradients meaningful and attention-grabbing.
+This controlled usage makes gradients meaningful and creates clear visual hierarchy.
 
 ---
 
@@ -278,14 +281,14 @@ bg-yellow-500/15 border-yellow-500/40 text-yellow-300
 
 ### Project Title - Featured
 ```tsx
-<h3 className="text-xl font-bold bg-gradient-to-r from-[#00BFFF] to-white bg-clip-text text-transparent">
+<h3 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
   {project.title}
 </h3>
 ```
 
-### Project Title - Regular
+### Project Title - Non-Featured
 ```tsx
-<h3 className="text-lg font-bold text-white">
+<h3 className="text-lg font-bold bg-gradient-to-r from-[#00BFFF] to-emerald-400 bg-clip-text text-transparent">
   {project.title}
 </h3>
 ```
@@ -422,13 +425,19 @@ bg-yellow-500/15 border-yellow-500/40 text-yellow-300
 
 ## 📝 Changelog
 
-### November 19, 2025 - Phase 8 Complete
+### November 19, 2025 - Phase 8 Complete + Layout Refinement
 - Established 4-color system (Cyan, Green, Purple, Gray)
 - Removed multi-color gradients from subtitles
 - Consolidated statistics bar to monochrome cyan
 - Simplified category badges to solid colors
 - Added gradient hierarchy (H1 > H2 > Featured titles)
-- Reduced badge count from 11 → 4 per card (-64%)
+- **Updated:** All project titles now have gradients
+  - Featured: Purple to pink (`from-purple-400 to-pink-400`)
+  - Non-Featured: Cyan to green (`from-[#00BFFF] to-emerald-400`)
+- Consolidated all badges into single row with "|" separators
+- Moved filter toolbar below impact metrics for better UX flow
+- Reduced section spacing to py-6 for tighter layout
+- Reduced badge count from 11 → 4-5 per card (-60%)
 - Reduced gradient usage from 7 → 3 per card (-57%)
 
 ---

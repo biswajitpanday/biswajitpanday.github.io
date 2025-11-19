@@ -277,55 +277,60 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                             </div>
                           )}
 
-                           {/* Project Metadata - Restructured for Better Clarity */}
-                           <div className="space-y-2 mb-2">
-                             {/* Row 1: Category (Primary) */}
+                           {/* Project Metadata - Single Consolidated Badge Row */}
+                           <div className="mb-2">
+                             {/* Single Row: All Badges Together */}
                              <div className="flex flex-wrap items-center gap-2">
-                               {/* Category Badge - Large, Prominent with Icon-like styling */}
+                               {/* Category Badge */}
                                <span className={`inline-flex items-center gap-1.5 shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}>
                                  <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
                                  {project.category}
                                </span>
-                             </div>
- 
-                             {/* Row 2: Special Badges (Open Source + Recognition/Awards) */}
-                             {(project.isOpenSource || (project.recognition && project.recognition.filter(r => r.approved !== false).length > 0)) && (
-                               <div className="flex flex-wrap items-center gap-2">
-                                 {/* Open Source Badge - Icon Only */}
-                                 {project.isOpenSource && (
-                                   <span className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help" title="Open Source Project">
-                                     <FaCodeBranch className="text-sm text-green-300" />
+
+                               {/* Separator */}
+                               {(project.isOpenSource || (project.recognition && project.recognition.filter(r => r.approved !== false).length > 0)) && (
+                                 <span className="text-white/30 text-xs">|</span>
+                               )}
+
+                               {/* Open Source Badge - Icon Only */}
+                               {project.isOpenSource && (
+                                 <span className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help" title="Open Source Project">
+                                   <FaCodeBranch className="text-sm text-green-300" />
+                                 </span>
+                               )}
+
+                               {/* Separator */}
+                               {project.isOpenSource && project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
+                                 <span className="text-white/30 text-xs">|</span>
+                               )}
+
+                               {/* Recognition/Awards - Counter with Tooltip */}
+                               {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
+                                 <div className="relative group/awards">
+                                   <span className={`inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help ${RECOGNITION_BADGE_CLASSES}`}>
+                                     <FaTrophy className="text-[10px] text-amber-300" />
+                                     <span>{project.recognition.filter(r => r.approved !== false).length} {project.recognition.filter(r => r.approved !== false).length === 1 ? 'Award' : 'Awards'}</span>
                                    </span>
-                                 )}
 
-                                 {/* Recognition/Awards - Counter with Tooltip */}
-                                 {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
-                                   <div className="relative group/awards">
-                                     <span className={`inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help ${RECOGNITION_BADGE_CLASSES}`}>
-                                       <FaTrophy className="text-[10px] text-amber-300" />
-                                       <span>{project.recognition.filter(r => r.approved !== false).length} {project.recognition.filter(r => r.approved !== false).length === 1 ? 'Award' : 'Awards'}</span>
-                                     </span>
-
-                                     {/* Tooltip on hover */}
-                                     <div className="absolute bottom-full mb-2 left-0 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-white/10 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-10 shadow-xl">
-                                       <div className="space-y-2">
-                                         {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
-                                           <div key={idx} className="flex items-start gap-2">
-                                             <FaTrophy className="text-amber-300 text-xs mt-0.5 flex-shrink-0" />
-                                             <div>
-                                               <div className="text-white text-xs font-semibold">{rec.title}</div>
-                                               {rec.description && (
-                                                 <div className="text-white/70 text-xs mt-0.5">{rec.description}</div>
-                                               )}
-                                             </div>
+                                   {/* Tooltip on hover */}
+                                   <div className="absolute bottom-full mb-2 left-0 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-white/10 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-10 shadow-xl">
+                                     <div className="space-y-2">
+                                       {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
+                                         <div key={idx} className="flex items-start gap-2">
+                                           <FaTrophy className="text-amber-300 text-xs mt-0.5 flex-shrink-0" />
+                                           <div>
+                                             <div className="text-white text-xs font-semibold">{rec.title}</div>
+                                             {rec.description && (
+                                               <div className="text-white/70 text-xs mt-0.5">{rec.description}</div>
+                                             )}
                                            </div>
-                                         ))}
-                                       </div>
+                                         </div>
+                                       ))}
                                      </div>
                                    </div>
-                                 )}
-                               </div>
-                             )}
+                                 </div>
+                               )}
+                             </div>
                            </div>
                         </div>
                         <div className="flex flex-wrap gap-2 items-center justify-end">
