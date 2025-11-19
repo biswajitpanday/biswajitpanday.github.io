@@ -268,73 +268,24 @@ const Projects = () => {
         {viewMode === "grid" && (
           <>
 
-        {/* Featured Projects Section */}
-        {featuredProjects.length > 0 && !searchQuery && (
+        {/* Compact Impact Metrics */}
+        {!searchQuery && (
           <motion.div
             variants={PERFORMANCE_VARIANTS.containerSync}
             initial="hidden"
             animate="visible"
-            className="mt-8 mb-12"
-          >
-            <div className="mb-6">
-              <h2 className="text-xl xl:text-2xl font-bold mb-2 flex items-center gap-2.5 border-l-4 border-purple-500 pl-4 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                <FaRocket className="text-purple-400 text-lg" />
-                <span>Featured Projects</span>
-              </h2>
-              <p className="text-white/70 text-sm pl-4 ml-[4px]">
-                Highlighted projects showcasing AI integration, scalability, and measurable business impact
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {featuredProjects.map((project, index) => (
-                <ProjectCard
-                  key={project.num}
-                  project={project}
-                  index={index}
-                  isExpanded={expandedProjects.has(index)}
-                  onToggleStacks={toggleProjectStacks}
-                  onOpenModal={openProjectModal}
-                  onSkillClick={handleSkillFilter}
-                  selectedSkill={selectedSkill}
-                  className="border-secondary-default/40 shadow-lg shadow-secondary-default/10"
-                />
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        {/* Compact Impact Metrics - Only for Featured Projects */}
-        {featuredProjects.length > 0 && !searchQuery && (
-          <motion.div
-            variants={PERFORMANCE_VARIANTS.containerSync}
-            initial="hidden"
-            animate="visible"
-            className="mt-8 mb-6"
+            className="mt-8 mb-8"
           >
             <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
               <div className="flex flex-wrap items-center justify-center gap-6">
-                {/* Hours Saved */}
-                <div ref={hoursSavedCount.ref} className="flex items-center gap-3">
-                  <div className="p-2 bg-emerald-500/20 rounded-lg">
-                    <FaRocket className="text-emerald-400 text-xl" />
+                {/* Total Projects */}
+                <div ref={totalCount.ref} className="flex items-center gap-3">
+                  <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
+                    <FaCode className="text-[#00BFFF] text-xl" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">{hoursSavedCount.count}</div>
-                    <div className="text-xs text-white/60">Hours Saved/Cycle</div>
-                  </div>
-                </div>
-
-                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-                {/* Clients Served */}
-                <div ref={clientsCount.ref} className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-500/20 rounded-lg">
-                    <FaGlobe className="text-blue-400 text-xl" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default tabular-nums">{clientsCount.count}</div>
-                    <div className="text-xs text-white/60">Enterprise Clients</div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">{totalCount.count}</div>
+                    <div className="text-xs text-white/60">Total Projects</div>
                   </div>
                 </div>
 
@@ -347,25 +298,38 @@ const Projects = () => {
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">{featuredCount.count}</div>
-                    <div className="text-xs text-white/60">Featured Projects</div>
+                    <div className="text-xs text-white/60">Featured</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Hours Saved */}
+                <div ref={hoursSavedCount.ref} className="flex items-center gap-3">
+                  <div className="p-2 bg-emerald-500/20 rounded-lg">
+                    <FaRocket className="text-emerald-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">{hoursSavedCount.count}</div>
+                    <div className="text-xs text-white/60">Hours Saved</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Clients Served */}
+                <div ref={clientsCount.ref} className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-500/20 rounded-lg">
+                    <FaGlobe className="text-blue-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default tabular-nums">{clientsCount.count}</div>
+                    <div className="text-xs text-white/60">Clients</div>
                   </div>
                 </div>
               </div>
             </div>
           </motion.div>
-        )}
-
-        {/* All Projects Heading */}
-        {featuredProjects.length > 0 && !searchQuery && (
-          <div className="mb-6">
-            <h2 className="text-xl xl:text-2xl font-bold mb-2 flex items-center gap-2.5 border-l-4 border-[#00BFFF] pl-4 bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
-              <FaCode className="text-[#00BFFF] text-lg" />
-              <span>All Projects</span>
-            </h2>
-            <p className="text-white/70 text-sm pl-4 ml-[4px]">
-              Complete portfolio of {projects.length} projects across various technologies and domains
-            </p>
-          </div>
         )}
 
         {/* Active Filter Indicator */}

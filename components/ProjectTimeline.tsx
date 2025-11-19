@@ -30,7 +30,6 @@ interface ProjectTimelineProps {
 
 export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTimelineProps) {
   const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set());
-  const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(new Set());
 
   // Toggle project stacks display
   const toggleProjectStacks = (projectNum: number) => {
@@ -41,17 +40,6 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
       newExpanded.add(projectNum);
     }
     setExpandedProjects(newExpanded);
-  };
-
-  // Toggle description expansion
-  const toggleDescription = (projectNum: number) => {
-    const newExpanded = new Set(expandedDescriptions);
-    if (newExpanded.has(projectNum)) {
-      newExpanded.delete(projectNum);
-    } else {
-      newExpanded.add(projectNum);
-    }
-    setExpandedDescriptions(newExpanded);
   };
 
   // Process projects for timeline
@@ -232,18 +220,8 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                       : 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
                   }`}
                 >
-                  {/* Featured Badge */}
-                  {isFeatured && (
-                    <div className="absolute top-2 left-2 z-10">
-                      <div className={`bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white flex items-center gap-1.5 shadow-lg shadow-purple-500/30 ${FEATURED_BADGE_CLASSES}`}>
-                        <FaStar className="text-white text-xs" />
-                        <span>Featured</span>
-                      </div>
-                    </div>
-                  )}
-
                   <div className="flex flex-col md:flex-row gap-4">
-                    {/* Project Image */}
+                    {/* Project Image with Badge Overlay */}
                     <div className="relative w-full md:w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden border border-white/10 bg-gradient-to-br from-secondary-default/10 to-transparent">
                       <Image
                         src={project.thumbImage || project.image}
@@ -252,16 +230,27 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-transform duration-500"
                         sizes="(max-width: 768px) 100vw, 128px"
                       />
+
+                      {/* Badge Overlay - Top Right Corner */}
+                      <div className="absolute top-2 right-2 flex flex-col gap-1.5 items-end">
+                        {/* Featured Badge - Image Overlay */}
+                        {isFeatured && (
+                          <div className={`bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white flex items-center gap-1.5 shadow-lg shadow-purple-500/30 ${FEATURED_BADGE_CLASSES}`}>
+                            <FaStar className="text-white text-xs" />
+                            <span>Featured</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     {/* Project Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
                         <div className="flex-1">
-                          <h3 className={`text-lg font-bold mb-1 group-hover:text-secondary-default transition-colors ${
+                          <h3 className={`text-lg font-bold mb-1 transition-colors duration-300 ${
                             isFeatured
-                              ? 'bg-gradient-to-r from-[#00BFFF] to-white bg-clip-text text-transparent'
-                              : 'text-white'
+                              ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+                              : 'bg-gradient-to-r from-[#00BFFF] to-emerald-400 bg-clip-text text-transparent'
                           }`}>
                             {project.title}
                           </h3>
@@ -392,52 +381,27 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         </div>
                       </div>
 
-                      {/* Description - Expandable */}
-                      <div className="text-white/70 text-sm mb-3">
-                        {!isDescriptionExpanded && project.shortDescription.length > 150 ? (
-                          <>
-                            {project.shortDescription.slice(0, 150)}...{' '}
-                            <button
-                              onClick={() => toggleDescription(project.num)}
-                              className="text-secondary-default hover:text-secondary-default/80 transition-colors font-medium inline underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c] rounded-sm"
-                              aria-label="Expand project description"
-                            >
-                              See more
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            {project.shortDescription}
-                            {isDescriptionExpanded && project.shortDescription.length > 150 && (
-                              <>
-                                {' '}
-                                <button
-                                  onClick={() => toggleDescription(project.num)}
-                                  className="text-secondary-default hover:text-secondary-default/80 transition-colors font-medium inline underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c] rounded-sm"
-                                  aria-label="Collapse project description"
-                                >
-                                  Show less
-                                </button>
-                              </>
-                            )}
-                          </>
-                        )}
-                      </div>
-
-                      {/* Skills Highlighted - Bullet List */}
+                      {/* Skills Highlighted - Minimal Tags */}
                       {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
                         <div className="mb-3">
                           <h4 className="text-xs font-semibold text-secondary-default/80 mb-1.5 uppercase tracking-wide flex items-center gap-1.5">
                             <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
                             Key Skills
                           </h4>
-                          <div className="text-xs text-white/70 leading-relaxed">
-                            {project.skillsHighlighted.map((skill, idx) => (
-                              <span key={idx}>
-                                {idx > 0 && '  •  '}
-                                <span className="text-white/80">{skill}</span>
+                          <div className="flex flex-wrap gap-2">
+                            {project.skillsHighlighted.slice(0, 4).map((skill, idx) => (
+                              <span
+                                key={idx}
+                                className="text-xs px-2.5 py-1 rounded-md bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90 hover:bg-[#00BFFF]/20 transition-colors cursor-default"
+                              >
+                                {skill}
                               </span>
                             ))}
+                            {project.skillsHighlighted.length > 4 && (
+                              <span className="text-xs px-2.5 py-1 text-white/50">
+                                +{project.skillsHighlighted.length - 4} more
+                              </span>
+                            )}
                           </div>
                         </div>
                       )}

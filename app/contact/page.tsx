@@ -259,12 +259,9 @@ const Contact = () => {
           {/* Main Heading */}
           <motion.h1
             variants={PERFORMANCE_VARIANTS.slideUpSync}
-            className="text-3xl xl:text-4xl font-bold text-white mb-6 leading-tight"
+            className="text-3xl xl:text-4xl font-bold mb-6 leading-tight bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent"
           >
-            Get In{" "}
-            <span className="bg-gradient-to-r from-secondary-default via-blue-400 to-secondary-default bg-clip-text text-transparent animate-gradient">
-              Touch
-            </span>
+            Get In Touch
           </motion.h1>
 
           {/* Description */}

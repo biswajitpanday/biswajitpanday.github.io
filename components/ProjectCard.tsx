@@ -48,8 +48,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   onSkillClick,
   selectedSkill
 }) => {
-  const [isDescriptionExpanded, setIsDescriptionExpanded] = React.useState(false);
-
   const displayStacks = isExpanded
     ? project.stacks
     : project.stacks.slice(0, 6);
@@ -82,16 +80,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         transformStyle: 'preserve-3d',
       }}
     >
-      {/* Featured Badge - Top Left Corner - Purple gradient */}
-      {isFeatured && (
-        <div className="absolute top-2 left-2 z-10">
-          <div className={`bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white flex items-center gap-1.5 shadow-lg shadow-purple-500/30 ${FEATURED_BADGE_CLASSES}`}>
-            <FaStar className="text-white text-xs" />
-            <span>Featured</span>
-          </div>
-        </div>
-      )}
-
       {/* Project Image */}
       <div
         data-testid={`project-image-${project.num}`}
@@ -138,8 +126,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         )}
 
-        {/* Status Overlay - Top Right */}
-        <div className="absolute top-2 right-2">
+        {/* Badge Overlay - Top Right Corner */}
+        <div className="absolute top-2 right-2 flex flex-col gap-2 items-end">
+          {/* Featured Badge - Image Overlay */}
+          {isFeatured && (
+            <div className={`bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-sm text-white flex items-center gap-1.5 shadow-lg shadow-purple-500/30 ${FEATURED_BADGE_CLASSES}`}>
+              <FaStar className="text-white text-xs" />
+              <span>Featured</span>
+            </div>
+          )}
+
+          {/* Status Badge */}
           {project.isActive ? (
             <span
               data-testid={`project-status-active-${project.num}`}
@@ -168,14 +165,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
       </div>
 
-      {/* Project Title - Enhanced */}
+      {/* Project Title - Enhanced with Gradients */}
       <div className="mb-3">
         <h3
           data-testid={`project-title-${project.num}`}
-          className={`font-bold group-hover:text-secondary-default transition-colors duration-300 leading-tight ${
+          className={`font-bold transition-colors duration-300 leading-tight ${
             isFeatured
-              ? 'text-xl bg-gradient-to-r from-[#00BFFF] to-white bg-clip-text text-transparent'
-              : 'text-lg text-white'
+              ? 'text-xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+              : 'text-lg bg-gradient-to-r from-[#00BFFF] to-emerald-400 bg-clip-text text-transparent'
           } ${project.subtitle ? 'mb-1.5' : 'mb-2'}`}
         >
           {project.title}
@@ -202,43 +199,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             <span>@ {project.associatedWithCompany}</span>
           </div>
         )}
-      </div>
-
-      {/* Project Description - Clamped to 3 lines with inline expand */}
-      <div className="mb-4">
-        <p
-          data-testid={`project-description-${project.num}`}
-          className="text-white/70 text-sm leading-relaxed"
-        >
-          {!isDescriptionExpanded && project.shortDescription.length > 100 ? (
-            <>
-              {project.shortDescription.slice(0, 100)}...{' '}
-              <button
-                onClick={() => setIsDescriptionExpanded(true)}
-                className="text-secondary-default hover:text-secondary-default/80 transition-colors font-medium inline underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] rounded-sm"
-                aria-label="Expand project description"
-              >
-                See more
-              </button>
-            </>
-          ) : (
-            <>
-              {project.shortDescription}
-              {isDescriptionExpanded && project.shortDescription.length > 100 && (
-                <>
-                  {' '}
-                  <button
-                    onClick={() => setIsDescriptionExpanded(false)}
-                    className="text-secondary-default hover:text-secondary-default/80 transition-colors font-medium inline underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] rounded-sm"
-                    aria-label="Collapse project description"
-                  >
-                    Show less
-                  </button>
-                </>
-              )}
-            </>
-          )}
-        </p>
       </div>
 
       {/* Bottom Section - Fixed layout from bottom: Buttons -> Tech Stack -> Key Skills -> Tags */}
@@ -304,32 +264,36 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           )}
         </div>
 
-        {/* Skills Highlighted - Bullet List */}
+        {/* Skills Highlighted - Minimal Tags */}
         {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
           <div className="mb-3">
             <h4 className="text-xs font-semibold text-secondary-default/80 mb-1.5 uppercase tracking-wide flex items-center gap-1.5">
               <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
               Key Skills
             </h4>
-            <div className="text-xs text-white/70 leading-relaxed">
-              {project.skillsHighlighted.map((skill, idx) => (
-                <span key={idx}>
-                  {idx > 0 && '  •  '}
-                  <button
-                    type="button"
-                    onClick={() => onSkillClick?.(skill)}
-                    className={`transition-colors duration-200 cursor-pointer hover:text-secondary-default focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] rounded-sm ${
-                      selectedSkill?.toLowerCase() === skill.toLowerCase()
-                        ? 'text-secondary-default font-semibold'
-                        : 'text-white/80'
-                    }`}
-                    aria-label={`Filter projects by skill: ${skill}`}
-                    aria-pressed={selectedSkill?.toLowerCase() === skill.toLowerCase()}
-                  >
-                    {skill}
-                  </button>
-                </span>
+
+            <div className="flex flex-wrap gap-2">
+              {project.skillsHighlighted.slice(0, 4).map((skill, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => onSkillClick?.(skill)}
+                  className={`text-xs px-2.5 py-1 rounded-md bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90 hover:bg-[#00BFFF]/20 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00BFFF]/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
+                    selectedSkill?.toLowerCase() === skill.toLowerCase()
+                      ? 'bg-[#00BFFF]/30 border-[#00BFFF]/60 font-semibold'
+                      : ''
+                  }`}
+                  aria-label={`Filter projects by skill: ${skill}`}
+                  aria-pressed={selectedSkill?.toLowerCase() === skill.toLowerCase()}
+                >
+                  {skill}
+                </button>
               ))}
+              {project.skillsHighlighted.length > 4 && (
+                <span className="text-xs px-2.5 py-1 text-white/50">
+                  +{project.skillsHighlighted.length - 4} more
+                </span>
+              )}
             </div>
           </div>
         )}
@@ -354,6 +318,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               </button>
             )}
           </div>
+          {/* Gradient Horizontal Line */}
+          <div className="h-px bg-gradient-to-r from-transparent via-secondary-default/40 to-transparent mb-2"></div>
           <div className="grid grid-cols-2 gap-x-3 gap-y-1">
             {displayStacks.map((stack, stackIndex) => (
               <button

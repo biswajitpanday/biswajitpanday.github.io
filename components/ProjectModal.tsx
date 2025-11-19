@@ -133,10 +133,16 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
               <div className="flex items-center justify-between gap-3 mb-2">
                 {/* Left: Title */}
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-base xl:text-lg font-bold text-white flex items-center gap-2 flex-shrink-0">
+                  <h2 className="text-base xl:text-lg font-bold flex items-center gap-2 flex-shrink-0">
                     <span className="text-secondary-default text-sm">#{project.num}</span>
                     <span className="text-white/30 text-xs">|</span>
-                    <span>{project.title}</span>
+                    <span className={`${
+                      project.isFeatured
+                        ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+                        : 'bg-gradient-to-r from-[#00BFFF] to-emerald-400 bg-clip-text text-transparent'
+                    }`}>
+                      {project.title}
+                    </span>
                   </h2>
                   {/* Subtitle */}
                   {project.subtitle && (
@@ -328,7 +334,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         </div>
                       </div>
 
-                      {/* Key Skills Section - Bullet List */}
+                      {/* Key Skills Section - Minimal Tags */}
                       {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
                         <div>
                           <div className="flex items-center gap-2 mb-3">
@@ -336,10 +342,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                             <h3 className="text-lg font-bold text-white">Key Skills</h3>
                           </div>
                           <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                            <div className="text-sm text-white/70 leading-relaxed">
+                            <div className="flex flex-wrap gap-2">
                               {project.skillsHighlighted.map((skill, idx) => (
-                                <span key={idx} className="text-white/80">
-                                  {idx > 0 && '  •  '}
+                                <span
+                                  key={idx}
+                                  className="text-sm px-3 py-1.5 rounded-md bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90 hover:bg-[#00BFFF]/20 transition-colors cursor-default"
+                                >
                                   {skill}
                                 </span>
                               ))}
