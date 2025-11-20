@@ -2,15 +2,19 @@
  * Standardized badge size classes for consistent styling
  * across ProjectCard, ProjectTimeline, and ProjectModal
  *
- * BADGE STYLING PHILOSOPHY (Phase 8 - Updated 2025-11-19):
+ * BADGE STYLING PHILOSOPHY (Phase 8 - Updated 2025-11-21):
  * - Solid backgrounds (no gradients) for cleaner appearance
  * - Category-specific colors defined in projectConstants.ts
- * - Consistent sizing for visual hierarchy
+ * - Consistent h-7 (28px) height for perfect vertical alignment
+ * - Flexbox centering for reliable cross-browser rendering
  *
- * All badge sizes follow this convention:
- * - text-xs: Standard badges (Status, Featured, Primary Metric, Category)
- * - text-[11px]: Smaller badges (Open Source, Recognition)
- * - text-[10px]: Tiny badges (used sparingly for compact layouts)
+ * BADGE SIZE HIERARCHY:
+ * - text-xs (12px): Standard badges - Status, Primary Metric
+ * - text-[11px]: Compact badges - Category, Open Source, Key Skills
+ * - text-[10px]: Minimal badges - Recognition
+ *
+ * REMOVED IN PHASE 8:
+ * - COMPANY_BADGE_CLASSES (replaced with inline text @ CompanyName)
  */
 
 /**
@@ -61,13 +65,6 @@ export const PRIMARY_METRIC_BADGE_MODAL_CLASSES = "h-8 text-sm px-4 rounded-full
  * Updated: Using flexbox centering instead of padding-y for perfect vertical alignment
  */
 export const CATEGORY_BADGE_CLASSES = "h-7 text-[11px] px-2.5 rounded-lg font-bold uppercase tracking-wide";
-
-/**
- * Company badge
- * Size: Standard (text-xs) with strict h-7 (28px) height
- * Updated: Using flexbox centering instead of padding-y for perfect vertical alignment
- */
-export const COMPANY_BADGE_CLASSES = "h-7 text-xs px-2.5 rounded-md font-medium";
 
 /**
  * Key Skills badge

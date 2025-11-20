@@ -14,7 +14,6 @@ import {
   StatusBadge,
   FeaturedBadge,
   PrimaryMetricBadge,
-  CompanyIcon,
   BadgeSeparator,
   BadgeRow,
   TechStack,
@@ -245,20 +244,20 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
                         <div className="flex-1">
-                          {/* Company Logo/Icon before Title */}
-                          <div className="flex items-center gap-2 mb-1.5">
-                            {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
-                              <CompanyIcon company={project.associatedWithCompany} />
-                            )}
+                          <h3 className={`text-lg font-bold transition-colors duration-300 ${
+                            isFeatured
+                              ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+                              : 'bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent'
+                          }`}>
+                            {project.title}
+                          </h3>
 
-                            <h3 className={`text-lg font-bold transition-colors duration-300 flex-1 ${
-                              isFeatured
-                                ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
-                                : 'bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent'
-                            }`}>
-                              {project.title}
-                            </h3>
-                          </div>
+                          {/* Company as inline text below title */}
+                          {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
+                            <p className="text-xs text-white/50 mt-1 font-medium">
+                              @ {project.associatedWithCompany}
+                            </p>
+                          )}
 
                           {project.subtitle && (
                             <div className="relative mb-2">

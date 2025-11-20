@@ -31,7 +31,7 @@ export function SectionHeader({
   return (
     <div className={`flex items-center gap-2 mb-3 ${className}`}>
       <Icon className="text-secondary-default text-sm" />
-      <h3 className="text-lg font-bold text-white">{title}</h3>
+      <h3 className="text-lg font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">{title}</h3>
     </div>
   );
 }

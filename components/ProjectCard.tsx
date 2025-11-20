@@ -14,7 +14,6 @@ import {
   StatusBadgeIcon,
   FeaturedBadge,
   PrimaryMetricBadge,
-  CompanyIcon,
   BadgeSeparator,
   BadgeRow,
   TechStack,
@@ -122,22 +121,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
       {/* Project Title - Enhanced with Gradients */}
       <div className="mb-3">
-        {/* Company Logo/Icon before Title - with tooltip */}
-        <div className="flex items-center gap-2 mb-1.5">
-          {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
-            <CompanyIcon company={project.associatedWithCompany} />
-          )}
+        <h3
+          data-testid={`project-title-${project.num}`}
+          className={`font-bold transition-colors duration-300 leading-tight ${isFeatured
+            ? 'text-xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+            : 'text-lg bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent'
+            }`}
+        >
+          {project.title}
+        </h3>
 
-          <h3
-            data-testid={`project-title-${project.num}`}
-            className={`font-bold transition-colors duration-300 leading-tight flex-1 ${isFeatured
-              ? 'text-xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
-              : 'text-lg bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent'
-              }`}
-          >
-            {project.title}
-          </h3>
-        </div>
+        {/* Company as inline text below title */}
+        {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
+          <p className="text-xs text-white/50 mt-1 font-medium">
+            @ {project.associatedWithCompany}
+          </p>
+        )}
 
         {project.subtitle && (
           <div className="relative">

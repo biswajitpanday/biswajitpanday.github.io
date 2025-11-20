@@ -358,7 +358,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         <div>
                           <div className="flex items-center gap-2 mb-2">
                             <FaChartLine className="text-secondary-default text-xs" />
-                            <h3 className="text-sm font-bold text-white">Impact & Metrics</h3>
+                            <h3 className="text-sm font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">Impact & Metrics</h3>
                           </div>
                           <div className="origin-top-left">
                             <ProjectPerformanceMetrics metrics={project.metrics} />
@@ -452,7 +452,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
                           <FaInfoCircle className="text-red-400" />
                         </div>
-                        <h3 className="text-xl font-bold text-white">The Problem</h3>
+                        <h3 className="text-xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">The Problem</h3>
                       </div>
                       <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 rounded-xl p-6">
                         <p className="text-white/90 leading-relaxed">{project.caseStudy.problem}</p>
@@ -465,7 +465,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
                           <FaLightbulb className="text-blue-400" />
                         </div>
-                        <h3 className="text-xl font-bold text-white">The Solution</h3>
+                        <h3 className="text-xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">The Solution</h3>
                       </div>
                       <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-6">
                         <p className="text-white/90 leading-relaxed mb-4">{project.caseStudy.solution}</p>
@@ -493,7 +493,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
                           <FaChartLine className="text-green-400" />
                         </div>
-                        <h3 className="text-xl font-bold text-white">The Results</h3>
+                        <h3 className="text-xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">The Results</h3>
                       </div>
                       <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl p-6">
                         <div className="grid grid-cols-1 gap-3">
@@ -520,7 +520,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center">
                           <FiLayers className="text-purple-400" />
                         </div>
-                        <h3 className="text-xl font-bold text-white">Architecture Flow</h3>
+                        <h3 className="text-xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">Architecture Flow</h3>
                       </div>
                       <MermaidDiagram chart={project.caseStudy.architectureDiagram} />
                     </div>
