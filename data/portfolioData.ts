@@ -443,7 +443,7 @@ export const projects: Project[] = [
     isOpenSource: true,
     url: "",
     github: "https://github.com/biswajitpanday/BugBusters",
-    associatedWithCompany: "",
+    associatedWithCompany: "Individual",
     jobRole: "Freelancer",
     startDate: new Date('2023-05-01'),
     endDate: new Date('2023-08-31'),

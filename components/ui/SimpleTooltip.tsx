@@ -37,16 +37,17 @@ export interface SimpleTooltipProps {
   colorScheme?: "default" | "green" | "purple" | "amber" | "red" | "blue";
 
   /**
-   * Maximum width preset
-   * @default "normal"
+   * Maximum width preset (optional - auto by default)
+   * @default undefined (auto-sizing based on content)
    */
-  maxWidth?: "narrow" | "normal" | "wide";
+  maxWidth?: "narrow" | "normal" | "wide" | "auto";
 }
 
 const maxWidthClasses = {
-  narrow: "",
-  normal: "w-64",
-  wide: "w-80",
+  auto: "max-w-xs", // Auto-sizing with reasonable max width (320px)
+  narrow: "max-w-[200px]",
+  normal: "max-w-[256px]",
+  wide: "max-w-[320px]",
 };
 
 const borderColorClasses = {
@@ -78,7 +79,7 @@ export function SimpleTooltip({
   className = "",
   wrapperClassName = "",
   colorScheme = "default",
-  maxWidth = "normal",
+  maxWidth = "auto",
 }: SimpleTooltipProps) {
   // Position classes for different tooltip positions
   const positionClasses = {
@@ -123,14 +124,14 @@ export function SimpleTooltip({
 }
 
 /**
- * Tooltip with custom width for longer content
+ * Tooltip with wider max-width for longer content
  */
 export function WideTooltip(props: Omit<SimpleTooltipProps, "maxWidth">) {
   return <SimpleTooltip {...props} maxWidth="wide" />;
 }
 
 /**
- * Compact tooltip for icon-only badges
+ * Compact tooltip for short content (icon-only badges)
  */
 export function IconTooltip(props: Omit<SimpleTooltipProps, "maxWidth">) {
   return <SimpleTooltip {...props} maxWidth="narrow" />;

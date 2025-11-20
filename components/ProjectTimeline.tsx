@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { FaCalendar, FaCode, FaStar, FaClock, FaGithub, FaRocket, FaBuilding, FaEye } from "react-icons/fa";
 import { projects, Project } from "@/data/portfolioData";
@@ -218,7 +218,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
 
                 {/* Project Card - Matching ProjectCard design */}
                 <div
-                  className={`group relative p-5 rounded-xl border transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:-translate-y-1 ${
+                  className={`group relative p-5 rounded-xl border transition-all duration-500 hover:shadow-2xl ${
                     isFeatured
                       ? 'bg-gradient-to-br from-purple-500/5 via-[#27272c] to-[#2a2a30] border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
                       : 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
@@ -226,7 +226,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                 >
                   <div className="flex flex-col md:flex-row gap-4">
                     {/* Project Image with Badge Overlay */}
-                    <div className="relative w-full md:w-32 h-32 flex-shrink-0">
+                    <div className="relative w-full md:w-32 h-32 flex-shrink-0 group-hover:shadow-2xl transition-all duration-500">
                       <div className="absolute inset-0 rounded-lg overflow-hidden border border-white/10 bg-gradient-to-br from-secondary-default/10 to-transparent">
                         <Image
                           src={project.thumbImage || project.image}
@@ -235,12 +235,10 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                           className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-transform duration-500"
                           sizes="(max-width: 768px) 100vw, 128px"
                         />
+                        {/* Gradient Overlay on Hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-secondary-default/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg" />
                       </div>
 
-                      {/* Badge Overlay - Top Right Corner */}
-                      <div className="absolute top-2 right-2 flex flex-col gap-1.5 items-end z-10">
-                        {isFeatured && <FeaturedBadge variant="icon" />}
-                      </div>
                     </div>
 
                     {/* Project Info */}
@@ -264,7 +262,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
 
                           {project.subtitle && (
                             <div className="relative mb-2">
-                              <p className={`text-sm font-medium text-[#00BFFF] leading-relaxed ${
+                              <p className={`text-sm font-medium text-[#00BFFF]/70 leading-relaxed ${
                                 expandedDescriptions.has(project.num) ? '' : 'line-clamp-2'
                               }`}>
                                 {project.subtitle}
@@ -289,10 +287,11 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                                  <BadgeSeparator />
                                )}
 
-                               {project.isOpenSource && <OpenSourceBadge variant="icon" />}
-
-                               {project.isOpenSource && project.recognition && project.recognition.length > 0 && (
-                                 <BadgeSeparator />
+                               {project.isOpenSource && (
+                                 <>
+                                   <OpenSourceBadge variant="icon" />
+                                   {(project.recognition && project.recognition.length > 0) && <BadgeSeparator />}
+                                 </>
                                )}
 
                                {project.recognition && project.recognition.length > 0 && (
@@ -303,10 +302,18 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         </div>
                         <div className="flex flex-wrap gap-2 items-center justify-end">
                           {primaryMetric && (
-                            <PrimaryMetricBadge metric={primaryMetric} lightMode />
+                            <>
+                              <PrimaryMetricBadge metric={primaryMetric} lightMode />
+                              <BadgeSeparator />
+                            </>
                           )}
 
-                          {primaryMetric && <BadgeSeparator />}
+                          {isFeatured && (
+                            <>
+                              <FeaturedBadge variant="text" />
+                              <BadgeSeparator />
+                            </>
+                          )}
 
                           <StatusBadge
                             isActive={project.isActive}
@@ -344,7 +351,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         {onOpenModal && (
                           <button
                             onClick={() => onOpenModal(project)}
-                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/20 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c]"
+                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/20 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c]"
                           >
                             <FaEye className="text-sm" />
                             <span>View Details</span>
@@ -356,7 +363,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                           <Link
                             href={project.github}
                             target="_blank"
-                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 border border-blue-500/30 hover:border-blue-500/50 text-blue-300 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-[#27272c]"
+                            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 border border-blue-500/30 hover:border-blue-500/50 text-blue-300 px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-[#27272c]"
                           >
                             <FaGithub className="text-sm" />
                             <span>Source</span>
@@ -365,6 +372,9 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                       </div>
                     </div>
                   </div>
+
+                  {/* 3D Depth Effect - Subtle Shadow Layer */}
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-secondary-default/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-10" />
                 </div>
               </motion.div>
             );

@@ -67,7 +67,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       {/* Project Image */}
       <div
         data-testid={`project-image-${project.num}`}
-        className="relative overflow-hidden rounded-lg mb-4 group-hover:shadow-2xl transition-all duration-500 bg-gradient-to-br from-secondary-default/10 to-transparent"
+        className="relative overflow-visible rounded-lg mb-4 group-hover:shadow-2xl transition-all duration-500 bg-gradient-to-br from-secondary-default/10 to-transparent"
         style={{
           transform: 'translateZ(20px)',
         }}
@@ -78,7 +78,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             target="_blank"
             data-testid={`project-image-link-${project.num}`}
           >
-            <div className="relative overflow-hidden rounded-lg">
+            <div className="relative rounded-lg overflow-hidden">
               <Image
                 src={displayImage}
                 alt={`${project.title} project screenshot`}
@@ -108,7 +108,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         )}
 
         {/* Badge Overlay - Top Right Corner - Icons Only with Tooltips */}
-        <div className="absolute top-2 right-2 flex flex-col gap-2 items-end">
+        <div className="absolute top-2 right-2 flex flex-row gap-2 items-center">
           {isFeatured && <FeaturedBadge variant="icon" />}
           <div data-testid={`project-status-${project.isActive ? 'active' : 'inactive'}-${project.num}`}>
             <StatusBadgeIcon
@@ -141,7 +141,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
         {project.subtitle && (
           <div className="relative">
-            <p className={`text-sm font-medium text-[#00BFFF] leading-relaxed ${isExpanded ? '' : 'line-clamp-2'
+            <p className={`text-sm font-medium text-[#00BFFF]/70 leading-relaxed ${isExpanded ? '' : 'line-clamp-2'
               }`}>
               {project.subtitle}
             </p>
@@ -162,7 +162,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Project Metadata - Single Consolidated Badge Row */}
         <div data-testid={`project-badges-${project.num}`}>
           <BadgeRow>
-            <span data-testid={`project-category-badge-${project.num}`}>
+            <span data-testid={`project-category-badge-${project.num}`} className="inline-flex">
               <CategoryBadge category={project.category} />
             </span>
 
@@ -223,7 +223,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <button
           data-testid={`project-details-button-${project.num}`}
           onClick={() => onOpenModal(project)}
-          className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2.5 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/20 text-sm font-medium"
+          className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/20 text-sm font-medium"
         >
           <FaEye className="text-sm" />
           <span>View Details</span>
@@ -235,7 +235,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             href={project.github}
             target="_blank"
             data-testid={`project-github-button-${project.num}`}
-            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 border border-blue-500/30 hover:border-blue-500/50 text-blue-300 px-4 py-2.5 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20 text-sm font-medium"
+            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 border border-blue-500/30 hover:border-blue-500/50 text-blue-300 px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 text-sm font-medium"
           >
             <FaGithub className="text-base" />
             <span>Source</span>

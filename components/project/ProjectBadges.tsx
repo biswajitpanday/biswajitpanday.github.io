@@ -29,14 +29,14 @@ import {
  */
 export function CategoryBadge({ category }: { category: string }) {
   return (
-    <span
-      className={`inline-flex items-center gap-1.5 shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(
+    <div
+      className={`inline-flex items-center justify-center gap-1.5 shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(
         category
       )}`}
     >
-      <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-      {category}
-    </span>
+      <span className="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+      <span className="leading-none">{category}</span>
+    </div>
   );
 }
 
@@ -47,7 +47,7 @@ export function OpenSourceBadge({ variant = "icon" }: { variant?: "icon" | "text
   if (variant === "icon") {
     return (
       <SimpleTooltip content="Open Source Project" position="top" colorScheme="green">
-        <span className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help">
+        <span className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help flex-shrink-0">
           <FaCodeBranch className="text-sm text-green-300" />
         </span>
       </SimpleTooltip>
@@ -55,9 +55,9 @@ export function OpenSourceBadge({ variant = "icon" }: { variant?: "icon" | "text
   }
 
   return (
-    <span className={`inline-flex items-center gap-1.5 bg-green-500/20 border border-green-500/40 text-green-300 ${OPEN_SOURCE_BADGE_CLASSES}`}>
-      <FaCodeBranch className="text-xs" />
-      <span>Open Source</span>
+    <span className={`inline-flex items-center justify-center gap-1.5 bg-green-500/20 border border-green-500/40 text-green-300 ${OPEN_SOURCE_BADGE_CLASSES}`}>
+      <FaCodeBranch className="text-xs flex-shrink-0" />
+      <span className="leading-none">Open Source</span>
     </span>
   );
 }
@@ -76,14 +76,14 @@ export function RecognitionBadge({
   if (count === 0) return null;
 
   return (
-    <div className="relative group/awards">
-      <span className={`inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help ${RECOGNITION_BADGE_CLASSES}`}>
-        <FaTrophy className="text-[10px] text-amber-300" />
-        <span>{count} {count === 1 ? 'Award' : 'Awards'}</span>
+    <div className="relative inline-flex group/awards flex-shrink-0">
+      <span className={`inline-flex items-center justify-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help ${RECOGNITION_BADGE_CLASSES}`}>
+        <FaTrophy className="text-[10px] text-amber-300 flex-shrink-0" />
+        <span className="leading-none">{count} {count === 1 ? 'Award' : 'Awards'}</span>
       </span>
 
       {/* Tooltip on hover */}
-      <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-amber-400/30 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-[150] shadow-xl pointer-events-none">
+      <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-amber-400/30 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-[165] shadow-xl pointer-events-none">
         <div className="space-y-2">
           {approvedRecognitions.map((rec, idx) => (
             <div key={idx} className="flex items-start gap-2">
@@ -114,9 +114,9 @@ export function StatusBadge({
 }) {
   if (isActive) {
     return (
-      <span className={`inline-flex items-center gap-1 bg-green-500/90 text-white ${STATUS_BADGE_CLASSES}`}>
-        <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-        Active
+      <span className={`inline-flex items-center justify-center gap-1 bg-green-500/90 text-white flex-shrink-0 ${STATUS_BADGE_CLASSES}`}>
+        <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse flex-shrink-0" />
+        <span className="leading-none">Active</span>
       </span>
     );
   }
@@ -124,16 +124,16 @@ export function StatusBadge({
   if (inactivationReason) {
     return (
       <WideTooltip content={inactivationReason} position="top" colorScheme="red">
-        <span className={`inline-flex items-center gap-1 bg-red-500/90 text-white cursor-help ${STATUS_BADGE_CLASSES}`}>
-          Completed
+        <span className={`inline-flex items-center justify-center gap-1 bg-red-500/90 text-white cursor-help flex-shrink-0 ${STATUS_BADGE_CLASSES}`}>
+          <span className="leading-none">Completed</span>
         </span>
       </WideTooltip>
     );
   }
 
   return (
-    <span className={`inline-flex items-center gap-1 bg-red-500/90 text-white ${STATUS_BADGE_CLASSES}`}>
-      Completed
+    <span className={`inline-flex items-center justify-center gap-1 bg-red-500/90 text-white flex-shrink-0 ${STATUS_BADGE_CLASSES}`}>
+      <span className="leading-none">Completed</span>
     </span>
   );
 }
@@ -151,8 +151,8 @@ export function StatusBadgeIcon({
   if (isActive) {
     return (
       <SimpleTooltip content="Active Project" position="bottom" colorScheme="green">
-        <div className="bg-green-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center cursor-help">
-          <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
+        <div className="bg-green-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center cursor-help flex-shrink-0">
+          <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse flex-shrink-0" />
         </div>
       </SimpleTooltip>
     );
@@ -164,8 +164,8 @@ export function StatusBadgeIcon({
       position="bottom"
       colorScheme="red"
     >
-      <div className="bg-red-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center cursor-help">
-        <div className="w-2.5 h-2.5 rounded-full bg-white" />
+      <div className="bg-red-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center cursor-help flex-shrink-0">
+        <div className="w-2.5 h-2.5 rounded-full bg-white flex-shrink-0" />
       </div>
     </WideTooltip>
   );
@@ -178,7 +178,7 @@ export function FeaturedBadge({ variant = "icon" }: { variant?: "icon" | "text" 
   if (variant === "icon") {
     return (
       <SimpleTooltip content="Featured Project" position="bottom" colorScheme="purple">
-        <div className="bg-gradient-to-r from-purple-500/95 to-pink-500/95 backdrop-blur-sm text-white w-7 h-7 rounded-md shadow-lg shadow-purple-500/30 flex items-center justify-center cursor-help">
+        <div className="bg-gradient-to-r from-purple-500/95 to-pink-500/95 backdrop-blur-sm text-white w-7 h-7 rounded-md shadow-lg shadow-purple-500/30 flex items-center justify-center cursor-help flex-shrink-0">
           <FaStar className="text-white text-sm" />
         </div>
       </SimpleTooltip>
@@ -186,9 +186,9 @@ export function FeaturedBadge({ variant = "icon" }: { variant?: "icon" | "text" 
   }
 
   return (
-    <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-500/25 to-pink-500/25 border border-purple-500/50 text-purple-200 shadow-sm shadow-purple-500/20 ${FEATURED_BADGE_CLASSES}`}>
-      <FaStar className="text-[10px]" />
-      <span>Featured</span>
+    <span className={`inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-purple-500/25 to-pink-500/25 border border-purple-500/50 text-purple-200 shadow-sm shadow-purple-500/20 flex-shrink-0 ${FEATURED_BADGE_CLASSES}`}>
+      <FaStar className="text-[10px] flex-shrink-0" />
+      <span className="leading-none">Featured</span>
     </span>
   );
 }
@@ -214,9 +214,9 @@ export function PrimaryMetricBadge({
     : getMetricBadgeClasses(metric.label);
 
   return (
-    <span className={`inline-flex items-center gap-2 backdrop-blur-md shadow-lg border flex-shrink-0 ${badgeClasses} ${colorClasses}`}>
-      <metric.icon className={variant === "modal" ? "text-base" : "text-xs"} />
-      <span>{metric.text}</span>
+    <span className={`inline-flex items-center justify-center gap-2 backdrop-blur-md shadow-lg border flex-shrink-0 ${badgeClasses} ${colorClasses}`}>
+      <metric.icon className={`flex-shrink-0 ${variant === "modal" ? "text-base" : "text-xs"}`} />
+      <span className="leading-none">{metric.text}</span>
     </span>
   );
 }
@@ -235,10 +235,10 @@ export function CompanyIcon({ company }: { company: string }) {
           alt={`${company} logo`}
           width={20}
           height={20}
-          className="rounded-sm opacity-80 hover:opacity-100 transition-opacity cursor-help"
+          className="rounded-sm opacity-80 hover:opacity-100 transition-opacity cursor-help flex-shrink-0"
         />
       ) : (
-        <div className="w-5 h-5 rounded-sm bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-400/30 flex items-center justify-center cursor-help">
+        <div className="w-5 h-5 rounded-sm bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-400/30 flex items-center justify-center cursor-help flex-shrink-0">
           {company.toLowerCase().includes('individual') ||
            company.toLowerCase().includes('freelance') ||
            company.toLowerCase().includes('personal') ? (
@@ -254,13 +254,19 @@ export function CompanyIcon({ company }: { company: string }) {
 
 /**
  * Badge Separator - Consistent divider between badges
+ * Height matches badge height (h-7) for perfect alignment
  */
 export function BadgeSeparator() {
-  return <span className="text-white/30 text-xs flex items-center">|</span>;
+  return (
+    <span className="h-7 text-white/30 text-xs inline-flex items-center justify-center flex-shrink-0">
+      <span className="leading-none">|</span>
+    </span>
+  );
 }
 
 /**
  * Badge Row - Consistent container for badge groups
+ * Uses flex with items-center to vertically align all badges consistently
  */
 export function BadgeRow({
   children,
@@ -270,7 +276,7 @@ export function BadgeRow({
   className?: string;
 }) {
   return (
-    <div className={`flex flex-wrap items-center gap-2 ${className}`}>
+    <div className={`flex flex-wrap items-center gap-2 min-h-[28px] ${className}`}>
       {children}
     </div>
   );

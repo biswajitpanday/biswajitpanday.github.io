@@ -10,10 +10,10 @@
  * - Dropdowns/Overlays: 50-99 (dropdowns, popovers)
  * - Header/Navigation: 100-119 (site header, navigation bar)
  * - Toolbars/Filters: 110-119 (filter bars, search toolbars)
- * - Tooltips/Popovers: 120-139 (tooltips, context menus)
  * - Modal Backdrop: 140-149 (modal overlay backgrounds)
  * - Modals/Dialogs: 150-159 (modal content, dialog boxes)
  * - Notifications/Toasts: 160-169 (toast notifications, alerts)
+ * - Tooltips/Popovers: 165 (tooltips must appear above modals)
  * - Emergency: 170+ (critical overlays, loading screens)
  *
  * Usage:
@@ -53,11 +53,6 @@ export const Z_INDEX = {
   TOOLBAR: 110,
 
   /**
-   * Tooltip and context menu layer
-   */
-  TOOLTIP: 150,
-
-  /**
    * Modal backdrop layer (dark overlay behind modals)
    */
   MODAL_BACKDROP: 140,
@@ -71,6 +66,11 @@ export const Z_INDEX = {
    * Notification and toast layer (success/error messages)
    */
   NOTIFICATION: 160,
+
+  /**
+   * Tooltip and context menu layer (must be above modals)
+   */
+  TOOLTIP: 165,
 
   /**
    * Emergency layer (loading screens, critical alerts)
@@ -109,9 +109,9 @@ export const Z_INDEX_CLASSES = {
   DROPDOWN: 'z-50',
   HEADER: 'z-[100]',
   TOOLBAR: 'z-[110]',
-  TOOLTIP: 'z-[150]',
   MODAL_BACKDROP: 'z-[140]',
   MODAL: 'z-[150]',
   NOTIFICATION: 'z-[160]',
+  TOOLTIP: 'z-[165]',
   EMERGENCY: 'z-[170]',
 } as const;
