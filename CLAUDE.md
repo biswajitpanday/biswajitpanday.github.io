@@ -225,10 +225,35 @@ The site includes WebVitals tracking and analytics:
 
 ## Development Guidelines for AI Assistants
 
-### Task Tracking
-- After completing each Phase, Epic, Task, or Subtask, **mark it with completion signs/checkmarks** in relevant documentation
-- Update `docs/todo-content.md` progress tracker when content tasks are completed
-- Update `docs/Todo.md` when technical tasks are completed
+### Task Tracking & Documentation Organization
+
+**Two-File System for Progress Tracking:**
+
+1. **`docs/todo-content.md`** - Active Work Only
+   - Contains ONLY present and future work
+   - Phase 8 (in progress) + Phase 7, 2-5 (planned)
+   - Lean, scannable, focused on "what's next"
+   - Updated continuously as work progresses
+   - Version format: 2.x (active work focus)
+
+2. **`docs/CompletedPhases.md`** - Historical Archive
+   - Contains ALL completed phases with full details
+   - Phase 1, 1.5, 6, 7.5 (all tasks, files, effort, dates)
+   - Preserved for reference and historical record
+   - Updated when phases are completed
+   - Never delete completed work from this file
+
+**When to Move Content:**
+- After completing a Phase/Epic: Move full details from `todo-content.md` → `CompletedPhases.md`
+- Keep only brief summary in `todo-content.md` (e.g., "Phase 1 (15 tasks) ✅ - Brief description")
+- This keeps `todo-content.md` under 500 lines for easy reading
+
+**Marking Tasks Complete:**
+- Use ✅ for completed tasks
+- Use 📝 or ⏳ for pending tasks
+- Use 🚧 for in-progress phases
+- After completing each task, mark it immediately in relevant documentation
+- Update progress percentages and metrics
 
 ### Code Quality & Verification
 **Be a skeptical, senior pair-programmer. Verify before you assert.**
