@@ -6,11 +6,9 @@ import {
   FaGithub,
   FaExternalLinkAlt,
   FaBuilding,
-  FaCodeBranch,
   FaCode,
   FaCheckCircle,
   FaInfoCircle,
-  FaStar,
   FaQuoteLeft,
   FaTrophy,
   FaLightbulb,
@@ -24,17 +22,19 @@ import { Project } from "@/data/portfolioData";
 import { useState, useEffect } from "react";
 import MermaidDiagram from "@/components/MermaidDiagram";
 import ProjectPerformanceMetrics from "@/components/ProjectPerformanceMetrics";
-import { getPrimaryMetric, getMetricBadgeClasses } from "@/utils/projectHelpers";
-import { getCategoryColor } from "@/constants/projectConstants";
+import { getPrimaryMetric } from "@/utils/projectHelpers";
 import {
-  STATUS_BADGE_CLASSES,
-  FEATURED_BADGE_CLASSES,
-  OPEN_SOURCE_BADGE_CLASSES,
-  CATEGORY_BADGE_CLASSES,
-  COMPANY_BADGE_CLASSES,
-  PRIMARY_METRIC_BADGE_MODAL_CLASSES,
-  KEY_SKILLS_BADGE_MODAL_CLASSES,
-} from "@/constants/badgeSizes";
+  CategoryBadge,
+  OpenSourceBadge,
+  StatusBadge,
+  FeaturedBadge,
+  PrimaryMetricBadge,
+  BadgeSeparator,
+  SectionHeader,
+  TechStack,
+  SkillsList,
+  CompanyIcon,
+} from "@/components/project";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -129,79 +129,58 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
           >
             {/* Ultra-Compact Modal Header */}
             <div className="relative px-4 py-3 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/5 via-transparent to-secondary-default/5 flex-shrink-0">
-              {/* Title + Subtitle Section */}
-              <div className="flex items-center justify-between gap-3 mb-2">
-                {/* Left: Title */}
-                <div className="flex-1 min-w-0">
-                  <h2 className="text-base xl:text-lg font-bold flex items-center gap-2 flex-shrink-0">
-                    <span className="text-secondary-default text-sm">#{project.num}</span>
-                    <span className="text-white/30 text-xs">|</span>
-                    <span className={`${
-                      project.isFeatured
-                        ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
-                        : 'bg-gradient-to-r from-[#00BFFF] to-emerald-400 bg-clip-text text-transparent'
-                    }`}>
-                      {project.title}
-                    </span>
-                  </h2>
-                  {/* Subtitle */}
-                  {project.subtitle && (
-                    <p className="text-sm font-medium text-[#00BFFF] leading-relaxed mt-1">
-                      {project.subtitle}
-                    </p>
-                  )}
-                  {/* Company - Inline text below title/subtitle (no badge styling) */}
+              {/* Single Line: Title + Badges + Close */}
+              <div className="flex items-center justify-between gap-3 mb-2 flex-wrap">
+                {/* Left: #num | Company | Title */}
+                <h2 className="text-base xl:text-lg font-bold flex items-center gap-2 flex-shrink-0">
+                  <span className="text-secondary-default text-sm">#{project.num}</span>
+                  
                   {project.associatedWithCompany && (
-                    <div className="text-xs text-white/60 flex items-center gap-1 mt-1.5">
-                      <FaBuilding className="text-[10px]" />
-                      <span>@ {project.associatedWithCompany}</span>
-                    </div>
+                    <>
+                      <span className="text-white/30 text-xs">|</span>
+                      <div className="flex items-center gap-1.5">
+                        <CompanyIcon company={project.associatedWithCompany} />
+                        <span className="text-sm font-medium text-white/80">
+                          {project.associatedWithCompany}
+                        </span>
+                      </div>
+                    </>
                   )}
-                </div>
+                  
+                  <span className="text-white/30 text-xs">|</span>
+                  <span className={`${
+                    project.isFeatured
+                      ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+                      : 'bg-gradient-to-r from-[#00BFFF] to-emerald-400 bg-clip-text text-transparent'
+                  }`}>
+                    {project.title}
+                  </span>
+                </h2>
 
                 {/* Right: Badges + Close Button */}
-                <div className="flex items-center gap-2 flex-wrap justify-end">
-                  {/* Category Badge */}
-                  <span className={`inline-flex items-center gap-1.5 shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}>
-                    <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-                    {project.category}
-                  </span>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <CategoryBadge category={project.category} />
 
-                  {/* Divider */}
-                  <span className="text-white/30 text-xs">|</span>
+                  <BadgeSeparator />
 
-                  {/* Open Source Badge - Icon Only */}
                   {project.isOpenSource && (
                     <>
-                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help" title="Open Source Project">
-                        <FaCodeBranch className="text-sm text-green-300" />
-                      </span>
-                      <span className="text-white/30 text-xs">|</span>
+                      <OpenSourceBadge variant="icon" />
+                      <BadgeSeparator />
                     </>
                   )}
 
-                  {/* Featured Badge */}
                   {project.isFeatured && (
                     <>
-                      <span className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-500/25 to-pink-500/25 border border-purple-500/50 text-purple-200 shadow-sm shadow-purple-500/20 ${FEATURED_BADGE_CLASSES}`}>
-                        <FaStar className="text-[10px]" />
-                        <span>Featured</span>
-                      </span>
-                      <span className="text-white/30 text-xs">|</span>
+                      <FeaturedBadge variant="text" />
+                      <BadgeSeparator />
                     </>
                   )}
 
-                  {/* Status Badge */}
-                  {project.isActive ? (
-                    <span className={`inline-flex items-center gap-1 bg-green-500/90 text-white ${STATUS_BADGE_CLASSES}`}>
-                      <div className="w-1 h-1 rounded-full bg-white animate-pulse" />
-                      Active
-                    </span>
-                  ) : (
-                    <span className={`inline-flex items-center gap-1 bg-red-500/90 text-white ${STATUS_BADGE_CLASSES}`}>
-                      Completed
-                    </span>
-                  )}
+                  <StatusBadge
+                    isActive={project.isActive}
+                    inactivationReason={project.inactivationReason}
+                  />
 
                   {/* Close Button */}
                   <button
@@ -213,6 +192,13 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   </button>
                 </div>
               </div>
+
+              {/* Subtitle - Second Row */}
+              {project.subtitle && (
+                <p className="text-sm font-medium text-[#00BFFF] leading-relaxed mb-2">
+                  {project.subtitle}
+                </p>
+              )}
 
               {/* Tab Buttons Row + Action Buttons */}
               <div className="flex items-center justify-between gap-3 mt-2 pt-2 border-t border-white/5">
@@ -310,10 +296,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   {/* Primary Metric Badge - Bottom Left of Image */}
                   {primaryMetric && (
                     <div className="absolute bottom-3 left-3">
-                      <span className={`inline-flex items-center gap-2 backdrop-blur-md shadow-lg border ${PRIMARY_METRIC_BADGE_MODAL_CLASSES} ${getMetricBadgeClasses(primaryMetric.label)}`}>
-                        <primaryMetric.icon className="text-base" />
-                        <span>{primaryMetric.text}</span>
-                      </span>
+                      <PrimaryMetricBadge metric={primaryMetric} variant="modal" />
                     </div>
                   )}
                 </div>
@@ -323,10 +306,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   <div className="space-y-5">
                       {/* Description Section */}
                       <div>
-                        <div className="flex items-center gap-2 mb-3">
-                          <FaInfoCircle className="text-secondary-default text-sm" />
-                          <h3 className="text-lg font-bold text-white">Project Overview</h3>
-                        </div>
+                        <SectionHeader icon={FaInfoCircle} title="Project Overview" />
                         <div className="bg-white/5 border border-white/10 rounded-xl p-5">
                           <p className="text-white/70 leading-relaxed text-sm">
                             {project.longDescription || project.shortDescription}
@@ -334,13 +314,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         </div>
                       </div>
 
-                      {/* Key Skills Section - Minimal Tags */}
+                      {/* Key Skills Section */}
                       {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
                         <div>
-                          <div className="flex items-center gap-2 mb-3">
-                            <FaCode className="text-secondary-default text-sm" />
-                            <h3 className="text-lg font-bold text-white">Key Skills</h3>
-                          </div>
+                          <SectionHeader icon={FaCode} title="Key Skills" />
                           <div className="bg-white/5 border border-white/10 rounded-xl p-4">
                             <div className="flex flex-wrap gap-2">
                               {project.skillsHighlighted.map((skill, idx) => (
@@ -359,10 +336,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       {/* Responsibilities Section - If exists */}
                       {project.responsibilities && project.responsibilities.length > 0 && (
                         <div>
-                          <div className="flex items-center gap-2 mb-3">
-                            <FaBriefcase className="text-secondary-default text-sm" />
-                            <h3 className="text-lg font-bold text-white">Key Responsibilities & Achievements</h3>
-                          </div>
+                          <SectionHeader icon={FaBriefcase} title="Key Responsibilities & Achievements" />
                           <div className="bg-white/5 border border-white/10 rounded-xl p-4">
                             <ul className="space-y-2.5">
                               {project.responsibilities.map((responsibility, idx) => (
@@ -379,7 +353,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         </div>
                       )}
 
-                      {/* Metrics Display - If exists - Much More Compact */}
+                      {/* Metrics Display - If exists */}
                       {project.metrics && (
                         <div>
                           <div className="flex items-center gap-2 mb-2">
@@ -392,39 +366,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         </div>
                       )}
 
-                      {/* Tech Stack - Matching Timeline Card Style (List Format) */}
-                      <div className="bg-gradient-to-br from-secondary-default/5 via-purple-500/5 to-blue-500/5 rounded-lg p-4 border border-white/10">
-                        <h4 className="text-sm font-semibold text-white mb-3 uppercase tracking-wide flex items-center gap-2">
-                          <FaCode className="text-secondary-default text-sm" />
-                          <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
-                          Technology Stack
-                        </h4>
-                        
-                        {/* Grid List Format - Like Timeline Card */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-1.5">
-                          {[...keyTechnologies, ...otherTechnologies].map((tech, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center gap-2 text-xs text-white/80"
-                            >
-                              <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                                index < keyTechnologies.length 
-                                  ? 'bg-secondary-default' 
-                                  : 'bg-secondary-default/40'
-                              }`}></span>
-                              <span className="truncate">{tech}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                      {/* Tech Stack */}
+                      <TechStack
+                        stacks={project.stacks}
+                        columns={3}
+                        expandable={false}
+                        title="Technology Stack"
+                      />
 
                       {/* Testimonials - If exists and approved */}
                       {project.testimonials && project.testimonials.filter(t => t.approved !== false).length > 0 && (
                         <div>
-                          <div className="flex items-center gap-2 mb-3">
-                            <FaQuoteLeft className="text-secondary-default text-sm" />
-                            <h3 className="text-lg font-bold text-white">Testimonials</h3>
-                          </div>
+                          <SectionHeader icon={FaQuoteLeft} title="Testimonials" />
                           <div className="space-y-3">
                             {project.testimonials.filter(t => t.approved !== false).map((testimonial, idx) => (
                               <div
@@ -470,10 +423,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       {/* Recognition/Awards - If exists and approved */}
                       {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
                         <div>
-                          <div className="flex items-center gap-2 mb-3">
-                            <FaTrophy className="text-secondary-default text-sm" />
-                            <h3 className="text-lg font-bold text-white">Recognition & Awards</h3>
-                          </div>
+                          <SectionHeader icon={FaTrophy} title="Recognition & Awards" />
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
                             {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
                               <div

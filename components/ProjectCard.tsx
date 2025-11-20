@@ -1,34 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CSS_ANIMATIONS } from "@/constants";
-import {
-  FaGithub,
-  FaBuilding,
-  FaCodeBranch,
-  FaExternalLinkAlt,
-  FaTrophy,
-  FaStar,
-  FaUser,
-  FaCode,
-  FaCalendar,
-  FaClock,
-  FaEye,
-} from "react-icons/fa";
+import { FaGithub, FaEye } from "react-icons/fa";
 import type { Project } from "@/data/portfolioData";
-import { getPrimaryMetric, getMetricBadgeClasses } from "@/utils/projectHelpers";
-import { getCategoryColor, getCompanyLogo } from "@/constants/projectConstants";
+import { getPrimaryMetric } from "@/utils/projectHelpers";
 import {
-  STATUS_BADGE_CLASSES,
-  FEATURED_BADGE_CLASSES,
-  OPEN_SOURCE_BADGE_CLASSES,
-  RECOGNITION_BADGE_CLASSES,
-  PRIMARY_METRIC_BADGE_CLASSES,
-  CATEGORY_BADGE_CLASSES,
-  COMPANY_BADGE_CLASSES,
-} from "@/constants/badgeSizes";
+  CategoryBadge,
+  OpenSourceBadge,
+  RecognitionBadge,
+  StatusBadgeIcon,
+  FeaturedBadge,
+  PrimaryMetricBadge,
+  CompanyIcon,
+  BadgeSeparator,
+  BadgeRow,
+  TechStack,
+  ProjectSkills,
+  ProjectTimeline,
+  ProjectRole,
+} from "@/components/project";
 
 interface ProjectCardProps {
   project: Project;
@@ -53,50 +46,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   onSkillClick,
   selectedSkill
 }) => {
-  // Local state for skills expansion
-  const [isSkillsExpanded, setIsSkillsExpanded] = useState(false);
-  
-  const displayStacks = isExpanded
-    ? project.stacks
-    : project.stacks.slice(0, 6);
-  const hasMoreStacks = project.stacks.length > 6;
   const hasGithubLink = project.github && project.github.trim() !== "";
-
-  // Determine which image to use (thumbnail or full image)
   const displayImage = project.thumbImage || project.image;
-
-  // Get stagger animation class based on index
   const staggerClass = index < 5 ? `animate-stagger-${index + 1}` : '';
-
-  // Featured project gets special styling
   const isFeatured = project.isFeatured === true;
-
-  // Get company logo and primary metric using centralized utilities
-  const companyLogo = project.associatedWithCompany ? getCompanyLogo(project.associatedWithCompany) : null;
   const primaryMetric = getPrimaryMetric(project);
-
-  // Calculate duration in months
-  const durationMonths = Math.round(
-    (project.endDate.getTime() - project.startDate.getTime()) / (1000 * 60 * 60 * 24 * 30)
-  );
-
-  // Smart format duration (years + months for 12+ months, otherwise just months)
-  const formatDuration = (months: number) => {
-    if (months >= 12) {
-      const years = Math.floor(months / 12);
-      const remainingMonths = months % 12;
-      if (remainingMonths === 0) {
-        return `${years}y`;
-      }
-      return `${years}y ${remainingMonths}m`;
-    }
-    return `${months} ${months === 1 ? 'month' : 'months'}`;
-  };
-
-  // Format date for display
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
-  };
 
   return (
     <div
@@ -146,59 +100,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           />
         )}
 
-        {/* Primary Metric Badge - Bottom Left of Image - Enhanced visibility */}
+        {/* Primary Metric Badge - Bottom Left of Image */}
         {primaryMetric && (
           <div className="absolute bottom-2 left-2">
-            <span className={`inline-flex items-center gap-1.5 ${PRIMARY_METRIC_BADGE_CLASSES} bg-gray-900/95 backdrop-blur-md shadow-lg border flex-shrink-0 ${getMetricBadgeClasses(primaryMetric.label)}`}>
-              <primaryMetric.icon className="text-xs" />
-              <span>{primaryMetric.text}</span>
-            </span>
+            <PrimaryMetricBadge metric={primaryMetric} />
           </div>
         )}
 
         {/* Badge Overlay - Top Right Corner - Icons Only with Tooltips */}
         <div className="absolute top-2 right-2 flex flex-col gap-2 items-end">
-          {/* Featured Badge - Icon Only */}
-          {isFeatured && (
-            <div className="relative group/featured cursor-help">
-              <div className="bg-gradient-to-r from-purple-500/95 to-pink-500/95 backdrop-blur-sm text-white w-7 h-7 rounded-md shadow-lg shadow-purple-500/30 flex items-center justify-center">
-                <FaStar className="text-white text-sm" />
-              </div>
-              {/* Tooltip */}
-              <div className="absolute right-0 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/featured:opacity-100 group-hover/featured:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-purple-400/30 whitespace-nowrap">
-                Featured Project
-              </div>
-            </div>
-          )}
-
-          {/* Status Badge - Icon Only */}
-          {project.isActive ? (
-            <div className="relative group/active cursor-help">
-              <div
-                data-testid={`project-status-active-${project.num}`}
-                className="bg-green-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center"
-              >
-                <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
-              </div>
-              {/* Tooltip */}
-              <div className="absolute right-0 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/active:opacity-100 group-hover/active:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-green-400/30 whitespace-nowrap">
-                Active Project
-              </div>
-            </div>
-          ) : (
-            <div className="group/status relative cursor-help">
-              <div
-                data-testid={`project-status-inactive-${project.num}`}
-                className="bg-red-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center"
-              >
-                <div className="w-2.5 h-2.5 rounded-full bg-white" />
-              </div>
-              {/* Tooltip */}
-              <div className="absolute right-0 top-full mt-2 w-64 p-3 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/status:opacity-100 group-hover/status:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-red-400/30">
-                {project.inactivationReason || "This project is no longer active"}
-              </div>
-            </div>
-          )}
+          {isFeatured && <FeaturedBadge variant="icon" />}
+          <div data-testid={`project-status-${project.isActive ? 'active' : 'inactive'}-${project.num}`}>
+            <StatusBadgeIcon
+              isActive={project.isActive}
+              inactivationReason={project.inactivationReason}
+            />
+          </div>
         </div>
 
       </div>
@@ -208,31 +125,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Company Logo/Icon before Title - with tooltip */}
         <div className="flex items-center gap-2 mb-1.5">
           {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
-            <div className="relative group/company cursor-help">
-              {companyLogo ? (
-                <Image
-                  src={companyLogo}
-                  alt={`${project.associatedWithCompany} logo`}
-                  width={20}
-                  height={20}
-                  className="rounded-sm opacity-80 group-hover/company:opacity-100 transition-opacity"
-                />
-              ) : (
-                <div className="w-5 h-5 rounded-sm bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-400/30 flex items-center justify-center">
-                  {project.associatedWithCompany.toLowerCase().includes('individual') || 
-                   project.associatedWithCompany.toLowerCase().includes('freelance') || 
-                   project.associatedWithCompany.toLowerCase().includes('personal') ? (
-                    <FaUser className="text-[10px] text-blue-300" />
-                  ) : (
-                    <FaBuilding className="text-[10px] text-blue-300" />
-                  )}
-                </div>
-              )}
-              {/* Company Tooltip */}
-              <div className="absolute left-0 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/company:opacity-100 group-hover/company:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-white/10 whitespace-nowrap pointer-events-none">
-                @ {project.associatedWithCompany}
-              </div>
-            </div>
+            <CompanyIcon company={project.associatedWithCompany} />
           )}
 
           <h3
@@ -267,179 +160,57 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       {/* Bottom Section - Compact layout */}
       <div className="mt-auto space-y-3">
         {/* Project Metadata - Single Consolidated Badge Row */}
-        <div
-          data-testid={`project-badges-${project.num}`}
-        >
-          {/* Single Row: All Badges Together */}
-          <div className="flex flex-wrap items-center gap-2">
-            {/* Category Badge */}
-            <span
-              data-testid={`project-category-badge-${project.num}`}
-              className={`inline-flex items-center gap-1.5 shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(project.category)}`}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-              {project.category}
+        <div data-testid={`project-badges-${project.num}`}>
+          <BadgeRow>
+            <span data-testid={`project-category-badge-${project.num}`}>
+              <CategoryBadge category={project.category} />
             </span>
 
-            {/* Separator */}
-            {(project.isOpenSource || (project.recognition && project.recognition.filter(r => r.approved !== false).length > 0)) && (
-              <span className="text-white/30 text-xs">|</span>
+            {(project.isOpenSource || (project.recognition && project.recognition.length > 0)) && (
+              <BadgeSeparator />
             )}
 
-            {/* Open Source Badge - Icon Only with Enhanced Tooltip */}
             {project.isOpenSource && (
-              <div className="relative group/opensource" >
-                <span
-                  data-testid={`project-opensource-badge-${project.num}`}
-                  className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help"
-                >
-                  <FaCodeBranch className="text-sm text-green-300 " />
-                </span>
-                {/* Enhanced Tooltip */}
-                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-3 py-1.5 bg-gray-900/95 text-white text-xs rounded-md shadow-xl opacity-0 invisible group-hover/opensource:opacity-100 group-hover/opensource:visible transition-all duration-200 z-[150] backdrop-blur-sm border border-green-400/30 whitespace-nowrap">
-                  Open Source Project
-                </div>
-              </div>
+              <span data-testid={`project-opensource-badge-${project.num}`}>
+                <OpenSourceBadge variant="icon" />
+              </span>
             )}
 
-            {/* Separator */}
-            {project.isOpenSource && project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
-              <span className="text-white/30 text-xs">|</span>
+            {project.isOpenSource && project.recognition && project.recognition.length > 0 && (
+              <BadgeSeparator />
             )}
 
-            {/* Recognition/Awards - Counter with Tooltip */}
-            {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
-              <div className="relative group/awards">
-                <span className={`inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help ${RECOGNITION_BADGE_CLASSES}`}>
-                  <FaTrophy className="text-[10px] text-amber-300" />
-                  <span>{project.recognition.filter(r => r.approved !== false).length} {project.recognition.filter(r => r.approved !== false).length === 1 ? 'Award' : 'Awards'}</span>
-                </span>
-
-                {/* Tooltip on hover */}
-                <div className="absolute bottom-full mb-2 left-0 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-white/10 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-[150] shadow-xl">
-                  <div className="space-y-2">
-                    {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
-                      <div key={idx} className="flex items-start gap-2">
-                        <FaTrophy className="text-amber-300 text-xs mt-0.5 flex-shrink-0" />
-                        <div>
-                          <div className="text-white text-xs font-semibold">{rec.title}</div>
-                          {rec.description && (
-                            <div className="text-white/70 text-xs mt-0.5">{rec.description}</div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+            {project.recognition && project.recognition.length > 0 && (
+              <RecognitionBadge recognitions={project.recognition} />
             )}
-          </div>
+          </BadgeRow>
         </div>
 
         {/* Role Info */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
-          <div className="flex items-center gap-1.5 text-white/60">
-            <FaCode className="text-secondary-default" />
-            <span>{project.jobRole}</span>
-          </div>
-        </div>
+        <ProjectRole role={project.jobRole} />
 
         {/* Timeline Info */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
-          <div className="flex items-center gap-1.5 text-white/60">
-            <FaCalendar className="text-blue-400" />
-            <span>{formatDate(project.startDate)} - {formatDate(project.endDate)}</span>
-          </div>
-          <div className="flex items-center gap-1.5 text-white/60">
-            <FaClock className="text-emerald-400" />
-            <span>{formatDuration(durationMonths)}</span>
-          </div>
-        </div>
+        <ProjectTimeline startDate={project.startDate} endDate={project.endDate} />
 
         {/* Skills Highlighted - Expandable Display */}
         {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
-          <div>
-            {/* Centered heading with gradient lines */}
-            <div className="flex items-center gap-2 mb-1.5">
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-secondary-default/40 to-secondary-default/20"></div>
-              <h4 className="text-[10px] font-semibold text-secondary-default/80 uppercase tracking-wide whitespace-nowrap">
-                Key Skills
-              </h4>
-              <div className="flex-1 h-px bg-gradient-to-r from-secondary-default/20 via-secondary-default/40 to-transparent"></div>
-            </div>
-
-            <div className={`flex ${isSkillsExpanded ? 'flex-wrap' : ''} gap-1 items-center ${isSkillsExpanded ? '' : 'overflow-hidden'}`}>
-              {(isSkillsExpanded ? project.skillsHighlighted : project.skillsHighlighted.slice(0, 2)).map((skill, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => onSkillClick?.(skill)}
-                  className={`text-[9px] px-1.5 py-0.5 rounded bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90 hover:bg-[#00BFFF]/20 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#00BFFF]/50 whitespace-nowrap ${selectedSkill?.toLowerCase() === skill.toLowerCase()
-                    ? 'bg-[#00BFFF]/30 border-[#00BFFF]/60 font-semibold'
-                    : ''
-                    }`}
-                  aria-label={`Filter projects by skill: ${skill}`}
-                  aria-pressed={selectedSkill?.toLowerCase() === skill.toLowerCase()}
-                >
-                  {skill}
-                </button>
-              ))}
-              {project.skillsHighlighted.length > 2 && (
-                <button
-                  onClick={() => setIsSkillsExpanded(!isSkillsExpanded)}
-                  className="text-[9px] px-1.5 py-0.5 text-secondary-default/80 hover:text-secondary-default transition-colors font-medium whitespace-nowrap flex-shrink-0 cursor-pointer"
-                >
-                  {isSkillsExpanded ? 'Show less' : `+${project.skillsHighlighted.length - 2} more`}
-                </button>
-              )}
-            </div>
-          </div>
+          <ProjectSkills
+            skills={project.skillsHighlighted}
+            displayMode="expandable"
+            selectedSkill={selectedSkill}
+            onSkillClick={onSkillClick}
+          />
         )}
 
         {/* Tech Stacks - Compact 2-Column List */}
-        <div
-          data-testid={`project-tech-stack-${project.num}`}
-          className="bg-gradient-to-br from-secondary-default/5 via-purple-500/5 to-blue-500/5 rounded-lg p-3 border border-white/10"
-        >
-          <div className="flex items-center justify-between mb-2">
-            <h4 className="text-xs font-semibold text-white/70 uppercase tracking-wide flex items-center gap-1.5">
-              <span className="w-1 h-1 rounded-full bg-secondary-default"></span>
-              Tech Stacks
-            </h4>
-            {hasMoreStacks && (
-              <button
-                data-testid={`project-tech-toggle-${project.num}`}
-                onClick={() => onToggleStacks(index)}
-                className="text-xs text-secondary-default hover:text-secondary-default/80 transition-colors font-medium"
-              >
-                {isExpanded ? "Show less" : `+${project.stacks.length - 6} more`}
-              </button>
-            )}
-          </div>
-          {/* Gradient Horizontal Line */}
-          <div className="h-px bg-gradient-to-r from-transparent via-secondary-default/40 to-transparent mb-2"></div>
-          <div className="grid grid-cols-2 gap-x-3 gap-y-1">
-            {displayStacks.map((stack, stackIndex) => (
-              <button
-                key={stackIndex}
-                type="button"
-                data-testid={`project-tech-${project.num}-${stackIndex}`}
-                onClick={() => onSkillClick?.(stack)}
-                className={`flex items-center gap-1.5 text-xs cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c] rounded-sm ${selectedSkill?.toLowerCase() === stack.toLowerCase()
-                  ? 'text-secondary-default font-bold scale-105'
-                  : 'text-white/80 hover:text-secondary-default/80'
-                  }`}
-                aria-label={`Filter projects by ${stack}`}
-                aria-pressed={selectedSkill?.toLowerCase() === stack.toLowerCase()}
-              >
-                <span className={`w-1 h-1 rounded-full flex-shrink-0 ${selectedSkill?.toLowerCase() === stack.toLowerCase()
-                  ? 'bg-secondary-default'
-                  : 'bg-secondary-default/60'
-                  }`}></span>
-                <span className="truncate">{stack}</span>
-              </button>
-            ))}
-          </div>
+        <div data-testid={`project-tech-stack-${project.num}`}>
+          <TechStack
+            stacks={project.stacks}
+            columns={2}
+            expandable
+            selectedTech={selectedSkill}
+            onTechClick={onSkillClick}
+          />
         </div>
       </div>
 
