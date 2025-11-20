@@ -130,25 +130,25 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             {/* Ultra-Compact Modal Header */}
             <div className="relative px-4 py-3 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/5 via-transparent to-secondary-default/5 flex-shrink-0">
               {/* Single Line: Title + Badges + Close */}
-              <div className="flex items-center justify-between gap-3 mb-2 flex-wrap">
+              <div className="flex items-center justify-between gap-3 mb-2 flex-wrap min-h-[28px]">
                 {/* Left: #num | Company | Title */}
                 <h2 className="text-base xl:text-lg font-bold flex items-center gap-2 flex-shrink-0">
-                  <span className="text-secondary-default text-sm">#{project.num}</span>
+                  <span className="text-secondary-default text-sm leading-none">#{project.num}</span>
                   
                   {project.associatedWithCompany && (
                     <>
-                      <span className="text-white/30 text-xs">|</span>
+                      <span className="text-white/30 text-xs leading-none">|</span>
                       <div className="flex items-center gap-1.5">
                         <CompanyIcon company={project.associatedWithCompany} />
-                        <span className="text-sm font-medium text-white/80">
+                        <span className="text-sm font-medium text-white/80 leading-none">
                           {project.associatedWithCompany}
                         </span>
                       </div>
                     </>
                   )}
                   
-                  <span className="text-white/30 text-xs">|</span>
-                  <span className={`${
+                  <span className="text-white/30 text-xs leading-none">|</span>
+                  <span className={`leading-none ${
                     project.isFeatured
                       ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
                       : 'bg-gradient-to-r from-[#00BFFF] to-emerald-400 bg-clip-text text-transparent'
@@ -185,7 +185,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   {/* Close Button */}
                   <button
                     onClick={onClose}
-                    className="p-1.5 text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg flex-shrink-0 ml-1 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
+                    className="w-7 h-7 flex items-center justify-center text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg flex-shrink-0 ml-1 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
                     aria-label="Close modal"
                   >
                     <FaTimes className="text-sm" />
@@ -201,65 +201,65 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
               )}
 
               {/* Tab Buttons Row + Action Buttons */}
-              <div className="flex items-center justify-between gap-3 mt-2 pt-2 border-t border-white/5">
+              <div className="flex items-center justify-between gap-3 mt-2 pt-2 border-t border-white/5 min-h-[32px]">
                 {/* Left: Tab Buttons */}
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
                   <button
                     onClick={() => setActiveTab("overview")}
-                    className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
+                    className={`h-8 px-3 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
                       activeTab === "overview"
                         ? "bg-secondary-default/20 border border-secondary-default/50 text-secondary-default"
                         : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
                     }`}
                   >
                     <span className="flex items-center gap-1.5">
-                      <FaInfoCircle className="text-xs" />
-                      Overview
+                      <FaInfoCircle className="text-xs flex-shrink-0" />
+                      <span className="leading-none">Overview</span>
                     </span>
                   </button>
                   {hasCaseStudy && (
                     <button
                       onClick={() => setActiveTab("case-study")}
-                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
+                      className={`h-8 px-3 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
                         activeTab === "case-study"
                           ? "bg-purple-500/20 border border-purple-500/50 text-purple-300"
                           : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
                       }`}
                     >
                       <span className="flex items-center gap-1.5">
-                        <FaLightbulb className="text-xs" />
-                        Case Study
+                        <FaLightbulb className="text-xs flex-shrink-0" />
+                        <span className="leading-none">Case Study</span>
                       </span>
                     </button>
                   )}
                   {hasArchitecture && (
                     <button
                       onClick={() => setActiveTab("architecture")}
-                      className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
+                      className={`h-8 px-3 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
                         activeTab === "architecture"
                           ? "bg-cyan-500/20 border border-cyan-500/50 text-cyan-300"
                           : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
                       }`}
                     >
                       <span className="flex items-center gap-1.5">
-                        <FiLayers className="text-xs" />
-                        Architecture
+                        <FiLayers className="text-xs flex-shrink-0" />
+                        <span className="leading-none">Architecture</span>
                       </span>
                     </button>
                   )}
                 </div>
 
                 {/* Right: Action Buttons */}
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
                   {project.url && project.url.trim() !== "" && (
                     <Link
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-3 py-1.5 rounded-md text-xs font-bold hover:shadow-lg hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
+                      className="h-8 flex items-center gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-3 rounded-md text-xs font-bold hover:shadow-lg hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
                     >
-                      <FaExternalLinkAlt className="text-[10px]" />
-                      View Live
+                      <FaExternalLinkAlt className="text-[10px] flex-shrink-0" />
+                      <span className="leading-none">View Live</span>
                     </Link>
                   )}
                   {project.github && project.github.trim() !== "" && (
@@ -267,10 +267,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 bg-gray-800 hover:bg-gray-700 text-white px-3 py-1.5 rounded-md text-xs font-bold transition-all duration-200 border border-white/20 hover:border-secondary-default/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
+                      className="h-8 flex items-center gap-1.5 bg-gray-800 hover:bg-gray-700 text-white px-3 rounded-md text-xs font-bold transition-all duration-200 border border-white/20 hover:border-secondary-default/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
                     >
-                      <FaGithub className="text-[10px]" />
-                      View Code
+                      <FaGithub className="text-[10px] flex-shrink-0" />
+                      <span className="leading-none">View Code</span>
                     </Link>
                   )}
                 </div>
@@ -360,7 +360,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                             <FaChartLine className="text-secondary-default text-xs" />
                             <h3 className="text-sm font-bold text-white">Impact & Metrics</h3>
                           </div>
-                          <div className="scale-90 origin-top-left -ml-2">
+                          <div className="origin-top-left">
                             <ProjectPerformanceMetrics metrics={project.metrics} />
                           </div>
                         </div>
