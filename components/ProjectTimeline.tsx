@@ -242,8 +242,9 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
 
                     {/* Project Info */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                        <div className="flex-1">
+                      {/* Header: Title + Status in One Row */}
+                      <div className="flex items-start justify-between gap-3 mb-2">
+                        <div className="flex-1 min-w-0">
                           <h3 className={`text-lg font-bold transition-colors duration-300 ${
                             isFeatured
                               ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
@@ -254,55 +255,59 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
 
                           {/* Company as inline text below title */}
                           {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
-                            <p className="text-xs text-white/50 mt-1 font-medium">
+                            <p className="text-xs text-white/60 mt-1 font-medium">
                               @ {project.associatedWithCompany}
                             </p>
                           )}
+                        </div>
 
-                          {project.subtitle && (
-                            <div className="relative mb-2">
-                              <p className={`text-sm font-medium text-[#00BFFF]/70 leading-relaxed ${
-                                expandedDescriptions.has(project.num) ? '' : 'line-clamp-2'
-                              }`}>
-                                {project.subtitle}
-                              </p>
-                              {project.subtitle.length > 100 && (
-                                <button
-                                  onClick={() => toggleDescription(project.num)}
-                                  className="text-xs text-secondary-default/80 hover:text-secondary-default transition-colors mt-0.5 font-medium"
-                                >
-                                  {expandedDescriptions.has(project.num) ? 'Show less' : 'See more'}
-                                </button>
-                              )}
-                            </div>
+                        {/* Status Badge - Always visible, right side */}
+                        <div className="flex-shrink-0">
+                          <StatusBadge
+                            isActive={project.isActive}
+                            inactivationReason={project.inactivationReason}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Subtitle */}
+                      {project.subtitle && (
+                        <div className="relative mb-2">
+                          <p className={`text-sm font-medium text-[#00BFFF]/80 leading-relaxed ${
+                            expandedDescriptions.has(project.num) ? '' : 'line-clamp-2'
+                          }`}>
+                            {project.subtitle}
+                          </p>
+                          {project.subtitle.length > 100 && (
+                            <button
+                              onClick={() => toggleDescription(project.num)}
+                              className="text-xs text-secondary-default/80 hover:text-secondary-default transition-colors mt-0.5 font-medium"
+                            >
+                              {expandedDescriptions.has(project.num) ? 'Show less' : 'See more'}
+                            </button>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Compact Badge Row - Category + Features */}
+                      <div className="mb-3">
+                        <BadgeRow>
+                          <CategoryBadge category={project.category} />
+
+                          {(project.isOpenSource || (project.recognition && project.recognition.length > 0) || isFeatured || primaryMetric) && (
+                            <BadgeSeparator />
                           )}
 
-                           {/* Project Metadata - Badge Row */}
-                           <div className="mb-2">
-                             <BadgeRow>
-                               <CategoryBadge category={project.category} />
-
-                               {(project.isOpenSource || (project.recognition && project.recognition.length > 0)) && (
-                                 <BadgeSeparator />
-                               )}
-
-                               {project.isOpenSource && (
-                                 <>
-                                   <OpenSourceBadge variant="icon" />
-                                   {(project.recognition && project.recognition.length > 0) && <BadgeSeparator />}
-                                 </>
-                               )}
-
-                               {project.recognition && project.recognition.length > 0 && (
-                                 <RecognitionBadge recognitions={project.recognition} />
-                               )}
-                             </BadgeRow>
-                           </div>
-                        </div>
-                        <div className="flex flex-wrap gap-2 items-center justify-end">
-                          {primaryMetric && (
+                          {project.isOpenSource && (
                             <>
-                              <PrimaryMetricBadge metric={primaryMetric} lightMode />
+                              <OpenSourceBadge variant="icon" />
+                              <BadgeSeparator />
+                            </>
+                          )}
+
+                          {project.recognition && project.recognition.length > 0 && (
+                            <>
+                              <RecognitionBadge recognitions={project.recognition} />
                               <BadgeSeparator />
                             </>
                           )}
@@ -314,11 +319,10 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                             </>
                           )}
 
-                          <StatusBadge
-                            isActive={project.isActive}
-                            inactivationReason={project.inactivationReason}
-                          />
-                        </div>
+                          {primaryMetric && (
+                            <PrimaryMetricBadge metric={primaryMetric} lightMode />
+                          )}
+                        </BadgeRow>
                       </div>
 
                       {/* Role Info */}

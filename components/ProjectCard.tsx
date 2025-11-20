@@ -131,16 +131,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {project.title}
         </h3>
 
-        {/* Company as inline text below title */}
+        {/* Company as inline text below title - improved contrast */}
         {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
-          <p className="text-xs text-white/50 mt-1 font-medium">
+          <p className="text-xs text-white/60 mt-1 font-medium">
             @ {project.associatedWithCompany}
           </p>
         )}
 
         {project.subtitle && (
           <div className="relative">
-            <p className={`text-sm font-medium text-[#00BFFF]/70 leading-relaxed ${isExpanded ? '' : 'line-clamp-2'
+            <p className={`text-sm font-medium text-[#00BFFF]/80 leading-relaxed ${isExpanded ? '' : 'line-clamp-2'
               }`}>
               {project.subtitle}
             </p>
