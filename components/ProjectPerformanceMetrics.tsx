@@ -135,10 +135,10 @@ export default function ProjectPerformanceMetrics({ metrics }: ProjectPerformanc
   };
 
   return (
-    <div className="space-y-6">
-      {/* Main Metrics Grid */}
+    <div className="space-y-4">
+      {/* Main Metrics Grid - More compact layout */}
       {visualizations.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
           {visualizations.map((viz, index) => (
             <motion.div
               key={index}
@@ -147,41 +147,37 @@ export default function ProjectPerformanceMetrics({ metrics }: ProjectPerformanc
               transition={{ delay: index * 0.05 }}
               className={`bg-gradient-to-br ${
                 colorClasses[viz.color as keyof typeof colorClasses] || colorClasses.secondary
-              } border rounded-lg p-3 relative overflow-hidden`}
+              } border rounded-lg p-2.5 relative overflow-hidden`}
             >
               {/* Background Glow Effect */}
-              <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full blur-2xl" />
+              <div className="absolute top-0 right-0 w-16 h-16 bg-white/5 rounded-full blur-2xl" />
 
               <div className="relative z-10">
                 {/* Header */}
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="p-1.5 bg-white/10 rounded-md text-xs">
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <div className="p-1 bg-white/10 rounded text-[10px]">
                     {viz.icon}
                   </div>
-                  <h4 className="font-semibold text-xs">{viz.label}</h4>
+                  <h4 className="font-semibold text-[10px] leading-tight">{viz.label}</h4>
                 </div>
 
                 {/* Value Display */}
-                <div className="mb-2">
-                  <p className="text-2xl font-bold mb-0.5">{viz.value}</p>
+                <div className="mb-1.5">
+                  <p className="text-xl font-bold leading-none mb-1">{viz.value}</p>
                   {viz.improvement && (
-                    <div className="flex items-center gap-2">
-                      <FaArrowUp className="text-green-400" />
-                      <span className="text-sm text-white/80">
+                    <div className="flex items-center gap-1">
+                      <FaArrowUp className="text-green-400 text-[10px]" />
+                      <span className="text-[10px] text-white/80">
                         {viz.improvement}% improvement
                       </span>
                     </div>
                   )}
                 </div>
 
-                {/* Before/After Comparison */}
+                {/* Before/After Comparison - More compact */}
                 {viz.improvement && viz.before && viz.after && (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-white/60">{viz.before}</span>
-                      <span className="text-white/60">{viz.after}</span>
-                    </div>
-                    <div className="relative h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="space-y-1">
+                    <div className="relative h-1.5 bg-white/10 rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: "100%" }}
                         animate={{ width: `${100 - viz.improvement}%` }}
@@ -195,7 +191,7 @@ export default function ProjectPerformanceMetrics({ metrics }: ProjectPerformanc
                         className="absolute right-0 h-full bg-gradient-to-r from-emerald-500 to-green-500"
                       />
                     </div>
-                    <div className="flex items-center justify-between text-xs font-semibold">
+                    <div className="flex items-center justify-between text-[9px] font-medium">
                       <span className="text-red-400">Before: 100%</span>
                       <span className="text-emerald-400">After: {100 - viz.improvement}%</span>
                     </div>
@@ -204,7 +200,7 @@ export default function ProjectPerformanceMetrics({ metrics }: ProjectPerformanc
 
                 {/* Progress Bar for non-improvement metrics */}
                 {!viz.improvement && viz.type === "percentage" && (
-                  <div className="relative h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="relative h-1.5 bg-white/10 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: "0%" }}
                       animate={{ width: viz.value }}
@@ -219,23 +215,23 @@ export default function ProjectPerformanceMetrics({ metrics }: ProjectPerformanc
         </div>
       )}
 
-      {/* Other Metrics */}
+      {/* Other Metrics - More compact */}
       {metrics.other && metrics.other.length > 0 && (
         <div>
-          <h4 className="text-white font-semibold mb-3 text-sm">Additional Achievements</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <h4 className="text-white font-semibold mb-2 text-xs">Additional Achievements</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             {metrics.other.map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: visualizations.length * 0.05 + index * 0.05 }}
-                className="flex items-start gap-3 bg-white/5 border border-white/10 rounded-lg p-3 hover:bg-white/10 transition-colors"
+                className="flex items-start gap-2 bg-white/5 border border-white/10 rounded-lg p-2 hover:bg-white/10 transition-colors"
               >
-                <div className="w-6 h-6 rounded-full bg-secondary-default/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <FaChartLine className="text-secondary-default text-xs" />
+                <div className="w-4 h-4 rounded-full bg-secondary-default/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <FaChartLine className="text-secondary-default text-[8px]" />
                 </div>
-                <p className="text-white/90 text-sm leading-relaxed flex-1">{item}</p>
+                <p className="text-white/90 text-xs leading-relaxed flex-1">{item}</p>
               </motion.div>
             ))}
           </div>

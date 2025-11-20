@@ -66,36 +66,38 @@ export function getPrimaryMetric(project: Project): PrimaryMetric | null {
 
 /**
  * Gets Tailwind CSS classes for metric badge styling based on label
+ * Updated: Reduced transparency for better visibility on all backgrounds
  *
  * @param label - Metric label type
  * @returns Tailwind CSS class string for badge styling
  */
 export function getMetricBadgeClasses(label: string): string {
   const metricColors: Record<string, string> = {
-    "Efficiency": "bg-gradient-to-r from-emerald-500/50 to-green-500/50 border-emerald-400/60 text-white",
-    "Impact": "bg-gradient-to-r from-blue-500/50 to-cyan-500/50 border-blue-400/60 text-white",
-    "Downloads": "bg-gradient-to-r from-blue-500/50 to-cyan-500/50 border-blue-400/60 text-white",
-    "Performance": "bg-gradient-to-r from-purple-500/50 to-pink-500/50 border-purple-400/60 text-white",
-    "Cost Savings": "bg-gradient-to-r from-orange-500/50 to-amber-500/50 border-orange-400/60 text-white",
+    "Efficiency": "bg-gradient-to-r from-emerald-500/90 to-green-500/90 border-emerald-400/80 text-white",
+    "Impact": "bg-gradient-to-r from-blue-500/90 to-cyan-500/90 border-blue-400/80 text-white",
+    "Downloads": "bg-gradient-to-r from-blue-500/90 to-cyan-500/90 border-blue-400/80 text-white",
+    "Performance": "bg-gradient-to-r from-purple-500/90 to-pink-500/90 border-purple-400/80 text-white",
+    "Cost Savings": "bg-gradient-to-r from-orange-500/90 to-amber-500/90 border-orange-400/80 text-white",
   };
 
-  return metricColors[label] || "bg-gradient-to-r from-secondary-default/50 to-blue-500/50 border-secondary-default/60 text-white";
+  return metricColors[label] || "bg-gradient-to-r from-secondary-default/90 to-blue-500/90 border-secondary-default/80 text-white";
 }
 
 /**
  * Gets lighter version of metric badge classes for Timeline view
+ * Updated: Reduced transparency for better visibility on lighter backgrounds
  *
  * @param label - Metric label type
  * @returns Tailwind CSS class string for lighter badge styling
  */
 export function getMetricBadgeClassesLight(label: string): string {
   const metricColors: Record<string, string> = {
-    "Efficiency": "bg-gradient-to-r from-emerald-500/20 to-green-500/20 border-emerald-400/50 text-emerald-200",
-    "Impact": "bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-blue-400/50 text-blue-200",
-    "Downloads": "bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-blue-400/50 text-blue-200",
-    "Performance": "bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-400/50 text-purple-200",
-    "Cost Savings": "bg-gradient-to-r from-orange-500/20 to-amber-500/20 border-orange-400/50 text-orange-200",
+    "Efficiency": "bg-gradient-to-r from-emerald-500/60 to-green-500/60 border-emerald-400/70 text-white",
+    "Impact": "bg-gradient-to-r from-blue-500/60 to-cyan-500/60 border-blue-400/70 text-white",
+    "Downloads": "bg-gradient-to-r from-blue-500/60 to-cyan-500/60 border-blue-400/70 text-white",
+    "Performance": "bg-gradient-to-r from-purple-500/60 to-pink-500/60 border-purple-400/70 text-white",
+    "Cost Savings": "bg-gradient-to-r from-orange-500/60 to-amber-500/60 border-orange-400/70 text-white",
   };
 
-  return metricColors[label] || "bg-gradient-to-r from-secondary-default/20 to-blue-500/20 border-secondary-default/50 text-secondary-default";
+  return metricColors[label] || "bg-gradient-to-r from-secondary-default/60 to-blue-500/60 border-secondary-default/70 text-white";
 }

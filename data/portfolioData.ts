@@ -215,8 +215,8 @@ export const projects: Project[] = [
     ],
     metrics: {
       efficiency: "80% time reduction (40hrs → 8hrs)",
-      users: "20+ enterprise clients",
-      performance: "32+ hours saved per upgrade",
+      users: "25+ enterprise clients",
+      performance: "24+ hours saved per upgrade",
       other: [
         "90%+ test coverage",
         "30.3% codebase reduction",
