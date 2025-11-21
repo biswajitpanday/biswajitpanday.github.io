@@ -26,9 +26,9 @@ interface FlatSkill {
 }
 
 const levelColors = {
-  Expert: "from-emerald-500/20 to-green-500/20 border-emerald-500/40 text-emerald-300",
-  Advanced: "from-blue-500/20 to-cyan-500/20 border-blue-500/40 text-blue-300",
-  Intermediate: "from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-300",
+  Expert: "from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-300",
+  Advanced: "from-emerald-500/20 to-green-500/20 border-emerald-500/40 text-emerald-300",
+  Intermediate: "from-blue-500/20 to-cyan-500/20 border-blue-500/40 text-blue-300",
   Familiar: "from-gray-500/20 to-slate-500/20 border-gray-500/40 text-gray-300",
 };
 
@@ -154,39 +154,39 @@ export default function TechStackVisualization() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-gradient-to-br from-emerald-500/10 to-green-500/10 border border-emerald-500/30 rounded-xl p-4"
+          className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4"
         >
           <div className="flex items-center gap-2 mb-2">
-            <FaStar className="text-emerald-400" />
+            <FaStar className="text-purple-400" />
             <p className="text-xs text-white/60 font-medium">Expert</p>
           </div>
-          <p className="text-2xl font-bold text-emerald-300">{stats.expert}</p>
+          <p className="text-2xl font-bold text-purple-300">{stats.expert}</p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-4"
+          className="bg-gradient-to-br from-emerald-500/10 to-green-500/10 border border-emerald-500/30 rounded-xl p-4"
         >
           <div className="flex items-center gap-2 mb-2">
-            <FaStar className="text-blue-400" />
+            <FaStar className="text-emerald-400" />
             <p className="text-xs text-white/60 font-medium">Advanced</p>
           </div>
-          <p className="text-2xl font-bold text-blue-300">{stats.advanced}</p>
+          <p className="text-2xl font-bold text-emerald-300">{stats.advanced}</p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4"
+          className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-4"
         >
           <div className="flex items-center gap-2 mb-2">
-            <FaStar className="text-purple-400" />
+            <FaStar className="text-blue-400" />
             <p className="text-xs text-white/60 font-medium">Intermediate</p>
           </div>
-          <p className="text-2xl font-bold text-purple-300">{stats.intermediate}</p>
+          <p className="text-2xl font-bold text-blue-300">{stats.intermediate}</p>
         </motion.div>
 
         <motion.div

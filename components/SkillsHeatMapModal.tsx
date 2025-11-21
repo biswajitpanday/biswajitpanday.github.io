@@ -19,16 +19,16 @@ interface SkillNode {
 
 // Updated level to color mapping with glassmorphism theme
 const levelToColor = {
-  'Expert': 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/30 border-emerald-500/50 backdrop-blur-sm',
-  'Advanced': 'bg-gradient-to-br from-blue-500/20 to-blue-600/30 border-blue-500/50 backdrop-blur-sm',
-  'Intermediate': 'bg-gradient-to-br from-purple-500/20 to-purple-600/30 border-purple-500/50 backdrop-blur-sm',
+  'Expert': 'bg-gradient-to-br from-purple-500/20 to-purple-600/30 border-purple-500/50 backdrop-blur-sm',
+  'Advanced': 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/30 border-emerald-500/50 backdrop-blur-sm',
+  'Intermediate': 'bg-gradient-to-br from-blue-500/20 to-blue-600/30 border-blue-500/50 backdrop-blur-sm',
   'Familiar': 'bg-gradient-to-br from-slate-500/20 to-slate-600/30 border-slate-500/50 backdrop-blur-sm',
 };
 
 const levelToTextColor = {
-  'Expert': 'text-emerald-400',
-  'Advanced': 'text-blue-400',
-  'Intermediate': 'text-purple-400', // Changed from amber
+  'Expert': 'text-purple-400',
+  'Advanced': 'text-emerald-400',
+  'Intermediate': 'text-blue-400',
   'Familiar': 'text-slate-400',
 };
 
@@ -181,7 +181,7 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                 onClick={() => toggleLevel('Expert')}
                 className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
               >
-                <div className="relative w-5 h-5 bg-emerald-500/90 border border-emerald-500 rounded flex items-center justify-center">
+                <div className="relative w-5 h-5 bg-purple-500/90 border border-purple-500 rounded flex items-center justify-center">
                   {selectedLevels.has('Expert') && (
                     <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -197,7 +197,7 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                 onClick={() => toggleLevel('Advanced')}
                 className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
               >
-                <div className="relative w-5 h-5 bg-blue-500/90 border border-blue-500 rounded flex items-center justify-center">
+                <div className="relative w-5 h-5 bg-emerald-500/90 border border-emerald-500 rounded flex items-center justify-center">
                   {selectedLevels.has('Advanced') && (
                     <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -213,7 +213,7 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                 onClick={() => toggleLevel('Intermediate')}
                 className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
               >
-                <div className="relative w-5 h-5 bg-purple-500/90 border border-purple-500 rounded flex items-center justify-center">
+                <div className="relative w-5 h-5 bg-blue-500/90 border border-blue-500 rounded flex items-center justify-center">
                   {selectedLevels.has('Intermediate') && (
                     <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />

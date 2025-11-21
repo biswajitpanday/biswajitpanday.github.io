@@ -1,10 +1,10 @@
 # Portfolio Content Improvement Plan
 
-**Version:** 2.2 (Active Work Only)
+**Version:** 2.3 (Active Work Only)
 **Created:** 2025-11-13
 **Last Updated:** 2025-11-21
 **Type:** Content Strategy & Copywriting
-**Current Focus:** ✅ Phase 9 - Design System Migration (COMPLETE!)
+**Current Focus:** 🚧 Phase 10 - Deep Design Synchronization
 
 > **Note:** For completed phases (Phase 1, 1.5, 6, 7.5, 8) see `CompletedPhases.md`
 
@@ -14,12 +14,12 @@
 
 | Metric | Score | Status |
 |--------|-------|--------|
-| **Overall Site Score** | 96/100 | A+ Grade (Top 5%) |
+| **Overall Site Score** | 97/100 | A+ Grade (Top 5%) |
 | **Content Quality** | 95/100 | ✅ Excellent |
 | **SEO Score** | 98/100 | ✅ Excellent |
 | **UI/UX Score** | 97/100 | ✅ Excellent (Design System Applied) |
 | **Design System** | 100% | ✅ All 5 pages migrated |
-| **Current Phase** | Phase 9 | ✅ 100% COMPLETE 🎉 |
+| **Current Phase** | Phase 10 | 🚧 Deep Design Synchronization |
 
 ---
 
@@ -34,7 +34,7 @@
 - **Phase 8** (21 tasks) ✅ - UI/UX Refinement (Badge reduction, gradients, 4-color system)
 - **Phase 9** (5 pages) ✅ - Design System Migration (All pages match Project Page design)
 
-**Total Completed:** 66 tasks | **Effort:** ~120 hours
+**Total Completed:** 67 tasks | **Effort:** ~121 hours
 
 ---
 
@@ -317,6 +317,95 @@ Use the Project Page as the **master design reference** and apply the same desig
 
 ---
 
+## 🚧 PHASE 10: DEEP DESIGN SYNCHRONIZATION (IN PROGRESS)
+
+**Status:** 🚧 In Progress
+**Timeline:** 1-2 sessions (~9-10 hours)
+**Priority:** 🔴 Critical - Complete Design Consistency
+**Effort:** Estimated 9-10 hours
+**Target:** Synchronize all pages with Project Page (master design)
+
+### Purpose
+After Phase 9's initial migration, deeper analysis revealed significant design inconsistencies between the Project Page (master design) and other pages. Phase 10 addresses these differences in stats, toolbars, search, filters, and view toggles.
+
+### Key Differences Found
+
+| Element | Project Page (Master) | Other Pages |
+|---------|----------------------|-------------|
+| **Stats Container** | Custom inline with icon boxes, dividers, animated counters | StatsCards component (different styling) |
+| **Unified Toolbar** | View toggle + Search + Filter in single toolbar | Missing or separate components |
+| **View Toggle Size** | `px-4 py-2 text-xs` compact | `px-6 py-3 text-sm` (50% larger) |
+| **Search Input** | `h-9` compact, in toolbar | Separate, larger sizes |
+
+### Tasks
+
+#### ✅ Task 10.1: Proficiency Color Rotation
+**Status:** ✅ Complete
+**Effort:** 30 min
+
+Rotated proficiency colors in Skills page components:
+- **Expert:** Emerald → Purple
+- **Advanced:** Blue → Emerald
+- **Intermediate:** Purple → Blue
+- **Familiar:** Slate (unchanged)
+
+**Files Updated:**
+- `components/SkillProficiencySummary.tsx`
+- `components/SkillsHeatMapModal.tsx`
+- `components/TechStackVisualization.tsx`
+- `components/SkillsHeatMap.tsx`
+
+#### 📝 Task 10.2: Stats Component Redesign (Priority 1)
+**Status:** 📝 Planned
+**Effort:** 3-4 hours
+
+Redesign StatsCards to match Project Page:
+1. Add icon boxes: `p-2 bg-[color]/20 rounded-lg`
+2. Add vertical dividers: `w-px h-10 bg-white/10`
+3. Add `useCountUp` hook for animated numbers
+4. Update container: `bg-gradient-to-br from-gray-900/50 to-gray-950/50`
+
+**Affected Pages:** Career, Certifications, Skills, Contact
+
+#### 📝 Task 10.3: Create Unified Toolbar Component (Priority 2)
+**Status:** 📝 Planned
+**Effort:** 2 hours
+
+Create reusable toolbar component with:
+1. View toggle buttons (Grid/Timeline/Tree)
+2. Search input (integrated)
+3. Filter dropdown (optional)
+4. Consistent sizing: `text-xs h-9 px-4 py-2`
+
+#### 📝 Task 10.4: Apply Toolbar to Skills Page
+**Status:** 📝 Planned
+**Effort:** 1 hour
+
+- Wrap view toggle in toolbar container
+- Standardize button sizes to match Project Page
+- Integrate search into toolbar
+
+#### 📝 Task 10.5: Apply Toolbar to Certifications Page
+**Status:** 📝 Planned
+**Effort:** 1.5 hours
+
+- Convert Tabs to toolbar pattern
+- Add search functionality
+- Consistent filter styling
+
+#### 📝 Task 10.6: Header Subtitle Enhancement
+**Status:** 📝 Planned
+**Effort:** 1 hour
+
+Add animated count to subtitle (like Project Page):
+```tsx
+<span className="text-lg font-bold bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-400 bg-clip-text text-transparent">
+  {count}
+</span>
+```
+
+---
+
 ## 🎯 PHASE 7: TOP 0.001% IMPROVEMENTS (Next Priority)
 
 **Status:** 📝 Ready to Start (after Phase 8)
@@ -382,24 +471,14 @@ Use the Project Page as the **master design reference** and apply the same desig
 
 ## 🎯 Next Steps
 
-### ✅ Phase 8 COMPLETED (All 18 tasks done!)
-1. ✅ All Implementation Tasks Complete:
-   - ✅ 8.1.2: ShortDescription strategy (DONE)
-   - ✅ 8.1.3: Company inline text (DONE)
-   - ✅ 8.1.7: Apply to all views (DONE)
-   - ✅ 8.2.1: H1 gradients (DONE)
-   - ✅ 8.2.2: H2 gradients (DONE)
-   - ✅ 8.3.1: Simplify category badge (DONE)
-   - ✅ 8.3.2: Update badge constants (DONE)
-   - ✅ 8.4.1: Color system docs (DONE)
-   - ✅ 8.4.2: Color audit (DONE) ✨
+### 🚧 Phase 10 IN PROGRESS
+1. ✅ Task 10.1: Proficiency Color Rotation (DONE)
+2. 📝 Task 10.2: Stats Component Redesign (Priority 1 - HIGH IMPACT)
+3. 📝 Task 10.3: Create Unified Toolbar Component (Priority 2)
+4. 📝 Task 10.4-10.5: Apply Toolbar to Skills & Certifications
+5. 📝 Task 10.6: Header Subtitle Enhancement
 
-### Next Steps (Optional Testing Phase)
-1. Run visual regression testing (Epic 8.5.1)
-2. Gather user feedback (Epic 8.5.2)
-3. Verify performance metrics (Epic 8.5.3)
-
-### Short-term (Next 2 Weeks)
+### Short-term (After Phase 10)
 1. Start Phase 7: Top 0.001% Improvements
 2. Request LinkedIn recommendations
 3. Write first case study (IntelliMerge)
@@ -440,6 +519,6 @@ Use the Project Page as the **master design reference** and apply the same desig
 ---
 
 **Last Updated:** 2025-11-21
-**Version:** 2.2 (Phase 8 Complete!)
-**Current Focus:** ✅ Phase 8 FINALIZED! (21/21 tasks) 🎉
-**Next Priority:** Phase 7 (Top 0.001% improvements) OR Production Deployment
+**Version:** 2.3 (Phase 10 In Progress)
+**Current Focus:** 🚧 Phase 10 - Deep Design Synchronization (1/6 tasks)
+**Next Priority:** Complete Phase 10, then Phase 7 (Top 0.001% improvements)

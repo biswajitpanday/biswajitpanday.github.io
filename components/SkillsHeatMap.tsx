@@ -25,9 +25,9 @@ const levelToIntensity = {
 };
 
 const levelToColor = {
-  'Expert': 'bg-emerald-500/90 border-emerald-400',
-  'Advanced': 'bg-blue-500/80 border-blue-400',
-  'Intermediate': 'bg-amber-500/70 border-amber-400',
+  'Expert': 'bg-purple-500/90 border-purple-400',
+  'Advanced': 'bg-emerald-500/80 border-emerald-400',
+  'Intermediate': 'bg-blue-500/70 border-blue-400',
   'Familiar': 'bg-slate-500/60 border-slate-400',
 };
 
@@ -127,15 +127,15 @@ export default function SkillsHeatMap() {
           className="flex flex-wrap gap-6 justify-center mb-12"
         >
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-emerald-500/90 border border-emerald-400 rounded" />
+            <div className="w-6 h-6 bg-purple-500/90 border border-purple-400 rounded" />
             <span className="text-sm text-white/80">Expert</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-blue-500/80 border border-blue-400 rounded" />
+            <div className="w-6 h-6 bg-emerald-500/80 border border-emerald-400 rounded" />
             <span className="text-sm text-white/80">Advanced</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-amber-500/70 border border-amber-400 rounded" />
+            <div className="w-6 h-6 bg-blue-500/70 border border-blue-400 rounded" />
             <span className="text-sm text-white/80">Intermediate</span>
           </div>
           <div className="flex items-center gap-2">
@@ -228,7 +228,7 @@ export default function SkillsHeatMap() {
           className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6"
         >
           <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-emerald-400 mb-2">
+            <div className="text-3xl font-bold text-purple-400 mb-2">
               {skillCategories.reduce((acc, { skills }) =>
                 acc + skills.filter(s => s.metadata?.level === 'Expert').length, 0
               )}
@@ -237,7 +237,7 @@ export default function SkillsHeatMap() {
           </div>
 
           <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-blue-400 mb-2">
+            <div className="text-3xl font-bold text-emerald-400 mb-2">
               {skillCategories.reduce((acc, { skills }) =>
                 acc + skills.filter(s => s.metadata?.level === 'Advanced').length, 0
               )}
@@ -246,7 +246,7 @@ export default function SkillsHeatMap() {
           </div>
 
           <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-amber-400 mb-2">
+            <div className="text-3xl font-bold text-blue-400 mb-2">
               {skillCategories.reduce((acc, { skills }) =>
                 acc + skills.filter(s => s.metadata?.level === 'Intermediate').length, 0
               )}

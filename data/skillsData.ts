@@ -34,7 +34,7 @@ export const skills1: SkillNode = {
       name: "Backend Runtime & Platforms",
       metadata: { icon: "FaServer" },
       children: [
-        { name: ".NET Core/.NET 6/7", metadata: { icon: "SiDotnet", level: "Expert", yearsOfExperience: 8, lastUsed: "Current" } },
+        { name: ".NET Core/.NET 6/7/8/9", metadata: { icon: "SiDotnet", level: "Expert", yearsOfExperience: 8, lastUsed: "Current" } },
         { name: "Node.js", metadata: { icon: "FaNodeJs", level: "Advanced", yearsOfExperience: 6, lastUsed: "Current" } },
       ],
     },

@@ -19,30 +19,30 @@ interface SkillNode {
 
 // Updated level to color mapping with glassmorphism theme
 const levelToColor = {
-  'Expert': 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/30 border-emerald-500/50 text-white backdrop-blur-sm',
-  'Advanced': 'bg-gradient-to-br from-blue-500/20 to-blue-600/30 border-blue-500/50 text-white backdrop-blur-sm',
-  'Intermediate': 'bg-gradient-to-br from-purple-500/20 to-purple-600/30 border-purple-500/50 text-white backdrop-blur-sm',
+  'Expert': 'bg-gradient-to-br from-purple-500/20 to-purple-600/30 border-purple-500/50 text-white backdrop-blur-sm',
+  'Advanced': 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/30 border-emerald-500/50 text-white backdrop-blur-sm',
+  'Intermediate': 'bg-gradient-to-br from-blue-500/20 to-blue-600/30 border-blue-500/50 text-white backdrop-blur-sm',
   'Familiar': 'bg-gradient-to-br from-slate-500/20 to-slate-600/30 border-slate-500/50 text-white backdrop-blur-sm',
 };
 
 const levelToGradient = {
-  'Expert': 'from-emerald-500/20 to-emerald-500/10 border-emerald-500/40',
-  'Advanced': 'from-blue-500/20 to-blue-500/10 border-blue-500/40',
-  'Intermediate': 'from-purple-500/20 to-purple-500/10 border-purple-500/40', // Changed from amber
+  'Expert': 'from-purple-500/20 to-purple-500/10 border-purple-500/40',
+  'Advanced': 'from-emerald-500/20 to-emerald-500/10 border-emerald-500/40',
+  'Intermediate': 'from-blue-500/20 to-blue-500/10 border-blue-500/40',
   'Familiar': 'from-slate-500/20 to-slate-500/10 border-slate-500/40',
 };
 
 const levelToTextColor = {
-  'Expert': 'text-emerald-400',
-  'Advanced': 'text-blue-400',
-  'Intermediate': 'text-purple-400', // Changed from amber
+  'Expert': 'text-purple-400',
+  'Advanced': 'text-emerald-400',
+  'Intermediate': 'text-blue-400',
   'Familiar': 'text-slate-400',
 };
 
 const levelToIcon = {
-  'Expert': '🟢',
-  'Advanced': '🔵',
-  'Intermediate': '🟣', // Changed from 🟡
+  'Expert': '🟣',
+  'Advanced': '🟢',
+  'Intermediate': '🔵',
   'Familiar': '⚪',
 };
 
