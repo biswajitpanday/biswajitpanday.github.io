@@ -18,6 +18,7 @@ import { FiAward, FiBriefcase, FiBook, FiSlack } from "react-icons/fi";
 import { FaMicrosoft, FaCloudversify, FaCertificate } from "react-icons/fa";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import StatsCards, { StatCard } from "@/components/StatsCards";
+import UnifiedToolbar from "@/components/UnifiedToolbar";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 import UpcomingCertificationsSection from "@/components/UpcomingCertificationsSection";
 import CertificationTimeline from "@/components/CertificationTimeline";
@@ -157,13 +158,14 @@ const Certifications = () => {
           highlightText="Certifications"
           description={
             <>
-              Industry credentials and course completions demonstrating{" "}
-              <span className="text-secondary-default font-semibold px-2 py-1 rounded">
-                expertise
-              </span>{" "}
-              and commitment to{" "}
-              <span className="text-secondary-default font-semibold px-2 py-1 rounded">
-                continuous learning
+              <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                Industry credentials showcasing{" "}
+              </span>
+              <span className="text-lg font-bold bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-400 bg-clip-text text-transparent">
+                {certCounts.total - certCounts.upcoming}
+              </span>
+              <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                {" "}verified credentials and continuous learning
               </span>
             </>
           }
@@ -215,26 +217,38 @@ const Certifications = () => {
         {/* Upcoming Certifications Section */}
         <UpcomingCertificationsSection certifications={upcomingCerts} show={false} />
 
-        {/* Certifications Tabs */}
+        {/* Certifications Tabs - Wrapped in UnifiedToolbar */}
         <Tabs defaultValue="all" className="mt-8" onValueChange={handleTabChange}>
-          <div className="flex justify-between items-center mb-6">
-            <TabsList className="bg-white/5 p-1">
-              <TabsTrigger value="all" className="data-[state=active]:bg-secondary-default data-[state=active]:text-primary">
+          <UnifiedToolbar className="mb-0">
+            <TabsList className="bg-transparent p-0 gap-2">
+              <TabsTrigger
+                value="all"
+                className="px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
+              >
                 All ({certifications.length - upcomingCerts.length})
               </TabsTrigger>
-              <TabsTrigger value="professional" className="data-[state=active]:bg-secondary-default data-[state=active]:text-primary">
+              <TabsTrigger
+                value="professional"
+                className="px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
+              >
                 Professional ({professionalCerts.filter(cert => !cert.isUpcoming).length})
               </TabsTrigger>
-              <TabsTrigger value="courses" className="data-[state=active]:bg-secondary-default data-[state=active]:text-primary">
+              <TabsTrigger
+                value="courses"
+                className="px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
+              >
                 Courses ({courseCerts.length})
               </TabsTrigger>
               {trainingCerts.length > 0 && (
-                <TabsTrigger value="training" className="data-[state=active]:bg-secondary-default data-[state=active]:text-primary">
+                <TabsTrigger
+                  value="training"
+                  className="px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
+                >
                   Training ({trainingCerts.length})
                 </TabsTrigger>
               )}
             </TabsList>
-          </div>
+          </UnifiedToolbar>
 
           {/* All Certifications */}
           <TabsContent value="all" className="mt-0">

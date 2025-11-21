@@ -9,10 +9,17 @@ import React, { useCallback, useMemo, useState, useEffect } from "react";
 import BackgroundElements from "@/components/BackgroundElements";
 import SectionHeader from "@/components/SectionHeader";
 import SkillsFilter from "@/components/SkillsFilter";
+import UnifiedToolbar, { ViewModeOption } from "@/components/UnifiedToolbar";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import Badge from "@/components/Badge";
 import SkillProficiencySummary from "@/components/SkillProficiencySummary";
 import TechStackVisualization from "@/components/TechStackVisualization";
+
+// View mode options for UnifiedToolbar
+const SKILLS_VIEW_MODES: ViewModeOption[] = [
+  { id: "grid", label: "Grid", icon: FaTh },
+  { id: "tree", label: "Tree", icon: FaList },
+];
 
 // Memoized animation variants - created once, reused everywhere
 const TREE_ANIMATIONS = {
@@ -201,15 +208,15 @@ const Skills = () => {
           highlightText="Expertise"
           description={
             <>
-              A comprehensive overview of{" "}
-              <span className="text-secondary-default font-semibold px-2 py-1 rounded">
-                technologies and frameworks
-              </span>{" "}
-              mastered through years of{" "}
-              <span className="text-secondary-default font-semibold px-2 py-1 rounded">
-                hands-on experience
-              </span>{" "}
-              and continuous learning
+              <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                A comprehensive overview of{" "}
+              </span>
+              <span className="text-lg font-bold bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-400 bg-clip-text text-transparent">
+                {totalTechnologies}
+              </span>
+              <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                {" "}technologies mastered through hands-on experience
+              </span>
             </>
           }
         >
@@ -248,51 +255,24 @@ const Skills = () => {
         {/* Skills Proficiency Summary - Compact Heat Map */}
         <SkillProficiencySummary />
 
-        {/* View Mode Toggle */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="flex justify-center gap-3 mb-8"
-        >
-          <button
-            onClick={() => setViewMode("grid")}
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
-              viewMode === "grid"
-                ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-lg shadow-secondary-default/20"
-                : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
-            }`}
-          >
-            <FaTh />
-            Grid View
-          </button>
-          <button
-            onClick={() => setViewMode("tree")}
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
-              viewMode === "tree"
-                ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-lg shadow-secondary-default/20"
-                : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
-            }`}
-          >
-            <FaList />
-            Tree View
-          </button>
-        </motion.div>
+        {/* Unified Toolbar: View Toggle + Search */}
+        <UnifiedToolbar
+          viewModes={SKILLS_VIEW_MODES}
+          activeViewMode={viewMode}
+          onViewModeChange={(mode) => setViewMode(mode as "tree" | "grid")}
+          showSearch={viewMode === "tree" && isSearchEnabled}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          searchPlaceholder="Search technologies, frameworks, tools..."
+        />
 
-        {/* Search Section - Using SkillsFilter Component (only for tree view) */}
-        {viewMode === "tree" && (
-          <SkillsFilter
-            searchQuery={searchQuery}
-            onSearchChange={(value) => setSearchQuery(value)}
-            onClearSearch={() => setSearchQuery("")}
-            placeholder="Search technologies, frameworks, tools..."
-            showResults={true}
-            resultsText={debouncedSearch ? (
-              filteredCount > 0 ?
-                `Found ${filteredCount} technologies matching "${debouncedSearch}"` :
-                `No technologies found matching "${debouncedSearch}"`
-            ) : ""}
-          />
+        {/* Search Results Info - Only for tree view */}
+        {viewMode === "tree" && isSearchEnabled && debouncedSearch && (
+          <div className="text-center text-sm text-white/60 mb-4">
+            {filteredCount > 0
+              ? `Found ${filteredCount} technologies matching "${debouncedSearch}"`
+              : `No technologies found matching "${debouncedSearch}"`}
+          </div>
         )}
 
         {/* Grid Visualization */}

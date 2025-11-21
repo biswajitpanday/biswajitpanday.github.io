@@ -37,14 +37,15 @@ const Career = () => {
           highlightText="Journey"
           description={
             <>
-            Transforming ideas into{" "}
-            <span className="text-secondary-default font-semibold px-2 py-1 rounded">
-              scalable solutions
-            </span>{" "}
-            through innovative software engineering and{" "}
-            <span className="text-secondary-default font-semibold px-2 py-1 rounded">
-              leadership excellence
-            </span>
+              <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                Transforming ideas into scalable solutions through{" "}
+              </span>
+              <span className="text-lg font-bold bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-400 bg-clip-text text-transparent">
+                {totalExperience}
+              </span>
+              <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                {" "}of engineering excellence
+              </span>
             </>
           }
         >
