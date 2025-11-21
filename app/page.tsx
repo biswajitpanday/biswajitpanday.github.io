@@ -152,10 +152,10 @@ const Home = () => {
                 scalable enterprise applications
               </span>{" "}
               and integrate modern technologies—recently developed{" "}
-              <span className="text-emerald-300 font-semibold">
+              <span className="text-emerald-400 font-semibold">
                 IntelliMerge
               </span>, an AI tool that reduced merge effort by{" "}
-              <span className="text-emerald-300 font-semibold">
+              <span className="text-emerald-400 font-semibold">
                 80-90%
               </span>{" "}
               for development teams at Optimizely.
@@ -175,17 +175,17 @@ const Home = () => {
                 color="default"
               />
               <Badge
-                icon={<SiReact className="text-blue-300" />}
+                icon={<SiReact className="text-secondary-default" />}
                 text="React"
-                color="blue"
+                color="default"
               />
               <Badge
-                icon={<FiCloud className="text-purple-300" />}
+                icon={<FiCloud className="text-secondary-default" />}
                 text="DevOps"
-                color="purple"
+                color="default"
               />
               <Badge
-                icon={<RiRobot3Fill className="text-emerald-300" />}
+                icon={<RiRobot3Fill className="text-emerald-400" />}
                 text="AI Integration"
                 color="emerald"
               />
@@ -247,7 +247,7 @@ const Home = () => {
                 >
                   <Socials
                     containerStyles="flex gap-4"
-                    iconStyles="w-10 h-10 border border-secondary-default/50 rounded-full flex justify-center items-center text-secondary-default text-base hover:bg-secondary-default hover:text-primary hover:border-secondary-default hover:shadow-lg hover:shadow-secondary-default/25 transition-all duration-300 hover:scale-110"
+                    iconStyles="w-11 h-11 border border-secondary-default/50 rounded-full flex justify-center items-center text-secondary-default text-base hover:bg-secondary-default hover:text-primary hover:border-secondary-default hover:shadow-lg hover:shadow-secondary-default/25 transition-all duration-300 hover:scale-110"
                   />
                 </Suspense>
               </div>

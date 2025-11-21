@@ -89,24 +89,24 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
     <>
       <div
         data-testid={`certification-card-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
-        className={`group relative bg-gradient-to-b from-white/5 to-white/[0.02] backdrop-blur-sm border ${
+        className={`group relative p-5 rounded-xl border transition-all duration-500 flex flex-col hover:scale-[1.02] hover:shadow-2xl hover:-translate-y-1 ${
           featured
-            ? "border-secondary-default/40"
-            : isUpcoming 
-              ? "border-dashed border-white/20" 
-              : "border-white/10"
-        } rounded-xl overflow-hidden transition-colors duration-300 hover:border-secondary-default/30 hover:-translate-y-1 flex flex-col performance-card ${CSS_ANIMATIONS.FADE_IN_UP}`}
+            ? 'bg-gradient-to-br from-purple-500/5 via-[#27272c] to-[#2a2a30] border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
+            : isUpcoming
+              ? 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-dashed border-white/20 hover:border-white/30'
+              : 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
+        } performance-card ${CSS_ANIMATIONS.FADE_IN_UP}`}
         style={{
-          willChange: "transform",
-          backfaceVisibility: "hidden",
-          transform: "translateZ(0)",
-          zIndex: 10
+          transformStyle: 'preserve-3d',
         }}
       >
         {/* Card Header with Image */}
-        <div 
+        <div
           data-testid={`certification-image-container-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
-          className="relative p-4 flex justify-center items-center h-[180px] bg-gradient-to-b from-white/[0.02] to-transparent"
+          className="relative mb-4 flex justify-center items-center h-[180px] rounded-lg overflow-hidden bg-gradient-to-br from-secondary-default/10 to-transparent group-hover:shadow-2xl transition-all duration-500"
+          style={{
+            transform: 'translateZ(20px)',
+          }}
         >
           {displayImage ? (
             <div 
@@ -150,11 +150,11 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
         </div>
 
         {/* Card Content */}
-        <div 
+        <div
           data-testid={`certification-content-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
-          className="flex-1 p-5 pb-2 pt-2 flex flex-col"
+          className="flex-1 flex flex-col"
         >
-          <div className="mb-2 flex items-center justify-between">
+          <div className="mb-3 flex items-center justify-between">
             <div 
               data-testid={`certification-date-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
               className="flex items-center text-white/70 text-sm"
@@ -210,18 +210,23 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
             </div>
           </div>
 
-          <h3 
+          <h3
             data-testid={`certification-title-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
-            className="text-lg font-bold text-white mb-1.5 line-clamp-2 group-hover:text-secondary-default transition-colors duration-300"
+            className={`text-lg font-bold mb-2 line-clamp-2 transition-colors duration-300 leading-tight ${
+              featured
+                ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+                : 'bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent'
+            }`}
           >
             {name}
           </h3>
-          
-          <div 
+
+          {/* Issuer as inline text - matching Project Page pattern */}
+          <div
             data-testid={`certification-issuer-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
-            className="mb-3 text-secondary-default text-sm"
+            className="mb-3 text-xs text-white/60 font-medium"
           >
-            {issuer}
+            @ {issuer}
           </div>
           
           {/* Credential ID for Microsoft certifications */}
@@ -251,12 +256,12 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
           {/* Skills */}
           {skills && skills.length > 0 && (
             <div className="mt-auto mb-4">
-              <h4 className="text-sm font-semibold text-white/80 mb-2">Skills</h4>
+              <h4 className="text-sm font-semibold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent mb-2">Skills</h4>
               <div className="flex flex-wrap gap-2">
                 {visibleSkills.map((skill, i) => (
                   <span
                     key={i}
-                    className="text-xs px-2 py-1 bg-secondary-default/10 text-secondary-default border border-secondary-default/30 rounded hover:bg-secondary-default/20 transition-colors duration-200"
+                    className="inline-flex items-center justify-center h-7 text-[11px] px-2 bg-[#00BFFF]/10 text-[#00BFFF]/90 border border-[#00BFFF]/30 rounded-md font-medium hover:bg-[#00BFFF]/20 transition-all duration-300"
                   >
                     {skill}
                   </span>
@@ -264,7 +269,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
                 {hasMoreSkills && (
                   <button
                     onClick={toggleSkillsDisplay}
-                    className="text-xs px-2 py-1 bg-blue-500/10 text-blue-300 border border-blue-500/30 rounded hover:bg-blue-500/20 transition-colors duration-200"
+                    className="inline-flex items-center justify-center h-7 text-[11px] px-2 bg-secondary-default/10 text-secondary-default border border-secondary-default/30 rounded-md font-medium hover:bg-secondary-default/20 transition-all duration-300"
                   >
                     {showAllSkills ? "Show Less" : `+${skills.length - maxVisibleSkills} more`}
                   </button>
@@ -275,39 +280,42 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
         </div>
 
         {/* Card Footer */}
-        <div className="p-4 pt-2 border-t border-white/5">
+        <div className="mt-3 pt-3 border-t border-white/10">
           {!isMicrosoftCert && credentialId && (
             <div className="text-white/40 text-xs mb-3">
               ID: {credentialId.substring(0, 8)}...
             </div>
           )}
-          
-          <div className="flex justify-center">
+
+          <div className="flex gap-3">
             {link && onlineVerifiable !== false ? (
               <Link
                 href={link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default px-4 py-2 rounded transition-colors duration-300 hover:scale-105 text-sm font-medium"
-                style={{
-                  willChange: "transform",
-                  transform: "translateZ(0)"
-                }}
+                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/20 text-sm font-medium"
               >
-                <FiExternalLink className="text-xs" />
+                <FiExternalLink className="text-sm" />
                 <span>View Certificate</span>
               </Link>
             ) : (
               <button
                 onClick={() => setIsLightboxOpen(true)}
-                className="flex-1 flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/20 text-white/70 px-4 py-2 rounded transition-colors duration-300 text-sm font-medium"
+                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-white/5 to-transparent hover:from-white/10 hover:to-transparent border border-white/20 hover:border-white/30 text-white/70 hover:text-white px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg text-sm font-medium"
               >
-                <FiExternalLink className="text-xs" />
+                <FiExternalLink className="text-sm" />
                 <span>View Image</span>
               </button>
             )}
           </div>
         </div>
+
+        {/* 3D Depth Effect - Subtle Shadow Layer */}
+        <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-secondary-default/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-10"
+          style={{
+            transform: 'translateZ(-10px)',
+          }}
+        />
 
         {/* Lightbox for full-size image view */}
         <Lightbox

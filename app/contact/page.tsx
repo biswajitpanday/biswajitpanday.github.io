@@ -342,14 +342,14 @@ const Contact = () => {
             </motion.span>
             <motion.span
               variants={PERFORMANCE_VARIANTS.cardSync}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 to-transparent backdrop-blur-sm border border-blue-500/30 text-blue-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-500/20 transition-all duration-300"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
             >
               <FaComments className="text-xs" />
               Quick Response
             </motion.span>
             <motion.span
               variants={PERFORMANCE_VARIANTS.cardSync}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-transparent backdrop-blur-sm border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/20 transition-all duration-300"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
             >
               <FaHandshake className="text-xs" />
               Project Consultation
@@ -508,7 +508,7 @@ const Contact = () => {
             <div className="w-full xl:max-w-md">
               <motion.h3
                 variants={PERFORMANCE_VARIANTS.slideUpSync}
-                className="text-2xl font-bold text-white mb-8 text-center xl:text-left"
+                className="text-2xl font-bold mb-8 text-center xl:text-left bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent"
               >
                 Contact Information
               </motion.h3>

@@ -40,11 +40,12 @@ const getNodeStyle = (level: number) => ({
   alignItems: "center" as const,
 });
 
-// Memoized class names
+// Memoized class names - Updated to match Project Page design
 const NODE_CLASSES = {
-  parent: "text-lg font-bold leading-none text-white group hover:text-secondary-default cursor-pointer transition-all duration-300 mb-2 mt-1 hover:bg-white/5 p-2 rounded",
+  parent: "text-lg font-bold leading-none group cursor-pointer transition-all duration-300 mb-2 mt-1 hover:bg-white/5 p-2 rounded",
   child: "text-sm text-white/70 group hover:text-white/90 hover:bg-white/5 transition-all duration-300 mb-1 p-1 rounded cursor-default",
-  highlighted: "bg-secondary-default/20 border border-secondary-default/40 rounded"
+  highlighted: "bg-secondary-default/20 border border-secondary-default/40 rounded",
+  parentText: "bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent"
 } as const;
 
 // Helper function to filter tree data based on search query
@@ -174,13 +175,13 @@ const Skills = () => {
         style={style}
         className={className}
       >
-        <DynamicIcon 
-          iconName={iconName} 
-          className={`mr-3 ${isParent ? "text-white" : "text-secondary-default"}`}
+        <DynamicIcon
+          iconName={iconName}
+          className={`mr-3 ${isParent ? "text-secondary-default" : "text-secondary-default"}`}
         />
-        <span className="select-none">{element.name}</span>
+        <span className={`select-none ${isParent ? NODE_CLASSES.parentText : ""}`}>{element.name}</span>
         {isHighlighted && (
-          <span className="ml-2 text-xs bg-secondary-default/30 text-secondary-default px-2 py-1 rounded">
+          <span className="inline-flex items-center justify-center h-7 ml-2 text-xs bg-secondary-default/30 text-secondary-default px-2 rounded-md font-medium">
             Match
           </span>
         )}
@@ -235,12 +236,12 @@ const Skills = () => {
           <Badge
             icon={<FaDatabase className="text-xs" />}
             text="Database Architecture"
-            color="blue"
+            color="default"
           />
           <Badge
             icon={<FaCloud className="text-xs" />}
             text="Cloud Infrastructure"
-            color="purple"
+            color="default"
           />
         </motion.div>
 

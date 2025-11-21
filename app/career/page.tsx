@@ -82,12 +82,12 @@ const Career = () => {
             <Badge
               icon={<FaRocket className="text-xs" />}
               text="Innovation Driver"
-              color="blue"
+              color="default"
             />
             <Badge
               icon={<FaBriefcase className="text-xs" />}
               text="Team Builder"
-              color="purple"
+              color="default"
             />
           </motion.div>
 
