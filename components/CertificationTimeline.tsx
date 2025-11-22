@@ -110,61 +110,74 @@ const CertificationTimeline: React.FC<CertificationTimelineProps> = ({
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         onScroll={updateScrollPosition}
       >
-        {sortedCertifications.map((cert, index) => (
-          <motion.div
-            key={cert.id}
-            variants={PERFORMANCE_VARIANTS.cardSync}
-            custom={index}
-            className="min-w-[220px] max-w-[260px] bg-gradient-to-b from-white/8 to-white/3 border border-white/10 rounded-lg hover:border-secondary-default/30 transition-colors duration-300 flex flex-col shadow-sm will-change-transform"
-            style={{
-              backfaceVisibility: 'hidden',
-              transform: 'translateZ(0)'
-            }}
-            whileHover={{ 
-              y: -5, 
-              boxShadow: "0 5px 15px rgba(0, 191, 255, 0.15)"
-            }}
-          >
-            {/* Certificate Image */}
-            <div className="relative p-3 flex items-center justify-center">
-              {/* Certificate image - reduced transitions */}
-              <div className="relative w-full h-[120px] mt-2 mb-1">
-                {cert.thumbImage || cert.image ? (
-                  <div className="relative w-full h-full flex items-center justify-center">
-                    <div className="absolute inset-0 bg-secondary-default/5 rounded-md blur-md opacity-70" />
-                    <Image
-                      src={cert.thumbImage || cert.image || ""}
-                      alt={`${cert.name} certificate`}
-                      width={160}
-                      height={100}
-                      className="object-contain z-10"
-                    />
-                  </div>
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-secondary-default text-4xl">
-                      {cert.name.charAt(0)}
-                    </span>
-                  </div>
-                )}
+        {sortedCertifications.map((cert, index) => {
+          const isFeatured = cert.featured || cert.category === "Professional";
+
+          return (
+            <motion.div
+              key={cert.id}
+              variants={PERFORMANCE_VARIANTS.cardSync}
+              custom={index}
+              className={`min-w-[220px] max-w-[260px] bg-gradient-to-b rounded-lg transition-colors duration-300 flex flex-col shadow-sm will-change-transform ${
+                isFeatured
+                  ? 'from-purple-500/10 to-purple-500/5 border border-purple-500/30 hover:border-purple-500/50'
+                  : 'from-white/8 to-white/3 border border-white/10 hover:border-secondary-default/30'
+              }`}
+              style={{
+                backfaceVisibility: 'hidden',
+                transform: 'translateZ(0)'
+              }}
+              whileHover={{
+                y: -5,
+                boxShadow: isFeatured ? "0 5px 15px rgba(168, 85, 247, 0.2)" : "0 5px 15px rgba(0, 191, 255, 0.15)"
+              }}
+            >
+              {/* Certificate Image */}
+              <div className="relative p-3 flex items-center justify-center">
+                {/* Certificate image - reduced transitions */}
+                <div className="relative w-full h-[120px] mt-2 mb-1">
+                  {cert.thumbImage || cert.image ? (
+                    <div className="relative w-full h-full flex items-center justify-center">
+                      <div className={`absolute inset-0 rounded-md blur-md opacity-70 ${
+                        isFeatured ? 'bg-purple-500/5' : 'bg-secondary-default/5'
+                      }`} />
+                      <Image
+                        src={cert.thumbImage || cert.image || ""}
+                        alt={`${cert.name} certificate`}
+                        width={160}
+                        height={100}
+                        className="object-contain z-10"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className={isFeatured ? "text-purple-400 text-4xl" : "text-secondary-default text-4xl"}>
+                        {cert.name.charAt(0)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Month/Year badge placed at bottom */}
+                <div className="absolute bottom-3 left-3 z-10 flex items-center bg-primary/60 backdrop-blur-sm border border-white/10 px-2 py-1 rounded-md text-xs text-white/90">
+                  <FiCalendar size={12} className={isFeatured ? "mr-1.5 text-purple-400" : "mr-1.5 text-secondary-default"} />
+                  <span>
+                    {new Date(cert.date).toLocaleDateString('en-US', {
+                      month: 'short',
+                      year: 'numeric'
+                    })}
+                  </span>
+                </div>
               </div>
-              
-              {/* Month/Year badge placed at bottom */}
-              <div className="absolute bottom-3 left-3 z-10 flex items-center bg-primary/60 backdrop-blur-sm border border-white/10 px-2 py-1 rounded-md text-xs text-white/90">
-                <FiCalendar size={12} className="mr-1.5 text-secondary-default" />
-                <span>
-                  {new Date(cert.date).toLocaleDateString('en-US', { 
-                    month: 'short',
-                    year: 'numeric' 
-                  })}
-                </span>
-              </div>
-            </div>
-            
-            {/* Certificate info */}
-            <div className="p-3 pt-0 flex-1 flex flex-col">
-              {/* Certificate name */}
-              <h4 className="text-white font-medium text-sm line-clamp-2 mb-2">{cert.name}</h4>
+
+              {/* Certificate info */}
+              <div className="p-3 pt-0 flex-1 flex flex-col">
+                {/* Certificate name */}
+                <h4 className={`font-medium text-sm line-clamp-2 mb-2 ${
+                  isFeatured
+                    ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+                    : 'text-white'
+                }`}>{cert.name}</h4>
               
               {/* Issuer with link icon on the right */}
               <div className="flex items-center justify-between mt-auto">
@@ -183,12 +196,12 @@ const CertificationTimeline: React.FC<CertificationTimelineProps> = ({
                   )}
                   <span className="text-xs text-secondary-default/80 ml-1.5">{cert.issuer}</span>
                 </div>
-                
+
                 {/* Link to certificate - square shaped */}
                 {cert.link && (
-                  <Link 
-                    href={cert.link} 
-                    target="_blank" 
+                  <Link
+                    href={cert.link}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-secondary-default hover:text-secondary-default/80 flex items-center justify-center w-6 h-6 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/30 rounded-sm transition-colors duration-300"
                   >
@@ -198,7 +211,8 @@ const CertificationTimeline: React.FC<CertificationTimelineProps> = ({
               </div>
             </div>
           </motion.div>
-        ))}
+          );
+        })}
       </div>
       
       {/* Fade effect on sides with improved gradients */}

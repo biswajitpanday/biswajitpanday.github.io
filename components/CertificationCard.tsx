@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CSS_ANIMATIONS } from "@/constants";
 import Image from "next/image";
 import { Certification } from "@/data/certificationsData";
-import { FiAward, FiCalendar, FiExternalLink, FiKey, FiCheck, FiActivity, FiHash } from "react-icons/fi";
+import { FiAward, FiCalendar, FiExternalLink, FiKey, FiCheck, FiActivity, FiHash, FiBriefcase, FiBook } from "react-icons/fi";
 import {
   Tooltip,
   TooltipContent,
@@ -163,7 +163,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 
           {/* Issuer Logo */}
           {issuerLogo && (
-            <div 
+            <div
               data-testid={`certification-issuer-logo-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
               className="absolute bottom-2 right-2 w-10 h-10 bg-white/10 backdrop-blur-md rounded overflow-hidden flex items-center justify-center border border-white/20 shadow-glow"
             >
@@ -176,6 +176,39 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
               />
             </div>
           )}
+
+          {/* Category Badge Icon - Top Right Corner */}
+          <div className="absolute top-2 right-2 z-20">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div
+                    data-testid={`certification-category-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+                    className={`inline-flex items-center justify-center w-7 h-7 rounded-md border transition-colors cursor-help ${
+                      certification.category === "Professional"
+                        ? 'bg-purple-500/20 border-purple-500/40 hover:bg-purple-500/30'
+                        : certification.category === "Course"
+                          ? 'bg-emerald-500/20 border-emerald-500/40 hover:bg-emerald-500/30'
+                          : 'bg-blue-500/20 border-blue-500/40 hover:bg-blue-500/30'
+                    }`}
+                  >
+                    {certification.category === "Professional" ? (
+                      <FiBriefcase className={`text-sm ${
+                        certification.category === "Professional" ? 'text-purple-300' : ''
+                      }`} />
+                    ) : (
+                      <FiBook className={`text-sm ${
+                        certification.category === "Course" ? 'text-emerald-300' : 'text-blue-300'
+                      }`} />
+                    )}
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="z-[200]">
+                  <p className="text-xs">{certification.category}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
 
         {/* Card Content */}
@@ -183,21 +216,6 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
           data-testid={`certification-content-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
           className="flex-1 flex flex-col"
         >
-          {/* Category Badge */}
-          <div className="mb-3">
-            <div
-              data-testid={`certification-category-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
-              className={`inline-flex items-center justify-center h-7 text-[11px] px-2.5 rounded-lg font-bold uppercase tracking-wide border ${
-                certification.category === "Professional"
-                  ? 'bg-purple-500/15 text-purple-300 border-purple-500/40'
-                  : certification.category === "Course"
-                    ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40'
-                    : 'bg-blue-500/15 text-blue-300 border-blue-500/40'
-              }`}
-            >
-              {certification.category}
-            </div>
-          </div>
 
           <div className="mb-3 flex items-center justify-between flex-wrap gap-2">
             {/* Date Badge - Match STATUS_BADGE_CLASSES */}
@@ -312,7 +330,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
               <p className={`text-white/70 text-sm ${!showFullDescription ? 'line-clamp-2' : ''}`}>
                 {description}
               </p>
-              {description.length > 100 && (
+              {description.length > 80 && (
                 <button
                   onClick={() => setShowFullDescription(!showFullDescription)}
                   className="text-xs text-secondary-default hover:text-secondary-default/80 transition-colors mt-1 font-medium"

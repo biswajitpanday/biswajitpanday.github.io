@@ -126,7 +126,9 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
     );
   }
   
-  // Detailed version (for certifications page)
+  // Detailed version (for certifications page) - Keep cyan/blue theme for background
+  const isFeatured = certification.featured || certification.category === "Professional";
+
   return (
     <motion.div
       variants={PERFORMANCE_VARIANTS.cardSync}
@@ -183,7 +185,11 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
               </span>
             </div>
             
-            <h2 className="text-xl md:text-2xl font-bold mb-2 text-white group-hover:text-secondary-default transition-colors duration-300">
+            <h2 className={`text-xl md:text-2xl font-bold mb-2 transition-colors duration-300 ${
+              isFeatured
+                ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+                : 'text-white group-hover:text-secondary-default'
+            }`}>
               {name}
             </h2>
             
