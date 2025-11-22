@@ -1,11 +1,12 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaCogs, FaRocket, FaSearch, FaStar, FaCheckCircle } from "react-icons/fa";
+import { FaCogs, FaRocket, FaStar, FaCheckCircle } from "react-icons/fa";
 import TreeView, { flattenTree } from "react-accessible-treeview";
 import { skills1, skills2, countAllTechnologies } from "@/data/skillsData";
 import DynamicIcon from "@/components/DynamicIcon";
 import React, { useCallback, useMemo, useState, useEffect } from "react";
 import BackgroundElements from "@/components/BackgroundElements";
+import UnifiedToolbar from "@/components/UnifiedToolbar";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import SkillProficiencySummary from "@/components/SkillProficiencySummary";
 import { useCountUp } from "@/hooks/useCountUp";
@@ -292,28 +293,13 @@ const Skills = () => {
         {/* Skills Proficiency Summary - Compact Heat Map */}
         <SkillProficiencySummary />
 
-        {/* Search Input */}
-        {isSearchEnabled && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="relative mb-6"
-          >
-            <div className="relative group">
-              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default/70 group-focus-within:text-secondary-default transition-colors text-sm">
-                <FaSearch />
-              </div>
-              <input
-                type="text"
-                placeholder="Search technologies, frameworks, tools..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-11 bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/30 rounded-lg pl-10 pr-4 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 shadow-md focus:shadow-lg focus:shadow-secondary-default/20"
-              />
-            </div>
-          </motion.div>
-        )}
+        {/* Search Toolbar - Matching other pages' styling */}
+        <UnifiedToolbar
+          showSearch={isSearchEnabled}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          searchPlaceholder="Search technologies, frameworks, tools..."
+        />
 
         {/* Search Results Info */}
         {isSearchEnabled && debouncedSearch && (
