@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaFilter, FaStar, FaClock, FaChartBar } from "react-icons/fa";
+import { FaStar, FaClock, FaChartBar } from "react-icons/fa";
 import { skills1, skills2 } from "@/data/skillsData";
 
 interface SkillNode {
@@ -39,10 +39,20 @@ const levelOrder = {
   Familiar: 1,
 };
 
-export default function TechStackVisualization() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
-  const [selectedLevel, setSelectedLevel] = useState<string>("All");
-  const [sortBy, setSortBy] = useState<"level" | "experience" | "name">("level");
+interface TechStackVisualizationProps {
+  selectedCategory: string;
+  selectedLevel: string;
+  sortBy: "level" | "experience" | "name";
+  searchQuery?: string;
+  onCategoryChange?: (category: string) => void;
+}
+
+export default function TechStackVisualization({
+  selectedCategory,
+  selectedLevel,
+  sortBy,
+  searchQuery = "",
+}: TechStackVisualizationProps) {
 
   // Flatten all skills with their categories
   const flattenSkills = (skillTree: SkillNode, parentCategory = ""): FlatSkill[] => {
@@ -91,13 +101,17 @@ export default function TechStackVisualization() {
     return [...flattenSkills(skills1), ...flattenSkills(skills2)];
   }, []);
 
-  const categories = useMemo(() => {
-    const cats = new Set(allSkills.map((s) => s.category));
-    return ["All", ...Array.from(cats).sort()];
-  }, [allSkills]);
-
   const filteredSkills = useMemo(() => {
     let filtered = allSkills;
+
+    // Apply search filter
+    if (searchQuery && searchQuery.trim()) {
+      const searchLower = searchQuery.toLowerCase();
+      filtered = filtered.filter((s) =>
+        s.name.toLowerCase().includes(searchLower) ||
+        s.category.toLowerCase().includes(searchLower)
+      );
+    }
 
     if (selectedCategory !== "All") {
       filtered = filtered.filter((s) => s.category === selectedCategory);
@@ -119,7 +133,7 @@ export default function TechStackVisualization() {
     });
 
     return filtered;
-  }, [allSkills, selectedCategory, selectedLevel, sortBy]);
+  }, [allSkills, selectedCategory, selectedLevel, sortBy, searchQuery]);
 
   // Statistics
   const stats = useMemo(() => {
@@ -135,9 +149,9 @@ export default function TechStackVisualization() {
   }, [allSkills]);
 
   return (
-    <div className="space-y-8">
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+    <div className="space-y-6">
+      {/* Statistics Cards - Hidden, stats shown in top inline section instead */}
+      {/* <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -203,69 +217,7 @@ export default function TechStackVisualization() {
             {stats.avgExperience.toFixed(1)}y
           </p>
         </motion.div>
-      </div>
-
-      {/* Filters */}
-      <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-xl p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <FaFilter className="text-secondary-default" />
-          <h3 className="text-lg font-bold text-white">Filter & Sort</h3>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Category Filter */}
-          <div>
-            <label className="text-xs text-white/60 font-medium mb-2 block">
-              Category
-            </label>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-secondary-default/40"
-            >
-              {categories.map((cat) => (
-                <option key={cat} value={cat} className="bg-gray-900">
-                  {cat}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Level Filter */}
-          <div>
-            <label className="text-xs text-white/60 font-medium mb-2 block">
-              Proficiency Level
-            </label>
-            <select
-              value={selectedLevel}
-              onChange={(e) => setSelectedLevel(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-secondary-default/40"
-            >
-              <option value="All" className="bg-gray-900">All Levels</option>
-              <option value="Expert" className="bg-gray-900">Expert</option>
-              <option value="Advanced" className="bg-gray-900">Advanced</option>
-              <option value="Intermediate" className="bg-gray-900">Intermediate</option>
-              <option value="Familiar" className="bg-gray-900">Familiar</option>
-            </select>
-          </div>
-
-          {/* Sort By */}
-          <div>
-            <label className="text-xs text-white/60 font-medium mb-2 block">
-              Sort By
-            </label>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-secondary-default/40"
-            >
-              <option value="level" className="bg-gray-900">Proficiency Level</option>
-              <option value="experience" className="bg-gray-900">Years of Experience</option>
-              <option value="name" className="bg-gray-900">Name (A-Z)</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      </div> */}
 
       {/* Skills Grid */}
       <div>
@@ -291,7 +243,7 @@ export default function TechStackVisualization() {
                 transition={{ delay: index * 0.02 }}
                 className={`bg-gradient-to-br ${
                   levelColors[skill.level]
-                } border rounded-xl p-4 hover:scale-105 transition-transform duration-200`}
+                } border rounded-xl p-4 transition-all duration-200 hover:shadow-lg hover:shadow-secondary-default/20`}
               >
                 <div className="space-y-3">
                   {/* Skill Name & Level */}

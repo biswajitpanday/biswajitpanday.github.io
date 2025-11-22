@@ -93,6 +93,24 @@ const Skills = () => {
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [viewMode, setViewMode] = useState<"tree" | "grid">("tree");
 
+  // Grid view filter states
+  const [gridCategory, setGridCategory] = useState<string>("All");
+  const [gridLevel, setGridLevel] = useState<string>("All");
+  const [gridSortBy, setGridSortBy] = useState<"level" | "experience" | "name">("level");
+
+  // Extract categories for grid view dropdown
+  const gridCategories = useMemo(() => {
+    const cats = new Set<string>();
+    [skills1, skills2].forEach(skillTree => {
+      if (skillTree.children) {
+        skillTree.children.forEach(category => {
+          cats.add(category.name);
+        });
+      }
+    });
+    return ["All", ...Array.from(cats).sort()];
+  }, []);
+
   // Debounce search query - only if search is enabled
   useEffect(() => {
     if (!isSearchEnabled) return;
@@ -298,19 +316,61 @@ const Skills = () => {
           </div>
         </motion.div>
 
-        {/* Skills Proficiency Summary - Compact Heat Map */}
-        <SkillProficiencySummary />
+        {/* Skills Proficiency Summary - Compact Heat Map - Only show in Tree view */}
+        {viewMode === "tree" && <SkillProficiencySummary />}
 
-        {/* Unified Toolbar: View Toggle + Search */}
+        {/* Unified Toolbar: View Toggle + Search/Filters */}
         <UnifiedToolbar
           viewModes={SKILLS_VIEW_MODES}
           activeViewMode={viewMode}
           onViewModeChange={(mode) => setViewMode(mode as "tree" | "grid")}
-          showSearch={viewMode === "tree" && isSearchEnabled}
+          showSearch={isSearchEnabled}
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           searchPlaceholder="Search technologies, frameworks, tools..."
-        />
+        >
+          {/* Grid View Filters - shown inline when Grid view is active */}
+          {viewMode === "grid" && (
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="hidden lg:block w-px h-8 bg-white/10"></div>
+
+              {/* Category Filter */}
+              <select
+                value={gridCategory}
+                onChange={(e) => setGridCategory(e.target.value)}
+                className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 pr-8 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 [&>option]:bg-gray-900 [&>option]:text-white"
+              >
+                {gridCategories.map(cat => (
+                  <option key={cat} value={cat}>{cat === "All" ? "All Categories" : cat}</option>
+                ))}
+              </select>
+
+              {/* Level Filter */}
+              <select
+                value={gridLevel}
+                onChange={(e) => setGridLevel(e.target.value)}
+                className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 pr-8 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 [&>option]:bg-gray-900 [&>option]:text-white"
+              >
+                <option value="All">All Levels</option>
+                <option value="Expert">Expert</option>
+                <option value="Advanced">Advanced</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Familiar">Familiar</option>
+              </select>
+
+              {/* Sort By */}
+              <select
+                value={gridSortBy}
+                onChange={(e) => setGridSortBy(e.target.value as "level" | "experience" | "name")}
+                className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 pr-8 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 [&>option]:bg-gray-900 [&>option]:text-white"
+              >
+                <option value="level">By Level</option>
+                <option value="experience">By Experience</option>
+                <option value="name">By Name</option>
+              </select>
+            </div>
+          )}
+        </UnifiedToolbar>
 
         {/* Search Results Info - Only for tree view */}
         {viewMode === "tree" && isSearchEnabled && debouncedSearch && (
@@ -328,7 +388,12 @@ const Skills = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <TechStackVisualization />
+            <TechStackVisualization
+              selectedCategory={gridCategory}
+              selectedLevel={gridLevel}
+              sortBy={gridSortBy}
+              searchQuery={debouncedSearch}
+            />
           </motion.div>
         )}
 
