@@ -32,6 +32,13 @@ const levelToTextColor = {
   'Familiar': 'text-slate-400',
 };
 
+const levelOrder = {
+  'Expert': 4,
+  'Advanced': 3,
+  'Intermediate': 2,
+  'Familiar': 1,
+};
+
 interface SkillsHeatMapModalProps {
   onClose: () => void;
 }
@@ -286,6 +293,18 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                                 {lastUsed === 'Current' ? '🟢 Current' : `Last: ${lastUsed}`}
                               </div>
                             )}
+
+                            {/* Proficiency Bar */}
+                            <div className="w-full bg-white/10 rounded-full h-1.5 overflow-hidden mt-2">
+                              <motion.div
+                                initial={{ width: 0 }}
+                                animate={{
+                                  width: `${(levelOrder[level] / 4) * 100}%`,
+                                }}
+                                transition={{ delay: skillIndex * 0.015 + 0.2, duration: 0.5 }}
+                                className="h-full bg-gradient-to-r from-secondary-default to-blue-500"
+                              />
+                            </div>
                           </div>
 
                           {/* Fixed Tooltip - Shows ABOVE with proper z-index */}

@@ -1,22 +1,14 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaCogs, FaRocket, FaSearch, FaCode, FaDatabase, FaCloud, FaList, FaTh, FaStar, FaCheckCircle } from "react-icons/fa";
+import { FaCogs, FaRocket, FaSearch, FaStar, FaCheckCircle } from "react-icons/fa";
 import TreeView, { flattenTree } from "react-accessible-treeview";
 import { skills1, skills2, countAllTechnologies } from "@/data/skillsData";
 import DynamicIcon from "@/components/DynamicIcon";
 import React, { useCallback, useMemo, useState, useEffect } from "react";
 import BackgroundElements from "@/components/BackgroundElements";
-import UnifiedToolbar, { ViewModeOption } from "@/components/UnifiedToolbar";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import SkillProficiencySummary from "@/components/SkillProficiencySummary";
-import TechStackVisualization from "@/components/TechStackVisualization";
 import { useCountUp } from "@/hooks/useCountUp";
-
-// View mode options for UnifiedToolbar
-const SKILLS_VIEW_MODES: ViewModeOption[] = [
-  { id: "grid", label: "Grid", icon: FaTh },
-  { id: "tree", label: "Tree", icon: FaList },
-];
 
 // Memoized animation variants - created once, reused everywhere
 const TREE_ANIMATIONS = {
@@ -91,25 +83,6 @@ const Skills = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [viewMode, setViewMode] = useState<"tree" | "grid">("tree");
-
-  // Grid view filter states
-  const [gridCategory, setGridCategory] = useState<string>("All");
-  const [gridLevel, setGridLevel] = useState<string>("All");
-  const [gridSortBy, setGridSortBy] = useState<"level" | "experience" | "name">("level");
-
-  // Extract categories for grid view dropdown
-  const gridCategories = useMemo(() => {
-    const cats = new Set<string>();
-    [skills1, skills2].forEach(skillTree => {
-      if (skillTree.children) {
-        skillTree.children.forEach(category => {
-          cats.add(category.name);
-        });
-      }
-    });
-    return ["All", ...Array.from(cats).sort()];
-  }, []);
 
   // Debounce search query - only if search is enabled
   useEffect(() => {
@@ -316,64 +289,34 @@ const Skills = () => {
           </div>
         </motion.div>
 
-        {/* Skills Proficiency Summary - Compact Heat Map - Only show in Tree view */}
-        {viewMode === "tree" && <SkillProficiencySummary />}
+        {/* Skills Proficiency Summary - Compact Heat Map */}
+        <SkillProficiencySummary />
 
-        {/* Unified Toolbar: View Toggle + Search/Filters */}
-        <UnifiedToolbar
-          viewModes={SKILLS_VIEW_MODES}
-          activeViewMode={viewMode}
-          onViewModeChange={(mode) => setViewMode(mode as "tree" | "grid")}
-          showSearch={isSearchEnabled}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          searchPlaceholder="Search technologies, frameworks, tools..."
-        >
-          {/* Grid View Filters - shown inline when Grid view is active */}
-          {viewMode === "grid" && (
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="hidden lg:block w-px h-8 bg-white/10"></div>
-
-              {/* Category Filter */}
-              <select
-                value={gridCategory}
-                onChange={(e) => setGridCategory(e.target.value)}
-                className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 pr-8 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 [&>option]:bg-gray-900 [&>option]:text-white"
-              >
-                {gridCategories.map(cat => (
-                  <option key={cat} value={cat}>{cat === "All" ? "All Categories" : cat}</option>
-                ))}
-              </select>
-
-              {/* Level Filter */}
-              <select
-                value={gridLevel}
-                onChange={(e) => setGridLevel(e.target.value)}
-                className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 pr-8 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 [&>option]:bg-gray-900 [&>option]:text-white"
-              >
-                <option value="All">All Levels</option>
-                <option value="Expert">Expert</option>
-                <option value="Advanced">Advanced</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Familiar">Familiar</option>
-              </select>
-
-              {/* Sort By */}
-              <select
-                value={gridSortBy}
-                onChange={(e) => setGridSortBy(e.target.value as "level" | "experience" | "name")}
-                className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 pr-8 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 [&>option]:bg-gray-900 [&>option]:text-white"
-              >
-                <option value="level">By Level</option>
-                <option value="experience">By Experience</option>
-                <option value="name">By Name</option>
-              </select>
+        {/* Search Input */}
+        {isSearchEnabled && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="relative mb-6"
+          >
+            <div className="relative group">
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default/70 group-focus-within:text-secondary-default transition-colors text-sm">
+                <FaSearch />
+              </div>
+              <input
+                type="text"
+                placeholder="Search technologies, frameworks, tools..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full h-11 bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/30 rounded-lg pl-10 pr-4 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 shadow-md focus:shadow-lg focus:shadow-secondary-default/20"
+              />
             </div>
-          )}
-        </UnifiedToolbar>
+          </motion.div>
+        )}
 
-        {/* Search Results Info - Only for tree view */}
-        {viewMode === "tree" && isSearchEnabled && debouncedSearch && (
+        {/* Search Results Info */}
+        {isSearchEnabled && debouncedSearch && (
           <div className="text-center text-sm text-white/60 mb-4">
             {filteredCount > 0
               ? `Found ${filteredCount} technologies matching "${debouncedSearch}"`
@@ -381,24 +324,8 @@ const Skills = () => {
           </div>
         )}
 
-        {/* Grid Visualization */}
-        {viewMode === "grid" && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <TechStackVisualization
-              selectedCategory={gridCategory}
-              selectedLevel={gridLevel}
-              sortBy={gridSortBy}
-              searchQuery={debouncedSearch}
-            />
-          </motion.div>
-        )}
-
         {/* No Results */}
-        {viewMode === "tree" && isSearchEnabled && debouncedSearch && filteredCount === 0 && (
+        {isSearchEnabled && debouncedSearch && filteredCount === 0 && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -421,7 +348,7 @@ const Skills = () => {
         )}
 
         {/* Skills Trees */}
-        {viewMode === "tree" && (!debouncedSearch || filteredCount > 0) && (
+        {(!debouncedSearch || filteredCount > 0) && (
           <motion.div
             initial={TREE_ANIMATIONS.container.initial}
             animate={TREE_ANIMATIONS.container.animate}
