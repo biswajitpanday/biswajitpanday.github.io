@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
+import { FaTh, FaReact, FaServer, FaSitemap, FaCode, FaDatabase, FaTasks, FaTools } from 'react-icons/fa';
 import { skills1 } from '@/data/skillsData';
 
 // Skill interface matching skillsData structure
@@ -37,6 +38,18 @@ const levelOrder = {
   'Advanced': 3,
   'Intermediate': 2,
   'Familiar': 1,
+};
+
+// Category icon mapping
+const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
+  'All Categories': FaTh,
+  'Frameworks': FaReact,
+  'Backend Runtime & Platforms': FaServer,
+  'Architectures/Patterns': FaSitemap,
+  'Programming Languages': FaCode,
+  'Databases': FaDatabase,
+  'Agile Methodologies': FaTasks,
+  'Other Skills': FaTools,
 };
 
 interface SkillsHeatMapModalProps {
@@ -118,6 +131,9 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
     })
   })).filter(({ skills }) => skills.length > 0); // Remove empty categories
 
+  // Calculate total filtered skills count
+  const totalFilteredSkills = displayedCategories.reduce((sum, { skills }) => sum + skills.length, 0);
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
@@ -155,99 +171,120 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
 
           {/* Scrollable Content Area */}
           <div className="overflow-y-auto custom-scrollbar px-6 py-6 flex-1">
-            {/* Category Filter */}
-            <div className="flex flex-wrap gap-2 mb-6">
-              <button
-                onClick={() => setSelectedCategory(null)}
-                className={`px-3 py-1.5 rounded-lg transition-all text-xs ${
-                  selectedCategory === null
-                    ? 'bg-secondary-default text-primary'
-                    : 'bg-white/5 text-white/70 hover:bg-white/10'
-                }`}
-              >
-                All Categories
-              </button>
-              {skillCategories.map(({ category }) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-3 py-1.5 rounded-lg transition-all text-xs ${
-                    selectedCategory === category
-                      ? 'bg-secondary-default text-primary'
-                      : 'bg-white/5 text-white/70 hover:bg-white/10'
-                  }`}
+            {/* Filter Section */}
+            <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-4 mb-6">
+              {/* Category Dropdown with Icons */}
+              <div className="mb-4">
+                <label className="text-xs text-white/60 font-medium mb-2 block">
+                  Filter by Category
+                </label>
+                <select
+                  value={selectedCategory || 'All Categories'}
+                  onChange={(e) => setSelectedCategory(e.target.value === 'All Categories' ? null : e.target.value)}
+                  className="w-full bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 [&>option]:bg-gray-900 [&>option]:text-white"
                 >
-                  {category}
-                </button>
-              ))}
+                  <option value="All Categories">🎨 All Categories</option>
+                  {skillCategories.map(({ category }) => {
+                    const IconComponent = categoryIcons[category];
+                    // Use emoji as prefix since we can't render React icons in option tags
+                    const iconMap: Record<string, string> = {
+                      'Frameworks': '⚛️',
+                      'Backend Runtime & Platforms': '🖥️',
+                      'Architectures/Patterns': '🏗️',
+                      'Programming Languages': '💻',
+                      'Databases': '💾',
+                      'Agile Methodologies': '📋',
+                      'Other Skills': '🛠️',
+                    };
+                    return (
+                      <option key={category} value={category}>
+                        {iconMap[category] || '•'} {category}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+
+              {/* Proficiency Level Filter with Checkboxes */}
+              <div>
+                <label className="text-xs text-white/60 font-medium mb-2 block">
+                  Filter by Level
+                </label>
+                <div className="flex flex-wrap gap-4">
+                  <button
+                    onClick={() => toggleLevel('Expert')}
+                    className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
+                  >
+                    <div className="relative w-5 h-5 bg-purple-500/90 border border-purple-500 rounded flex items-center justify-center">
+                      {selectedLevels.has('Expert') && (
+                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                      {!selectedLevels.has('Expert') && (
+                        <div className="absolute inset-0 bg-black/60 rounded" />
+                      )}
+                    </div>
+                    <span className="text-xs text-white/70 group-hover:text-white transition-colors">Expert</span>
+                  </button>
+                  <button
+                    onClick={() => toggleLevel('Advanced')}
+                    className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
+                  >
+                    <div className="relative w-5 h-5 bg-emerald-500/90 border border-emerald-500 rounded flex items-center justify-center">
+                      {selectedLevels.has('Advanced') && (
+                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                      {!selectedLevels.has('Advanced') && (
+                        <div className="absolute inset-0 bg-black/60 rounded" />
+                      )}
+                    </div>
+                    <span className="text-xs text-white/70 group-hover:text-white transition-colors">Advanced</span>
+                  </button>
+                  <button
+                    onClick={() => toggleLevel('Intermediate')}
+                    className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
+                  >
+                    <div className="relative w-5 h-5 bg-blue-500/90 border border-blue-500 rounded flex items-center justify-center">
+                      {selectedLevels.has('Intermediate') && (
+                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                      {!selectedLevels.has('Intermediate') && (
+                        <div className="absolute inset-0 bg-black/60 rounded" />
+                      )}
+                    </div>
+                    <span className="text-xs text-white/70 group-hover:text-white transition-colors">Intermediate</span>
+                  </button>
+                  <button
+                    onClick={() => toggleLevel('Familiar')}
+                    className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
+                  >
+                    <div className="relative w-5 h-5 bg-slate-500/70 border border-slate-500 rounded flex items-center justify-center">
+                      {selectedLevels.has('Familiar') && (
+                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                      {!selectedLevels.has('Familiar') && (
+                        <div className="absolute inset-0 bg-black/60 rounded" />
+                      )}
+                    </div>
+                    <span className="text-xs text-white/70 group-hover:text-white transition-colors">Familiar</span>
+                  </button>
+                </div>
+              </div>
             </div>
 
-            {/* Proficiency Level Filter with Checkboxes */}
-            <div className="flex flex-wrap gap-4 justify-center mb-6 pb-4 border-b border-white/10">
-              <button
-                onClick={() => toggleLevel('Expert')}
-                className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
-              >
-                <div className="relative w-5 h-5 bg-purple-500/90 border border-purple-500 rounded flex items-center justify-center">
-                  {selectedLevels.has('Expert') && (
-                    <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  )}
-                  {!selectedLevels.has('Expert') && (
-                    <div className="absolute inset-0 bg-black/60 rounded" />
-                  )}
-                </div>
-                <span className="text-xs text-white/70 group-hover:text-white transition-colors">Expert</span>
-              </button>
-              <button
-                onClick={() => toggleLevel('Advanced')}
-                className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
-              >
-                <div className="relative w-5 h-5 bg-emerald-500/90 border border-emerald-500 rounded flex items-center justify-center">
-                  {selectedLevels.has('Advanced') && (
-                    <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  )}
-                  {!selectedLevels.has('Advanced') && (
-                    <div className="absolute inset-0 bg-black/60 rounded" />
-                  )}
-                </div>
-                <span className="text-xs text-white/70 group-hover:text-white transition-colors">Advanced</span>
-              </button>
-              <button
-                onClick={() => toggleLevel('Intermediate')}
-                className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
-              >
-                <div className="relative w-5 h-5 bg-blue-500/90 border border-blue-500 rounded flex items-center justify-center">
-                  {selectedLevels.has('Intermediate') && (
-                    <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  )}
-                  {!selectedLevels.has('Intermediate') && (
-                    <div className="absolute inset-0 bg-black/60 rounded" />
-                  )}
-                </div>
-                <span className="text-xs text-white/70 group-hover:text-white transition-colors">Intermediate</span>
-              </button>
-              <button
-                onClick={() => toggleLevel('Familiar')}
-                className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
-              >
-                <div className="relative w-5 h-5 bg-slate-500/70 border border-slate-500 rounded flex items-center justify-center">
-                  {selectedLevels.has('Familiar') && (
-                    <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  )}
-                  {!selectedLevels.has('Familiar') && (
-                    <div className="absolute inset-0 bg-black/60 rounded" />
-                  )}
-                </div>
-                <span className="text-xs text-white/70 group-hover:text-white transition-colors">Familiar</span>
-              </button>
+            {/* Skills Count */}
+            <div className="text-center mb-6">
+              <p className="text-sm text-white/60">
+                Showing <span className="font-bold text-secondary-default">{totalFilteredSkills}</span> skills
+                {selectedCategory && <span> in <span className="font-bold text-white/80">{selectedCategory}</span></span>}
+              </p>
             </div>
 
             {/* Heat Map Grid */}
