@@ -34,6 +34,7 @@ const Certifications = () => {
   const [filteredByCategory, setFilteredByCategory] = useState<Certification[]>([]);
   const [activeTab, setActiveTab] = useState<"all" | "professional" | "courses" | "training">("all");
   const [showAllCertifications, setShowAllCertifications] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Define initial display limit (show important certifications first)
   const INITIAL_DISPLAY_COUNT = 12;
@@ -74,29 +75,45 @@ const Certifications = () => {
   
   // Get important certifications for initial display
   const getImportantCertifications = (certs: Certification[]): Certification[] => {
-    // Sort by date (most recent first) and return the first N certifications
-    const sortedByDate = [...certs].sort((a, b) => {
+    // Sort by priority: Featured + Professional > Professional > Other categories by date
+    const sortedCerts = [...certs].sort((a, b) => {
+      // Priority 1: Featured + Professional (highest priority)
+      const aIsFeaturedProfessional = a.featured && a.category === "Professional";
+      const bIsFeaturedProfessional = b.featured && b.category === "Professional";
+
+      if (aIsFeaturedProfessional && !bIsFeaturedProfessional) return -1;
+      if (!aIsFeaturedProfessional && bIsFeaturedProfessional) return 1;
+
+      // Priority 2: Professional (second priority)
+      const aIsProfessional = a.category === "Professional";
+      const bIsProfessional = b.category === "Professional";
+
+      if (aIsProfessional && !bIsProfessional) return -1;
+      if (!aIsProfessional && bIsProfessional) return 1;
+
+      // Priority 3: Sort by date (most recent first)
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return dateB.getTime() - dateA.getTime();
     });
 
-    // Prioritize Professional certifications and recent courses
-    const professional = sortedByDate.filter(cert => cert.category === "Professional");
-    const courses = sortedByDate.filter(cert => cert.category === "Course");
+    // Get featured + professional first, then fill with others
+    const featuredProfessional = sortedCerts.filter(cert => cert.featured && cert.category === "Professional");
+    const professional = sortedCerts.filter(cert => !cert.featured && cert.category === "Professional");
+    const others = sortedCerts.filter(cert => cert.category !== "Professional");
 
-    // Combine: all professional + top courses to reach INITIAL_DISPLAY_COUNT
-    const important = [...professional];
-    const remainingSlots = INITIAL_DISPLAY_COUNT - professional.length;
+    // Combine: featured+professional + professional + others to reach INITIAL_DISPLAY_COUNT
+    const important = [...featuredProfessional, ...professional];
+    const remainingSlots = INITIAL_DISPLAY_COUNT - important.length;
 
     if (remainingSlots > 0) {
-      important.push(...courses.slice(0, remainingSlots));
+      important.push(...others.slice(0, remainingSlots));
     }
 
     return important;
   };
 
-  // Get the final displayed certifications based on active tab
+  // Get the final displayed certifications based on active tab and search
   const getDisplayedCertifications = () => {
     let baseCertifications: Certification[] = [];
 
@@ -104,6 +121,17 @@ const Certifications = () => {
       baseCertifications = certifications.filter(cert => !cert.isUpcoming);
     } else {
       baseCertifications = filteredByCategory;
+    }
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      baseCertifications = baseCertifications.filter(cert =>
+        cert.name.toLowerCase().includes(query) ||
+        cert.issuer.toLowerCase().includes(query) ||
+        cert.description?.toLowerCase().includes(query) ||
+        cert.skills?.some(skill => skill.toLowerCase().includes(query))
+      );
     }
 
     if (!showAllCertifications) {
@@ -238,7 +266,13 @@ const Certifications = () => {
 
         {/* Certifications Tabs - Wrapped in UnifiedToolbar */}
         <Tabs defaultValue="all" className="mt-8" onValueChange={handleTabChange}>
-          <UnifiedToolbar className="mb-0">
+          <UnifiedToolbar
+            className="mb-0"
+            showSearch={true}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            searchPlaceholder="Search certifications, issuers, or skills..."
+          >
             <TabsList className="bg-transparent p-0 gap-2">
               <TabsTrigger
                 value="all"
@@ -283,6 +317,7 @@ const Certifications = () => {
                     <CertificationCard
                       key={certification.id}
                       certification={certification}
+                      featured={certification.featured || certification.category === "Professional"}
                     />
                   ))}
                 </motion.div>
@@ -292,7 +327,7 @@ const Certifications = () => {
                   <div className="flex justify-center mt-8">
                     <button
                       onClick={() => setShowAllCertifications(!showAllCertifications)}
-                      className="px-6 py-3 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 hover:scale-105 font-medium"
+                      className="px-4 py-2.5 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
                     >
                       {showAllCertifications ? (
                         <>Show Less Certifications</>
@@ -328,6 +363,7 @@ const Certifications = () => {
                     <CertificationCard
                       key={certification.id}
                       certification={certification}
+                      featured={certification.featured || certification.category === "Professional"}
                     />
                   ))}
                 </motion.div>
@@ -337,7 +373,7 @@ const Certifications = () => {
                   <div className="flex justify-center mt-8">
                     <button
                       onClick={() => setShowAllCertifications(!showAllCertifications)}
-                      className="px-6 py-3 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 hover:scale-105 font-medium"
+                      className="px-4 py-2.5 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
                     >
                       {showAllCertifications ? (
                         <>Show Less Certifications</>
@@ -373,6 +409,7 @@ const Certifications = () => {
                     <CertificationCard
                       key={certification.id}
                       certification={certification}
+                      featured={certification.featured || certification.category === "Professional"}
                     />
                   ))}
                 </motion.div>
@@ -382,7 +419,7 @@ const Certifications = () => {
                   <div className="flex justify-center mt-8">
                     <button
                       onClick={() => setShowAllCertifications(!showAllCertifications)}
-                      className="px-6 py-3 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 hover:scale-105 font-medium"
+                      className="px-4 py-2.5 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
                     >
                       {showAllCertifications ? (
                         <>Show Less Certifications</>
@@ -418,6 +455,7 @@ const Certifications = () => {
                     <CertificationCard
                       key={certification.id}
                       certification={certification}
+                      featured={certification.featured || certification.category === "Professional"}
                     />
                   ))}
                 </motion.div>
@@ -427,7 +465,7 @@ const Certifications = () => {
                   <div className="flex justify-center mt-8">
                     <button
                       onClick={() => setShowAllCertifications(!showAllCertifications)}
-                      className="px-6 py-3 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 hover:scale-105 font-medium"
+                      className="px-4 py-2.5 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
                     >
                       {showAllCertifications ? (
                         <>Show Less Certifications</>

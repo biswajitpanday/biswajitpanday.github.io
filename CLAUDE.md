@@ -108,7 +108,12 @@ All content is centralized in `data/` directory:
 
 ### Styling System
 - **Tailwind CSS** with custom theme configuration
-- **Color Scheme**: Primary (#1c1c22), Secondary (#00BFFF)
+- **Color Hierarchy** (Most to Least Important):
+  1. **Purple/Pink** (#A855F7 / #EC4899) - Featured items, highest priority
+  2. **Emerald/Green** (#10B981) - Success states, active projects, second priority
+  3. **Cyan/Blue** (#00BFFF) - Primary brand, links, third priority
+  4. **Gray** (#6B7280 / white with opacity) - Neutral, supporting text
+  5. **Golden/Yellow** (#F59E0B) - Special cases: awards, important counts, focused items
 - **Font**: JetBrains Mono variable font
 - **Animations**: Framer Motion with optimized performance (0.4s duration)
 - **Responsive**: Mobile-first design with custom breakpoints

@@ -8,6 +8,17 @@
 
 > **Note:** For completed phases (Phase 1, 1.5, 6, 7, 7.5, 8, 9, 10) see `CompletedPhases.md`
 
+## 🎨 Color Hierarchy (Reference)
+
+**Priority Order (Most to Least Important):**
+1. **Purple/Pink** (#A855F7 / #EC4899) - Featured items, HIGHEST priority
+2. **Emerald/Green** (#10B981) - Success states, active projects, HIGH priority
+3. **Cyan/Blue** (#00BFFF) - Primary brand, links, MEDIUM priority
+4. **Gray** (#6B7280 / white opacity) - Neutral, supporting text, LOW priority
+5. **Golden/Yellow** (#F59E0B) - Special cases: awards, important counts, focused items
+
+> **Full Documentation:** See `docs/color-system.md` for complete guidelines
+
 ---
 
 ## 📊 Quick Status

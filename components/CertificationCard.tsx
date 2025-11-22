@@ -43,6 +43,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
     name,
     issuer,
     date,
+    expiryDate,
     credentialId,
     link,
     description,
@@ -60,12 +61,40 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
   const [showAllSkills, setShowAllSkills] = useState(false);
   // State for lightbox
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  // State for description expand/collapse
+  const [showFullDescription, setShowFullDescription] = useState(false);
 
   // Format date for display
   const formattedDate = new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short'
   });
+
+  // Format expiry date if available
+  const formattedExpiryDate = expiryDate
+    ? new Date(expiryDate).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short'
+      })
+    : null;
+
+  // Check expiry status
+  const getExpiryStatus = () => {
+    if (!expiryDate) return null;
+
+    const today = new Date();
+    const expiry = new Date(expiryDate);
+    const daysUntilExpiry = Math.floor((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (daysUntilExpiry < 0) {
+      return { status: 'expired', color: 'bg-red-500/10 border-red-500/30 text-red-400' };
+    } else if (daysUntilExpiry <= 30) {
+      return { status: 'expiring-soon', color: 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400' };
+    }
+    return { status: 'valid', color: 'bg-white/5 border-white/20 text-white/60' };
+  };
+
+  const expiryStatus = getExpiryStatus();
 
   // Determine which skills to show
   const maxVisibleSkills = 3;
@@ -154,15 +183,45 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
           data-testid={`certification-content-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
           className="flex-1 flex flex-col"
         >
-          <div className="mb-3 flex items-center justify-between">
-            <div 
-              data-testid={`certification-date-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
-              className="flex items-center text-white/70 text-sm"
+          {/* Category Badge */}
+          <div className="mb-3">
+            <div
+              data-testid={`certification-category-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+              className={`inline-flex items-center justify-center h-7 text-[11px] px-2.5 rounded-lg font-bold uppercase tracking-wide border ${
+                certification.category === "Professional"
+                  ? 'bg-purple-500/15 text-purple-300 border-purple-500/40'
+                  : certification.category === "Course"
+                    ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40'
+                    : 'bg-blue-500/15 text-blue-300 border-blue-500/40'
+              }`}
             >
-              <FiCalendar className="mr-1.5" />
-              <span>{formattedDate}</span>
+              {certification.category}
             </div>
-            
+          </div>
+
+          <div className="mb-3 flex items-center justify-between flex-wrap gap-2">
+            {/* Date Badge - Match STATUS_BADGE_CLASSES */}
+            <div className="flex items-center gap-2">
+              <div
+                data-testid={`certification-date-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+                className="inline-flex items-center justify-center h-7 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-3 rounded-full text-xs font-medium"
+              >
+                <FiCalendar className="text-[10px] mr-1.5" />
+                <span>{formattedDate}</span>
+              </div>
+
+              {/* Expiry Date Badge if available - Color coded by status */}
+              {formattedExpiryDate && expiryStatus && (
+                <div
+                  data-testid={`certification-expiry-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+                  className={`inline-flex items-center justify-center h-7 backdrop-blur-sm border px-3 rounded-full text-xs font-medium ${expiryStatus.color}`}
+                >
+                  <FiCalendar className="text-[10px] mr-1.5" />
+                  <span>Exp: {formattedExpiryDate}</span>
+                </div>
+              )}
+            </div>
+
             {/* Status indicators with tooltips */}
             <div 
               data-testid={`certification-status-indicators-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
@@ -228,40 +287,60 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
           >
             @ {issuer}
           </div>
-          
-          {/* Credential ID for Microsoft certifications */}
-          {isMicrosoftCert && credentialId && (
+
+          {/* Credential ID - Show for ALL certifications that have it */}
+          {credentialId && (
             <div className="flex items-center text-white/60 text-xs mb-3 bg-white/5 p-2 rounded">
               <FiKey className="mr-1.5 text-secondary-default" />
               <span className="mr-1 font-medium">Credential ID:</span>
-              <span className="font-mono">{credentialId}</span>
+              <span className="font-mono text-[10px]">{credentialId}</span>
             </div>
           )}
-          
-          {/* Certification Number if available */}
+
+          {/* Certification Number - Show for ALL certifications that have it */}
           {certificationNumber && (
             <div className="flex items-center text-white/60 text-xs mb-3 bg-white/5 p-2 rounded">
               <FiHash className="mr-1.5 text-secondary-default" />
-              <span className="mr-1 font-medium">Certification Number:</span>
-              <span className="font-mono">{certificationNumber}</span>
+              <span className="mr-1 font-medium">Cert #:</span>
+              <span className="font-mono text-[10px]">{certificationNumber}</span>
             </div>
           )}
           
-          {description && !isMicrosoftCert && (
-            <p className="text-white/70 text-sm mb-4 line-clamp-2">
-              {description}
-            </p>
+          {/* Description with See more/Show less */}
+          {description && (
+            <div className="mb-4">
+              <p className={`text-white/70 text-sm ${!showFullDescription ? 'line-clamp-2' : ''}`}>
+                {description}
+              </p>
+              {description.length > 100 && (
+                <button
+                  onClick={() => setShowFullDescription(!showFullDescription)}
+                  className="text-xs text-secondary-default hover:text-secondary-default/80 transition-colors mt-1 font-medium"
+                >
+                  {showFullDescription ? 'Show less' : 'See more'}
+                </button>
+              )}
+            </div>
           )}
 
-          {/* Skills */}
+          {/* Skills - Compact style matching ProjectSkills */}
           {skills && skills.length > 0 && (
             <div className="mt-auto mb-4">
-              <h4 className="text-sm font-semibold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent mb-2">Skills</h4>
-              <div className="flex flex-wrap gap-2">
+              {/* Compact Header matching ProjectSkills CompactSectionHeader */}
+              <div className="flex items-center gap-2 mb-2">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#00BFFF]/30 to-transparent"></div>
+                <h4 className="text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
+                  Key Skills
+                </h4>
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#00BFFF]/30 to-transparent"></div>
+              </div>
+
+              {/* Compact skill badges */}
+              <div className="flex flex-wrap gap-1 items-center">
                 {visibleSkills.map((skill, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center justify-center h-7 text-[11px] px-2 bg-[#00BFFF]/10 text-[#00BFFF]/90 border border-[#00BFFF]/30 rounded-md font-medium hover:bg-[#00BFFF]/20 transition-all duration-300"
+                    className="text-[9px] px-1.5 py-0.5 rounded bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90 hover:bg-[#00BFFF]/20 transition-colors whitespace-nowrap"
                   >
                     {skill}
                   </span>
@@ -269,9 +348,9 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
                 {hasMoreSkills && (
                   <button
                     onClick={toggleSkillsDisplay}
-                    className="inline-flex items-center justify-center h-7 text-[11px] px-2 bg-secondary-default/10 text-secondary-default border border-secondary-default/30 rounded-md font-medium hover:bg-secondary-default/20 transition-all duration-300"
+                    className="text-[9px] px-1.5 py-0.5 text-secondary-default/80 hover:text-secondary-default transition-colors font-medium whitespace-nowrap"
                   >
-                    {showAllSkills ? "Show Less" : `+${skills.length - maxVisibleSkills} more`}
+                    {showAllSkills ? 'Show less' : `+${skills.length - maxVisibleSkills} more`}
                   </button>
                 )}
               </div>
@@ -281,12 +360,6 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 
         {/* Card Footer */}
         <div className="mt-3 pt-3 border-t border-white/10">
-          {!isMicrosoftCert && credentialId && (
-            <div className="text-white/40 text-xs mb-3">
-              ID: {credentialId.substring(0, 8)}...
-            </div>
-          )}
-
           <div className="flex gap-3">
             {link && onlineVerifiable !== false ? (
               <Link
