@@ -1,19 +1,16 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaCogs, FaRocket, FaSearch, FaCode, FaDatabase, FaCloud, FaList, FaTh } from "react-icons/fa";
+import { FaCogs, FaRocket, FaSearch, FaCode, FaDatabase, FaCloud, FaList, FaTh, FaStar, FaCheckCircle } from "react-icons/fa";
 import TreeView, { flattenTree } from "react-accessible-treeview";
 import { skills1, skills2, countAllTechnologies } from "@/data/skillsData";
 import DynamicIcon from "@/components/DynamicIcon";
-import StatsCards, { StatCard } from "@/components/StatsCards";
 import React, { useCallback, useMemo, useState, useEffect } from "react";
 import BackgroundElements from "@/components/BackgroundElements";
-import SectionHeader from "@/components/SectionHeader";
-import SkillsFilter from "@/components/SkillsFilter";
 import UnifiedToolbar, { ViewModeOption } from "@/components/UnifiedToolbar";
 import { PERFORMANCE_VARIANTS } from "@/constants";
-import Badge from "@/components/Badge";
 import SkillProficiencySummary from "@/components/SkillProficiencySummary";
 import TechStackVisualization from "@/components/TechStackVisualization";
+import { useCountUp } from "@/hooks/useCountUp";
 
 // View mode options for UnifiedToolbar
 const SKILLS_VIEW_MODES: ViewModeOption[] = [
@@ -122,33 +119,38 @@ const Skills = () => {
 
   const data1 = flattenTree(filteredSkills1);
   const data2 = flattenTree(filteredSkills2);
-  
+
+  // Helper function to count skills by proficiency level
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const countSkillsByLevel = (skillTree: any, level: string): number => {
+    let count = 0;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const traverseNode = (node: any) => {
+      if (node.metadata?.level === level) {
+        count++;
+      }
+      if (node.children) {
+        node.children.forEach(traverseNode);
+      }
+    };
+
+    traverseNode(skillTree);
+    return count;
+  };
+
   // Calculate totals
   const totalTechnologies = countAllTechnologies();
   const totalCategories = (skills1.children?.length || 0) + (skills2.children?.length || 0); // Count actual main categories from both trees
+  const expertCount = countSkillsByLevel(skills1, "Expert") + countSkillsByLevel(skills2, "Expert");
+  const advancedCount = countSkillsByLevel(skills1, "Advanced") + countSkillsByLevel(skills2, "Advanced");
   const filteredCount = data1.length + data2.length - 2; // Subtract root nodes
 
-  // Stats data for StatsCards component
-  const statsData: StatCard[] = [
-    {
-      icon: FaCogs,
-      value: totalTechnologies,
-      label: "Technologies",
-      gradient: "from-secondary-default/10 to-blue-500/10"
-    },
-    {
-      icon: FaRocket,
-      value: totalCategories,
-      label: "Categories",
-      gradient: "from-blue-500/10 to-secondary-default/10"
-    },
-    ...(isSearchEnabled && debouncedSearch ? [{
-      icon: FaSearch,
-      value: filteredCount,
-      label: "Found",
-      gradient: "from-purple-500/10 to-secondary-default/10"
-    }] : [])
-  ];
+  // Animated counters for stats
+  const totalTechCount = useCountUp({ end: totalTechnologies, duration: 2000 });
+  const totalCategoriesCount = useCountUp({ end: totalCategories, duration: 1900 });
+  const expertCountUp = useCountUp({ end: expertCount, duration: 1800 });
+  const advancedCountUp = useCountUp({ end: advancedCount, duration: 1700 });
 
   // Memoized style objects to prevent recreation
   const nodeStyles = useMemo(() => {
@@ -202,12 +204,17 @@ const Skills = () => {
       <BackgroundElements />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Skills Header - Using SectionHeader Component */}
-        <SectionHeader
-          title="Technical"
-          highlightText="Expertise"
-          description={
-            <>
+        {/* Skills Header - Left Aligned matching Project/Career/Certifications */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6"
+        >
+          <div className="flex-1 mb-4">
+            <h1 className="text-3xl xl:text-4xl font-bold mb-2 leading-tight bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
+              Technical Expertise
+            </h1>
+            <p className="text-sm font-medium leading-relaxed">
               <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
                 A comprehensive overview of{" "}
               </span>
@@ -217,39 +224,78 @@ const Skills = () => {
               <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
                 {" "}technologies mastered through hands-on experience
               </span>
-            </>
-          }
-        >
-          <StatsCards stats={statsData} />
-        </SectionHeader>
+            </p>
+          </div>
+        </motion.div>
 
-        {/* Skill Highlight Badges */}
+        {/* Skills Stats - Inline matching Project/Career/Certifications */}
         <motion.div
           variants={PERFORMANCE_VARIANTS.containerSync}
           initial="hidden"
           animate="visible"
-          className="flex flex-wrap justify-center gap-3 mb-12 -mt-2"
+          className="mb-6"
         >
-          <Badge
-            icon={<FaCode className="text-xs" />}
-            text="Full-Stack Development"
-            color="default"
-          />
-          <Badge
-            icon={<FaRocket className="text-xs" />}
-            text="AI Integration"
-            color="emerald"
-          />
-          <Badge
-            icon={<FaDatabase className="text-xs" />}
-            text="Database Architecture"
-            color="default"
-          />
-          <Badge
-            icon={<FaCloud className="text-xs" />}
-            text="Cloud Infrastructure"
-            color="default"
-          />
+          <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              {/* Total Technologies */}
+              <div ref={totalTechCount.ref} className="flex items-center gap-3">
+                <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
+                  <FaCogs className="text-[#00BFFF] text-xl" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">
+                    {totalTechCount.count}
+                  </div>
+                  <div className="text-xs text-white/60">Technologies</div>
+                </div>
+              </div>
+
+              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+              {/* Total Categories */}
+              <div ref={totalCategoriesCount.ref} className="flex items-center gap-3">
+                <div className="p-2 bg-emerald-500/20 rounded-lg">
+                  <FaRocket className="text-emerald-400 text-xl" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">
+                    {totalCategoriesCount.count}
+                  </div>
+                  <div className="text-xs text-white/60">Categories</div>
+                </div>
+              </div>
+
+              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+              {/* Expert Skills */}
+              <div ref={expertCountUp.ref} className="flex items-center gap-3">
+                <div className="p-2 bg-purple-500/20 rounded-lg">
+                  <FaStar className="text-purple-400 text-xl" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
+                    {expertCountUp.count}
+                  </div>
+                  <div className="text-xs text-white/60">Expert</div>
+                </div>
+              </div>
+
+              <div className="hidden lg:block w-px h-10 bg-white/10"></div>
+
+              {/* Advanced Skills */}
+              <div ref={advancedCountUp.ref} className="flex items-center gap-3">
+                <div className="p-2 bg-green-500/20 rounded-lg">
+                  <FaCheckCircle className="text-green-400 text-xl" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 tabular-nums">
+                    {advancedCountUp.count}
+                  </div>
+                  <div className="text-xs text-white/60">Advanced</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
         {/* Skills Proficiency Summary - Compact Heat Map */}
