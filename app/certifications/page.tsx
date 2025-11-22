@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { 
-  certifications, 
-  getMostRecentCertification, 
-  getProfessionalCertifications, 
+import {
+  certifications,
+  getMostRecentCertification,
+  getProfessionalCertifications,
   getCourseCertifications,
   getTrainingCertifications,
   getUpcomingCertifications,
@@ -12,18 +12,15 @@ import {
   Certification
 } from "@/data/certificationsData";
 import CertificationCard from "@/components/CertificationCard";
-import SectionHeader from "@/components/SectionHeader";
 import BackgroundElements from "@/components/BackgroundElements";
 import { FiAward, FiBriefcase, FiBook, FiSlack } from "react-icons/fi";
-import { FaMicrosoft, FaCloudversify, FaCertificate } from "react-icons/fa";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import StatsCards, { StatCard } from "@/components/StatsCards";
 import UnifiedToolbar from "@/components/UnifiedToolbar";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 import UpcomingCertificationsSection from "@/components/UpcomingCertificationsSection";
 import CertificationTimeline from "@/components/CertificationTimeline";
 import { PERFORMANCE_VARIANTS } from "@/constants";
-import Badge from "@/components/Badge";
+import { useCountUp } from "@/hooks/useCountUp";
 
 const Certifications = () => {
   const featuredCertification = getMostRecentCertification();
@@ -32,7 +29,7 @@ const Certifications = () => {
   const trainingCerts = getTrainingCertifications();
   const upcomingCerts = getUpcomingCertifications();
   const certCounts = getCertificationCounts();
-  
+
   // State for certifications display
   const [filteredByCategory, setFilteredByCategory] = useState<Certification[]>([]);
   const [activeTab, setActiveTab] = useState<"all" | "professional" | "courses" | "training">("all");
@@ -40,28 +37,16 @@ const Certifications = () => {
 
   // Define initial display limit (show important certifications first)
   const INITIAL_DISPLAY_COUNT = 12;
-  
-  // Stats data
-  const statsData: StatCard[] = [
-    {
-      icon: FiAward,
-      value: certCounts.total - certCounts.upcoming,
-      label: "Total Credentials",
-      gradient: "from-secondary-default/10 to-blue-500/10"
-    },
-    {
-      icon: FiBriefcase,
-      value: certCounts.professional - (professionalCerts.filter(cert => cert.isUpcoming).length),
-      label: "Professional",
-      gradient: "from-blue-500/10 to-secondary-default/10"
-    },
-    {
-      icon: FiBook,
-      value: certCounts.course,
-      label: "Courses",
-      gradient: "from-purple-500/10 to-secondary-default/10"
-    }
-  ];
+
+  // Calculate stat values
+  const totalCreds = certCounts.total - certCounts.upcoming;
+  const professionalCount = certCounts.professional - (professionalCerts.filter(cert => cert.isUpcoming).length);
+  const courseCount = certCounts.course;
+
+  // Animated counters for stats
+  const totalCredsCount = useCountUp({ end: totalCreds, duration: 2000 });
+  const professionalCountUp = useCountUp({ end: professionalCount, duration: 1900 });
+  const courseCountUp = useCountUp({ end: courseCount, duration: 1800 });
   
   // Handle tab change
   const handleTabChange = (value: string) => {
@@ -152,49 +137,83 @@ const Certifications = () => {
       <div className="absolute bottom-40 right-20 w-80 h-80 bg-secondary-default/3 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header with Stats */}
-        <SectionHeader
-          title="Professional"
-          highlightText="Certifications"
-          description={
-            <>
+        {/* Certifications Header - Left Aligned like Project/Career Pages */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6"
+        >
+          <div className="flex-1 mb-4">
+            <h1 className="text-3xl xl:text-4xl font-bold mb-2 leading-tight bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
+              Professional Certifications
+            </h1>
+            <p className="text-sm font-medium leading-relaxed">
               <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
                 Industry credentials showcasing{" "}
               </span>
               <span className="text-lg font-bold bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-400 bg-clip-text text-transparent">
-                {certCounts.total - certCounts.upcoming}
+                {totalCreds}
               </span>
               <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
                 {" "}verified credentials and continuous learning
               </span>
-            </>
-          }
-        >
-          <StatsCards stats={statsData} />
-        </SectionHeader>
+            </p>
+          </div>
+        </motion.div>
 
-        {/* Certification Highlight Badges */}
+        {/* Certifications Stats - Match Project Page Design */}
         <motion.div
           variants={PERFORMANCE_VARIANTS.containerSync}
           initial="hidden"
           animate="visible"
-          className="flex flex-wrap justify-center gap-3 mb-12 -mt-2"
+          className="mb-6"
         >
-          <Badge
-            icon={<FaMicrosoft className="text-xs" />}
-            text="Microsoft Certified"
-            color="default"
-          />
-          <Badge
-            icon={<FaCloudversify className="text-xs" />}
-            text="Cloud Expertise"
-            color="blue"
-          />
-          <Badge
-            icon={<FaCertificate className="text-xs" />}
-            text="Industry Recognized"
-            color="purple"
-          />
+          <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              {/* Total Credentials */}
+              <div ref={totalCredsCount.ref} className="flex items-center gap-3">
+                <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
+                  <FiAward className="text-[#00BFFF] text-xl" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">
+                    {totalCredsCount.count}
+                  </div>
+                  <div className="text-xs text-white/60">Total Credentials</div>
+                </div>
+              </div>
+
+              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+              {/* Professional Certifications */}
+              <div ref={professionalCountUp.ref} className="flex items-center gap-3">
+                <div className="p-2 bg-emerald-500/20 rounded-lg">
+                  <FiBriefcase className="text-emerald-400 text-xl" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">
+                    {professionalCountUp.count}
+                  </div>
+                  <div className="text-xs text-white/60">Professional</div>
+                </div>
+              </div>
+
+              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+              {/* Courses */}
+              <div ref={courseCountUp.ref} className="flex items-center gap-3">
+                <div className="p-2 bg-purple-500/20 rounded-lg">
+                  <FiBook className="text-purple-400 text-xl" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
+                    {courseCountUp.count}
+                  </div>
+                  <div className="text-xs text-white/60">Courses</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
         {/* Featured Certification Banner */}
