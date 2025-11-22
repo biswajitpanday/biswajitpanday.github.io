@@ -34,7 +34,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
       </h1>
 
       {/* Description */}
-      <p className={`text-base xl:text-lg text-white/80 mb-6 max-w-4xl mx-auto leading-relaxed animate-fade-in-up animate-stagger-1 ${descriptionClassName}`}>
+      <p className={`text-sm font-medium leading-relaxed text-white/80 mb-6 max-w-4xl mx-auto animate-fade-in-up animate-stagger-1 ${descriptionClassName}`}>
         {description}
       </p>
 

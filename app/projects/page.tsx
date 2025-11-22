@@ -5,9 +5,10 @@ import {
   FaRocket,
   FaCode,
   FaCogs,
-  FaGlobe,
   FaTh,
-  FaClock
+  FaClock,
+  FaLayerGroup,
+  FaGithub
 } from "react-icons/fa";
 import { projects, getFeaturedProjects } from "@/data/portfolioData";
 import { useState } from "react";
@@ -37,17 +38,38 @@ const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Calculate stats
+  // Calculate stats for Grid view
   const activeProjects = projects.filter(p => p.isActive).length;
   const featuredProjects = getFeaturedProjects();
-  // const inactiveProjects = projects.filter(p => !p.isActive).length;
+  const openSourceProjects = projects.filter(p => p.isOpenSource).length;
+  const uniqueTechnologies = new Set(projects.flatMap(p => p.stacks)).size;
 
-  // Animated counters for stats dashboard
+  // Animated counters for stats dashboard (Grid view)
   const totalCount = useCountUp({ end: projects.length, duration: 2000 });
   const activeCount = useCountUp({ end: activeProjects, duration: 1900 });
   const featuredCount = useCountUp({ end: featuredProjects.length, duration: 1800, start: 0 });
-  const hoursSavedCount = useCountUp({ end: 32, duration: 2200, suffix: "+" });
-  const clientsCount = useCountUp({ end: 20, duration: 2000, suffix: "+" });
+  const technologiesCount = useCountUp({ end: uniqueTechnologies, duration: 2000 });
+  const openSourceCount = useCountUp({ end: openSourceProjects, duration: 1900 });
+
+  // Calculate stats for Timeline view (same as Grid view for consistency)
+  const timelineStats = (() => {
+    const filtered = selectedSkill
+      ? filteredProjects.filter(p => p.stacks.includes(selectedSkill))
+      : filteredProjects;
+
+    const activeCount = filtered.filter(p => p.isActive).length;
+    const featuredCount = filtered.filter(p => p.isFeatured).length;
+    const openSourceCount = filtered.filter(p => p.isOpenSource).length;
+    const uniqueTechnologies = new Set(filtered.flatMap(p => p.stacks)).size;
+
+    return {
+      total: filtered.length,
+      activeCount,
+      featuredCount,
+      technologiesCount: uniqueTechnologies,
+      openSourceCount,
+    };
+  })();
 
   // Toggle project stacks display
   const toggleProjectStacks = (projectIndex: number) => {
@@ -193,27 +215,103 @@ const Projects = () => {
 
                 <div className="hidden sm:block w-px h-10 bg-white/10"></div>
 
-                {/* Hours Saved */}
-                <div ref={hoursSavedCount.ref} className="flex items-center gap-3">
-                  <div className="p-2 bg-emerald-500/20 rounded-lg">
-                    <FaRocket className="text-emerald-400 text-xl" />
+                {/* Technologies */}
+                <div ref={technologiesCount.ref} className="flex items-center gap-3">
+                  <div className="p-2 bg-orange-500/20 rounded-lg">
+                    <FaLayerGroup className="text-orange-400 text-xl" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">{hoursSavedCount.count}</div>
-                    <div className="text-xs text-white/60">Hours Saved</div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500 tabular-nums">{technologiesCount.count}</div>
+                    <div className="text-xs text-white/60">Technologies</div>
                   </div>
                 </div>
 
                 <div className="hidden sm:block w-px h-10 bg-white/10"></div>
 
-                {/* Clients Served */}
-                <div ref={clientsCount.ref} className="flex items-center gap-3">
+                {/* Open Source */}
+                <div ref={openSourceCount.ref} className="flex items-center gap-3">
                   <div className="p-2 bg-blue-500/20 rounded-lg">
-                    <FaGlobe className="text-blue-400 text-xl" />
+                    <FaGithub className="text-blue-400 text-xl" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default tabular-nums">{clientsCount.count}</div>
-                    <div className="text-xs text-white/60">Clients</div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default tabular-nums">{openSourceCount.count}</div>
+                    <div className="text-xs text-white/60">Open Source</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Compact Impact Metrics - Show for Timeline View */}
+        {viewMode === "timeline" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6"
+          >
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
+              <div className="flex flex-wrap items-center justify-center gap-6">
+                {/* Total Projects */}
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
+                    <FaCode className="text-[#00BFFF] text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">{timelineStats.total}</div>
+                    <div className="text-xs text-white/60">Total Projects</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Active Projects */}
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-emerald-500/20 rounded-lg">
+                    <FaClock className="text-emerald-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">{timelineStats.activeCount}</div>
+                    <div className="text-xs text-white/60">Active</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Featured */}
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-purple-500/20 rounded-lg">
+                    <FaRocket className="text-purple-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">{timelineStats.featuredCount}</div>
+                    <div className="text-xs text-white/60">Featured</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Technologies */}
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-orange-500/20 rounded-lg">
+                    <FaLayerGroup className="text-orange-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500 tabular-nums">{timelineStats.technologiesCount}</div>
+                    <div className="text-xs text-white/60">Technologies</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Open Source */}
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-500/20 rounded-lg">
+                    <FaGithub className="text-blue-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default tabular-nums">{timelineStats.openSourceCount}</div>
+                    <div className="text-xs text-white/60">Open Source</div>
                   </div>
                 </div>
               </div>

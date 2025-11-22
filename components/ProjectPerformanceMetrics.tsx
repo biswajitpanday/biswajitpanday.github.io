@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaArrowUp, FaChartLine, FaClock, FaDollarSign, FaUsers, FaRocket } from "react-icons/fa";
+import { FaArrowUp, FaChartLine, FaClock, FaDollarSign, FaUsers, FaRocket, FaTrophy } from "react-icons/fa";
 import { ProjectMetrics } from "@/data/portfolioData";
 
 interface ProjectPerformanceMetricsProps {
@@ -218,7 +218,10 @@ export default function ProjectPerformanceMetrics({ metrics }: ProjectPerformanc
       {/* Other Metrics - More compact */}
       {metrics.other && metrics.other.length > 0 && (
         <div>
-          <h4 className="text-white font-semibold mb-2 text-xs">Additional Achievements</h4>
+          <div className="flex items-center gap-2 mb-3">
+            <FaTrophy className="text-secondary-default text-sm" />
+            <h3 className="text-lg font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">Additional Achievements</h3>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             {metrics.other.map((item, index) => (
               <motion.div

@@ -42,6 +42,24 @@ export const certifications: Certification[] = [
   },
   {
     id: 2,
+    name: "Optimizely Opal Tools Certified 2025",
+    issuer: "Optimizely",
+    date: "2025-11",
+    expiryDate: "2027-11",
+    link: "https://www.credly.com/badges/b23ab92f-617a-4b29-979d-2567bd16ec70/public_url",
+    description: "An Opal Tools Developer can design, build, and deploy custom AI-powered tools that extend andintegrate seamlessly with the Optimizely ecosystem.",
+      skills: ["Optimizely Opal", "Tools Developer", "AI Productivity"],
+    featured: false,
+    image: "/assets/certificates/webp/opal-tools-certificate.webp",
+    thumbImage: "/assets/certificates/thumbnails/opal-tools-badge.webp",
+    category: "Professional",
+    issuerLogo: "/assets/logos/webp/opti.webp",
+    status: "Active",
+    onlineVerifiable: true,
+    credentialId: "b23ab92f-617a-4b29-979d-2567bd16ec70"
+  },
+  {
+    id: 3,
     name: "Optimizely Opal Certified Administrator 2025",
     issuer: "Optimizely",
     date: "2025-11",
@@ -55,10 +73,11 @@ export const certifications: Certification[] = [
     category: "Professional",
     issuerLogo: "/assets/logos/webp/opti.webp",
     status: "Active",
-    onlineVerifiable: true
+    onlineVerifiable: true,
+    credentialId: "03017104-c364-41de-a2d5-6cd05e8bd9a0"
   },
   {
-    id: 3,
+    id: 4,
     name: "Model Context Protocol (MCP): Hands-On with Agentic AI",
     issuer: "LinkedIn Learning",
     date: "2025-08",
@@ -74,7 +93,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 4,
+    id: 5,
     name: "Microsoft Certified: Azure Developer Associate",
     issuer: "Microsoft",
     date: "2025-06",
@@ -91,7 +110,7 @@ export const certifications: Certification[] = [
   
   // LinkedIn Learning Certifications (Cloud & Azure)
   {
-    id: 5,
+    id: 6,
     name: "Microsoft Azure Fundamentals (AZ-900) Cert Prep: 1 Cloud Concepts",
     issuer: "LinkedIn Learning",
     date: "2024-11",
@@ -107,7 +126,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 6,
+    id: 7,
     name: "Microsoft Azure Fundamentals (AZ-900) Cert Prep: 2 Azure Architecture and Security",
     issuer: "LinkedIn Learning",
     date: "2024-11",
@@ -123,7 +142,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 7,
+    id: 8,
     name: "Microsoft Azure Fundamentals (AZ-900) Cert Prep: 3 Azure Services",
     issuer: "LinkedIn Learning",
     date: "2024-11",
@@ -139,7 +158,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 8,
+    id: 9,
     name: "Microsoft Azure Fundamentals (AZ-900) Cert Prep: 4 Azure Management and Governance",
     issuer: "LinkedIn Learning",
     date: "2024-11",
@@ -157,7 +176,7 @@ export const certifications: Certification[] = [
   
   // LinkedIn Learning Certifications (AI & Development)
   {
-    id: 9,
+    id: 10,
     name: "AI Automation with Anthropic Claude API's Agentic Computer Use",
     issuer: "LinkedIn Learning",
     date: "2024-11",
@@ -173,7 +192,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 10,
+    id: 11,
     name: "C# & .NET: Programming",
     issuer: "LinkedIn Learning",
     date: "2021-04",
@@ -189,7 +208,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 11,
+    id: 12,
     name: "Advanced Design Patterns: Design Principles",
     issuer: "LinkedIn Learning",
     date: "2024-03",
@@ -205,7 +224,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 12,
+    id: 13,
     name: "Software Architecture: Domain-Driven Design",
     issuer: "LinkedIn Learning",
     date: "2024-02",
@@ -221,7 +240,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 13,
+    id: 14,
     name: "Git from Scratch",
     issuer: "LinkedIn Learning",
     date: "2023-09",
@@ -237,7 +256,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 14,
+    id: 15,
     name: "Learning BigQuery",
     issuer: "LinkedIn Learning",
     date: "2023-11",
@@ -253,7 +272,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 15,
+    id: 16,
     name: "C#: Design Patterns Part 1",
     issuer: "LinkedIn Learning",
     date: "2022-06",
@@ -271,7 +290,7 @@ export const certifications: Certification[] = [
   
   // Pluralsight Certifications
   {
-    id: 16,
+    id: 17,
     name: "Design Patterns Overview",
     issuer: "Pluralsight",
     date: "2020-06",
@@ -287,7 +306,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 17,
+    id: 18,
     name: "Building Cloud Native Solutions for Azure with Visual Studio",
     issuer: "Pluralsight",
     date: "2020-05",
@@ -303,7 +322,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 18,
+    id: 19,
     name: "C# Generics",
     issuer: "Pluralsight",
     date: "2020-04",
@@ -319,7 +338,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 19,
+    id: 20,
     name: "Docker and Kubernetes: The Big Picture",
     issuer: "Pluralsight",
     date: "2021-02",
@@ -335,7 +354,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 20,
+    id: 21,
     name: "NPM Playbook",
     issuer: "Pluralsight",
     date: "2019-11",
@@ -351,7 +370,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 21,
+    id: 22,
     name: "Object-Oriented Programming Fundamentals in C#",
     issuer: "Pluralsight",
     date: "2019-08",
@@ -367,7 +386,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 22,
+    id: 23,
     name: "React: The Big Picture",
     issuer: "Pluralsight",
     date: "2020-07",
@@ -414,7 +433,7 @@ export const certifications: Certification[] = [
   
   // Additional Pluralsight Certifications from Extra directory
   {
-    id: 23,
+    id: 24,
     name: "Object-Oriented Programming",
     issuer: "Pluralsight",
     date: "2020-03",
@@ -430,7 +449,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 24,
+    id: 25,
     name: "C# Design Patterns: Command Pattern",
     issuer: "Pluralsight",
     date: "2020-01",
@@ -446,7 +465,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 25,
+    id: 26,
     name: "C# Design Patterns: Strategy Pattern",
     issuer: "Pluralsight",
     date: "2020-02",
@@ -462,7 +481,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 26,
+    id: 27,
     name: "C# Design Patterns: Singleton Pattern",
     issuer: "Pluralsight",
     date: "2020-01",
@@ -478,7 +497,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 27,
+    id: 28,
     name: "C# Fundamentals with C# 5.0",
     issuer: "Pluralsight",
     date: "2019-05",
@@ -494,7 +513,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 28,
+    id: 29,
     name: "Entity Framework Migrations",
     issuer: "Pluralsight",
     date: "2019-09",
@@ -510,7 +529,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 29,
+    id: 30,
     name: "Authentication and Authorization in ASP.NET Core",
     issuer: "Pluralsight",
     date: "2020-05",
@@ -526,7 +545,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 30,
+    id: 31,
     name: "Azure Developer: Create Azure App Service Web Apps",
     issuer: "Pluralsight",
     date: "2020-08",
@@ -542,7 +561,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 31,
+    id: 32,
     name: "Microsoft Azure Developer: Implement IaaS Solutions",
     issuer: "Pluralsight",
     date: "2020-09",
@@ -558,7 +577,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 32,
+    id: 33,
     name: "Angular and Web API: Front to Back",
     issuer: "Pluralsight",
     date: "2019-11",
@@ -574,7 +593,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 33,
+    id: 34,
     name: "AngularJS Line of Business Applications",
     issuer: "Pluralsight",
     date: "2019-10",
@@ -590,7 +609,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 34,
+    id: 35,
     name: "Algorithms and Data Structures - Part 1",
     issuer: "Pluralsight",
     date: "2019-07",
@@ -606,7 +625,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 35,
+    id: 36,
     name: "Play by Play: Node.js and Web API with John Papa and Sam Artioli",
     issuer: "Pluralsight",
     date: "2019-06",
@@ -622,7 +641,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 36,
+    id: 37,
     name: "Grunt: Introduction",
     issuer: "Pluralsight",
     date: "2019-04",
@@ -638,7 +657,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 37,
+    id: 38,
     name: "Getting Started with Docker",
     issuer: "Pluralsight",
     date: "2020-10",
@@ -654,7 +673,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 38,
+    id: 39,
     name: "Getting Started with Kubernetes",
     issuer: "Pluralsight",
     date: "2021-01",
@@ -670,7 +689,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 39,
+    id: 40,
     name: "Kubernetes Installation and Configuration",
     issuer: "Pluralsight",
     date: "2021-02",
@@ -686,7 +705,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 40,
+    id: 41,
     name: "Jira 8 Getting Started",
     issuer: "Pluralsight",
     date: "2021-03",
@@ -702,7 +721,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 41,
+    id: 42,
     name: "Managing Your Emotions at Work",
     issuer: "LinkedIn Learning",
     date: "2022-03",
@@ -718,7 +737,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: true
   },
   {
-    id: 42,
+    id: 43,
     name: "NgConf Enterprise Session 05",
     issuer: "Pluralsight",
     date: "2019-02",
@@ -734,7 +753,7 @@ export const certifications: Certification[] = [
     onlineVerifiable: false
   },
   {
-    id: 43,
+    id: 44,
     name: "NgConf Enterprise Session 07",
     issuer: "Pluralsight",
     date: "2019-03",

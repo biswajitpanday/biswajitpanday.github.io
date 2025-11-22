@@ -356,10 +356,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       {/* Metrics Display - If exists */}
                       {project.metrics && (
                         <div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <FaChartLine className="text-secondary-default text-xs" />
-                            <h3 className="text-sm font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">Impact & Metrics</h3>
-                          </div>
+                          <SectionHeader icon={FaChartLine} title="Impact & Metrics" />
                           <div className="origin-top-left">
                             <ProjectPerformanceMetrics metrics={project.metrics} />
                           </div>

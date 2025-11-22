@@ -90,7 +90,7 @@
   }
 
   .custom-vt::before {
-    left: 19% !important;
+    left: 8% !important;
     background: linear-gradient(
       to bottom,
       var(--color-secondary-default),
@@ -100,13 +100,13 @@
   }
 
   .custom-vt .vertical-timeline-element-icon {
-    left: 19% !important;
+    left: 8% !important;
     transform: translateZ(0); /* Hardware acceleration */
   }
 
   .custom-vt-element .vertical-timeline-element-content {
-    width: 77% !important;
-    border-radius: 5px !important;
+    width: 88% !important;
+    border-radius: 16px !important;
     transform: translateZ(0); /* Hardware acceleration */
   }
 

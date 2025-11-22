@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { FaCalendar, FaCode, FaStar, FaClock, FaGithub, FaRocket, FaBuilding, FaEye } from "react-icons/fa";
+import { FaGithub, FaEye } from "react-icons/fa";
 import { projects, Project } from "@/data/portfolioData";
 import Image from "next/image";
 import Link from "next/link";
@@ -73,115 +73,9 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
     return timelineProjects.filter((p) => p.stacks.includes(selectedTech));
   }, [timelineProjects, selectedTech]);
 
-  // Calculate statistics with proper duration calculation (non-overlapping)
-  const stats = useMemo(() => {
-    const activeCount = filteredProjects.filter((p) => p.isActive).length;
-    const featuredCount = filteredProjects.filter((p) => p.isFeatured).length;
-    const companiesCount = new Set(
-      filteredProjects.map((p) => p.associatedWithCompany).filter(c => c !== "")
-    ).size;
-
-    // Calculate total duration by finding earliest start and latest end date
-    if (filteredProjects.length === 0) {
-      return { total: 0, totalYears: 0, activeCount: 0, featuredCount: 0, companiesCount: 0 };
-    }
-
-    const sortedByDate = [...filteredProjects].sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
-    const earliestStart = sortedByDate[0].startDate;
-    const latestEnd = sortedByDate.reduce((latest, p) => 
-      p.endDate.getTime() > latest.getTime() ? p.endDate : latest, 
-      sortedByDate[0].endDate
-    );
-    
-    const totalMonths = Math.round(
-      (latestEnd.getTime() - earliestStart.getTime()) / (1000 * 60 * 60 * 24 * 30)
-    );
-    const totalYears = Math.round(totalMonths / 12 * 10) / 10; // Round to 1 decimal
-
-    return {
-      total: filteredProjects.length,
-      totalYears,
-      activeCount,
-      featuredCount,
-      companiesCount,
-    };
-  }, [filteredProjects]);
-
 
   return (
     <div className="space-y-6" data-testid="project-timeline">
-      {/* Compact Statistics Bar - Matching header style */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4"
-      >
-        <div className="flex flex-wrap items-center justify-center gap-6">
-          {/* Total Projects */}
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
-              <FaCode className="text-[#00BFFF] text-xl" />
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-[#00BFFF] tabular-nums">{stats.total}</div>
-              <div className="text-xs text-white/60">Total Projects</div>
-            </div>
-          </div>
-
-          <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-          {/* Active Projects */}
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#00BFFF]/15 rounded-lg">
-              <FaRocket className="text-[#00BFFF]/90 text-xl" />
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-[#00BFFF]/90 tabular-nums">{stats.activeCount}</div>
-              <div className="text-xs text-white/60">Active</div>
-            </div>
-          </div>
-
-          <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-          {/* Featured */}
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#00BFFF]/25 rounded-lg">
-              <FaStar className="text-[#00BFFF] text-xl" />
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-[#00BFFF] tabular-nums">{stats.featuredCount}</div>
-              <div className="text-xs text-white/60">Featured</div>
-            </div>
-          </div>
-
-          <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-          {/* Companies */}
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#00BFFF]/15 rounded-lg">
-              <FaBuilding className="text-[#00BFFF]/80 text-xl" />
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-[#00BFFF]/80 tabular-nums">{stats.companiesCount}</div>
-              <div className="text-xs text-white/60">Companies</div>
-            </div>
-          </div>
-
-          <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-          {/* Timeline Span */}
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
-              <FaCalendar className="text-[#00BFFF]/90 text-xl" />
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-[#00BFFF]/90 tabular-nums">{stats.totalYears}y</div>
-              <div className="text-xs text-white/60">Timeline Span</div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
       {/* Results Summary */}
       {selectedTech && (
         <div className="flex items-center justify-between text-sm">
@@ -193,8 +87,8 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
 
       {/* Timeline View */}
       <div className="relative">
-        {/* Timeline Line - Hidden on mobile, visible on md+ */}
-        <div className="hidden md:block absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-secondary-default via-blue-500 to-purple-500" />
+        {/* Timeline Line - Hidden on mobile, visible on md+ - Purple at top, fades to transparent at bottom */}
+        <div className="hidden md:block absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 via-blue-500 to-transparent" />
 
         {/* Timeline Items */}
         <div className="space-y-6">
