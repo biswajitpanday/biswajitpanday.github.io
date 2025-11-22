@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 
 import { motion } from "framer-motion";
 import { getMostRecentCertification } from "@/data/certificationsData";
+import { testimonials } from "@/data/testimonialsData";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 import BackgroundElements from "@/components/BackgroundElements";
 import Badge from "@/components/Badge";
@@ -19,6 +20,12 @@ import { RiRobot3Fill } from "react-icons/ri";
 // Lazy load only non-critical below-the-fold components
 const Socials = lazy(() => import("@/components/Socials"));
 const Stats = lazy(() => import("@/components/Stats"));
+const ByTheNumbersDashboard = lazy(() => import("@/components/ByTheNumbersDashboard"));
+const TestimonialsCarousel = lazy(() => import("@/components/TestimonialsCarousel"));
+const FeaturedCaseStudies = lazy(() => import("@/components/FeaturedCaseStudies"));
+const ValueProposition = lazy(() => import("@/components/ValueProposition"));
+const InteractiveDemos = lazy(() => import("@/components/InteractiveDemos"));
+const FeaturedBlogPosts = lazy(() => import("@/components/FeaturedBlogPosts"));
 
 // Loading fallback components
 const ComponentFallback = ({ className }: { className?: string }) => (
@@ -285,8 +292,38 @@ const Home = () => {
             <Stats />
           </Suspense>
         </motion.div>
-             </div>
-     </section>
+
+        {/* By The Numbers Dashboard */}
+        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
+          <ByTheNumbersDashboard />
+        </Suspense>
+
+        {/* Value Proposition */}
+        <Suspense fallback={<ComponentFallback className="w-full h-48" />}>
+          <ValueProposition />
+        </Suspense>
+
+        {/* Testimonials Carousel */}
+        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
+          <TestimonialsCarousel testimonials={testimonials} />
+        </Suspense>
+
+        {/* Featured Case Studies */}
+        <Suspense fallback={<ComponentFallback className="w-full h-96" />}>
+          <FeaturedCaseStudies maxItems={2} />
+        </Suspense>
+
+        {/* Interactive Demos */}
+        <Suspense fallback={<ComponentFallback className="w-full h-96" />}>
+          <InteractiveDemos />
+        </Suspense>
+
+        {/* Featured Blog Posts */}
+        <Suspense fallback={<ComponentFallback className="w-full h-96" />}>
+          <FeaturedBlogPosts maxItems={3} />
+        </Suspense>
+      </div>
+    </section>
    </>
    );
  };
