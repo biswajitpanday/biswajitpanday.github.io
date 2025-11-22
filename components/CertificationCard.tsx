@@ -129,6 +129,39 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
           transformStyle: 'preserve-3d',
         }}
       >
+        {/* Category Badge Icon - Top Right Corner (Outside image container for tooltip visibility) */}
+        <div className="absolute top-2 right-2 z-20">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  data-testid={`certification-category-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+                  className={`inline-flex items-center justify-center w-7 h-7 rounded-md border transition-colors cursor-help ${
+                    certification.category === "Professional"
+                      ? 'bg-purple-500/20 border-purple-500/40 hover:bg-purple-500/30'
+                      : certification.category === "Course"
+                        ? 'bg-emerald-500/20 border-emerald-500/40 hover:bg-emerald-500/30'
+                        : 'bg-blue-500/20 border-blue-500/40 hover:bg-blue-500/30'
+                  }`}
+                >
+                  {certification.category === "Professional" ? (
+                    <FiBriefcase className={`text-sm ${
+                      certification.category === "Professional" ? 'text-purple-300' : ''
+                    }`} />
+                  ) : (
+                    <FiBook className={`text-sm ${
+                      certification.category === "Course" ? 'text-emerald-300' : 'text-blue-300'
+                    }`} />
+                  )}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="z-[200]">
+                <p className="text-xs">{certification.category}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+
         {/* Card Header with Image */}
         <div
           data-testid={`certification-image-container-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
@@ -176,39 +209,6 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
               />
             </div>
           )}
-
-          {/* Category Badge Icon - Top Right Corner */}
-          <div className="absolute top-2 right-2 z-20">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div
-                    data-testid={`certification-category-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
-                    className={`inline-flex items-center justify-center w-7 h-7 rounded-md border transition-colors cursor-help ${
-                      certification.category === "Professional"
-                        ? 'bg-purple-500/20 border-purple-500/40 hover:bg-purple-500/30'
-                        : certification.category === "Course"
-                          ? 'bg-emerald-500/20 border-emerald-500/40 hover:bg-emerald-500/30'
-                          : 'bg-blue-500/20 border-blue-500/40 hover:bg-blue-500/30'
-                    }`}
-                  >
-                    {certification.category === "Professional" ? (
-                      <FiBriefcase className={`text-sm ${
-                        certification.category === "Professional" ? 'text-purple-300' : ''
-                      }`} />
-                    ) : (
-                      <FiBook className={`text-sm ${
-                        certification.category === "Course" ? 'text-emerald-300' : 'text-blue-300'
-                      }`} />
-                    )}
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent className="z-[200]">
-                  <p className="text-xs">{certification.category}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
         </div>
 
         {/* Card Content */}
@@ -378,7 +378,8 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 
         {/* Card Footer */}
         <div className="mt-3 pt-3 border-t border-white/10">
-          <div className="flex gap-3">
+          <div className="flex gap-2">
+            {/* View Certificate/Image Button */}
             {link && onlineVerifiable !== false ? (
               <Link
                 href={link}
@@ -387,7 +388,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
                 className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/20 text-sm font-medium"
               >
                 <FiExternalLink className="text-sm" />
-                <span>View Certificate</span>
+                <span>View</span>
               </Link>
             ) : (
               <button
@@ -395,8 +396,22 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
                 className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-white/5 to-transparent hover:from-white/10 hover:to-transparent border border-white/20 hover:border-white/30 text-white/70 hover:text-white px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg text-sm font-medium"
               >
                 <FiExternalLink className="text-sm" />
-                <span>View Image</span>
+                <span>View</span>
               </button>
+            )}
+
+            {/* Quick Verify Button - Only for online verifiable certs */}
+            {onlineVerifiable && link && (
+              <Link
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-1.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 hover:border-green-500/50 text-green-400 px-3 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20 text-sm font-medium"
+                title="Verify this certification online"
+              >
+                <FiCheck className="text-sm" />
+                <span className="hidden sm:inline">Verify</span>
+              </Link>
             )}
           </div>
         </div>

@@ -13,7 +13,7 @@ import {
 } from "@/data/certificationsData";
 import CertificationCard from "@/components/CertificationCard";
 import BackgroundElements from "@/components/BackgroundElements";
-import { FiAward, FiBriefcase, FiBook, FiSlack } from "react-icons/fi";
+import { FiAward, FiBriefcase, FiBook, FiSlack, FiCheckCircle, FiShield } from "react-icons/fi";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UnifiedToolbar from "@/components/UnifiedToolbar";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
@@ -36,18 +36,37 @@ const Certifications = () => {
   const [showAllCertifications, setShowAllCertifications] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Advanced filter states
+  const [selectedIssuer, setSelectedIssuer] = useState<string>("all");
+  const [selectedYear, setSelectedYear] = useState<string>("all");
+  const [selectedStatus, setSelectedStatus] = useState<string>("all");
+
   // Define initial display limit (show important certifications first)
   const INITIAL_DISPLAY_COUNT = 12;
+
+  // Get unique issuers and years for filters
+  const uniqueIssuers = Array.from(new Set(certifications.map(cert => cert.issuer))).sort();
+  const uniqueYears = Array.from(
+    new Set(certifications.map(cert => new Date(cert.date).getFullYear()))
+  ).sort((a, b) => b - a);
 
   // Calculate stat values
   const totalCreds = certCounts.total - certCounts.upcoming;
   const professionalCount = certCounts.professional - (professionalCerts.filter(cert => cert.isUpcoming).length);
   const courseCount = certCounts.course;
 
+  // Calculate Active and Verified counts
+  const activeCerts = certifications.filter(cert => !cert.isUpcoming && cert.status === "Active");
+  const verifiedCerts = certifications.filter(cert => !cert.isUpcoming && cert.onlineVerifiable);
+  const activeCount = activeCerts.length;
+  const verifiedCount = verifiedCerts.length;
+
   // Animated counters for stats
   const totalCredsCount = useCountUp({ end: totalCreds, duration: 2000 });
   const professionalCountUp = useCountUp({ end: professionalCount, duration: 1900 });
   const courseCountUp = useCountUp({ end: courseCount, duration: 1800 });
+  const activeCountUp = useCountUp({ end: activeCount, duration: 1700 });
+  const verifiedCountUp = useCountUp({ end: verifiedCount, duration: 1600 });
   
   // Handle tab change
   const handleTabChange = (value: string) => {
@@ -113,7 +132,7 @@ const Certifications = () => {
     return important;
   };
 
-  // Get the final displayed certifications based on active tab and search
+  // Get the final displayed certifications based on active tab, search, and advanced filters
   const getDisplayedCertifications = () => {
     let baseCertifications: Certification[] = [];
 
@@ -134,6 +153,26 @@ const Certifications = () => {
       );
     }
 
+    // Apply advanced filters
+    if (selectedIssuer !== "all") {
+      baseCertifications = baseCertifications.filter(cert => cert.issuer === selectedIssuer);
+    }
+
+    if (selectedYear !== "all") {
+      baseCertifications = baseCertifications.filter(cert =>
+        new Date(cert.date).getFullYear() === parseInt(selectedYear)
+      );
+    }
+
+    if (selectedStatus !== "all") {
+      baseCertifications = baseCertifications.filter(cert => {
+        if (selectedStatus === "Active") return cert.status === "Active";
+        if (selectedStatus === "Expired") return cert.status === "Expired";
+        if (selectedStatus === "Verified") return cert.onlineVerifiable === true;
+        return true;
+      });
+    }
+
     if (!showAllCertifications) {
       const importantCerts = getImportantCertifications(baseCertifications);
       return baseCertifications.filter(cert =>
@@ -145,6 +184,17 @@ const Certifications = () => {
   };
 
   const displayedCertifications = getDisplayedCertifications();
+
+  // Reset all filters
+  const resetFilters = () => {
+    setSearchQuery("");
+    setSelectedIssuer("all");
+    setSelectedYear("all");
+    setSelectedStatus("all");
+  };
+
+  // Check if any filters are active
+  const hasActiveFilters = searchQuery !== "" || selectedIssuer !== "all" || selectedYear !== "all" || selectedStatus !== "all";
 
   // Check if "Show More" button should be displayed
   const allCerts = certifications.filter(cert => !cert.isUpcoming);
@@ -240,6 +290,36 @@ const Certifications = () => {
                   <div className="text-xs text-white/60">Courses</div>
                 </div>
               </div>
+
+              <div className="hidden lg:block w-px h-10 bg-white/10"></div>
+
+              {/* Active Certifications */}
+              <div ref={activeCountUp.ref} className="flex items-center gap-3">
+                <div className="p-2 bg-green-500/20 rounded-lg">
+                  <FiCheckCircle className="text-green-400 text-xl" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 tabular-nums">
+                    {activeCountUp.count}
+                  </div>
+                  <div className="text-xs text-white/60">Active</div>
+                </div>
+              </div>
+
+              <div className="hidden lg:block w-px h-10 bg-white/10"></div>
+
+              {/* Verified Certifications */}
+              <div ref={verifiedCountUp.ref} className="flex items-center gap-3">
+                <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
+                  <FiShield className="text-[#00BFFF] text-xl" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">
+                    {verifiedCountUp.count}
+                  </div>
+                  <div className="text-xs text-white/60">Verified</div>
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -266,6 +346,7 @@ const Certifications = () => {
 
         {/* Certifications Tabs - Wrapped in UnifiedToolbar */}
         <Tabs defaultValue="all" className="mt-8" onValueChange={handleTabChange}>
+          {/* Search and Filters Row */}
           <UnifiedToolbar
             className="mb-0"
             showSearch={true}
@@ -273,7 +354,59 @@ const Certifications = () => {
             onSearchChange={setSearchQuery}
             searchPlaceholder="Search certifications, issuers, or skills..."
           >
-            <TabsList className="bg-transparent p-0 gap-2">
+            {/* Advanced Filters and Tabs in one row */}
+            <div className="flex flex-wrap items-center gap-2 w-full">
+              {/* Issuer Filter */}
+              <select
+                value={selectedIssuer}
+                onChange={(e) => setSelectedIssuer(e.target.value)}
+                className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 pr-8 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 cursor-pointer"
+              >
+                <option value="all" className="bg-[#1a1a1f]">All Issuers</option>
+                {uniqueIssuers.map(issuer => (
+                  <option key={issuer} value={issuer} className="bg-[#1a1a1f]">{issuer}</option>
+                ))}
+              </select>
+
+              {/* Year Filter */}
+              <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
+                className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 pr-8 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 cursor-pointer"
+              >
+                <option value="all" className="bg-[#1a1a1f]">All Years</option>
+                {uniqueYears.map(year => (
+                  <option key={year} value={year.toString()} className="bg-[#1a1a1f]">{year}</option>
+                ))}
+              </select>
+
+              {/* Status Filter */}
+              <select
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value)}
+                className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 pr-8 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 cursor-pointer"
+              >
+                <option value="all" className="bg-[#1a1a1f]">All Status</option>
+                <option value="Active" className="bg-[#1a1a1f]">Active</option>
+                <option value="Expired" className="bg-[#1a1a1f]">Expired</option>
+                <option value="Verified" className="bg-[#1a1a1f]">Verified</option>
+              </select>
+
+              {/* Reset Filters Button */}
+              {hasActiveFilters && (
+                <button
+                  onClick={resetFilters}
+                  className="h-9 px-4 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 rounded-lg text-xs font-medium transition-all duration-300 hover:border-red-500/50"
+                >
+                  Reset
+                </button>
+              )}
+
+              {/* Separator */}
+              <div className="hidden lg:block w-px h-8 bg-white/10 mx-2"></div>
+
+              {/* Category Tabs */}
+              <TabsList className="bg-transparent p-0 gap-2 flex-1">
               <TabsTrigger
                 value="all"
                 className="px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
@@ -300,7 +433,8 @@ const Certifications = () => {
                   Training ({trainingCerts.length})
                 </TabsTrigger>
               )}
-            </TabsList>
+              </TabsList>
+            </div>
           </UnifiedToolbar>
 
           {/* All Certifications */}
