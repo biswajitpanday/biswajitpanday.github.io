@@ -113,7 +113,7 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -262,7 +262,6 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                           initial={{ opacity: 0, scale: 0.9 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ duration: 0.2, delay: skillIndex * 0.015 }}
-                          whileHover={{ scale: 1.05 }}
                           className="relative group"
                         >
                           <div

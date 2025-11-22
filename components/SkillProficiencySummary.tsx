@@ -176,7 +176,7 @@ export default function SkillProficiencySummary() {
                 className="relative group"
               >
                 <div
-                  className={`relative px-2 py-1.5 rounded-md border ${colorClass} text-center text-[11px] font-semibold transition-all hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/20 cursor-pointer`}
+                  className={`relative px-2 py-1.5 rounded-md border ${colorClass} text-center text-[11px] font-semibold transition-all hover:shadow-lg hover:shadow-secondary-default/20 cursor-pointer`}
                 >
                   <div className="truncate">{skill.name}</div>
                   {experience && (

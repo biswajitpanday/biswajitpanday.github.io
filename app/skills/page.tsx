@@ -369,7 +369,7 @@ const Skills = () => {
                 initial={TREE_ANIMATIONS.leftCard.initial}
                 animate={TREE_ANIMATIONS.leftCard.animate}
                 transition={TREE_ANIMATIONS.leftCard.transition}
-                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02]"
+                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10"
               >
                 <TreeView
                   data={data1}
@@ -386,7 +386,7 @@ const Skills = () => {
                 initial={TREE_ANIMATIONS.rightCard.initial}
                 animate={TREE_ANIMATIONS.rightCard.animate}
                 transition={TREE_ANIMATIONS.rightCard.transition}
-                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10 hover:scale-[1.02]"
+                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10"
               >
                 <TreeView
                   data={data2}
