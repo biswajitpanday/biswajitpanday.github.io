@@ -377,43 +377,27 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
         </div>
 
         {/* Card Footer */}
-        <div className="mt-3 pt-3 border-t border-white/10">
-          <div className="flex gap-2">
-            {/* View Certificate/Image Button */}
-            {link && onlineVerifiable !== false ? (
-              <Link
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/20 text-sm font-medium"
-              >
-                <FiExternalLink className="text-sm" />
-                <span>View</span>
-              </Link>
-            ) : (
-              <button
-                onClick={() => setIsLightboxOpen(true)}
-                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-white/5 to-transparent hover:from-white/10 hover:to-transparent border border-white/20 hover:border-white/30 text-white/70 hover:text-white px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg text-sm font-medium"
-              >
-                <FiExternalLink className="text-sm" />
-                <span>View</span>
-              </button>
-            )}
-
-            {/* Quick Verify Button - Only for online verifiable certs */}
-            {onlineVerifiable && link && (
-              <Link
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 hover:border-green-500/50 text-green-400 px-3 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20 text-sm font-medium"
-                title="Verify this certification online"
-              >
-                <FiCheck className="text-sm" />
-                <span className="hidden sm:inline">Verify</span>
-              </Link>
-            )}
-          </div>
+        <div className="mt-3">
+          {/* View Certificate/Image Button */}
+          {link && onlineVerifiable !== false ? (
+            <Link
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/20 text-sm font-medium"
+            >
+              <FiExternalLink className="text-sm" />
+              <span>View Certificate</span>
+            </Link>
+          ) : (
+            <button
+              onClick={() => setIsLightboxOpen(true)}
+              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-white/5 to-transparent hover:from-white/10 hover:to-transparent border border-white/20 hover:border-white/30 text-white/70 hover:text-white px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg text-sm font-medium"
+            >
+              <FiExternalLink className="text-sm" />
+              <span>View Image</span>
+            </button>
+          )}
         </div>
 
         {/* 3D Depth Effect - Subtle Shadow Layer */}
