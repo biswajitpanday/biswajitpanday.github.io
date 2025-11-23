@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
-import { FaTh, FaReact, FaServer, FaSitemap, FaCode, FaDatabase, FaTasks, FaTools } from 'react-icons/fa';
+import { FaTh, FaReact, FaServer, FaSitemap, FaCode, FaDatabase, FaTasks, FaTools, FaDocker, FaAws, FaNodeJs, FaPython, FaJava, FaAngular, FaVuejs } from 'react-icons/fa';
+import { SiDotnet, SiCsharp, SiMicrosoftazure, SiKubernetes, SiMongodb, SiPostgresql, SiMysql, SiRedis, SiTypescript, SiJavascript, SiNextdotjs, SiExpress, SiNestjs, SiGraphql, SiRabbitmq, SiElasticsearch, SiKafka } from 'react-icons/si';
+import DynamicIcon from '@/components/DynamicIcon';
 import { skills1 } from '@/data/skillsData';
 
 // Skill interface matching skillsData structure
@@ -50,6 +52,70 @@ const categoryIcons: Record<string, React.ComponentType<{ className?: string }>>
   'Databases': FaDatabase,
   'Agile Methodologies': FaTasks,
   'Other Skills': FaTools,
+};
+
+// Technology icon mapping - comprehensive list
+const getTechnologyIcon = (techName: string) => {
+  const iconMap: Record<string, string> = {
+    // .NET Technologies
+    'ASP.NET Core': 'SiDotnet',
+    'ASP.NET MVC': 'SiDotnet',
+    '.NET Core/.NET 6/7/8/9': 'SiDotnet',
+    'C#': 'SiCsharp',
+
+    // JavaScript/TypeScript Frameworks
+    'React': 'FaReact',
+    'Next.js': 'SiNextdotjs',
+    'Angular': 'FaAngular',
+    'Vue.js': 'FaVuejs',
+    'Express.js': 'SiExpress',
+    'Node.js': 'FaNodeJs',
+    'NestJS': 'SiNestjs',
+    'Blazor': 'SiDotnet',
+
+    // Languages
+    'JavaScript': 'SiJavascript',
+    'TypeScript': 'SiTypescript',
+    'Python': 'FaPython',
+    'Java': 'FaJava',
+
+    // Cloud & Infrastructure
+    'Azure': 'SiMicrosoftazure',
+    'AWS': 'FaAws',
+    'Docker': 'FaDocker',
+    'Kubernetes': 'SiKubernetes',
+
+    // Databases
+    'MongoDB': 'SiMongodb',
+    'PostgreSQL': 'SiPostgresql',
+    'MySQL': 'SiMysql',
+    'SQL Server': 'FaDatabase',
+    'Redis': 'SiRedis',
+    'DynamoDB': 'FaDatabase',
+    'CosmosDB': 'FaDatabase',
+
+    // Message Queues & APIs
+    'RabbitMQ': 'SiRabbitmq',
+    'Kafka': 'SiKafka',
+    'GraphQL': 'SiGraphql',
+    'REST API Design': 'FaCode',
+    'LINQ': 'FaCode',
+
+    // Search
+    'Elasticsearch': 'SiElasticsearch',
+
+    // Patterns & Methodologies
+    'Domain Driven Design': 'FaSitemap',
+    'Microservices': 'FaSitemap',
+    'CQRS': 'FaSitemap',
+    'Serverless': 'FaServer',
+    'Event Sourcing': 'FaSitemap',
+    'Agile': 'FaTasks',
+    'Scrum': 'FaTasks',
+    'Kanban': 'FaTasks',
+  };
+
+  return iconMap[techName] || 'FaCode'; // Default icon
 };
 
 interface SkillsHeatMapModalProps {
@@ -171,21 +237,17 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
 
           {/* Scrollable Content Area */}
           <div className="overflow-y-auto custom-scrollbar px-6 py-6 flex-1">
-            {/* Filter Section */}
-            <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-xl p-4 mb-6">
-              {/* Category Dropdown with Icons */}
-              <div className="mb-4">
-                <label className="text-xs text-white/60 font-medium mb-2 block">
-                  Filter by Category
-                </label>
+            {/* Compact Filter Section - Single Line */}
+            <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 mb-6">
+              <div className="flex flex-wrap items-center gap-3">
+                {/* Category Dropdown */}
                 <select
                   value={selectedCategory || 'All Categories'}
                   onChange={(e) => setSelectedCategory(e.target.value === 'All Categories' ? null : e.target.value)}
-                  className="w-full bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 [&>option]:bg-gray-900 [&>option]:text-white"
+                  className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 [&>option]:bg-gray-900 [&>option]:text-white"
                 >
                   <option value="All Categories">🎨 All Categories</option>
                   {skillCategories.map(({ category }) => {
-                    const IconComponent = categoryIcons[category];
                     // Use emoji as prefix since we can't render React icons in option tags
                     const iconMap: Record<string, string> = {
                       'Frameworks': '⚛️',
@@ -203,21 +265,19 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                     );
                   })}
                 </select>
-              </div>
 
-              {/* Proficiency Level Filter with Checkboxes */}
-              <div>
-                <label className="text-xs text-white/60 font-medium mb-2 block">
-                  Filter by Level
-                </label>
-                <div className="flex flex-wrap gap-4">
+                {/* Separator */}
+                <div className="hidden sm:block w-px h-8 bg-white/10"></div>
+
+                {/* Proficiency Level Checkboxes */}
+                <div className="flex flex-wrap items-center gap-3">
                   <button
                     onClick={() => toggleLevel('Expert')}
-                    className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
+                    className="flex items-center gap-1.5 cursor-pointer group transition-all hover:scale-105"
                   >
-                    <div className="relative w-5 h-5 bg-purple-500/90 border border-purple-500 rounded flex items-center justify-center">
+                    <div className="relative w-4 h-4 bg-purple-500/90 border border-purple-500 rounded flex items-center justify-center">
                       {selectedLevels.has('Expert') && (
-                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                         </svg>
                       )}
@@ -229,11 +289,11 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                   </button>
                   <button
                     onClick={() => toggleLevel('Advanced')}
-                    className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
+                    className="flex items-center gap-1.5 cursor-pointer group transition-all hover:scale-105"
                   >
-                    <div className="relative w-5 h-5 bg-emerald-500/90 border border-emerald-500 rounded flex items-center justify-center">
+                    <div className="relative w-4 h-4 bg-emerald-500/90 border border-emerald-500 rounded flex items-center justify-center">
                       {selectedLevels.has('Advanced') && (
-                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                         </svg>
                       )}
@@ -245,11 +305,11 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                   </button>
                   <button
                     onClick={() => toggleLevel('Intermediate')}
-                    className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
+                    className="flex items-center gap-1.5 cursor-pointer group transition-all hover:scale-105"
                   >
-                    <div className="relative w-5 h-5 bg-blue-500/90 border border-blue-500 rounded flex items-center justify-center">
+                    <div className="relative w-4 h-4 bg-blue-500/90 border border-blue-500 rounded flex items-center justify-center">
                       {selectedLevels.has('Intermediate') && (
-                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                         </svg>
                       )}
@@ -261,11 +321,11 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                   </button>
                   <button
                     onClick={() => toggleLevel('Familiar')}
-                    className="flex items-center gap-2 cursor-pointer group transition-all hover:scale-105"
+                    className="flex items-center gap-1.5 cursor-pointer group transition-all hover:scale-105"
                   >
-                    <div className="relative w-5 h-5 bg-slate-500/70 border border-slate-500 rounded flex items-center justify-center">
+                    <div className="relative w-4 h-4 bg-slate-500/70 border border-slate-500 rounded flex items-center justify-center">
                       {selectedLevels.has('Familiar') && (
-                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                         </svg>
                       )}
@@ -279,26 +339,26 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
               </div>
             </div>
 
-            {/* Skills Count */}
-            <div className="text-center mb-6">
-              <p className="text-sm text-white/60">
-                Showing <span className="font-bold text-secondary-default">{totalFilteredSkills}</span> skills
-                {selectedCategory && <span> in <span className="font-bold text-white/80">{selectedCategory}</span></span>}
-              </p>
-            </div>
-
             {/* Heat Map Grid */}
-            <div className="space-y-8">
-              {displayedCategories.map(({ category, skills }) => (
-                <div key={category}>
-                  <h3 className="text-lg font-semibold text-white/90 mb-4">{category}</h3>
+            <div className="space-y-6">
+              {displayedCategories.map(({ category, skills }) => {
+                const CategoryIcon = categoryIcons[category] || FaCode;
 
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                return (
+                <div key={category}>
+                  <div className="flex items-center gap-2 mb-3">
+                    <CategoryIcon className="text-secondary-default text-base" />
+                    <h3 className="text-base font-semibold text-white/90">{category}</h3>
+                    <span className="text-xs text-white/40">({skills.length})</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                     {skills.map((skill, skillIndex) => {
                       const level = skill.metadata?.level || 'Familiar';
                       const colorClass = levelToColor[level];
                       const experience = skill.metadata?.yearsOfExperience;
                       const lastUsed = skill.metadata?.lastUsed;
+                      const iconName = getTechnologyIcon(skill.name);
 
                       return (
                         <motion.div
@@ -309,30 +369,31 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                           className="relative group"
                         >
                           <div
-                            className={`p-3 rounded-lg border-2 ${colorClass} cursor-pointer transition-all`}
+                            className={`p-2 rounded-lg border ${colorClass} cursor-pointer transition-all`}
                           >
-                            {/* Skill Name */}
-                            <div className="text-white font-semibold text-sm mb-1.5">{skill.name}</div>
-
-                            {/* Experience Badge */}
-                            {experience && (
-                              <div className="text-xs text-white/80 mb-1">
-                                {experience}+ {experience === 1 ? 'year' : 'years'}
+                            {/* Skill Name with Icon and Experience */}
+                            <div className="flex items-center justify-between gap-1.5 mb-1">
+                              <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                                <DynamicIcon iconName={iconName} className="text-sm flex-shrink-0" />
+                                <div className="text-white font-semibold text-xs truncate">{skill.name}</div>
                               </div>
-                            )}
+                              {experience && (
+                                <span className="text-[10px] text-white/60 flex-shrink-0">{experience}y</span>
+                              )}
+                            </div>
 
-                            {/* Level Badge */}
-                            <div className="text-xs text-white/70">{level}</div>
+                            {/* Compact Info Row - Level and Last Used */}
+                            <div className="flex items-center justify-between text-[10px] text-white/70 mb-1">
+                              <span>{level}</span>
+                              {lastUsed && (
+                                <span className="text-white/60">
+                                  {lastUsed === 'Current' ? '🟢' : `${lastUsed}`}
+                                </span>
+                              )}
+                            </div>
 
-                            {/* Last Used */}
-                            {lastUsed && (
-                              <div className="text-xs text-white/60 mt-1">
-                                {lastUsed === 'Current' ? '🟢 Current' : `Last: ${lastUsed}`}
-                              </div>
-                            )}
-
-                            {/* Proficiency Bar */}
-                            <div className="w-full bg-white/10 rounded-full h-1.5 overflow-hidden mt-2">
+                            {/* Proficiency Bar - Thinner */}
+                            <div className="w-full bg-white/10 rounded-full h-1 overflow-hidden">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{
@@ -364,7 +425,7 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                     })}
                   </div>
                 </div>
-              ))}
+              )})}
             </div>
           </div>
 
