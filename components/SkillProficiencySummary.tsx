@@ -143,7 +143,7 @@ export default function SkillProficiencySummary() {
   const familiarCount = allSkills.filter(s => s.metadata?.level === 'Familiar').length;
 
   // Get top 12 skills with balanced representation across all levels
-  // 5 Expert + 3 Advanced + 2 Intermediate + 2 Familiar = 12 total
+  // 3 Expert + 4 Advanced + 3 Intermediate + 2 Familiar = 12 total
   const getTopSkillsByLevel = (level: string, count: number) => {
     return allSkills
       .filter(s => s.metadata?.level === level)
@@ -156,9 +156,9 @@ export default function SkillProficiencySummary() {
   };
 
   const topSkills = [
-    ...getTopSkillsByLevel('Expert', 5),
-    ...getTopSkillsByLevel('Advanced', 3),
-    ...getTopSkillsByLevel('Intermediate', 2),
+    ...getTopSkillsByLevel('Expert', 3),
+    ...getTopSkillsByLevel('Advanced', 4),
+    ...getTopSkillsByLevel('Intermediate', 3),
     ...getTopSkillsByLevel('Familiar', 2),
   ];
 
@@ -261,11 +261,11 @@ export default function SkillProficiencySummary() {
 
                 {/* Enhanced Tooltip - Smart Positioning */}
                 <div className={`absolute ${isInFirstRow ? 'top-full mt-3' : 'bottom-full mb-3'} left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-[9999]`}>
-                  <div className="bg-gradient-to-br from-gray-900 to-gray-950 backdrop-blur-md border-2 border-secondary-default/50 rounded-lg px-3 py-2.5 shadow-2xl shadow-secondary-default/30 w-max max-w-[200px]">
+                  <div className="bg-gradient-to-br from-gray-900 to-gray-950 backdrop-blur-md border-2 border-secondary-default/50 rounded-lg px-3 py-2.5 shadow-2xl shadow-secondary-default/30 w-max max-w-[280px]">
                     {/* Technology Name with Icon */}
                     <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/10">
                       <DynamicIcon iconName={iconName} className="text-base text-secondary-default flex-shrink-0" />
-                      <div className="text-sm font-bold text-white">{skill.name}</div>
+                      <div className="text-sm font-bold text-white break-words">{skill.name}</div>
                     </div>
 
                     {/* Info Grid */}
