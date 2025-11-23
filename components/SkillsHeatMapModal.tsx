@@ -218,12 +218,12 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.2 }}
-          className="bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-xl border border-secondary-default/30 rounded-2xl w-full max-w-6xl max-h-[calc(100vh-160px)] overflow-hidden shadow-2xl shadow-secondary-default/20 flex flex-col relative"
+          className="bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-xl border border-secondary-default/30 rounded-xl sm:rounded-2xl w-full max-w-6xl max-h-[calc(100vh-80px)] sm:max-h-[calc(100vh-160px)] overflow-hidden shadow-2xl shadow-secondary-default/20 flex flex-col relative"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Header - flex-shrink-0 prevents header from scrolling */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/10 via-transparent to-secondary-default/10 flex-shrink-0">
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-secondary-default bg-clip-text text-transparent">
+          {/* Header - flex-shrink-0 prevents header from scrolling, mobile optimized */}
+          <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/10 via-transparent to-secondary-default/10 flex-shrink-0">
+            <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-white to-secondary-default bg-clip-text text-transparent">
               Skills Heat Map
             </h2>
             <button
@@ -235,10 +235,10 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
             </button>
           </div>
 
-          {/* Scrollable Content Area - Extra top padding for tooltips */}
-          <div className="overflow-y-auto custom-scrollbar px-6 py-6 pt-6 flex-1">
-            {/* Compact Filter Section - Single Line */}
-            <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 mb-6">
+          {/* Scrollable Content Area - Mobile optimized spacing */}
+          <div className="overflow-y-auto custom-scrollbar px-3 sm:px-6 py-4 sm:py-6 flex-1">
+            {/* Compact Filter Section - Single Line, mobile optimized */}
+            <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-2 sm:p-3 mb-4 sm:mb-6">
               <div className="flex flex-wrap items-center gap-3">
                 {/* Category Dropdown */}
                 <select
@@ -339,8 +339,8 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
               </div>
             </div>
 
-            {/* Heat Map Grid - Extra spacing for tooltip visibility */}
-            <div className="space-y-8">
+            {/* Heat Map Grid - Mobile optimized spacing */}
+            <div className="space-y-4 sm:space-y-6 lg:space-y-8">
               {displayedCategories.map(({ category, skills }) => {
                 const CategoryIcon = categoryIcons[category] || FaCode;
 
@@ -352,13 +352,16 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                     <span className="text-xs text-white/40">({skills.length})</span>
                   </div>
 
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1.5 sm:gap-2">
                     {skills.map((skill, skillIndex) => {
                       const level = skill.metadata?.level || 'Familiar';
                       const colorClass = levelToColor[level];
                       const experience = skill.metadata?.yearsOfExperience;
                       const lastUsed = skill.metadata?.lastUsed;
                       const iconName = getTechnologyIcon(skill.name);
+
+                      // Determine if skill is in first row for smart tooltip positioning
+                      const isInFirstRow = skillIndex < 4; // 4 columns in lg breakpoint
 
                       return (
                         <motion.div
@@ -405,8 +408,8 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                             </div>
                           </div>
 
-                          {/* Enhanced Tooltip - Positioned Above with Extra Space */}
-                          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-[9999]">
+                          {/* Enhanced Tooltip - Smart Positioning */}
+                          <div className={`absolute ${isInFirstRow ? 'top-full mt-3' : 'bottom-full mb-3'} left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-[9999]`}>
                             <div className="bg-gradient-to-br from-gray-900 to-gray-950 backdrop-blur-md border-2 border-secondary-default/50 rounded-lg px-3 py-2.5 shadow-2xl shadow-secondary-default/30 w-max max-w-[200px]">
                               {/* Technology Name with Icon */}
                               <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/10">
@@ -436,9 +439,9 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                                 )}
                               </div>
 
-                              {/* Tooltip Arrow - Pointing Down */}
-                              <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
-                                <div className="border-[6px] border-transparent border-t-secondary-default/50"></div>
+                              {/* Tooltip Arrow - Dynamic Direction */}
+                              <div className={`absolute ${isInFirstRow ? 'bottom-full mb-px' : 'top-full mt-px'} left-1/2 transform -translate-x-1/2`}>
+                                <div className={`border-[6px] border-transparent ${isInFirstRow ? 'border-b-secondary-default/50' : 'border-t-secondary-default/50'}`}></div>
                               </div>
                             </div>
                           </div>
@@ -451,9 +454,9 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
             </div>
           </div>
 
-          {/* Footer - flex-shrink-0 prevents footer from scrolling */}
-          <div className="px-6 py-3 border-t border-secondary-default/20 bg-white/5 flex-shrink-0">
-            <p className="text-xs text-white/40 text-center">
+          {/* Footer - flex-shrink-0 prevents footer from scrolling, mobile optimized */}
+          <div className="px-4 sm:px-6 py-2 sm:py-3 border-t border-secondary-default/20 bg-white/5 flex-shrink-0">
+            <p className="text-[10px] sm:text-xs text-white/40 text-center">
               Press ESC or click outside to close
             </p>
           </div>

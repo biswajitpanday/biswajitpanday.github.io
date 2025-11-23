@@ -37,10 +37,10 @@ const getNodeStyle = (level: number) => ({
   alignItems: "center" as const,
 });
 
-// Memoized class names - Updated to match Project Page design
+// Memoized class names - Mobile optimized
 const NODE_CLASSES = {
-  parent: "text-lg font-bold leading-none group cursor-pointer transition-all duration-300 mb-2 mt-1 hover:bg-white/5 p-2 rounded",
-  child: "text-sm text-white/70 group hover:text-white/90 hover:bg-white/5 transition-all duration-300 mb-1 p-1 rounded cursor-default",
+  parent: "text-base sm:text-lg font-bold leading-none group cursor-pointer transition-all duration-300 mb-1.5 sm:mb-2 mt-1 hover:bg-white/5 p-1.5 sm:p-2 rounded",
+  child: "text-xs sm:text-sm text-white/70 group hover:text-white/90 hover:bg-white/5 transition-all duration-300 mb-1 p-1 rounded cursor-default",
   highlighted: "bg-secondary-default/20 border border-secondary-default/40 rounded",
   parentText: "bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent"
 } as const;
@@ -112,6 +112,11 @@ const Skills = () => {
   const data1 = flattenTree(filteredSkills1);
   const data2 = flattenTree(filteredSkills2);
 
+  // Expand all tree view items by default
+  const getDefaultExpandedIds = (data: typeof data1) => {
+    return data.map((node) => node.id);
+  };
+
   // Helper function to count skills by proficiency level
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const countSkillsByLevel = (skillTree: any, level: string): number => {
@@ -153,38 +158,91 @@ const Skills = () => {
     return styles;
   }, []);
 
+  // Proficiency level to icon mapping - Synchronized with Proficiency Overview
+  const levelToIcon = {
+    'Expert': '🟣',
+    'Advanced': '🟢',
+    'Intermediate': '🔵',
+    'Familiar': '⚪',
+  };
+
+  const levelToTextColor = {
+    'Expert': 'text-purple-400',
+    'Advanced': 'text-emerald-400',
+    'Intermediate': 'text-blue-400',
+    'Familiar': 'text-slate-400',
+  };
+
   // Memoized and optimized nodeRenderer with search highlighting
   // @ts-expect-error - TreeView library has complex type interface, suppressing for performance optimization
   const nodeRenderer = useCallback(({ element, getNodeProps, level }) => {
     const isParent = element.children.length > 0;
     const iconName = element.metadata?.icon || "FaCode";
     const nodeProps = getNodeProps();
-    
+
     // Check if this node matches the search query for highlighting
-    const isHighlighted = debouncedSearch && 
+    const isHighlighted = debouncedSearch &&
       element.name.toLowerCase().includes(debouncedSearch.toLowerCase());
-    
+
     // Use pre-calculated style
     const style = nodeStyles[level] || getNodeStyle(level);
-    
+
     const baseClassName = isParent ? NODE_CLASSES.parent : NODE_CLASSES.child;
     const className = isHighlighted ? `${baseClassName} ${NODE_CLASSES.highlighted}` : baseClassName;
-    
+
+    // Get metadata for child nodes
+    const proficiencyLevel = element.metadata?.level;
+    const yearsOfExperience = element.metadata?.yearsOfExperience;
+    const lastUsed = element.metadata?.lastUsed;
+
     return (
       <div
         {...nodeProps}
         style={style}
         className={className}
       >
-        <DynamicIcon
-          iconName={iconName}
-          className={`mr-3 ${isParent ? "text-secondary-default" : "text-secondary-default"}`}
-        />
-        <span className={`select-none ${isParent ? NODE_CLASSES.parentText : ""}`}>{element.name}</span>
-        {isHighlighted && (
-          <span className="inline-flex items-center justify-center h-7 ml-2 text-xs bg-secondary-default/30 text-secondary-default px-2 rounded-md font-medium">
-            Match
-          </span>
+        <div className="flex items-center flex-1 min-w-0">
+          <DynamicIcon
+            iconName={iconName}
+            className={`mr-3 flex-shrink-0 ${isParent ? "text-secondary-default" : "text-secondary-default"}`}
+          />
+          <span className={`select-none ${isParent ? NODE_CLASSES.parentText : ""}`}>{element.name}</span>
+
+          {/* Proficiency Level Indicator - Colored emoji circles */}
+          {!isParent && proficiencyLevel && (
+            <span className="ml-2 text-sm flex-shrink-0" title={proficiencyLevel}>
+              {levelToIcon[proficiencyLevel as keyof typeof levelToIcon] || '⚪'}
+            </span>
+          )}
+
+          {isHighlighted && (
+            <span className="inline-flex items-center justify-center h-7 ml-2 text-xs bg-secondary-default/30 text-secondary-default px-2 rounded-md font-medium flex-shrink-0">
+              Match
+            </span>
+          )}
+        </div>
+
+        {/* Metadata badges for child nodes */}
+        {!isParent && (yearsOfExperience || lastUsed) && (
+          <div className="flex items-center gap-2 ml-auto flex-shrink-0">
+            {/* Years of Experience */}
+            {yearsOfExperience && (
+              <span className="text-[10px] text-white/50 font-mono bg-white/5 px-1.5 py-0.5 rounded">
+                {yearsOfExperience}y
+              </span>
+            )}
+
+            {/* Last Used */}
+            {lastUsed && (
+              <span className={`text-[10px] px-1.5 py-0.5 rounded ${
+                lastUsed === 'Current'
+                  ? 'text-emerald-400 bg-emerald-500/10'
+                  : 'text-white/40 bg-white/5'
+              }`}>
+                {lastUsed === 'Current' ? '🟢' : lastUsed}
+              </span>
+            )}
+          </div>
         )}
       </div>
     );
@@ -339,7 +397,7 @@ const Skills = () => {
             initial={TREE_ANIMATIONS.container.initial}
             animate={TREE_ANIMATIONS.container.animate}
             transition={TREE_ANIMATIONS.container.transition}
-            className="grid grid-cols-1 xl:grid-cols-2 md:grid-cols-2 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8"
           >
             {/* First Skills Tree */}
             {data1.length > 1 && (
@@ -347,11 +405,11 @@ const Skills = () => {
                 initial={TREE_ANIMATIONS.leftCard.initial}
                 animate={TREE_ANIMATIONS.leftCard.animate}
                 transition={TREE_ANIMATIONS.leftCard.transition}
-                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10"
+                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-4 sm:p-6 rounded-lg sm:rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10"
               >
                 <TreeView
                   data={data1}
-                  defaultExpandedIds={data1.map((node) => node.id)}
+                  defaultExpandedIds={getDefaultExpandedIds(data1)}
                   aria-label="Core Technologies Skills Tree"
                   nodeRenderer={nodeRenderer}
                 />
@@ -364,11 +422,11 @@ const Skills = () => {
                 initial={TREE_ANIMATIONS.rightCard.initial}
                 animate={TREE_ANIMATIONS.rightCard.animate}
                 transition={TREE_ANIMATIONS.rightCard.transition}
-                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-6 rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10"
+                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-4 sm:p-6 rounded-lg sm:rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10"
               >
                 <TreeView
                   data={data2}
-                  defaultExpandedIds={data2.map((node) => node.id)}
+                  defaultExpandedIds={getDefaultExpandedIds(data2)}
                   aria-label="Tools & Methodologies Skills Tree"
                   nodeRenderer={nodeRenderer}
                 />

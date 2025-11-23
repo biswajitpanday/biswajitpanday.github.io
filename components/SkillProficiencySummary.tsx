@@ -233,6 +233,9 @@ export default function SkillProficiencySummary() {
             const experience = skill.metadata?.yearsOfExperience;
             const iconName = getTechnologyIcon(skill.name);
 
+            // Determine if skill is in first row for smart tooltip positioning
+            const isInFirstRow = index < 6; // 6 columns in lg breakpoint
+
             return (
               <motion.div
                 key={skill.name}
@@ -254,8 +257,8 @@ export default function SkillProficiencySummary() {
                   )}
                 </div>
 
-                {/* Enhanced Tooltip - Positioned Above with Extra Space */}
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-[9999]">
+                {/* Enhanced Tooltip - Smart Positioning */}
+                <div className={`absolute ${isInFirstRow ? 'top-full mt-3' : 'bottom-full mb-3'} left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-[9999]`}>
                   <div className="bg-gradient-to-br from-gray-900 to-gray-950 backdrop-blur-md border-2 border-secondary-default/50 rounded-lg px-3 py-2.5 shadow-2xl shadow-secondary-default/30 w-max max-w-[200px]">
                     {/* Technology Name with Icon */}
                     <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/10">
@@ -285,9 +288,9 @@ export default function SkillProficiencySummary() {
                       )}
                     </div>
 
-                    {/* Tooltip Arrow - Pointing Down */}
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
-                      <div className="border-[6px] border-transparent border-t-secondary-default/50"></div>
+                    {/* Tooltip Arrow - Dynamic Direction */}
+                    <div className={`absolute ${isInFirstRow ? 'bottom-full mb-px' : 'top-full mt-px'} left-1/2 transform -translate-x-1/2`}>
+                      <div className={`border-[6px] border-transparent ${isInFirstRow ? 'border-b-secondary-default/50' : 'border-t-secondary-default/50'}`}></div>
                     </div>
                   </div>
                 </div>
