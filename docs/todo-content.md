@@ -1474,6 +1474,19 @@ Updated page descriptions to match Project Page pattern:
 - Skills matrix with years of experience
 - Certification badge system enhancements
 
+**Phase 16: Skills Data Structure Refactoring** (Future)
+- **Simplify skillsData.ts schema** - Current JSON is fragmented into multiple pieces (skills1, skills2)
+- **Unified data structure** - Consolidate into single skills array with better organization
+- **Improved proficiency logic** - Current system uses years of experience as proxy for skill level
+  - Working 12 years doesn't always mean "Expert"
+  - Working 2 years doesn't always mean "Familiar" or "Intermediate"
+  - Need better logic/criteria to determine proficiency levels:
+    - Consider: frequency of use, depth of knowledge, project complexity, certifications
+    - Possibly add self-assessment or weighted scoring system
+    - Add `proficiencyReason` field to document why a skill has its level
+- **Design simplification** - Reduce nesting levels, flatten structure where possible
+- **Data validation** - Add schema validation to ensure data consistency
+
 **Phase 3: Content Enrichment**
 - Replace sample testimonials with real LinkedIn recommendations
 - GitHub activity integration

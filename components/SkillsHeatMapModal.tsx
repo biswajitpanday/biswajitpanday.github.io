@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
-import { FaTh, FaReact, FaServer, FaSitemap, FaCode, FaDatabase, FaTasks, FaTools, FaDocker, FaAws, FaNodeJs, FaPython, FaJava, FaAngular, FaVuejs } from 'react-icons/fa';
-import { SiDotnet, SiMicrosoftazure, SiKubernetes, SiMongodb, SiPostgresql, SiMysql, SiRedis, SiTypescript, SiNextdotjs, SiExpress, SiNestjs, SiGraphql, SiRabbitmq, SiElasticsearch, SiKafka } from 'react-icons/si';
 import DynamicIcon from '@/components/DynamicIcon';
 import { skills1, skills2 } from '@/data/skillsData';
 
@@ -42,81 +40,8 @@ const levelOrder = {
   'Familiar': 1,
 };
 
-// Category icon mapping
-const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  'All Categories': FaTh,
-  'Frameworks': FaReact,
-  'Backend Runtime & Platforms': FaServer,
-  'Architectures/Patterns': FaSitemap,
-  'Programming Languages': FaCode,
-  'Databases': FaDatabase,
-  'Agile Methodologies': FaTasks,
-  'Other Skills': FaTools,
-};
-
-// Technology icon mapping - comprehensive list
-const getTechnologyIcon = (techName: string) => {
-  const iconMap: Record<string, string> = {
-    // .NET Technologies
-    'ASP.NET Core': 'SiDotnet',
-    'ASP.NET MVC': 'SiDotnet',
-    '.NET Core/.NET 6/7/8/9': 'SiDotnet',
-    'C#': 'TbBrandCSharp',
-
-    // JavaScript/TypeScript Frameworks
-    'React': 'FaReact',
-    'Next.js': 'SiNextdotjs',
-    'Angular': 'FaAngular',
-    'Vue.js': 'FaVuejs',
-    'Express.js': 'SiExpress',
-    'Node.js': 'FaNodeJs',
-    'NestJS': 'SiNestjs',
-    'Blazor': 'SiDotnet',
-
-    // Languages
-    'JavaScript': 'FaJs',
-    'TypeScript': 'SiTypescript',
-    'Python': 'FaPython',
-    'Java': 'FaJava',
-
-    // Cloud & Infrastructure
-    'Azure': 'SiMicrosoftazure',
-    'AWS': 'FaAws',
-    'Docker': 'FaDocker',
-    'Kubernetes': 'SiKubernetes',
-
-    // Databases
-    'MongoDB': 'SiMongodb',
-    'PostgreSQL': 'SiPostgresql',
-    'MySQL': 'SiMysql',
-    'SQL Server': 'FaDatabase',
-    'Redis': 'SiRedis',
-    'DynamoDB': 'FaDatabase',
-    'CosmosDB': 'FaDatabase',
-
-    // Message Queues & APIs
-    'RabbitMQ': 'SiRabbitmq',
-    'Kafka': 'SiKafka',
-    'GraphQL': 'SiGraphql',
-    'REST API Design': 'FaCode',
-    'LINQ': 'FaCode',
-
-    // Search
-    'Elasticsearch': 'SiElasticsearch',
-
-    // Patterns & Methodologies
-    'Domain Driven Design': 'FaSitemap',
-    'Microservices': 'FaSitemap',
-    'CQRS': 'FaSitemap',
-    'Serverless': 'FaServer',
-    'Event Sourcing': 'FaSitemap',
-    'Agile': 'FaTasks',
-    'Scrum': 'FaTasks',
-    'Kanban': 'FaTasks',
-  };
-
-  return iconMap[techName] || 'FaCode'; // Default icon
-};
+// Note: All icons (categories and skills) are now read directly from metadata
+// This ensures consistency with the tree view and eliminates hardcoded mappings
 
 interface SkillsHeatMapModalProps {
   onClose: () => void;
@@ -178,9 +103,9 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
     return allSkills;
   };
 
-  // Extract skills grouped by top-level category
-  const extractSkills = (node: SkillNode): { category: string; skills: SkillNode[] }[] => {
-    const categories: { category: string; skills: SkillNode[] }[] = [];
+  // Extract skills grouped by top-level category with category metadata
+  const extractSkills = (node: SkillNode): { category: string; categoryIcon: string; skills: SkillNode[] }[] => {
+    const categories: { category: string; categoryIcon: string; skills: SkillNode[] }[] = [];
 
     if (node.children) {
       node.children.forEach(categoryNode => {
@@ -190,6 +115,7 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
         if (skillsInCategory.length > 0) {
           categories.push({
             category: categoryNode.name,
+            categoryIcon: categoryNode.metadata?.icon || 'FaCode', // Use category's own icon from metadata
             skills: skillsInCategory
           });
         }
@@ -206,8 +132,9 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
   const displayedCategories = (selectedCategory
     ? skillCategories.filter(c => c.category === selectedCategory)
     : skillCategories
-  ).map(({ category, skills }) => ({
+  ).map(({ category, categoryIcon, skills }) => ({
     category,
+    categoryIcon,
     skills: skills.filter(skill => {
       const level = skill.metadata?.level || 'Familiar';
       return selectedLevels.has(level);
@@ -358,13 +285,11 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
 
             {/* Heat Map Grid - Mobile optimized spacing */}
             <div className="space-y-4 sm:space-y-6 lg:space-y-8">
-              {displayedCategories.map(({ category, skills }) => {
-                const CategoryIcon = categoryIcons[category] || FaCode;
-
+              {displayedCategories.map(({ category, categoryIcon, skills }) => {
                 return (
                 <div key={category}>
                   <div className="flex items-center gap-2 mb-3">
-                    <CategoryIcon className="text-secondary-default text-base" />
+                    <DynamicIcon iconName={categoryIcon} className="text-secondary-default text-base flex-shrink-0" />
                     <h3 className="text-base font-semibold text-white/90">{category}</h3>
                     <span className="text-xs text-white/40">({skills.length})</span>
                   </div>
@@ -375,7 +300,7 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                       const colorClass = levelToColor[level];
                       const experience = skill.metadata?.yearsOfExperience;
                       const lastUsed = skill.metadata?.lastUsed;
-                      const iconName = getTechnologyIcon(skill.name);
+                      const iconName = skill.metadata?.icon || 'FaCode';
 
                       // Determine if skill is in first row for smart tooltip positioning
                       const isInFirstRow = skillIndex < 4; // 4 columns in lg breakpoint
