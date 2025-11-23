@@ -208,6 +208,13 @@ const Skills = () => {
           />
           <span className={`select-none ${isParent ? NODE_CLASSES.parentText : ""}`}>{element.name}</span>
 
+          {/* Category skill count for parent nodes */}
+          {isParent && element.children && element.children.length > 0 && (
+            <span className="ml-2 text-xs text-white/40 font-mono">
+              ({element.children.length} {element.children.length === 1 ? 'skill' : 'skills'})
+            </span>
+          )}
+
           {/* Proficiency Level Indicator - Colored emoji circles */}
           {!isParent && proficiencyLevel && (
             <span className="ml-2 text-sm flex-shrink-0" title={proficiencyLevel}>

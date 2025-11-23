@@ -6,7 +6,7 @@ import { FiX } from 'react-icons/fi';
 import { FaTh, FaReact, FaServer, FaSitemap, FaCode, FaDatabase, FaTasks, FaTools, FaDocker, FaAws, FaNodeJs, FaPython, FaJava, FaAngular, FaVuejs } from 'react-icons/fa';
 import { SiDotnet, SiMicrosoftazure, SiKubernetes, SiMongodb, SiPostgresql, SiMysql, SiRedis, SiTypescript, SiNextdotjs, SiExpress, SiNestjs, SiGraphql, SiRabbitmq, SiElasticsearch, SiKafka } from 'react-icons/si';
 import DynamicIcon from '@/components/DynamicIcon';
-import { skills1 } from '@/data/skillsData';
+import { skills1, skills2 } from '@/data/skillsData';
 
 // Skill interface matching skillsData structure
 interface SkillNode {
@@ -159,23 +159,39 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
     return () => window.removeEventListener('keydown', handleEscape);
   }, [onClose]);
 
-  // Extract all skills with metadata
+  // Recursively extract all skills from a subtree
+  const extractAllSkills = (node: SkillNode): SkillNode[] => {
+    let allSkills: SkillNode[] = [];
+
+    // If this node has level metadata, it's a skill
+    if (node.metadata?.level || node.metadata?.yearsOfExperience) {
+      allSkills.push(node);
+    }
+
+    // Recursively process children
+    if (node.children) {
+      node.children.forEach(childNode => {
+        allSkills = [...allSkills, ...extractAllSkills(childNode)];
+      });
+    }
+
+    return allSkills;
+  };
+
+  // Extract skills grouped by top-level category
   const extractSkills = (node: SkillNode): { category: string; skills: SkillNode[] }[] => {
     const categories: { category: string; skills: SkillNode[] }[] = [];
 
     if (node.children) {
       node.children.forEach(categoryNode => {
-        if (categoryNode.children) {
-          const skillsWithMetadata = categoryNode.children.filter(
-            skill => skill.metadata && (skill.metadata.level || skill.metadata.yearsOfExperience)
-          );
+        // Recursively extract all skills from this category (handles nested structures)
+        const skillsInCategory = extractAllSkills(categoryNode);
 
-          if (skillsWithMetadata.length > 0) {
-            categories.push({
-              category: categoryNode.name,
-              skills: skillsWithMetadata
-            });
-          }
+        if (skillsInCategory.length > 0) {
+          categories.push({
+            category: categoryNode.name,
+            skills: skillsInCategory
+          });
         }
       });
     }
@@ -183,7 +199,8 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
     return categories;
   };
 
-  const skillCategories = extractSkills(skills1);
+  // Merge categories from both skill trees
+  const skillCategories = [...extractSkills(skills1), ...extractSkills(skills2)];
 
   // Filter categories and skills by proficiency level
   const displayedCategories = (selectedCategory

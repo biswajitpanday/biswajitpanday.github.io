@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { skills1 } from '@/data/skillsData';
+import { skills1, skills2 } from '@/data/skillsData';
 import DynamicIcon from '@/components/DynamicIcon';
 import SkillsHeatMapModal from './SkillsHeatMapModal';
 
@@ -114,25 +114,27 @@ const getTechnologyIcon = (techName: string) => {
 export default function SkillProficiencySummary() {
   const [showFullHeatMap, setShowFullHeatMap] = useState(false);
 
-  // Extract all skills with metadata
+  // Recursively extract all skills with metadata from the tree
   const extractSkills = (node: SkillNode): SkillNode[] => {
     let allSkills: SkillNode[] = [];
 
+    // If this node has a level metadata, it's a skill - add it
+    if (node.metadata?.level) {
+      allSkills.push(node);
+    }
+
+    // Recursively process all children
     if (node.children) {
-      node.children.forEach(categoryNode => {
-        if (categoryNode.children) {
-          const skillsWithMetadata = categoryNode.children.filter(
-            skill => skill.metadata && skill.metadata.level
-          );
-          allSkills = [...allSkills, ...skillsWithMetadata];
-        }
+      node.children.forEach(childNode => {
+        allSkills = [...allSkills, ...extractSkills(childNode)];
       });
     }
 
     return allSkills;
   };
 
-  const allSkills = extractSkills(skills1);
+  // Extract skills from both trees
+  const allSkills = [...extractSkills(skills1), ...extractSkills(skills2)];
 
   // Count by proficiency level
   const expertCount = allSkills.filter(s => s.metadata?.level === 'Expert').length;
@@ -166,7 +168,7 @@ export default function SkillProficiencySummary() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="mb-6 bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-xl border border-secondary-default/30 rounded-xl p-4 shadow-lg shadow-secondary-default/10"
+        className="relative mb-6 bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-xl border border-secondary-default/30 rounded-xl p-4 shadow-lg shadow-secondary-default/10 z-[120]"
       >
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold text-white/90">Proficiency Overview</h3>
