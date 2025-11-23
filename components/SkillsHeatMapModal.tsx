@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
 import { FaTh, FaReact, FaServer, FaSitemap, FaCode, FaDatabase, FaTasks, FaTools, FaDocker, FaAws, FaNodeJs, FaPython, FaJava, FaAngular, FaVuejs } from 'react-icons/fa';
-import { SiDotnet, SiCsharp, SiMicrosoftazure, SiKubernetes, SiMongodb, SiPostgresql, SiMysql, SiRedis, SiTypescript, SiJavascript, SiNextdotjs, SiExpress, SiNestjs, SiGraphql, SiRabbitmq, SiElasticsearch, SiKafka } from 'react-icons/si';
+import { SiDotnet, SiMicrosoftazure, SiKubernetes, SiMongodb, SiPostgresql, SiMysql, SiRedis, SiTypescript, SiNextdotjs, SiExpress, SiNestjs, SiGraphql, SiRabbitmq, SiElasticsearch, SiKafka } from 'react-icons/si';
 import DynamicIcon from '@/components/DynamicIcon';
 import { skills1 } from '@/data/skillsData';
 
@@ -61,7 +61,7 @@ const getTechnologyIcon = (techName: string) => {
     'ASP.NET Core': 'SiDotnet',
     'ASP.NET MVC': 'SiDotnet',
     '.NET Core/.NET 6/7/8/9': 'SiDotnet',
-    'C#': 'SiCsharp',
+    'C#': 'TbBrandCSharp',
 
     // JavaScript/TypeScript Frameworks
     'React': 'FaReact',
@@ -74,7 +74,7 @@ const getTechnologyIcon = (techName: string) => {
     'Blazor': 'SiDotnet',
 
     // Languages
-    'JavaScript': 'SiJavascript',
+    'JavaScript': 'FaJs',
     'TypeScript': 'SiTypescript',
     'Python': 'FaPython',
     'Java': 'FaJava',

@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaCogs, FaRocket, FaStar, FaCheckCircle } from "react-icons/fa";
+import { FaCogs, FaRocket, FaStar, FaCheckCircle, FaSearch } from "react-icons/fa";
 import TreeView, { flattenTree } from "react-accessible-treeview";
 import { skills1, skills2, countAllTechnologies } from "@/data/skillsData";
 import DynamicIcon from "@/components/DynamicIcon";

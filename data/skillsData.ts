@@ -58,7 +58,7 @@ export const skills1: SkillNode = {
         { name: "TypeScript", metadata: { icon: "SiTypescript", level: "Expert", yearsOfExperience: 7, lastUsed: "Current" } },
         { name: "JavaScript", metadata: { icon: "FaJs", level: "Advanced", yearsOfExperience: 8, lastUsed: "Current" } },
         { name: "Python", metadata: { icon: "SiPython", level: "Intermediate", yearsOfExperience: 2, lastUsed: "Current" } },
-        { name: "Go", metadata: { icon: "FaGolang", level: "Intermediate", yearsOfExperience: 1, lastUsed: "2023" } },
+        { name: "Go", metadata: { icon: "SiGo", level: "Intermediate", yearsOfExperience: 1, lastUsed: "2023" } },
         { name: "Java", metadata: { icon: "FaJava", level: "Familiar", yearsOfExperience: 1, lastUsed: "2018" } },
       ],
     },

@@ -54,7 +54,7 @@ const getTechnologyIcon = (techName: string) => {
     'ASP.NET Core': 'SiDotnet',
     'ASP.NET MVC': 'SiDotnet',
     '.NET Core/.NET 6/7/8/9': 'SiDotnet',
-    'C#': 'SiCsharp',
+    'C#': 'TbBrandCSharp',
 
     // JavaScript/TypeScript Frameworks
     'React': 'FaReact',
@@ -67,7 +67,7 @@ const getTechnologyIcon = (techName: string) => {
     'Blazor': 'SiDotnet',
 
     // Languages
-    'JavaScript': 'SiJavascript',
+    'JavaScript': 'FaJs',
     'TypeScript': 'SiTypescript',
     'Python': 'FaPython',
     'Java': 'FaJava',

@@ -94,6 +94,18 @@ const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
     import("react-icons/fa").then((mod) => ({ default: mod.FaCommentDots })),
   FaVial: () =>
     import("react-icons/fa").then((mod) => ({ default: mod.FaVial })),
+  FaNodeJs: () =>
+    import("react-icons/fa").then((mod) => ({ default: mod.FaNodeJs })),
+  FaTasks: () =>
+    import("react-icons/fa").then((mod) => ({ default: mod.FaTasks })),
+  FaJava: () =>
+    import("react-icons/fa").then((mod) => ({ default: mod.FaJava })),
+  FaPython: () =>
+    import("react-icons/fa").then((mod) => ({ default: mod.FaPython })),
+  FaVuejs: () =>
+    import("react-icons/fa").then((mod) => ({ default: mod.FaVuejs })),
+  FaCodeBranch: () =>
+    import("react-icons/fa").then((mod) => ({ default: mod.FaCodeBranch })),
 
   // SI Icons
   SiTypescript: () =>
@@ -158,6 +170,16 @@ const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
     import("react-icons/si").then((mod) => ({ default: mod.SiPython })),
   SiTestinglibrary: () =>
     import("react-icons/si").then((mod) => ({ default: mod.SiTestinglibrary })),
+  SiElasticsearch: () =>
+    import("react-icons/si").then((mod) => ({ default: mod.SiElasticsearch })),
+  SiReactquery: () =>
+    import("react-icons/si").then((mod) => ({ default: mod.SiReactquery })),
+  SiFramer: () =>
+    import("react-icons/si").then((mod) => ({ default: mod.SiFramer })),
+  SiConfluence: () =>
+    import("react-icons/si").then((mod) => ({ default: mod.SiConfluence })),
+  SiGo: () =>
+    import("react-icons/si").then((mod) => ({ default: mod.SiGo })),
 
   // Other libraries
   VscAzure: () =>
