@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { skills1 } from '@/data/skillsData';
+import DynamicIcon from '@/components/DynamicIcon';
 import SkillsHeatMapModal from './SkillsHeatMapModal';
 
 // Skill interface matching skillsData structure
@@ -44,6 +45,70 @@ const levelToIcon = {
   'Advanced': '🟢',
   'Intermediate': '🔵',
   'Familiar': '⚪',
+};
+
+// Technology icon mapping - same as SkillsHeatMapModal
+const getTechnologyIcon = (techName: string) => {
+  const iconMap: Record<string, string> = {
+    // .NET Technologies
+    'ASP.NET Core': 'SiDotnet',
+    'ASP.NET MVC': 'SiDotnet',
+    '.NET Core/.NET 6/7/8/9': 'SiDotnet',
+    'C#': 'SiCsharp',
+
+    // JavaScript/TypeScript Frameworks
+    'React': 'FaReact',
+    'Next.js': 'SiNextdotjs',
+    'Angular': 'FaAngular',
+    'Vue.js': 'FaVuejs',
+    'Express.js': 'SiExpress',
+    'Node.js': 'FaNodeJs',
+    'NestJS': 'SiNestjs',
+    'Blazor': 'SiDotnet',
+
+    // Languages
+    'JavaScript': 'SiJavascript',
+    'TypeScript': 'SiTypescript',
+    'Python': 'FaPython',
+    'Java': 'FaJava',
+
+    // Cloud & Infrastructure
+    'Azure': 'SiMicrosoftazure',
+    'AWS': 'FaAws',
+    'Docker': 'FaDocker',
+    'Kubernetes': 'SiKubernetes',
+
+    // Databases
+    'MongoDB': 'SiMongodb',
+    'PostgreSQL': 'SiPostgresql',
+    'MySQL': 'SiMysql',
+    'SQL Server': 'FaDatabase',
+    'Redis': 'SiRedis',
+    'DynamoDB': 'FaDatabase',
+    'CosmosDB': 'FaDatabase',
+
+    // Message Queues & APIs
+    'RabbitMQ': 'SiRabbitmq',
+    'Kafka': 'SiKafka',
+    'GraphQL': 'SiGraphql',
+    'REST API Design': 'FaCode',
+    'LINQ': 'FaCode',
+
+    // Search
+    'Elasticsearch': 'SiElasticsearch',
+
+    // Patterns & Methodologies
+    'Domain Driven Design': 'FaSitemap',
+    'Microservices': 'FaSitemap',
+    'CQRS': 'FaSitemap',
+    'Serverless': 'FaServer',
+    'Event Sourcing': 'FaSitemap',
+    'Agile': 'FaTasks',
+    'Scrum': 'FaTasks',
+    'Kanban': 'FaTasks',
+  };
+
+  return iconMap[techName] || 'FaCode'; // Default icon
 };
 
 export default function SkillProficiencySummary() {
@@ -145,7 +210,7 @@ export default function SkillProficiencySummary() {
           >
             <div className="text-xl mb-0.5">{levelToIcon.Intermediate}</div>
             <div className={`text-xl font-bold ${levelToTextColor.Intermediate}`}>{intermediateCount}</div>
-            <div className="text-[10px] text-white/50 uppercase tracking-wider">Intermidate</div>
+            <div className="text-[10px] text-white/50 uppercase tracking-wider">Intermediate</div>
           </motion.div>
 
           <motion.div
@@ -166,6 +231,7 @@ export default function SkillProficiencySummary() {
             const level = skill.metadata?.level || 'Familiar';
             const colorClass = levelToColor[level];
             const experience = skill.metadata?.yearsOfExperience;
+            const iconName = getTechnologyIcon(skill.name);
 
             return (
               <motion.div
@@ -176,26 +242,52 @@ export default function SkillProficiencySummary() {
                 className="relative group"
               >
                 <div
-                  className={`relative px-2 py-1.5 rounded-md border ${colorClass} text-center text-[11px] font-semibold transition-all hover:shadow-lg hover:shadow-secondary-default/20 cursor-pointer`}
+                  className={`relative px-2 py-1.5 rounded-md border ${colorClass} text-[11px] font-semibold transition-all hover:shadow-lg hover:shadow-secondary-default/20 cursor-pointer`}
                 >
-                  <div className="truncate">{skill.name}</div>
+                  {/* Icon + Name */}
+                  <div className="flex items-center justify-center gap-1 mb-0.5">
+                    <DynamicIcon iconName={iconName} className="text-xs flex-shrink-0" />
+                    <div className="truncate">{skill.name}</div>
+                  </div>
                   {experience && (
-                    <div className="text-[9px] opacity-80 mt-0.5">{experience}y</div>
+                    <div className="text-center text-[9px] opacity-80">{experience}y</div>
                   )}
                 </div>
 
-                {/* Fixed Tooltip - Shows ABOVE, better opacity, higher z-index */}
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-                  <div className="bg-gray-900/95 backdrop-blur-sm border border-secondary-default/40 rounded-lg px-3 py-2 shadow-xl min-w-[150px]">
-                    <div className="text-xs font-semibold text-white mb-1">{skill.name}</div>
-                    <div className="text-[10px] text-white/70 space-y-0.5">
-                      <div>Level: <span className={levelToTextColor[level]}>{level}</span></div>
-                      {experience && <div>Experience: {experience} years</div>}
-                      {skill.metadata?.lastUsed && <div>Last Used: {skill.metadata.lastUsed}</div>}
+                {/* Enhanced Tooltip - Positioned Above with Extra Space */}
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-[9999]">
+                  <div className="bg-gradient-to-br from-gray-900 to-gray-950 backdrop-blur-md border-2 border-secondary-default/50 rounded-lg px-3 py-2.5 shadow-2xl shadow-secondary-default/30 w-max max-w-[200px]">
+                    {/* Technology Name with Icon */}
+                    <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/10">
+                      <DynamicIcon iconName={iconName} className="text-base text-secondary-default flex-shrink-0" />
+                      <div className="text-sm font-bold text-white">{skill.name}</div>
                     </div>
-                    {/* Tooltip Arrow */}
+
+                    {/* Info Grid */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between text-[11px] gap-2">
+                        <span className="text-white/60">Level:</span>
+                        <span className={`font-semibold ${levelToTextColor[level]}`}>{level}</span>
+                      </div>
+                      {experience && (
+                        <div className="flex items-center justify-between text-[11px] gap-2">
+                          <span className="text-white/60">Experience:</span>
+                          <span className="font-semibold text-white">{experience} {experience === 1 ? 'year' : 'years'}</span>
+                        </div>
+                      )}
+                      {skill.metadata?.lastUsed && (
+                        <div className="flex items-center justify-between text-[11px] gap-2">
+                          <span className="text-white/60">Last Used:</span>
+                          <span className="font-semibold text-emerald-400">
+                            {skill.metadata.lastUsed === 'Current' ? '🟢 Current' : skill.metadata.lastUsed}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Tooltip Arrow - Pointing Down */}
                     <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
-                      <div className="border-4 border-transparent border-t-gray-900/95"></div>
+                      <div className="border-[6px] border-transparent border-t-secondary-default/50"></div>
                     </div>
                   </div>
                 </div>

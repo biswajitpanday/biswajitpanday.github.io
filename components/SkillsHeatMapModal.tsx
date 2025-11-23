@@ -235,8 +235,8 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
             </button>
           </div>
 
-          {/* Scrollable Content Area */}
-          <div className="overflow-y-auto custom-scrollbar px-6 py-6 flex-1">
+          {/* Scrollable Content Area - Extra top padding for tooltips */}
+          <div className="overflow-y-auto custom-scrollbar px-6 py-6 pt-6 flex-1">
             {/* Compact Filter Section - Single Line */}
             <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 mb-6">
               <div className="flex flex-wrap items-center gap-3">
@@ -339,8 +339,8 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
               </div>
             </div>
 
-            {/* Heat Map Grid */}
-            <div className="space-y-6">
+            {/* Heat Map Grid - Extra spacing for tooltip visibility */}
+            <div className="space-y-8">
               {displayedCategories.map(({ category, skills }) => {
                 const CategoryIcon = categoryIcons[category] || FaCode;
 
@@ -405,18 +405,40 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                             </div>
                           </div>
 
-                          {/* Fixed Tooltip - Shows ABOVE with proper z-index */}
-                          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-                            <div className="bg-gray-900/95 backdrop-blur-sm border border-secondary-default/40 rounded-lg px-3 py-2 shadow-xl min-w-[180px]">
-                              <div className="text-xs font-semibold text-white mb-1.5">{skill.name}</div>
-                              <div className="text-[10px] text-white/70 space-y-0.5">
-                                <div>Level: <span className={levelToTextColor[level]}>{level}</span></div>
-                                {experience && <div>Experience: {experience} years</div>}
-                                {lastUsed && <div>Last Used: {lastUsed}</div>}
+                          {/* Enhanced Tooltip - Positioned Above with Extra Space */}
+                          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-[9999]">
+                            <div className="bg-gradient-to-br from-gray-900 to-gray-950 backdrop-blur-md border-2 border-secondary-default/50 rounded-lg px-3 py-2.5 shadow-2xl shadow-secondary-default/30 w-max max-w-[200px]">
+                              {/* Technology Name with Icon */}
+                              <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/10">
+                                <DynamicIcon iconName={iconName} className="text-base text-secondary-default flex-shrink-0" />
+                                <div className="text-sm font-bold text-white">{skill.name}</div>
                               </div>
-                              {/* Tooltip Arrow */}
+
+                              {/* Info Grid */}
+                              <div className="space-y-1.5">
+                                <div className="flex items-center justify-between text-[11px] gap-2">
+                                  <span className="text-white/60">Level:</span>
+                                  <span className={`font-semibold ${levelToTextColor[level]}`}>{level}</span>
+                                </div>
+                                {experience && (
+                                  <div className="flex items-center justify-between text-[11px] gap-2">
+                                    <span className="text-white/60">Experience:</span>
+                                    <span className="font-semibold text-white">{experience} {experience === 1 ? 'year' : 'years'}</span>
+                                  </div>
+                                )}
+                                {lastUsed && (
+                                  <div className="flex items-center justify-between text-[11px] gap-2">
+                                    <span className="text-white/60">Last Used:</span>
+                                    <span className="font-semibold text-emerald-400">
+                                      {lastUsed === 'Current' ? '🟢 Current' : lastUsed}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Tooltip Arrow - Pointing Down */}
                               <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
-                                <div className="border-4 border-transparent border-t-gray-900/95"></div>
+                                <div className="border-[6px] border-transparent border-t-secondary-default/50"></div>
                               </div>
                             </div>
                           </div>
