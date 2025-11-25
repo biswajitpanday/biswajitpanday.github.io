@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     default: "Biswajit Panday - Senior .NET Architect & AI Solutions Engineer",
     template: "%s | Biswajit Panday"
   },
-  description: "Senior full-stack developer with 10+ years specializing in .NET, React, and cloud solutions (Azure/AWS). Built scalable enterprise applications and developed IntelliMerge, an AI tool achieving 80-90% efficiency gains.",
+  description: "Senior full-stack developer with 10+ years specializing in .NET, React, and cloud solutions (Azure/AWS). Built scalable enterprise applications and developed SpireWiz, an AI tool achieving 80-90% efficiency gains.",
   keywords: [
     "Biswajit Panday",
     ".NET Architect",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Biswajit Panday - Senior .NET Architect & AI Solutions Engineer",
-    description: "Senior full-stack developer with 10+ years specializing in .NET, React, and cloud solutions. Built IntelliMerge, an AI tool achieving 80-90% efficiency gains for development teams at Optimizely. Microsoft Certified.",
+    description: "Senior full-stack developer with 10+ years specializing in .NET, React, and cloud solutions. Built SpireWiz, an AI tool achieving 80-90% efficiency gains for development teams at Optimizely. Microsoft Certified.",
     url: "https://biswajitpanday.github.io",
     siteName: "Biswajit Panday Portfolio",
     images: [

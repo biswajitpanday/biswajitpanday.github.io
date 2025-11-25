@@ -60,7 +60,7 @@ const Home = () => {
     <>
       <SocialPreviewGenerator
         title="Biswajit Panday - Senior .NET Architect & AI Solutions Engineer"
-        description="Senior full-stack developer with 10+ years specializing in .NET, React, and cloud solutions. Built IntelliMerge, an AI tool achieving 80-90% efficiency gains for development teams at Optimizely. Microsoft Certified."
+        description="Senior full-stack developer with 10+ years specializing in .NET, React, and cloud solutions. Built SpireWiz, an AI tool achieving 80-90% efficiency gains for development teams at Optimizely. Microsoft Certified."
         image="https://biswajitpanday.github.io/assets/profile/profile-large.webp"
         url="https://biswajitpanday.github.io"
         type="website"
@@ -160,7 +160,7 @@ const Home = () => {
               </span>{" "}
               and integrate modern technologies—recently developed{" "}
               <span className="text-emerald-400 font-semibold">
-                IntelliMerge
+                SpireWiz
               </span>, an AI tool that reduced merge effort by{" "}
               <span className="text-emerald-400 font-semibold">
                 80-90%

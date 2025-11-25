@@ -312,7 +312,7 @@ export const projects: Project[] = [
     title: "Configured Commerce",
     subtitle: "Enterprise B2B Platform for 20+ Fortune 500 Clients",
     isFeatured: true,
-    longDescription: "Supporting 20+ enterprise B2B clients by implementing high-performance customizations on Optimizely's Configured Commerce platform. Responsible for hands-on development of customer-specific features, performance optimization, and technical solutions that enable Fortune 500 companies to scale their digital commerce operations. Key achievements include developing IntelliMerge (AI-powered upgrade automation tool using GPT-5 that reduced upgrade time from 40 hours to 8 hoursâ€”an 80% efficiency gain), creating OpalSpark (a .NET 9 template framework that streamlines Opal platform development and eliminates authentication/setup complexity), and building integration tools that connect Sitecore CMS with Opal for seamless content management. Contributed to two successful system migrations achieving 55% average cost reduction for major clients while improving deployment efficiency and reducing error rates. Actively leveraging AI tools (Claude Code, Cursor, GitHub Copilot) to enhance team productivity, mentor developers through code reviews (15% defect reduction), and design scalable architecture patterns supporting global deployments. Technologies: C#, ASP.NET Core, .NET 9, WCF, React, Angular, TypeScript, Azure, MSSQL, Entity Framework Core, AI Integration (GPT-5, Claude AI), Opal Platform.",
+    longDescription: "Supporting 20+ enterprise B2B clients by implementing high-performance customizations on Optimizely's Configured Commerce platform. Responsible for hands-on development of customer-specific features, performance optimization, and technical solutions that enable Fortune 500 companies to scale their digital commerce operations. Key achievements include developing SpireWiz (AI-powered upgrade automation tool using GPT-5 that reduced upgrade time from 40 hours to 8 hoursâ€”an 80% efficiency gain), creating OpalSpark (a .NET 9 template framework that streamlines Opal platform development and eliminates authentication/setup complexity), and building integration tools that connect Sitecore CMS with Opal for seamless content management. Contributed to two successful system migrations achieving 55% average cost reduction for major clients while improving deployment efficiency and reducing error rates. Actively leveraging AI tools (Claude Code, Cursor, GitHub Copilot) to enhance team productivity, mentor developers through code reviews (15% defect reduction), and design scalable architecture patterns supporting global deployments. Technologies: C#, ASP.NET Core, .NET 9, WCF, React, Angular, TypeScript, Azure, MSSQL, Entity Framework Core, AI Integration (GPT-5, Claude AI), Opal Platform.",
     shortDescription:
       "Enterprise B2B commerce platform supporting 20+ clients with custom high-performance solutions, AI-powered tooling (80% efficiency gain), and scalable architecture.",
     stacks: [
@@ -348,7 +348,7 @@ export const projects: Project[] = [
       "Architected and delivered custom B2B commerce features for 20+ Fortune 500 clients, optimizing catalog management, pricing engines, and ERP integrations at enterprise scale",
       "Led two successful system migrations achieving 55% average cost reduction for major clients while improving deployment efficiency and reducing error rates",
       "Mentored development team through rigorous code reviews and technical guidance, resulting in 15% defect reduction across key modules and improved team productivity",
-      "Designed and implemented IntelliMerge (AI-powered upgrade automation) and OpalSpark (.NET 9 template framework) tools adopted company-wide for development acceleration",
+      "Designed and implemented SpireWiz (AI-powered upgrade automation) and OpalSpark (.NET 9 template framework) tools adopted company-wide for development acceleration",
       "Built integration bridge connecting Sitecore CMS with Opal platform for seamless content management across global deployments",
       "Leveraged AI tools (Claude Code, Cursor, GitHub Copilot) to enhance team productivity and design scalable architecture patterns supporting worldwide operations"
     ],
@@ -356,7 +356,7 @@ export const projects: Project[] = [
       users: "20+ Fortune 500 clients",
       revenue: "55% average cost reduction",
       performance: "15% defect reduction via code reviews",
-      efficiency: "80% upgrade time savings (IntelliMerge)",
+      efficiency: "80% upgrade time savings (SpireWiz)",
       other: ["Global deployments", "Multi-platform integrations"]
     },
     testimonials: [
@@ -370,11 +370,11 @@ export const projects: Project[] = [
     ],
     caseStudy: {
       problem: "Fortune 500 companies needed custom B2B commerce features that weren't available out-of-the-box in Optimizely's platform. Clients faced slow upgrade cycles (40hrs per upgrade), complex integrations with CMS systems, and lack of developer-friendly tooling for rapid customization.",
-      solution: "Built a comprehensive ecosystem of tools and customizations: (1) IntelliMerge for automated upgrades, (2) OpalSpark template framework for rapid development, (3) Sitecore-Opal integration bridge for content management, (4) Performance optimization layer for global deployments. Leveraged AI tools (GPT-5, Claude Code) for enhanced productivity.",
+      solution: "Built a comprehensive ecosystem of tools and customizations: (1) SpireWiz for automated upgrades, (2) OpalSpark template framework for rapid development, (3) Sitecore-Opal integration bridge for content management, (4) Performance optimization layer for global deployments. Leveraged AI tools (GPT-5, Claude Code) for enhanced productivity.",
       architectureDiagram: `graph LR
     A[Client] --> B[Opal Platform]
     B --> C[Custom Features]
-    B --> D[IntelliMerge Tool]
+    B --> D[SpireWiz Tool]
     B --> E[Sitecore CMS]
     C --> F[.NET 9 API]
     F --> G[Azure Cloud]
@@ -389,7 +389,7 @@ export const projects: Project[] = [
         "Serving 20+ enterprise B2B clients with high-performance customizations",
         "Achieved 55% average cost reduction for major clients via system migrations",
         "Reduced defect rate by 15% through mentorship and code reviews",
-        "Enabled 80% faster upgrade cycles with IntelliMerge automation",
+        "Enabled 80% faster upgrade cycles with SpireWiz automation",
         "Streamlined development with OpalSpark framework",
         "Successfully integrated Sitecore CMS with Opal platform"
       ],
@@ -411,7 +411,7 @@ export const projects: Project[] = [
       },
       {
         title: "Innovation Leader",
-        description: "Created IntelliMerge & OpalSpark tools adopted company-wide",
+        description: "Created SpireWiz & OpalSpark tools adopted company-wide",
         icon: "lightbulb",
         approved: true
       }

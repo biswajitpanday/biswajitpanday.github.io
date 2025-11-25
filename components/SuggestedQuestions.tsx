@@ -7,7 +7,7 @@ interface SuggestedQuestionsProps {
 }
 
 const SUGGESTED_QUESTIONS = [
-  "Tell me about IntelliMerge",
+  "Tell me about SpireWiz",
   "What's your cloud experience?",
   "Have you worked with AI?",
   "What's your current role?",

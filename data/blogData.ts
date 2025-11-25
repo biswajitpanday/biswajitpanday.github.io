@@ -20,9 +20,9 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     id: "1",
-    title: "Building IntelliMerge: How AI Reduced Merge Conflicts by 90%",
+    title: "Building SpireWiz: How AI Reduced Merge Conflicts by 90%",
     subtitle: "A deep dive into creating an AI-powered git merge tool",
-    excerpt: "Learn how I built IntelliMerge using Claude AI to intelligently resolve merge conflicts, reducing developer time by 80-90%. Explore the architecture, challenges, and lessons learned from integrating AI into development workflows.",
+    excerpt: "Learn how I built SpireWiz using Claude AI to intelligently resolve merge conflicts, reducing developer time by 80-90%. Explore the architecture, challenges, and lessons learned from integrating AI into development workflows.",
     category: "AI/ML",
     tags: ["AI", "Git", "DevOps", "Claude AI", "Automation"],
     publishedDate: new Date("2024-11-15"),

@@ -71,7 +71,7 @@ You're **3-4 weeks of focused content work** away from top 0.001% globally.
 Top 0.001% portfolios tell stories that make recruiters say "I need to interview this person immediately."
 
 **Examples of What's Missing:**
-- Why did you build IntelliMerge? (Problem statement)
+- Why did you build SpireWiz? (Problem statement)
 - What challenges did you overcome? (Journey)
 - How did users react? (Testimonials)
 - What did you learn? (Growth mindset)
@@ -107,7 +107,7 @@ Recruiters spend 6-8 seconds on a portfolio. Yours needs stronger visual hooks.
 - ❌ No "As featured in" or publications section
 - ❌ No metrics dashboard showing portfolio impact (e.g., "Downloaded 247 times")
 - ❌ No GitHub stars/forks prominently displayed
-- ❌ No IntelliMerge user testimonials ("This tool saved me 10 hours/week")
+- ❌ No SpireWiz user testimonials ("This tool saved me 10 hours/week")
 
 **Impact:**
 Top 0.001% portfolios have **5-7 testimonials** from managers, colleagues, or clients. Social proof is the #1 missing element that could **3x your interview rate**.
@@ -176,7 +176,7 @@ Top 0.001% have a clear, memorable positioning.
 
 **Issues:**
 - ❌ Performance dashboard shows metrics but no context (is 100/100 impressive? Yes, but explain!)
-- ❌ Activity graph lacks annotations ("This spike = IntelliMerge launch")
+- ❌ Activity graph lacks annotations ("This spike = SpireWiz launch")
 - ❌ Missing "Portfolio Stats" section: X projects, Y companies, Z technologies mastered
 - ❌ No comparison to industry benchmarks
 
@@ -220,7 +220,7 @@ You have the **technical excellence**. You're missing the **storytelling, social
 **Actions:**
 - [ ] Request recommendations from 2-3 Optimizely colleagues/managers
 - [ ] Request recommendations from 2-3 Kaz Software team members
-- [ ] Request testimonials from 3-5 IntelliMerge users
+- [ ] Request testimonials from 3-5 SpireWiz users
 - [ ] Create "Testimonials" section on homepage (carousel or grid)
 - [ ] Link testimonials to LinkedIn profiles for verification
 - [ ] Add company logos (Optimizely, Kaz Software, Robi)
@@ -241,7 +241,7 @@ Thank you!
 **Expected Testimonials:**
 - Manager: Leadership, technical expertise, delivery
 - Colleague: Collaboration, mentorship, problem-solving
-- IntelliMerge User: Tool impact, time saved, productivity
+- SpireWiz User: Tool impact, time saved, productivity
 
 ---
 
@@ -250,7 +250,7 @@ Thank you!
 **Impact:** 🔴 **CRITICAL - Demonstrates thinking, not just doing**
 **Priority:** #2
 
-##### Case Study 1: IntelliMerge
+##### Case Study 1: SpireWiz
 **Title:** "How I Built an AI Tool That Saved 200 Developers 80% of Their Time"
 
 **Structure:**
@@ -283,7 +283,7 @@ Thank you!
    - Lessons learned
 
 **Deliverables:**
-- Dedicated page: `/case-studies/intellimerge`
+- Dedicated page: `/case-studies/SpireWiz`
 - Architecture diagram
 - 3-5 code snippets
 - User testimonials (3-5)
@@ -361,9 +361,9 @@ Thank you!
 
 **Actions:**
 - [ ] Add "Featured" badge to top 5 projects
-  - IntelliMerge, Optimizely, Robi SVS, RegAnalytics, BugBusters
+  - SpireWiz, Optimizely, Robi SVS, RegAnalytics, BugBusters
 - [ ] Implement color-coded borders by category:
-  - **Gold**: AI-powered projects (IntelliMerge, Chatbot)
+  - **Gold**: AI-powered projects (SpireWiz, Chatbot)
   - **Blue**: Enterprise/B2B (Optimizely, RegAnalytics)
   - **Green**: Open-source (CurrentDT-mcp, EmailEngine)
   - **Purple**: Cloud/Infrastructure (Robi SVS, migrations)
@@ -378,14 +378,14 @@ Thank you!
   - "View Details" CTA
 - [ ] Add "Currently Active" pulsing green dot
   - Optimizely (Current employer)
-  - IntelliMerge (Active users)
+  - SpireWiz (Active users)
 
 **Visual Examples:**
 ```
 ┌─────────────────────────────┐
 │ 🏆 FEATURED   🟢 ACTIVE    │
 │                             │
-│  IntelliMerge               │
+│  SpireWiz               │
 │  AI-Powered Git Merge       │
 │                             │
 │  📊 200+ users              │
@@ -496,7 +496,7 @@ Thank you!
 **Priority:** #7
 
 **First 5 Articles:**
-1. "Building AI-Powered Developer Tools: IntelliMerge Case Study"
+1. "Building AI-Powered Developer Tools: SpireWiz Case Study"
 2. "Migrating .NET Framework to .NET Core at Scale: Lessons from 5 Migrations"
 3. "Model Context Protocol (MCP): The Future of AI Assistant Integration"
 4. "Clean Architecture in .NET: Real-World Implementation with BugBusters"
@@ -550,7 +550,7 @@ Thank you!
 
 **Day 1-2: Request Recommendations**
 - [ ] Draft LinkedIn recommendation requests
-- [ ] Send to 5-7 people (2 managers, 3 colleagues, 2 IntelliMerge users)
+- [ ] Send to 5-7 people (2 managers, 3 colleagues, 2 SpireWiz users)
 - [ ] Follow up with personalized messages
 
 **Day 3-4: Create Testimonials Section**
@@ -574,12 +574,12 @@ Thank you!
 ### **Week 2: Case Studies** (Content Depth)
 **Goal:** Write 2 comprehensive case studies
 
-**Day 8-11: IntelliMerge Case Study**
+**Day 8-11: SpireWiz Case Study**
 - [ ] Write problem/solution/results sections (1,500-2,000 words)
 - [ ] Create architecture diagram (system flow)
 - [ ] Add code snippets with annotations
 - [ ] Collect user testimonials
-- [ ] Design `/case-studies/intellimerge` page
+- [ ] Design `/case-studies/SpireWiz` page
 
 **Day 12-14: Robi SVS Migration Case Study**
 - [ ] Write migration story (1,500-2,000 words)
@@ -691,7 +691,7 @@ Thank you!
    - Send 5-7 personalized requests
    - Include specific achievements to mention
 
-2. **Start IntelliMerge Case Study** (3-4 hours)
+2. **Start SpireWiz Case Study** (3-4 hours)
    - Write "The Problem" section
    - Draft architecture diagram
    - Collect user feedback
@@ -759,7 +759,7 @@ Good: "Expert in .NET, Advanced in React, Currently learning Rust"
 
 ### Monthly Review (Ongoing)
 - [ ] Check LinkedIn for new recommendations
-- [ ] Update project metrics (IntelliMerge user count, etc.)
+- [ ] Update project metrics (SpireWiz user count, etc.)
 - [ ] Write 1 blog post
 - [ ] Update case studies with new learnings
 - [ ] Review analytics (which projects get most views?)
@@ -796,7 +796,7 @@ Good: "Expert in .NET, Advanced in React, Currently learning Rust"
 ## 📝 Final Notes
 
 ### The Gap is NOT Technical
-You have the skills. You have the experience. You've built amazing projects (IntelliMerge, 20M-user platforms, 55% cost reductions).
+You have the skills. You have the experience. You've built amazing projects (SpireWiz, 20M-user platforms, 55% cost reductions).
 
 ### The Gap is Storytelling
 Top 0.001% developers are great storytellers. They:

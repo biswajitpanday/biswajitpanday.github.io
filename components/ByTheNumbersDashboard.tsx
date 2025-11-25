@@ -192,7 +192,7 @@ const ByTheNumbersDashboard: React.FC = () => {
           <div className="flex flex-wrap justify-center gap-4 text-xs">
             <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
               <FaStar className="text-emerald-400" />
-              <span className="text-emerald-300">80-90% Efficiency Gains with IntelliMerge</span>
+              <span className="text-emerald-300">80-90% Efficiency Gains with SpireWiz</span>
             </div>
             <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 border border-blue-500/30 rounded-full">
               <FaCloud className="text-blue-400" />

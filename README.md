@@ -84,10 +84,10 @@ This command performs the following operations in sequence:
 ✅ Created large (600px): WebP: 25KB, PNG: 79KB
 
 🔄 === STEP 2: Converting Images to WebP ===
-✅ intelliMerge.png → intelliMerge.webp (47% smaller)
+✅ SpireWiz.png → SpireWiz.webp (47% smaller)
 
 🖼️  === STEP 3: Generating Thumbnails ===
-✅ Created thumbnail: intelliMerge.webp
+✅ Created thumbnail: SpireWiz.webp
 
 🗑️  === STEP 4: Source File Cleanup ===
 ❓ Do you want to delete these source files? (Y/N): Y

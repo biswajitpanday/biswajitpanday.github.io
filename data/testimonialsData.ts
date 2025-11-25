@@ -17,7 +17,7 @@ import { Testimonial } from "@/components/TestimonialsCarousel";
 export const testimonials: Testimonial[] = [
   {
     id: "1",
-    quote: "Biswajit is an exceptional developer who consistently delivers high-quality solutions. His work on IntelliMerge transformed our development workflow, saving our team countless hours every week.",
+    quote: "Biswajit is an exceptional developer who consistently delivers high-quality solutions. His work on SpireWiz transformed our development workflow, saving our team countless hours every week.",
     author: "Sample Colleague",
     role: "Engineering Manager",
     company: "Tech Company",

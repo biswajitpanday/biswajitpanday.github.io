@@ -23,7 +23,7 @@ const valueItems: ValueItem[] = [
   {
     icon: FaBrain,
     title: "AI-Powered Innovation",
-    description: "Built IntelliMerge, reducing merge conflicts by",
+    description: "Built SpireWiz, reducing merge conflicts by",
     highlight: "80-90%",
     color: "text-emerald-400",
     bgColor: "bg-emerald-500/20"
