@@ -16,6 +16,11 @@ import dynamic from "next/dynamic";
 // Dynamic import of lightbox for better performance and to avoid SSR issues
 const Lightbox = dynamic(() => import("yet-another-react-lightbox"), {
   ssr: false,
+  loading: () => (
+    <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
+      <div className="text-white/60 text-sm">Loading image viewer...</div>
+    </div>
+  ),
 });
 
 // Only import styles on client-side and only once

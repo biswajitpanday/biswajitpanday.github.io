@@ -1,10 +1,10 @@
 # Portfolio Content Improvement Plan
 
-**Version:** 3.5 (Active Work Only)
+**Version:** 3.6 (Active Work Only)
 **Created:** 2025-11-13
 **Last Updated:** 2025-11-26
 **Type:** Content Strategy & Copywriting
-**Current Focus:** ✅ Phase 19 Complete - Navigation & Modal Accessibility!
+**Current Focus:** ✅ Phase 20 Complete - Bundle Size Optimization!
 
 > **Note:** For completed phases (Phase 1, 1.5, 6, 7, 7.5, 8, 9, 10) see `CompletedPhases.md`
 
@@ -31,7 +31,8 @@
 | **UI/UX Score** | 99/100 | ✅ Excellent (All Pages Synchronized) |
 | **Design System** | 100% | ✅ All pages refined (Career 10/10, Certs 11/10, Skills 9/10, Activity 9/10) |
 | **Accessibility** | WCAG 2.1 AA | ✅ Focus styles, ARIA labels, screen reader support, keyboard nav |
-| **Current Phase** | Phase 19 COMPLETE | ✅ Navigation & Modal accessibility (TimelineElement, MobileNav, GlobalSearch, Nav) |
+| **Bundle Optimization** | Improved | ✅ Removed unused deps, lazy loaded heavy components |
+| **Current Phase** | Phase 20 COMPLETE | ✅ Bundle size optimization (removed 80 packages, lazy loading) |
 
 ---
 
@@ -57,9 +58,77 @@
 - **Phase 17** (3 tasks) ✅ - Section Padding Standardization (py-6 on Skills, Certifications, Contact)
 - **Phase 18** (8 tasks) ✅ - Accessibility Audit (WCAG 2.1 AA compliance, ARIA labels, focus styles, screen reader support)
 - **Phase 19** (4 tasks) ✅ - Navigation & Modal Accessibility (TimelineElement, MobileNav, GlobalSearch, Nav)
+- **Phase 20** (5 tasks) ✅ - Bundle Size Optimization (removed swiper, react-vertical-timeline-component, lazy loaded MermaidDiagram, AIChatbot)
 
-**Total Completed:** 137 tasks | **Effort:** ~152 hours
-**Current Status:** ✅ Full navigation and modal accessibility achieved!
+**Total Completed:** 142 tasks | **Effort:** ~154 hours
+**Current Status:** ✅ Bundle optimized with unused dependencies removed and lazy loading!
+
+---
+
+## ✅ PHASE 20: BUNDLE SIZE OPTIMIZATION (COMPLETE!)
+
+**Status:** ✅ Complete (5/5 tasks - 100%)
+**Timeline:** 1 session (~30 min)
+**Priority:** 🟡 Medium - Performance Improvement
+**Effort:** 0.5 hours
+**Target:** Reduce bundle size and improve initial load time ✅ ACHIEVED!
+
+### Purpose
+Optimize bundle size by removing unused dependencies and implementing lazy loading for heavy components. This improves initial page load time and reduces bandwidth usage.
+
+### Key Improvements
+
+| Change | Impact | Packages Removed |
+|--------|--------|------------------|
+| **Removed swiper** | Unused carousel library | 1 package |
+| **Removed react-vertical-timeline-component** | Unused timeline library | 79 packages |
+| **Lazy loaded MermaidDiagram** | ~500KB deferred until modal opens | - |
+| **Lazy loaded AIChatbot** | ~150KB (react-markdown) deferred | - |
+| **Added classnames** | Required by react-accessible-treeview | +1 package |
+
+### Tasks Completed
+
+#### ✅ Task 20.1: Analyze Bundle
+- Identified unused dependencies: swiper, react-vertical-timeline-component
+- Found heavy components: MermaidDiagram, AIChatbot
+- Existing optimizations: Lightbox already lazy loaded
+
+#### ✅ Task 20.2: Remove Unused swiper Package
+**Command:** `npm uninstall swiper --legacy-peer-deps`
+- Swiper was listed in dependencies but never imported
+- Removed 1 package
+
+#### ✅ Task 20.3: Remove Unused react-vertical-timeline-component
+**Command:** `npm uninstall react-vertical-timeline-component --legacy-peer-deps`
+- Package was listed but never imported (custom TimelineElement used instead)
+- Removed 79 packages including react-intersection-observer
+
+#### ✅ Task 20.4: Lazy Load MermaidDiagram
+**File:** `components/ProjectModal.tsx`
+- Changed static import to `next/dynamic`
+- Added loading placeholder
+- Mermaid (~500KB) now loads only when architecture tab is viewed
+
+#### ✅ Task 20.5: Lazy Load AIChatbot
+**File:** `app/layout.tsx`
+- Changed static import to `next/dynamic`
+- react-markdown (~150KB) now loads only when chatbot is used
+
+### Files Modified
+
+1. **`package.json`** - Removed swiper, react-vertical-timeline-component; Added classnames
+2. **`components/ProjectModal.tsx`** - Lines 21-34: Dynamic import for MermaidDiagram
+3. **`app/layout.tsx`** - Lines 3, 15-16: Dynamic import for AIChatbot
+4. **`components/CertificationCard.tsx`** - Lines 17-24: Added loading state to Lightbox dynamic import
+
+### Build Verification
+✅ **Build Status:** SUCCESS (16 pages, 0 errors)
+
+### Notes
+- First Load JS shows 9.79 MB but this includes ALL possible chunks
+- Actual initial page load is smaller due to lazy loading
+- Heavy components (Mermaid, Chatbot) only load when needed
+- Further optimization would require replacing framer-motion or using lighter alternatives
 
 ---
 

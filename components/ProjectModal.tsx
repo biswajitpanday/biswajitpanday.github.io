@@ -18,10 +18,20 @@ import {
 import { FiLayers } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Project } from "@/data/portfolioData";
 import { useState, useEffect } from "react";
-import MermaidDiagram from "@/components/MermaidDiagram";
 import ProjectPerformanceMetrics from "@/components/ProjectPerformanceMetrics";
+
+// Lazy load MermaidDiagram - large dependency (~500KB)
+const MermaidDiagram = dynamic(() => import("@/components/MermaidDiagram"), {
+  loading: () => (
+    <div className="flex items-center justify-center h-48 bg-white/5 rounded-lg">
+      <div className="text-white/40 text-sm">Loading diagram...</div>
+    </div>
+  ),
+  ssr: false,
+});
 import { getPrimaryMetric } from "@/utils/projectHelpers";
 import {
   CategoryBadge,

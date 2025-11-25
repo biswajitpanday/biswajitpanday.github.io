@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
+import dynamic from "next/dynamic";
 import "./globals.css";
 import Header from "@/components/Header";
 import PageTransition from "@/components/PageTransition";
@@ -8,9 +9,11 @@ import DebugMode from "@/components/DebugMode";
 import SEOOptimizer from "@/components/SEOOptimizer";
 import WebVitalsTracker from "@/components/WebVitalsTracker";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
-import AIChatbot from "@/components/AIChatbot";
 import ResumeAnalyticsLoader from "@/components/ResumeAnalyticsLoader";
 import HeatmapTracker from "@/components/HeatmapTracker";
+
+// Lazy load AIChatbot - includes react-markdown (~150KB)
+const AIChatbot = dynamic(() => import("@/components/AIChatbot"));
 
 const jetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
