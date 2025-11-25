@@ -26,6 +26,8 @@ const FaLinkedinIn = lazy(() => import("react-icons/fa").then(mod => ({ default:
 const FaGithub = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaGithub })));
 const FaTwitter = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaTwitter })));
 const FaLock = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLock })));
+const FaCopy = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCopy })));
+const FaCheck = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCheck })));
 
 // Form field icons (non-lazy for immediate use in inputs)
 import { FaUser, FaAt, FaPhone, FaComment } from "react-icons/fa";
@@ -111,7 +113,10 @@ const info = [
     testId: "contact-info-phone",
     clickable: true,
     action: () => window.open("tel:+8801681642502", "_self"),
-    actionLabel: "Call or WhatsApp"
+    actionLabel: "Call or WhatsApp",
+    copyable: true,
+    copyText: "+8801681642502",
+    copyLabel: "Phone"
   },
   {
     icon: FaEnvelope,
@@ -124,7 +129,10 @@ const info = [
     testId: "contact-info-email",
     clickable: true,
     action: () => window.open("mailto:biswajitmailid@gmail.com", "_self"),
-    actionLabel: "Send Email"
+    actionLabel: "Send Email",
+    copyable: true,
+    copyText: "biswajitmailid@gmail.com",
+    copyLabel: "Email"
   },
   {
     icon: BsMicrosoftTeams,
@@ -140,16 +148,19 @@ const info = [
       // Try to open Teams app first, fallback to web version
       const teamsAppUrl = `msteams://l/chat/0/0?users=biswajitpanday@live.com`;
       const teamsWebUrl = `https://teams.microsoft.com/l/chat/0/0?users=biswajitpanday@live.com`;
-      
+
       // Attempt to open Teams app
       window.location.href = teamsAppUrl;
-      
+
       // Fallback to web version after a brief delay if app doesn't open
       setTimeout(() => {
         window.open(teamsWebUrl, "_blank");
       }, 1000);
     },
-    actionLabel: "Start Teams Chat"
+    actionLabel: "Start Teams Chat",
+    copyable: true,
+    copyText: "biswajitpanday@live.com",
+    copyLabel: "Teams ID"
   },
   {
     icon: FaMapMarkedAlt,
@@ -162,7 +173,8 @@ const info = [
     testId: "contact-info-address",
     clickable: true,
     action: () => window.open("https://www.google.com/maps/search/Dhaka,+Bangladesh", "_blank"),
-    actionLabel: "View on Map"
+    actionLabel: "View on Map",
+    copyable: false
   },
 ];
 
@@ -209,6 +221,28 @@ const Contact = () => {
 
   // Honeypot field for spam prevention (bots will fill this, humans won't see it)
   const [honeypot, setHoneypot] = useState('');
+
+  // Copy feedback toast state
+  const [copyToast, setCopyToast] = useState<{ show: boolean; text: string }>({ show: false, text: '' });
+
+  // Copy to clipboard handler
+  const handleCopy = useCallback(async (text: string, label: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopyToast({ show: true, text: `${label} copied!` });
+      setTimeout(() => setCopyToast({ show: false, text: '' }), 2000);
+    } catch {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCopyToast({ show: true, text: `${label} copied!` });
+      setTimeout(() => setCopyToast({ show: false, text: '' }), 2000);
+    }
+  }, []);
 
   // Simple rate limiting (client-side only)
   const [attempts, setAttempts] = useState(0);
@@ -277,6 +311,21 @@ const Contact = () => {
     fieldValidators.email(formData.email) &&
     fieldValidators.phone(formData.phone) &&
     fieldValidators.message(formData.message);
+
+  // Calculate form completion progress (0-100%)
+  const formProgress = (() => {
+    let progress = 0;
+    const requiredFields = ['firstName', 'lastName', 'email', 'message'];
+    const weights = { firstName: 20, lastName: 20, email: 25, phone: 10, message: 25 };
+
+    if (fieldValidators.firstName(formData.firstName)) progress += weights.firstName;
+    if (fieldValidators.lastName(formData.lastName)) progress += weights.lastName;
+    if (fieldValidators.email(formData.email)) progress += weights.email;
+    if (formData.phone.length > 0 && fieldValidators.phone(formData.phone)) progress += weights.phone;
+    if (fieldValidators.message(formData.message)) progress += weights.message;
+
+    return Math.min(progress, 100);
+  })();
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     const newData = { ...formData, [field]: value };
@@ -534,6 +583,47 @@ const Contact = () => {
                 </p>
               </motion.div>
 
+              {/* Progress Indicator */}
+              {hasFormData && submitStatus !== 'success' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6"
+                >
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-xs text-white/60">Form Completion</span>
+                    <span className={`text-xs font-medium ${
+                      formProgress === 100 ? 'text-emerald-400' : formProgress >= 50 ? 'text-[#00BFFF]' : 'text-white/60'
+                    }`}>
+                      {formProgress}%
+                    </span>
+                  </div>
+                  <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${formProgress}%` }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      className={`h-full rounded-full transition-colors duration-300 ${
+                        formProgress === 100
+                          ? 'bg-gradient-to-r from-emerald-500 to-cyan-500'
+                          : formProgress >= 50
+                          ? 'bg-gradient-to-r from-[#00BFFF] to-purple-500'
+                          : 'bg-gradient-to-r from-white/40 to-white/60'
+                      }`}
+                    />
+                  </div>
+                  {formProgress === 100 && (
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-xs text-emerald-400 mt-1"
+                    >
+                      ✓ Ready to submit!
+                    </motion.p>
+                  )}
+                </motion.div>
+              )}
+
               {/* Rate Limit Warning */}
               {isBlocked && (
                 <motion.div
@@ -607,6 +697,21 @@ const Contact = () => {
                     >
                       {submitMessage}
                     </motion.p>
+                    {/* Send another message CTA */}
+                    {submitStatus === 'success' && (
+                      <motion.button
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5 }}
+                        onClick={() => {
+                          setSubmitStatus('idle');
+                          setSubmitMessage('');
+                        }}
+                        className="text-xs text-emerald-300 hover:text-emerald-200 underline underline-offset-2 mt-2 transition-colors"
+                      >
+                        Send another message →
+                      </motion.button>
+                    )}
                   </div>
                 </motion.div>
               )}
@@ -638,7 +743,8 @@ const Contact = () => {
                       value: formData.firstName,
                       error: formErrors.firstName?.message,
                       icon: FaUser,
-                      isValid: fieldValidators.firstName(formData.firstName)
+                      isValid: fieldValidators.firstName(formData.firstName),
+                      hint: "Min 2 characters"
                     },
                     {
                       name: "lastName",
@@ -649,7 +755,8 @@ const Contact = () => {
                       value: formData.lastName,
                       error: formErrors.lastName?.message,
                       icon: FaUser,
-                      isValid: fieldValidators.lastName(formData.lastName)
+                      isValid: fieldValidators.lastName(formData.lastName),
+                      hint: "Min 2 characters"
                     },
                     {
                       name: "email",
@@ -660,7 +767,8 @@ const Contact = () => {
                       value: formData.email,
                       error: formErrors.email?.message,
                       icon: FaAt,
-                      isValid: fieldValidators.email(formData.email)
+                      isValid: fieldValidators.email(formData.email),
+                      hint: "Valid email required"
                     },
                     {
                       name: "phone",
@@ -671,7 +779,8 @@ const Contact = () => {
                       value: formData.phone,
                       error: formErrors.phone?.message,
                       icon: FaPhone,
-                      isValid: fieldValidators.phone(formData.phone)
+                      isValid: fieldValidators.phone(formData.phone),
+                      hint: "Optional - min 10 digits if provided"
                     },
                     {
                       name: "message",
@@ -684,7 +793,8 @@ const Contact = () => {
                       rows: 6,
                       maxLength: MESSAGE_LIMITS.MAX,
                       icon: FaComment,
-                      isValid: fieldValidators.message(formData.message)
+                      isValid: fieldValidators.message(formData.message),
+                      hint: "Min 10 characters"
                     }
                   ]}
                   onFieldChange={(fieldName, value) => handleInputChange(fieldName as keyof FormData, value)}
@@ -810,13 +920,44 @@ const Contact = () => {
                           </p>
                         )}
                       </div>
-                      {item.clickable && (
-                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0">
-                          <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center">
-                            <div className="w-2 h-2 rounded-full bg-white/50"></div>
+                      {/* Action buttons container */}
+                      <div className="flex items-center gap-1 flex-shrink-0">
+                        {/* Copy button */}
+                        {item.copyable && (
+                          <div className="relative group/copy">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleCopy(item.copyText!, item.copyLabel!);
+                              }}
+                              className="opacity-0 group-hover:opacity-100 transition-all duration-300 p-2 hover:bg-white/10 rounded-lg"
+                              aria-label={`Copy ${item.copyLabel}`}
+                            >
+                              <Suspense fallback={<IconFallback />}>
+                                <FaCopy className="w-3.5 h-3.5 text-white/60 hover:text-white transition-colors" />
+                              </Suspense>
+                            </button>
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-[10px] rounded whitespace-nowrap opacity-0 group-hover/copy:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+                              Copy {item.copyLabel}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
+                        {/* Action indicator */}
+                        {item.clickable && (
+                          <div className="relative group/action">
+                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center hover:border-white/50 hover:bg-white/5 transition-all">
+                                <div className="w-2 h-2 rounded-full bg-white/50"></div>
+                              </div>
+                            </div>
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-[10px] rounded whitespace-nowrap opacity-0 group-hover/action:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+                              {item.actionLabel}
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </motion.div>
                 ))}
@@ -854,6 +995,23 @@ const Contact = () => {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Copy Toast Notification */}
+      {copyToast.show && (
+        <motion.div
+          initial={{ opacity: 0, y: 50, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 50, scale: 0.9 }}
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
+        >
+          <div className="flex items-center gap-2 bg-emerald-500/90 backdrop-blur-sm text-white px-4 py-2.5 rounded-lg shadow-lg shadow-emerald-500/20 border border-emerald-400/30">
+            <Suspense fallback={<IconFallback />}>
+              <FaCheck className="w-4 h-4" />
+            </Suspense>
+            <span className="text-sm font-medium">{copyToast.text}</span>
+          </div>
+        </motion.div>
+      )}
     </section>
   );
 };

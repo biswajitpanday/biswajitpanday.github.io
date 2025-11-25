@@ -23,6 +23,7 @@ interface FormField {
   maxLength?: number; // Character limit
   icon?: IconType; // Optional field icon
   isValid?: boolean; // Real-time validation state
+  hint?: string; // Field requirement hint (e.g., "Min 2 characters")
 }
 
 interface FormSectionProps {
@@ -191,14 +192,21 @@ const FormSection: React.FC<FormSectionProps> = ({
           </div>
         )}
 
-        {field.error && (
+        {field.error ? (
           <p
             data-testid={`form-error-${field.name}`}
             className="text-red-400 text-xs"
           >
             {field.error}
           </p>
-        )}
+        ) : field.hint && !field.isValid ? (
+          <p
+            data-testid={`form-hint-${field.name}`}
+            className="text-white/30 text-[10px]"
+          >
+            {field.hint}
+          </p>
+        ) : null}
       </div>
     );
   };
