@@ -25,6 +25,10 @@ const FaLayerGroup = lazy(() => import("react-icons/fa").then(mod => ({ default:
 const FaLinkedinIn = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLinkedinIn })));
 const FaGithub = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaGithub })));
 const FaTwitter = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaTwitter })));
+const FaLock = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLock })));
+
+// Form field icons (non-lazy for immediate use in inputs)
+import { FaUser, FaAt, FaPhone, FaComment } from "react-icons/fa";
 
 // Loading fallback components
 const IconFallback = ({ className }: { className?: string }) => (
@@ -64,9 +68,18 @@ interface FormErrors {
   message?: { message: string };
 }
 
+// Real-time field validators (return true if valid)
+const fieldValidators = {
+  firstName: (value: string) => value.trim().length >= 2,
+  lastName: (value: string) => value.trim().length >= 2,
+  email: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+  phone: (value: string) => value.length === 0 || value.length >= 10, // Optional field
+  message: (value: string) => value.trim().length >= 10,
+};
+
 const validateForm = (data: FormData) => {
   const errors: FormErrors = {};
-  
+
   if (!data.firstName || data.firstName.length < 2) {
     errors.firstName = { message: "First name must be at least 2 characters" };
   }
@@ -82,7 +95,7 @@ const validateForm = (data: FormData) => {
   if (!data.message || data.message.length < 10) {
     errors.message = { message: "Message must be at least 10 characters" };
   }
-  
+
   return { errors, isValid: Object.keys(errors).length === 0 };
 };
 
@@ -257,6 +270,14 @@ const Contact = () => {
   // Check if form has any data
   const hasFormData = Object.values(formData).some(value => value.trim() !== '');
 
+  // Check if form is valid (all required fields pass validation)
+  const isFormValid =
+    fieldValidators.firstName(formData.firstName) &&
+    fieldValidators.lastName(formData.lastName) &&
+    fieldValidators.email(formData.email) &&
+    fieldValidators.phone(formData.phone) &&
+    fieldValidators.message(formData.message);
+
   const handleInputChange = (field: keyof FormData, value: string) => {
     const newData = { ...formData, [field]: value };
     setFormData(newData);
@@ -359,7 +380,7 @@ const Contact = () => {
       }
     } catch (error) {
       setSubmitStatus('error');
-      setSubmitMessage('Something went wrong. Please try again or contact me directly via email.');
+      setSubmitMessage('Something went wrong. Please try again or contact me directly via email (biswajitmailid@gmail.com).');
       console.error('Form submission error:', error);
     } finally {
       setIsSubmitting(false);
@@ -535,9 +556,11 @@ const Contact = () => {
               {/* Submit Status Messages */}
               {submitStatus !== 'idle' && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className={`mb-6 p-4 rounded border flex items-center gap-3 ${
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className={`mb-6 p-4 rounded-lg border flex items-center gap-3 ${
                     submitStatus === 'success'
                       ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
                       : 'bg-red-500/10 border-red-500/30 text-red-300'
@@ -545,12 +568,46 @@ const Contact = () => {
                 >
                   <Suspense fallback={<IconFallback />}>
                     {submitStatus === 'success' ? (
-                      <FaCheckCircle className="text-emerald-400 flex-shrink-0" />
+                      <motion.div
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 260,
+                          damping: 20,
+                          delay: 0.1
+                        }}
+                      >
+                        <FaCheckCircle className="text-emerald-400 text-xl flex-shrink-0" />
+                      </motion.div>
                     ) : (
-                      <FaExclamationTriangle className="text-red-400 flex-shrink-0" />
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                      >
+                        <FaExclamationTriangle className="text-red-400 text-xl flex-shrink-0" />
+                      </motion.div>
                     )}
                   </Suspense>
-                  <p className="text-sm">{submitMessage}</p>
+                  <div className="flex-1">
+                    <motion.p
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.2 }}
+                      className="text-sm font-medium"
+                    >
+                      {submitStatus === 'success' ? 'Message Sent!' : 'Error'}
+                    </motion.p>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                      className="text-xs opacity-80"
+                    >
+                      {submitMessage}
+                    </motion.p>
+                  </div>
                 </motion.div>
               )}
 
@@ -579,7 +636,9 @@ const Contact = () => {
                       placeholder: "Enter your first name",
                       required: true,
                       value: formData.firstName,
-                      error: formErrors.firstName?.message
+                      error: formErrors.firstName?.message,
+                      icon: FaUser,
+                      isValid: fieldValidators.firstName(formData.firstName)
                     },
                     {
                       name: "lastName",
@@ -588,7 +647,9 @@ const Contact = () => {
                       placeholder: "Enter your last name",
                       required: true,
                       value: formData.lastName,
-                      error: formErrors.lastName?.message
+                      error: formErrors.lastName?.message,
+                      icon: FaUser,
+                      isValid: fieldValidators.lastName(formData.lastName)
                     },
                     {
                       name: "email",
@@ -597,7 +658,9 @@ const Contact = () => {
                       placeholder: "your.email@example.com",
                       required: true,
                       value: formData.email,
-                      error: formErrors.email?.message
+                      error: formErrors.email?.message,
+                      icon: FaAt,
+                      isValid: fieldValidators.email(formData.email)
                     },
                     {
                       name: "phone",
@@ -606,7 +669,9 @@ const Contact = () => {
                       placeholder: "Enter your phone number",
                       required: false,
                       value: formData.phone,
-                      error: formErrors.phone?.message
+                      error: formErrors.phone?.message,
+                      icon: FaPhone,
+                      isValid: fieldValidators.phone(formData.phone)
                     },
                     {
                       name: "message",
@@ -617,7 +682,9 @@ const Contact = () => {
                       value: formData.message,
                       error: formErrors.message?.message,
                       rows: 6,
-                      maxLength: MESSAGE_LIMITS.MAX
+                      maxLength: MESSAGE_LIMITS.MAX,
+                      icon: FaComment,
+                      isValid: fieldValidators.message(formData.message)
                     }
                   ]}
                   onFieldChange={(fieldName, value) => handleInputChange(fieldName as keyof FormData, value)}
@@ -647,7 +714,7 @@ const Contact = () => {
                     <Button
                       type="submit"
                       size="lg"
-                      disabled={isSubmitting || isBlocked}
+                      disabled={isSubmitting || isBlocked || !isFormValid}
                       className="bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
                     >
                       {isSubmitting ? (
@@ -677,6 +744,14 @@ const Contact = () => {
                         Reset
                       </Button>
                     )}
+                  </div>
+
+                  {/* Trust Indicator */}
+                  <div className="flex items-center gap-2 text-white/50 text-xs mt-2">
+                    <Suspense fallback={<IconFallback />}>
+                      <FaLock className="text-emerald-400/70" />
+                    </Suspense>
+                    <span>Your information is secure and will never be shared</span>
                   </div>
                 </FormSection>
               </form>
