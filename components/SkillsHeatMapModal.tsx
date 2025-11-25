@@ -51,10 +51,8 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [hoveredSkill, setHoveredSkill] = useState<SkillNode | null>(null);
 
-  // Proficiency level filter state (all selected by default)
-  const [selectedLevels, setSelectedLevels] = useState<Set<string>>(
-    new Set(['Expert', 'Advanced', 'Intermediate', 'Familiar'])
-  );
+  // Proficiency level filter state (none selected by default = show all)
+  const [selectedLevels, setSelectedLevels] = useState<Set<string>>(new Set());
 
   // Toggle level selection
   const toggleLevel = (level: string) => {
@@ -129,6 +127,7 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
   const skillCategories = [...extractSkills(skills1), ...extractSkills(skills2)];
 
   // Filter categories and skills by proficiency level
+  // When no levels selected, show all (same behavior as Skills Page)
   const displayedCategories = (selectedCategory
     ? skillCategories.filter(c => c.category === selectedCategory)
     : skillCategories
@@ -137,7 +136,8 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
     categoryIcon,
     skills: skills.filter(skill => {
       const level = skill.metadata?.level || 'Familiar';
-      return selectedLevels.has(level);
+      // If no levels selected, show all; otherwise show only selected
+      return selectedLevels.size === 0 || selectedLevels.has(level);
     })
   })).filter(({ skills }) => skills.length > 0); // Remove empty categories
 
@@ -277,6 +277,16 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                     <span className="hidden sm:inline">Familiar</span>
                     <span className="text-[10px] opacity-70">({familiarCount})</span>
                   </button>
+
+                  {/* Clear Filters */}
+                  {selectedLevels.size > 0 && (
+                    <button
+                      onClick={() => setSelectedLevels(new Set())}
+                      className="flex items-center gap-0.5 px-2 py-1 rounded text-[11px] font-medium transition-all duration-200 bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20"
+                    >
+                      <span>✕</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
