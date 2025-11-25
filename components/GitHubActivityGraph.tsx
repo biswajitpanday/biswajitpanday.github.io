@@ -129,30 +129,6 @@ export default function GitHubActivityGraph() {
 
   return (
     <div className="space-y-6">
-      {/* Stats */}
-      <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
-        >
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 text-center hover:border-secondary-default/40 transition-all duration-300">
-            <div className="text-2xl font-bold text-emerald-400 mb-1">{totalActivities}</div>
-            <div className="text-xs text-white/60">Total Contributions</div>
-          </div>
-
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 text-center hover:border-secondary-default/40 transition-all duration-300">
-            <div className="text-2xl font-bold text-blue-400 mb-1">{activeDays}</div>
-            <div className="text-xs text-white/60">Active Days</div>
-          </div>
-
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 text-center hover:border-secondary-default/40 transition-all duration-300">
-            <div className="text-2xl font-bold text-secondary-default mb-1">{currentStreak}</div>
-            <div className="text-xs text-white/60">Current Streak</div>
-          </div>
-        </motion.div>
-
         {/* Activity Graph */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -249,40 +225,74 @@ export default function GitHubActivityGraph() {
           </div>
         </motion.div>
 
-        {/* Activity Breakdown */}
+        {/* Activity Breakdown - Inline Stats matching other pages */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.3 }}
-          className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3"
+          className="mt-6"
         >
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 text-center hover:border-blue-400/40 transition-all duration-300">
-            <div className="text-xl font-bold text-blue-400 mb-0.5">
-              {activities.filter(a => a.type === 'project').length}
-            </div>
-            <div className="text-xs text-white/60">Projects</div>
-          </div>
+          <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              {/* Projects */}
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-500/20 rounded-lg">
+                  <span className="text-blue-400 text-xl">📁</span>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-500 tabular-nums">
+                    {activities.filter(a => a.type === 'project').length}
+                  </div>
+                  <div className="text-xs text-white/60">Projects</div>
+                </div>
+              </div>
 
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 text-center hover:border-purple-400/40 transition-all duration-300">
-            <div className="text-xl font-bold text-purple-400 mb-0.5">
-              {activities.filter(a => a.type === 'certification').length}
-            </div>
-            <div className="text-xs text-white/60">Certifications</div>
-          </div>
+              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
 
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 text-center hover:border-amber-400/40 transition-all duration-300">
-            <div className="text-xl font-bold text-amber-400 mb-0.5">
-              {activities.filter(a => a.type === 'skill').length}
-            </div>
-            <div className="text-xs text-white/60">Skills Added</div>
-          </div>
+              {/* Certifications */}
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg">
+                  <span className="text-fuchsia-400 text-xl">🏆</span>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
+                    {activities.filter(a => a.type === 'certification').length}
+                  </div>
+                  <div className="text-xs text-white/60">Certifications</div>
+                </div>
+              </div>
 
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 text-center hover:border-emerald-400/40 transition-all duration-300">
-            <div className="text-xl font-bold text-emerald-400 mb-0.5">
-              {activities.filter(a => a.type === 'commit').length}
+              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+              {/* Skills Added */}
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-amber-500/20 rounded-lg">
+                  <span className="text-amber-400 text-xl">⚡</span>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500 tabular-nums">
+                    {activities.filter(a => a.type === 'skill').length}
+                  </div>
+                  <div className="text-xs text-white/60">Skills Added</div>
+                </div>
+              </div>
+
+              <div className="hidden lg:block w-px h-10 bg-white/10"></div>
+
+              {/* Commits */}
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-emerald-500/20 rounded-lg">
+                  <span className="text-emerald-400 text-xl">💻</span>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500 tabular-nums">
+                    {activities.filter(a => a.type === 'commit').length}
+                  </div>
+                  <div className="text-xs text-white/60">Commits</div>
+                </div>
+              </div>
             </div>
-            <div className="text-xs text-white/60">Commits</div>
           </div>
         </motion.div>
 
