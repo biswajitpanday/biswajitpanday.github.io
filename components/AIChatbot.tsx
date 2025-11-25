@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaRobot, FaTimes, FaMinus, FaPaperPlane } from "react-icons/fa";
 import ChatMessage from "./ChatMessage";
@@ -43,6 +43,13 @@ export default function AIChatbot() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
+
+  // Unique IDs for accessibility
+  const chatTitleId = useId();
+  const chatDescId = useId();
+  const inputLabelId = useId();
 
   // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
@@ -207,6 +214,18 @@ export default function AIChatbot() {
     trackChatbotMinimize();
   };
 
+  // Handle Escape key to close chat
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        handleClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscapeKey);
+    return () => document.removeEventListener('keydown', handleEscapeKey);
+  }, [isOpen, messages, conversationStartTime]);
+
   return (
     <div className="fixed bottom-6 right-6 z-[9999]">
       {/* Floating Button (when chat is closed) */}
@@ -219,13 +238,13 @@ export default function AIChatbot() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleOpen}
-            className="w-14 h-14 rounded-full bg-gradient-to-r from-secondary-default to-blue-500 text-primary shadow-lg hover:shadow-2xl transition-shadow flex items-center justify-center group"
-            aria-label="Open chatbot"
+            className="w-14 h-14 rounded-full bg-gradient-to-r from-secondary-default to-blue-500 text-primary shadow-lg hover:shadow-2xl transition-shadow flex items-center justify-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+            aria-label="Open AI chatbot assistant"
           >
-            <FaRobot className="text-2xl group-hover:scale-110 transition-transform" />
+            <FaRobot className="text-2xl group-hover:scale-110 transition-transform" aria-hidden="true" />
 
             {/* Pulse animation ring */}
-            <span className="absolute inset-0 rounded-full bg-secondary-default/30 animate-ping" />
+            <span className="absolute inset-0 rounded-full bg-secondary-default/30 animate-ping" aria-hidden="true" />
           </motion.button>
         )}
       </AnimatePresence>
@@ -234,6 +253,11 @@ export default function AIChatbot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={chatWindowRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={chatTitleId}
+            aria-describedby={chatDescId}
             initial={{ scale: 0.8, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: 20 }}
@@ -245,10 +269,10 @@ export default function AIChatbot() {
             {/* Header */}
             <div className="bg-gradient-to-r from-secondary-default/20 to-blue-500/20 border-b border-secondary-default/20 p-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <FaRobot className="text-secondary-default text-xl" />
+                <FaRobot className="text-secondary-default text-xl" aria-hidden="true" />
                 <div>
-                  <h3 className="font-semibold text-sm">Biswajit&apos;s AI Assistant</h3>
-                  <p className="text-xs text-white/60">Online</p>
+                  <h3 id={chatTitleId} className="font-semibold text-sm">Biswajit&apos;s AI Assistant</h3>
+                  <p id={chatDescId} className="text-xs text-white/60">Online - Ask about projects, skills, or experience</p>
                 </div>
               </div>
 
@@ -256,19 +280,20 @@ export default function AIChatbot() {
                 {/* Minimize button */}
                 <button
                   onClick={handleMinimize}
-                  className="hover:bg-white/10 p-1.5 rounded transition-colors"
-                  aria-label={isMinimized ? "Expand" : "Minimize"}
+                  className="hover:bg-white/10 p-1.5 rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                  aria-label={isMinimized ? "Expand chat window" : "Minimize chat window"}
                 >
-                  <FaMinus className="text-sm" />
+                  <FaMinus className="text-sm" aria-hidden="true" />
                 </button>
 
                 {/* Close button */}
                 <button
+                  ref={closeButtonRef}
                   onClick={handleClose}
-                  className="hover:bg-white/10 p-1.5 rounded transition-colors"
-                  aria-label="Close chatbot"
+                  className="hover:bg-white/10 p-1.5 rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                  aria-label="Close chatbot (Press Escape)"
                 >
-                  <FaTimes className="text-sm" />
+                  <FaTimes className="text-sm" aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -276,15 +301,20 @@ export default function AIChatbot() {
             {/* Messages Area */}
             {!isMinimized && (
               <>
-                <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
+                <div
+                  className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar"
+                  role="log"
+                  aria-live="polite"
+                  aria-label="Chat messages"
+                >
                   {messages.map((message) => (
                     <ChatMessage key={message.id} message={message} />
                   ))}
 
                   {/* Loading indicator */}
                   {isLoading && (
-                    <div className="flex items-center gap-2 text-white/60 text-sm">
-                      <div className="flex gap-1">
+                    <div className="flex items-center gap-2 text-white/60 text-sm" role="status" aria-label="Generating response">
+                      <div className="flex gap-1" aria-hidden="true">
                         <span className="w-2 h-2 bg-secondary-default rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                         <span className="w-2 h-2 bg-secondary-default rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
                         <span className="w-2 h-2 bg-secondary-default rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -303,42 +333,48 @@ export default function AIChatbot() {
 
                 {/* Error Message */}
                 {error && (
-                  <div className="px-4 py-2 bg-red-500/10 border-t border-red-500/20 text-red-400 text-sm">
+                  <div role="alert" className="px-4 py-2 bg-red-500/10 border-t border-red-500/20 text-red-400 text-sm">
                     {error}
                   </div>
                 )}
 
                 {/* Input Area */}
                 <form onSubmit={handleSubmit} className="border-t border-secondary-default/20 p-4">
+                  <label htmlFor={inputLabelId} className="sr-only">
+                    Type your message to the AI assistant
+                  </label>
                   <div className="flex items-end gap-2">
                     <textarea
+                      id={inputLabelId}
                       ref={inputRef}
                       value={inputMessage}
                       onChange={(e) => setInputMessage(e.target.value)}
                       onKeyDown={handleKeyDown}
                       placeholder="Ask about Biswajit's work..."
-                      className="flex-1 bg-white/5 border border-secondary-default/20 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:border-secondary-default/40 transition-colors max-h-24"
+                      className="flex-1 bg-white/5 border border-secondary-default/20 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus:border-secondary-default/40 transition-colors max-h-24"
                       rows={1}
                       maxLength={500}
                       disabled={isLoading}
+                      aria-describedby="chat-input-hint"
                     />
 
                     <button
                       type="submit"
                       disabled={!inputMessage.trim() || isLoading}
-                      className="bg-gradient-to-r from-secondary-default to-blue-500 text-primary p-2.5 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-gradient-to-r from-secondary-default to-blue-500 text-primary p-2.5 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
                       aria-label="Send message"
                     >
-                      <FaPaperPlane className="text-sm" />
+                      <FaPaperPlane className="text-sm" aria-hidden="true" />
                     </button>
                   </div>
 
-                  <div className="flex items-center justify-between mt-2 text-xs text-white/40">
+                  <div id="chat-input-hint" className="flex items-center justify-between mt-2 text-xs text-white/40">
                     <span>Press Enter to send</span>
                     <button
                       type="button"
                       onClick={clearConversation}
-                      className="hover:text-secondary-default transition-colors"
+                      className="hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
+                      aria-label="Clear all chat messages"
                     >
                       Clear chat
                     </button>

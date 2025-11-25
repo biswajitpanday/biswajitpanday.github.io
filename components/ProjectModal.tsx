@@ -20,7 +20,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Project } from "@/data/portfolioData";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useId } from "react";
 import ProjectPerformanceMetrics from "@/components/ProjectPerformanceMetrics";
 
 // Lazy load MermaidDiagram - large dependency (~500KB)
@@ -55,6 +55,16 @@ interface ProjectModalProps {
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState<"overview" | "case-study" | "architecture">("overview");
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const modalTitleId = useId();
+  const tabPanelId = useId();
+
+  // Focus management - focus close button when modal opens
+  useEffect(() => {
+    if (isOpen && closeButtonRef.current) {
+      closeButtonRef.current.focus();
+    }
+  }, [isOpen]);
 
   // Deep linking support - update URL when modal opens
   useEffect(() => {
@@ -124,8 +134,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
           onClick={onClose}
           onKeyDown={handleKeyDown}
           tabIndex={-1}
+          aria-hidden="true"
         >
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={modalTitleId}
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -142,8 +156,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
               {/* Single Line: Title + Badges + Close */}
               <div className="flex items-center justify-between gap-3 mb-2 flex-wrap min-h-[28px]">
                 {/* Left: #num | Company | Title */}
-                <h2 className="text-base xl:text-lg font-bold flex items-center gap-2 flex-shrink-0">
-                  <span className="text-secondary-default text-sm leading-none">#{project.num}</span>
+                <h2 id={modalTitleId} className="text-base xl:text-lg font-bold flex items-center gap-2 flex-shrink-0">
+                  <span className="text-secondary-default text-sm leading-none" aria-hidden="true">#{project.num}</span>
                   
                   {project.associatedWithCompany && (
                     <>
@@ -194,11 +208,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                   {/* Close Button */}
                   <button
+                    ref={closeButtonRef}
                     onClick={onClose}
-                    className="w-7 h-7 flex items-center justify-center text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg flex-shrink-0 ml-1 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
-                    aria-label="Close modal"
+                    className="w-7 h-7 flex items-center justify-center text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg flex-shrink-0 ml-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+                    aria-label="Close project details (Press Escape)"
                   >
-                    <FaTimes className="text-sm" />
+                    <FaTimes className="text-sm" aria-hidden="true" />
                   </button>
                 </div>
               </div>
@@ -213,46 +228,55 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
               {/* Tab Buttons Row + Action Buttons */}
               <div className="flex items-center justify-between gap-3 mt-2 pt-2 border-t border-white/5 min-h-[32px]">
                 {/* Left: Tab Buttons */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2" role="tablist" aria-label="Project details tabs">
                   <button
+                    role="tab"
+                    aria-selected={activeTab === "overview"}
+                    aria-controls={`${tabPanelId}-overview`}
                     onClick={() => setActiveTab("overview")}
-                    className={`h-8 px-3 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
+                    className={`h-8 px-3 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-default/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
                       activeTab === "overview"
                         ? "bg-secondary-default/20 border border-secondary-default/50 text-secondary-default"
                         : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
                     }`}
                   >
                     <span className="flex items-center gap-1.5">
-                      <FaInfoCircle className="text-xs flex-shrink-0" />
+                      <FaInfoCircle className="text-xs flex-shrink-0" aria-hidden="true" />
                       <span className="leading-none">Overview</span>
                     </span>
                   </button>
                   {hasCaseStudy && (
                     <button
+                      role="tab"
+                      aria-selected={activeTab === "case-study"}
+                      aria-controls={`${tabPanelId}-case-study`}
                       onClick={() => setActiveTab("case-study")}
-                      className={`h-8 px-3 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
+                      className={`h-8 px-3 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
                         activeTab === "case-study"
                           ? "bg-purple-500/20 border border-purple-500/50 text-purple-300"
                           : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
                       }`}
                     >
                       <span className="flex items-center gap-1.5">
-                        <FaLightbulb className="text-xs flex-shrink-0" />
+                        <FaLightbulb className="text-xs flex-shrink-0" aria-hidden="true" />
                         <span className="leading-none">Case Study</span>
                       </span>
                     </button>
                   )}
                   {hasArchitecture && (
                     <button
+                      role="tab"
+                      aria-selected={activeTab === "architecture"}
+                      aria-controls={`${tabPanelId}-architecture`}
                       onClick={() => setActiveTab("architecture")}
-                      className={`h-8 px-3 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f] ${
+                      className={`h-8 px-3 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
                         activeTab === "architecture"
                           ? "bg-cyan-500/20 border border-cyan-500/50 text-cyan-300"
                           : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
                       }`}
                     >
                       <span className="flex items-center gap-1.5">
-                        <FiLayers className="text-xs flex-shrink-0" />
+                        <FiLayers className="text-xs flex-shrink-0" aria-hidden="true" />
                         <span className="leading-none">Architecture</span>
                       </span>
                     </button>
@@ -313,7 +337,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                 {/* Tab Content */}
                 {activeTab === "overview" && (
-                  <div className="space-y-5">
+                  <div id={`${tabPanelId}-overview`} role="tabpanel" aria-labelledby="tab-overview" className="space-y-5">
                       {/* Description Section */}
                       <div>
                         <SectionHeader icon={FaInfoCircle} title="Project Overview" />
@@ -452,7 +476,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                 {/* Case Study Tab */}
                 {activeTab === "case-study" && project.caseStudy && (
-                  <div className="space-y-8">
+                  <div id={`${tabPanelId}-case-study`} role="tabpanel" aria-labelledby="tab-case-study" className="space-y-8">
                     {/* Problem Section */}
                     <div>
                       <div className="flex items-center gap-2 mb-4">
@@ -520,7 +544,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                 {/* Architecture Tab */}
                 {activeTab === "architecture" && project.caseStudy?.architectureDiagram && (
-                  <div className="space-y-8">
+                  <div id={`${tabPanelId}-architecture`} role="tabpanel" aria-labelledby="tab-architecture" className="space-y-8">
                     {/* Architecture Diagram Section */}
                     <div>
                       <div className="flex items-center gap-2 mb-4">

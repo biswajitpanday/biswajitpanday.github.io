@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaQuoteLeft, FaChevronLeft, FaChevronRight, FaLinkedin } from "react-icons/fa";
 
@@ -31,6 +31,7 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const carouselId = useId();
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
@@ -66,10 +67,12 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       className={`py-12 ${className}`}
+      aria-roledescription="carousel"
+      aria-labelledby={`${carouselId}-title`}
     >
       {/* Section Header */}
       <div className="text-center mb-8">
-        <h2 className="text-2xl xl:text-3xl font-bold mb-2 bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
+        <h2 id={`${carouselId}-title`} className="text-2xl xl:text-3xl font-bold mb-2 bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
           What People Say
         </h2>
         <p className="text-sm text-white/60">
@@ -80,12 +83,16 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
       {/* Carousel Container */}
       <div className="relative bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-xl p-8 md:p-12">
         {/* Quote Icon */}
-        <div className="absolute top-6 left-6 text-secondary-default/20">
+        <div className="absolute top-6 left-6 text-secondary-default/20" aria-hidden="true">
           <FaQuoteLeft className="text-4xl md:text-5xl" />
         </div>
 
         {/* Testimonial Content */}
-        <div className="relative min-h-[200px] flex items-center justify-center">
+        <div
+          className="relative min-h-[200px] flex items-center justify-center"
+          aria-live="polite"
+          aria-atomic="true"
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -94,6 +101,9 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
               exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.3 }}
               className="text-center max-w-3xl mx-auto"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`Testimonial ${currentIndex + 1} of ${testimonials.length}`}
             >
               {/* Quote */}
               <p className="text-lg md:text-xl text-white/90 leading-relaxed mb-8 italic">
@@ -152,34 +162,36 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
           <>
             <button
               onClick={() => { prevSlide(); setIsAutoPlaying(false); }}
-              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 p-2 md:p-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/50 text-white/60 hover:text-white transition-all duration-300"
-              aria-label="Previous testimonial"
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 p-2 md:p-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/50 text-white/60 hover:text-white transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+              aria-label="Go to previous testimonial"
             >
-              <FaChevronLeft className="text-lg" />
+              <FaChevronLeft className="text-lg" aria-hidden="true" />
             </button>
             <button
               onClick={() => { nextSlide(); setIsAutoPlaying(false); }}
-              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 p-2 md:p-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/50 text-white/60 hover:text-white transition-all duration-300"
-              aria-label="Next testimonial"
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 p-2 md:p-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/50 text-white/60 hover:text-white transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+              aria-label="Go to next testimonial"
             >
-              <FaChevronRight className="text-lg" />
+              <FaChevronRight className="text-lg" aria-hidden="true" />
             </button>
           </>
         )}
 
         {/* Dots Indicator */}
         {testimonials.length > 1 && (
-          <div className="flex justify-center gap-2 mt-6">
-            {testimonials.map((_, index) => (
+          <div className="flex justify-center gap-2 mt-6" role="tablist" aria-label="Testimonial slides">
+            {testimonials.map((testimonial, index) => (
               <button
                 key={index}
+                role="tab"
                 onClick={() => goToSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                className={`w-2 h-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
                   index === currentIndex
                     ? "w-6 bg-gradient-to-r from-secondary-default to-blue-500"
                     : "bg-white/20 hover:bg-white/40"
                 }`}
-                aria-label={`Go to testimonial ${index + 1}`}
+                aria-label={`Go to testimonial from ${testimonial.author}`}
+                aria-selected={index === currentIndex}
               />
             ))}
           </div>
@@ -190,12 +202,13 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
           <div className="absolute bottom-4 right-4">
             <button
               onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-              className={`text-xs px-2 py-1 rounded ${
+              className={`text-xs px-2 py-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
                 isAutoPlaying
                   ? "text-secondary-default/60"
                   : "text-white/40"
               }`}
-              aria-label={isAutoPlaying ? "Pause auto-play" : "Resume auto-play"}
+              aria-label={isAutoPlaying ? "Pause automatic slideshow" : "Resume automatic slideshow"}
+              aria-pressed={isAutoPlaying}
             >
               {isAutoPlaying ? "●" : "○"}
             </button>
