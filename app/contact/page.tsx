@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import { useState } from "react";
 import FormSection from "@/components/FormSection";
+import BackgroundElements from "@/components/BackgroundElements";
+import { useCountUp } from "@/hooks/useCountUp";
+import { projects } from "@/data/portfolioData";
 
 // Lazy load icons only (not hooks/utilities)
 const FaEnvelope = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaEnvelope })));
@@ -17,8 +20,11 @@ const FaUsers = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.
 const FaCheckCircle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCheckCircle })));
 const FaExclamationTriangle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaExclamationTriangle })));
 const FaGlobe = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaGlobe })));
-const FaComments = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaComments })));
-const FaHandshake = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaHandshake })));
+const FaCode = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCode })));
+const FaLayerGroup = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLayerGroup })));
+const FaLinkedinIn = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLinkedinIn })));
+const FaGithub = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaGithub })));
+const FaTwitter = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaTwitter })));
 
 // Loading fallback components
 const IconFallback = ({ className }: { className?: string }) => (
@@ -138,6 +144,34 @@ const info = [
   },
 ];
 
+// Social media links
+const socialLinks = [
+  {
+    icon: FaLinkedinIn,
+    title: "LinkedIn",
+    url: "https://linkedin.com/in/biswajitpanday",
+    color: "bg-[#0077B5]/20 hover:bg-[#0077B5]/30",
+    textColor: "text-[#0077B5]",
+    borderColor: "border-[#0077B5]/30 hover:border-[#0077B5]/50"
+  },
+  {
+    icon: FaGithub,
+    title: "GitHub",
+    url: "https://github.com/biswajitpanday",
+    color: "bg-white/10 hover:bg-white/20",
+    textColor: "text-white",
+    borderColor: "border-white/30 hover:border-white/50"
+  },
+  {
+    icon: FaTwitter,
+    title: "Twitter",
+    url: "https://twitter.com/aspect_jeevi",
+    color: "bg-[#1DA1F2]/20 hover:bg-[#1DA1F2]/30",
+    textColor: "text-[#1DA1F2]",
+    borderColor: "border-[#1DA1F2]/30 hover:border-[#1DA1F2]/50"
+  },
+];
+
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -155,6 +189,16 @@ const Contact = () => {
   const [attempts, setAttempts] = useState(0);
   const [lastAttempt, setLastAttempt] = useState(0);
   const [isBlocked, setIsBlocked] = useState(false);
+
+  // Calculate real stats from portfolio data
+  const totalProjects = projects.length;
+  const uniqueTechnologies = new Set(projects.flatMap(p => p.stacks)).size;
+  const yearsExperience = 10; // Since 2015
+
+  // Animated counters for stats dashboard (using real data)
+  const projectsCount = useCountUp({ end: totalProjects, duration: 1800 });
+  const technologiesCount = useCountUp({ end: uniqueTechnologies, duration: 2000 });
+  const experienceCount = useCountUp({ end: yearsExperience, duration: 1700 });
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -242,119 +286,122 @@ const Contact = () => {
       data-testid="contact-page"
       className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-8 pb-12 xl:pb-16"
     >
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary-default/5 pointer-events-none" />
-      <div className="absolute top-20 right-10 w-2 h-2 bg-secondary-default rounded-full animate-ping opacity-60" />
-      <div className="absolute bottom-32 left-16 w-1 h-1 bg-blue-400 rounded-full animate-pulse opacity-40" />
-      <div className="absolute top-1/3 left-8 w-1.5 h-1.5 bg-secondary-default rounded-full animate-bounce opacity-50" />
+      {/* Background Elements - Using shared component for consistency */}
+      <BackgroundElements
+        floatingDots={[
+          {
+            size: "md",
+            color: "secondary",
+            animation: "ping",
+            position: { top: "20%", right: "10%" },
+            opacity: 60
+          },
+          {
+            size: "sm",
+            color: "blue",
+            animation: "pulse",
+            position: { bottom: "25%", left: "15%" },
+            opacity: 40
+          },
+          {
+            size: "sm",
+            color: "secondary",
+            animation: "bounce",
+            position: { top: "35%", left: "8%" },
+            opacity: 50
+          }
+        ]}
+      />
+
+      {/* Floating gradient orbs */}
+      <div className="absolute top-40 left-20 w-64 h-64 bg-blue-500/3 rounded-full blur-3xl" />
+      <div className="absolute bottom-40 right-20 w-80 h-80 bg-secondary-default/3 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 relative z-10">
+        {/* Header Section - Left Aligned like Projects/Certifications */}
         <motion.div
           data-testid="contact-header"
-          variants={PERFORMANCE_VARIANTS.containerSync}
-          initial="hidden"
-          animate="visible"
-          className="text-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6"
         >
-          {/* Main Heading */}
-          <motion.h1
-            variants={PERFORMANCE_VARIANTS.slideUpSync}
-            className="text-3xl xl:text-4xl font-bold mb-6 leading-tight bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent"
-          >
-            Get In Touch
-          </motion.h1>
-
-          {/* Description */}
-          <motion.p
-            variants={PERFORMANCE_VARIANTS.slideUpSync}
-            className="text-base xl:text-lg text-white/80 mb-8 max-w-4xl mx-auto leading-relaxed"
-          >
-            Let&apos;s discuss your{" "}
-            <span className="text-secondary-default font-semibold px-2 py-1 rounded">
-              next project
-            </span>{" "}
-            and bring your{" "}
-            <span className="text-secondary-default font-semibold px-2 py-1 rounded">
-              vision to life
-            </span>{" "}
-            together
-          </motion.p>
-
-          {/* Contact Stats */}
-          <motion.div
-            variants={PERFORMANCE_VARIANTS.containerSync}
-            className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 mb-8"
-          >
-            <motion.div 
-              variants={PERFORMANCE_VARIANTS.cardSync}
-              className="group relative overflow-hidden bg-gradient-to-r from-secondary-default/10 to-blue-500/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
-            >
-              <div className="flex items-center gap-3">
-                <Suspense fallback={<IconFallback />}>
-                  <FaRocket className="text-secondary-default text-xl group-hover:animate-pulse" />
-                </Suspense>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-secondary-default text-2xl font-bold">
-                    24h
-                  </span>
-                  <span className="text-white/80 text-sm font-medium">
-                    Response Time
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              variants={PERFORMANCE_VARIANTS.cardSync}
-              className="group relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button"
-            >
-              <div className="flex items-center gap-3">
-                <Suspense fallback={<IconFallback />}>
-                  <FaUsers className="text-secondary-default text-xl group-hover:animate-pulse" />
-                </Suspense>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-secondary-default text-2xl font-bold">
-                    100+
-                  </span>
-                  <span className="text-white/80 text-sm font-medium">
-                    Happy Clients
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+          <div className="flex-1">
+            <h1 className="text-3xl xl:text-4xl font-bold mb-2 leading-tight bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
+              Get In Touch
+            </h1>
+            <p className="text-sm font-medium leading-relaxed">
+              <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                Let&apos;s collaborate and bring your{" "}
+              </span>
+              <span className="text-lg font-bold bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-400 bg-clip-text text-transparent">
+                vision to life
+              </span>
+              <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                {" "}together
+              </span>
+            </p>
+          </div>
         </motion.div>
 
-        {/* Contact Highlight Badges */}
+        {/* Stats Dashboard - Using Real Portfolio Data */}
         <motion.div
           variants={PERFORMANCE_VARIANTS.containerSync}
           initial="hidden"
           animate="visible"
-          className="flex flex-wrap justify-center gap-3 mb-8 -mt-2"
+          className="mb-6"
         >
-          <Suspense fallback={<IconFallback />}>
-            <motion.span
-              variants={PERFORMANCE_VARIANTS.cardSync}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
-            >
-              <FaGlobe className="text-xs" />
-              Remote Collaboration
-            </motion.span>
-            <motion.span
-              variants={PERFORMANCE_VARIANTS.cardSync}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
-            >
-              <FaComments className="text-xs" />
-              Quick Response
-            </motion.span>
-            <motion.span
-              variants={PERFORMANCE_VARIANTS.cardSync}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-secondary-default/10 to-transparent backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-4 py-2 rounded-full text-sm font-medium hover:bg-secondary-default/20 transition-all duration-300"
-            >
-              <FaHandshake className="text-xs" />
-              Project Consultation
-            </motion.span>
-          </Suspense>
+          <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              {/* Projects */}
+              <div ref={projectsCount.ref} className="flex items-center gap-3">
+                <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
+                  <Suspense fallback={<IconFallback />}>
+                    <FaCode className="text-[#00BFFF] text-xl" />
+                  </Suspense>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">
+                    {projectsCount.count}+
+                  </div>
+                  <div className="text-xs text-white/60">Projects</div>
+                </div>
+              </div>
+
+              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+              {/* Technologies */}
+              <div ref={technologiesCount.ref} className="flex items-center gap-3">
+                <div className="p-2 bg-purple-500/20 rounded-lg">
+                  <Suspense fallback={<IconFallback />}>
+                    <FaLayerGroup className="text-purple-400 text-xl" />
+                  </Suspense>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
+                    {technologiesCount.count}+
+                  </div>
+                  <div className="text-xs text-white/60">Technologies</div>
+                </div>
+              </div>
+
+              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+              {/* Years Experience */}
+              <div ref={experienceCount.ref} className="flex items-center gap-3">
+                <div className="p-2 bg-emerald-500/20 rounded-lg">
+                  <Suspense fallback={<IconFallback />}>
+                    <FaGlobe className="text-emerald-400 text-xl" />
+                  </Suspense>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">
+                    {experienceCount.count}+
+                  </div>
+                  <div className="text-xs text-white/60">Years Experience</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
         <motion.div
@@ -363,10 +410,10 @@ const Contact = () => {
           animate="visible"
           className="flex flex-col xl:flex-row gap-8"
         >
-          {/* Contact Form */}
+          {/* Contact Form - Now appears FIRST on mobile (order-1) */}
           <motion.div
             variants={PERFORMANCE_VARIANTS.cardSync}
-            className="xl:w-[54%] order-2 xl:order-none"
+            className="xl:w-[54%] order-1 xl:order-none"
           >
             <div className="bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-8 rounded border border-secondary-default/20 hover:border-secondary-default/40 performance-card">
               <motion.div
@@ -500,27 +547,28 @@ const Contact = () => {
             </div>
           </motion.div>
 
-          {/* Contact Information */}
+          {/* Contact Information - Appears SECOND on mobile (order-2) */}
           <motion.div
             variants={PERFORMANCE_VARIANTS.cardSync}
-            className="flex-1 flex items-center xl:justify-end order-1 xl:order-none mb-8 xl:mb-0"
+            className="flex-1 flex items-start xl:justify-end order-2 xl:order-none"
           >
             <div className="w-full xl:max-w-md">
               <motion.h3
                 variants={PERFORMANCE_VARIANTS.slideUpSync}
-                className="text-2xl font-bold mb-8 text-center xl:text-left bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent"
+                className="text-2xl font-bold mb-6 text-left bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent"
               >
                 Contact Information
               </motion.h3>
-              
-              <div className="grid grid-cols-1 gap-6">
+
+              {/* Contact Info Cards */}
+              <div className="grid grid-cols-1 gap-4 mb-8">
                 {info.map((item, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.6 + index * 0.1, duration: 0.4 }}
-                    className={`group relative bg-gradient-to-r ${item.color} backdrop-blur-sm border ${item.borderColor} p-4 rounded ${item.hoverColor} transition-all duration-300 hover:scale-105 hover:shadow-lg ${
+                    transition={{ delay: 0.3 + index * 0.1, duration: 0.4 }}
+                    className={`group relative bg-gradient-to-r ${item.color} backdrop-blur-sm border ${item.borderColor} p-4 rounded ${item.hoverColor} transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${
                       item.clickable ? 'cursor-pointer' : ''
                     }`}
                     onClick={item.clickable ? item.action : undefined}
@@ -535,16 +583,16 @@ const Contact = () => {
                     aria-label={item.clickable ? item.actionLabel : undefined}
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 xl:w-14 xl:h-14 bg-gradient-to-br from-white/10 to-white/5 ${item.textColor} rounded flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                        <div className="text-xl xl:text-2xl">
+                      <div className={`w-12 h-12 bg-gradient-to-br from-white/10 to-white/5 ${item.textColor} rounded flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                        <div className="text-xl">
                           <Suspense fallback={<IconFallback />}>
                             <item.icon />
                           </Suspense>
                         </div>
                       </div>
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <p className="text-white/60 text-sm font-medium mb-1">{item.title}</p>
-                        <h4 className="text-white font-semibold text-sm xl:text-base break-all">{item.description}</h4>
+                        <h4 className="text-white font-semibold text-sm truncate">{item.description}</h4>
                         {item.clickable && (
                           <p className="text-white/50 text-xs mt-1 group-hover:text-white/70 transition-colors duration-300">
                             Click to {item.actionLabel?.toLowerCase()}
@@ -552,7 +600,7 @@ const Contact = () => {
                         )}
                       </div>
                       {item.clickable && (
-                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0">
                           <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center">
                             <div className="w-2 h-2 rounded-full bg-white/50"></div>
                           </div>
@@ -562,6 +610,35 @@ const Contact = () => {
                   </motion.div>
                 ))}
               </div>
+
+              {/* Social Media Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.4 }}
+              >
+                <h4 className="text-lg font-semibold mb-4 text-white/80">Connect on Social</h4>
+                <div className="flex gap-3">
+                  {socialLinks.map((social, index) => (
+                    <motion.a
+                      key={social.title}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.9 + index * 0.1, duration: 0.3 }}
+                      className={`w-12 h-12 ${social.color} border ${social.borderColor} rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110`}
+                      aria-label={`Visit ${social.title} profile`}
+                    >
+                      <Suspense fallback={<IconFallback />}>
+                        <social.icon className={`text-xl ${social.textColor}`} />
+                      </Suspense>
+                    </motion.a>
+                  ))}
+                </div>
+              </motion.div>
+
             </div>
           </motion.div>
         </motion.div>
