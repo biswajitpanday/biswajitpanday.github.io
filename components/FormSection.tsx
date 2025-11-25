@@ -18,6 +18,7 @@ interface FormField {
   error?: string;
   className?: string;
   rows?: number; // For textarea
+  maxLength?: number; // Character limit
 }
 
 interface FormSectionProps {
@@ -38,9 +39,19 @@ const FormSection: React.FC<FormSectionProps> = ({
   layout = "single"
 }) => {
   const renderField = (field: FormField) => {
-    const baseInputClasses = `bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300 ${
-      field.error ? 'border-red-500/50' : ''
-    } ${field.className || ''}`;
+    // Softer input styling - cleaner look
+    const baseInputClasses = `
+      bg-[#1e1e24]
+      border border-white/10
+      hover:border-white/20
+      text-white placeholder:text-white/30
+      focus:outline-none focus:border-secondary-default/50
+      focus:ring-1 focus:ring-secondary-default/20
+      transition-all duration-300
+      rounded-lg
+      ${field.error ? 'border-red-500/40 focus:border-red-500/50 focus:ring-red-500/20' : ''}
+      ${field.className || ''}
+    `.trim().replace(/\s+/g, ' ');
 
     return (
       <div 
@@ -64,6 +75,7 @@ const FormSection: React.FC<FormSectionProps> = ({
             placeholder={field.placeholder}
             value={field.value}
             onChange={(e) => onFieldChange(field.name, e.target.value)}
+            maxLength={field.maxLength}
           />
         ) : (
           <Input
@@ -73,6 +85,7 @@ const FormSection: React.FC<FormSectionProps> = ({
             value={field.value}
             onChange={(e) => onFieldChange(field.name, e.target.value)}
             className={baseInputClasses}
+            maxLength={field.maxLength}
           />
         )}
         

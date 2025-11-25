@@ -1,5 +1,5 @@
 "use client";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { PERFORMANCE_VARIANTS } from "@/constants";
@@ -36,6 +36,15 @@ const RATE_LIMIT = {
   MAX_ATTEMPTS: 5,
   WINDOW_MS: 900000, // 15 minutes
   BLOCK_DURATION_MS: 3600000, // 1 hour
+};
+
+// LocalStorage key for form auto-save
+const FORM_STORAGE_KEY = 'contact_form_draft';
+
+// Message character limits
+const MESSAGE_LIMITS = {
+  MIN: 10,
+  MAX: 2000,
 };
 
 // Form validation schema (simplified to avoid zod import overhead)
@@ -185,6 +194,9 @@ const Contact = () => {
   });
   const [formErrors, setFormErrors] = useState<FormErrors>({});
 
+  // Honeypot field for spam prevention (bots will fill this, humans won't see it)
+  const [honeypot, setHoneypot] = useState('');
+
   // Simple rate limiting (client-side only)
   const [attempts, setAttempts] = useState(0);
   const [lastAttempt, setLastAttempt] = useState(0);
@@ -200,16 +212,88 @@ const Contact = () => {
   const technologiesCount = useCountUp({ end: uniqueTechnologies, duration: 2000 });
   const experienceCount = useCountUp({ end: yearsExperience, duration: 1700 });
 
+  // Load saved form data from localStorage on mount
+  useEffect(() => {
+    try {
+      const savedData = localStorage.getItem(FORM_STORAGE_KEY);
+      if (savedData) {
+        const parsed = JSON.parse(savedData);
+        setFormData(prev => ({ ...prev, ...parsed }));
+      }
+    } catch {
+      // Silently fail if localStorage is not available
+    }
+  }, []);
+
+  // Save form data to localStorage (debounced via useCallback)
+  const saveToLocalStorage = useCallback((data: FormData) => {
+    try {
+      localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(data));
+    } catch {
+      // Silently fail if localStorage is not available
+    }
+  }, []);
+
+  // Clear localStorage on successful submission
+  const clearLocalStorage = useCallback(() => {
+    try {
+      localStorage.removeItem(FORM_STORAGE_KEY);
+    } catch {
+      // Silently fail
+    }
+  }, []);
+
+  // Auto-dismiss success message after 5 seconds
+  useEffect(() => {
+    if (submitStatus === 'success') {
+      const timer = setTimeout(() => {
+        setSubmitStatus('idle');
+        setSubmitMessage('');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus]);
+
+  // Check if form has any data
+  const hasFormData = Object.values(formData).some(value => value.trim() !== '');
+
   const handleInputChange = (field: keyof FormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    const newData = { ...formData, [field]: value };
+    setFormData(newData);
+
+    // Auto-save to localStorage
+    saveToLocalStorage(newData);
+
     // Clear error for this field when user starts typing
     if (formErrors[field]) {
       setFormErrors(prev => ({ ...prev, [field]: undefined }));
     }
   };
 
+  // Reset form handler
+  const handleReset = () => {
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      message: ''
+    });
+    setFormErrors({});
+    clearLocalStorage();
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Honeypot check - if filled, silently "succeed" (bots won't know they failed)
+    if (honeypot) {
+      setSubmitStatus('success');
+      setSubmitMessage('Thank you! Your message has been sent successfully. I will get back to you soon.');
+      setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+      clearLocalStorage();
+      return;
+    }
 
     // Client-side rate limiting
     const now = Date.now();
@@ -267,6 +351,7 @@ const Contact = () => {
           phone: '',
           message: ''
         });
+        clearLocalStorage(); // Clear saved draft on success
         setAttempts(0); // Reset on success
         setIsBlocked(false);
       } else {
@@ -415,7 +500,7 @@ const Contact = () => {
             variants={PERFORMANCE_VARIANTS.cardSync}
             className="xl:w-[54%] order-1 xl:order-none"
           >
-            <div className="bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-8 rounded border border-secondary-default/20 hover:border-secondary-default/40 performance-card">
+            <div className="bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-8 rounded-lg border border-white/10">
               <motion.div
                 variants={PERFORMANCE_VARIANTS.fadeInFast}
                 className="mb-6"
@@ -470,6 +555,20 @@ const Contact = () => {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Honeypot field - hidden from users, bots will fill it */}
+                <div className="absolute -left-[9999px] opacity-0 pointer-events-none" aria-hidden="true">
+                  <label htmlFor="website">Website</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
                 <FormSection
                   layout="grid"
                   fields={[
@@ -483,7 +582,7 @@ const Contact = () => {
                       error: formErrors.firstName?.message
                     },
                     {
-                      name: "lastName", 
+                      name: "lastName",
                       label: "Last Name",
                       type: "text",
                       placeholder: "Enter your last name",
@@ -494,7 +593,7 @@ const Contact = () => {
                     {
                       name: "email",
                       label: "Email Address",
-                      type: "email", 
+                      type: "email",
                       placeholder: "your.email@example.com",
                       required: true,
                       value: formData.email,
@@ -517,31 +616,68 @@ const Contact = () => {
                       required: true,
                       value: formData.message,
                       error: formErrors.message?.message,
-                      rows: 6
+                      rows: 6,
+                      maxLength: MESSAGE_LIMITS.MAX
                     }
                   ]}
                   onFieldChange={(fieldName, value) => handleInputChange(fieldName as keyof FormData, value)}
                 >
-                  <Button 
-                    type="submit"
-                    size="lg" 
-                    disabled={isSubmitting || isBlocked}
-                    className={`bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded performance-button disabled:opacity-50 disabled:cursor-not-allowed`}
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary mr-2"></div>
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Suspense fallback={<IconFallback />}>
-                          <FaPaperPlane className="mr-2" />
-                        </Suspense>
-                        Send Message
-                      </>
+                  {/* Character counter for message */}
+                  <div className="flex justify-between items-center text-xs mb-4 -mt-4">
+                    <span className={`${
+                      formData.message.length < MESSAGE_LIMITS.MIN
+                        ? 'text-white/40'
+                        : 'text-emerald-400'
+                    }`}>
+                      {formData.message.length < MESSAGE_LIMITS.MIN
+                        ? `${MESSAGE_LIMITS.MIN - formData.message.length} more characters needed`
+                        : 'Minimum reached'
+                      }
+                    </span>
+                    <span className={`${
+                      formData.message.length > MESSAGE_LIMITS.MAX * 0.9
+                        ? 'text-amber-400'
+                        : 'text-white/40'
+                    }`}>
+                      {formData.message.length}/{MESSAGE_LIMITS.MAX}
+                    </span>
+                  </div>
+                  {/* Form Actions */}
+                  <div className="flex items-center gap-3">
+                    <Button
+                      type="submit"
+                      size="lg"
+                      disabled={isSubmitting || isBlocked}
+                      className="bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary mr-2"></div>
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Suspense fallback={<IconFallback />}>
+                            <FaPaperPlane className="mr-2" />
+                          </Suspense>
+                          Send Message
+                        </>
+                      )}
+                    </Button>
+
+                    {/* Conditional Reset Button - only shows when form has data */}
+                    {hasFormData && (
+                      <Button
+                        type="button"
+                        size="lg"
+                        variant="outline"
+                        onClick={handleReset}
+                        className="border-white/20 hover:border-white/40 hover:bg-white/5 text-white/70 hover:text-white px-6 py-3 rounded-lg transition-all duration-300"
+                      >
+                        Reset
+                      </Button>
                     )}
-                  </Button>
+                  </div>
                 </FormSection>
               </form>
             </div>
