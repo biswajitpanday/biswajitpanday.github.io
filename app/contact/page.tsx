@@ -575,7 +575,7 @@ const Contact = () => {
                 variants={PERFORMANCE_VARIANTS.fadeInFast}
                 className="mb-6"
               >
-                <h1 className="text-3xl xl:text-4xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent mb-4">
+                <h1 className="text-2xl xl:text-3xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent mb-4">
                   Let&apos;s work together
                 </h1>
                 <p className="text-white/70 leading-relaxed">

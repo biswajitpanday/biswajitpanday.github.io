@@ -20,14 +20,14 @@ interface SkillNode {
 
 // Updated level to color mapping with glassmorphism theme
 const levelToColor = {
-  'Expert': 'bg-gradient-to-br from-purple-500/20 to-purple-600/30 border-purple-500/50 backdrop-blur-sm',
+  'Expert': 'bg-gradient-to-br from-purple-500/20 to-pink-500/30 border-fuchsia-500/50 backdrop-blur-sm',
   'Advanced': 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/30 border-emerald-500/50 backdrop-blur-sm',
   'Intermediate': 'bg-gradient-to-br from-blue-500/20 to-blue-600/30 border-blue-500/50 backdrop-blur-sm',
   'Familiar': 'bg-gradient-to-br from-slate-500/20 to-slate-600/30 border-slate-500/50 backdrop-blur-sm',
 };
 
 const levelToTextColor = {
-  'Expert': 'text-purple-400',
+  'Expert': 'text-fuchsia-400',
   'Advanced': 'text-emerald-400',
   'Intermediate': 'text-blue-400',
   'Familiar': 'text-slate-400',
@@ -227,8 +227,8 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                     onClick={() => toggleLevel('Expert')}
                     className={`flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-all duration-200 border ${
                       selectedLevels.has('Expert')
-                        ? "bg-purple-500/30 border-purple-500/60 text-purple-300"
-                        : "bg-white/5 border-white/10 text-white/50 hover:bg-purple-500/10 hover:border-purple-500/30 hover:text-purple-400"
+                        ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 border-fuchsia-500/60 text-fuchsia-300"
+                        : "bg-white/5 border-white/10 text-white/50 hover:bg-fuchsia-500/10 hover:border-fuchsia-500/30 hover:text-fuchsia-400"
                     }`}
                   >
                     <span>🟣</span>

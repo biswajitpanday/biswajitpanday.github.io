@@ -190,7 +190,7 @@ const Skills = () => {
 
   // Proficiency level to color bar mapping - More visible than tiny emojis
   const levelToBarColor = {
-    'Expert': 'bg-purple-500',
+    'Expert': 'bg-gradient-to-r from-purple-500 to-pink-500',
     'Advanced': 'bg-emerald-500',
     'Intermediate': 'bg-blue-500',
     'Familiar': 'bg-slate-500',
@@ -357,8 +357,8 @@ const Skills = () => {
 
               {/* Expert Skills */}
               <div ref={expertCountUp.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-purple-500/20 rounded-lg">
-                  <FaStar className="text-purple-400 text-xl" />
+                <div className="p-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg">
+                  <FaStar className="text-fuchsia-400 text-xl" />
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
@@ -403,8 +403,8 @@ const Skills = () => {
               onClick={() => toggleLevel("Expert")}
               className={`flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-all duration-200 border ${
                 selectedLevels.has("Expert")
-                  ? "bg-purple-500/30 border-purple-500/60 text-purple-300"
-                  : "bg-white/5 border-white/10 text-white/50 hover:bg-purple-500/10 hover:border-purple-500/30 hover:text-purple-400"
+                  ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 border-fuchsia-500/60 text-fuchsia-300"
+                  : "bg-white/5 border-white/10 text-white/50 hover:bg-fuchsia-500/10 hover:border-fuchsia-500/30 hover:text-fuchsia-400"
               }`}
             >
               <span>🟣</span>
