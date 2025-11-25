@@ -144,6 +144,13 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
   // Calculate total filtered skills count
   const totalFilteredSkills = displayedCategories.reduce((sum, { skills }) => sum + skills.length, 0);
 
+  // Calculate counts for each proficiency level (from all skills, not filtered)
+  const allSkills = skillCategories.flatMap(c => c.skills);
+  const expertCount = allSkills.filter(s => s.metadata?.level === 'Expert').length;
+  const advancedCount = allSkills.filter(s => s.metadata?.level === 'Advanced').length;
+  const intermediateCount = allSkills.filter(s => s.metadata?.level === 'Intermediate').length;
+  const familiarCount = allSkills.filter(s => s.metadata?.level === 'Familiar').length;
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
@@ -213,71 +220,62 @@ export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps)
                 {/* Separator */}
                 <div className="hidden sm:block w-px h-8 bg-white/10"></div>
 
-                {/* Proficiency Level Checkboxes */}
-                <div className="flex flex-wrap items-center gap-3">
+                {/* Proficiency Level Filters - Same style as Skills page */}
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {/* Expert Filter */}
                   <button
                     onClick={() => toggleLevel('Expert')}
-                    className="flex items-center gap-1.5 cursor-pointer group transition-all hover:scale-105"
+                    className={`flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-all duration-200 border ${
+                      selectedLevels.has('Expert')
+                        ? "bg-purple-500/30 border-purple-500/60 text-purple-300"
+                        : "bg-white/5 border-white/10 text-white/50 hover:bg-purple-500/10 hover:border-purple-500/30 hover:text-purple-400"
+                    }`}
                   >
-                    <div className="relative w-4 h-4 bg-purple-500/90 border border-purple-500 rounded flex items-center justify-center">
-                      {selectedLevels.has('Expert') && (
-                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                        </svg>
-                      )}
-                      {!selectedLevels.has('Expert') && (
-                        <div className="absolute inset-0 bg-black/60 rounded" />
-                      )}
-                    </div>
-                    <span className="text-xs text-white/70 group-hover:text-white transition-colors">Expert</span>
+                    <span>🟣</span>
+                    <span className="hidden sm:inline">Expert</span>
+                    <span className="text-[10px] opacity-70">({expertCount})</span>
                   </button>
+
+                  {/* Advanced Filter */}
                   <button
                     onClick={() => toggleLevel('Advanced')}
-                    className="flex items-center gap-1.5 cursor-pointer group transition-all hover:scale-105"
+                    className={`flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-all duration-200 border ${
+                      selectedLevels.has('Advanced')
+                        ? "bg-emerald-500/30 border-emerald-500/60 text-emerald-300"
+                        : "bg-white/5 border-white/10 text-white/50 hover:bg-emerald-500/10 hover:border-emerald-500/30 hover:text-emerald-400"
+                    }`}
                   >
-                    <div className="relative w-4 h-4 bg-emerald-500/90 border border-emerald-500 rounded flex items-center justify-center">
-                      {selectedLevels.has('Advanced') && (
-                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                        </svg>
-                      )}
-                      {!selectedLevels.has('Advanced') && (
-                        <div className="absolute inset-0 bg-black/60 rounded" />
-                      )}
-                    </div>
-                    <span className="text-xs text-white/70 group-hover:text-white transition-colors">Advanced</span>
+                    <span>🟢</span>
+                    <span className="hidden sm:inline">Advanced</span>
+                    <span className="text-[10px] opacity-70">({advancedCount})</span>
                   </button>
+
+                  {/* Intermediate Filter */}
                   <button
                     onClick={() => toggleLevel('Intermediate')}
-                    className="flex items-center gap-1.5 cursor-pointer group transition-all hover:scale-105"
+                    className={`flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-all duration-200 border ${
+                      selectedLevels.has('Intermediate')
+                        ? "bg-blue-500/30 border-blue-500/60 text-blue-300"
+                        : "bg-white/5 border-white/10 text-white/50 hover:bg-blue-500/10 hover:border-blue-500/30 hover:text-blue-400"
+                    }`}
                   >
-                    <div className="relative w-4 h-4 bg-blue-500/90 border border-blue-500 rounded flex items-center justify-center">
-                      {selectedLevels.has('Intermediate') && (
-                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                        </svg>
-                      )}
-                      {!selectedLevels.has('Intermediate') && (
-                        <div className="absolute inset-0 bg-black/60 rounded" />
-                      )}
-                    </div>
-                    <span className="text-xs text-white/70 group-hover:text-white transition-colors">Intermediate</span>
+                    <span>🔵</span>
+                    <span className="hidden sm:inline">Interm.</span>
+                    <span className="text-[10px] opacity-70">({intermediateCount})</span>
                   </button>
+
+                  {/* Familiar Filter */}
                   <button
                     onClick={() => toggleLevel('Familiar')}
-                    className="flex items-center gap-1.5 cursor-pointer group transition-all hover:scale-105"
+                    className={`flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-all duration-200 border ${
+                      selectedLevels.has('Familiar')
+                        ? "bg-slate-500/30 border-slate-500/60 text-slate-300"
+                        : "bg-white/5 border-white/10 text-white/50 hover:bg-slate-500/10 hover:border-slate-500/30 hover:text-slate-400"
+                    }`}
                   >
-                    <div className="relative w-4 h-4 bg-slate-500/70 border border-slate-500 rounded flex items-center justify-center">
-                      {selectedLevels.has('Familiar') && (
-                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                        </svg>
-                      )}
-                      {!selectedLevels.has('Familiar') && (
-                        <div className="absolute inset-0 bg-black/60 rounded" />
-                      )}
-                    </div>
-                    <span className="text-xs text-white/70 group-hover:text-white transition-colors">Familiar</span>
+                    <span>⚪</span>
+                    <span className="hidden sm:inline">Familiar</span>
+                    <span className="text-[10px] opacity-70">({familiarCount})</span>
                   </button>
                 </div>
               </div>

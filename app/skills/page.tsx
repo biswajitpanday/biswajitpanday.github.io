@@ -45,38 +45,49 @@ const NODE_CLASSES = {
   parentText: "bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent"
 } as const;
 
-// Helper function to filter tree data based on search query
+// Helper function to filter tree data based on search query and proficiency levels
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const filterTreeData = (data: any[], searchQuery: string): any[] => {
-  if (!searchQuery.trim()) return data;
-  
+const filterTreeData = (data: any[], searchQuery: string, selectedLevels: Set<string> = new Set()): any[] => {
+  const hasSearchFilter = searchQuery.trim().length > 0;
+  const hasLevelFilter = selectedLevels.size > 0;
+
+  // If no filters, return original data
+  if (!hasSearchFilter && !hasLevelFilter) return data;
+
   const searchLower = searchQuery.toLowerCase();
-  
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filterNode = (node: any): any | null => {
-    const nameMatches = node.name.toLowerCase().includes(searchLower);
-    
+    const nameMatches = !hasSearchFilter || node.name.toLowerCase().includes(searchLower);
+    const levelMatches = !hasLevelFilter || (node.metadata?.level && selectedLevels.has(node.metadata.level));
+
     if (node.children && node.children.length > 0) {
       const filteredChildren = node.children
         .map(filterNode)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .filter((child: any) => child !== null);
-      
-      if (nameMatches || filteredChildren.length > 0) {
+
+      // For parent nodes: show if name matches search (when searching) OR if has matching children
+      if ((hasSearchFilter && nameMatches) || filteredChildren.length > 0) {
         return {
           ...node,
           children: filteredChildren
         };
       }
-    } else if (nameMatches) {
-      return node;
+    } else {
+      // For leaf nodes: must match both search (if active) AND level (if active)
+      if (nameMatches && levelMatches) {
+        return node;
+      }
     }
-    
+
     return null;
   };
-  
+
   return data.map(filterNode).filter(node => node !== null);
 };
+
+type ProficiencyLevel = "Expert" | "Advanced" | "Intermediate" | "Familiar";
 
 const Skills = () => {
   // Environment flags
@@ -84,6 +95,25 @@ const Skills = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [selectedLevels, setSelectedLevels] = useState<Set<ProficiencyLevel>>(new Set());
+
+  // Toggle a proficiency level filter
+  const toggleLevel = useCallback((level: ProficiencyLevel) => {
+    setSelectedLevels(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(level)) {
+        newSet.delete(level);
+      } else {
+        newSet.add(level);
+      }
+      return newSet;
+    });
+  }, []);
+
+  // Clear all level filters
+  const clearLevelFilters = useCallback(() => {
+    setSelectedLevels(new Set());
+  }, []);
 
   // Debounce search query - only if search is enabled
   useEffect(() => {
@@ -96,18 +126,18 @@ const Skills = () => {
     return () => clearTimeout(timer);
   }, [searchQuery, isSearchEnabled]);
 
-  // Filter and flatten tree data based on search
+  // Filter and flatten tree data based on search and proficiency level
   const filteredSkills1 = useMemo(() => {
     const searchTerm = isSearchEnabled ? debouncedSearch : "";
-    const filtered = filterTreeData([skills1], searchTerm);
+    const filtered = filterTreeData([skills1], searchTerm, selectedLevels);
     return filtered.length > 0 ? filtered[0] : { name: "Skills", children: [] };
-  }, [isSearchEnabled, debouncedSearch]);
+  }, [isSearchEnabled, debouncedSearch, selectedLevels]);
 
   const filteredSkills2 = useMemo(() => {
     const searchTerm = isSearchEnabled ? debouncedSearch : "";
-    const filtered = filterTreeData([skills2], searchTerm);
+    const filtered = filterTreeData([skills2], searchTerm, selectedLevels);
     return filtered.length > 0 ? filtered[0] : { name: "Skills", children: [] };
-  }, [isSearchEnabled, debouncedSearch]);
+  }, [isSearchEnabled, debouncedSearch, selectedLevels]);
 
   const data1 = flattenTree(filteredSkills1);
   const data2 = flattenTree(filteredSkills2);
@@ -358,25 +388,85 @@ const Skills = () => {
         {/* Skills Proficiency Summary - Compact Heat Map */}
         <SkillProficiencySummary />
 
-        {/* Search Toolbar - Matching other pages' styling */}
+        {/* Search Toolbar with Level Filters */}
         <UnifiedToolbar
           showSearch={isSearchEnabled}
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           searchPlaceholder="Search technologies, frameworks, tools..."
-        />
+        >
+          {/* Proficiency Level Filters - Right side of search */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            {/* Expert Filter */}
+            <button
+              onClick={() => toggleLevel("Expert")}
+              className={`flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-all duration-200 border ${
+                selectedLevels.has("Expert")
+                  ? "bg-purple-500/30 border-purple-500/60 text-purple-300"
+                  : "bg-white/5 border-white/10 text-white/50 hover:bg-purple-500/10 hover:border-purple-500/30 hover:text-purple-400"
+              }`}
+            >
+              <span>🟣</span>
+              <span className="hidden sm:inline">Expert</span>
+              <span className="text-[10px] opacity-70">({expertCount})</span>
+            </button>
 
-        {/* Search Results Info */}
-        {isSearchEnabled && debouncedSearch && (
-          <div className="text-center text-sm text-white/60 mb-4">
-            {filteredCount > 0
-              ? `Found ${filteredCount} technologies matching "${debouncedSearch}"`
-              : `No technologies found matching "${debouncedSearch}"`}
+            {/* Advanced Filter */}
+            <button
+              onClick={() => toggleLevel("Advanced")}
+              className={`flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-all duration-200 border ${
+                selectedLevels.has("Advanced")
+                  ? "bg-emerald-500/30 border-emerald-500/60 text-emerald-300"
+                  : "bg-white/5 border-white/10 text-white/50 hover:bg-emerald-500/10 hover:border-emerald-500/30 hover:text-emerald-400"
+              }`}
+            >
+              <span>🟢</span>
+              <span className="hidden sm:inline">Advanced</span>
+              <span className="text-[10px] opacity-70">({advancedCount})</span>
+            </button>
+
+            {/* Intermediate Filter */}
+            <button
+              onClick={() => toggleLevel("Intermediate")}
+              className={`flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-all duration-200 border ${
+                selectedLevels.has("Intermediate")
+                  ? "bg-blue-500/30 border-blue-500/60 text-blue-300"
+                  : "bg-white/5 border-white/10 text-white/50 hover:bg-blue-500/10 hover:border-blue-500/30 hover:text-blue-400"
+              }`}
+            >
+              <span>🔵</span>
+              <span className="hidden sm:inline">Interm.</span>
+              <span className="text-[10px] opacity-70">({countSkillsByLevel(skills1, "Intermediate") + countSkillsByLevel(skills2, "Intermediate")})</span>
+            </button>
+
+            {/* Familiar Filter */}
+            <button
+              onClick={() => toggleLevel("Familiar")}
+              className={`flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-all duration-200 border ${
+                selectedLevels.has("Familiar")
+                  ? "bg-slate-500/30 border-slate-500/60 text-slate-300"
+                  : "bg-white/5 border-white/10 text-white/50 hover:bg-slate-500/10 hover:border-slate-500/30 hover:text-slate-400"
+              }`}
+            >
+              <span>⚪</span>
+              <span className="hidden sm:inline">Familiar</span>
+              <span className="text-[10px] opacity-70">({countSkillsByLevel(skills1, "Familiar") + countSkillsByLevel(skills2, "Familiar")})</span>
+            </button>
+
+            {/* Clear Filters */}
+            {selectedLevels.size > 0 && (
+              <button
+                onClick={clearLevelFilters}
+                className="flex items-center gap-0.5 px-2 py-1 rounded text-[11px] font-medium transition-all duration-200 bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20"
+              >
+                <span>✕</span>
+              </button>
+            )}
           </div>
-        )}
+        </UnifiedToolbar>
 
         {/* No Results */}
-        {isSearchEnabled && debouncedSearch && filteredCount === 0 && (
+        {(debouncedSearch || selectedLevels.size > 0) && filteredCount === 0 && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -386,20 +476,27 @@ const Skills = () => {
               <FaSearch className="text-4xl text-white/40 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">No Technologies Found</h3>
               <p className="text-white/60 mb-4">
-                Try searching for different keywords or clear the search to see all technologies.
+                {debouncedSearch && selectedLevels.size > 0
+                  ? "Try adjusting your search or level filters."
+                  : debouncedSearch
+                    ? "Try searching for different keywords."
+                    : "Try selecting different proficiency levels."}
               </p>
               <button
-                onClick={() => setSearchQuery("")}
+                onClick={() => {
+                  setSearchQuery("");
+                  clearLevelFilters();
+                }}
                 className="bg-secondary-default hover:bg-secondary-default/80 text-primary px-4 py-2 rounded transition-all duration-300"
               >
-                Clear Search
+                Clear All Filters
               </button>
             </div>
           </motion.div>
         )}
 
         {/* Skills Trees */}
-        {(!debouncedSearch || filteredCount > 0) && (
+        {((!debouncedSearch && selectedLevels.size === 0) || filteredCount > 0) && (
           <motion.div
             initial={TREE_ANIMATIONS.container.initial}
             animate={TREE_ANIMATIONS.container.animate}

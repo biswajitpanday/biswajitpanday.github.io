@@ -180,16 +180,18 @@ export default function SkillProficiencySummary() {
           </button>
         </div>
 
-        {/* Compact Stats Cards */}
+        {/* Compact Stats Cards - 2 lines each */}
         <div className="grid grid-cols-4 gap-2 mb-3">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.1 }}
-            className={`bg-gradient-to-br ${levelToGradient.Expert} rounded-lg p-2 text-center`}
+            className={`bg-gradient-to-br ${levelToGradient.Expert} rounded-lg px-2 py-1.5 text-center`}
           >
-            <div className="text-xl mb-0.5">{levelToIcon.Expert}</div>
-            <div className={`text-xl font-bold ${levelToTextColor.Expert}`}>{expertCount}</div>
+            <div className="flex items-center justify-center gap-1.5">
+              <span className="text-base">{levelToIcon.Expert}</span>
+              <span className={`text-lg font-bold ${levelToTextColor.Expert}`}>{expertCount}</span>
+            </div>
             <div className="text-[10px] text-white/50 uppercase tracking-wider">Expert</div>
           </motion.div>
 
@@ -197,10 +199,12 @@ export default function SkillProficiencySummary() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.15 }}
-            className={`bg-gradient-to-br ${levelToGradient.Advanced} rounded-lg p-2 text-center`}
+            className={`bg-gradient-to-br ${levelToGradient.Advanced} rounded-lg px-2 py-1.5 text-center`}
           >
-            <div className="text-xl mb-0.5">{levelToIcon.Advanced}</div>
-            <div className={`text-xl font-bold ${levelToTextColor.Advanced}`}>{advancedCount}</div>
+            <div className="flex items-center justify-center gap-1.5">
+              <span className="text-base">{levelToIcon.Advanced}</span>
+              <span className={`text-lg font-bold ${levelToTextColor.Advanced}`}>{advancedCount}</span>
+            </div>
             <div className="text-[10px] text-white/50 uppercase tracking-wider">Advanced</div>
           </motion.div>
 
@@ -208,10 +212,12 @@ export default function SkillProficiencySummary() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.2 }}
-            className={`bg-gradient-to-br ${levelToGradient.Intermediate} rounded-lg p-2 text-center`}
+            className={`bg-gradient-to-br ${levelToGradient.Intermediate} rounded-lg px-2 py-1.5 text-center`}
           >
-            <div className="text-xl mb-0.5">{levelToIcon.Intermediate}</div>
-            <div className={`text-xl font-bold ${levelToTextColor.Intermediate}`}>{intermediateCount}</div>
+            <div className="flex items-center justify-center gap-1.5">
+              <span className="text-base">{levelToIcon.Intermediate}</span>
+              <span className={`text-lg font-bold ${levelToTextColor.Intermediate}`}>{intermediateCount}</span>
+            </div>
             <div className="text-[10px] text-white/50 uppercase tracking-wider">Intermediate</div>
           </motion.div>
 
@@ -219,15 +225,17 @@ export default function SkillProficiencySummary() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.25 }}
-            className={`bg-gradient-to-br ${levelToGradient.Familiar} rounded-lg p-2 text-center`}
+            className={`bg-gradient-to-br ${levelToGradient.Familiar} rounded-lg px-2 py-1.5 text-center`}
           >
-            <div className="text-xl mb-0.5">{levelToIcon.Familiar}</div>
-            <div className={`text-xl font-bold ${levelToTextColor.Familiar}`}>{familiarCount}</div>
+            <div className="flex items-center justify-center gap-1.5">
+              <span className="text-base">{levelToIcon.Familiar}</span>
+              <span className={`text-lg font-bold ${levelToTextColor.Familiar}`}>{familiarCount}</span>
+            </div>
             <div className="text-[10px] text-white/50 uppercase tracking-wider">Familiar</div>
           </motion.div>
         </div>
 
-        {/* Compact Mini Heat Map Grid - Top 12 Skills */}
+        {/* Compact Mini Heat Map Grid - Top 12 Skills - Single Line */}
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-1.5">
           {topSkills.map((skill, index) => {
             const level = skill.metadata?.level || 'Familiar';
@@ -247,16 +255,13 @@ export default function SkillProficiencySummary() {
                 className="relative group"
               >
                 <div
-                  className={`relative px-2 py-1.5 rounded-md border ${colorClass} text-[11px] font-semibold transition-all hover:shadow-lg hover:shadow-secondary-default/20 cursor-pointer`}
+                  className={`relative px-2 py-1 rounded-md border ${colorClass} text-[11px] font-semibold transition-all hover:shadow-lg hover:shadow-secondary-default/20 cursor-pointer`}
                 >
-                  {/* Icon + Name */}
-                  <div className="flex items-center justify-center gap-1 mb-0.5">
+                  {/* Icon + Name - Single Line */}
+                  <div className="flex items-center justify-center gap-1">
                     <DynamicIcon iconName={iconName} className="text-xs flex-shrink-0" />
                     <div className="truncate">{skill.name}</div>
                   </div>
-                  {experience && (
-                    <div className="text-center text-[9px] opacity-80">{experience}y</div>
-                  )}
                 </div>
 
                 {/* Enhanced Tooltip - Smart Positioning */}
