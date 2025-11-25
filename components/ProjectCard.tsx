@@ -125,7 +125,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           data-testid={`project-title-${project.num}`}
           className={`font-bold transition-colors duration-300 leading-tight ${isFeatured
             ? 'text-xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
-            : 'text-lg bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent'
+            : 'text-lg bg-gradient-to-r from-[#00BFFF] to-white bg-clip-text text-transparent'
             }`}
         >
           {project.title}

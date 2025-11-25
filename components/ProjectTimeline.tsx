@@ -142,7 +142,7 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                           <h3 className={`text-lg font-bold transition-colors duration-300 ${
                             isFeatured
                               ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
-                              : 'bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent'
+                              : 'bg-gradient-to-r from-[#00BFFF] to-white bg-clip-text text-transparent'
                           }`}>
                             {project.title}
                           </h3>

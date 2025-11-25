@@ -66,7 +66,7 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
           <div className="flex-1 min-w-0">
             <h3 className={`text-lg font-bold transition-colors duration-300 ${isFeatured
                 ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
-                : 'bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent'
+                : 'bg-gradient-to-r from-[#00BFFF] to-white bg-clip-text text-transparent'
               }`}>
               {item.position}
             </h3>

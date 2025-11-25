@@ -292,7 +292,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
             className={`text-lg font-bold mb-2 line-clamp-2 transition-colors duration-300 leading-tight ${
               featured
                 ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
-                : 'bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent'
+                : 'bg-gradient-to-r from-[#00BFFF] to-white bg-clip-text text-transparent'
             }`}
           >
             {name}

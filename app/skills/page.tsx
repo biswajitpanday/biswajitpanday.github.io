@@ -42,7 +42,7 @@ const NODE_CLASSES = {
   parent: "text-base sm:text-lg font-bold leading-none group cursor-pointer transition-all duration-300 mb-1.5 sm:mb-2 mt-1 hover:bg-white/5 p-1.5 sm:p-2 rounded",
   child: "text-xs sm:text-sm text-white/70 group hover:text-white/90 hover:bg-white/5 transition-all duration-300 mb-1 p-1 rounded cursor-default",
   highlighted: "bg-secondary-default/20 border border-secondary-default/40 rounded",
-  parentText: "bg-gradient-to-r from-emerald-400 to-gray-300 bg-clip-text text-transparent"
+  parentText: "bg-gradient-to-r from-[#00BFFF] to-white bg-clip-text text-transparent"
 } as const;
 
 // Helper function to filter tree data based on search query and proficiency levels
