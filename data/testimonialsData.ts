@@ -23,6 +23,8 @@ export const testimonials: Testimonial[] = [
     company: "Tech Company",
     // image: "/assets/testimonials/colleague1.webp",
     // linkedinUrl: "https://linkedin.com/in/..."
+    shouldPublish: true, // Set to false to hide from public site
+    isSampleData: true,  // Replace with real testimonials
   },
   {
     id: "2",
@@ -32,6 +34,8 @@ export const testimonials: Testimonial[] = [
     company: "Enterprise Corp",
     // image: "/assets/testimonials/manager1.webp",
     // linkedinUrl: "https://linkedin.com/in/..."
+    shouldPublish: true,
+    isSampleData: true,
   },
   {
     id: "3",
@@ -41,6 +45,8 @@ export const testimonials: Testimonial[] = [
     company: "Software Solutions",
     // image: "/assets/testimonials/lead1.webp",
     // linkedinUrl: "https://linkedin.com/in/..."
+    shouldPublish: true,
+    isSampleData: true,
   }
 ];
 

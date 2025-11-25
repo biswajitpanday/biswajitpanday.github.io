@@ -273,6 +273,31 @@ The site includes WebVitals tracking and analytics:
 - **Do not write code until you are at least 95% confident in the approach**
 - If something is missing, unclear, or risky: **pause and ask directly** using `AskUserQuestion` tool
 
+### IMPORTANT: Approval Requirements
+**ALWAYS ask for user approval before:**
+1. **Implementing duplicate items** on any page (e.g., duplicate stats sections, repeated components)
+2. **Removing existing features** without explicit confirmation
+3. **Changing design system colors** or established patterns
+4. **Adding new dependencies** to package.json
+
+### Data Management: shouldPublish Flag
+Demo/sample data items have `shouldPublish` and `isSampleData` flags for admin control:
+
+| Flag | Type | Default | Purpose |
+|------|------|---------|---------|
+| `shouldPublish` | boolean | true | Controls visibility on public site |
+| `isSampleData` | boolean | - | Marks item as demo data to be replaced |
+
+**Interfaces with these flags:**
+- `Testimonial` (testimonialsData.ts, portfolioData.ts)
+- `Recognition` (portfolioData.ts)
+- `BlogPost` (blogData.ts)
+
+**Usage:**
+- `shouldPublish: true` = visible on public site (default)
+- `shouldPublish: false` = hidden, admin preview only
+- `isSampleData: true` = marks as demo data to replace with real content
+
 ### Context Window Management
 **When approaching context window limit (85-90% capacity):**
 1. **Pause immediately** and share remaining incomplete todos

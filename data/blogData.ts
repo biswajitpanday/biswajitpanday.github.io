@@ -15,6 +15,10 @@ export interface BlogPost {
   };
   featured?: boolean;
   externalUrl?: string; // If hosted on Medium, Dev.to, etc.
+  /** Controls visibility - true = visible on public site, false = admin preview only */
+  shouldPublish?: boolean;
+  /** Marks this as sample/demo data that should be replaced with real blog posts */
+  isSampleData?: boolean;
 }
 
 export const blogPosts: BlogPost[] = [
@@ -31,7 +35,9 @@ export const blogPosts: BlogPost[] = [
       name: "Biswajit Panday",
       role: "Senior Software Engineer"
     },
-    featured: true
+    featured: true,
+    shouldPublish: true,
+    isSampleData: true,
   },
   {
     id: "2",
@@ -46,7 +52,9 @@ export const blogPosts: BlogPost[] = [
       name: "Biswajit Panday",
       role: "Senior Software Engineer"
     },
-    featured: true
+    featured: true,
+    shouldPublish: true,
+    isSampleData: true,
   },
   {
     id: "3",
@@ -61,7 +69,9 @@ export const blogPosts: BlogPost[] = [
       name: "Biswajit Panday",
       role: "Senior Software Engineer"
     },
-    featured: true
+    featured: true,
+    shouldPublish: true,
+    isSampleData: true,
   },
   {
     id: "4",
@@ -76,7 +86,9 @@ export const blogPosts: BlogPost[] = [
       name: "Biswajit Panday",
       role: "Senior Software Engineer"
     },
-    featured: false
+    featured: false,
+    shouldPublish: true,
+    isSampleData: true,
   },
   {
     id: "5",
@@ -91,7 +103,9 @@ export const blogPosts: BlogPost[] = [
       name: "Biswajit Panday",
       role: "Senior Software Engineer"
     },
-    featured: false
+    featured: false,
+    shouldPublish: true,
+    isSampleData: true,
   },
   {
     id: "6",
@@ -106,7 +120,9 @@ export const blogPosts: BlogPost[] = [
       name: "Biswajit Panday",
       role: "Senior Software Engineer"
     },
-    featured: false
+    featured: false,
+    shouldPublish: true,
+    isSampleData: true,
   }
 ];
 

@@ -12,6 +12,10 @@ export interface Testimonial {
   company: string;
   image?: string;
   linkedinUrl?: string;
+  /** Controls visibility - true = visible on public site, false = admin preview only */
+  shouldPublish?: boolean;
+  /** Marks this as sample/demo data that should be replaced with real testimonials */
+  isSampleData?: boolean;
 }
 
 interface TestimonialsCarouselProps {

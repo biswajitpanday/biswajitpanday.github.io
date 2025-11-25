@@ -9,13 +9,17 @@ export interface ProjectMetrics {
   other?: string[]; // Additional custom metrics
 }
 
-// Testimonial interface
+// Testimonial interface (for project-specific testimonials)
 export interface Testimonial {
   quote: string;
   author: string;
   role: string;
   company?: string;
   approved?: boolean; // Show only if approved (default: true)
+  /** Controls visibility - true = visible on public site, false = admin preview only */
+  shouldPublish?: boolean;
+  /** Marks this as sample/demo data that should be replaced with real testimonials */
+  isSampleData?: boolean;
 }
 
 // Case Study interface
@@ -33,6 +37,10 @@ export interface Recognition {
   description: string;
   icon?: string; // Icon name for rendering
   approved?: boolean; // Show only if approved (default: true)
+  /** Controls visibility - true = visible on public site, false = admin preview only */
+  shouldPublish?: boolean;
+  /** Marks this as sample/demo data that should be replaced with real recognition */
+  isSampleData?: boolean;
 }
 
 export interface Project {
