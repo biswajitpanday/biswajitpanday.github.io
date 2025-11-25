@@ -52,9 +52,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const primaryMetric = getPrimaryMetric(project);
 
   return (
-    <div
+    <article
       key={project.num}
       data-testid={`project-card-${project.num}`}
+      aria-label={`${project.title} - ${project.category} project${isFeatured ? ' (Featured)' : ''}${project.isActive ? ' - Active' : ' - Completed'}`}
       className={`group relative p-5 rounded-xl border transition-all duration-500 flex flex-col justify-between ${className} ${CSS_ANIMATIONS.FADE_IN_UP} ${staggerClass} hover:scale-[1.02] hover:shadow-2xl hover:-translate-y-1 ${isFeatured
         ? 'bg-gradient-to-br from-purple-500/5 via-[#27272c] to-[#2a2a30] border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
         : 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
@@ -217,14 +218,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       <div
         data-testid={`project-actions-${project.num}`}
         className="flex gap-3 mt-3"
+        role="group"
+        aria-label={`Actions for ${project.title}`}
       >
         {/* View Details Button */}
         <button
           data-testid={`project-details-button-${project.num}`}
           onClick={() => onOpenModal(project)}
-          className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/20 text-sm font-medium"
+          aria-label={`View details for ${project.title}`}
+          className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/20 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c]"
         >
-          <FaEye className="text-sm" />
+          <FaEye className="text-sm" aria-hidden="true" />
           <span>View Details</span>
         </button>
 
@@ -233,10 +237,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <Link
             href={project.github}
             target="_blank"
+            rel="noopener noreferrer"
             data-testid={`project-github-button-${project.num}`}
-            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 border border-blue-500/30 hover:border-blue-500/50 text-blue-300 px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 text-sm font-medium"
+            aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
+            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 border border-blue-500/30 hover:border-blue-500/50 text-blue-300 px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-[#27272c]"
           >
-            <FaGithub className="text-base" />
+            <FaGithub className="text-base" aria-hidden="true" />
             <span>Source</span>
           </Link>
         )}
@@ -247,8 +253,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         style={{
           transform: 'translateZ(-10px)',
         }}
+        aria-hidden="true"
       />
-    </div>
+    </article>
   );
 };
 

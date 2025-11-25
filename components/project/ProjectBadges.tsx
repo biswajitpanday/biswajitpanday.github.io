@@ -33,8 +33,10 @@ export function CategoryBadge({ category }: { category: string }) {
       className={`inline-flex items-center justify-center gap-1.5 shadow-sm border ${CATEGORY_BADGE_CLASSES} ${getCategoryColor(
         category
       )}`}
+      role="status"
+      aria-label={`Category: ${category}`}
     >
-      <span className="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+      <span className="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0" aria-hidden="true"></span>
       <span className="leading-none">{category}</span>
     </div>
   );
@@ -47,16 +49,25 @@ export function OpenSourceBadge({ variant = "icon" }: { variant?: "icon" | "text
   if (variant === "icon") {
     return (
       <SimpleTooltip content="Open Source Project" position="top" colorScheme="green">
-        <span className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help flex-shrink-0">
-          <FaCodeBranch className="text-sm text-green-300" />
+        <span
+          className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help flex-shrink-0"
+          role="img"
+          aria-label="Open Source Project"
+        >
+          <FaCodeBranch className="text-sm text-green-300" aria-hidden="true" />
+          <span className="sr-only">Open Source Project</span>
         </span>
       </SimpleTooltip>
     );
   }
 
   return (
-    <span className={`inline-flex items-center justify-center gap-1.5 bg-green-500/20 border border-green-500/40 text-green-300 ${OPEN_SOURCE_BADGE_CLASSES}`}>
-      <FaCodeBranch className="text-xs flex-shrink-0" />
+    <span
+      className={`inline-flex items-center justify-center gap-1.5 bg-green-500/20 border border-green-500/40 text-green-300 ${OPEN_SOURCE_BADGE_CLASSES}`}
+      role="status"
+      aria-label="Open Source Project"
+    >
+      <FaCodeBranch className="text-xs flex-shrink-0" aria-hidden="true" />
       <span className="leading-none">Open Source</span>
     </span>
   );
@@ -75,19 +86,29 @@ export function RecognitionBadge({
 
   if (count === 0) return null;
 
+  const awardsList = approvedRecognitions.map(r => r.title).join(', ');
+
   return (
-    <div className="relative inline-flex group/awards flex-shrink-0">
+    <div
+      className="relative inline-flex group/awards flex-shrink-0"
+      role="status"
+      aria-label={`${count} ${count === 1 ? 'Award' : 'Awards'}: ${awardsList}`}
+    >
       <span className={`inline-flex items-center justify-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help ${RECOGNITION_BADGE_CLASSES}`}>
-        <FaTrophy className="text-[10px] text-amber-300 flex-shrink-0" />
+        <FaTrophy className="text-[10px] text-amber-300 flex-shrink-0" aria-hidden="true" />
         <span className="leading-none">{count} {count === 1 ? 'Award' : 'Awards'}</span>
       </span>
 
       {/* Tooltip on hover */}
-      <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-amber-400/30 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-[165] shadow-xl pointer-events-none">
+      <div
+        className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-amber-400/30 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-[165] shadow-xl pointer-events-none"
+        role="tooltip"
+        aria-hidden="true"
+      >
         <div className="space-y-2">
           {approvedRecognitions.map((rec, idx) => (
             <div key={idx} className="flex items-start gap-2">
-              <FaTrophy className="text-amber-300 text-xs mt-0.5 flex-shrink-0" />
+              <FaTrophy className="text-amber-300 text-xs mt-0.5 flex-shrink-0" aria-hidden="true" />
               <div>
                 <div className="text-white text-xs font-semibold">{rec.title}</div>
                 {rec.description && (
@@ -114,8 +135,12 @@ export function StatusBadge({
 }) {
   if (isActive) {
     return (
-      <span className={`inline-flex items-center justify-center gap-1 bg-green-500/90 text-white flex-shrink-0 ${STATUS_BADGE_CLASSES}`}>
-        <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse flex-shrink-0" />
+      <span
+        className={`inline-flex items-center justify-center gap-1 bg-green-500/90 text-white flex-shrink-0 ${STATUS_BADGE_CLASSES}`}
+        role="status"
+        aria-label="Project Status: Active"
+      >
+        <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse flex-shrink-0" aria-hidden="true" />
         <span className="leading-none">Active</span>
       </span>
     );
@@ -124,7 +149,11 @@ export function StatusBadge({
   if (inactivationReason) {
     return (
       <WideTooltip content={inactivationReason} position="top" colorScheme="red">
-        <span className={`inline-flex items-center justify-center gap-1 bg-red-500/90 text-white cursor-help flex-shrink-0 ${STATUS_BADGE_CLASSES}`}>
+        <span
+          className={`inline-flex items-center justify-center gap-1 bg-red-500/90 text-white cursor-help flex-shrink-0 ${STATUS_BADGE_CLASSES}`}
+          role="status"
+          aria-label={`Project Status: Completed. ${inactivationReason}`}
+        >
           <span className="leading-none">Completed</span>
         </span>
       </WideTooltip>
@@ -132,7 +161,11 @@ export function StatusBadge({
   }
 
   return (
-    <span className={`inline-flex items-center justify-center gap-1 bg-red-500/90 text-white flex-shrink-0 ${STATUS_BADGE_CLASSES}`}>
+    <span
+      className={`inline-flex items-center justify-center gap-1 bg-red-500/90 text-white flex-shrink-0 ${STATUS_BADGE_CLASSES}`}
+      role="status"
+      aria-label="Project Status: Completed"
+    >
       <span className="leading-none">Completed</span>
     </span>
   );
@@ -151,8 +184,13 @@ export function StatusBadgeIcon({
   if (isActive) {
     return (
       <SimpleTooltip content="Active Project" position="bottom" colorScheme="green">
-        <div className="bg-green-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center cursor-help flex-shrink-0">
-          <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse flex-shrink-0" />
+        <div
+          className="bg-green-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center cursor-help flex-shrink-0"
+          role="img"
+          aria-label="Active Project"
+        >
+          <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse flex-shrink-0" aria-hidden="true" />
+          <span className="sr-only">Active Project</span>
         </div>
       </SimpleTooltip>
     );
@@ -164,8 +202,13 @@ export function StatusBadgeIcon({
       position="bottom"
       colorScheme="red"
     >
-      <div className="bg-red-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center cursor-help flex-shrink-0">
-        <div className="w-2.5 h-2.5 rounded-full bg-white flex-shrink-0" />
+      <div
+        className="bg-red-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center cursor-help flex-shrink-0"
+        role="img"
+        aria-label={`Completed Project${inactivationReason ? `: ${inactivationReason}` : ''}`}
+      >
+        <div className="w-2.5 h-2.5 rounded-full bg-white flex-shrink-0" aria-hidden="true" />
+        <span className="sr-only">Completed Project</span>
       </div>
     </WideTooltip>
   );
@@ -178,16 +221,25 @@ export function FeaturedBadge({ variant = "icon" }: { variant?: "icon" | "text" 
   if (variant === "icon") {
     return (
       <SimpleTooltip content="Featured Project" position="bottom" colorScheme="purple">
-        <div className="bg-gradient-to-r from-purple-500/95 to-pink-500/95 backdrop-blur-sm text-white w-7 h-7 rounded-md shadow-lg shadow-purple-500/30 flex items-center justify-center cursor-help flex-shrink-0">
-          <FaStar className="text-white text-sm" />
+        <div
+          className="bg-gradient-to-r from-purple-500/95 to-pink-500/95 backdrop-blur-sm text-white w-7 h-7 rounded-md shadow-lg shadow-purple-500/30 flex items-center justify-center cursor-help flex-shrink-0"
+          role="img"
+          aria-label="Featured Project"
+        >
+          <FaStar className="text-white text-sm" aria-hidden="true" />
+          <span className="sr-only">Featured Project</span>
         </div>
       </SimpleTooltip>
     );
   }
 
   return (
-    <span className={`inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-purple-500/25 to-pink-500/25 border border-purple-500/50 text-purple-200 shadow-sm shadow-purple-500/20 flex-shrink-0 ${FEATURED_BADGE_CLASSES}`}>
-      <FaStar className="text-[10px] flex-shrink-0" />
+    <span
+      className={`inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-purple-500/25 to-pink-500/25 border border-purple-500/50 text-purple-200 shadow-sm shadow-purple-500/20 flex-shrink-0 ${FEATURED_BADGE_CLASSES}`}
+      role="status"
+      aria-label="Featured Project"
+    >
+      <FaStar className="text-[10px] flex-shrink-0" aria-hidden="true" />
       <span className="leading-none">Featured</span>
     </span>
   );
@@ -214,8 +266,12 @@ export function PrimaryMetricBadge({
     : getMetricBadgeClasses(metric.label);
 
   return (
-    <span className={`inline-flex items-center justify-center gap-2 backdrop-blur-md shadow-lg border flex-shrink-0 ${badgeClasses} ${colorClasses}`}>
-      <metric.icon className={`flex-shrink-0 ${variant === "modal" ? "text-base" : "text-xs"}`} />
+    <span
+      className={`inline-flex items-center justify-center gap-2 backdrop-blur-md shadow-lg border flex-shrink-0 ${badgeClasses} ${colorClasses}`}
+      role="status"
+      aria-label={`Key Metric: ${metric.text}`}
+    >
+      <metric.icon className={`flex-shrink-0 ${variant === "modal" ? "text-base" : "text-xs"}`} aria-hidden="true" />
       <span className="leading-none">{metric.text}</span>
     </span>
   );

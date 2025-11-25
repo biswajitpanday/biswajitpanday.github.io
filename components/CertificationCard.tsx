@@ -116,8 +116,9 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
 
   return (
     <>
-      <div
+      <article
         data-testid={`certification-card-${certification.name.replace(/\s+/g, '-').toLowerCase()}`}
+        aria-label={`${name} certification from ${issuer}${featured ? ' (Featured)' : ''}${isUpcoming ? ' (Upcoming)' : ''}`}
         className={`group relative p-5 rounded-xl border transition-all duration-500 flex flex-col hover:scale-[1.02] hover:shadow-2xl hover:-translate-y-1 ${
           featured
             ? 'bg-gradient-to-br from-purple-500/5 via-[#27272c] to-[#2a2a30] border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
@@ -384,27 +385,31 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/20 text-sm font-medium"
+              aria-label={`View ${name} certificate on ${issuer} website (opens in new tab)`}
+              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-secondary-default/10 to-blue-500/10 hover:from-secondary-default/20 hover:to-blue-500/20 border border-secondary-default/30 hover:border-secondary-default/50 text-secondary-default px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/20 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#27272c]"
             >
-              <FiExternalLink className="text-sm" />
+              <FiExternalLink className="text-sm" aria-hidden="true" />
               <span>View Certificate</span>
             </Link>
           ) : (
             <button
               onClick={() => setIsLightboxOpen(true)}
-              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-white/5 to-transparent hover:from-white/10 hover:to-transparent border border-white/20 hover:border-white/30 text-white/70 hover:text-white px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg text-sm font-medium"
+              aria-label={`View full size image of ${name} certificate`}
+              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-white/5 to-transparent hover:from-white/10 hover:to-transparent border border-white/20 hover:border-white/30 text-white/70 hover:text-white px-4 py-2 rounded-lg transition-all duration-300 hover:shadow-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-[#27272c]"
             >
-              <FiExternalLink className="text-sm" />
+              <FiExternalLink className="text-sm" aria-hidden="true" />
               <span>View Image</span>
             </button>
           )}
         </div>
 
         {/* 3D Depth Effect - Subtle Shadow Layer */}
-        <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-secondary-default/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-10"
+        <div
+          className="absolute inset-0 rounded-xl bg-gradient-to-br from-secondary-default/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-10"
           style={{
             transform: 'translateZ(-10px)',
           }}
+          aria-hidden="true"
         />
 
         {/* Lightbox for full-size image view */}
@@ -424,7 +429,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
             closeOnPullDown: true,
           }}
         />
-      </div>
+      </article>
     </>
   );
 };

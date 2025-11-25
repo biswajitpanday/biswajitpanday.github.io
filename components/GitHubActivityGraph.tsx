@@ -128,22 +128,22 @@ export default function GitHubActivityGraph() {
   }, [activityMap]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
         {/* Activity Graph */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 overflow-x-auto"
+          className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 overflow-x-auto"
         >
-          <div className="min-w-[800px]">
+          <div className="min-w-[650px]">
             {/* Month labels */}
-            <div className="flex gap-[3px] mb-2 ml-8">
+            <div className="flex gap-[2px] mb-1 ml-6">
               {gridData.map((week, weekIndex) => {
                 const monthLabel = getMonthLabel(weekIndex);
                 return (
-                  <div key={weekIndex} className="w-3 text-xs text-white/50">
+                  <div key={weekIndex} className="w-2.5 text-[10px] text-white/50">
                     {monthLabel}
                   </div>
                 );
@@ -151,22 +151,22 @@ export default function GitHubActivityGraph() {
             </div>
 
             {/* Day of week labels + Graph */}
-            <div className="flex gap-1">
+            <div className="flex gap-0.5">
               {/* Day labels */}
-              <div className="flex flex-col gap-[3px] text-xs text-white/50 mr-1">
-                <div className="h-3">Sun</div>
-                <div className="h-3">Mon</div>
-                <div className="h-3">Tue</div>
-                <div className="h-3">Wed</div>
-                <div className="h-3">Thu</div>
-                <div className="h-3">Fri</div>
-                <div className="h-3">Sat</div>
+              <div className="flex flex-col gap-[2px] text-[10px] text-white/50 mr-0.5">
+                <div className="h-2.5">Sun</div>
+                <div className="h-2.5">Mon</div>
+                <div className="h-2.5">Tue</div>
+                <div className="h-2.5">Wed</div>
+                <div className="h-2.5">Thu</div>
+                <div className="h-2.5">Fri</div>
+                <div className="h-2.5">Sat</div>
               </div>
 
               {/* Grid */}
-              <div className="flex gap-[3px]">
+              <div className="flex gap-[2px]">
                 {gridData.map((week, weekIndex) => (
-                  <div key={weekIndex} className="flex flex-col gap-[3px]">
+                  <div key={weekIndex} className="flex flex-col gap-[2px]">
                     {week.map((date, dayIndex) => {
                       const dateStr = date.toISOString().split('T')[0];
                       const activity = activityMap[dateStr];
@@ -180,7 +180,7 @@ export default function GitHubActivityGraph() {
                           whileInView={{ opacity: 1, scale: 1 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.2, delay: (weekIndex * 7 + dayIndex) * 0.001 }}
-                          whileHover={{ scale: 1.2 }}
+                          whileHover={{ scale: 1.3 }}
                           onMouseEnter={() => {
                             setHoveredCell({ x: weekIndex, y: dayIndex });
                             if (activity) setSelectedActivity(activity);
@@ -189,7 +189,7 @@ export default function GitHubActivityGraph() {
                             setHoveredCell(null);
                             setSelectedActivity(null);
                           }}
-                          className={`relative w-3 h-3 rounded-sm border cursor-pointer transition-all ${colorClass}`}
+                          className={`relative w-2.5 h-2.5 rounded-sm border cursor-pointer transition-all ${colorClass}`}
                           title={`${dateStr}: ${count} contributions`}
                         >
                           {/* Tooltip */}
@@ -213,13 +213,13 @@ export default function GitHubActivityGraph() {
             </div>
 
             {/* Legend */}
-            <div className="flex items-center justify-end gap-2 mt-4 text-xs text-white/60">
+            <div className="flex items-center justify-end gap-1.5 mt-2 text-[10px] text-white/60">
               <span>Less</span>
-              <div className="w-3 h-3 rounded-sm bg-white/5 border border-white/10" />
-              <div className="w-3 h-3 rounded-sm bg-emerald-500/30 border border-emerald-400/50" />
-              <div className="w-3 h-3 rounded-sm bg-emerald-500/60 border border-emerald-400/70" />
-              <div className="w-3 h-3 rounded-sm bg-emerald-500/80 border border-emerald-400/90" />
-              <div className="w-3 h-3 rounded-sm bg-emerald-500 border border-emerald-400" />
+              <div className="w-2.5 h-2.5 rounded-sm bg-white/5 border border-white/10" />
+              <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500/30 border border-emerald-400/50" />
+              <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500/60 border border-emerald-400/70" />
+              <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500/80 border border-emerald-400/90" />
+              <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500 border border-emerald-400" />
               <span>More</span>
             </div>
           </div>
@@ -231,65 +231,64 @@ export default function GitHubActivityGraph() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.3 }}
-          className="mt-6"
         >
-          <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
-            <div className="flex flex-wrap items-center justify-center gap-6">
+          <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-3">
+            <div className="flex flex-wrap items-center justify-center gap-4">
               {/* Projects */}
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-500/20 rounded-lg">
-                  <span className="text-blue-400 text-xl">📁</span>
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 bg-blue-500/20 rounded-lg">
+                  <span className="text-blue-400 text-lg">📁</span>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-500 tabular-nums">
+                  <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-500 tabular-nums">
                     {activities.filter(a => a.type === 'project').length}
                   </div>
-                  <div className="text-xs text-white/60">Projects</div>
+                  <div className="text-[10px] text-white/60">Projects</div>
                 </div>
               </div>
 
-              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+              <div className="hidden sm:block w-px h-8 bg-white/10"></div>
 
               {/* Certifications */}
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg">
-                  <span className="text-fuchsia-400 text-xl">🏆</span>
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg">
+                  <span className="text-fuchsia-400 text-lg">🏆</span>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
+                  <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
                     {activities.filter(a => a.type === 'certification').length}
                   </div>
-                  <div className="text-xs text-white/60">Certifications</div>
+                  <div className="text-[10px] text-white/60">Certifications</div>
                 </div>
               </div>
 
-              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+              <div className="hidden sm:block w-px h-8 bg-white/10"></div>
 
               {/* Skills Added */}
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-amber-500/20 rounded-lg">
-                  <span className="text-amber-400 text-xl">⚡</span>
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 bg-amber-500/20 rounded-lg">
+                  <span className="text-amber-400 text-lg">⚡</span>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500 tabular-nums">
+                  <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500 tabular-nums">
                     {activities.filter(a => a.type === 'skill').length}
                   </div>
-                  <div className="text-xs text-white/60">Skills Added</div>
+                  <div className="text-[10px] text-white/60">Skills Added</div>
                 </div>
               </div>
 
-              <div className="hidden lg:block w-px h-10 bg-white/10"></div>
+              <div className="hidden lg:block w-px h-8 bg-white/10"></div>
 
               {/* Commits */}
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-emerald-500/20 rounded-lg">
-                  <span className="text-emerald-400 text-xl">💻</span>
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 bg-emerald-500/20 rounded-lg">
+                  <span className="text-emerald-400 text-lg">💻</span>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500 tabular-nums">
+                  <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500 tabular-nums">
                     {activities.filter(a => a.type === 'commit').length}
                   </div>
-                  <div className="text-xs text-white/60">Commits</div>
+                  <div className="text-[10px] text-white/60">Commits</div>
                 </div>
               </div>
             </div>
@@ -302,9 +301,9 @@ export default function GitHubActivityGraph() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.4 }}
-          className="text-center mt-6"
+          className="text-center"
         >
-          <p className="text-xs text-white/40">
+          <p className="text-[10px] text-white/40">
             Activity data from the past year - projects, certifications, and skills updates
           </p>
         </motion.div>
