@@ -3,71 +3,79 @@ import { Testimonial } from "@/components/TestimonialsCarousel";
 /**
  * Testimonials Data
  *
- * Replace these sample testimonials with real ones from:
- * - LinkedIn recommendations
- * - Email feedback from colleagues
- * - Client testimonials
- *
- * To add a new testimonial:
- * 1. Copy one of the objects below
- * 2. Update all fields with real data
- * 3. Optionally add a linkedinUrl for verification
- * 4. Add a profile image path (optional)
+ * Real LinkedIn recommendations from colleagues and mentors.
  */
 export const testimonials: Testimonial[] = [
   {
     id: "1",
-    quote: "Biswajit is an exceptional developer who consistently delivers high-quality solutions. His work on SpireWiz transformed our development workflow, saving our team countless hours every week.",
-    author: "Sample Colleague",
-    role: "Engineering Manager",
-    company: "Tech Company",
-    // image: "/assets/testimonials/colleague1.webp",
-    // linkedinUrl: "https://linkedin.com/in/..."
-    shouldPublish: true, // Set to false to hide from public site
-    isSampleData: true,  // Replace with real testimonials
+    quote: "I rarely come across real talents who stand out like Biswajit. His passion for learning, writing maintainable code, and solving challenging problems makes him a truly exceptional engineer. He brings professionalism, dedication, and a positive mindset to any team he joins.",
+    author: "Md Hasanuzzaman",
+    role: "Software Engineer",
+    company: "DotNet Internals AS",
+    linkedinUrl: "https://www.linkedin.com/in/hasanu-zzaman/",
+    shouldPublish: true,
+    isSampleData: false,
   },
   {
     id: "2",
-    quote: "Working with Biswajit was a pleasure. His deep expertise in .NET and cloud architecture helped us modernize our legacy systems while maintaining zero downtime. Highly recommend!",
-    author: "Sample Manager",
-    role: "Director of Engineering",
-    company: "Enterprise Corp",
-    // image: "/assets/testimonials/manager1.webp",
-    // linkedinUrl: "https://linkedin.com/in/..."
+    quote: "I had the privilege of mentoring Biswajit Panday during his tenure with us. His eagerness to learn, attention to detail, and problem-solving skills make him a standout talent. Biswajit consistently demonstrated professionalism, strong technical capability, and a deep passion for growth.",
+    author: "Shawal Siddique",
+    role: "Senior Software Developer",
+    company: "United Wholesale Mortgage",
+    linkedinUrl: "https://www.linkedin.com/in/shawal/",
     shouldPublish: true,
-    isSampleData: true,
+    isSampleData: false,
   },
   {
     id: "3",
-    quote: "Biswajit's technical leadership on our React migration project was invaluable. He not only delivered excellent code but also mentored junior developers, elevating the entire team's capabilities.",
-    author: "Sample Team Lead",
-    role: "Senior Developer",
-    company: "Software Solutions",
-    // image: "/assets/testimonials/lead1.webp",
-    // linkedinUrl: "https://linkedin.com/in/..."
+    quote: "I had the privilege of working alongside Biswajit Panday on several enterprise applications. His technical expertise, commitment to excellence, and strong work ethic set him apart as a reliable and talented engineer. Biswajit takes ownership of tasks and always ensures the highest quality in his deliverables.",
+    author: "Md. Hannan Hossain",
+    role: "Principal Software Engineer",
+    company: "Kaz Software",
+    linkedinUrl: "https://www.linkedin.com/in/hannanhossain/",
     shouldPublish: true,
-    isSampleData: true,
-  }
+    isSampleData: false,
+  },
+  {
+    id: "4",
+    quote: "I rarely come across real talents who stand out like Biswajit. His ability to understand complex requirements, deliver with precision, and continuously grow himself is truly impressive. A dedicated and passionate engineer who always brings value to the team.",
+    author: "Zahidul Amin",
+    role: "Chief Technology Officer",
+    company: "Kona SL",
+    linkedinUrl: "https://www.linkedin.com/in/zahidulamin/",
+    shouldPublish: true,
+    isSampleData: false,
+  },
+  {
+    id: "5",
+    quote: "We've joined our hands on two projects and he is one of the smart people I've ever met. He can solve problems quickly and efficiently. His enthusiasm for learning new technologies and improving the product is truly admirable.",
+    author: "Md Nazmul Hoque (Shafin)",
+    role: "Principal Software Developer",
+    company: "Red.Digital Limited",
+    linkedinUrl: "https://www.linkedin.com/in/shafinnazmul/",
+    shouldPublish: true,
+    isSampleData: false,
+  },
+  {
+    id: "6",
+    quote: "Biswajit Panday is an outstanding individual who quickly adapted to our work processes. He delivered his tasks flawlessly and always maintained a positive attitude. His ability to comprehend complex requirements and turn them into clean, maintainable code is impressive.",
+    author: "Md Aminul Hoque",
+    role: "Senior Software Engineer",
+    company: "Pledge It",
+    linkedinUrl: "https://www.linkedin.com/in/aminul007bd/",
+    shouldPublish: true,
+    isSampleData: false,
+  },
+  {
+    id: "7",
+    quote: "I had the privilege to work with Biswajit Panday on several projects. His passion for software engineering and his dedication to delivering high-quality solutions make him an exceptional team member. He consistently contributes valuable ideas and brings a strong problem-solving mindset.",
+    author: "Nasif Shawkat",
+    role: "Quality Assurance Technical Lead",
+    company: "Enosis Solutions",
+    linkedinUrl: "https://www.linkedin.com/in/nasif-shawkat-b998b8a1/",
+    shouldPublish: true,
+    isSampleData: false,
+  },
 ];
-
-/**
- * Instructions for adding real testimonials:
- *
- * 1. Request LinkedIn recommendations from:
- *    - Previous managers
- *    - Colleagues you worked closely with
- *    - Clients (if applicable)
- *
- * 2. For each testimonial, get:
- *    - Written permission to use the quote
- *    - Their preferred title/role
- *    - Company name (or omit if preferred)
- *    - Profile photo (optional)
- *    - LinkedIn profile URL (optional, for credibility)
- *
- * 3. Keep quotes concise (2-3 sentences max)
- *
- * 4. Focus on specific achievements/skills mentioned
- */
 
 export default testimonials;

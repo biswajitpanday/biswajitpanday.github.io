@@ -188,6 +188,137 @@ NEXT_PUBLIC_CHATBOT_API_URL=            # AI Chatbot API endpoint (Vercel)
 - Add proper ARIA attributes for accessibility
 - Use Framer Motion for animations with 0.4s duration
 
+### Accessibility Standards (WCAG 2.1 AA)
+
+This portfolio follows WCAG 2.1 AA accessibility guidelines. All new components must implement these patterns:
+
+#### Focus Management
+```tsx
+// Use focus-visible for keyboard-only focus rings (cyan-400 is the standard)
+className="focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+
+// For inset focus rings (inside elements like dropdown options)
+className="focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+```
+
+#### Dialog/Modal Components
+```tsx
+// Required attributes for modals
+<motion.div
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={titleId}
+  aria-describedby={descriptionId}
+>
+  <h2 id={titleId}>Modal Title</h2>
+  <p id={descriptionId}>Modal description</p>
+</motion.div>
+
+// Always implement Escape key handler
+useEffect(() => {
+  const handleEscape = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') onClose();
+  };
+  document.addEventListener('keydown', handleEscape);
+  return () => document.removeEventListener('keydown', handleEscape);
+}, [onClose]);
+```
+
+#### Form Inputs
+```tsx
+// Always connect labels to inputs
+const inputId = useId();
+<label htmlFor={inputId}>Email</label>
+<input
+  id={inputId}
+  aria-invalid={hasError ? true : undefined}
+  aria-describedby={errorId}
+  aria-required={isRequired}
+/>
+{hasError && <p id={errorId} role="alert">{errorMessage}</p>}
+```
+
+#### Expandable/Collapsible Panels
+```tsx
+// Toggle buttons must have aria-expanded and aria-controls
+<button
+  aria-expanded={isOpen}
+  aria-controls={panelId}
+>
+  Toggle Panel
+</button>
+<div id={panelId} hidden={!isOpen}>
+  Panel content
+</div>
+```
+
+#### Interactive Lists (Tabs, Dropdowns, Carousels)
+```tsx
+// Tab pattern
+<div role="tablist" aria-label="Section tabs">
+  <button role="tab" aria-selected={active} aria-controls={panelId}>Tab 1</button>
+</div>
+<div id={panelId} role="tabpanel">Content</div>
+
+// Listbox/dropdown pattern
+<button aria-expanded={isOpen} aria-haspopup="listbox" aria-controls={listboxId}>
+  Select Option
+</button>
+<div id={listboxId} role="listbox" aria-label="Options">
+  <button role="option" aria-selected={isSelected}>Option 1</button>
+</div>
+
+// Carousel pattern
+<section aria-roledescription="carousel" aria-labelledby={titleId}>
+  <div aria-live="polite" aria-atomic="true">
+    <div role="group" aria-roledescription="slide" aria-label="Slide 1 of 5">
+      Slide content
+    </div>
+  </div>
+</section>
+```
+
+#### Decorative Elements
+```tsx
+// Hide decorative icons from screen readers
+<FaIcon aria-hidden="true" />
+
+// Pulse animations, dividers, decorative borders
+<span className="animate-ping" aria-hidden="true" />
+```
+
+#### Live Regions
+```tsx
+// For dynamic content updates (search results, loading states)
+<div role="status" aria-live="polite" aria-atomic="true">
+  {isLoading ? "Loading..." : `Found ${count} results`}
+</div>
+
+// For error messages
+<div role="alert">{errorMessage}</div>
+
+// For chat/log messages
+<div role="log" aria-live="polite" aria-label="Chat messages">
+  {messages}
+</div>
+```
+
+#### Keyboard Navigation
+- All interactive elements must be focusable (native buttons/inputs or `tabIndex={0}`)
+- Custom components should support Enter/Space for activation
+- Escape key should close modals/dropdowns
+- Badge filters should support keyboard: `onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleClick(); }}`
+
+#### Screen Reader Text
+```tsx
+// Hidden text for screen readers only
+<span className="sr-only">Additional context for screen readers</span>
+
+// Example: Required field indicator
+{isRequired && <span aria-hidden="true">*</span>}
+{isRequired && <span className="sr-only">(required)</span>}
+```
+
 ### Image Management
 - Always run `npm run optimize` after adding new images
 - Script handles WebP conversion, thumbnails, and cleanup
