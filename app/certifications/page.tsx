@@ -206,7 +206,7 @@ const Certifications = () => {
   );
   
   return (
-    <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-8">
+    <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-6">
       {/* Enhanced Background Elements */}
       <BackgroundElements />
       

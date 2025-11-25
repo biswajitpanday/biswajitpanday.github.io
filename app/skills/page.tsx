@@ -287,7 +287,7 @@ const Skills = () => {
   }, [nodeStyles, debouncedSearch]);
 
   return (
-    <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-8">
+    <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-6">
       {/* Background Elements - Using BackgroundElements Component */}
       <BackgroundElements />
 

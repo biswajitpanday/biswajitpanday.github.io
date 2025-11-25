@@ -439,7 +439,7 @@ const Contact = () => {
   return (
     <section
       data-testid="contact-page"
-      className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-8 pb-12 xl:pb-16"
+      className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-6 pb-12 xl:pb-16"
     >
       {/* Background Elements - Using shared component for consistency */}
       <BackgroundElements
