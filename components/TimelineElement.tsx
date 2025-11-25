@@ -33,26 +33,36 @@ interface TimelineElementProps {
   className?: string;
 }
 
+/**
+ * TimelineElement - Accessible career timeline entry component
+ * WCAG 2.1 AA compliant with proper ARIA labels and semantic HTML
+ */
 const TimelineElement: React.FC<TimelineElementProps> = ({
   item,
   index,
   className = ""
 }) => {
   const isFeatured = index === 0;
+  const dateRange = getDateRange(item.startDate, item.endDate);
+  const duration = getDuration(item.startDate, item.endDate);
 
   return (
-    <motion.div
+    <motion.article
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.05 }}
       className={`relative md:pl-20 mb-6 ${className}`}
       data-testid={`timeline-career-${index}`}
+      aria-label={`${item.position} at ${item.company}, ${dateRange}, ${duration}`}
     >
-      {/* Timeline Dot - Hidden on mobile, visible on md+ */}
-      <div className={`hidden md:block absolute left-6 top-6 w-5 h-5 rounded-full border-4 border-[#1a1a1f] shadow-lg ${isFeatured
+      {/* Timeline Dot - Decorative, hidden from screen readers */}
+      <div
+        className={`hidden md:block absolute left-6 top-6 w-5 h-5 rounded-full border-4 border-[#1a1a1f] shadow-lg ${isFeatured
           ? 'bg-gradient-to-br from-purple-500 to-pink-500 shadow-purple-500/30'
           : 'bg-gradient-to-br from-secondary-default to-blue-500 shadow-secondary-default/30'
-        }`} />
+        }`}
+        aria-hidden="true"
+      />
 
       {/* Career Card - Matching ProjectCard design */}
       <div
@@ -101,8 +111,10 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
             <p className="text-xs text-white/60 font-medium">
               @ <Link
                 href={item.url}
-                className="hover:text-secondary-default transition-colors duration-300"
+                className="hover:text-secondary-default transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] rounded"
                 target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Visit ${item.company} website (opens in new tab)`}
               >
                 {item.company}
               </Link>
@@ -173,40 +185,47 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
           </div>
         </div>
 
-        {/* Responsibilities Section - Improved */}
+        {/* Responsibilities Section - Semantic list structure for accessibility */}
         <div className="space-y-2 relative z-10 mt-4">
           <div className="flex items-center gap-2 mb-3">
-            <div className={`w-1 h-4 rounded-full ${isFeatured ? 'bg-gradient-to-b from-purple-500 to-pink-500' : 'bg-gradient-to-b from-secondary-default to-blue-500'
-              }`} />
-            <h4 className={`text-xs font-bold uppercase tracking-wide ${isFeatured ? 'text-purple-300' : 'text-secondary-default'
-              }`}>
+            <div
+              className={`w-1 h-4 rounded-full ${isFeatured ? 'bg-gradient-to-b from-purple-500 to-pink-500' : 'bg-gradient-to-b from-secondary-default to-blue-500'}`}
+              aria-hidden="true"
+            />
+            <h4
+              id={`responsibilities-heading-${index}`}
+              className={`text-xs font-bold uppercase tracking-wide ${isFeatured ? 'text-purple-300' : 'text-secondary-default'}`}
+            >
               Key Achievements & Responsibilities
             </h4>
           </div>
-          <div className="space-y-2">
+          <ul
+            className="space-y-2 list-none"
+            aria-labelledby={`responsibilities-heading-${index}`}
+          >
             {item.responsibilities.map((responsibility, respIndex) => (
-              <motion.div
+              <motion.li
                 key={respIndex}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: respIndex * 0.05 }}
                 className="flex items-start gap-3 group/item hover:bg-gradient-to-r hover:from-white/5 hover:to-transparent px-3 py-2 rounded-lg transition-all duration-300 border border-transparent hover:border-white/5"
               >
-                <div className="flex-shrink-0 mt-1.5">
+                <div className="flex-shrink-0 mt-1.5" aria-hidden="true">
                   <div className={`w-1.5 h-1.5 rounded-full group-hover/item:scale-150 transition-all duration-200 ${isFeatured
                       ? 'bg-purple-400 shadow-sm shadow-purple-400/50'
                       : 'bg-secondary-default shadow-sm shadow-secondary-default/50'
                     }`} />
                 </div>
-                <p className="text-white/80 leading-relaxed text-sm group-hover/item:text-white/95 transition-colors duration-200">
+                <span className="text-white/80 leading-relaxed text-sm group-hover/item:text-white/95 transition-colors duration-200">
                   {responsibility}
-                </p>
-              </motion.div>
+                </span>
+              </motion.li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
-    </motion.div>
+    </motion.article>
   );
 };
 

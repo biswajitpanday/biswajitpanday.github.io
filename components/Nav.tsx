@@ -5,6 +5,10 @@ import { motion } from "framer-motion";
 import { navigationLinks } from "@/data/navigationData";
 import { useEffect } from "react";
 
+/**
+ * Nav - Accessible main navigation component
+ * WCAG 2.1 AA compliant with keyboard shortcuts and focus management
+ */
 const Nav = () => {
   const pathName = usePathname();
   const router = useRouter();
@@ -69,20 +73,21 @@ const Nav = () => {
             onClick={(e) => handleNavClick(e, link.path)}
             className={`
               relative capitalize font-medium transition-all duration-300
-              ${isActive 
-                ? "text-secondary-default border-b-2 border-secondary-default pb-1" 
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] rounded
+              ${isActive
+                ? "text-secondary-default border-b-2 border-secondary-default pb-1"
                 : "text-white/80 hover:text-secondary-default border-b-2 border-transparent pb-1 hover:border-secondary-default/50"
               }
             `}
-            aria-label={`Navigate to ${link.name}`}
+            aria-current={isActive ? "page" : undefined}
             title={`Alt+${link.shortcut}`}
           >
               {/* Text */}
               <span className="relative">
-            {link.name}
+                {link.name}
               </span>
 
-              {/* Active shadow */}
+              {/* Active shadow - decorative */}
               {isActive && (
                 <motion.div
                   className="absolute -bottom-1 left-0 right-0 h-1 bg-secondary-default/20 rounded-full blur-sm"
@@ -90,6 +95,7 @@ const Nav = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
+                  aria-hidden="true"
                 />
               )}
           </Link>
