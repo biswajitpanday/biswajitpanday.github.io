@@ -17,6 +17,11 @@ import { AnimatePresence } from "framer-motion";
 import MobileNav from "./MobileNav";
 import GlobalSearch from "./GlobalSearch";
 
+/**
+ * Header - Accessible site header with navigation
+ * WCAG 2.1 AA compliant with keyboard navigation, ARIA labels, and focus management
+ */
+
 // Header navigation links with Insights dropdown
 const NAVIGATION_ITEMS = [
   { name: "Home", href: "/" },
@@ -106,6 +111,7 @@ export default function Header() {
 
       <header
         data-testid="main-header"
+        role="banner"
         className="fixed top-0 left-0 w-full transition-all duration-300 backdrop-blur-md z-[var(--z-header)]"
         style={{ zIndex: 'var(--z-header)' }}
       >
@@ -128,6 +134,8 @@ export default function Header() {
               <nav
                 data-testid="desktop-navigation"
                 className="hidden md:hidden lg:flex items-center space-x-1"
+                role="navigation"
+                aria-label="Main navigation"
               >
                 {NAVIGATION_ITEMS.map((item) => {
                   // Check if dropdown item has any active child
@@ -145,36 +153,45 @@ export default function Header() {
                       >
                         <button
                           data-testid={`nav-link-${item.name.toLowerCase()}`}
-                          className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative group flex items-center gap-1 ${
+                          className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative group flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
                             isActive
                               ? "text-secondary-default"
                               : "text-text-primary hover:text-secondary-default"
                           }`}
+                          aria-expanded={openDropdown === item.name}
+                          aria-haspopup="menu"
                         >
                           {item.name}
-                          <FaChevronDown className={`text-xs transition-transform duration-200 ${openDropdown === item.name ? 'rotate-180' : ''}`} />
+                          <FaChevronDown className={`text-xs transition-transform duration-200 ${openDropdown === item.name ? 'rotate-180' : ''}`} aria-hidden="true" />
                           <span
                             className={`absolute bottom-0 left-0 w-full h-0.5 bg-secondary-default transform transition-transform duration-300 ${
                               isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                             }`}
                             style={{ transformOrigin: 'left' }}
+                            aria-hidden="true"
                           ></span>
                         </button>
 
                         {/* Dropdown Menu */}
                         {openDropdown === item.name && (
-                          <div className="absolute top-full left-0 pt-2 -mt-2 bg-bg-default/95 backdrop-blur-md border border-secondary-default/20 rounded-md shadow-lg py-2 min-w-[160px] z-50">
+                          <div
+                            className="absolute top-full left-0 pt-2 -mt-2 bg-bg-default/95 backdrop-blur-md border border-secondary-default/20 rounded-md shadow-lg py-2 min-w-[160px] z-50"
+                            role="menu"
+                            aria-label={`${item.name} submenu`}
+                          >
                             {item.dropdown.map((dropdownItem: any) => {
                               const isDropdownActive = isPathActive(dropdownItem.href);
                               return (
                                 <Link
                                   key={dropdownItem.name}
                                   href={dropdownItem.href}
-                                  className={`block px-4 py-2 text-sm font-medium transition-colors ${
+                                  role="menuitem"
+                                  className={`block px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400 ${
                                     isDropdownActive
                                       ? "text-secondary-default bg-secondary-default/10"
                                       : "text-text-primary hover:text-secondary-default hover:bg-white/5"
                                   }`}
+                                  aria-current={isDropdownActive ? "page" : undefined}
                                 >
                                   {dropdownItem.name}
                                 </Link>
@@ -192,11 +209,12 @@ export default function Header() {
                       key={item.name}
                       href={item.href}
                       data-testid={`nav-link-${item.name.toLowerCase()}`}
-                      className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative group ${
+                      className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
                         isActive
                           ? "text-secondary-default"
                           : "text-text-primary hover:text-secondary-default"
                       }`}
+                      aria-current={isActive ? "page" : undefined}
                     >
                       {item.name}
                       <span
@@ -204,6 +222,7 @@ export default function Header() {
                           isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                         }`}
                         style={{ transformOrigin: 'left' }}
+                        aria-hidden="true"
                       ></span>
                     </Link>
                   );
@@ -220,22 +239,24 @@ export default function Header() {
                   <button
                     data-testid="search-button"
                     onClick={() => setIsSearchOpen(true)}
-                    className="flex items-center gap-2 bg-primary-light/20 hover:bg-primary-light/30 border border-border-light hover:border-secondary-default/30 text-text-primary hover:text-secondary-default px-3 py-1.5 rounded-md transition-all duration-300"
+                    className="flex items-center gap-2 bg-primary-light/20 hover:bg-primary-light/30 border border-border-light hover:border-secondary-default/30 text-text-primary hover:text-secondary-default px-3 py-1.5 rounded-md transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
                     title="Search (Ctrl+K)"
-                    aria-label="Open search"
+                    aria-label="Open search dialog"
                   >
-                    <FaSearch className="text-sm" />
+                    <FaSearch className="text-sm" aria-hidden="true" />
                     <span className="text-sm hidden sm:inline-block">Search</span>
-                    <kbd className="hidden sm:inline-block bg-primary-light/30 text-xs px-2 py-0.5 rounded">
+                    <kbd className="hidden sm:inline-block bg-primary-light/30 text-xs px-2 py-0.5 rounded" aria-hidden="true">
                       ⌘K
                     </kbd>
                   </button>
                 )}
 
                 {/* Social Links */}
-                <div 
+                <div
                   data-testid="social-links"
                   className="hidden md:flex items-center space-x-1"
+                  role="group"
+                  aria-label="Social media links"
                 >
                   {SOCIAL_LINKS.map((social) => (
                     <Button
@@ -243,16 +264,16 @@ export default function Header() {
                       variant="ghost"
                       size="icon"
                       asChild
-                      className="hover:text-secondary-default"
+                      className="hover:text-secondary-default focus-visible:ring-2 focus-visible:ring-cyan-400"
                     >
-                      <Link 
-                        href={social.href} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        aria-label={social.name}
+                      <Link
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Visit ${social.name} profile (opens in new tab)`}
                         data-testid={`social-link-${social.name.toLowerCase()}`}
                       >
-                        <social.icon className="w-4 h-4" />
+                        <social.icon className="w-4 h-4" aria-hidden="true" />
                       </Link>
                     </Button>
                   ))}
@@ -264,12 +285,13 @@ export default function Header() {
                     data-testid="mobile-menu-button"
                     variant="ghost"
                     size="icon"
-                    className="hover:bg-transparent hover:text-secondary-default focus:bg-transparent"
+                    className="hover:bg-transparent hover:text-secondary-default focus:bg-transparent focus-visible:ring-2 focus-visible:ring-cyan-400"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     aria-expanded={isMenuOpen}
-                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                    aria-controls="mobile-navigation"
+                    aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
                   >
-                    {isMenuOpen ? <FaTimes className="w-5 h-5" /> : <FaBars className="w-5 h-5" />}
+                    {isMenuOpen ? <FaTimes className="w-5 h-5" aria-hidden="true" /> : <FaBars className="w-5 h-5" aria-hidden="true" />}
                   </Button>
                 </div>
               </div>
