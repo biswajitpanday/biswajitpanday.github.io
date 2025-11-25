@@ -188,19 +188,19 @@ const Skills = () => {
     return styles;
   }, []);
 
-  // Proficiency level to icon mapping - Synchronized with Proficiency Overview
-  const levelToIcon = {
-    'Expert': '🟣',
-    'Advanced': '🟢',
-    'Intermediate': '🔵',
-    'Familiar': '⚪',
+  // Proficiency level to color bar mapping - More visible than tiny emojis
+  const levelToBarColor = {
+    'Expert': 'bg-purple-500',
+    'Advanced': 'bg-emerald-500',
+    'Intermediate': 'bg-blue-500',
+    'Familiar': 'bg-slate-500',
   };
 
-  const levelToTextColor = {
-    'Expert': 'text-purple-400',
-    'Advanced': 'text-emerald-400',
-    'Intermediate': 'text-blue-400',
-    'Familiar': 'text-slate-400',
+  const levelToBarWidth = {
+    'Expert': 'w-full',
+    'Advanced': 'w-3/4',
+    'Intermediate': 'w-1/2',
+    'Familiar': 'w-1/4',
   };
 
   // Memoized and optimized nodeRenderer with search highlighting
@@ -229,56 +229,57 @@ const Skills = () => {
       <div
         {...nodeProps}
         style={style}
-        className={className}
+        className={`${className} group/skill`}
       >
+        {/* Main content row */}
         <div className="flex items-center flex-1 min-w-0">
           <DynamicIcon
             iconName={iconName}
-            className={`mr-3 flex-shrink-0 ${isParent ? "text-secondary-default" : "text-secondary-default"}`}
+            className={`mr-2.5 flex-shrink-0 ${isParent ? "text-secondary-default" : "text-secondary-default/80"}`}
           />
           <span className={`select-none ${isParent ? NODE_CLASSES.parentText : ""}`}>{element.name}</span>
 
           {/* Category skill count for parent nodes */}
           {isParent && element.children && element.children.length > 0 && (
             <span className="ml-2 text-xs text-white/40 font-mono">
-              ({element.children.length} {element.children.length === 1 ? 'skill' : 'skills'})
-            </span>
-          )}
-
-          {/* Proficiency Level Indicator - Colored emoji circles */}
-          {!isParent && proficiencyLevel && (
-            <span className="ml-2 text-sm flex-shrink-0" title={proficiencyLevel}>
-              {levelToIcon[proficiencyLevel as keyof typeof levelToIcon] || '⚪'}
+              ({element.children.length})
             </span>
           )}
 
           {isHighlighted && (
-            <span className="inline-flex items-center justify-center h-7 ml-2 text-xs bg-secondary-default/30 text-secondary-default px-2 rounded-md font-medium flex-shrink-0">
+            <span className="inline-flex items-center justify-center h-5 ml-2 text-[10px] bg-secondary-default/30 text-secondary-default px-1.5 rounded font-medium flex-shrink-0">
               Match
             </span>
           )}
         </div>
 
-        {/* Metadata badges for child nodes */}
-        {!isParent && (yearsOfExperience || lastUsed) && (
+        {/* Right-aligned section for skill nodes - Proficiency bar + hover metadata */}
+        {!isParent && proficiencyLevel && (
           <div className="flex items-center gap-2 ml-auto flex-shrink-0">
-            {/* Years of Experience */}
-            {yearsOfExperience && (
-              <span className="text-[10px] text-white/50 font-mono bg-white/5 px-1.5 py-0.5 rounded">
-                {yearsOfExperience}y
-              </span>
-            )}
+            {/* Metadata badges - Hidden by default, shown on hover */}
+            <div className="flex items-center gap-1.5 opacity-0 group-hover/skill:opacity-100 transition-opacity duration-200">
+              {yearsOfExperience && (
+                <span className="text-[10px] text-white/60 font-mono bg-white/10 px-1.5 py-0.5 rounded">
+                  {yearsOfExperience}y
+                </span>
+              )}
+              {lastUsed && (
+                <span className={`text-[10px] px-1.5 py-0.5 rounded ${
+                  lastUsed === 'Current'
+                    ? 'text-emerald-400 bg-emerald-500/15'
+                    : 'text-white/50 bg-white/10'
+                }`}>
+                  {lastUsed === 'Current' ? 'Active' : lastUsed}
+                </span>
+              )}
+            </div>
 
-            {/* Last Used */}
-            {lastUsed && (
-              <span className={`text-[10px] px-1.5 py-0.5 rounded ${
-                lastUsed === 'Current'
-                  ? 'text-emerald-400 bg-emerald-500/10'
-                  : 'text-white/40 bg-white/5'
-              }`}>
-                {lastUsed === 'Current' ? '🟢' : lastUsed}
-              </span>
-            )}
+            {/* Proficiency Bar - Always visible, larger indicator */}
+            <div className="w-16 h-1.5 bg-white/10 rounded-full overflow-hidden" title={proficiencyLevel}>
+              <div
+                className={`h-full rounded-full ${levelToBarColor[proficiencyLevel as keyof typeof levelToBarColor]} ${levelToBarWidth[proficiencyLevel as keyof typeof levelToBarWidth]}`}
+              />
+            </div>
           </div>
         )}
       </div>
