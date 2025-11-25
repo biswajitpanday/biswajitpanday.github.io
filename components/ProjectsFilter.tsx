@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useId } from "react";
 import { motion } from "framer-motion";
 import { FiFilter, FiChevronDown, FiSearch, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
@@ -140,39 +140,47 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
     }
   };
   
+  const searchInputId = useId();
+  const filterPanelId = useId();
+
   // Don't render if neither search nor filter is enabled
   if (!isSearchEnabled && !isFilterEnabled) {
     return null;
   }
-  
+
   return (
     <div
       className="flex-1"
       data-test-selector="projectFilter"
+      role="search"
+      aria-label="Project filters"
     >
       {/* Inline Search and Filter Bar */}
       <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
         {/* Compact Search Input - Enhanced */}
         {isSearchEnabled && (
           <div className="relative flex-1 group" data-test-selector="projectFilter-search">
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default/70 group-focus-within:text-secondary-default transition-colors text-sm">
+            <label htmlFor={searchInputId} className="sr-only">Search projects</label>
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default/70 group-focus-within:text-secondary-default transition-colors text-sm" aria-hidden="true">
               <FiSearch />
             </div>
             <input
-              type="text"
+              id={searchInputId}
+              type="search"
               placeholder={placeholder}
               value={searchQuery}
               onChange={handleSearchChange}
-              className="w-full h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg pl-9 pr-9 text-xs text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 shadow-sm focus:shadow-md focus:shadow-secondary-default/20"
+              className="w-full h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg pl-9 pr-9 text-xs text-white placeholder:text-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus:border-secondary-default/60 transition-all duration-300 shadow-sm focus:shadow-md focus:shadow-secondary-default/20"
               data-test-selector="projectFilter-searchInput"
             />
             {searchQuery && (
-              <button 
+              <button
                 onClick={() => onSearchChange("")}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-red-400 transition-colors duration-200"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-red-400 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
                 data-test-selector="projectFilter-clearSearch"
+                aria-label="Clear search"
               >
-                <FiX className="text-sm" />
+                <FiX className="text-sm" aria-hidden="true" />
               </button>
             )}
           </div>
@@ -183,16 +191,18 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
           <Button
             variant="outline"
             onClick={toggleFilterPanel}
-            className={`shrink-0 flex items-center gap-2 text-xs h-9 px-4 rounded-lg font-medium transition-all duration-300 ${
-              isExpanded 
-                ? 'bg-gradient-to-r from-secondary-default/20 to-blue-500/20 border-secondary-default/60 text-secondary-default shadow-md shadow-secondary-default/20' 
+            aria-expanded={isExpanded}
+            aria-controls={filterPanelId}
+            className={`shrink-0 flex items-center gap-2 text-xs h-9 px-4 rounded-lg font-medium transition-all duration-300 focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+              isExpanded
+                ? 'bg-gradient-to-r from-secondary-default/20 to-blue-500/20 border-secondary-default/60 text-secondary-default shadow-md shadow-secondary-default/20'
                 : 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-white/20 text-white/70 hover:text-white hover:border-secondary-default/50 hover:shadow-md'
             }`}
             data-test-selector="projectFilter-toggleButton"
           >
-            <FiFilter className={`text-sm transition-all duration-300 ${isExpanded ? 'text-secondary-default' : 'text-white/60'}`} />
+            <FiFilter className={`text-sm transition-all duration-300 ${isExpanded ? 'text-secondary-default' : 'text-white/60'}`} aria-hidden="true" />
             <span>Filters</span>
-            <FiChevronDown className={`text-sm transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+            <FiChevronDown className={`text-sm transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} aria-hidden="true" />
           </Button>
         )}
         
@@ -206,7 +216,8 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
             <Button
               variant="ghost"
               onClick={resetFilters}
-              className="shrink-0 bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 text-red-300 hover:text-red-200 hover:bg-red-500/20 hover:border-red-500/50 text-xs h-9 px-4 rounded-lg font-medium transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-red-500/20"
+              aria-label="Reset all filters"
+              className="shrink-0 bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 text-red-300 hover:text-red-200 hover:bg-red-500/20 hover:border-red-500/50 text-xs h-9 px-4 rounded-lg font-medium transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-red-500/20 focus-visible:ring-2 focus-visible:ring-red-400"
               data-test-selector="projectFilter-resetButton"
             >
               Reset
@@ -218,12 +229,15 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
       {/* Expanded Filter Panel - Positioned Absolutely */}
       {isFilterEnabled && isExpanded && (
         <motion.div
+          id={filterPanelId}
           initial={{ opacity: 0, y: -10, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -10, scale: 0.98 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
           className="absolute left-0 right-0 top-full mt-2 bg-gradient-to-br from-[#27272c] via-[#2a2a30] to-[#27272c] backdrop-blur-xl border border-secondary-default/40 rounded-xl shadow-2xl shadow-secondary-default/20 z-[120] p-5"
           data-test-selector="projectFilter-panel"
+          role="group"
+          aria-label="Filter options"
         >
           {/* Two Column Layout: Left (Categories/Companies/Status) | Right (Technologies) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

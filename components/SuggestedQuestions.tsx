@@ -17,8 +17,12 @@ const SUGGESTED_QUESTIONS = [
 export default function SuggestedQuestions({ onSelect }: SuggestedQuestionsProps) {
   return (
     <div className="px-4 pb-3 border-b border-secondary-default/10">
-      <p className="text-xs text-white/60 mb-2">Suggested questions:</p>
-      <div className="flex flex-wrap gap-2">
+      <p id="suggested-questions-label" className="text-xs text-white/60 mb-2">Suggested questions:</p>
+      <div
+        className="flex flex-wrap gap-2"
+        role="group"
+        aria-labelledby="suggested-questions-label"
+      >
         {SUGGESTED_QUESTIONS.map((question, index) => (
           <motion.button
             key={question}
@@ -26,7 +30,8 @@ export default function SuggestedQuestions({ onSelect }: SuggestedQuestionsProps
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.1 }}
             onClick={() => onSelect(question)}
-            className="text-xs px-3 py-1.5 bg-white/5 hover:bg-secondary-default/20 border border-secondary-default/20 hover:border-secondary-default/40 rounded-full transition-colors"
+            className="text-xs px-3 py-1.5 bg-white/5 hover:bg-secondary-default/20 border border-secondary-default/20 hover:border-secondary-default/40 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+            aria-label={`Ask: ${question}`}
           >
             {question}
           </motion.button>

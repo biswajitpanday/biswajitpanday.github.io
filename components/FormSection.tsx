@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, Suspense } from "react";
+import React, { ReactNode, Suspense, useId } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -43,7 +43,13 @@ const FormSection: React.FC<FormSectionProps> = ({
   children,
   layout = "single"
 }) => {
-  const renderField = (field: FormField) => {
+  const formId = useId();
+
+  const renderField = (field: FormField, fieldIndex: number) => {
+    // Generate unique IDs for accessibility
+    const fieldId = `${formId}-${field.name}`;
+    const errorId = `${fieldId}-error`;
+    const hintId = `${fieldId}-hint`;
     // Determine validation state for styling
     const hasValue = field.value && field.value.trim().length > 0;
     const showValidState = hasValue && field.isValid && !field.error;
@@ -86,6 +92,12 @@ const FormSection: React.FC<FormSectionProps> = ({
 
     const IconComponent = field.icon;
 
+    // Build aria-describedby value
+    const ariaDescribedBy = [
+      field.error ? errorId : null,
+      field.hint && !field.isValid ? hintId : null
+    ].filter(Boolean).join(' ') || undefined;
+
     return (
       <div
         key={field.name}
@@ -93,11 +105,13 @@ const FormSection: React.FC<FormSectionProps> = ({
         className="space-y-2"
       >
         <label
+          htmlFor={fieldId}
           data-testid={`form-label-${field.name}`}
           className="text-sm font-medium text-white/80"
         >
           {field.label}
-          {field.required && <span className="text-red-400 ml-1">*</span>}
+          {field.required && <span className="text-red-400 ml-1" aria-hidden="true">*</span>}
+          {field.required && <span className="sr-only">(required)</span>}
         </label>
 
         {field.type === "textarea" ? (
@@ -114,13 +128,14 @@ const FormSection: React.FC<FormSectionProps> = ({
               {IconComponent && (
                 <div className={`absolute left-3 top-3 z-10 pointer-events-none transition-colors duration-300 ${
                   showErrorState ? 'text-red-400' : showValidState ? 'text-emerald-400' : 'text-white/30 group-focus-within/field:text-purple-400'
-                }`}>
+                }`} aria-hidden="true">
                   <Suspense fallback={<div className="w-4 h-4" />}>
                     <IconComponent className="w-4 h-4" />
                   </Suspense>
                 </div>
               )}
               <Textarea
+                id={fieldId}
                 data-testid={`form-textarea-${field.name}`}
                 className={`${baseInputClasses} resize-none ${IconComponent ? 'pl-10 pt-3' : 'pt-3'}`}
                 style={{ height: field.rows ? `${field.rows * 24}px` : '150px' }}
@@ -128,6 +143,9 @@ const FormSection: React.FC<FormSectionProps> = ({
                 value={field.value}
                 onChange={(e) => onFieldChange(field.name, e.target.value)}
                 maxLength={field.maxLength}
+                aria-invalid={showErrorState ? true : undefined}
+                aria-describedby={ariaDescribedBy}
+                aria-required={field.required}
               />
               {/* Validation indicator for textarea - always emerald for check */}
               {hasValue && (showErrorState || showValidState) && (
@@ -135,6 +153,7 @@ const FormSection: React.FC<FormSectionProps> = ({
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="absolute right-3 top-3 z-10 pointer-events-none flex items-center justify-center"
+                  aria-hidden="true"
                 >
                   {showErrorState ? (
                     <FaExclamationCircle className="w-4 h-4 text-red-400" />
@@ -159,13 +178,14 @@ const FormSection: React.FC<FormSectionProps> = ({
               {IconComponent && (
                 <div className={`absolute left-3 top-1/2 -translate-y-1/2 z-10 pointer-events-none transition-colors duration-300 ${
                   showErrorState ? 'text-red-400' : showValidState ? 'text-emerald-400' : 'text-white/30 group-focus-within/field:text-purple-400'
-                }`}>
+                }`} aria-hidden="true">
                   <Suspense fallback={<div className="w-4 h-4" />}>
                     <IconComponent className="w-4 h-4" />
                   </Suspense>
                 </div>
               )}
               <Input
+                id={fieldId}
                 data-testid={`form-input-${field.name}`}
                 type={field.type}
                 placeholder={field.placeholder}
@@ -173,6 +193,9 @@ const FormSection: React.FC<FormSectionProps> = ({
                 onChange={(e) => onFieldChange(field.name, e.target.value)}
                 className={baseInputClasses}
                 maxLength={field.maxLength}
+                aria-invalid={showErrorState ? true : undefined}
+                aria-describedby={ariaDescribedBy}
+                aria-required={field.required}
               />
               {/* Validation indicator for input - always emerald for check */}
               {hasValue && (showErrorState || showValidState) && (
@@ -180,6 +203,7 @@ const FormSection: React.FC<FormSectionProps> = ({
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="absolute right-3 inset-y-0 z-10 pointer-events-none flex items-center justify-center"
+                  aria-hidden="true"
                 >
                   {showErrorState ? (
                     <FaExclamationCircle className="w-4 h-4 text-red-400" />
@@ -194,6 +218,8 @@ const FormSection: React.FC<FormSectionProps> = ({
 
         {field.error ? (
           <p
+            id={errorId}
+            role="alert"
             data-testid={`form-error-${field.name}`}
             className="text-red-400 text-xs"
           >
@@ -201,6 +227,7 @@ const FormSection: React.FC<FormSectionProps> = ({
           </p>
         ) : field.hint && !field.isValid ? (
           <p
+            id={hintId}
             data-testid={`form-hint-${field.name}`}
             className="text-white/30 text-[10px]"
           >
@@ -249,7 +276,7 @@ const FormSection: React.FC<FormSectionProps> = ({
                 : "space-y-6"
             }
           >
-            {group.map(renderField)}
+            {group.map((field, idx) => renderField(field, idx))}
           </motion.div>
         ))}
       </div>
