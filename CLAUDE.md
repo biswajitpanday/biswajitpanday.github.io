@@ -137,6 +137,23 @@ All content is centralized in `data/` directory:
 - **Deployment:** Separate Vercel project (see Multi-Repository Architecture)
 - **API Repository:** https://github.com/biswajitpanday/portfolio-chatbot-api
 
+### GitHub Activity Integration ✨ LIVE
+- **API:** GitHub REST API v3 (public, no authentication required)
+- **Rate Limit:** 60 requests/hour (unauthenticated)
+- **Data Source:** Public events from `biswajitpanday` GitHub account
+- **Features:**
+  - Real-time contribution graph (last 365 days)
+  - Live stats: commits, PRs, issues, active days
+  - Current streak calculation
+  - Loading and error states with fallback
+  - Direct link to GitHub profile
+  - Accessible tooltips and keyboard navigation
+- **Files:**
+  - `lib/github.ts` - GitHub API service with data fetching and processing
+  - `components/GitHubActivityGraph.tsx` - Contribution visualization
+  - `app/activity/page.tsx` - Activity page with live stats
+- **Caching:** 5-minute revalidation to avoid rate limiting
+
 ### Performance Optimizations
 - Image optimization pipeline with WebP conversion and multiple size variants
 - Bundle analysis with @next/bundle-analyzer (npm run analyze)
