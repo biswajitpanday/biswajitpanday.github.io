@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaQuoteLeft, FaChevronLeft, FaChevronRight, FaLinkedin } from "react-icons/fa";
+import { FaQuoteLeft, FaChevronLeft, FaChevronRight, FaLinkedin, FaStar } from "react-icons/fa";
 
 export interface Testimonial {
   id: string;
@@ -72,11 +72,18 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
     >
       {/* Section Header */}
       <div className="text-center mb-8">
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <FaStar className="text-yellow-400" aria-hidden="true" />
+          <span className="text-xs uppercase tracking-wider text-white/50 font-medium">
+            Trusted by Colleagues
+          </span>
+          <FaStar className="text-yellow-400" aria-hidden="true" />
+        </div>
         <h2 id={`${carouselId}-title`} className="text-2xl xl:text-3xl font-bold mb-2 bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
           What People Say
         </h2>
         <p className="text-sm bg-gradient-to-r from-white/60 to-white/40 bg-clip-text text-transparent">
-          Feedback from colleagues and collaborators
+          Real LinkedIn recommendations from colleagues and collaborators
         </p>
       </div>
 

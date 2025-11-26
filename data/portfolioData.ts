@@ -1348,4 +1348,24 @@ export const getActiveProjects = (): Project[] => {
 // Helper function to get open source projects
 export const getOpenSourceProjects = (): Project[] => {
   return projects.filter(project => project.isOpenSource === true);
+};
+
+// Generate slug from project title
+export const generateProjectSlug = (title: string): string => {
+  return title
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .trim();
+};
+
+// Helper function to get project by slug
+export const getProjectBySlug = (slug: string): Project | undefined => {
+  return projects.find(project => generateProjectSlug(project.title) === slug);
+};
+
+// Get all project slugs for static generation
+export const getAllProjectSlugs = (): string[] => {
+  return projects.map(project => generateProjectSlug(project.title));
 }; 

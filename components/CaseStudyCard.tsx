@@ -40,7 +40,7 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
             {project.title}
           </h3>
           {project.subtitle && (
-            <p className="text-sm font-medium text-purple-300/80 mt-1 line-clamp-2">{project.subtitle}</p>
+            <p className="text-sm font-medium text-purple-300/80 mt-1 line-clamp-1">{project.subtitle}</p>
           )}
         </div>
       </div>

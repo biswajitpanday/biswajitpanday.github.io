@@ -39,7 +39,7 @@ import React from "react";
 interface BadgeProps {
   icon?: React.ReactNode;
   text: React.ReactNode;
-  color?: "default" | "blue" | "purple" | "emerald" | "orange" | "featured";
+  color?: "default" | "blue" | "purple" | "emerald" | "orange" | "featured" | "neutral";
   className?: string;
   testId?: string;
   size?: "default" | "compact";
@@ -91,6 +91,13 @@ const Badge: React.FC<BadgeProps> = ({
       border: "border-purple-500/40",
       text: "bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent",
       hover: "hover:bg-purple-500/25",
+    },
+    // Neutral: Clean, minimal design for tech stacks and general use
+    neutral: {
+      gradient: "from-white/5 to-transparent",
+      border: "border-white/10",
+      text: "text-white/80",
+      hover: "hover:bg-white/10",
     },
   };
 

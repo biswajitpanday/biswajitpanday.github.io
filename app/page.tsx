@@ -11,11 +11,22 @@ import Badge from "@/components/Badge";
 import Photo from "@/components/Photo";
 import SocialPreviewGenerator from "@/components/SocialPreviewGenerator";
 import { trackResumeDownload } from "@/lib/analytics";
+import TypingAnimation from "@/components/TypingAnimation";
+import FloatingCodeSymbols from "@/components/FloatingCodeSymbols";
+import ScrollIndicator from "@/components/ScrollIndicator";
 
 // Import critical above-the-fold icons directly (no lazy loading)
 import { FiDownload, FiCode, FiCloud, FiZap } from "react-icons/fi";
 import { SiReact, SiDotnet } from "react-icons/si";
 import { RiRobot3Fill } from "react-icons/ri";
+
+// Typing animation phrases
+const HERO_PHRASES = [
+  "I build scalable enterprise systems",
+  "I integrate AI to boost productivity",
+  "I architect cloud-native solutions",
+  "I transform legacy into modern",
+];
 
 // Lazy load only non-critical below-the-fold components
 const Socials = lazy(() => import("@/components/Socials"));
@@ -92,6 +103,10 @@ const Home = () => {
           },
         ]}
       />
+
+      {/* Floating Code Symbols Background */}
+      <FloatingCodeSymbols symbolCount={12} />
+
       <div className="absolute top-20 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-secondary-default/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -126,7 +141,7 @@ const Home = () => {
               initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: isMounted ? 0.1 : 0, duration: 0.3 }}
-              className="text-3xl xl:text-4xl font-bold mb-6 leading-tight"
+              className="text-3xl xl:text-4xl font-bold mb-4 leading-tight"
             >
               Hi, I&apos;m <br className="hidden xl:block" />
               <span className="bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
@@ -134,13 +149,33 @@ const Home = () => {
               </span>
             </motion.h1>
 
+            {/* Typing Animation Tagline */}
+            <motion.div
+              data-testid="home-typing-tagline"
+              initial={isMounted ? { opacity: 0, y: 10 } : { opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: isMounted ? 0.12 : 0, duration: 0.3 }}
+              className="h-8 mb-6 flex items-center justify-center xl:justify-start"
+            >
+              <span className="text-lg xl:text-xl font-light">
+                <TypingAnimation
+                  phrases={HERO_PHRASES}
+                  typingSpeed={60}
+                  deletingSpeed={40}
+                  pauseDuration={2500}
+                  className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent"
+                  cursorClassName="bg-gradient-to-b from-emerald-400 to-purple-400"
+                />
+              </span>
+            </motion.div>
+
             {/* Description - Color gradients following hierarchy */}
             <motion.p
               data-testid="home-description"
               initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: isMounted ? 0.15 : 0, duration: 0.3 }}
-              className="text-base xl:text-lg mb-8 text-white/80 leading-relaxed max-w-[600px] mx-auto xl:mx-0"
+              className="text-[1rem] mb-8 text-white/80 leading-relaxed max-w-[600px] mx-auto xl:mx-0"
             >
               Senior full-stack developer specializing in{" "}
               <span className="bg-gradient-to-r from-[#00BFFF] to-blue-400 bg-clip-text text-transparent font-semibold">
@@ -276,10 +311,17 @@ const Home = () => {
           </motion.div>
         </div>
 
+        {/* Scroll Indicator */}
+        <div className="hidden xl:flex justify-center mt-8">
+          <ScrollIndicator targetId="stats-dashboard" />
+        </div>
+
         {/* By The Numbers Dashboard - Primary Stats Display */}
-        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
-          <ByTheNumbersDashboard />
-        </Suspense>
+        <div id="stats-dashboard">
+          <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
+            <ByTheNumbersDashboard />
+          </Suspense>
+        </div>
 
         {/* Testimonials Carousel - Real LinkedIn Recommendations */}
         <Suspense fallback={<ComponentFallback className="w-full h-64" />}>

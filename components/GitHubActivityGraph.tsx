@@ -21,6 +21,12 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
   const [stats, setStats] = useState<GitHubStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Set mounted state to avoid hydration mismatch with date generation
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Fetch GitHub data on mount
   useEffect(() => {
@@ -88,7 +94,7 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
     return weeks;
   }, []);
 
-  const gridData = useMemo(() => generateGridData(), [generateGridData]);
+  const gridData = useMemo(() => isMounted ? generateGridData() : [], [generateGridData, isMounted]);
 
   // Get color intensity based on activity count
   const getIntensityColor = (count: number): string => {
@@ -111,8 +117,8 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
     return null;
   };
 
-  // Loading skeleton
-  if (isLoading) {
+  // Loading skeleton (also shown before mount to avoid hydration mismatch)
+  if (isLoading || !isMounted) {
     return (
       <div className="space-y-4">
         <motion.div
@@ -185,15 +191,15 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 md:p-6 overflow-x-auto flex justify-center"
+          className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 md:p-6 overflow-x-auto"
         >
-        <div className="min-w-[750px]">
+        <div className="min-w-[900px] max-w-[1100px] mx-auto">
           {/* Month labels */}
-          <div className="flex gap-[2px] mb-1 ml-6">
+          <div className="flex gap-[3px] mb-1 ml-8">
             {gridData.map((week, weekIndex) => {
               const monthLabel = getMonthLabel(weekIndex);
               return (
-                <div key={weekIndex} className="w-2.5 text-[10px] text-white/50">
+                <div key={weekIndex} className="w-3.5 text-[10px] text-white/50">
                   {monthLabel}
                 </div>
               );
@@ -201,22 +207,22 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
           </div>
 
           {/* Day of week labels + Graph */}
-          <div className="flex gap-0.5">
+          <div className="flex gap-1">
             {/* Day labels */}
-            <div className="flex flex-col gap-[2px] text-[10px] text-white/50 mr-0.5">
-              <div className="h-2.5">Sun</div>
-              <div className="h-2.5">Mon</div>
-              <div className="h-2.5">Tue</div>
-              <div className="h-2.5">Wed</div>
-              <div className="h-2.5">Thu</div>
-              <div className="h-2.5">Fri</div>
-              <div className="h-2.5">Sat</div>
+            <div className="flex flex-col gap-[3px] text-[10px] text-white/50 mr-1">
+              <div className="h-3.5">Sun</div>
+              <div className="h-3.5">Mon</div>
+              <div className="h-3.5">Tue</div>
+              <div className="h-3.5">Wed</div>
+              <div className="h-3.5">Thu</div>
+              <div className="h-3.5">Fri</div>
+              <div className="h-3.5">Sat</div>
             </div>
 
             {/* Grid */}
-            <div className="flex gap-[2px]" role="img" aria-label="GitHub contribution graph showing activity over the past year">
+            <div className="flex gap-[3px]" role="img" aria-label="GitHub contribution graph showing activity over the past year">
               {gridData.map((week, weekIndex) => (
-                <div key={weekIndex} className="flex flex-col gap-[2px]">
+                <div key={weekIndex} className="flex flex-col gap-[3px]">
                   {week.map((date, dayIndex) => {
                     const dateStr = date.toISOString().split('T')[0];
                     const count = contributionMap.get(dateStr) || 0;
@@ -232,7 +238,7 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
                         whileHover={{ scale: 1.3 }}
                         onMouseEnter={() => setHoveredCell({ x: weekIndex, y: dayIndex, date: dateStr, count })}
                         onMouseLeave={() => setHoveredCell(null)}
-                        className={`relative w-2.5 h-2.5 rounded-sm border cursor-pointer transition-all ${colorClass}`}
+                        className={`relative w-3.5 h-3.5 rounded-sm border cursor-pointer transition-all ${colorClass}`}
                         title={`${dateStr}: ${count} contributions`}
                         tabIndex={0}
                         onFocus={() => setHoveredCell({ x: weekIndex, y: dayIndex, date: dateStr, count })}
@@ -260,13 +266,13 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
           </div>
 
           {/* Legend */}
-          <div className="flex items-center justify-end gap-1.5 mt-2 text-[10px] text-white/60">
+          <div className="flex items-center justify-end gap-2 mt-3 text-[10px] text-white/60">
             <span>Less</span>
-            <div className="w-2.5 h-2.5 rounded-sm bg-white/5 border border-white/10" aria-hidden="true" />
-            <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500/30 border border-emerald-400/50" aria-hidden="true" />
-            <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500/60 border border-emerald-400/70" aria-hidden="true" />
-            <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500/80 border border-emerald-400/90" aria-hidden="true" />
-            <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500 border border-emerald-400" aria-hidden="true" />
+            <div className="w-3.5 h-3.5 rounded-sm bg-white/5 border border-white/10" aria-hidden="true" />
+            <div className="w-3.5 h-3.5 rounded-sm bg-emerald-500/30 border border-emerald-400/50" aria-hidden="true" />
+            <div className="w-3.5 h-3.5 rounded-sm bg-emerald-500/60 border border-emerald-400/70" aria-hidden="true" />
+            <div className="w-3.5 h-3.5 rounded-sm bg-emerald-500/80 border border-emerald-400/90" aria-hidden="true" />
+            <div className="w-3.5 h-3.5 rounded-sm bg-emerald-500 border border-emerald-400" aria-hidden="true" />
             <span>More</span>
           </div>
         </div>
