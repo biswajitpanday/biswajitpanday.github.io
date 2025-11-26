@@ -78,8 +78,8 @@ const TypingAnimation: React.FC<TypingAnimationProps> = ({
       </span>
       <motion.span
         className={`inline-block w-[3px] h-[1.1em] ml-1 ${cursorClassName}`}
-        animate={{ opacity: [1, 0, 1] }}
-        transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }}
+        animate={{ opacity: [1, 1, 0, 0] }}
+        transition={{ duration: 1, repeat: Infinity, times: [0, 0.5, 0.5, 1] }}
         aria-hidden="true"
       />
     </span>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 /**
@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
  * - Code-related symbols: { } < > / = ; ( ) [ ]
  * - Subtle, non-distracting appearance
  * - Respects reduced motion preferences
+ * - Client-side only rendering to prevent hydration mismatch
  */
 
 interface FloatingCodeSymbolsProps {
@@ -25,8 +26,16 @@ const FloatingCodeSymbols: React.FC<FloatingCodeSymbolsProps> = ({
   symbolCount = 15,
   className = "",
 }) => {
-  // Generate random symbol configurations once
+  // Track if component has mounted to prevent hydration mismatch
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Generate random symbol configurations only on client
   const symbols = useMemo(() => {
+    if (!isMounted) return [];
     return Array.from({ length: symbolCount }, (_, i) => ({
       id: i,
       symbol: CODE_SYMBOLS[Math.floor(Math.random() * CODE_SYMBOLS.length)],
@@ -40,7 +49,17 @@ const FloatingCodeSymbols: React.FC<FloatingCodeSymbolsProps> = ({
       rotateEnd: Math.random() * 360,
       yOffset: 20 + Math.random() * 40, // Vertical float distance
     }));
-  }, [symbolCount]);
+  }, [symbolCount, isMounted]);
+
+  // Return empty container during SSR to prevent hydration mismatch
+  if (!isMounted) {
+    return (
+      <div
+        className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}
+        aria-hidden="true"
+      />
+    );
+  }
 
   return (
     <div
