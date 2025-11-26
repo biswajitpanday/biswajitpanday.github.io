@@ -88,7 +88,7 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    num: 0,
+    num: 40,
     category: "Full-Stack",
     title: "Portfolio Website",
     subtitle: "AI-Powered Interactive Portfolio with Google Gemini Chat Assistant",
@@ -111,8 +111,8 @@ export const projects: Project[] = [
       "SEO Schema.org",
       "WCAG 2.1 AA"
     ],
-    image: "/assets/portfolio/webp/placeholderImage.webp",
-    thumbImage: "/assets/portfolio/thumbnails/placeholderImage.webp",
+    image: "/assets/portfolio/webp/myportfolio.webp",
+    thumbImage: "/assets/portfolio/thumbnails/myportfolio.webp",
     isActive: true,
     isOpenSource: true,
     isFeatured: true,
@@ -250,7 +250,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["AI Integration", "Microservices", "Accessibility", "Design Systems"]
   },
   {
-    num: 1,
+    num: 20,
     category: "Backend",
     title: "CurrentDT-mcp",
     subtitle: "Real-time DateTime MCP Server for AI Assistants",
@@ -342,7 +342,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["TypeScript", "MCP Protocol", "NPM Publishing", "AI Integration"]
   },
   {
-    num: 2,
+    num: 30,
     category: "Desktop Application",
     title: "SpireWiz",
     subtitle: "AI-Powered Blueprint Upgrade Automation with Interactive TUI (80% Time Reduction)",
@@ -471,7 +471,7 @@ export const projects: Project[] = [
     ]
   },
   {
-    num: 3,
+    num: 10,
     category: "Full-Stack",
     title: "Configured Commerce",
     subtitle: "Enterprise B2B Platform for 20+ Fortune 500 Clients",
@@ -583,7 +583,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["Enterprise Architecture", "Performance Optimization", "Team Leadership", "AI-Powered Tools"]
   },
   {
-    num: 4,
+    num: 50,
     category: "Full-Stack",
     title: "BugBusters",
     subtitle: "Clean Architecture Stack Overflow Alternative for Teams",
@@ -676,7 +676,7 @@ export const projects: Project[] = [
     ]
   },
   {
-    num: 5,
+    num: 60,
     category: "Full-Stack",
     title: "Devensoft",
     subtitle: "M&A Process Management & Team Collaboration Platform",
@@ -719,7 +719,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["ASP.NET MVC", "Angular", "Azure DevOps", "M&A Platforms"],
   },
   {
-    num: 6,
+    num: 70,
     category: "Full-Stack",
     title: "Reganalytics",
     subtitle: "Legacy to Microservices Transformation with Docker & AWS",
@@ -817,7 +817,7 @@ export const projects: Project[] = [
     ]
   },
   {
-    num: 7,
+    num: 80,
     category: "Backend",
     title: "WebEvv",
     subtitle: "Scalable Electronic Visit Verification for Home Care",
@@ -861,7 +861,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["AWS Lambda", "DynamoDB", "Serverless", "Healthcare Compliance"],
   },
   {
-    num: 8,
+    num: 90,
     category: "Backend",
     title: "Alarm App",
     subtitle: "Emergency Alert System for Bangladesh Red Crescent Society",
@@ -901,7 +901,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["Flutter", ".NET 5", "AWS Serverless", "Emergency Systems"],
   },
   {
-    num: 9,
+    num: 100,
     category: "Backend",
     title: "SVS",
     subtitle: "Telecom Platform Serving Millions (40+ Server Deployment)",
@@ -1002,7 +1002,7 @@ export const projects: Project[] = [
     ]
   },
   {
-    num: 10,
+    num: 110,
     category: "Full-Stack",
     title: "JoyList",
     subtitle: "Social Platform Combining Twitter, Yelp & Facebook",
@@ -1040,7 +1040,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["Node.js", "hapi.js", "MongoDB", "Social Platforms"],
   },
   {
-    num: 11,
+    num: 120,
     category: "Full-Stack",
     title: "Shopway",
     subtitle: "Location-Based E-Commerce with Flutter & MEAN Stack",
@@ -1077,7 +1077,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["MEAN Stack", "Flutter", "Geolocation", "E-Commerce"],
   },
   {
-    num: 12,
+    num: 130,
     category: "Full-Stack",
     title: "EnCue",
     subtitle: "Real-Time Audience Engagement for Performing Arts",
@@ -1117,7 +1117,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["Xamarin", "ASP.NET WebAPI", "Real-Time Systems", "Event Management"],
   },
   {
-    num: 13,
+    num: 140,
     category: "Full-Stack",
     title: "OpiGateWay",
     subtitle: "IVR System for Video Remote Interpreting with Twilio",
@@ -1159,7 +1159,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["Twilio API", "Electron", "IVR Systems", "Multilingual Support"],
   },
   {
-    num: 14,
+    num: 150,
     category: "Full-Stack",
     title: "here'n'now",
     subtitle: "Live Engagement App with Cross-Platform Support",
@@ -1197,7 +1197,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["Firebase", "Xamarin", "JWT Auth", "Live Engagement"],
   },
   {
-    num: 15,
+    num: 160,
     category: "Full-Stack",
     title: "reezcom",
     subtitle: "Resident Communication Platform for Property Management",
@@ -1226,7 +1226,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["ASP.NET Core", "Android", "Push Notifications", "Property Management"],
   },
   {
-    num: 16,
+    num: 170,
     category: "Full-Stack",
     title: "dobi",
     subtitle: "On-Demand Laundry Service with Real-Time Tracking",
@@ -1255,7 +1255,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["On-Demand Services", "Geolocation", "Payment Integration", "B2B Solutions"],
   },
   {
-    num: 17,
+    num: 180,
     category: "Full-Stack",
     title: "World Tax Analyzer",
     subtitle: "International Tax Research Platform (100+ Jurisdictions)",
@@ -1289,7 +1289,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["Tax Compliance", "Knockout.js", "BEPS/ATAD", "Regulatory Research"],
   },
   {
-    num: 18,
+    num: 190,
     category: "Full-Stack",
     title: "Transfer Pricing Analyzer",
     subtitle: "Compliance Platform for 108 Jurisdictions with FAR Analysis",
@@ -1323,7 +1323,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["Transfer Pricing", "FAR Analysis", "BEPS Compliance", "Global Tax"],
   },
   {
-    num: 19,
+    num: 200,
     category: "Full-Stack",
     title: "Reganalytics Auth",
     subtitle: "Centralized SSO & RBAC for Product Suite",
@@ -1359,7 +1359,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["SSO/JWT", "RBAC", "Security", "Enterprise Auth"],
   },
   {
-    num: 20,
+    num: 210,
     category: "Full-Stack",
     title: "Notification Hub",
     subtitle: "Cross-Platform Push Notification Service (Android/iOS/Windows)",
@@ -1396,7 +1396,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["RabbitMQ", "Socket.io", "Push Notifications", "Message Queuing"],
   },
   {
-    num: 21,
+    num: 220,
     category: "Full-Stack",
     title: "News Aggregator",
     subtitle: "Multi-Source News Scraping & Aggregation System",
@@ -1424,7 +1424,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["Web Scraping", "Data Aggregation", "Content Processing", "Automation"],
   },
   {
-    num: 22,
+    num: 230,
     category: "Full-Stack",
     title: "Whooza",
     subtitle: "Social & Professional Networking Platform MVP",
@@ -1460,7 +1460,7 @@ export const projects: Project[] = [
     skillsHighlighted: ["MEAN Stack", "Socket.io", "Social Networking", "MVP Development"],
   },
   {
-    num: 23,
+    num: 240,
     category: "Full-Stack",
     title: "BCPS Management Portal",
     longDescription: "",

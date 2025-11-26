@@ -29,9 +29,12 @@ const Projects = () => {
   // Environment flags
   const isFilterEnabled = process.env.NEXT_PUBLIC_ENABLE_FILTER !== 'false';
 
+  // Sort projects by num for consistent display order
+  const sortedProjects = [...projects].sort((a, b) => a.num - b.num);
+
   // State
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(sortedProjects);
   const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set());
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"grid" | "timeline">("grid");
@@ -100,11 +103,11 @@ const Projects = () => {
     if (selectedSkill === skill) {
       // Clear filter
       setSelectedSkill(null);
-      setFilteredProjects(projects);
+      setFilteredProjects(sortedProjects);
     } else {
       // Apply filter
       setSelectedSkill(skill);
-      const filtered = projects.filter(project =>
+      const filtered = sortedProjects.filter(project =>
         project.stacks.some(stack => stack.toLowerCase() === skill.toLowerCase()) ||
         project.skillsHighlighted?.some(s => s.toLowerCase() === skill.toLowerCase())
       );
@@ -365,13 +368,13 @@ const Projects = () => {
             {isFilterEnabled && viewMode === "grid" && (
               <div className="flex-1">
                 <ProjectsFilter
-                  projects={projects}
+                  projects={sortedProjects}
                   onFilterChange={setFilteredProjects}
                   searchQuery={searchQuery}
                   onSearchChange={setSearchQuery}
                   resultsInfo={{
                     filtered: filteredProjects.length,
-                    total: projects.length,
+                    total: sortedProjects.length,
                     description: "projects"
                   }}
                 />
@@ -383,7 +386,7 @@ const Projects = () => {
               <TimelineFilter
                 selectedSkill={selectedSkill}
                 onSkillChange={setSelectedSkill}
-                projects={projects}
+                projects={sortedProjects}
               />
             )}
           </div>
