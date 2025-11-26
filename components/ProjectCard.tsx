@@ -57,8 +57,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       data-testid={`project-card-${project.num}`}
       aria-label={`${project.title} - ${project.category} project${isFeatured ? ' (Featured)' : ''}${project.isActive ? ' - Active' : ' - Completed'}`}
       className={`group relative p-5 rounded-xl border transition-all duration-500 flex flex-col justify-between ${className} ${CSS_ANIMATIONS.FADE_IN_UP} ${staggerClass} hover:scale-[1.02] hover:shadow-2xl hover:-translate-y-1 ${isFeatured
-        ? 'bg-gradient-to-br from-purple-500/5 via-[#27272c] to-[#2a2a30] border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
-        : 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
+        ? 'bg-gradient-to-br from-purple-500/5 via-gray-800 to-gray-900 border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
+        : 'bg-gradient-to-br from-gray-800 to-gray-900 border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
         }`}
       style={{
         transformStyle: 'preserve-3d',
