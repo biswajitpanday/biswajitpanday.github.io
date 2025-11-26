@@ -1,12 +1,18 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaTimes, FaExternalLinkAlt, FaCode, FaBriefcase, FaAward } from "react-icons/fa";
+import EmptyState from "@/components/ui/EmptyState";
 import { projects } from "@/data/portfolioData";
 import { skills1, skills2 } from "@/data/skillsData";
 import { certifications } from "@/data/certificationsData";
 import Link from "next/link";
+
+/**
+ * GlobalSearch - Accessible global search modal
+ * WCAG 2.1 AA compliant with focus management, keyboard navigation, and live regions
+ */
 
 interface SearchResult {
   id: string;
@@ -104,9 +110,18 @@ interface GlobalSearchProps {
 const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  
+  const inputRef = useRef<HTMLInputElement>(null);
+
   // Memoize searchable data to prevent recreation on every render
   const searchableData = useMemo(() => prepareSearchableData(), []);
+
+  // Focus input when modal opens
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      // Small delay to ensure modal is rendered
+      setTimeout(() => inputRef.current?.focus(), 50);
+    }
+  }, [isOpen]);
 
   // Debounce search query
   useEffect(() => {
@@ -204,6 +219,9 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[var(--z-search)] flex items-start justify-center pt-20"
           style={{ zIndex: 'var(--z-search)' }}
           onClick={onClose}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="search-dialog-title"
         >
           <motion.div
             initial={{ opacity: 0, y: -50, scale: 0.95 }}
@@ -212,37 +230,59 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
             className="bg-gradient-to-br from-gray-900/90 to-gray-950/90 border border-secondary-default/20 rounded-xl p-6 w-full max-w-2xl mx-4 max-h-[80vh] overflow-hidden shadow-lg shadow-secondary-default/10"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Visually hidden title for screen readers */}
+            <h2 id="search-dialog-title" className="sr-only">
+              Search portfolio
+            </h2>
             {/* Search Header */}
             <div className="flex items-center gap-4 mb-6">
               <div className="relative flex-1">
-                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default" />
+                <label htmlFor="global-search-input" className="sr-only">
+                  Search projects, skills, certifications, and pages
+                </label>
+                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default" aria-hidden="true" />
                 <input
-                  type="text"
+                  ref={inputRef}
+                  id="global-search-input"
+                  type="search"
+                  role="searchbox"
                   placeholder="Search projects, skills, certifications, pages..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="w-full bg-gray-800/50 border border-secondary-default/20 text-white placeholder:text-white/40 pl-10 pr-4 py-3 rounded focus:border-secondary-default/50 focus:ring-secondary-default/20 transition-all duration-300"
-                  autoFocus
+                  className="w-full bg-gray-800/50 border border-secondary-default/20 text-white placeholder:text-white/40 pl-10 pr-4 py-3 rounded focus:border-secondary-default/50 focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 transition-all duration-300"
+                  aria-describedby="search-results-status"
                 />
               </div>
               <button
                 onClick={onClose}
-                className="p-3 text-white/40 hover:text-secondary-default transition-colors"
+                className="p-3 text-white/40 hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 rounded"
+                aria-label="Close search"
               >
-                <FaTimes />
+                <FaTimes aria-hidden="true" />
               </button>
             </div>
 
+            {/* Live region for screen reader announcements */}
+            <div id="search-results-status" className="sr-only" aria-live="polite" aria-atomic="true">
+              {debouncedSearch && filteredResults.length === 0 && `No results found for ${debouncedSearch}`}
+              {filteredResults.length > 0 && `Found ${filteredResults.length} results for ${debouncedSearch}`}
+            </div>
+
             {/* Search Results */}
-            <div className="max-h-96 overflow-y-auto custom-scrollbar">
+            <div className="max-h-96 overflow-y-auto custom-scrollbar" role="region" aria-label="Search results">
               {debouncedSearch && filteredResults.length === 0 && (
-                <div className="text-center py-8">
-                  <FaSearch className="text-4xl text-secondary-default/40 mx-auto mb-4" />
-                  <p className="text-white/60">
-                    No results found for &ldquo;{debouncedSearch}&rdquo;
-                  </p>
-                </div>
+                <EmptyState
+                  icon={FaSearch}
+                  title="No results found"
+                  description={`We couldn't find anything matching "${debouncedSearch}". Try different keywords or browse the suggestions below.`}
+                  action={{
+                    label: "Clear Search",
+                    onClick: () => setSearchQuery(""),
+                  }}
+                  size="sm"
+                  className="py-4"
+                />
               )}
 
               {filteredResults.length > 0 && (
@@ -295,26 +335,26 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
 
               {!debouncedSearch && (
                 <div className="text-center py-8">
-                  <FaSearch className="text-4xl text-secondary-default/40 mx-auto mb-4" />
+                  <FaSearch className="text-4xl text-secondary-default/40 mx-auto mb-4" aria-hidden="true" />
                   <p className="text-white/60 mb-4">
                     Start typing to search across projects, skills, certifications, and pages
                   </p>
-                  <div className="flex flex-wrap justify-center gap-2">
-                    <button 
+                  <div className="flex flex-wrap justify-center gap-2" role="group" aria-label="Quick search suggestions">
+                    <button
                       onClick={() => setSearchQuery("react")}
-                      className="px-3 py-1 text-sm bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-full transition-colors"
+                      className="px-3 py-1 text-sm bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
                     >
                       React
                     </button>
-                    <button 
+                    <button
                       onClick={() => setSearchQuery("azure")}
-                      className="px-3 py-1 text-sm bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-300 rounded-full transition-colors"
+                      className="px-3 py-1 text-sm bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-300 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
                     >
                       Azure
                     </button>
-                    <button 
+                    <button
                       onClick={() => setSearchQuery("certification")}
-                      className="px-3 py-1 text-sm bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 rounded-full transition-colors"
+                      className="px-3 py-1 text-sm bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
                     >
                       Certifications
                     </button>
@@ -342,10 +382,11 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         key={result.id}
         href={result.url}
         onClick={() => handleResultClick()}
-        className="block p-4 bg-gray-800/50 hover:bg-gray-800/80 border border-secondary-default/20 hover:border-secondary-default/50 rounded transition-all duration-300 group"
+        className="block p-4 bg-gray-800/50 hover:bg-gray-800/80 border border-secondary-default/20 hover:border-secondary-default/50 rounded transition-all duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900"
+        aria-label={`${result.title} - ${result.type}${result.category ? ` in ${result.category}` : ''}`}
       >
         <div className="flex items-start gap-3">
-          <div className="mt-1">{result.icon}</div>
+          <div className="mt-1" aria-hidden="true">{result.icon}</div>
           <div className="flex-1">
             <h3 className="text-white font-medium group-hover:text-secondary-default transition-colors">
               {result.title}

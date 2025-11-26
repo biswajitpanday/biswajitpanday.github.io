@@ -4,21 +4,36 @@ import { Button } from "@/components/ui/button";
 
 import { motion } from "framer-motion";
 import { getMostRecentCertification } from "@/data/certificationsData";
+import { testimonials } from "@/data/testimonialsData";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 import BackgroundElements from "@/components/BackgroundElements";
 import Badge from "@/components/Badge";
 import Photo from "@/components/Photo";
 import SocialPreviewGenerator from "@/components/SocialPreviewGenerator";
 import { trackResumeDownload } from "@/lib/analytics";
+import TypingAnimation from "@/components/TypingAnimation";
+import FloatingCodeSymbols from "@/components/FloatingCodeSymbols";
+import ScrollIndicator from "@/components/ScrollIndicator";
 
 // Import critical above-the-fold icons directly (no lazy loading)
 import { FiDownload, FiCode, FiCloud, FiZap } from "react-icons/fi";
 import { SiReact, SiDotnet } from "react-icons/si";
 import { RiRobot3Fill } from "react-icons/ri";
 
+// Typing animation phrases
+const HERO_PHRASES = [
+  "I build scalable enterprise systems",
+  "I integrate AI to boost productivity",
+  "I architect cloud-native solutions",
+  "I transform legacy into modern",
+];
+
 // Lazy load only non-critical below-the-fold components
 const Socials = lazy(() => import("@/components/Socials"));
-const Stats = lazy(() => import("@/components/Stats"));
+const ByTheNumbersDashboard = lazy(() => import("@/components/ByTheNumbersDashboard"));
+const TestimonialsCarousel = lazy(() => import("@/components/TestimonialsCarousel"));
+const FeaturedCaseStudies = lazy(() => import("@/components/FeaturedCaseStudies"));
+const GitHubActivityGraph = lazy(() => import("@/components/GitHubActivityGraph"));
 
 // Loading fallback components
 const ComponentFallback = ({ className }: { className?: string }) => (
@@ -53,7 +68,7 @@ const Home = () => {
     <>
       <SocialPreviewGenerator
         title="Biswajit Panday - Senior .NET Architect & AI Solutions Engineer"
-        description="Senior full-stack developer with 10+ years specializing in .NET, React, and cloud solutions. Built IntelliMerge, an AI tool achieving 80-90% efficiency gains for development teams at Optimizely. Microsoft Certified."
+        description="Senior full-stack developer with 10+ years specializing in .NET, React, and cloud solutions. Built SpireWiz, an AI tool achieving 80-90% efficiency gains for development teams at Optimizely. Microsoft Certified."
         image="https://biswajitpanday.github.io/assets/profile/profile-large.webp"
         url="https://biswajitpanday.github.io"
         type="website"
@@ -88,6 +103,10 @@ const Home = () => {
           },
         ]}
       />
+
+      {/* Floating Code Symbols Background */}
+      <FloatingCodeSymbols symbolCount={12} />
+
       <div className="absolute top-20 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-secondary-default/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -101,7 +120,7 @@ const Home = () => {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="text-center xl:text-left order-2 xl:order-none max-w-2xl"
           >
-            {/* Role Badge */}
+            {/* Role Badge - Purple/Pink accent with readable white text */}
             <motion.div
               data-testid="home-role-badge"
               initial={isMounted ? { opacity: 0, y: -20 } : { opacity: 1, y: 0 }}
@@ -109,16 +128,11 @@ const Home = () => {
               transition={{ delay: isMounted ? 0.05 : 0, duration: 0.3 }}
               className="mb-6"
             >
-              <Badge
-                icon={<FiCode className="text-lg" />}
-                text={
-                  <span className="flex items-center gap-2">
-                    Senior .NET Architect & AI Solutions Engineer
-                    <FiZap className="text-lg animate-pulse" />
-                  </span>
-                }
-                color="default"
-              />
+              <span className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 via-pink-500/15 to-purple-500/10 backdrop-blur-sm border border-purple-500/40 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/25 transition-all duration-300">
+                <FiCode className="text-lg text-purple-400" />
+                <span className="text-white">Senior .NET Architect & AI Solutions Engineer</span>
+                <FiZap className="text-lg text-pink-400 animate-pulse" />
+              </span>
             </motion.div>
 
             {/* Main Heading */}
@@ -127,67 +141,91 @@ const Home = () => {
               initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: isMounted ? 0.1 : 0, duration: 0.3 }}
-              className="text-3xl xl:text-4xl font-bold mb-6 leading-tight"
+              className="text-3xl xl:text-4xl font-bold mb-4 leading-tight"
             >
               Hi, I&apos;m <br className="hidden xl:block" />
-              <span className="bg-gradient-to-r from-secondary-default via-blue-400 to-secondary-default bg-clip-text text-transparent animate-gradient">
+              <span className="bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
                 Biswajit Panday
               </span>
             </motion.h1>
 
-            {/* Description */}
+            {/* Typing Animation Tagline */}
+            <motion.div
+              data-testid="home-typing-tagline"
+              initial={isMounted ? { opacity: 0, y: 10 } : { opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: isMounted ? 0.12 : 0, duration: 0.3 }}
+              className="h-8 mb-6 flex items-center justify-center xl:justify-start"
+            >
+              <span className="text-lg xl:text-xl font-light">
+                <TypingAnimation
+                  phrases={HERO_PHRASES}
+                  typingSpeed={60}
+                  deletingSpeed={40}
+                  pauseDuration={2500}
+                  className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent"
+                  cursorClassName="bg-gradient-to-b from-emerald-400 to-purple-400"
+                />
+              </span>
+            </motion.div>
+
+            {/* Description - Color gradients following hierarchy */}
             <motion.p
               data-testid="home-description"
               initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: isMounted ? 0.15 : 0, duration: 0.3 }}
-              className="text-base xl:text-lg mb-8 text-white/80 leading-relaxed max-w-[600px] mx-auto xl:mx-0"
+              className="text-[1rem] mb-8 text-white/80 leading-relaxed max-w-[600px] mx-auto xl:mx-0"
             >
               Senior full-stack developer specializing in{" "}
-              <span className="text-secondary-default font-semibold">
+              <span className="bg-gradient-to-r from-[#00BFFF] to-blue-400 bg-clip-text text-transparent font-semibold">
                 .NET, React, and cloud solutions
               </span>{" "}
               with 10+ years of experience. I build{" "}
-              <span className="text-secondary-default font-semibold">
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-semibold">
                 scalable enterprise applications
               </span>{" "}
               and integrate modern technologies—recently developed{" "}
-              <span className="text-emerald-300 font-semibold">
-                IntelliMerge
+              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
+                SpireWiz
               </span>, an AI tool that reduced merge effort by{" "}
-              <span className="text-emerald-300 font-semibold">
+              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
                 80-90%
               </span>{" "}
               for development teams at Optimizely.
             </motion.p>
 
-            {/* Tech Stack Highlights */}
+            {/* Tech Stack Highlights - Compact badges with gradient icons */}
             <motion.div
               data-testid="home-tech-stack"
               initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: isMounted ? 0.2 : 0, duration: 0.3 }}
-              className="flex flex-wrap justify-center xl:justify-start gap-3 mb-8"
+              className="flex flex-wrap justify-center xl:justify-start gap-2 mb-8"
             >
               <Badge
-                icon={<SiDotnet className="text-secondary-default" />}
+                icon={<SiDotnet className="text-[#00BFFF]" />}
                 text=".NET"
                 color="default"
+                size="compact"
               />
               <Badge
-                icon={<SiReact className="text-blue-300" />}
+                icon={<SiReact className="text-[#00BFFF]" />}
                 text="React"
-                color="blue"
+                color="default"
+                size="compact"
               />
               <Badge
-                icon={<FiCloud className="text-purple-300" />}
+                icon={<FiCloud className="text-purple-400" />}
                 text="DevOps"
                 color="purple"
+                size="compact"
               />
               <Badge
-                icon={<RiRobot3Fill className="text-emerald-300" />}
+                icon={<RiRobot3Fill className="text-emerald-400" />}
                 text="AI Integration"
                 color="emerald"
+                size="compact"
               />
             </motion.div>
 
@@ -228,13 +266,13 @@ const Home = () => {
                 <Button
                   data-testid="home-download-resume-button"
                   size="lg"
-                  className="group relative overflow-hidden bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25"
+                  className="group relative overflow-hidden bg-gradient-to-r from-[#00BFFF] via-blue-500 to-purple-500 hover:from-purple-500 hover:via-blue-500 hover:to-[#00BFFF] text-white font-semibold px-8 py-3 rounded transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25"
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     <span>Download Resume</span>
                     <FiDownload className="text-lg group-hover:animate-bounce" />
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-secondary-default opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-blue-500 to-[#00BFFF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Button>
               </a>
 
@@ -247,7 +285,7 @@ const Home = () => {
                 >
                   <Socials
                     containerStyles="flex gap-4"
-                    iconStyles="w-10 h-10 border border-secondary-default/50 rounded-full flex justify-center items-center text-secondary-default text-base hover:bg-secondary-default hover:text-primary hover:border-secondary-default hover:shadow-lg hover:shadow-secondary-default/25 transition-all duration-300 hover:scale-110"
+                    iconStyles="w-11 h-11 border border-secondary-default/50 rounded-full flex justify-center items-center text-secondary-default text-base hover:bg-secondary-default hover:text-primary hover:border-secondary-default hover:shadow-lg hover:shadow-secondary-default/25 transition-all duration-300 hover:scale-110"
                   />
                 </Suspense>
               </div>
@@ -273,52 +311,36 @@ const Home = () => {
           </motion.div>
         </div>
 
-        {/* Stats Section */}
-        <motion.div
-          data-testid="home-stats-section"
-          initial={isMounted ? { opacity: 0, y: 50 } : { opacity: 1, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: isMounted ? 0.35 : 0, duration: 0.4 }}
-          className="mt-4 xl:mt-6"
-        >
-          <Suspense fallback={<ComponentFallback className="w-full h-32" />}>
-            <Stats />
+        {/* Scroll Indicator */}
+        <div className="hidden xl:flex justify-center mt-8">
+          <ScrollIndicator targetId="stats-dashboard" />
+        </div>
+
+        {/* By The Numbers Dashboard - Primary Stats Display */}
+        <div id="stats-dashboard">
+          <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
+            <ByTheNumbersDashboard />
           </Suspense>
-        </motion.div>
-             </div>
-     </section>
+        </div>
+
+        {/* Testimonials Carousel - Real LinkedIn Recommendations */}
+        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
+          <TestimonialsCarousel testimonials={testimonials} />
+        </Suspense>
+
+        {/* Featured Case Studies */}
+        <Suspense fallback={<ComponentFallback className="w-full h-96" />}>
+          <FeaturedCaseStudies maxItems={2} />
+        </Suspense>
+
+        {/* GitHub Activity - Shows Active Development */}
+        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
+          <GitHubActivityGraph />
+        </Suspense>
+      </div>
+    </section>
    </>
    );
  };
 
 export default Home;
-
-// I architect scalable cloud solutions and build high-performance applications using .NET, React, and cutting-edge DevOps practices.
-// I tame cloud beasts, optimize code like a caffeine-fueled wizard, and craft high-performance apps with .NET, React & DevOps sorcery!
-// I summon scalable clouds, bend code to my will, and forge high-performance apps with .NET, React & DevOps alchemy!
-// I design scalable cloud solutions, write clean, efficient code, and build high-performance apps with .NET, React, and DevOps expertise.
-
-// 1️⃣ Mr. Robot Style 🤖
-// "I architect cloud fortresses, write code like a vigilante, and deploy high-performance apps faster than an fsociety hack. .NET, React, DevOps—no root required."
-
-// 2️⃣ The Matrix Style 🟩
-// "I see the code behind reality, crafting scalable cloud architectures and high-performance apps with .NET, React & DevOps. There is no spoon—only clean code."
-
-// 3️⃣ Silicon Valley Style 🚀
-// "I optimize cloud solutions, scale apps like Pied Piper, and write .NET & React code that actually works—no tabs vs. spaces debate needed."
-
-// 4️⃣ Tron Style ⚡
-// "I ride the grid, architecting cloud solutions and deploying high-performance .NET & React apps at light speed. DevOps is my identity disc!"
-
-// 5️⃣ The Social Network Style 💻
-// "I build scalable cloud platforms, write clean .NET & React code, and optimize performance—because a high-availability system is cooler than a billion dollars."
-
-// 1️⃣ "Engineering Scalable Cloud Solutions & High-Performance Apps with .NET, React & DevOps." (Professional, recruiter-friendly)
-
-// 2️⃣ "Code, Cloud & Creativity—Crafting Digital Solutions That Scale with .NET & React." (Balanced between technical and engaging)
-
-// 3️⃣ "Turning Ideas into Scalable Software—.NET, React & DevOps Powering the Future." (Startup-friendly and innovation-driven)
-
-// 4️⃣ "Architecting Digital Experiences—From Cloud to Code, One Scalable App at a Time." (Ideal for senior-level positioning)
-
-// 5️⃣ "Cloud, Code & Cutting-Edge Tech—Solving Complex Problems with .NET & React." (Simple, yet powerful)

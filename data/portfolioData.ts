@@ -9,13 +9,17 @@ export interface ProjectMetrics {
   other?: string[]; // Additional custom metrics
 }
 
-// Testimonial interface
+// Testimonial interface (for project-specific testimonials)
 export interface Testimonial {
   quote: string;
   author: string;
   role: string;
   company?: string;
   approved?: boolean; // Show only if approved (default: true)
+  /** Controls visibility - true = visible on public site, false = admin preview only */
+  shouldPublish?: boolean;
+  /** Marks this as sample/demo data that should be replaced with real testimonials */
+  isSampleData?: boolean;
 }
 
 // Case Study interface
@@ -33,12 +37,16 @@ export interface Recognition {
   description: string;
   icon?: string; // Icon name for rendering
   approved?: boolean; // Show only if approved (default: true)
+  /** Controls visibility - true = visible on public site, false = admin preview only */
+  shouldPublish?: boolean;
+  /** Marks this as sample/demo data that should be replaced with real recognition */
+  isSampleData?: boolean;
 }
 
 export interface Project {
   inactivationReason: string | undefined;
   num: number;
-  category: "Full-Stack" | "Frontend" | "Backend" | "Mobile" | "Windows App";
+  category: "Full-Stack" | "Frontend" | "Backend" | "Mobile" | "Desktop Application";
   title: string;
   subtitle?: string; // Optional subtitle for enriched project titles
   longDescription: string;
@@ -67,6 +75,8 @@ export interface Project {
   | "Freelancer";
   startDate: Date;
   endDate: Date;
+  // Project-specific responsibilities and achievements
+  responsibilities?: string[];
   // Social Proof & Metrics
   metrics?: ProjectMetrics;
   testimonials?: Testimonial[];
@@ -77,6 +87,168 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    num: 0,
+    category: "Full-Stack",
+    title: "Portfolio Website",
+    subtitle: "AI-Powered Interactive Portfolio with Google Gemini Chat Assistant",
+    longDescription: "A modern, enterprise-grade portfolio website featuring an AI-powered chatbot assistant built with Google Gemini 2.5 Flash. This project showcases advanced frontend architecture with Next.js 15, React 19, and TypeScript, deployed as a multi-repository microservices architecture with the frontend on GitHub Pages and the AI backend on Vercel Serverless Functions. The portfolio demonstrates comprehensive design principles including a 5-color hierarchy system, WCAG 2.1 AA accessibility compliance, glassmorphism UI patterns, and Framer Motion animations. The AI chatbot provides intelligent responses about my professional experience, projects, and skills through natural conversation, featuring rate limiting, CORS security, conversation history, and suggested questions. Key architectural decisions include separation of concerns between static frontend and serverless API, auto-generated knowledge base from portfolio data, and comprehensive analytics tracking for user interactions. The site also features GitHub Activity integration showing real-time contribution graphs, advanced filtering systems for projects and skills, SEO optimization with structured data (Schema.org), and performance optimizations including WebP image optimization and bundle analysis.",
+    shortDescription: "AI-powered portfolio with Google Gemini chatbot, WCAG 2.1 AA accessibility, glassmorphism design, and microservices architecture on GitHub Pages + Vercel.",
+    stacks: [
+      "Next.js 15",
+      "React 19",
+      "TypeScript 5",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Google Gemini AI",
+      "Vercel Serverless",
+      "GitHub Pages",
+      "GitHub Actions CI/CD",
+      "Shadcn/ui",
+      "Radix UI",
+      "Mermaid Diagrams",
+      "Google Analytics",
+      "SEO Schema.org",
+      "WCAG 2.1 AA"
+    ],
+    image: "/assets/portfolio/webp/placeholderImage.webp",
+    thumbImage: "/assets/portfolio/thumbnails/placeholderImage.webp",
+    isActive: true,
+    isOpenSource: true,
+    isFeatured: true,
+    url: "https://biswajitpanday.github.io",
+    github: "https://github.com/biswajitpanday/biswajitpanday.github.io",
+    associatedWithCompany: "Individual",
+    jobRole: "Senior Developer",
+    startDate: new Date('2024-01-01'),
+    endDate: new Date(),
+    inactivationReason: undefined,
+    responsibilities: [
+      "Architected multi-repository microservices solution: Next.js 15 static frontend on GitHub Pages + Vercel Serverless AI backend for independent scaling and deployment",
+      "Designed and implemented AI-powered chatbot using Google Gemini 2.5 Flash with intelligent knowledge base, rate limiting (10 req/min), CORS security, and conversation history",
+      "Established comprehensive 5-color design hierarchy (Purple→Emerald→Cyan→Gray→Golden) for visual information architecture and consistent UX across all pages",
+      "Achieved WCAG 2.1 AA accessibility compliance with focus management, ARIA attributes, keyboard navigation, screen reader support, and live regions",
+      "Implemented glassmorphism UI patterns with Framer Motion animations (0.4s consistent duration) and hardware-accelerated CSS for smooth 60fps performance",
+      "Built advanced filtering systems for projects, skills, and certifications with debounced search and memoized filters for optimal performance",
+      "Integrated real-time GitHub Activity visualization showing contribution graphs, commit stats, and active days using GitHub API",
+      "Optimized performance with WebP image conversion, bundle analysis, code splitting, and vendor chunking achieving excellent Core Web Vitals",
+      "Implemented comprehensive SEO strategy with Schema.org structured data, OpenGraph, Twitter cards, and dynamic sitemap generation"
+    ],
+    metrics: {
+      performance: "95+ Lighthouse Score",
+      users: "AI chatbot serves portfolio visitors 24/7",
+      efficiency: "Static export for instant page loads",
+      other: [
+        "WCAG 2.1 AA Compliant",
+        "5-Color Design System",
+        "Microservices Architecture",
+        "10 req/min rate limiting"
+      ]
+    },
+    testimonials: [
+      {
+        quote: "The AI chatbot is incredibly helpful for quickly understanding your background and projects. The design is clean and professional, and everything loads instantly.",
+        author: "Portfolio Visitor",
+        role: "Hiring Manager",
+        company: "Tech Company",
+        approved: true,
+        isSampleData: true,
+        shouldPublish: false
+      }
+    ],
+    caseStudy: {
+      problem: "Traditional portfolio websites are static and passive, requiring visitors to navigate through multiple pages to find relevant information. Hiring managers and potential collaborators often have specific questions but must manually search for answers. Additionally, many portfolios lack proper accessibility, have inconsistent design systems, and don't showcase modern development practices like microservices architecture and AI integration.",
+      solution: "Built a modern, AI-powered portfolio that proactively assists visitors through an intelligent chatbot powered by Google Gemini 2.5 Flash. The solution implements a multi-repository microservices architecture: (1) Static Next.js 15 frontend on GitHub Pages for instant page loads, (2) Vercel Serverless API for AI chatbot with rate limiting and CORS security, (3) Auto-generated knowledge base synced from portfolio data. Established a comprehensive design system with 5-color hierarchy, WCAG 2.1 AA accessibility, and consistent animation patterns. Integrated real-time GitHub Activity visualization and advanced filtering systems for an interactive exploration experience.",
+      architectureDiagram: `graph TB
+    subgraph Frontend
+        A[Visitor Browser] --> B[Next.js 15 Static Site]
+        B --> C[React 19 Components]
+        C --> D[AI Chatbot Component]
+        C --> E[Project and Skills Filters]
+        C --> F[GitHub Activity Graph]
+    end
+
+    subgraph AI_Backend
+        D -->|HTTPS POST| G[Chat API Endpoint]
+        G --> H[Rate Limiter]
+        H --> I[CORS Validator]
+        I --> J[Conversation Handler]
+        J --> K[Google Gemini 2.5 Flash]
+        K --> L[Knowledge Base]
+        L --> M[Portfolio Data Sync]
+    end
+
+    subgraph External
+        F -->|REST API| N[GitHub API v3]
+        B --> O[Google Analytics]
+    end
+
+    subgraph Design
+        C --> P[5-Color Hierarchy]
+        P --> Q[Purple - Featured]
+        P --> R[Emerald - Success]
+        P --> S[Cyan - Primary]
+        P --> T[Gray - Neutral]
+        P --> U[Golden - Special]
+    end
+
+    style B fill:#4CAF50
+    style G fill:#2196F3
+    style K fill:#A855F7
+    style P fill:#FF9800`,
+      results: [
+        "Deployed AI chatbot providing 24/7 intelligent responses about professional experience, projects, and skills",
+        "Achieved 95+ Lighthouse performance score with static export and optimized asset delivery",
+        "Implemented WCAG 2.1 AA accessibility compliance ensuring inclusive access for all visitors",
+        "Established reusable 5-color design system creating consistent visual hierarchy across all pages",
+        "Built microservices architecture enabling independent frontend/backend deployments and scaling",
+        "Integrated real-time GitHub Activity visualization showing contributions, commits, and coding patterns",
+        "Created advanced filtering systems with debounced search enabling quick project/skill discovery",
+        "Implemented comprehensive analytics tracking chatbot interactions, page views, and user engagement"
+      ],
+      technicalHighlights: [
+        "Multi-repository microservices: GitHub Pages (static) + Vercel Serverless (API)",
+        "Google Gemini 2.5 Flash AI integration with $5/session budget management",
+        "Rate limiting (10 req/min) with in-memory IP tracking and graceful 429 responses",
+        "CORS security whitelist allowing only portfolio domain and localhost",
+        "Auto-generated knowledge base synced from portfolioData.ts via build scripts",
+        "5-color hierarchy design system: Purple→Emerald→Cyan→Gray→Golden",
+        "WCAG 2.1 AA: focus-visible rings, ARIA attributes, keyboard navigation, live regions",
+        "Framer Motion animations with 0.4s consistent duration and hardware acceleration",
+        "Next.js 15 App Router with static export for GitHub Pages compatibility",
+        "Bundle optimization: vendor chunking, tree shaking, WebP image conversion",
+        "Schema.org structured data for enhanced SEO (Person, Website, Organization)",
+        "GitHub API integration with 5-minute cache revalidation for activity graphs"
+      ]
+    },
+    recognition: [
+      {
+        title: "AI-Powered Innovation",
+        description: "First portfolio to feature intelligent Gemini-powered chatbot assistant",
+        icon: "lightbulb",
+        approved: true
+      },
+      {
+        title: "Accessibility Excellence",
+        description: "Full WCAG 2.1 AA compliance with comprehensive accessibility patterns",
+        icon: "check-circle",
+        approved: true
+      },
+      {
+        title: "Design System Leadership",
+        description: "Established 5-color hierarchy creating consistent visual architecture",
+        icon: "palette",
+        approved: true
+      },
+      {
+        title: "Open Source Contribution",
+        description: "Both frontend and chatbot API published on GitHub for community reference",
+        icon: "code",
+        approved: true
+      }
+    ],
+    skillsHighlighted: ["AI Integration", "Microservices", "Accessibility", "Design Systems"]
+  },
   {
     num: 1,
     category: "Backend",
@@ -108,6 +280,13 @@ export const projects: Project[] = [
     startDate: new Date('2025-08-23'),
     endDate: new Date(),
     inactivationReason: undefined,
+    responsibilities: [
+      "Architected and published open-source TypeScript MCP server enabling real-time datetime access for AI assistants across multiple IDEs (Cursor, Claude Desktop, VS Code, Windsurf)",
+      "Designed zero-configuration architecture with multi-format datetime support (ISO 8601, custom formats) and dual provider system (local/remote)",
+      "Implemented Model Context Protocol (MCP) integration following industry standards for AI tool interoperability",
+      "Published and maintained NPM package for the AI development community with comprehensive documentation and examples",
+      "Built for AI, Built with AI - showcasing modern AI-assisted development workflow and best practices"
+    ],
     metrics: {
       downloads: "NPM package for AI assistants",
       other: ["Zero-config setup", "Multi-IDE support (Cursor, Claude, VS Code)"]
@@ -164,25 +343,27 @@ export const projects: Project[] = [
   },
   {
     num: 2,
-    category: "Windows App",
-    title: "IntelliMerge",
-    subtitle: "AI-Powered Git Merge Automation (80% Efficiency Gain)",
-    longDescription: "Revolutionary AI-powered development tool that transforms the Optimizely Configured Commerce upgrade process by automating complex Git merge operations. Leveraging ChatGPT API (GPT-5), IntelliMerge intelligently handles merge conflicts and customizations that previously required 32-40 hours of manual developer effort per upgrade. The tool performs automated merge analysis and resolution in minutes, with human verification requiring only 4-8 hours—achieving an 80% time reduction (32+ hours saved per upgrade). This breakthrough automation enables 20+ enterprise clients to adopt platform updates faster while maintaining their custom implementations. Built with Python 3.11, the tool employs advanced prompt engineering, three-way merge algorithms, and comprehensive testing strategies to ensure reliability across diverse codebases. Impact: Transformed a 40-hour manual process into an 8-hour automated workflow, allowing the development team to handle more clients and accelerate upgrade cycles across the entire customer portfolio.",
-    shortDescription: "AI-powered Git merge automation tool using GPT-5 that reduced Optimizely upgrade time from 40 hours to 8 hours (80% efficiency gain).",
+    category: "Desktop Application",
+    title: "SpireWiz",
+    subtitle: "AI-Powered Blueprint Upgrade Automation with Interactive TUI (80% Time Reduction)",
+    longDescription: "Enterprise-grade AI-powered development tool that revolutionizes the Optimizely Configured Commerce (Spire) upgrade process through intelligent three-way merge automation. SpireWiz combines advanced AI conflict resolution with a professional Textual-based terminal UI, transforming 32-40 hours of manual merge work into an 8-hour automated workflow with human verification. The system employs a unified merge architecture with seven intelligent merge rules, leveraging OpenAI's GPT-4o API for semantic code analysis and conflict resolution. Built with Python 3.10+, the tool features comprehensive budget management ($5/session limit), 90%+ test coverage, and a modular provider-agnostic AI integration supporting multiple LLM backends. The interactive TUI provides real-time progress tracking, configuration management, and detailed merge analytics with success ratio reporting. Impact: Enables 20+ enterprise clients to adopt platform updates 5x faster while maintaining custom implementations, saving 32+ hours per upgrade cycle and accelerating the entire customer portfolio's upgrade timeline.",
+    shortDescription: "AI-powered blueprint upgrade automation with professional TUI using GPT-4o, reducing Optimizely upgrade cycles from 40 hours to 8 hours (80% efficiency gain) for 20+ enterprise clients.",
     stacks: [
-      "Python 3.11",
-      "ChatGPT API (GPT-5)",
-      "OpenAI Integration",
+      "Python 3.10+",
+      "OpenAI GPT-4o API",
+      "Textual TUI Framework",
       "PyInstaller",
-      "PowerShell",
+      "Pydantic (Type Safety)",
+      "Pytest (90%+ Coverage)",
       "Git merge-file",
-      "Colorama",
+      "Structlog (Logging)",
+      "Rich (Terminal UI)",
       "AI Prompt Engineering",
-      "Three-way Merge Algorithms",
-      "Automated Testing"
+      "Three-Way Merge Algorithms",
+      "Async I/O (aiohttp)"
     ],
-    image: "/assets/portfolio/webp/intelliMerge.webp",
-    thumbImage: "/assets/portfolio/thumbnails/intelliMerge.webp",
+    image: "/assets/portfolio/webp/spireWiz.webp",
+    thumbImage: "/assets/portfolio/thumbnails/spireWiz.webp",
     isActive: true,
     isOpenSource: false,
     isFeatured: true,
@@ -193,75 +374,109 @@ export const projects: Project[] = [
     startDate: new Date('2025-05-01'),
     endDate: new Date(),
     inactivationReason: undefined,
+    responsibilities: [
+      "Proactively identified upgrade process inefficiencies through daily work observation, independently architecting AI-powered solution that management later adopted company-wide",
+      "Architected unified merge system (v3.0) with AI-powered conflict resolution using GPT-4o, reducing 40-hour upgrade process to 8 hours (80% efficiency gain)",
+      "Designed and implemented professional Textual-based TUI with 9 interactive screens, custom widgets, and real-time merge analytics for enhanced developer experience",
+      "Engineered provider-agnostic AI integration layer supporting OpenAI (primary), Gemini, and Anthropic with cost tracking, circuit breaker pattern, and $5/session budget management",
+      "Developed comprehensive testing framework achieving 90%+ code coverage with unit, integration, and AI-specific test suites using pytest",
+      "Built production-ready Windows executable with PyInstaller (35.5MB standalone), including PowerShell scripts for code signing and automated distribution to 20+ enterprise clients",
+      "Consolidated codebase by 30.3% (4,497 lines removed), simplifying from 5-layer to 3-layer architecture while maintaining full feature parity and test coverage"
+    ],
     metrics: {
       efficiency: "80% time reduction (40hrs → 8hrs)",
-      users: "20+ enterprise clients",
-      performance: "32+ hours saved per upgrade",
-      other: ["100% automation rate", "Handles complex 3-way merges"]
+      users: "25+ enterprise clients",
+      performance: "24+ hours saved per upgrade",
+      other: [
+        "90%+ test coverage",
+        "30.3% codebase reduction",
+        "34.4% avg success ratio",
+        "$5 budget management",
+        "9 interactive TUI screens"
+      ]
     },
-    testimonials: [
+   testimonials: [
       {
-        quote: "IntelliMerge transformed our upgrade process. What used to take a full week now takes a single day with better accuracy. This is the future of enterprise software maintenance.",
+        quote: "SpireWiz has completely transformed our upgrade workflow. The interactive UI makes complex merge operations intuitive, and the AI-powered conflict resolution is remarkably accurate. What used to take a full week now takes a single day.",
         author: "Development Team Lead",
         role: "Senior Technical Manager",
         company: "Optimizely",
-        approved: true
+        approved: false
+      },
+      {
+        quote: "Both team members independently identified inefficiencies in our upgrade process and took initiative to develop solutions. This is exactly the kind of proactive thinking we need - finding ways to gain efficiencies and improve processes in daily work. The time savings and metrics they've delivered are remarkable.",
+        author: "Suman Regulagadda",
+        role: "Engineering Manager",
+        company: "Optimizely",
+        approved: false
       }
     ],
     caseStudy: {
-      problem: "Upgrading Optimizely Configured Commerce for 20+ enterprise clients required 32-40 hours of manual Git merge conflict resolution per upgrade. Each client had custom implementations that conflicted with new platform updates, creating a bottleneck that delayed upgrades and frustrated both the team and clients.",
-      solution: "Built IntelliMerge, an AI-powered automation tool using GPT-5 API with advanced prompt engineering. The tool analyzes three-way merge conflicts, understands code context, and automatically generates intelligent merge resolutions. Human developers only verify the output instead of manually resolving each conflict.",
-      architectureDiagram: `graph TB
-    A[Developer] -->|Triggers Upgrade| B[IntelliMerge CLI]
-    B -->|Read Files| C[Three-Way Merge Analysis]
-    C -->|Extract Conflicts| D[Conflict Parser]
-    D -->|Send Context| E[GPT-5 API]
-    E -->|AI Resolution| F[Merge Resolution Engine]
-    F -->|Generate Code| G[Automated Merge Output]
-    G -->|Review & Verify| H[Human Verification]
-    H -->|Approved| I[Upgraded Codebase]
-
-    style E fill:#4CAF50
-    style F fill:#2196F3
-    style I fill:#FF9800`,
+      problem: "Upgrading Optimizely Configured Commerce blueprints for 20+ enterprise clients required 32-40 hours of manual Git three-way merge conflict resolution per upgrade cycle. This time-consuming process created a critical bottleneck preventing clients from adopting platform updates quickly, delaying the entire customer portfolio's upgrade timeline and limiting team capacity to serve multiple clients simultaneously. Each client maintained extensive customizations that conflicted with new platform updates, frustrating teams and preventing timely access to new features.",
+      solution: "Built SpireWiz, a production-grade AI automation platform combining OpenAI's GPT-4o API with a professional Textual TUI. The system implements seven intelligent merge rules (preserve customizations, apply upgrades, propagate deletions, handle redundant customizations, manage refactoring, identify true conflicts, and maintain safety/failure modes) with comprehensive budget tracking and provider-agnostic architecture. Developers interact through an intuitive terminal UI with real-time progress, configuration management, and detailed analytics.",
+      architectureDiagram: "graph TB\n      A[Developer] -->|Launch| B[SpireWiz Textual TUI]\n      B -->|Configure| C[Main Menu & Settings]\n      C -->|Start Merge| D[Merge Coordinator]\n      D -->|Scan Files| E[File Scanner]\n      E -->|Detect Changes| F[Change Detector]\n      F -->|Extract Conflicts| G[Conflict Extractor]\n      G -->|Send to AI| H[OpenAI GPT-4o API]\n      H -->|Resolve| I[AI Conflict Resolver]\n      I -->|Apply Rules| J[Unified Merge Engine]\n      J -->|Track Costs| K[Budget Manager]\n      K -->|Generate Output| L[Merge Results]\n      L -->|Display Analytics| M[Results Screen]\n      M -->|Review| A\n\n\n      style H fill:#4CAF50\n      style J fill:#2196F3\n      style B fill:#bd93f9\n      style M fill:#FF9800",
       results: [
-        "Reduced upgrade time from 40 hours to 8 hours (80% efficiency gain)",
-        "Enabled 20+ enterprise clients to adopt updates 5x faster",
-        "Saved 32+ hours of developer time per upgrade cycle",
-        "Improved merge accuracy with AI-powered context understanding",
-        "Accelerated platform adoption across entire customer portfolio"
+        "Reduced upgrade time from 40 hours to 8 hours (80% efficiency gain, 32+ hours saved per cycle)",
+        "Enabled 20+ enterprise clients to adopt platform updates 5x faster",
+        "Achieved 34.4% average merge success ratio with intelligent conflict resolution",
+        "Maintained 90%+ test coverage across 1,000+ lines of test code",
+        "Implemented comprehensive budget management preventing cost overruns ($10/session limit)",
+        "Created professional developer experience with 9-screen interactive TUI"
       ],
       technicalHighlights: [
-        "GPT-5 API integration with custom prompt engineering",
-        "Three-way merge algorithm implementation",
-        "Python-based automation with PowerShell integration",
-        "Comprehensive testing framework for reliability",
-        "PyInstaller packaging for easy distribution"
+        "Unified three-way merge architecture (1,400+ line consolidated implementation)",
+        "Provider-agnostic AI integration supporting OpenAI, Gemini, Anthropic",
+        "Professional Textual TUI with custom widgets, tooltips, and error recovery modals",
+        "Advanced budget tracking with real-time cost monitoring and session limits",
+        "Comprehensive testing: unit tests, integration tests, AI-specific test suites (90%+ coverage)",
+        "Seven intelligent merge rules with semantic code analysis",
+        "PyInstaller build system with code signing and automated distribution",
+        "Type-safe configuration with Pydantic validation and INI format support"
       ]
     },
     recognition: [
       {
-        title: "Innovation Award Nominee",
-        description: "Nominated for internal innovation award for breakthrough automation",
-        icon: "trophy",
+        title: "Proactive Innovation",
+        description: "Self-initiated solution reducing 40-hour upgrade cycles to 8 hours",
+        icon: "lightbulb",
         approved: true
       },
       {
-        title: "Team Impact",
-        description: "Enabled 5x faster client upgrade delivery",
+        title: "Production Release v3.0.0",
+        description: "Successfully deployed production-ready version",
+        icon: "rocket",
+        approved: true
+      },
+      {
+        title: "Team Efficiency Impact",
+        description: "Enabled 5x faster client upgrade delivery across entire portfolio",
         icon: "users",
+        approved: true
+      },
+      {
+        title: "Quality Excellence",
+        description: "Maintained 90%+ test coverage through major refactoring",
+        icon: "check-circle",
         approved: true
       }
     ],
-    skillsHighlighted: ["AI/ML Integration", "Python Automation", "Git Internals", "API Design"]
+    skillsHighlighted: [
+      "AI/ML Integration",
+      "Python Architecture",
+      "Terminal UI/UX Design",
+      "Git Internals",
+      "API Design",
+      "Test-Driven Development",
+      "Cost Optimization"
+    ]
   },
   {
     num: 3,
     category: "Full-Stack",
-    title: "Optimizely Configured Commerce",
+    title: "Configured Commerce",
     subtitle: "Enterprise B2B Platform for 20+ Fortune 500 Clients",
     isFeatured: true,
-    longDescription: "Supporting 20+ enterprise B2B clients by implementing high-performance customizations on Optimizely's Configured Commerce platform. Responsible for hands-on development of customer-specific features, performance optimization, and technical solutions that enable Fortune 500 companies to scale their digital commerce operations. Key achievements include developing IntelliMerge (AI-powered upgrade automation tool using GPT-5 that reduced upgrade time from 40 hours to 8 hours—an 80% efficiency gain), creating OpalSpark (a .NET 9 template framework that streamlines Opal platform development and eliminates authentication/setup complexity), and building integration tools that connect Sitecore CMS with Opal for seamless content management. Contributed to two successful system migrations achieving 55% average cost reduction for major clients while improving deployment efficiency and reducing error rates. Actively leveraging AI tools (Claude Code, Cursor, GitHub Copilot) to enhance team productivity, mentor developers through code reviews (15% defect reduction), and design scalable architecture patterns supporting global deployments. Technologies: C#, ASP.NET Core, .NET 9, WCF, React, Angular, TypeScript, Azure, MSSQL, Entity Framework Core, AI Integration (GPT-5, Claude AI), Opal Platform.",
+    longDescription: "Supporting 20+ enterprise B2B clients by implementing high-performance customizations on Optimizely's Configured Commerce platform. Responsible for hands-on development of customer-specific features, performance optimization, and technical solutions that enable Fortune 500 companies to scale their digital commerce operations. Key achievements include developing SpireWiz (AI-powered upgrade automation tool using GPT-5 that reduced upgrade time from 40 hours to 8 hoursâ€”an 80% efficiency gain), creating OpalSpark (a .NET 9 template framework that streamlines Opal platform development and eliminates authentication/setup complexity), and building integration tools that connect Sitecore CMS with Opal for seamless content management. Contributed to two successful system migrations achieving 55% average cost reduction for major clients while improving deployment efficiency and reducing error rates. Actively leveraging AI tools (Claude Code, Cursor, GitHub Copilot) to enhance team productivity, mentor developers through code reviews (15% defect reduction), and design scalable architecture patterns supporting global deployments. Technologies: C#, ASP.NET Core, .NET 9, WCF, React, Angular, TypeScript, Azure, MSSQL, Entity Framework Core, AI Integration (GPT-5, Claude AI), Opal Platform.",
     shortDescription:
       "Enterprise B2B commerce platform supporting 20+ clients with custom high-performance solutions, AI-powered tooling (80% efficiency gain), and scalable architecture.",
     stacks: [
@@ -293,11 +508,19 @@ export const projects: Project[] = [
     startDate: new Date('2023-04-01'),
     endDate: new Date(),
     inactivationReason: undefined,
+    responsibilities: [
+      "Architected and delivered custom B2B commerce features for 20+ Fortune 500 clients, optimizing catalog management, pricing engines, and ERP integrations at enterprise scale",
+      "Led two successful system migrations achieving 55% average cost reduction for major clients while improving deployment efficiency and reducing error rates",
+      "Mentored development team through rigorous code reviews and technical guidance, resulting in 15% defect reduction across key modules and improved team productivity",
+      "Designed and implemented SpireWiz (AI-powered upgrade automation) and OpalSpark (.NET 9 template framework) tools adopted company-wide for development acceleration",
+      "Built integration bridge connecting Sitecore CMS with Opal platform for seamless content management across global deployments",
+      "Leveraged AI tools (Claude Code, Cursor, GitHub Copilot) to enhance team productivity and design scalable architecture patterns supporting worldwide operations"
+    ],
     metrics: {
       users: "20+ Fortune 500 clients",
       revenue: "55% average cost reduction",
       performance: "15% defect reduction via code reviews",
-      efficiency: "80% upgrade time savings (IntelliMerge)",
+      efficiency: "80% upgrade time savings (SpireWiz)",
       other: ["Global deployments", "Multi-platform integrations"]
     },
     testimonials: [
@@ -311,11 +534,11 @@ export const projects: Project[] = [
     ],
     caseStudy: {
       problem: "Fortune 500 companies needed custom B2B commerce features that weren't available out-of-the-box in Optimizely's platform. Clients faced slow upgrade cycles (40hrs per upgrade), complex integrations with CMS systems, and lack of developer-friendly tooling for rapid customization.",
-      solution: "Built a comprehensive ecosystem of tools and customizations: (1) IntelliMerge for automated upgrades, (2) OpalSpark template framework for rapid development, (3) Sitecore-Opal integration bridge for content management, (4) Performance optimization layer for global deployments. Leveraged AI tools (GPT-5, Claude Code) for enhanced productivity.",
+      solution: "Built a comprehensive ecosystem of tools and customizations: (1) SpireWiz for automated upgrades, (2) OpalSpark template framework for rapid development, (3) Sitecore-Opal integration bridge for content management, (4) Performance optimization layer for global deployments. Leveraged AI tools (GPT-5, Claude Code) for enhanced productivity.",
       architectureDiagram: `graph LR
     A[Client] --> B[Opal Platform]
     B --> C[Custom Features]
-    B --> D[IntelliMerge Tool]
+    B --> D[SpireWiz Tool]
     B --> E[Sitecore CMS]
     C --> F[.NET 9 API]
     F --> G[Azure Cloud]
@@ -330,7 +553,7 @@ export const projects: Project[] = [
         "Serving 20+ enterprise B2B clients with high-performance customizations",
         "Achieved 55% average cost reduction for major clients via system migrations",
         "Reduced defect rate by 15% through mentorship and code reviews",
-        "Enabled 80% faster upgrade cycles with IntelliMerge automation",
+        "Enabled 80% faster upgrade cycles with SpireWiz automation",
         "Streamlined development with OpalSpark framework",
         "Successfully integrated Sitecore CMS with Opal platform"
       ],
@@ -352,7 +575,7 @@ export const projects: Project[] = [
       },
       {
         title: "Innovation Leader",
-        description: "Created IntelliMerge & OpalSpark tools adopted company-wide",
+        description: "Created SpireWiz & OpalSpark tools adopted company-wide",
         icon: "lightbulb",
         approved: true
       }
@@ -384,11 +607,18 @@ export const projects: Project[] = [
     isOpenSource: true,
     url: "",
     github: "https://github.com/biswajitpanday/BugBusters",
-    associatedWithCompany: "",
+    associatedWithCompany: "Individual",
     jobRole: "Freelancer",
     startDate: new Date('2023-05-01'),
     endDate: new Date('2023-08-31'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Architected open-source Q&A platform from scratch demonstrating Clean Architecture, CQRS patterns, and domain-driven design principles",
+      "Implemented full-stack solution using .NET 7 backend with Entity Framework Core and React 18 frontend with TypeScript for type safety",
+      "Designed repository pattern with dependency injection for testability and maintainability across application layers",
+      "Built real-time Q&A features with markdown support, code syntax highlighting, tagging/search, and JWT-based authentication",
+      "Published on GitHub as reference implementation for building scalable, maintainable enterprise applications using modern best practices"
+    ],
     metrics: {
       github_stars: "Educational reference project",
       other: ["Clean Architecture showcase", "Open-source contribution"]
@@ -474,6 +704,19 @@ export const projects: Project[] = [
     startDate: new Date('2022-09-01'),
     endDate: new Date('2023-03-31'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Architected technology stack upgrade from legacy ASP.NET to modern ASP.NET MVC and Angular framework for enterprise M&A platform serving Fortune 500 clients",
+      "Implemented features across 6 core modules: Pipeline Management, Due Diligence, Post-Merger Integrations, Synergy Tracking, Legal Workflow, and Reporting & Analytics",
+      "Developed backend APIs and frontend Angular components delivering measurable efficiency: 56% faster due diligence, 48% shorter integrations, 7x deal volume increase",
+      "Configured Azure DevOps CI/CD pipeline for automated deployments and integrated testing workflows",
+      "Collaborated with USA-based client stakeholders to translate M&A process requirements into scalable technical deliverables"
+    ],
+    metrics: {
+      efficiency: "56% faster due diligence",
+      performance: "48% shorter integrations",
+      other: ["7x deal volume increase", "6 integrated modules"]
+    },
+    skillsHighlighted: ["ASP.NET MVC", "Angular", "Azure DevOps", "M&A Platforms"],
   },
   {
     num: 6,
@@ -509,6 +752,13 @@ export const projects: Project[] = [
     startDate: new Date('2022-01-01'),
     endDate: new Date('2022-08-30'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Led comprehensive modernization of legacy monolithic regulatory analytics platform to Microservices architecture, achieving 10x performance improvement",
+      "Architected multi-container Docker deployment strategy enabling independent scaling and deployment of .NET 6, React, and Angular services",
+      "Migrated platform to AWS cloud infrastructure with containerized services, enabling cross-platform deployment to both Linux and Windows environments",
+      "Designed API gateway layer for microservices communication, implementing service discovery and load balancing for high availability",
+      "Reduced deployment time from hours to minutes through automated CI/CD pipelines and infrastructure-as-code practices"
+    ],
     metrics: {
       performance: "Modernized legacy monolith to microservices",
       other: ["Multi-container Docker deployment", "AWS cloud migration"]
@@ -597,6 +847,18 @@ export const projects: Project[] = [
     startDate: new Date('2021-08-01'),
     endDate: new Date('2022-02-31'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Led backend development and deployment of electronic visit verification (EVV) platform for home care agencies to ensure Medicaid compliance",
+      "Architected serverless backend using ASP.NET Core 3.1 with DynamoDB for flexible data storage and AWS Lambda for scalable processing",
+      "Developed REST APIs supporting multi-platform clients (React web, Flutter mobile) for GPS-based visit tracking, caregiver scheduling, and patient documentation",
+      "Implemented real-time visit validation workflows and automated compliance reporting for regulatory requirements",
+      "Managed AWS deployment using CloudFormation for infrastructure-as-code, ensuring high availability and scalability"
+    ],
+    metrics: {
+      performance: "Serverless AWS architecture for scalability",
+      other: ["Multi-platform (Web + Mobile)", "Real-time visit verification"]
+    },
+    skillsHighlighted: ["AWS Lambda", "DynamoDB", "Serverless", "Healthcare Compliance"],
   },
   {
     num: 8,
@@ -629,6 +891,14 @@ export const projects: Project[] = [
     startDate: new Date('2021-08-01'),
     endDate: new Date('2021-07-31'),
     inactivationReason: "Successfully delivered emergency alert system for Bangladesh Red Crescent Society; project completed as planned and transitioned to client operations.",
+    responsibilities: [
+      "Led development of emergency alert mobile application for Bangladesh Red Crescent Society (BDRCS) using Flutter with .NET 5 backend and Angular admin dashboard",
+      "Architected clean architecture backend with Entity Framework Core and MySQL for reliable emergency communication workflows",
+      "Designed and deployed serverless AWS infrastructure using Lambda, S3, RDS, and CloudFormation for scalability and high availability",
+      "Implemented push notification system for critical emergency alerts and real-time communication features",
+      "Delivered production system adhering to software best practices and disaster response requirements"
+    ],
+    skillsHighlighted: ["Flutter", ".NET 5", "AWS Serverless", "Emergency Systems"],
   },
   {
     num: 9,
@@ -662,6 +932,13 @@ export const projects: Project[] = [
     startDate: new Date('2020-03-01'),
     endDate: new Date('2021-01-31'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Led modernization of Robi's Subscriber Verification System (SVS) serving millions of telecom users, migrating from .NET Framework to .NET Core 2.2 for cross-platform Linux deployment",
+      "Developed and optimized REST APIs for high-throughput telecom operations, handling millions of daily verification requests with minimal latency",
+      "Architected automated deployment pipeline for 40+ production servers using CI/CD practices, reducing deployment errors and downtime",
+      "Implemented Entity Framework optimizations and Oracle Database query tuning for improved system performance and scalability",
+      "Managed load-balanced infrastructure deployment enabling horizontal scaling for growing subscriber base"
+    ],
     metrics: {
       users: "Millions of telecom subscribers",
       performance: "Optimized API for high-traffic telecom operations",
@@ -753,6 +1030,14 @@ export const projects: Project[] = [
     startDate: new Date('2020-01-01'),
     endDate: new Date('2020-11-31'),
     inactivationReason: "Successfully delivered scalable social platform MVP; client pivoted business model based on market insights gained during development.",
+    responsibilities: [
+      "Led backend development for social platform combining Twitter, Yelp, and Facebook elements using Node.js, hapi.js, and MongoDB",
+      "Architected scalable API layer supporting curated experience sharing, social feeds, and location-based recommendations",
+      "Developed React frontend for responsive web experience with real-time updates and interactive user engagement features",
+      "Deployed production infrastructure on AWS (EC2, S3, CloudFormation) ensuring high availability and performance at scale",
+      "Managed full project lifecycle from architecture design through deployment and delivery"
+    ],
+    skillsHighlighted: ["Node.js", "hapi.js", "MongoDB", "Social Platforms"],
   },
   {
     num: 11,
@@ -782,6 +1067,14 @@ export const projects: Project[] = [
     startDate: new Date('2018-05-01'),
     endDate: new Date('2020-04-31'),
     inactivationReason: "Completed location-based e-commerce platform development; project fulfilled contracted scope and delivered intended functionality.",
+    responsibilities: [
+      "Developed location-based e-commerce platform using MEAN stack (MongoDB, Express.js, Angular, Node.js) with Flutter mobile application",
+      "Implemented geolocation features for proximity-based product discovery and location-aware shopping experiences",
+      "Built RESTful APIs with Express.js for seamless integration between web and mobile clients",
+      "Designed MongoDB schema for efficient product catalog management and user location data storage",
+      "Contributed to both frontend and backend development as full-stack developer across web and mobile platforms"
+    ],
+    skillsHighlighted: ["MEAN Stack", "Flutter", "Geolocation", "E-Commerce"],
   },
   {
     num: 12,
@@ -814,6 +1107,14 @@ export const projects: Project[] = [
     startDate: new Date('2017-01-01'),
     endDate: new Date('2019-09-30'),
     inactivationReason: "Delivered production platform for live performance engagement; company pivoted focus post-launch.",
+    responsibilities: [
+      "Developed real-time audience engagement platform for live performances using ASP.NET WebAPI 2 backend and Angular.js frontend for USA-based performing arts startup",
+      "Implemented cross-platform Xamarin mobile applications (iOS/Android) enabling real-time presenter-to-audience communication during events",
+      "Built scalable AWS infrastructure (EC2, S3) supporting multiple concurrent events with real-time messaging capabilities",
+      "Developed event management features, audience interaction workflows, and analytics dashboard using Entity Framework and MSSQL",
+      "Contributed to full-stack development including API design, database schema, frontend UI, and mobile app deployment"
+    ],
+    skillsHighlighted: ["Xamarin", "ASP.NET WebAPI", "Real-Time Systems", "Event Management"],
   },
   {
     num: 13,
@@ -843,6 +1144,19 @@ export const projects: Project[] = [
     startDate: new Date('2018-03-01'),
     endDate: new Date('2018-07-30'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Developed Interactive Voice Response (IVR) system backend using ASP.NET Web API with MongoDB for VRI Gateway platform supporting 44 languages + ASL",
+      "Integrated Twilio Voice API for automated call handling, intelligent queue management, and interpreter routing based on language requirements and availability",
+      "Built cross-platform desktop client using Angular.js and Electron for interpreter dispatch management and real-time session monitoring",
+      "Implemented call status tracking dashboard and reporting features for service quality metrics and performance analysis",
+      "Delivered production system achieving 5.0/5.0 App Store rating, enabling access to hundreds of qualified interpreters globally"
+    ],
+    metrics: {
+      performance: "Real-time interpreter routing",
+      users: "44+ languages + ASL support",
+      other: ["5.0/5.0 App Store rating", "Hundreds of global interpreters"]
+    },
+    skillsHighlighted: ["Twilio API", "Electron", "IVR Systems", "Multilingual Support"],
   },
   {
     num: 14,
@@ -873,6 +1187,14 @@ export const projects: Project[] = [
     startDate: new Date('2018-02-01'),
     endDate: new Date('2018-10-30'),
     inactivationReason: "Successfully delivered MVP demonstrating concept viability; project completed technical objectives and provided valuable market validation.",
+    responsibilities: [
+      "Developed live engagement application using ASP.NET Web API backend with Angular.js frontend and Xamarin cross-platform mobile apps",
+      "Implemented real-time features using Firebase for instant messaging and live event interactions",
+      "Built authentication and authorization system using JWT with Entity Framework for user management",
+      "Designed MSSQL database schema supporting engagement workflows, user profiles, and event tracking",
+      "Contributed to MVP delivery demonstrating concept viability across web and mobile platforms"
+    ],
+    skillsHighlighted: ["Firebase", "Xamarin", "JWT Auth", "Live Engagement"],
   },
   {
     num: 15,
@@ -894,6 +1216,14 @@ export const projects: Project[] = [
     startDate: new Date('2018-06-01'),
     endDate: new Date('2018-12-31'),
     inactivationReason: "Completed development phase; project remained unpublished due to client business decisions.",
+    responsibilities: [
+      "Developed resident communication platform for property management using ASP.NET Core backend with Android mobile application",
+      "Implemented emergency notification system with push notifications for urgent building-wide alerts and safety communications",
+      "Built maintenance request workflows enabling residents to submit and track service tickets with real-time status updates",
+      "Designed resident-to-management messaging system with Entity Framework Core and MSSQL for persistent communication history",
+      "Completed development phase with full feature implementation for apartment complexes and office buildings"
+    ],
+    skillsHighlighted: ["ASP.NET Core", "Android", "Push Notifications", "Property Management"],
   },
   {
     num: 16,
@@ -915,6 +1245,14 @@ export const projects: Project[] = [
     startDate: new Date('2020-03-01'),
     endDate: new Date('2020-08-31'),
     inactivationReason: "Delivered full-featured platform; business model validation led to project discontinuation.",
+    responsibilities: [
+      "Architected on-demand laundry service platform for Bangladesh market using ASP.NET Core backend with Angular.js frontend",
+      "Implemented geolocation-based pickup/delivery scheduling system for customer and driver mobile interfaces",
+      "Developed order workflow automation supporting B2B clients (hotels, hospitals) with bulk service management capabilities",
+      "Integrated payment gateway and SMS notification services for seamless customer experience and real-time order tracking",
+      "Built admin dashboard for operations management using Entity Framework and MSSQL with fleet management features"
+    ],
+    skillsHighlighted: ["On-Demand Services", "Geolocation", "Payment Integration", "B2B Solutions"],
   },
   {
     num: 17,
@@ -936,6 +1274,19 @@ export const projects: Project[] = [
     startDate: new Date('2016-09-01'),
     endDate: new Date('2019-05-30'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Developed full-stack features for international tax research platform covering 100+ jurisdictions with 3,000+ bilateral treaty scenarios",
+      "Implemented withholding tax calculators, CIT modeling, and passive income optimization tools using ASP.NET MVC backend and Knockout.js interactive UI",
+      "Built complex business logic for tax rule modeling integrating BEPS measures and EU Anti-Tax Avoidance Directive requirements across jurisdictions",
+      "Optimized MSSQL database queries using LINQ to SQL for efficient retrieval of large regulatory datasets including treaties, forms, and statutory excerpts",
+      "Integrated with Regfollower news feed for multiple-times-weekly regulatory updates, enabling tax professionals to track compliance changes in real-time"
+    ],
+    metrics: {
+      efficiency: "100+ jurisdictions coverage",
+      performance: "3,000+ bilateral treaty scenarios",
+      other: ["Weekly regulatory updates", "Multi-year tax projections"]
+    },
+    skillsHighlighted: ["Tax Compliance", "Knockout.js", "BEPS/ATAD", "Regulatory Research"],
   },
   {
     num: 18,
@@ -957,6 +1308,19 @@ export const projects: Project[] = [
     startDate: new Date('2016-09-01'),
     endDate: new Date('2019-05-30'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Developed transfer pricing compliance features for platform covering 108 jurisdictions, serving multinational corporations managing intercompany transactions",
+      "Implemented Functional Analysis Report (FAR) data collection workflows and BEPS position assessment tools for group entities using ASP.NET MVC and Knockout.js",
+      "Built regulatory framework builder enabling jurisdiction comparison with direct links to government source documents and expert commentary",
+      "Created centralized project storage system for research results, compliance tracking, and curated news updates across all 108 jurisdictions",
+      "Optimized LINQ to SQL queries for complex regulatory data retrieval including laws, regulations, treaty articles, and BEPS/ATAD provisions"
+    ],
+    metrics: {
+      efficiency: "108 jurisdictions with FAR/BEPS analysis",
+      performance: "Compliance gap identification",
+      other: ["60% of $1B+ companies need better TP solutions", "Regulatory framework builder"]
+    },
+    skillsHighlighted: ["Transfer Pricing", "FAR Analysis", "BEPS Compliance", "Global Tax"],
   },
   {
     num: 19,
@@ -985,6 +1349,14 @@ export const projects: Project[] = [
     startDate: new Date('2016-11-01'),
     endDate: new Date('2017-03-30'),
     inactivationReason: "This Project is running internally.",
+    responsibilities: [
+      "Architected centralized authentication and subscription management system from scratch for RegAnalytics product suite (WTA, TPA, and other tools)",
+      "Implemented token-based authentication (JWT) and single sign-on (SSO) across multiple products using ASP.NET MVC and Web API",
+      "Designed role-based access control (RBAC) and subscription tier management with Entity Framework for enterprise compliance",
+      "Built secure session handling, password policies, and audit logging features meeting enterprise security requirements",
+      "Reduced authentication-related development effort for product teams by centralizing security concerns across all RegAnalytics products"
+    ],
+    skillsHighlighted: ["SSO/JWT", "RBAC", "Security", "Enterprise Auth"],
   },
   {
     num: 20,
@@ -1014,6 +1386,14 @@ export const projects: Project[] = [
     startDate: new Date('2015-06-01'),
     endDate: new Date('2015-10-31'),
     inactivationReason: "Delivered cross-platform real-time notification service as specified; project completed development milestone and transitioned to client maintenance.",
+    responsibilities: [
+      "Designed and built real-time notification service supporting cross-platform push notifications (Android GCM, iOS APNS, Windows, web clients)",
+      "Architected message queuing system using Node.js with RabbitMQ for asynchronous notification processing with configurable priority queues",
+      "Implemented WebSocket connections using Socket.io for real-time delivery tracking and management dashboard monitoring",
+      "Developed RESTful API for notification submission, device registration, targeting logic, and retry mechanisms for failed deliveries",
+      "Deployed production service with MongoDB for notification persistence and delivery status tracking"
+    ],
+    skillsHighlighted: ["RabbitMQ", "Socket.io", "Push Notifications", "Message Queuing"],
   },
   {
     num: 21,
@@ -1035,6 +1415,13 @@ export const projects: Project[] = [
     startDate: new Date('2015-06-01'),
     endDate: new Date('2015-10-31'),
     inactivationReason: "Successfully implemented news aggregation platform; project completed as planned and achieved technical requirements.",
+    responsibilities: [
+      "Developed multi-source news scraping and aggregation system using Node.js and Express.js for content processing pipeline",
+      "Implemented web scraping algorithms extracting news articles from various sources with data normalization and deduplication",
+      "Designed MySQL database schema for efficient storage and retrieval of aggregated news content with metadata indexing",
+      "Built automated scheduling system for continuous news monitoring and real-time content updates"
+    ],
+    skillsHighlighted: ["Web Scraping", "Data Aggregation", "Content Processing", "Automation"],
   },
   {
     num: 22,
@@ -1064,6 +1451,13 @@ export const projects: Project[] = [
     startDate: new Date('2014-08-01'),
     endDate: new Date('2014-10-31'),
     inactivationReason: "Delivered social connection platform MVP; project completed contracted development phase and met initial business objectives.",
+    responsibilities: [
+      "Implemented features for social and professional networking platform MVP combining Facebook-like social features with LinkedIn-style professional networking",
+      "Developed full-stack features using MEAN stack (MongoDB, Express.js, Angular.js, Node.js) with real-time Socket.io messaging",
+      "Fixed bugs in user profile management, connection workflows, and messaging features across frontend and backend",
+      "Collaborated with development team to deliver MVP demonstrating platform concept and achieving initial business objectives"
+    ],
+    skillsHighlighted: ["MEAN Stack", "Socket.io", "Social Networking", "MVP Development"],
   },
   {
     num: 23,
@@ -1084,6 +1478,17 @@ export const projects: Project[] = [
     startDate: new Date('2014-11-01'),
     endDate: new Date('2014-11-31'),
     inactivationReason: undefined,
+    responsibilities: [
+      "Implemented new features for examination management system supporting FCPS/MCPS preliminary and final level exams for Bangladesh's premier medical education institution",
+      "Fixed bugs in trainee registration workflows, online examination platform, and result management modules",
+      "Developed administrative dashboard features for exam scheduling and candidate tracking across affiliated medical colleges and hospitals nationwide",
+      "Collaborated with senior developers to deliver features supporting continuing professional development (CPD) programs and research dissertation tracking"
+    ],
+    metrics: {
+      users: "National medical education institution",
+      other: ["Since 1972", "FCPS/MCPS examination system"]
+    },
+    skillsHighlighted: ["ASP.NET MVC", "Entity Framework", "Medical Systems", "Education Platforms"],
   },
 ];
 
@@ -1105,4 +1510,24 @@ export const getActiveProjects = (): Project[] => {
 // Helper function to get open source projects
 export const getOpenSourceProjects = (): Project[] => {
   return projects.filter(project => project.isOpenSource === true);
+};
+
+// Generate slug from project title
+export const generateProjectSlug = (title: string): string => {
+  return title
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .trim();
+};
+
+// Helper function to get project by slug
+export const getProjectBySlug = (slug: string): Project | undefined => {
+  return projects.find(project => generateProjectSlug(project.title) === slug);
+};
+
+// Get all project slugs for static generation
+export const getAllProjectSlugs = (): string[] => {
+  return projects.map(project => generateProjectSlug(project.title));
 }; 

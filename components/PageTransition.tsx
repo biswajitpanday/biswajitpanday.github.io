@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { Triangle } from "react-loader-spinner";
+import { Spinner } from "@/components/ui/Spinner";
 
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -98,21 +98,13 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
       {showLoader ? (
         <motion.div
           key="loader"
-          className="fixed inset-0 z-50 flex items-center justify-center"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-primary/80 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <Triangle
-            visible={true}
-            height="60"
-            width="60"
-            color="#00bfff"
-            ariaLabel="triangle-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-          />
+          <Spinner size="lg" />
         </motion.div>
       ) : (
         <motion.main

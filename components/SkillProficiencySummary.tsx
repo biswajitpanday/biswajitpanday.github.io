@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { skills1 } from '@/data/skillsData';
+import { skills1, skills2 } from '@/data/skillsData';
+import DynamicIcon from '@/components/DynamicIcon';
 import SkillsHeatMapModal from './SkillsHeatMapModal';
 
 // Skill interface matching skillsData structure
@@ -19,55 +20,121 @@ interface SkillNode {
 
 // Updated level to color mapping with glassmorphism theme
 const levelToColor = {
-  'Expert': 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/30 border-emerald-500/50 text-white backdrop-blur-sm',
-  'Advanced': 'bg-gradient-to-br from-blue-500/20 to-blue-600/30 border-blue-500/50 text-white backdrop-blur-sm',
-  'Intermediate': 'bg-gradient-to-br from-purple-500/20 to-purple-600/30 border-purple-500/50 text-white backdrop-blur-sm',
+  'Expert': 'bg-gradient-to-br from-purple-500/20 to-pink-500/30 border-fuchsia-500/50 text-white backdrop-blur-sm',
+  'Advanced': 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/30 border-emerald-500/50 text-white backdrop-blur-sm',
+  'Intermediate': 'bg-gradient-to-br from-blue-500/20 to-blue-600/30 border-blue-500/50 text-white backdrop-blur-sm',
   'Familiar': 'bg-gradient-to-br from-slate-500/20 to-slate-600/30 border-slate-500/50 text-white backdrop-blur-sm',
 };
 
 const levelToGradient = {
-  'Expert': 'from-emerald-500/20 to-emerald-500/10 border-emerald-500/40',
-  'Advanced': 'from-blue-500/20 to-blue-500/10 border-blue-500/40',
-  'Intermediate': 'from-purple-500/20 to-purple-500/10 border-purple-500/40', // Changed from amber
+  'Expert': 'from-purple-500/20 to-pink-500/10 border-fuchsia-500/40',
+  'Advanced': 'from-emerald-500/20 to-emerald-500/10 border-emerald-500/40',
+  'Intermediate': 'from-blue-500/20 to-blue-500/10 border-blue-500/40',
   'Familiar': 'from-slate-500/20 to-slate-500/10 border-slate-500/40',
 };
 
 const levelToTextColor = {
-  'Expert': 'text-emerald-400',
-  'Advanced': 'text-blue-400',
-  'Intermediate': 'text-purple-400', // Changed from amber
+  'Expert': 'text-fuchsia-400',
+  'Advanced': 'text-emerald-400',
+  'Intermediate': 'text-blue-400',
   'Familiar': 'text-slate-400',
 };
 
 const levelToIcon = {
-  'Expert': '🟢',
-  'Advanced': '🔵',
-  'Intermediate': '🟣', // Changed from 🟡
+  'Expert': '🟣',
+  'Advanced': '🟢',
+  'Intermediate': '🔵',
   'Familiar': '⚪',
+};
+
+// Technology icon mapping - same as SkillsHeatMapModal
+const getTechnologyIcon = (techName: string) => {
+  const iconMap: Record<string, string> = {
+    // .NET Technologies
+    'ASP.NET Core': 'SiDotnet',
+    'ASP.NET MVC': 'SiDotnet',
+    '.NET Core/.NET 6/7/8/9': 'SiDotnet',
+    'C#': 'TbBrandCSharp',
+
+    // JavaScript/TypeScript Frameworks
+    'React': 'FaReact',
+    'Next.js': 'SiNextdotjs',
+    'Angular': 'FaAngular',
+    'Vue.js': 'FaVuejs',
+    'Express.js': 'SiExpress',
+    'Node.js': 'FaNodeJs',
+    'NestJS': 'SiNestjs',
+    'Blazor': 'SiDotnet',
+
+    // Languages
+    'JavaScript': 'FaJs',
+    'TypeScript': 'SiTypescript',
+    'Python': 'FaPython',
+    'Java': 'FaJava',
+
+    // Cloud & Infrastructure
+    'Azure': 'SiMicrosoftazure',
+    'AWS': 'FaAws',
+    'Docker': 'FaDocker',
+    'Kubernetes': 'SiKubernetes',
+
+    // Databases
+    'MongoDB': 'SiMongodb',
+    'PostgreSQL': 'SiPostgresql',
+    'MySQL': 'SiMysql',
+    'SQL Server': 'FaDatabase',
+    'Redis': 'SiRedis',
+    'DynamoDB': 'FaDatabase',
+    'CosmosDB': 'FaDatabase',
+
+    // Message Queues & APIs
+    'RabbitMQ': 'SiRabbitmq',
+    'Kafka': 'SiKafka',
+    'GraphQL': 'SiGraphql',
+    'REST API Design': 'FaCode',
+    'LINQ': 'FaCode',
+
+    // Search
+    'Elasticsearch': 'SiElasticsearch',
+
+    // Patterns & Methodologies
+    'Domain Driven Design': 'FaSitemap',
+    'Microservices': 'FaSitemap',
+    'CQRS': 'FaSitemap',
+    'Serverless': 'FaServer',
+    'Event Sourcing': 'FaSitemap',
+    'Agile': 'FaTasks',
+    'Scrum': 'FaTasks',
+    'Kanban': 'FaTasks',
+  };
+
+  return iconMap[techName] || 'FaCode'; // Default icon
 };
 
 export default function SkillProficiencySummary() {
   const [showFullHeatMap, setShowFullHeatMap] = useState(false);
 
-  // Extract all skills with metadata
+  // Recursively extract all skills with metadata from the tree
   const extractSkills = (node: SkillNode): SkillNode[] => {
     let allSkills: SkillNode[] = [];
 
+    // If this node has a level metadata, it's a skill - add it
+    if (node.metadata?.level) {
+      allSkills.push(node);
+    }
+
+    // Recursively process all children
     if (node.children) {
-      node.children.forEach(categoryNode => {
-        if (categoryNode.children) {
-          const skillsWithMetadata = categoryNode.children.filter(
-            skill => skill.metadata && skill.metadata.level
-          );
-          allSkills = [...allSkills, ...skillsWithMetadata];
-        }
+      node.children.forEach(childNode => {
+        allSkills = [...allSkills, ...extractSkills(childNode)];
       });
     }
 
     return allSkills;
   };
 
-  const allSkills = extractSkills(skills1);
+  // Extract skills from both trees
+  const allSkills = [...extractSkills(skills1), ...extractSkills(skills2)];
 
   // Count by proficiency level
   const expertCount = allSkills.filter(s => s.metadata?.level === 'Expert').length;
@@ -76,7 +143,7 @@ export default function SkillProficiencySummary() {
   const familiarCount = allSkills.filter(s => s.metadata?.level === 'Familiar').length;
 
   // Get top 12 skills with balanced representation across all levels
-  // 5 Expert + 3 Advanced + 2 Intermediate + 2 Familiar = 12 total
+  // 3 Expert + 4 Advanced + 3 Intermediate + 2 Familiar = 12 total
   const getTopSkillsByLevel = (level: string, count: number) => {
     return allSkills
       .filter(s => s.metadata?.level === level)
@@ -89,9 +156,9 @@ export default function SkillProficiencySummary() {
   };
 
   const topSkills = [
-    ...getTopSkillsByLevel('Expert', 5),
-    ...getTopSkillsByLevel('Advanced', 3),
-    ...getTopSkillsByLevel('Intermediate', 2),
+    ...getTopSkillsByLevel('Expert', 3),
+    ...getTopSkillsByLevel('Advanced', 4),
+    ...getTopSkillsByLevel('Intermediate', 3),
     ...getTopSkillsByLevel('Familiar', 2),
   ];
 
@@ -101,7 +168,7 @@ export default function SkillProficiencySummary() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="mb-6 bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-xl border border-secondary-default/30 rounded-xl p-4 shadow-lg shadow-secondary-default/10"
+        className="relative mb-6 bg-gradient-to-br from-gray-900/95 to-gray-950/95 backdrop-blur-xl border border-secondary-default/30 rounded-xl p-4 shadow-lg shadow-secondary-default/10 z-[120]"
       >
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold text-white/90">Proficiency Overview</h3>
@@ -113,16 +180,18 @@ export default function SkillProficiencySummary() {
           </button>
         </div>
 
-        {/* Compact Stats Cards */}
+        {/* Compact Stats Cards - 2 lines each */}
         <div className="grid grid-cols-4 gap-2 mb-3">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.1 }}
-            className={`bg-gradient-to-br ${levelToGradient.Expert} rounded-lg p-2 text-center`}
+            className={`bg-gradient-to-br ${levelToGradient.Expert} rounded-lg px-2 py-1.5 text-center`}
           >
-            <div className="text-xl mb-0.5">{levelToIcon.Expert}</div>
-            <div className={`text-xl font-bold ${levelToTextColor.Expert}`}>{expertCount}</div>
+            <div className="flex items-center justify-center gap-1.5">
+              <span className="text-base">{levelToIcon.Expert}</span>
+              <span className={`text-lg font-bold ${levelToTextColor.Expert}`}>{expertCount}</span>
+            </div>
             <div className="text-[10px] text-white/50 uppercase tracking-wider">Expert</div>
           </motion.div>
 
@@ -130,10 +199,12 @@ export default function SkillProficiencySummary() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.15 }}
-            className={`bg-gradient-to-br ${levelToGradient.Advanced} rounded-lg p-2 text-center`}
+            className={`bg-gradient-to-br ${levelToGradient.Advanced} rounded-lg px-2 py-1.5 text-center`}
           >
-            <div className="text-xl mb-0.5">{levelToIcon.Advanced}</div>
-            <div className={`text-xl font-bold ${levelToTextColor.Advanced}`}>{advancedCount}</div>
+            <div className="flex items-center justify-center gap-1.5">
+              <span className="text-base">{levelToIcon.Advanced}</span>
+              <span className={`text-lg font-bold ${levelToTextColor.Advanced}`}>{advancedCount}</span>
+            </div>
             <div className="text-[10px] text-white/50 uppercase tracking-wider">Advanced</div>
           </motion.div>
 
@@ -141,31 +212,39 @@ export default function SkillProficiencySummary() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.2 }}
-            className={`bg-gradient-to-br ${levelToGradient.Intermediate} rounded-lg p-2 text-center`}
+            className={`bg-gradient-to-br ${levelToGradient.Intermediate} rounded-lg px-2 py-1.5 text-center`}
           >
-            <div className="text-xl mb-0.5">{levelToIcon.Intermediate}</div>
-            <div className={`text-xl font-bold ${levelToTextColor.Intermediate}`}>{intermediateCount}</div>
-            <div className="text-[10px] text-white/50 uppercase tracking-wider">Intermidate</div>
+            <div className="flex items-center justify-center gap-1.5">
+              <span className="text-base">{levelToIcon.Intermediate}</span>
+              <span className={`text-lg font-bold ${levelToTextColor.Intermediate}`}>{intermediateCount}</span>
+            </div>
+            <div className="text-[10px] text-white/50 uppercase tracking-wider">Intermediate</div>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.25 }}
-            className={`bg-gradient-to-br ${levelToGradient.Familiar} rounded-lg p-2 text-center`}
+            className={`bg-gradient-to-br ${levelToGradient.Familiar} rounded-lg px-2 py-1.5 text-center`}
           >
-            <div className="text-xl mb-0.5">{levelToIcon.Familiar}</div>
-            <div className={`text-xl font-bold ${levelToTextColor.Familiar}`}>{familiarCount}</div>
+            <div className="flex items-center justify-center gap-1.5">
+              <span className="text-base">{levelToIcon.Familiar}</span>
+              <span className={`text-lg font-bold ${levelToTextColor.Familiar}`}>{familiarCount}</span>
+            </div>
             <div className="text-[10px] text-white/50 uppercase tracking-wider">Familiar</div>
           </motion.div>
         </div>
 
-        {/* Compact Mini Heat Map Grid - Top 12 Skills */}
+        {/* Compact Mini Heat Map Grid - Top 12 Skills - Single Line */}
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-1.5">
           {topSkills.map((skill, index) => {
             const level = skill.metadata?.level || 'Familiar';
             const colorClass = levelToColor[level];
             const experience = skill.metadata?.yearsOfExperience;
+            const iconName = getTechnologyIcon(skill.name);
+
+            // Determine if skill is in first row for smart tooltip positioning
+            const isInFirstRow = index < 6; // 6 columns in lg breakpoint
 
             return (
               <motion.div
@@ -176,26 +255,49 @@ export default function SkillProficiencySummary() {
                 className="relative group"
               >
                 <div
-                  className={`relative px-2 py-1.5 rounded-md border ${colorClass} text-center text-[11px] font-semibold transition-all hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/20 cursor-pointer`}
+                  className={`relative px-2 py-1 rounded-md border ${colorClass} text-[11px] font-semibold transition-all hover:shadow-lg hover:shadow-secondary-default/20 cursor-pointer`}
                 >
-                  <div className="truncate">{skill.name}</div>
-                  {experience && (
-                    <div className="text-[9px] opacity-80 mt-0.5">{experience}y</div>
-                  )}
+                  {/* Icon + Name - Single Line */}
+                  <div className="flex items-center justify-center gap-1">
+                    <DynamicIcon iconName={iconName} className="text-xs flex-shrink-0" />
+                    <div className="truncate">{skill.name}</div>
+                  </div>
                 </div>
 
-                {/* Fixed Tooltip - Shows ABOVE, better opacity, higher z-index */}
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-                  <div className="bg-gray-900/95 backdrop-blur-sm border border-secondary-default/40 rounded-lg px-3 py-2 shadow-xl min-w-[150px]">
-                    <div className="text-xs font-semibold text-white mb-1">{skill.name}</div>
-                    <div className="text-[10px] text-white/70 space-y-0.5">
-                      <div>Level: <span className={levelToTextColor[level]}>{level}</span></div>
-                      {experience && <div>Experience: {experience} years</div>}
-                      {skill.metadata?.lastUsed && <div>Last Used: {skill.metadata.lastUsed}</div>}
+                {/* Enhanced Tooltip - Smart Positioning */}
+                <div className={`absolute ${isInFirstRow ? 'top-full mt-3' : 'bottom-full mb-3'} left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-[9999]`}>
+                  <div className="bg-gradient-to-br from-gray-900 to-gray-950 backdrop-blur-md border-2 border-secondary-default/50 rounded-lg px-3 py-2.5 shadow-2xl shadow-secondary-default/30 w-max max-w-[280px]">
+                    {/* Technology Name with Icon */}
+                    <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/10">
+                      <DynamicIcon iconName={iconName} className="text-base text-secondary-default flex-shrink-0" />
+                      <div className="text-sm font-bold text-white break-words">{skill.name}</div>
                     </div>
-                    {/* Tooltip Arrow */}
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
-                      <div className="border-4 border-transparent border-t-gray-900/95"></div>
+
+                    {/* Info Grid */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between text-[11px] gap-2">
+                        <span className="text-white/60">Level:</span>
+                        <span className={`font-semibold ${levelToTextColor[level]}`}>{level}</span>
+                      </div>
+                      {experience && (
+                        <div className="flex items-center justify-between text-[11px] gap-2">
+                          <span className="text-white/60">Experience:</span>
+                          <span className="font-semibold text-white">{experience} {experience === 1 ? 'year' : 'years'}</span>
+                        </div>
+                      )}
+                      {skill.metadata?.lastUsed && (
+                        <div className="flex items-center justify-between text-[11px] gap-2">
+                          <span className="text-white/60">Last Used:</span>
+                          <span className="font-semibold text-emerald-400">
+                            {skill.metadata.lastUsed === 'Current' ? '🟢 Current' : skill.metadata.lastUsed}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Tooltip Arrow - Dynamic Direction */}
+                    <div className={`absolute ${isInFirstRow ? 'bottom-full mb-px' : 'top-full mt-px'} left-1/2 transform -translate-x-1/2`}>
+                      <div className={`border-[6px] border-transparent ${isInFirstRow ? 'border-b-secondary-default/50' : 'border-t-secondary-default/50'}`}></div>
                     </div>
                   </div>
                 </div>

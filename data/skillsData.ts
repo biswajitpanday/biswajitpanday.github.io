@@ -34,7 +34,7 @@ export const skills1: SkillNode = {
       name: "Backend Runtime & Platforms",
       metadata: { icon: "FaServer" },
       children: [
-        { name: ".NET Core/.NET 6/7", metadata: { icon: "SiDotnet", level: "Expert", yearsOfExperience: 8, lastUsed: "Current" } },
+        { name: ".NET Core/.NET 6/7/8/9", metadata: { icon: "SiDotnet", level: "Expert", yearsOfExperience: 8, lastUsed: "Current" } },
         { name: "Node.js", metadata: { icon: "FaNodeJs", level: "Advanced", yearsOfExperience: 6, lastUsed: "Current" } },
       ],
     },
@@ -58,7 +58,7 @@ export const skills1: SkillNode = {
         { name: "TypeScript", metadata: { icon: "SiTypescript", level: "Expert", yearsOfExperience: 7, lastUsed: "Current" } },
         { name: "JavaScript", metadata: { icon: "FaJs", level: "Advanced", yearsOfExperience: 8, lastUsed: "Current" } },
         { name: "Python", metadata: { icon: "SiPython", level: "Intermediate", yearsOfExperience: 2, lastUsed: "Current" } },
-        { name: "Go", metadata: { icon: "FaGolang", level: "Intermediate", yearsOfExperience: 1, lastUsed: "2023" } },
+        { name: "Go", metadata: { icon: "SiGo", level: "Intermediate", yearsOfExperience: 1, lastUsed: "2023" } },
         { name: "Java", metadata: { icon: "FaJava", level: "Familiar", yearsOfExperience: 1, lastUsed: "2018" } },
       ],
     },

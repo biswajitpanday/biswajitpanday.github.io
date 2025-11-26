@@ -1,10 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useId } from "react";
 import { motion } from "framer-motion";
 import { FiFilter, FiChevronDown, FiSearch, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { skills1, skills2 } from "@/data/skillsData";
+
+/**
+ * SkillsFilter - Accessible skills filter component
+ * WCAG 2.1 AA compliant with keyboard navigation and ARIA labels
+ */
 
 // Define a type for the skill node structure
 interface SkillNode {
@@ -48,6 +53,8 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTechnology, setSelectedTechnology] = useState<string | null>(null);
+  const searchInputId = useId();
+  const filterPanelId = useId();
   
   // Extract categories and technologies
   const categories = [
@@ -112,27 +119,34 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/20 rounded-lg overflow-hidden mb-6 shadow-md"
+      role="search"
+      aria-label="Skills filter"
     >
       {/* Compact Search and Filter Bar */}
       <div className="p-3 flex flex-col sm:flex-row gap-2 items-center">
         {/* Compact Search Input */}
         <div className="relative flex-1 w-full">
-          <div className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-secondary-default text-sm">
+          <label htmlFor={searchInputId} className="sr-only">
+            Search skills
+          </label>
+          <div className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-secondary-default text-sm" aria-hidden="true">
             <FiSearch />
           </div>
           <input
-            type="text"
+            id={searchInputId}
+            type="search"
             placeholder={placeholder}
             value={searchQuery}
             onChange={handleSearchChange}
-            className="w-full h-9 bg-gray-800/50 border border-secondary-default/20 rounded-lg pl-9 pr-9 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
+            className="w-full h-9 bg-gray-800/50 border border-secondary-default/20 rounded-lg pl-9 pr-9 text-sm text-white placeholder:text-white/50 focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 focus:border-secondary-default/50"
           />
           {searchQuery && (
             <button
               onClick={onClearSearch}
-              className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-secondary-default"
+              className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-secondary-default focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
+              aria-label="Clear search"
             >
-              <FiX className="text-sm" />
+              <FiX className="text-sm" aria-hidden="true" />
             </button>
           )}
         </div>
@@ -142,11 +156,13 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
           variant="outline"
           onClick={toggleFilterPanel}
           size="sm"
-          className={`shrink-0 flex items-center gap-1.5 text-xs ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
+          className={`shrink-0 flex items-center gap-1.5 text-xs focus-visible:ring-2 focus-visible:ring-cyan-400 ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
+          aria-expanded={isExpanded}
+          aria-controls={filterPanelId}
         >
-          <FiFilter className={`text-sm ${isExpanded ? 'text-secondary-default' : 'text-white/70'}`} />
+          <FiFilter className={`text-sm ${isExpanded ? 'text-secondary-default' : 'text-white/70'}`} aria-hidden="true" />
           <span>Filters</span>
-          <FiChevronDown className={`text-sm transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+          <FiChevronDown className={`text-sm transition-transform ${isExpanded ? 'rotate-180' : ''}`} aria-hidden="true" />
         </Button>
 
         {/* Compact Reset Button */}
@@ -155,7 +171,8 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
             variant="ghost"
             size="sm"
             onClick={resetFilters}
-            className="shrink-0 text-white/70 hover:text-secondary-default px-3 py-1.5 text-xs"
+            className="shrink-0 text-white/70 hover:text-secondary-default px-3 py-1.5 text-xs focus-visible:ring-2 focus-visible:ring-cyan-400"
+            aria-label="Reset all filters"
           >
             Reset
           </Button>
@@ -172,6 +189,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
       {/* Compact Expanded Filter Panel */}
       {isExpanded && (
         <motion.div
+          id={filterPanelId}
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
@@ -180,32 +198,50 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-3">
             {/* Categories Filter */}
-            <div>
-              <h4 className="text-secondary-default text-sm font-semibold mb-2">Categories</h4>
+            <div role="group" aria-labelledby="categories-label">
+              <h4 id="categories-label" className="text-secondary-default text-sm font-semibold mb-2">Categories</h4>
               <div className="flex flex-wrap gap-2">
                 {categories.map(category => (
                   <Badge
                     key={category}
                     variant={selectedCategory === category ? "default" : "outline"}
-                    className={`cursor-pointer ${selectedCategory === category ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
+                    className={`cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${selectedCategory === category ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
                     onClick={() => handleCategorySelect(category)}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={selectedCategory === category}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleCategorySelect(category);
+                      }
+                    }}
                   >
                     {category}
                   </Badge>
                 ))}
               </div>
             </div>
-            
+
             {/* Technologies Filter */}
-            <div>
-              <h4 className="text-secondary-default text-sm font-semibold mb-2">Technologies</h4>
+            <div role="group" aria-labelledby="technologies-label">
+              <h4 id="technologies-label" className="text-secondary-default text-sm font-semibold mb-2">Technologies</h4>
               <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto custom-scrollbar">
                 {allSkills.map(technology => (
                   <Badge
                     key={technology}
                     variant={selectedTechnology === technology ? "default" : "outline"}
-                    className={`cursor-pointer ${selectedTechnology === technology ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
+                    className={`cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${selectedTechnology === technology ? 'bg-secondary-default text-primary shadow-md' : 'text-white/70 hover:text-white hover:border-secondary-default/50'}`}
                     onClick={() => handleTechnologySelect(technology)}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={selectedTechnology === technology}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleTechnologySelect(technology);
+                      }
+                    }}
                   >
                     {technology}
                   </Badge>
@@ -218,48 +254,54 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
       
       {/* Compact Active Filters */}
       {hasActiveFilters && (
-        <div className="px-3 pb-3 flex flex-wrap gap-1.5 items-center">
+        <div className="px-3 pb-3 flex flex-wrap gap-1.5 items-center" role="status" aria-live="polite">
           <span className="text-white/50 text-[10px]">Active filters:</span>
           {selectedCategory && (
-            <Badge 
+            <Badge
               className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
             >
               Category: {selectedCategory}
-              <FiX 
-                className="cursor-pointer hover:text-secondary-default" 
+              <button
+                className="cursor-pointer hover:text-secondary-default focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 rounded"
                 onClick={() => {
                   setSelectedCategory(null);
                   onSearchChange("");
                 }}
-                size={12}
-              />
+                aria-label={`Remove ${selectedCategory} category filter`}
+              >
+                <FiX size={12} aria-hidden="true" />
+              </button>
             </Badge>
           )}
           {selectedTechnology && (
-            <Badge 
+            <Badge
               className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
             >
               Technology: {selectedTechnology}
-              <FiX 
-                className="cursor-pointer hover:text-secondary-default" 
+              <button
+                className="cursor-pointer hover:text-secondary-default focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 rounded"
                 onClick={() => {
                   setSelectedTechnology(null);
                   onSearchChange("");
                 }}
-                size={12}
-              />
+                aria-label={`Remove ${selectedTechnology} technology filter`}
+              >
+                <FiX size={12} aria-hidden="true" />
+              </button>
             </Badge>
           )}
           {searchQuery && !selectedCategory && !selectedTechnology && (
-            <Badge 
+            <Badge
               className="bg-secondary-default/20 text-white border border-secondary-default/30 flex items-center gap-1"
             >
               Search: {searchQuery}
-              <FiX 
-                className="cursor-pointer hover:text-secondary-default" 
+              <button
+                className="cursor-pointer hover:text-secondary-default focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 rounded"
                 onClick={onClearSearch}
-                size={12}
-              />
+                aria-label="Clear search filter"
+              >
+                <FiX size={12} aria-hidden="true" />
+              </button>
             </Badge>
           )}
         </div>

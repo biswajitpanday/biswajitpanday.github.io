@@ -1,9 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaTimes, FaChevronDown } from "react-icons/fa";
+import { FaTimes, FaChevronDown, FaSearch } from "react-icons/fa";
+
+/**
+ * MobileNav - Accessible mobile navigation drawer
+ * WCAG 2.1 AA compliant with focus management and keyboard navigation
+ */
 
 interface NavigationItem {
   name: string;
@@ -23,6 +28,8 @@ interface MobileNavProps {
   currentPath: string;
   isPathActive?: (path: string) => boolean;
   onClose: () => void;
+  onSearchOpen?: () => void;
+  isSearchEnabled?: boolean;
 }
 
 export default function MobileNav({
@@ -31,16 +38,34 @@ export default function MobileNav({
   currentPath,
   isPathActive,
   onClose,
+  onSearchOpen,
+  isSearchEnabled = false,
 }: MobileNavProps) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Lock body scroll when menu is open
+  // Handle Escape key to close menu
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      onClose();
+    }
+  }, [onClose]);
+
+  // Lock body scroll and set up keyboard handlers when menu is open
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Focus the close button when menu opens for accessibility
+    if (closeButtonRef.current) {
+      closeButtonRef.current.focus();
+    }
+
     return () => {
       document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [handleKeyDown]);
 
   // Check if a path is active
   const checkIsActive = (path: string) => {
@@ -97,10 +122,13 @@ export default function MobileNav({
   };
 
   return (
-    <div 
+    <div
       data-testid="mobile-nav-overlay"
-      className="fixed inset-0 z-[var(--z-mobile-nav)]" 
+      className="fixed inset-0 z-[var(--z-mobile-nav)]"
       style={{ zIndex: 'var(--z-mobile-nav)' }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Mobile navigation menu"
     >
       <motion.div
         className="fixed inset-0 bg-black/60 backdrop-blur-sm"
@@ -108,6 +136,7 @@ export default function MobileNav({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
+        aria-hidden="true"
       >
         <motion.div
           data-testid="mobile-nav-menu"
@@ -118,27 +147,45 @@ export default function MobileNav({
           exit="exit"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Decorative elements */}
-          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-secondary-default/10 to-transparent opacity-40 pointer-events-none"></div>
-          <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-t from-secondary-default/10 to-transparent opacity-30 pointer-events-none rounded-full blur-xl"></div>
+          {/* Decorative elements - hidden from screen readers */}
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-secondary-default/10 to-transparent opacity-40 pointer-events-none" aria-hidden="true"></div>
+          <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-t from-secondary-default/10 to-transparent opacity-30 pointer-events-none rounded-full blur-xl" aria-hidden="true"></div>
           
           <div className="relative z-10 p-6">
             <div className="flex justify-between items-center mb-8">
-              <motion.h2 
+              <motion.h2
                 className="text-xl font-semibold text-white"
                 variants={itemVariants}
               >
                 Menu
               </motion.h2>
-              <motion.button
-                data-testid="mobile-nav-close"
-                className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-secondary-default transition-colors"
-                onClick={onClose}
-                variants={itemVariants}
-                aria-label="Close menu"
-              >
-                <FaTimes className="w-5 h-5" />
-              </motion.button>
+              <div className="flex items-center gap-2">
+                {/* Mobile Search Button */}
+                {isSearchEnabled && onSearchOpen && (
+                  <motion.button
+                    data-testid="mobile-nav-search"
+                    className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e1e24]"
+                    onClick={() => {
+                      onClose();
+                      onSearchOpen();
+                    }}
+                    variants={itemVariants}
+                    aria-label="Open search"
+                  >
+                    <FaSearch className="w-4 h-4" aria-hidden="true" />
+                  </motion.button>
+                )}
+                <motion.button
+                  ref={closeButtonRef}
+                  data-testid="mobile-nav-close"
+                  className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e1e24]"
+                  onClick={onClose}
+                  variants={itemVariants}
+                  aria-label="Close navigation menu"
+                >
+                  <FaTimes className="w-5 h-5" aria-hidden="true" />
+                </motion.button>
+              </div>
             </div>
 
             <nav 
@@ -157,11 +204,13 @@ export default function MobileNav({
                         <button
                           onClick={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
                           data-testid={`mobile-nav-link-${item.name.toLowerCase()}`}
-                          className={`flex items-center justify-between w-full py-3 px-4 text-base font-medium rounded-md transition-all duration-300 relative overflow-hidden group ${
+                          className={`flex items-center justify-between w-full py-3 px-4 text-base font-medium rounded-md transition-all duration-300 relative overflow-hidden group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e1e24] ${
                             isActive
                               ? "bg-secondary-default/10 text-secondary-default"
                               : "text-white/80 hover:bg-white/5 hover:text-secondary-default"
                           }`}
+                          aria-expanded={openDropdown === item.name}
+                          aria-haspopup="true"
                         >
                           <span className="relative z-10">{item.name}</span>
                           <FaChevronDown className={`relative z-10 text-xs transition-transform duration-200 ${openDropdown === item.name ? 'rotate-180' : ''}`} />
@@ -189,12 +238,13 @@ export default function MobileNav({
                                 <li key={dropdownItem.name}>
                                   <Link
                                     href={dropdownItem.href}
-                                    className={`flex items-center py-2 px-4 text-sm font-medium rounded-md transition-all duration-300 relative overflow-hidden group ${
+                                    className={`flex items-center py-2 px-4 text-sm font-medium rounded-md transition-all duration-300 relative overflow-hidden group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e1e24] ${
                                       isDropdownActive
                                         ? "bg-secondary-default/10 text-secondary-default"
                                         : "text-white/70 hover:bg-white/5 hover:text-secondary-default"
                                     }`}
                                     onClick={onClose}
+                                    aria-current={isDropdownActive ? "page" : undefined}
                                   >
                                     <span className="relative z-10">{dropdownItem.name}</span>
 
@@ -221,12 +271,13 @@ export default function MobileNav({
                       <Link
                         href={item.href}
                         data-testid={`mobile-nav-link-${item.name.toLowerCase()}`}
-                        className={`flex items-center py-3 px-4 text-base font-medium rounded-md transition-all duration-300 relative overflow-hidden group ${
+                        className={`flex items-center py-3 px-4 text-base font-medium rounded-md transition-all duration-300 relative overflow-hidden group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e1e24] ${
                           isActive
                             ? "bg-secondary-default/10 text-secondary-default"
                             : "text-white/80 hover:bg-white/5 hover:text-secondary-default"
                         }`}
                         onClick={onClose}
+                        aria-current={isActive ? "page" : undefined}
                       >
                         <span className="relative z-10">{item.name}</span>
 
@@ -265,10 +316,10 @@ export default function MobileNav({
                     target="_blank"
                     rel="noopener noreferrer"
                     data-testid={`mobile-social-link-${social.name.toLowerCase()}`}
-                    className="p-2 rounded-full bg-white/5 text-white/70 hover:text-secondary-default hover:bg-white/10 transition-all duration-300 border border-transparent hover:border-secondary-default/30 hover:shadow-glow"
-                    aria-label={social.name}
+                    className="p-2 rounded-full bg-white/5 text-white/70 hover:text-secondary-default hover:bg-white/10 transition-all duration-300 border border-transparent hover:border-secondary-default/30 hover:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e1e24]"
+                    aria-label={`Visit ${social.name} profile (opens in new tab)`}
                   >
-                    <social.icon className="w-5 h-5" />
+                    <social.icon className="w-5 h-5" aria-hidden="true" />
                   </Link>
                 ))}
               </div>

@@ -108,7 +108,12 @@ All content is centralized in `data/` directory:
 
 ### Styling System
 - **Tailwind CSS** with custom theme configuration
-- **Color Scheme**: Primary (#1c1c22), Secondary (#00BFFF)
+- **Color Hierarchy** (Most to Least Important):
+  1. **Purple/Pink** (#A855F7 / #EC4899) - Featured items, highest priority
+  2. **Emerald/Green** (#10B981) - Success states, active projects, second priority
+  3. **Cyan/Blue** (#00BFFF) - Primary brand, links, third priority
+  4. **Gray** (#6B7280 / white with opacity) - Neutral, supporting text
+  5. **Golden/Yellow** (#F59E0B) - Special cases: awards, important counts, focused items
 - **Font**: JetBrains Mono variable font
 - **Animations**: Framer Motion with optimized performance (0.4s duration)
 - **Responsive**: Mobile-first design with custom breakpoints
@@ -131,6 +136,23 @@ All content is centralized in `data/` directory:
 - **Knowledge Base:** Hardcoded portfolio data (projects, skills, certifications)
 - **Deployment:** Separate Vercel project (see Multi-Repository Architecture)
 - **API Repository:** https://github.com/biswajitpanday/portfolio-chatbot-api
+
+### GitHub Activity Integration ✨ LIVE
+- **API:** GitHub REST API v3 (public, no authentication required)
+- **Rate Limit:** 60 requests/hour (unauthenticated)
+- **Data Source:** Public events from `biswajitpanday` GitHub account
+- **Features:**
+  - Real-time contribution graph (last 365 days)
+  - Live stats: commits, PRs, issues, active days
+  - Current streak calculation
+  - Loading and error states with fallback
+  - Direct link to GitHub profile
+  - Accessible tooltips and keyboard navigation
+- **Files:**
+  - `lib/github.ts` - GitHub API service with data fetching and processing
+  - `components/GitHubActivityGraph.tsx` - Contribution visualization
+  - `app/activity/page.tsx` - Activity page with live stats
+- **Caching:** 5-minute revalidation to avoid rate limiting
 
 ### Performance Optimizations
 - Image optimization pipeline with WebP conversion and multiple size variants
@@ -183,6 +205,137 @@ NEXT_PUBLIC_CHATBOT_API_URL=            # AI Chatbot API endpoint (Vercel)
 - Add proper ARIA attributes for accessibility
 - Use Framer Motion for animations with 0.4s duration
 
+### Accessibility Standards (WCAG 2.1 AA)
+
+This portfolio follows WCAG 2.1 AA accessibility guidelines. All new components must implement these patterns:
+
+#### Focus Management
+```tsx
+// Use focus-visible for keyboard-only focus rings (cyan-400 is the standard)
+className="focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+
+// For inset focus rings (inside elements like dropdown options)
+className="focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+```
+
+#### Dialog/Modal Components
+```tsx
+// Required attributes for modals
+<motion.div
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={titleId}
+  aria-describedby={descriptionId}
+>
+  <h2 id={titleId}>Modal Title</h2>
+  <p id={descriptionId}>Modal description</p>
+</motion.div>
+
+// Always implement Escape key handler
+useEffect(() => {
+  const handleEscape = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') onClose();
+  };
+  document.addEventListener('keydown', handleEscape);
+  return () => document.removeEventListener('keydown', handleEscape);
+}, [onClose]);
+```
+
+#### Form Inputs
+```tsx
+// Always connect labels to inputs
+const inputId = useId();
+<label htmlFor={inputId}>Email</label>
+<input
+  id={inputId}
+  aria-invalid={hasError ? true : undefined}
+  aria-describedby={errorId}
+  aria-required={isRequired}
+/>
+{hasError && <p id={errorId} role="alert">{errorMessage}</p>}
+```
+
+#### Expandable/Collapsible Panels
+```tsx
+// Toggle buttons must have aria-expanded and aria-controls
+<button
+  aria-expanded={isOpen}
+  aria-controls={panelId}
+>
+  Toggle Panel
+</button>
+<div id={panelId} hidden={!isOpen}>
+  Panel content
+</div>
+```
+
+#### Interactive Lists (Tabs, Dropdowns, Carousels)
+```tsx
+// Tab pattern
+<div role="tablist" aria-label="Section tabs">
+  <button role="tab" aria-selected={active} aria-controls={panelId}>Tab 1</button>
+</div>
+<div id={panelId} role="tabpanel">Content</div>
+
+// Listbox/dropdown pattern
+<button aria-expanded={isOpen} aria-haspopup="listbox" aria-controls={listboxId}>
+  Select Option
+</button>
+<div id={listboxId} role="listbox" aria-label="Options">
+  <button role="option" aria-selected={isSelected}>Option 1</button>
+</div>
+
+// Carousel pattern
+<section aria-roledescription="carousel" aria-labelledby={titleId}>
+  <div aria-live="polite" aria-atomic="true">
+    <div role="group" aria-roledescription="slide" aria-label="Slide 1 of 5">
+      Slide content
+    </div>
+  </div>
+</section>
+```
+
+#### Decorative Elements
+```tsx
+// Hide decorative icons from screen readers
+<FaIcon aria-hidden="true" />
+
+// Pulse animations, dividers, decorative borders
+<span className="animate-ping" aria-hidden="true" />
+```
+
+#### Live Regions
+```tsx
+// For dynamic content updates (search results, loading states)
+<div role="status" aria-live="polite" aria-atomic="true">
+  {isLoading ? "Loading..." : `Found ${count} results`}
+</div>
+
+// For error messages
+<div role="alert">{errorMessage}</div>
+
+// For chat/log messages
+<div role="log" aria-live="polite" aria-label="Chat messages">
+  {messages}
+</div>
+```
+
+#### Keyboard Navigation
+- All interactive elements must be focusable (native buttons/inputs or `tabIndex={0}`)
+- Custom components should support Enter/Space for activation
+- Escape key should close modals/dropdowns
+- Badge filters should support keyboard: `onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleClick(); }}`
+
+#### Screen Reader Text
+```tsx
+// Hidden text for screen readers only
+<span className="sr-only">Additional context for screen readers</span>
+
+// Example: Required field indicator
+{isRequired && <span aria-hidden="true">*</span>}
+{isRequired && <span className="sr-only">(required)</span>}
+```
+
 ### Image Management
 - Always run `npm run optimize` after adding new images
 - Script handles WebP conversion, thumbnails, and cleanup
@@ -225,10 +378,35 @@ The site includes WebVitals tracking and analytics:
 
 ## Development Guidelines for AI Assistants
 
-### Task Tracking
-- After completing each Phase, Epic, Task, or Subtask, **mark it with completion signs/checkmarks** in relevant documentation
-- Update `docs/todo-content.md` progress tracker when content tasks are completed
-- Update `docs/Todo.md` when technical tasks are completed
+### Task Tracking & Documentation Organization
+
+**Two-File System for Progress Tracking:**
+
+1. **`docs/todo-content.md`** - Active Work Only
+   - Contains ONLY present and future work
+   - Phase 8 (in progress) + Phase 7, 2-5 (planned)
+   - Lean, scannable, focused on "what's next"
+   - Updated continuously as work progresses
+   - Version format: 2.x (active work focus)
+
+2. **`docs/CompletedPhases.md`** - Historical Archive
+   - Contains ALL completed phases with full details
+   - Phase 1, 1.5, 6, 7.5 (all tasks, files, effort, dates)
+   - Preserved for reference and historical record
+   - Updated when phases are completed
+   - Never delete completed work from this file
+
+**When to Move Content:**
+- After completing a Phase/Epic: Move full details from `todo-content.md` → `CompletedPhases.md`
+- Keep only brief summary in `todo-content.md` (e.g., "Phase 1 (15 tasks) ✅ - Brief description")
+- This keeps `todo-content.md` under 500 lines for easy reading
+
+**Marking Tasks Complete:**
+- Use ✅ for completed tasks
+- Use 📝 or ⏳ for pending tasks
+- Use 🚧 for in-progress phases
+- After completing each task, mark it immediately in relevant documentation
+- Update progress percentages and metrics
 
 ### Code Quality & Verification
 **Be a skeptical, senior pair-programmer. Verify before you assert.**
@@ -242,6 +420,31 @@ The site includes WebVitals tracking and analytics:
 - If uncertain, provide a safe fallback and a quick validation test
 - **Do not write code until you are at least 95% confident in the approach**
 - If something is missing, unclear, or risky: **pause and ask directly** using `AskUserQuestion` tool
+
+### IMPORTANT: Approval Requirements
+**ALWAYS ask for user approval before:**
+1. **Implementing duplicate items** on any page (e.g., duplicate stats sections, repeated components)
+2. **Removing existing features** without explicit confirmation
+3. **Changing design system colors** or established patterns
+4. **Adding new dependencies** to package.json
+
+### Data Management: shouldPublish Flag
+Demo/sample data items have `shouldPublish` and `isSampleData` flags for admin control:
+
+| Flag | Type | Default | Purpose |
+|------|------|---------|---------|
+| `shouldPublish` | boolean | true | Controls visibility on public site |
+| `isSampleData` | boolean | - | Marks item as demo data to be replaced |
+
+**Interfaces with these flags:**
+- `Testimonial` (testimonialsData.ts, portfolioData.ts)
+- `Recognition` (portfolioData.ts)
+- `BlogPost` (blogData.ts)
+
+**Usage:**
+- `shouldPublish: true` = visible on public site (default)
+- `shouldPublish: false` = hidden, admin preview only
+- `isSampleData: true` = marks as demo data to replace with real content
 
 ### Context Window Management
 **When approaching context window limit (85-90% capacity):**

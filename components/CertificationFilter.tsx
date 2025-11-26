@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useId } from "react";
 import { motion } from "framer-motion";
 import { FiFilter, FiChevronDown, FiSearch, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,8 @@ const CertificationFilter: React.FC<CertificationFilterProps> = ({
   const [selectedIssuer, setSelectedIssuer] = useState<string | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
+  const searchInputId = useId();
+  const filterPanelId = useId();
   
   // Extract unique values for filter options
   const uniqueIssuers = Array.from(new Set(certifications.map(cert => cert.issuer)));
@@ -107,46 +109,52 @@ const CertificationFilter: React.FC<CertificationFilterProps> = ({
       className={`bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/20 rounded-xl overflow-hidden mb-8 shadow-lg shadow-secondary-default/10 ${className}`}
     >
       {/* Search and Filter Bar */}
-      <div className="p-4 flex flex-col sm:flex-row gap-4 items-center">
+      <div className="p-4 flex flex-col sm:flex-row gap-4 items-center" role="search" aria-label="Certification filters">
         {/* Search Input */}
         <div className="relative flex-1 w-full">
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default">
+          <label htmlFor={searchInputId} className="sr-only">Search certifications</label>
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default" aria-hidden="true">
             <FiSearch />
           </div>
           <input
-            type="text"
+            id={searchInputId}
+            type="search"
             placeholder="Search certifications..."
             value={searchQuery}
             onChange={handleSearchChange}
-            className="w-full bg-gray-800/50 border border-secondary-default/20 rounded-lg py-2 pl-10 pr-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/50"
+            className="w-full bg-gray-800/50 border border-secondary-default/20 rounded-lg py-2 pl-10 pr-4 text-white placeholder:text-white/50 focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 focus:border-secondary-default/50"
           />
           {searchQuery && (
-            <button 
+            <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-secondary-default"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-secondary-default focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
+              aria-label="Clear search"
             >
-              <FiX />
+              <FiX aria-hidden="true" />
             </button>
           )}
         </div>
-        
+
         {/* Filter Toggle Button */}
         <Button
           variant="outline"
           onClick={toggleFilterPanel}
-          className={`shrink-0 flex items-center gap-2 ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
+          aria-expanded={isExpanded}
+          aria-controls={filterPanelId}
+          className={`shrink-0 flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-cyan-400 ${isExpanded ? 'bg-secondary-default/10 border-secondary-default/50 text-secondary-default' : 'hover:text-secondary-default'}`}
         >
-          <FiFilter className={isExpanded ? 'text-secondary-default' : 'text-white/70'} />
+          <FiFilter className={isExpanded ? 'text-secondary-default' : 'text-white/70'} aria-hidden="true" />
           <span>Filters</span>
-          <FiChevronDown className={`transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+          <FiChevronDown className={`transition-transform ${isExpanded ? 'rotate-180' : ''}`} aria-hidden="true" />
         </Button>
-        
+
         {/* Reset Button (only shown when filters are active) */}
         {hasActiveFilters && (
           <Button
             variant="ghost"
             onClick={resetFilters}
-            className="shrink-0 text-white/70 hover:text-secondary-default"
+            aria-label="Reset all filters"
+            className="shrink-0 text-white/70 hover:text-secondary-default focus-visible:ring-2 focus-visible:ring-cyan-400"
           >
             Reset
           </Button>
@@ -156,11 +164,14 @@ const CertificationFilter: React.FC<CertificationFilterProps> = ({
       {/* Expanded Filter Panel */}
       {isExpanded && (
         <motion.div
+          id={filterPanelId}
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.2 }}
           className="px-4 pb-4 border-t border-secondary-default/20"
+          role="group"
+          aria-label="Filter options"
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
             {/* Issuer Filter */}

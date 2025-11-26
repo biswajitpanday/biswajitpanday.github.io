@@ -9,55 +9,74 @@ export interface StatCard {
   label: string;
   gradient?: string;
   iconColor?: string;
+  iconBgColor?: string;
+  valueGradient?: string;
 }
 
 interface StatsCardsProps {
   stats: StatCard[];
   className?: string;
+  showDividers?: boolean;
+  variant?: "default" | "compact";
 }
 
-const StatsCards: React.FC<StatsCardsProps> = ({ 
-  stats, 
-  className = "" 
+// Default color schemes matching Project Page design
+const defaultIconColors = [
+  { icon: "text-[#00BFFF]", bg: "bg-[#00BFFF]/20", value: "from-[#00BFFF] to-[#0080FF]" },
+  { icon: "text-emerald-400", bg: "bg-emerald-500/20", value: "from-emerald-400 to-cyan-500" },
+  { icon: "text-purple-400", bg: "bg-purple-500/20", value: "from-purple-400 to-pink-500" },
+  { icon: "text-blue-400", bg: "bg-blue-500/20", value: "from-blue-400 to-secondary-default" },
+  { icon: "text-orange-400", bg: "bg-orange-500/20", value: "from-orange-400 to-amber-500" },
+];
+
+const StatsCards: React.FC<StatsCardsProps> = ({
+  stats,
+  className = "",
+  showDividers = true,
+  variant = "default"
 }) => {
-  const defaultGradients = [
-    "from-secondary-default/10 to-blue-500/10",
-    "from-blue-500/10 to-secondary-default/10", 
-    "from-purple-500/10 to-secondary-default/10",
-    "from-green-500/10 to-secondary-default/10",
-    "from-orange-500/10 to-secondary-default/10"
-  ];
-
   return (
-    <div className={`flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 animate-fade-in ${className}`}>
-      {stats.map((stat, index) => {
-        const IconComponent = stat.icon;
-        const gradient = stat.gradient || defaultGradients[index % defaultGradients.length];
-        const iconColor = stat.iconColor || "text-secondary-default";
+    <div className={`bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4 ${className}`}>
+      <div className="flex flex-wrap items-center justify-center gap-6">
+        {stats.map((stat, index) => {
+          const IconComponent = stat.icon;
+          const colorScheme = defaultIconColors[index % defaultIconColors.length];
 
-        return (
-          <div
-            key={`${stat.label}-${index}`}
-            className={`group relative overflow-hidden bg-gradient-to-r ${gradient} backdrop-blur-sm border border-secondary-default/30 text-primary py-2 px-6 rounded performance-button animate-fade-in-up animate-stagger-${index + 1}`}
-          >
-            <div className="flex items-center gap-3">
-              <IconComponent 
-                className={`${iconColor} text-xl group-hover:animate-pulse`} 
-              />
-              <div className="flex items-baseline gap-2">
-                <span className="text-secondary-default text-2xl font-bold">
-                  {stat.value}
-                </span>
-                <span className="text-white/80 text-sm font-medium">
-                  {stat.label}
-                </span>
+          // Allow custom overrides
+          const iconColor = stat.iconColor || colorScheme.icon;
+          const iconBgColor = stat.iconBgColor || colorScheme.bg;
+          const valueGradient = stat.valueGradient || colorScheme.value;
+
+          return (
+            <React.Fragment key={`${stat.label}-${index}`}>
+              {/* Stat Item */}
+              <div className="flex items-center gap-3">
+                {/* Icon Box - Project Page style */}
+                <div className={`p-2 ${iconBgColor} rounded-lg`}>
+                  <IconComponent className={`${iconColor} text-xl`} />
+                </div>
+
+                {/* Value and Label - Vertical layout */}
+                <div>
+                  <div className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${valueGradient} tabular-nums`}>
+                    {stat.value}
+                  </div>
+                  <div className="text-xs text-white/60">
+                    {stat.label}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        );
-      })}
+
+              {/* Vertical Divider - Hidden on mobile, visible on sm+ */}
+              {showDividers && index < stats.length - 1 && (
+                <div className="hidden sm:block w-px h-10 bg-white/10" />
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
     </div>
   );
 };
 
-export default StatsCards; 
+export default StatsCards;

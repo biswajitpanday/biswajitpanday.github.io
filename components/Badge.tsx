@@ -39,9 +39,10 @@ import React from "react";
 interface BadgeProps {
   icon?: React.ReactNode;
   text: React.ReactNode;
-  color?: "default" | "blue" | "purple" | "emerald" | "orange";
+  color?: "default" | "blue" | "purple" | "emerald" | "orange" | "featured" | "neutral";
   className?: string;
   testId?: string;
+  size?: "default" | "compact";
 }
 
 const Badge: React.FC<BadgeProps> = ({
@@ -50,6 +51,7 @@ const Badge: React.FC<BadgeProps> = ({
   color = "default",
   className = "",
   testId,
+  size = "default",
 }) => {
   // Color mappings for consistent styling
   const colorVariants = {
@@ -83,9 +85,29 @@ const Badge: React.FC<BadgeProps> = ({
       text: "text-orange-300",
       hover: "hover:bg-orange-500/20",
     },
+    // Featured: Purple → Pink gradient (highest priority in color hierarchy)
+    featured: {
+      gradient: "from-purple-500/20 via-pink-500/15 to-purple-500/10",
+      border: "border-purple-500/40",
+      text: "bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent",
+      hover: "hover:bg-purple-500/25",
+    },
+    // Neutral: Clean, minimal design for tech stacks and general use
+    neutral: {
+      gradient: "from-white/5 to-transparent",
+      border: "border-white/10",
+      text: "text-white/80",
+      hover: "hover:bg-white/10",
+    },
   };
 
   const selectedColor = colorVariants[color];
+
+  // Size classes
+  const sizeClasses = {
+    default: "px-4 py-2 text-sm",
+    compact: "px-3 py-1 text-xs",
+  };
 
   // Generate test ID based on text content if not provided
   const generateTestId = () => {
@@ -99,9 +121,9 @@ const Badge: React.FC<BadgeProps> = ({
   return (
     <span
       data-testid={generateTestId()}
-      className={`inline-flex items-center gap-2 bg-gradient-to-r ${selectedColor.gradient} backdrop-blur-sm border ${selectedColor.border} ${selectedColor.text} px-4 py-2 rounded-full text-sm font-medium ${selectedColor.hover} transition-all duration-300 animate-fade-in-up ${className}`}
+      className={`inline-flex items-center gap-2 bg-gradient-to-r ${selectedColor.gradient} backdrop-blur-sm border ${selectedColor.border} ${selectedColor.text} ${sizeClasses[size]} rounded-full font-medium ${selectedColor.hover} transition-all duration-300 animate-fade-in-up ${className}`}
     >
-      {icon && <span className="text-xs">{icon}</span>}
+      {icon && <span className={size === "compact" ? "text-[10px]" : "text-xs"}>{icon}</span>}
       {text}
     </span>
   );

@@ -1,65 +1,77 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import {
+  fetchGitHubStats,
+  generateContributionData,
+  GITHUB_USERNAME,
+  GITHUB_PROFILE_URL,
+  type GitHubStats,
+  type GitHubActivity
+} from '@/lib/github';
 
-// Activity data interface
-interface Activity {
-  date: string; // YYYY-MM-DD format
-  count: number; // Number of activities
-  type: 'project' | 'certification' | 'skill' | 'commit' | 'other';
-  details?: string[];
+interface GitHubActivityGraphProps {
+  onStatsLoaded?: (stats: GitHubStats) => void;
 }
 
-// Sample activity data - in real app, this would come from actual data
-const generateSampleActivities = (): Activity[] => {
-  const activities: Activity[] = [];
-  const today = new Date();
-  const startDate = new Date(today);
-  startDate.setDate(startDate.getDate() - 365); // Last 365 days
+export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGraphProps) {
+  const [hoveredCell, setHoveredCell] = useState<{ x: number; y: number; date: string; count: number } | null>(null);
+  const [stats, setStats] = useState<GitHubStats | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Add some sample activities
-  for (let i = 0; i < 365; i++) {
-    const currentDate = new Date(startDate);
-    currentDate.setDate(currentDate.getDate() + i);
+  // Set mounted state to avoid hydration mismatch with date generation
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-    // Random activity generation (you would replace this with real data)
-    const random = Math.random();
-    if (random > 0.7) {
-      const types: Array<'project' | 'certification' | 'skill' | 'commit'> = ['project', 'certification', 'skill', 'commit'];
-      activities.push({
-        date: currentDate.toISOString().split('T')[0],
-        count: Math.floor(Math.random() * 10) + 1,
-        type: types[Math.floor(Math.random() * 4)],
-        details: [`Activity on ${currentDate.toDateString()}`]
-      });
+  // Fetch GitHub data on mount
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadData() {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const data = await fetchGitHubStats(GITHUB_USERNAME);
+        if (isMounted) {
+          setStats(data);
+          onStatsLoaded?.(data);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError('Failed to load GitHub activity');
+          console.error('GitHub fetch error:', err);
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
     }
-  }
 
-  return activities;
-};
+    loadData();
 
-export default function GitHubActivityGraph() {
-  const [, setSelectedActivity] = useState<Activity | null>(null);
-  const [hoveredCell, setHoveredCell] = useState<{ x: number; y: number } | null>(null);
+    return () => {
+      isMounted = false;
+    };
+  }, [onStatsLoaded]);
 
-  const activities = useMemo(() => generateSampleActivities(), []);
-
-  // Create activity map for quick lookup
-  const activityMap = useMemo(() => {
-    const map: Record<string, Activity> = {};
-    activities.forEach(activity => {
-      map[activity.date] = activity;
-    });
-    return map;
-  }, [activities]);
+  // Create contribution map for the graph
+  const contributionMap = useMemo(() => {
+    if (!stats) return new Map<string, number>();
+    return generateContributionData(stats.recentActivity);
+  }, [stats]);
 
   // Generate grid data (last 52 weeks, 7 days each)
-  const generateGridData = () => {
+  const generateGridData = useCallback(() => {
     const weeks: Date[][] = [];
     const today = new Date();
     const startDate = new Date(today);
-    startDate.setDate(startDate.getDate() - 364); // Last 52 weeks
+    startDate.setDate(startDate.getDate() - 364);
 
     // Adjust to start on Sunday
     const dayOfWeek = startDate.getDay();
@@ -80,9 +92,9 @@ export default function GitHubActivityGraph() {
     }
 
     return weeks;
-  };
+  }, []);
 
-  const gridData = useMemo(() => generateGridData(), []);
+  const gridData = useMemo(() => isMounted ? generateGridData() : [], [generateGridData, isMounted]);
 
   // Get color intensity based on activity count
   const getIntensityColor = (count: number): string => {
@@ -105,199 +117,257 @@ export default function GitHubActivityGraph() {
     return null;
   };
 
-  // Stats
-  const totalActivities = activities.reduce((sum, a) => sum + a.count, 0);
-  const activeDays = activities.length;
-  const currentStreak = useMemo(() => {
-    let streak = 0;
-    const today = new Date();
-
-    for (let i = 0; i < 365; i++) {
-      const date = new Date(today);
-      date.setDate(date.getDate() - i);
-      const dateStr = date.toISOString().split('T')[0];
-
-      if (activityMap[dateStr]) {
-        streak++;
-      } else {
-        break;
-      }
-    }
-
-    return streak;
-  }, [activityMap]);
-
-  return (
-    <div className="space-y-6">
-      {/* Stats */}
-      <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
+  // Loading skeleton (also shown before mount to avoid hydration mismatch)
+  if (isLoading || !isMounted) {
+    return (
+      <div className="space-y-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3"
         >
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 text-center hover:border-secondary-default/40 transition-all duration-300">
-            <div className="text-2xl font-bold text-emerald-400 mb-1">{totalActivities}</div>
-            <div className="text-xs text-white/60">Total Contributions</div>
-          </div>
-
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 text-center hover:border-secondary-default/40 transition-all duration-300">
-            <div className="text-2xl font-bold text-blue-400 mb-1">{activeDays}</div>
-            <div className="text-xs text-white/60">Active Days</div>
-          </div>
-
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 text-center hover:border-secondary-default/40 transition-all duration-300">
-            <div className="text-2xl font-bold text-secondary-default mb-1">{currentStreak}</div>
-            <div className="text-xs text-white/60">Current Streak</div>
+          <div className="flex items-center justify-center h-32">
+            <div className="flex items-center gap-3 text-white/60">
+              <FaGithub className="text-2xl animate-pulse" aria-hidden="true" />
+              <span>Loading GitHub activity...</span>
+            </div>
           </div>
         </motion.div>
+      </div>
+    );
+  }
 
+  // Error state
+  if (error) {
+    return (
+      <div className="space-y-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="bg-white/5 backdrop-blur-sm border border-red-500/20 rounded-lg p-3"
+        >
+          <div className="flex items-center justify-center h-32">
+            <div className="text-center">
+              <p className="text-red-400 mb-2">{error}</p>
+              <a
+                href={GITHUB_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-secondary-default hover:text-secondary-default/80 transition-colors"
+              >
+                <FaGithub aria-hidden="true" />
+                View on GitHub
+                <FaExternalLinkAlt className="text-xs" aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="py-12"
+    >
+      {/* Section Header */}
+      <div className="text-center mb-8">
+        <h2 className="text-2xl xl:text-3xl font-bold mb-2 bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
+          GitHub Activity
+        </h2>
+        <p className="text-sm bg-gradient-to-r from-white/60 to-white/40 bg-clip-text text-transparent">
+          Contribution activity from the last 90 days
+        </p>
+      </div>
+
+      <div className="space-y-4">
         {/* Activity Graph */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 overflow-x-auto"
+          className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 md:p-6 overflow-x-auto"
         >
-          <div className="min-w-[800px]">
-            {/* Month labels */}
-            <div className="flex gap-[3px] mb-2 ml-8">
-              {gridData.map((week, weekIndex) => {
-                const monthLabel = getMonthLabel(weekIndex);
-                return (
-                  <div key={weekIndex} className="w-3 text-xs text-white/50">
-                    {monthLabel}
-                  </div>
-                );
-              })}
+        <div className="min-w-[900px] max-w-[1100px] mx-auto">
+          {/* Month labels */}
+          <div className="flex gap-[3px] mb-1 ml-8">
+            {gridData.map((week, weekIndex) => {
+              const monthLabel = getMonthLabel(weekIndex);
+              return (
+                <div key={weekIndex} className="w-3.5 text-[10px] text-white/50">
+                  {monthLabel}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Day of week labels + Graph */}
+          <div className="flex gap-1">
+            {/* Day labels */}
+            <div className="flex flex-col gap-[3px] text-[10px] text-white/50 mr-1">
+              <div className="h-3.5">Sun</div>
+              <div className="h-3.5">Mon</div>
+              <div className="h-3.5">Tue</div>
+              <div className="h-3.5">Wed</div>
+              <div className="h-3.5">Thu</div>
+              <div className="h-3.5">Fri</div>
+              <div className="h-3.5">Sat</div>
             </div>
 
-            {/* Day of week labels + Graph */}
-            <div className="flex gap-1">
-              {/* Day labels */}
-              <div className="flex flex-col gap-[3px] text-xs text-white/50 mr-1">
-                <div className="h-3">Sun</div>
-                <div className="h-3">Mon</div>
-                <div className="h-3">Tue</div>
-                <div className="h-3">Wed</div>
-                <div className="h-3">Thu</div>
-                <div className="h-3">Fri</div>
-                <div className="h-3">Sat</div>
+            {/* Grid */}
+            <div className="flex gap-[3px]" role="img" aria-label="GitHub contribution graph showing activity over the past year">
+              {gridData.map((week, weekIndex) => (
+                <div key={weekIndex} className="flex flex-col gap-[3px]">
+                  {week.map((date, dayIndex) => {
+                    const dateStr = date.toISOString().split('T')[0];
+                    const count = contributionMap.get(dateStr) || 0;
+                    const colorClass = getIntensityColor(count);
+
+                    return (
+                      <motion.div
+                        key={`${weekIndex}-${dayIndex}`}
+                        initial={{ opacity: 0, scale: 0 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.2, delay: (weekIndex * 7 + dayIndex) * 0.001 }}
+                        whileHover={{ scale: 1.3 }}
+                        onMouseEnter={() => setHoveredCell({ x: weekIndex, y: dayIndex, date: dateStr, count })}
+                        onMouseLeave={() => setHoveredCell(null)}
+                        className={`relative w-3.5 h-3.5 rounded-sm border cursor-pointer transition-all ${colorClass}`}
+                        title={`${dateStr}: ${count} contributions`}
+                        tabIndex={0}
+                        onFocus={() => setHoveredCell({ x: weekIndex, y: dayIndex, date: dateStr, count })}
+                        onBlur={() => setHoveredCell(null)}
+                        aria-label={`${date.toDateString()}: ${count} contributions`}
+                      >
+                        {/* Tooltip */}
+                        {hoveredCell?.x === weekIndex && hoveredCell?.y === dayIndex && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            role="tooltip"
+                            className="absolute z-10 bottom-full left-1/2 transform -translate-x-1/2 mb-2 p-2 bg-primary border border-secondary-default/30 rounded-lg shadow-xl whitespace-nowrap text-xs"
+                          >
+                            <div className="font-semibold text-white">{count} contributions</div>
+                            <div className="text-white/60">{date.toDateString()}</div>
+                          </motion.div>
+                        )}
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Legend */}
+          <div className="flex items-center justify-end gap-2 mt-3 text-[10px] text-white/60">
+            <span>Less</span>
+            <div className="w-3.5 h-3.5 rounded-sm bg-white/5 border border-white/10" aria-hidden="true" />
+            <div className="w-3.5 h-3.5 rounded-sm bg-emerald-500/30 border border-emerald-400/50" aria-hidden="true" />
+            <div className="w-3.5 h-3.5 rounded-sm bg-emerald-500/60 border border-emerald-400/70" aria-hidden="true" />
+            <div className="w-3.5 h-3.5 rounded-sm bg-emerald-500/80 border border-emerald-400/90" aria-hidden="true" />
+            <div className="w-3.5 h-3.5 rounded-sm bg-emerald-500 border border-emerald-400" aria-hidden="true" />
+            <span>More</span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Activity Breakdown - Real Stats */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, delay: 0.3 }}
+      >
+        <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-3">
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4">
+            {/* Total Commits */}
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-emerald-500/20 rounded-lg">
+                <span className="text-emerald-400 text-lg" aria-hidden="true">💻</span>
               </div>
-
-              {/* Grid */}
-              <div className="flex gap-[3px]">
-                {gridData.map((week, weekIndex) => (
-                  <div key={weekIndex} className="flex flex-col gap-[3px]">
-                    {week.map((date, dayIndex) => {
-                      const dateStr = date.toISOString().split('T')[0];
-                      const activity = activityMap[dateStr];
-                      const count = activity?.count || 0;
-                      const colorClass = getIntensityColor(count);
-
-                      return (
-                        <motion.div
-                          key={`${weekIndex}-${dayIndex}`}
-                          initial={{ opacity: 0, scale: 0 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.2, delay: (weekIndex * 7 + dayIndex) * 0.001 }}
-                          whileHover={{ scale: 1.2 }}
-                          onMouseEnter={() => {
-                            setHoveredCell({ x: weekIndex, y: dayIndex });
-                            if (activity) setSelectedActivity(activity);
-                          }}
-                          onMouseLeave={() => {
-                            setHoveredCell(null);
-                            setSelectedActivity(null);
-                          }}
-                          className={`relative w-3 h-3 rounded-sm border cursor-pointer transition-all ${colorClass}`}
-                          title={`${dateStr}: ${count} contributions`}
-                        >
-                          {/* Tooltip */}
-                          {hoveredCell?.x === weekIndex && hoveredCell?.y === dayIndex && activity && (
-                            <motion.div
-                              initial={{ opacity: 0, y: -5 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              className="absolute z-10 bottom-full left-1/2 transform -translate-x-1/2 mb-2 p-2 bg-primary border border-secondary-default/30 rounded-lg shadow-xl whitespace-nowrap text-xs"
-                            >
-                              <div className="font-semibold text-white">{count} contributions</div>
-                              <div className="text-white/60">{date.toDateString()}</div>
-                              <div className="text-secondary-default capitalize">{activity.type}</div>
-                            </motion.div>
-                          )}
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                ))}
+              <div>
+                <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500 tabular-nums">
+                  {stats?.totalCommits || 0}
+                </div>
+                <div className="text-[10px] text-white/60">Commits</div>
               </div>
             </div>
 
-            {/* Legend */}
-            <div className="flex items-center justify-end gap-2 mt-4 text-xs text-white/60">
-              <span>Less</span>
-              <div className="w-3 h-3 rounded-sm bg-white/5 border border-white/10" />
-              <div className="w-3 h-3 rounded-sm bg-emerald-500/30 border border-emerald-400/50" />
-              <div className="w-3 h-3 rounded-sm bg-emerald-500/60 border border-emerald-400/70" />
-              <div className="w-3 h-3 rounded-sm bg-emerald-500/80 border border-emerald-400/90" />
-              <div className="w-3 h-3 rounded-sm bg-emerald-500 border border-emerald-400" />
-              <span>More</span>
+            <div className="hidden sm:block w-px h-8 bg-white/10" aria-hidden="true"></div>
+
+            {/* Current Streak */}
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-lg">
+                <span className="text-orange-400 text-lg" aria-hidden="true">🔥</span>
+              </div>
+              <div>
+                <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 tabular-nums">
+                  {stats?.currentStreak || 0}
+                </div>
+                <div className="text-[10px] text-white/60">Day Streak</div>
+              </div>
+            </div>
+
+            <div className="hidden sm:block w-px h-8 bg-white/10" aria-hidden="true"></div>
+
+            {/* Repos Touched */}
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-purple-500/20 rounded-lg">
+                <span className="text-purple-400 text-lg" aria-hidden="true">📦</span>
+              </div>
+              <div>
+                <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
+                  {stats?.totalRepos || 0}
+                </div>
+                <div className="text-[10px] text-white/60">Repos Touched</div>
+              </div>
+            </div>
+
+            <div className="hidden lg:block w-px h-8 bg-white/10" aria-hidden="true"></div>
+
+            {/* Active Days */}
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-blue-500/20 rounded-lg">
+                <span className="text-blue-400 text-lg" aria-hidden="true">📅</span>
+              </div>
+              <div>
+                <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-500 tabular-nums">
+                  {stats?.activeDays || 0}
+                </div>
+                <div className="text-[10px] text-white/60">Active Days</div>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </div>
+      </motion.div>
 
-        {/* Activity Breakdown */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.3 }}
-          className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3"
-        >
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 text-center hover:border-blue-400/40 transition-all duration-300">
-            <div className="text-xl font-bold text-blue-400 mb-0.5">
-              {activities.filter(a => a.type === 'project').length}
-            </div>
-            <div className="text-xs text-white/60">Projects</div>
-          </div>
-
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 text-center hover:border-purple-400/40 transition-all duration-300">
-            <div className="text-xl font-bold text-purple-400 mb-0.5">
-              {activities.filter(a => a.type === 'certification').length}
-            </div>
-            <div className="text-xs text-white/60">Certifications</div>
-          </div>
-
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 text-center hover:border-amber-400/40 transition-all duration-300">
-            <div className="text-xl font-bold text-amber-400 mb-0.5">
-              {activities.filter(a => a.type === 'skill').length}
-            </div>
-            <div className="text-xs text-white/60">Skills Added</div>
-          </div>
-
-          <div className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 text-center hover:border-emerald-400/40 transition-all duration-300">
-            <div className="text-xl font-bold text-emerald-400 mb-0.5">
-              {activities.filter(a => a.type === 'commit').length}
-            </div>
-            <div className="text-xs text-white/60">Commits</div>
-          </div>
-        </motion.div>
-
-        {/* Note */}
+        {/* GitHub Profile Link */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.4 }}
-          className="text-center mt-6"
+          className="text-center"
         >
-          <p className="text-xs text-white/40">
-            Activity data from the past year - projects, certifications, and skills updates
-          </p>
+          <a
+            href={GITHUB_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs text-white/40 hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded px-2 py-1"
+          >
+            <FaGithub aria-hidden="true" />
+            <span>View full activity on GitHub</span>
+            <FaExternalLinkAlt className="text-[10px]" aria-hidden="true" />
+          </a>
         </motion.div>
-    </div>
+      </div>
+    </motion.section>
   );
 }

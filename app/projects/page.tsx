@@ -5,25 +5,25 @@ import {
   FaRocket,
   FaCode,
   FaCogs,
-  FaLaptopCode,
-  FaGlobe,
   FaTh,
-  FaClock
+  FaClock,
+  FaLayerGroup,
+  FaGithub
 } from "react-icons/fa";
 import { projects, getFeaturedProjects } from "@/data/portfolioData";
 import { useState } from "react";
 import ProjectModal from "@/components/ProjectModal";
-import StatsCards from "@/components/StatsCards";
 import BackgroundElements from "@/components/BackgroundElements";
-import SectionHeader from "@/components/SectionHeader";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectsFilter from "@/components/ProjectsFilter";
-import Badge from "@/components/Badge";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import type { Project } from "@/data/portfolioData";
 import { useCountUp } from "@/hooks/useCountUp";
 import ProjectTimeline from "@/components/ProjectTimeline";
+import TimelineFilter from "@/components/TimelineFilter";
+import EmptyState from "@/components/ui/EmptyState";
+import { FaSearch } from "react-icons/fa";
 
 const Projects = () => {
   // Environment flags
@@ -40,16 +40,38 @@ const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Calculate stats
+  // Calculate stats for Grid view
   const activeProjects = projects.filter(p => p.isActive).length;
   const featuredProjects = getFeaturedProjects();
-  // const inactiveProjects = projects.filter(p => !p.isActive).length;
+  const openSourceProjects = projects.filter(p => p.isOpenSource).length;
+  const uniqueTechnologies = new Set(projects.flatMap(p => p.stacks)).size;
 
-  // Animated counters for stats dashboard
+  // Animated counters for stats dashboard (Grid view)
   const totalCount = useCountUp({ end: projects.length, duration: 2000 });
+  const activeCount = useCountUp({ end: activeProjects, duration: 1900 });
   const featuredCount = useCountUp({ end: featuredProjects.length, duration: 1800, start: 0 });
-  const hoursSavedCount = useCountUp({ end: 32, duration: 2200, suffix: "+" });
-  const clientsCount = useCountUp({ end: 20, duration: 2000, suffix: "+" });
+  const technologiesCount = useCountUp({ end: uniqueTechnologies, duration: 2000 });
+  const openSourceCount = useCountUp({ end: openSourceProjects, duration: 1900 });
+
+  // Calculate stats for Timeline view (same as Grid view for consistency)
+  const timelineStats = (() => {
+    const filtered = selectedSkill
+      ? filteredProjects.filter(p => p.stacks.includes(selectedSkill))
+      : filteredProjects;
+
+    const activeCount = filtered.filter(p => p.isActive).length;
+    const featuredCount = filtered.filter(p => p.isFeatured).length;
+    const openSourceCount = filtered.filter(p => p.isOpenSource).length;
+    const uniqueTechnologies = new Set(filtered.flatMap(p => p.stacks)).size;
+
+    return {
+      total: filtered.length,
+      activeCount,
+      featuredCount,
+      technologiesCount: uniqueTechnologies,
+      openSourceCount,
+    };
+  })();
 
   // Toggle project stacks display
   const toggleProjectStacks = (projectIndex: number) => {
@@ -93,9 +115,9 @@ const Projects = () => {
   };
 
   return (
-    <section 
+    <section
       data-testid="projects-page"
-      className="min-h-screen relative overflow-hidden py-8"
+      className="min-h-screen relative overflow-hidden py-6"
     >
       {/* Enhanced Background Elements */}
       <BackgroundElements 
@@ -118,108 +140,253 @@ const Projects = () => {
       />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Enhanced Projects Header - Using SectionHeader Component */}
-        <SectionHeader
-          title="My"
-          highlightText="Projects"
-          description={
-            <>
-              A showcase of my{" "}
-              <span className="text-secondary-default font-semibold px-2 py-1 rounded">
-                technical expertise
-              </span>{" "}
-              through a diverse range of completed and ongoing projects
-            </>
-          }
-        >
-          {/* Projects Stats */}
-          <StatsCards 
-            stats={[
-              {
-                icon: FaCode,
-                value: projects.length,
-                label: "Total Projects",
-                gradient: "from-secondary-default/10 to-blue-500/10"
-              },
-              {
-                icon: FaRocket,
-                value: activeProjects,
-                label: "Active Projects",
-                gradient: "from-blue-500/10 to-secondary-default/10"
-              },
-              // {
-              //   icon: FaCogs,
-              //   value: inactiveProjects,
-              //   label: "Archived Projects",
-              //   gradient: "from-purple-500/10 to-blue-500/10"
-              // }
-            ]} 
-          />
-        </SectionHeader>
-
-        {/* Project Highlights Badges */}
-        <motion.div
-          data-testid="projects-badges"
-          variants={PERFORMANCE_VARIANTS.containerSync}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-wrap justify-center gap-3 mb-8 -mt-2"
-        >
-          <Badge
-            icon={<FaLaptopCode className="text-xs" />}
-            text="Full-Stack Projects"
-            color="default"
-            testId="badge-fullstack-projects"
-          />
-          <Badge
-            icon={<FaRocket className="text-xs" />}
-            text="AI-Enhanced Solutions"
-            color="emerald"
-            testId="badge-ai-solutions"
-          />
-          <Badge
-            icon={<FaGlobe className="text-xs" />}
-            text="Enterprise Applications"
-            color="blue"
-            testId="badge-enterprise-applications"
-          />
-          <Badge
-            icon={<FaCogs className="text-xs" />}
-            text="Automation Tools"
-            color="purple"
-            testId="badge-automation-tools"
-          />
-        </motion.div>
-
-        {/* View Mode Toggle */}
+        {/* Compact Projects Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="flex justify-center gap-3 mb-8"
+          className="mb-6"
+          data-testid="projects-header"
         >
-          <button
-            onClick={() => setViewMode("grid")}
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
-              viewMode === "grid"
-                ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-lg shadow-secondary-default/20"
-                : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
-            }`}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+            {/* Title Section */}
+            <div className="flex-1">
+              <h1 className="text-3xl xl:text-4xl font-bold mb-2 leading-tight bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
+                My Projects
+              </h1>
+              <p className="text-sm font-medium leading-relaxed">
+                <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                  A showcase of my technical expertise through{" "}
+                </span>
+                <span className="text-lg font-bold bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-400 bg-clip-text text-transparent">
+                  {projects.length}
+                </span>
+                <span className="bg-gradient-to-r from-emerald-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                  {" "}completed and ongoing projects
+                </span>
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Compact Impact Metrics - Show for Grid View */}
+        {viewMode === "grid" && (
+          <motion.div
+            variants={PERFORMANCE_VARIANTS.containerSync}
+            initial="hidden"
+            animate="visible"
+            className="mb-6"
           >
-            <FaTh />
-            Grid View
-          </button>
-          <button
-            onClick={() => setViewMode("timeline")}
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
-              viewMode === "timeline"
-                ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-lg shadow-secondary-default/20"
-                : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
-            }`}
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
+              <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4 sm:gap-6">
+                {/* Total Projects */}
+                <div ref={totalCount.ref} className="flex items-center gap-3">
+                  <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
+                    <FaCode className="text-[#00BFFF] text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">{totalCount.count}</div>
+                    <div className="text-xs text-white/60">Total Projects</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Active Projects */}
+                <div ref={activeCount.ref} className="flex items-center gap-3">
+                  <div className="p-2 bg-emerald-500/20 rounded-lg">
+                    <FaClock className="text-emerald-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">{activeCount.count}</div>
+                    <div className="text-xs text-white/60">Active</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Featured Count */}
+                <div ref={featuredCount.ref} className="flex items-center gap-3">
+                  <div className="p-2 bg-purple-500/20 rounded-lg">
+                    <FaRocket className="text-purple-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">{featuredCount.count}</div>
+                    <div className="text-xs text-white/60">Featured</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Technologies */}
+                <div ref={technologiesCount.ref} className="flex items-center gap-3">
+                  <div className="p-2 bg-orange-500/20 rounded-lg">
+                    <FaLayerGroup className="text-orange-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500 tabular-nums">{technologiesCount.count}</div>
+                    <div className="text-xs text-white/60">Technologies</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Open Source */}
+                <div ref={openSourceCount.ref} className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-500/20 rounded-lg">
+                    <FaGithub className="text-blue-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default tabular-nums">{openSourceCount.count}</div>
+                    <div className="text-xs text-white/60">Open Source</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Compact Impact Metrics - Show for Timeline View */}
+        {viewMode === "timeline" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6"
           >
-            <FaClock />
-            Timeline View
-          </button>
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
+              <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4 sm:gap-6">
+                {/* Total Projects */}
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
+                    <FaCode className="text-[#00BFFF] text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">{timelineStats.total}</div>
+                    <div className="text-xs text-white/60">Total Projects</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Active Projects */}
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-emerald-500/20 rounded-lg">
+                    <FaClock className="text-emerald-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">{timelineStats.activeCount}</div>
+                    <div className="text-xs text-white/60">Active</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Featured */}
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-purple-500/20 rounded-lg">
+                    <FaRocket className="text-purple-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">{timelineStats.featuredCount}</div>
+                    <div className="text-xs text-white/60">Featured</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Technologies */}
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-orange-500/20 rounded-lg">
+                    <FaLayerGroup className="text-orange-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500 tabular-nums">{timelineStats.technologiesCount}</div>
+                    <div className="text-xs text-white/60">Technologies</div>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
+
+                {/* Open Source */}
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-500/20 rounded-lg">
+                    <FaGithub className="text-blue-400 text-xl" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default tabular-nums">{timelineStats.openSourceCount}</div>
+                    <div className="text-xs text-white/60">Open Source</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Unified Toolbar: View Toggle + Search/Filter */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="relative bg-gradient-to-br from-gray-900/70 to-gray-950/70 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 mb-6 shadow-md z-[110]"
+          data-testid="projects-toolbar"
+        >
+          <div className="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center">
+            {/* View Mode Toggle - Compact */}
+            <div className="grid grid-cols-2 sm:flex gap-2 shrink-0">
+              <button
+                data-testid="view-mode-grid"
+                onClick={() => setViewMode("grid")}
+                className={`flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${
+                  viewMode === "grid"
+                    ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-md"
+                    : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
+                }`}
+              >
+                <FaTh className="text-xs" />
+                Grid
+              </button>
+              <button
+                data-testid="view-mode-timeline"
+                onClick={() => setViewMode("timeline")}
+                className={`flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${
+                  viewMode === "timeline"
+                    ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-md"
+                    : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
+                }`}
+              >
+                <FaClock className="text-xs" />
+                Timeline
+              </button>
+            </div>
+
+            {/* Divider */}
+            <div className="hidden lg:block w-px h-8 bg-white/10"></div>
+
+            {/* Search and Filter - Integrated for Grid View */}
+            {isFilterEnabled && viewMode === "grid" && (
+              <div className="flex-1">
+                <ProjectsFilter
+                  projects={projects}
+                  onFilterChange={setFilteredProjects}
+                  searchQuery={searchQuery}
+                  onSearchChange={setSearchQuery}
+                  resultsInfo={{
+                    filtered: filteredProjects.length,
+                    total: projects.length,
+                    description: "projects"
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Timeline Filters - Integrated for Timeline View */}
+            {viewMode === "timeline" && (
+              <TimelineFilter
+                selectedSkill={selectedSkill}
+                onSkillChange={setSelectedSkill}
+                projects={projects}
+              />
+            )}
+          </div>
         </motion.div>
 
         {/* Timeline View */}
@@ -228,152 +395,18 @@ const Projects = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
+            data-testid="timeline-view"
           >
-            <ProjectTimeline />
+            <ProjectTimeline
+              selectedTech={selectedSkill}
+              onOpenModal={openProjectModal}
+            />
           </motion.div>
         )}
 
         {/* Grid View Content */}
         {viewMode === "grid" && (
           <>
-            {/* Project Filtering */}
-            {isFilterEnabled && (
-              <div data-testid="projects-filter-section">
-                <ProjectsFilter
-                  projects={projects}
-                  onFilterChange={setFilteredProjects}
-                  searchQuery={searchQuery}
-                  onSearchChange={setSearchQuery}
-                  resultsInfo={{
-                    filtered: filteredProjects.length,
-                total: projects.length,
-                description: "projects"
-              }}
-            />
-          </div>
-        )}
-
-        {/* Featured Projects Section */}
-        {featuredProjects.length > 0 && !searchQuery && (
-          <motion.div
-            variants={PERFORMANCE_VARIANTS.containerSync}
-            initial="hidden"
-            animate="visible"
-            className="mt-8 mb-12"
-          >
-            <div className="mb-6">
-              <h2 className="text-2xl xl:text-3xl font-bold text-white mb-2 flex items-center gap-3">
-                <FaRocket className="text-secondary-default" />
-                Featured Projects
-              </h2>
-              <p className="text-white/70 text-sm">
-                Highlighted projects showcasing AI integration, scalability, and measurable business impact
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {featuredProjects.map((project, index) => (
-                <ProjectCard
-                  key={project.num}
-                  project={project}
-                  index={index}
-                  isExpanded={expandedProjects.has(index)}
-                  onToggleStacks={toggleProjectStacks}
-                  onOpenModal={openProjectModal}
-                  onSkillClick={handleSkillFilter}
-                  selectedSkill={selectedSkill}
-                  className="border-secondary-default/40 shadow-lg shadow-secondary-default/10"
-                />
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        {/* Quick Stats Dashboard - Aggregate Impact */}
-        {featuredProjects.length > 0 && !searchQuery && (
-          <motion.div
-            variants={PERFORMANCE_VARIANTS.containerSync}
-            initial="hidden"
-            animate="visible"
-            className="mt-12 mb-8"
-          >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {/* Total Projects */}
-              <div ref={totalCount.ref} className="group relative bg-gradient-to-br from-secondary-default/10 to-blue-500/10 border border-secondary-default/30 rounded-xl p-4 hover:scale-105 hover:border-secondary-default/50 transition-all duration-300 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-secondary-default/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="p-2 bg-secondary-default/20 rounded-lg">
-                      <FaCode className="text-secondary-default text-lg" />
-                    </div>
-                    <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Total</span>
-                  </div>
-                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-secondary-default to-blue-500 mb-0.5 tabular-nums">{totalCount.count}</div>
-                  <div className="text-xs text-white/80 font-medium">Projects Delivered</div>
-                </div>
-              </div>
-
-              {/* Featured Projects */}
-              <div ref={featuredCount.ref} className="group relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4 hover:scale-105 hover:border-purple-500/50 transition-all duration-300 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="p-2 bg-purple-500/20 rounded-lg">
-                      <FaRocket className="text-purple-400 text-lg" />
-                    </div>
-                    <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Featured</span>
-                  </div>
-                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 mb-0.5 tabular-nums">{featuredCount.count}</div>
-                  <div className="text-xs text-white/80 font-medium">Top Impact Projects</div>
-                </div>
-              </div>
-
-              {/* Hours Saved (from IntelliMerge) */}
-              <div ref={hoursSavedCount.ref} className="group relative bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30 rounded-xl p-4 hover:scale-105 hover:border-emerald-500/50 transition-all duration-300 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="p-2 bg-emerald-500/20 rounded-lg">
-                      <FaRocket className="text-emerald-400 text-lg" />
-                    </div>
-                    <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Efficiency</span>
-                  </div>
-                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 mb-0.5 tabular-nums">{hoursSavedCount.count}</div>
-                  <div className="text-xs text-white/80 font-medium">Hours Saved Per Cycle</div>
-                </div>
-              </div>
-
-              {/* Clients Served */}
-              <div ref={clientsCount.ref} className="group relative bg-gradient-to-br from-blue-500/10 to-secondary-default/10 border border-blue-500/30 rounded-xl p-4 hover:scale-105 hover:border-blue-500/50 transition-all duration-300 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="p-2 bg-blue-500/20 rounded-lg">
-                      <FaGlobe className="text-blue-400 text-lg" />
-                    </div>
-                    <span className="text-xs text-white/50 uppercase tracking-wider font-bold">Scale</span>
-                  </div>
-                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default mb-0.5 tabular-nums">{clientsCount.count}</div>
-                  <div className="text-xs text-white/80 font-medium">Enterprise Clients</div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {/* All Projects Heading */}
-        {featuredProjects.length > 0 && !searchQuery && (
-          <div className="mb-6">
-            <h2 className="text-2xl xl:text-3xl font-bold text-white mb-2 flex items-center gap-3">
-              <FaCode className="text-blue-400" />
-              All Projects
-            </h2>
-            <p className="text-white/70 text-sm">
-              Complete portfolio of {projects.length} projects across various technologies and domains
-            </p>
-          </div>
-        )}
-
         {/* Active Filter Indicator */}
         {selectedSkill && (
           <motion.div
@@ -425,16 +458,21 @@ const Projects = () => {
 
         {/* Show when no projects match the filter */}
         {filteredProjects.length === 0 && (
-          <motion.div
-            data-testid="projects-no-results"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center py-16"
-          >
-            <FaCogs className="mx-auto text-4xl text-white/30 mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">No projects found</h3>
-            <p className="text-white/70">Try adjusting your search or filter criteria</p>
-          </motion.div>
+          <div data-testid="projects-no-results">
+            <EmptyState
+              icon={FaSearch}
+              title="No projects found"
+              description="Try adjusting your search or filter criteria to find what you're looking for."
+              action={{
+                label: "Clear Filters",
+                onClick: () => {
+                  setSearchQuery("");
+                  setSelectedSkill(null);
+                  setFilteredProjects(projects);
+                },
+              }}
+            />
+          </div>
         )}
           </>
         )}
