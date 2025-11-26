@@ -122,7 +122,7 @@ const CertificationFilter: React.FC<CertificationFilterProps> = ({
             placeholder="Search certifications..."
             value={searchQuery}
             onChange={handleSearchChange}
-            className="w-full bg-gray-800/50 border border-secondary-default/20 rounded-lg py-2 pl-10 pr-4 text-white placeholder:text-white/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus:border-secondary-default/50"
+            className="w-full bg-gray-800/50 border border-secondary-default/20 rounded-lg py-2 pl-10 pr-4 text-white placeholder:text-white/50 focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 focus:border-secondary-default/50"
           />
           {searchQuery && (
             <button

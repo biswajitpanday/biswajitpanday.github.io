@@ -97,7 +97,7 @@ const UnifiedToolbar: React.FC<UnifiedToolbarProps> = ({
               placeholder={searchPlaceholder}
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg pl-9 pr-9 text-xs text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 shadow-sm focus:shadow-md focus:shadow-secondary-default/20"
+              className="w-full h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg pl-9 pr-9 text-xs text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 shadow-sm focus:shadow-md focus:shadow-secondary-default/20"
             />
             {searchQuery && (
               <button

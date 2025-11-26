@@ -170,7 +170,7 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
               placeholder={placeholder}
               value={searchQuery}
               onChange={handleSearchChange}
-              className="w-full h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg pl-9 pr-9 text-xs text-white placeholder:text-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus:border-secondary-default/60 transition-all duration-300 shadow-sm focus:shadow-md focus:shadow-secondary-default/20"
+              className="w-full h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg pl-9 pr-9 text-xs text-white placeholder:text-white/40 focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 focus:border-secondary-default/60 transition-all duration-300 shadow-sm focus:shadow-md focus:shadow-secondary-default/20"
               data-test-selector="projectFilter-searchInput"
             />
             {searchQuery && (

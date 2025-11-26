@@ -138,7 +138,7 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
             placeholder={placeholder}
             value={searchQuery}
             onChange={handleSearchChange}
-            className="w-full h-9 bg-gray-800/50 border border-secondary-default/20 rounded-lg pl-9 pr-9 text-sm text-white placeholder:text-white/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus:border-secondary-default/50"
+            className="w-full h-9 bg-gray-800/50 border border-secondary-default/20 rounded-lg pl-9 pr-9 text-sm text-white placeholder:text-white/50 focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 focus:border-secondary-default/50"
           />
           {searchQuery && (
             <button

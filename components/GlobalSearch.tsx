@@ -250,7 +250,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="w-full bg-gray-800/50 border border-secondary-default/20 text-white placeholder:text-white/40 pl-10 pr-4 py-3 rounded focus:border-secondary-default/50 focus:ring-secondary-default/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 transition-all duration-300"
+                  className="w-full bg-gray-800/50 border border-secondary-default/20 text-white placeholder:text-white/40 pl-10 pr-4 py-3 rounded focus:border-secondary-default/50 focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 transition-all duration-300"
                   aria-describedby="search-results-status"
                 />
               </div>
