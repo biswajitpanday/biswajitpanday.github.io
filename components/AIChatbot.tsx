@@ -227,29 +227,31 @@ export default function AIChatbot() {
   }, [isOpen, messages, conversationStartTime]);
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9999]">
-      {/* Floating Button (when chat is closed) */}
-      <AnimatePresence>
-        {!isOpen && (
-          <motion.button
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleOpen}
-            className="w-14 h-14 rounded-full bg-gradient-to-r from-secondary-default to-blue-500 text-primary shadow-lg hover:shadow-2xl transition-shadow flex items-center justify-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
-            aria-label="Open AI chatbot assistant"
-          >
-            <FaRobot className="text-2xl group-hover:scale-110 transition-transform" aria-hidden="true" />
+    <>
+      {/* Floating Button (when chat is closed) - Fixed position */}
+      <div className="fixed bottom-6 right-6 z-[9999]">
+        <AnimatePresence>
+          {!isOpen && (
+            <motion.button
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleOpen}
+              className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 via-secondary-default to-blue-500 text-primary shadow-lg hover:shadow-2xl hover:shadow-purple-500/25 transition-all flex items-center justify-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+              aria-label="Open AI chatbot assistant"
+            >
+              <FaRobot className="text-2xl group-hover:scale-110 transition-transform" aria-hidden="true" />
 
-            {/* Pulse animation ring */}
-            <span className="absolute inset-0 rounded-full bg-secondary-default/30 animate-ping" aria-hidden="true" />
-          </motion.button>
-        )}
-      </AnimatePresence>
+              {/* Pulse animation ring */}
+              <span className="absolute inset-0 rounded-full bg-purple-500/30 animate-ping" aria-hidden="true" />
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </div>
 
-      {/* Chat Window */}
+      {/* Chat Window - Responsive positioning */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -262,17 +264,21 @@ export default function AIChatbot() {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className={`bg-primary border border-secondary-default/20 rounded-lg shadow-2xl ${
-              isMinimized ? 'w-80 h-14' : 'w-[400px] h-[600px]'
+            className={`fixed z-[9999] bg-gradient-to-br from-[#1a1a2e] via-[#16162a] to-[#0f0f1a] border border-purple-500/20 rounded-xl shadow-2xl shadow-purple-500/10 ${
+              isMinimized
+                ? 'bottom-6 right-6 w-80 h-14'
+                : 'bottom-4 right-4 left-4 sm:left-auto sm:w-[400px] h-[85vh] sm:h-[600px] max-h-[700px]'
             } flex flex-col overflow-hidden`}
           >
-            {/* Header */}
-            <div className="bg-gradient-to-r from-secondary-default/20 to-blue-500/20 border-b border-secondary-default/20 p-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <FaRobot className="text-secondary-default text-xl" aria-hidden="true" />
+            {/* Header with gradient */}
+            <div className="bg-gradient-to-r from-purple-500/20 via-secondary-default/20 to-blue-500/20 border-b border-purple-500/20 p-3 sm:p-4 flex items-center justify-between backdrop-blur-sm">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="p-2 bg-gradient-to-br from-purple-500/30 to-secondary-default/30 rounded-lg">
+                  <FaRobot className="text-purple-400 text-lg sm:text-xl" aria-hidden="true" />
+                </div>
                 <div>
-                  <h3 id={chatTitleId} className="font-semibold text-sm">Biswajit&apos;s AI Assistant</h3>
-                  <p id={chatDescId} className="text-xs text-white/60">Online - Ask about projects, skills, or experience</p>
+                  <h3 id={chatTitleId} className="font-bold text-sm bg-gradient-to-r from-purple-400 to-secondary-default bg-clip-text text-transparent">Biswajit&apos;s AI Assistant</h3>
+                  <p id={chatDescId} className="text-[10px] sm:text-xs text-white/60">Online - Ask about projects, skills, or experience</p>
                 </div>
               </div>
 
@@ -315,11 +321,11 @@ export default function AIChatbot() {
                   {isLoading && (
                     <div className="flex items-center gap-2 text-white/60 text-sm" role="status" aria-label="Generating response">
                       <div className="flex gap-1" aria-hidden="true">
-                        <span className="w-2 h-2 bg-secondary-default rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                        <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                         <span className="w-2 h-2 bg-secondary-default rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                        <span className="w-2 h-2 bg-secondary-default rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                        <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                       </div>
-                      <span>Thinking...</span>
+                      <span className="bg-gradient-to-r from-purple-400 to-secondary-default bg-clip-text text-transparent">Thinking...</span>
                     </div>
                   )}
 
@@ -339,7 +345,7 @@ export default function AIChatbot() {
                 )}
 
                 {/* Input Area */}
-                <form onSubmit={handleSubmit} className="border-t border-secondary-default/20 p-4">
+                <form onSubmit={handleSubmit} className="border-t border-purple-500/20 p-3 sm:p-4 bg-gradient-to-t from-purple-500/5 to-transparent">
                   <label htmlFor={inputLabelId} className="sr-only">
                     Type your message to the AI assistant
                   </label>
@@ -351,7 +357,7 @@ export default function AIChatbot() {
                       onChange={(e) => setInputMessage(e.target.value)}
                       onKeyDown={handleKeyDown}
                       placeholder="Ask about Biswajit's work..."
-                      className="flex-1 bg-white/5 border border-secondary-default/20 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus:border-secondary-default/40 transition-colors max-h-24"
+                      className="flex-1 bg-white/5 border border-purple-500/30 rounded-xl px-3 py-2.5 text-sm resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus:border-purple-500/50 transition-all max-h-24 placeholder:text-white/40"
                       rows={1}
                       maxLength={500}
                       disabled={isLoading}
@@ -361,7 +367,7 @@ export default function AIChatbot() {
                     <button
                       type="submit"
                       disabled={!inputMessage.trim() || isLoading}
-                      className="bg-gradient-to-r from-secondary-default to-blue-500 text-primary p-2.5 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+                      className="bg-gradient-to-br from-purple-500 via-secondary-default to-blue-500 text-primary p-2.5 rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
                       aria-label="Send message"
                     >
                       <FaPaperPlane className="text-sm" aria-hidden="true" />
@@ -373,7 +379,7 @@ export default function AIChatbot() {
                     <button
                       type="button"
                       onClick={clearConversation}
-                      className="hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
+                      className="hover:text-purple-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 rounded"
                       aria-label="Clear all chat messages"
                     >
                       Clear chat
@@ -385,6 +391,6 @@ export default function AIChatbot() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }

@@ -362,8 +362,8 @@ export const projects: Project[] = [
       "Three-Way Merge Algorithms",
       "Async I/O (aiohttp)"
     ],
-    image: "/assets/portfolio/webp/spireWiz.webp",
-    thumbImage: "/assets/portfolio/thumbnails/spireWiz.webp",
+    image: "/assets/portfolio/webp/spirewiz.webp",
+    thumbImage: "/assets/portfolio/thumbnails/spirewiz.webp",
     isActive: true,
     isOpenSource: false,
     isFeatured: true,

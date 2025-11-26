@@ -55,10 +55,10 @@ export default function ChatMessage({ message }: ChatMessageProps) {
     >
       {/* Avatar */}
       <div
-        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+        className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center ${
           isUser
-            ? 'bg-blue-500/20 text-blue-400'
-            : 'bg-secondary-default/20 text-secondary-default'
+            ? 'bg-gradient-to-br from-blue-500/30 to-secondary-default/30 text-blue-400'
+            : 'bg-gradient-to-br from-purple-500/30 to-secondary-default/30 text-purple-400'
         }`}
       >
         {isUser ? <FaUser className="text-sm" /> : <FaRobot className="text-sm" />}
@@ -67,10 +67,10 @@ export default function ChatMessage({ message }: ChatMessageProps) {
       {/* Message Content */}
       <div className={`flex-1 ${isUser ? 'text-right' : 'text-left'}`}>
         <div
-          className={`inline-block max-w-[85%] rounded-lg px-4 py-2 ${
+          className={`inline-block max-w-[85%] rounded-xl px-4 py-2.5 ${
             isUser
-              ? 'bg-gradient-to-r from-blue-500/20 to-secondary-default/20 border border-blue-500/20'
-              : 'bg-white/5 border border-secondary-default/10'
+              ? 'bg-gradient-to-br from-blue-500/20 to-secondary-default/20 border border-blue-500/30'
+              : 'bg-gradient-to-br from-purple-500/10 to-secondary-default/10 border border-purple-500/20'
           }`}
         >
           {/* Message text with markdown rendering */}
