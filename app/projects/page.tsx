@@ -331,11 +331,11 @@ const Projects = () => {
         >
           <div className="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center">
             {/* View Mode Toggle - Compact */}
-            <div className="flex gap-2 shrink-0">
+            <div className="grid grid-cols-2 sm:flex gap-2 shrink-0">
               <button
                 data-testid="view-mode-grid"
                 onClick={() => setViewMode("grid")}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${
+                className={`flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${
                   viewMode === "grid"
                     ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-md"
                     : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
@@ -347,7 +347,7 @@ const Projects = () => {
               <button
                 data-testid="view-mode-timeline"
                 onClick={() => setViewMode("timeline")}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${
+                className={`flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${
                   viewMode === "timeline"
                     ? "bg-gradient-to-r from-secondary-default to-blue-500 text-white shadow-md"
                     : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"

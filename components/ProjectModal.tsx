@@ -152,27 +152,39 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             onClick={(e) => e.stopPropagation()}
           >
             {/* Ultra-Compact Modal Header */}
-            <div className="relative px-4 py-3 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/5 via-transparent to-secondary-default/5 flex-shrink-0">
-              {/* Single Line: Title + Badges + Close */}
-              <div className="flex items-center justify-between gap-3 mb-2 flex-wrap min-h-[28px]">
+            <div className="relative px-3 sm:px-4 py-3 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/5 via-transparent to-secondary-default/5 flex-shrink-0">
+              {/* Mobile: Close button top-right, Title full width */}
+              {/* Desktop: Single line with badges */}
+
+              {/* Close Button - Absolute positioned on mobile for better layout */}
+              <button
+                ref={closeButtonRef}
+                onClick={onClose}
+                className="absolute top-2 right-2 sm:hidden w-8 h-8 flex items-center justify-center text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50"
+                aria-label="Close project details (Press Escape)"
+              >
+                <FaTimes className="text-sm" aria-hidden="true" />
+              </button>
+
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 mb-2">
                 {/* Left: #num | Company | Title */}
-                <h2 id={modalTitleId} className="text-base xl:text-lg font-bold flex items-center gap-2 flex-shrink-0">
-                  <span className="text-secondary-default text-sm leading-none" aria-hidden="true">#{project.num}</span>
-                  
+                <h2 id={modalTitleId} className="text-sm sm:text-base xl:text-lg font-bold flex items-center gap-2 flex-wrap pr-10 sm:pr-0">
+                  <span className="text-secondary-default text-xs sm:text-sm leading-none" aria-hidden="true">#{project.num}</span>
+
                   {project.associatedWithCompany && (
                     <>
-                      <span className="text-white/30 text-xs leading-none">|</span>
+                      <span className="text-white/30 text-xs leading-none hidden sm:inline">|</span>
                       <div className="flex items-center gap-1.5">
                         <CompanyIcon company={project.associatedWithCompany} />
-                        <span className="text-sm font-medium text-white/80 leading-none">
+                        <span className="text-xs sm:text-sm font-medium text-white/80 leading-none">
                           {project.associatedWithCompany}
                         </span>
                       </div>
                     </>
                   )}
-                  
-                  <span className="text-white/30 text-xs leading-none">|</span>
-                  <span className={`leading-none ${
+
+                  <span className="text-white/30 text-xs leading-none hidden sm:inline">|</span>
+                  <span className={`leading-none text-sm sm:text-base ${
                     project.isFeatured
                       ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
                       : 'bg-gradient-to-r from-[#00BFFF] to-emerald-400 bg-clip-text text-transparent'
@@ -181,24 +193,21 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   </span>
                 </h2>
 
-                {/* Right: Badges + Close Button */}
-                <div className="flex items-center gap-2 flex-shrink-0">
+                {/* Right: Badges + Close Button (Desktop) */}
+                {/* Mobile: 4-column grid for badges | Desktop: flex row */}
+                <div className="grid grid-cols-4 sm:flex sm:items-center gap-1.5 sm:gap-2">
                   <CategoryBadge category={project.category} />
 
-                  <BadgeSeparator />
-
-                  {project.isOpenSource && (
-                    <>
-                      <OpenSourceBadge variant="icon" />
-                      <BadgeSeparator />
-                    </>
+                  {project.isOpenSource ? (
+                    <OpenSourceBadge variant="icon" />
+                  ) : (
+                    <BadgeSeparator className="hidden sm:block" />
                   )}
 
-                  {project.isFeatured && (
-                    <>
-                      <FeaturedBadge variant="text" />
-                      <BadgeSeparator />
-                    </>
+                  {project.isFeatured ? (
+                    <FeaturedBadge variant="text" />
+                  ) : (
+                    <div className="hidden sm:block" />
                   )}
 
                   <StatusBadge
@@ -206,11 +215,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                     inactivationReason={project.inactivationReason}
                   />
 
-                  {/* Close Button */}
+                  {/* Close Button - Desktop only (mobile uses absolute positioned one) */}
                   <button
-                    ref={closeButtonRef}
                     onClick={onClose}
-                    className="w-7 h-7 flex items-center justify-center text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg flex-shrink-0 ml-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+                    className="hidden sm:flex w-7 h-7 items-center justify-center text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg flex-shrink-0 ml-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
                     aria-label="Close project details (Press Escape)"
                   >
                     <FaTimes className="text-sm" aria-hidden="true" />
@@ -226,71 +234,75 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
               )}
 
               {/* Tab Buttons Row + Action Buttons */}
-              <div className="flex items-center justify-between gap-3 mt-2 pt-2 border-t border-white/5 min-h-[32px]">
-                {/* Left: Tab Buttons */}
-                <div className="flex items-center gap-2" role="tablist" aria-label="Project details tabs">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 mt-2 pt-2 border-t border-white/5">
+                {/* Left: Tab Buttons - 3-column grid on mobile */}
+                <div className="grid grid-cols-3 sm:flex sm:items-center gap-1.5 sm:gap-2" role="tablist" aria-label="Project details tabs">
                   <button
                     role="tab"
                     aria-selected={activeTab === "overview"}
                     aria-controls={`${tabPanelId}-overview`}
                     onClick={() => setActiveTab("overview")}
-                    className={`h-8 px-3 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-default/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
+                    className={`h-8 px-2 sm:px-3 rounded-md text-[11px] sm:text-xs font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-default/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
                       activeTab === "overview"
                         ? "bg-secondary-default/20 border border-secondary-default/50 text-secondary-default"
                         : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
                     }`}
                   >
-                    <span className="flex items-center gap-1.5">
+                    <span className="flex items-center justify-center gap-1">
                       <FaInfoCircle className="text-xs flex-shrink-0" aria-hidden="true" />
                       <span className="leading-none">Overview</span>
                     </span>
                   </button>
-                  {hasCaseStudy && (
+                  {hasCaseStudy ? (
                     <button
                       role="tab"
                       aria-selected={activeTab === "case-study"}
                       aria-controls={`${tabPanelId}-case-study`}
                       onClick={() => setActiveTab("case-study")}
-                      className={`h-8 px-3 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
+                      className={`h-8 px-2 sm:px-3 rounded-md text-[11px] sm:text-xs font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
                         activeTab === "case-study"
                           ? "bg-purple-500/20 border border-purple-500/50 text-purple-300"
                           : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
                       }`}
                     >
-                      <span className="flex items-center gap-1.5">
+                      <span className="flex items-center justify-center gap-1">
                         <FaLightbulb className="text-xs flex-shrink-0" aria-hidden="true" />
                         <span className="leading-none">Case Study</span>
                       </span>
                     </button>
+                  ) : (
+                    <div className="hidden sm:block" />
                   )}
-                  {hasArchitecture && (
+                  {hasArchitecture ? (
                     <button
                       role="tab"
                       aria-selected={activeTab === "architecture"}
                       aria-controls={`${tabPanelId}-architecture`}
                       onClick={() => setActiveTab("architecture")}
-                      className={`h-8 px-3 rounded-md text-xs font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
+                      className={`h-8 px-2 sm:px-3 rounded-md text-[11px] sm:text-xs font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
                         activeTab === "architecture"
                           ? "bg-cyan-500/20 border border-cyan-500/50 text-cyan-300"
                           : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
                       }`}
                     >
-                      <span className="flex items-center gap-1.5">
+                      <span className="flex items-center justify-center gap-1">
                         <FiLayers className="text-xs flex-shrink-0" aria-hidden="true" />
                         <span className="leading-none">Architecture</span>
                       </span>
                     </button>
+                  ) : (
+                    <div className="hidden sm:block" />
                   )}
                 </div>
 
-                {/* Right: Action Buttons */}
-                <div className="flex items-center gap-2">
+                {/* Right: Action Buttons - 2-column grid on mobile (50% + 50%) */}
+                <div className="grid grid-cols-2 sm:flex sm:items-center gap-2">
                   {project.url && project.url.trim() !== "" && (
                     <Link
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="h-8 flex items-center gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-3 rounded-md text-xs font-bold hover:shadow-lg hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
+                      className="h-8 flex items-center justify-center gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-3 rounded-md text-xs font-bold hover:shadow-lg hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
                     >
                       <FaExternalLinkAlt className="text-[10px] flex-shrink-0" />
                       <span className="leading-none">View Live</span>
@@ -301,7 +313,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="h-8 flex items-center gap-1.5 bg-gray-800 hover:bg-gray-700 text-white px-3 rounded-md text-xs font-bold transition-all duration-200 border border-white/20 hover:border-secondary-default/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
+                      className="h-8 flex items-center justify-center gap-1.5 bg-gray-800 hover:bg-gray-700 text-white px-3 rounded-md text-xs font-bold transition-all duration-200 border border-white/20 hover:border-secondary-default/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-[#1a1a1f]"
                     >
                       <FaGithub className="text-[10px] flex-shrink-0" />
                       <span className="leading-none">View Code</span>

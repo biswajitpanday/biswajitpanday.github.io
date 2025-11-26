@@ -76,7 +76,7 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
           <div className="flex-1 min-w-0">
             <h3 className={`text-lg font-bold transition-colors duration-300 ${isFeatured
                 ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
-                : 'bg-gradient-to-r from-[#00BFFF] to-white bg-clip-text text-transparent'
+                : 'bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent'
               }`}>
               {item.position}
             </h3>
@@ -148,40 +148,45 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
         </div>
 
         {/* Date Info Badges + Job Type + Location - Mobile Only */}
-        <div className="sm:hidden flex flex-wrap items-center gap-2 mb-3">
-          {/* Date badges - Match STATUS_BADGE_CLASSES with contextual colors */}
-          <div className={`inline-flex items-center justify-center h-7 backdrop-blur-sm px-3 rounded-full text-xs font-medium ${isFeatured
-              ? 'bg-purple-500/10 border border-purple-500/30 text-purple-300'
-              : 'bg-secondary-default/10 border border-secondary-default/30 text-secondary-default'
-            }`}>
-            <FaCalendar className="text-[10px] mr-1.5" />
-            <span>{getDateRange(item.startDate, item.endDate)}</span>
+        <div className="sm:hidden space-y-2 mb-3">
+          {/* Row 1: Date + Duration */}
+          <div className="flex items-center gap-2">
+            <div className={`inline-flex items-center justify-center h-7 backdrop-blur-sm px-3 rounded-full text-xs font-medium ${isFeatured
+                ? 'bg-purple-500/10 border border-purple-500/30 text-purple-300'
+                : 'bg-secondary-default/10 border border-secondary-default/30 text-secondary-default'
+              }`}>
+              <FaCalendar className="text-[10px] mr-1.5" />
+              <span>{getDateRange(item.startDate, item.endDate)}</span>
+            </div>
+            <div className="inline-flex items-center justify-center h-7 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-[#00BFFF]/90 px-3 rounded-full text-xs font-medium">
+              <FaClock className="text-[10px] mr-1.5" />
+              <span>{getDuration(item.startDate, item.endDate)}</span>
+            </div>
           </div>
-          <div className="inline-flex items-center justify-center h-7 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-[#00BFFF]/90 px-3 rounded-full text-xs font-medium">
-            <FaClock className="text-[10px] mr-1.5" />
-            <span>{getDuration(item.startDate, item.endDate)}</span>
-          </div>
 
-          {/* Job Type Badges - Match CATEGORY_BADGE_CLASSES with contextual colors */}
-          {item.jobType.map((type, typeIndex) => (
-            <span
-              key={typeIndex}
-              className={`inline-flex items-center justify-center h-7 text-[11px] px-2.5 rounded-lg font-bold uppercase tracking-wide backdrop-blur-sm transition-all duration-300 ${isFeatured
-                  ? 'bg-purple-500/10 border border-purple-500/30 text-purple-300 hover:bg-purple-500/20'
-                  : 'bg-secondary-default/10 border border-secondary-default/30 text-secondary-default hover:bg-secondary-default/20'
-                }`}
-            >
-              {type}
-            </span>
-          ))}
+          {/* Row 2: Job Types + Separator + Location - All in one row */}
+          <div className="flex items-center gap-2">
+            {/* Job Type Badges */}
+            {item.jobType.map((type, typeIndex) => (
+              <span
+                key={typeIndex}
+                className={`inline-flex items-center justify-center h-7 text-[10px] px-2 rounded-lg font-bold uppercase tracking-wide backdrop-blur-sm transition-all duration-300 flex-shrink-0 ${isFeatured
+                    ? 'bg-purple-500/10 border border-purple-500/30 text-purple-300 hover:bg-purple-500/20'
+                    : 'bg-secondary-default/10 border border-secondary-default/30 text-secondary-default hover:bg-secondary-default/20'
+                  }`}
+              >
+                {type}
+              </span>
+            ))}
 
-          {/* Separator */}
-          <span className="h-7 text-white/30 text-xs inline-flex items-center justify-center">|</span>
+            {/* Separator */}
+            <span className="h-7 text-white/30 text-xs inline-flex items-center justify-center flex-shrink-0">|</span>
 
-          {/* Location for mobile - Contextual colors */}
-          <div className="inline-flex items-center justify-center h-7 gap-1.5 text-white/70 text-xs bg-white/5 backdrop-blur-sm border border-white/10 px-3 rounded-full">
-            <FaMapMarkedAlt className={`text-[10px] ${isFeatured ? 'text-purple-400' : 'text-secondary-default'}`} />
-            {item.location}
+            {/* Location - Contextual colors */}
+            <div className="inline-flex items-center justify-center h-7 gap-1 text-white/70 text-[10px] bg-white/5 backdrop-blur-sm border border-white/10 px-2 rounded-full flex-shrink-0">
+              <FaMapMarkedAlt className={`text-[9px] ${isFeatured ? 'text-purple-400' : 'text-secondary-default'}`} />
+              {item.location}
+            </div>
           </div>
         </div>
 

@@ -312,9 +312,9 @@ export function CompanyIcon({ company }: { company: string }) {
  * Badge Separator - Consistent divider between badges
  * Height matches badge height (h-7) for perfect alignment
  */
-export function BadgeSeparator() {
+export function BadgeSeparator({ className = "" }: { className?: string }) {
   return (
-    <span className="h-7 text-white/30 text-xs inline-flex items-center justify-center flex-shrink-0">
+    <span className={`h-7 text-white/30 text-xs inline-flex items-center justify-center flex-shrink-0 ${className}`}>
       <span className="leading-none">|</span>
     </span>
   );

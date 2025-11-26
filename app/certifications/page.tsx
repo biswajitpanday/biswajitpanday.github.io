@@ -355,85 +355,90 @@ const Certifications = () => {
             onSearchChange={setSearchQuery}
             searchPlaceholder="Search certifications, issuers, or skills..."
           >
-            {/* Advanced Filters and Tabs in one row */}
-            <div className="flex flex-wrap items-center gap-2 w-full">
-              {/* Issuer Filter */}
-              <select
-                value={selectedIssuer}
-                onChange={(e) => setSelectedIssuer(e.target.value)}
-                className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 pr-8 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 cursor-pointer"
-              >
-                <option value="all" className="bg-[#1a1a1f]">All Issuers</option>
-                {uniqueIssuers.map(issuer => (
-                  <option key={issuer} value={issuer} className="bg-[#1a1a1f]">{issuer}</option>
-                ))}
-              </select>
+            {/* Advanced Filters and Tabs */}
+            {/* Mobile: Stack filters and tabs in separate rows */}
+            {/* Desktop: All in one row */}
+            <div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-center gap-2 w-full">
+              {/* Dropdown Filters - 3-column grid on mobile, inline on desktop */}
+              <div className="grid grid-cols-3 lg:flex lg:items-center gap-2">
+                {/* Issuer Filter */}
+                <select
+                  value={selectedIssuer}
+                  onChange={(e) => setSelectedIssuer(e.target.value)}
+                  className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-2 lg:px-3 pr-6 lg:pr-8 text-[10px] lg:text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 cursor-pointer"
+                >
+                  <option value="all" className="bg-[#1a1a1f]">All Issuers</option>
+                  {uniqueIssuers.map(issuer => (
+                    <option key={issuer} value={issuer} className="bg-[#1a1a1f]">{issuer}</option>
+                  ))}
+                </select>
 
-              {/* Year Filter */}
-              <select
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(e.target.value)}
-                className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 pr-8 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 cursor-pointer"
-              >
-                <option value="all" className="bg-[#1a1a1f]">All Years</option>
-                {uniqueYears.map(year => (
-                  <option key={year} value={year.toString()} className="bg-[#1a1a1f]">{year}</option>
-                ))}
-              </select>
+                {/* Year Filter */}
+                <select
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(e.target.value)}
+                  className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-2 lg:px-3 pr-6 lg:pr-8 text-[10px] lg:text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 cursor-pointer"
+                >
+                  <option value="all" className="bg-[#1a1a1f]">All Years</option>
+                  {uniqueYears.map(year => (
+                    <option key={year} value={year.toString()} className="bg-[#1a1a1f]">{year}</option>
+                  ))}
+                </select>
 
-              {/* Status Filter */}
-              <select
-                value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
-                className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-3 pr-8 text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 cursor-pointer"
-              >
-                <option value="all" className="bg-[#1a1a1f]">All Status</option>
-                <option value="Active" className="bg-[#1a1a1f]">Active</option>
-                <option value="Expired" className="bg-[#1a1a1f]">Expired</option>
-                <option value="Verified" className="bg-[#1a1a1f]">Verified</option>
-              </select>
+                {/* Status Filter */}
+                <select
+                  value={selectedStatus}
+                  onChange={(e) => setSelectedStatus(e.target.value)}
+                  className="h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg px-2 lg:px-3 pr-6 lg:pr-8 text-[10px] lg:text-xs text-white focus:outline-none focus:ring-2 focus:ring-secondary-default/50 focus:border-secondary-default/60 transition-all duration-300 cursor-pointer"
+                >
+                  <option value="all" className="bg-[#1a1a1f]">All Status</option>
+                  <option value="Active" className="bg-[#1a1a1f]">Active</option>
+                  <option value="Expired" className="bg-[#1a1a1f]">Expired</option>
+                  <option value="Verified" className="bg-[#1a1a1f]">Verified</option>
+                </select>
+              </div>
 
               {/* Reset Filters Button */}
               {hasActiveFilters && (
                 <button
                   onClick={resetFilters}
-                  className="h-9 px-4 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 rounded-lg text-xs font-medium transition-all duration-300 hover:border-red-500/50"
+                  className="hidden lg:block h-9 px-4 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 rounded-lg text-xs font-medium transition-all duration-300 hover:border-red-500/50"
                 >
                   Reset
                 </button>
               )}
 
-              {/* Separator */}
+              {/* Separator - Desktop only */}
               <div className="hidden lg:block w-px h-8 bg-white/10 mx-2"></div>
 
-              {/* Category Tabs */}
-              <TabsList className="bg-transparent p-0 gap-2 flex-1">
-              <TabsTrigger
-                value="all"
-                className="px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
-              >
-                All ({certifications.length - upcomingCerts.length})
-              </TabsTrigger>
-              <TabsTrigger
-                value="professional"
-                className="px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
-              >
-                Professional ({professionalCerts.filter(cert => !cert.isUpcoming).length})
-              </TabsTrigger>
-              <TabsTrigger
-                value="courses"
-                className="px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
-              >
-                Courses ({courseCerts.length})
-              </TabsTrigger>
-              {trainingCerts.length > 0 && (
+              {/* Category Tabs - 3-column grid on mobile, inline on desktop */}
+              <TabsList className="grid grid-cols-3 lg:flex bg-transparent p-0 gap-2 lg:flex-1">
                 <TabsTrigger
-                  value="training"
-                  className="px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
+                  value="all"
+                  className="px-2 lg:px-4 py-2 rounded-lg text-[10px] lg:text-xs font-semibold transition-all duration-300 justify-center data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
                 >
-                  Training ({trainingCerts.length})
+                  All ({certifications.length - upcomingCerts.length})
                 </TabsTrigger>
-              )}
+                <TabsTrigger
+                  value="professional"
+                  className="px-2 lg:px-4 py-2 rounded-lg text-[10px] lg:text-xs font-semibold transition-all duration-300 justify-center data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
+                >
+                  Professional ({professionalCerts.filter(cert => !cert.isUpcoming).length})
+                </TabsTrigger>
+                <TabsTrigger
+                  value="courses"
+                  className="px-2 lg:px-4 py-2 rounded-lg text-[10px] lg:text-xs font-semibold transition-all duration-300 justify-center data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
+                >
+                  Courses ({courseCerts.length})
+                </TabsTrigger>
+                {trainingCerts.length > 0 && (
+                  <TabsTrigger
+                    value="training"
+                    className="px-2 lg:px-4 py-2 rounded-lg text-[10px] lg:text-xs font-semibold transition-all duration-300 justify-center data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary-default data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:bg-white/5 data-[state=inactive]:text-white/60 data-[state=inactive]:hover:bg-white/10 data-[state=inactive]:hover:text-white data-[state=inactive]:border data-[state=inactive]:border-white/10"
+                  >
+                    Training ({trainingCerts.length})
+                  </TabsTrigger>
+                )}
               </TabsList>
             </div>
           </UnifiedToolbar>
