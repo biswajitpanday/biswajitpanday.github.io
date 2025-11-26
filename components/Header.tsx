@@ -10,8 +10,7 @@ import {
   FaBars,
   FaTimes,
   FaSearch,
-  FaMedium,
-  FaChevronDown
+  FaMedium
 } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
 import MobileNav from "./MobileNav";
@@ -22,21 +21,13 @@ import GlobalSearch from "./GlobalSearch";
  * WCAG 2.1 AA compliant with keyboard navigation, ARIA labels, and focus management
  */
 
-// Header navigation links with Insights dropdown
+// Header navigation links
 const NAVIGATION_ITEMS = [
   { name: "Home", href: "/" },
   { name: "Career", href: "/career" },
   { name: "Projects", href: "/projects" },
   { name: "Certifications", href: "/certifications" },
   { name: "Skills", href: "/skills" },
-  {
-    name: "Insights",
-    href: "#",
-    dropdown: [
-      { name: "Activity", href: "/activity" },
-      { name: "Performance", href: "/performance" },
-    ]
-  },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -115,7 +106,11 @@ export default function Header() {
         className="fixed top-0 left-0 w-full transition-all duration-300 backdrop-blur-md z-[var(--z-header)]"
         style={{ zIndex: 'var(--z-header)' }}
       >
-        <div className={`w-full ${isSticky ? 'border-b border-secondary-default/20 bg-bg-default/80 shadow-sm' : 'bg-transparent'}`}>
+        <div className={`w-full relative ${isSticky ? 'bg-bg-default/80 shadow-sm' : 'bg-transparent'}`}>
+          {/* Gradient bottom border when sticky */}
+          {isSticky && (
+            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#00BFFF] to-transparent" aria-hidden="true" />
+          )}
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex items-center justify-between h-16 md:h-20">
               {/* Logo */}
@@ -209,16 +204,16 @@ export default function Header() {
                       key={item.name}
                       href={item.href}
                       data-testid={`nav-link-${item.name.toLowerCase()}`}
-                      className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
+                      className={`px-3 py-2 text-base font-medium rounded-md transition-all relative group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] ${
                         isActive
-                          ? "text-secondary-default"
-                          : "text-text-primary hover:text-secondary-default"
+                          ? "bg-gradient-to-r from-[#00BFFF] to-blue-400 bg-clip-text text-transparent"
+                          : "text-text-primary hover:bg-gradient-to-r hover:from-[#00BFFF] hover:to-blue-400 hover:bg-clip-text hover:text-transparent"
                       }`}
                       aria-current={isActive ? "page" : undefined}
                     >
                       {item.name}
                       <span
-                        className={`absolute bottom-0 left-0 w-full h-0.5 bg-secondary-default transform transition-transform duration-300 ${
+                        className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#00BFFF] to-blue-500 transform transition-transform duration-300 ${
                           isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                         }`}
                         style={{ transformOrigin: 'left' }}
