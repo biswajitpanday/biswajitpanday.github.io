@@ -161,16 +161,33 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
   }
 
   return (
-    <div className="space-y-4">
-      {/* Activity Graph */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: 0.2 }}
-        className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-3 overflow-x-auto"
-      >
-        <div className="min-w-[650px]">
+    <motion.section
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="py-12"
+    >
+      {/* Section Header */}
+      <div className="text-center mb-8">
+        <h2 className="text-2xl xl:text-3xl font-bold mb-2 bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
+          GitHub Activity
+        </h2>
+        <p className="text-sm bg-gradient-to-r from-white/60 to-white/40 bg-clip-text text-transparent">
+          Contribution activity from the last 90 days
+        </p>
+      </div>
+
+      <div className="space-y-4">
+        {/* Activity Graph */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="bg-white/5 backdrop-blur-sm border border-secondary-default/20 rounded-lg p-4 md:p-6 overflow-x-auto flex justify-center"
+        >
+        <div className="min-w-[750px]">
           {/* Month labels */}
           <div className="flex gap-[2px] mb-1 ml-6">
             {gridData.map((week, weekIndex) => {
@@ -279,31 +296,31 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
 
             <div className="hidden sm:block w-px h-8 bg-white/10" aria-hidden="true"></div>
 
-            {/* Pull Requests */}
+            {/* Current Streak */}
             <div className="flex items-center gap-2">
-              <div className="p-1.5 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg">
-                <span className="text-fuchsia-400 text-lg" aria-hidden="true">🔀</span>
+              <div className="p-1.5 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-lg">
+                <span className="text-orange-400 text-lg" aria-hidden="true">🔥</span>
               </div>
               <div>
-                <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
-                  {stats?.totalPRs || 0}
+                <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 tabular-nums">
+                  {stats?.currentStreak || 0}
                 </div>
-                <div className="text-[10px] text-white/60">Pull Requests</div>
+                <div className="text-[10px] text-white/60">Day Streak</div>
               </div>
             </div>
 
             <div className="hidden sm:block w-px h-8 bg-white/10" aria-hidden="true"></div>
 
-            {/* Issues */}
+            {/* Repos Touched */}
             <div className="flex items-center gap-2">
-              <div className="p-1.5 bg-amber-500/20 rounded-lg">
-                <span className="text-amber-400 text-lg" aria-hidden="true">📋</span>
+              <div className="p-1.5 bg-purple-500/20 rounded-lg">
+                <span className="text-purple-400 text-lg" aria-hidden="true">📦</span>
               </div>
               <div>
-                <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500 tabular-nums">
-                  {stats?.totalIssues || 0}
+                <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
+                  {stats?.totalRepos || 0}
                 </div>
-                <div className="text-[10px] text-white/60">Issues</div>
+                <div className="text-[10px] text-white/60">Repos Touched</div>
               </div>
             </div>
 
@@ -325,25 +342,26 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
         </div>
       </motion.div>
 
-      {/* GitHub Profile Link */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: 0.4 }}
-        className="text-center"
-      >
-        <a
-          href={GITHUB_PROFILE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-[10px] text-white/40 hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded px-2 py-1"
+        {/* GitHub Profile Link */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.4 }}
+          className="text-center"
         >
-          <FaGithub aria-hidden="true" />
-          <span>View full activity on GitHub</span>
-          <FaExternalLinkAlt className="text-[8px]" aria-hidden="true" />
-        </a>
-      </motion.div>
-    </div>
+          <a
+            href={GITHUB_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs text-white/40 hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded px-2 py-1"
+          >
+            <FaGithub aria-hidden="true" />
+            <span>View full activity on GitHub</span>
+            <FaExternalLinkAlt className="text-[10px]" aria-hidden="true" />
+          </a>
+        </motion.div>
+      </div>
+    </motion.section>
   );
 }

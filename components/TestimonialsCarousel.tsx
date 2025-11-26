@@ -75,21 +75,21 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
         <h2 id={`${carouselId}-title`} className="text-2xl xl:text-3xl font-bold mb-2 bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
           What People Say
         </h2>
-        <p className="text-sm text-white/60">
+        <p className="text-sm bg-gradient-to-r from-white/60 to-white/40 bg-clip-text text-transparent">
           Feedback from colleagues and collaborators
         </p>
       </div>
 
       {/* Carousel Container */}
-      <div className="relative bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-xl p-8 md:p-12">
+      <div className="relative bg-gradient-to-br from-purple-900/20 via-gray-900/50 to-cyan-900/20 border border-secondary-default/30 rounded-xl p-8 md:p-12 shadow-lg shadow-purple-500/5">
         {/* Quote Icon */}
-        <div className="absolute top-6 left-6 text-secondary-default/20" aria-hidden="true">
+        <div className="absolute top-6 left-6 text-purple-400/30" aria-hidden="true">
           <FaQuoteLeft className="text-4xl md:text-5xl" />
         </div>
 
-        {/* Testimonial Content */}
+        {/* Testimonial Content - Fixed height for consistent layout */}
         <div
-          className="relative min-h-[200px] flex items-center justify-center"
+          className="relative h-[260px] flex items-center justify-center"
           aria-live="polite"
           aria-atomic="true"
         >
@@ -100,13 +100,13 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.3 }}
-              className="text-center max-w-3xl mx-auto"
+              className="text-center max-w-3xl mx-auto flex flex-col justify-center h-full"
               role="group"
               aria-roledescription="slide"
               aria-label={`Testimonial ${currentIndex + 1} of ${testimonials.length}`}
             >
-              {/* Quote */}
-              <p className="text-lg md:text-xl text-white/90 leading-relaxed mb-8 italic">
+              {/* Quote - smaller text to fit full content */}
+              <p className="text-sm md:text-base text-white/90 leading-relaxed mb-6 italic max-h-[140px] overflow-y-auto custom-scrollbar">
                 "{currentTestimonial.quote}"
               </p>
 
@@ -117,11 +117,11 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
                   <img
                     src={currentTestimonial.image}
                     alt={currentTestimonial.author}
-                    className="w-16 h-16 rounded-full border-2 border-secondary-default/50 object-cover"
+                    className="w-16 h-16 rounded-full border-2 border-purple-400/50 object-cover shadow-lg shadow-purple-500/20"
                   />
                 ) : (
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-secondary-default/30 to-blue-500/30 border-2 border-secondary-default/50 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-secondary-default">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500/30 to-cyan-500/30 border-2 border-purple-400/50 flex items-center justify-center shadow-lg shadow-purple-500/20">
+                    <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
                       {currentTestimonial.author.charAt(0)}
                     </span>
                   </div>

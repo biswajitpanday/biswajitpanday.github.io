@@ -15,7 +15,6 @@ const BsMicrosoftTeams  = lazy(() => import("react-icons/bs").then(mod => ({ def
 const FaPaperPlane = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaPaperPlane })));
 const FaCheckCircle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCheckCircle })));
 const FaExclamationTriangle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaExclamationTriangle })));
-const FaCode = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCode })));
 const FaLinkedinIn = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLinkedinIn })));
 const FaGithub = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaGithub })));
 const FaTwitter = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaTwitter })));
@@ -23,12 +22,9 @@ const FaLock = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.F
 const FaCopy = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCopy })));
 const FaCheck = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCheck })));
 const FaClock = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaClock })));
-const FaHandshake = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaHandshake })));
-const FaCloud = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCloud })));
-const FaMagic = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaMagic })));
 
-// Form field icons (non-lazy for immediate use in inputs)
-import { FaUser, FaAt, FaPhone, FaComment } from "react-icons/fa";
+// Form field icons and service icons (non-lazy for immediate use)
+import { FaUser, FaAt, FaPhone, FaComment, FaCode, FaCloud, FaMagic, FaHandshake } from "react-icons/fa";
 
 // Loading fallback components
 const IconFallback = ({ className }: { className?: string }) => (

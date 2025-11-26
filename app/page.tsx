@@ -22,7 +22,7 @@ const Socials = lazy(() => import("@/components/Socials"));
 const ByTheNumbersDashboard = lazy(() => import("@/components/ByTheNumbersDashboard"));
 const TestimonialsCarousel = lazy(() => import("@/components/TestimonialsCarousel"));
 const FeaturedCaseStudies = lazy(() => import("@/components/FeaturedCaseStudies"));
-const InteractiveDemos = lazy(() => import("@/components/InteractiveDemos"));
+const GitHubActivityGraph = lazy(() => import("@/components/GitHubActivityGraph"));
 
 // Loading fallback components
 const ComponentFallback = ({ className }: { className?: string }) => (
@@ -105,7 +105,7 @@ const Home = () => {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="text-center xl:text-left order-2 xl:order-none max-w-2xl"
           >
-            {/* Role Badge */}
+            {/* Role Badge - Purple/Pink accent with readable white text */}
             <motion.div
               data-testid="home-role-badge"
               initial={isMounted ? { opacity: 0, y: -20 } : { opacity: 1, y: 0 }}
@@ -113,16 +113,11 @@ const Home = () => {
               transition={{ delay: isMounted ? 0.05 : 0, duration: 0.3 }}
               className="mb-6"
             >
-              <Badge
-                icon={<FiCode className="text-lg" />}
-                text={
-                  <span className="flex items-center gap-2">
-                    Senior .NET Architect & AI Solutions Engineer
-                    <FiZap className="text-lg animate-pulse" />
-                  </span>
-                }
-                color="default"
-              />
+              <span className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 via-pink-500/15 to-purple-500/10 backdrop-blur-sm border border-purple-500/40 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/25 transition-all duration-300">
+                <FiCode className="text-lg text-purple-400" />
+                <span className="text-white">Senior .NET Architect & AI Solutions Engineer</span>
+                <FiZap className="text-lg text-pink-400 animate-pulse" />
+              </span>
             </motion.div>
 
             {/* Main Heading */}
@@ -139,7 +134,7 @@ const Home = () => {
               </span>
             </motion.h1>
 
-            {/* Description */}
+            {/* Description - Color gradients following hierarchy */}
             <motion.p
               data-testid="home-description"
               initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
@@ -148,50 +143,54 @@ const Home = () => {
               className="text-base xl:text-lg mb-8 text-white/80 leading-relaxed max-w-[600px] mx-auto xl:mx-0"
             >
               Senior full-stack developer specializing in{" "}
-              <span className="text-secondary-default font-semibold">
+              <span className="bg-gradient-to-r from-[#00BFFF] to-blue-400 bg-clip-text text-transparent font-semibold">
                 .NET, React, and cloud solutions
               </span>{" "}
               with 10+ years of experience. I build{" "}
-              <span className="text-secondary-default font-semibold">
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-semibold">
                 scalable enterprise applications
               </span>{" "}
               and integrate modern technologies—recently developed{" "}
-              <span className="text-emerald-400 font-semibold">
+              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
                 SpireWiz
               </span>, an AI tool that reduced merge effort by{" "}
-              <span className="text-emerald-400 font-semibold">
+              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
                 80-90%
               </span>{" "}
               for development teams at Optimizely.
             </motion.p>
 
-            {/* Tech Stack Highlights */}
+            {/* Tech Stack Highlights - Compact badges with gradient icons */}
             <motion.div
               data-testid="home-tech-stack"
               initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: isMounted ? 0.2 : 0, duration: 0.3 }}
-              className="flex flex-wrap justify-center xl:justify-start gap-3 mb-8"
+              className="flex flex-wrap justify-center xl:justify-start gap-2 mb-8"
             >
               <Badge
-                icon={<SiDotnet className="text-secondary-default" />}
+                icon={<SiDotnet className="text-[#00BFFF]" />}
                 text=".NET"
                 color="default"
+                size="compact"
               />
               <Badge
-                icon={<SiReact className="text-secondary-default" />}
+                icon={<SiReact className="text-[#00BFFF]" />}
                 text="React"
                 color="default"
+                size="compact"
               />
               <Badge
-                icon={<FiCloud className="text-secondary-default" />}
+                icon={<FiCloud className="text-purple-400" />}
                 text="DevOps"
-                color="default"
+                color="purple"
+                size="compact"
               />
               <Badge
                 icon={<RiRobot3Fill className="text-emerald-400" />}
                 text="AI Integration"
                 color="emerald"
+                size="compact"
               />
             </motion.div>
 
@@ -232,13 +231,13 @@ const Home = () => {
                 <Button
                   data-testid="home-download-resume-button"
                   size="lg"
-                  className="group relative overflow-hidden bg-gradient-to-r from-secondary-default to-blue-500 hover:from-blue-500 hover:to-secondary-default text-primary font-semibold px-8 py-3 rounded transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-secondary-default/25"
+                  className="group relative overflow-hidden bg-gradient-to-r from-[#00BFFF] via-blue-500 to-purple-500 hover:from-purple-500 hover:via-blue-500 hover:to-[#00BFFF] text-white font-semibold px-8 py-3 rounded transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25"
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     <span>Download Resume</span>
                     <FiDownload className="text-lg group-hover:animate-bounce" />
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-secondary-default opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-blue-500 to-[#00BFFF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Button>
               </a>
 
@@ -292,9 +291,9 @@ const Home = () => {
           <FeaturedCaseStudies maxItems={2} />
         </Suspense>
 
-        {/* Interactive Demos - Live Projects */}
-        <Suspense fallback={<ComponentFallback className="w-full h-96" />}>
-          <InteractiveDemos />
+        {/* GitHub Activity - Shows Active Development */}
+        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
+          <GitHubActivityGraph />
         </Suspense>
       </div>
     </section>

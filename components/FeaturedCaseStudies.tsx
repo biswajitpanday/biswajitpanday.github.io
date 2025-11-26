@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
-import { projects } from "@/data/portfolioData";
+import { projects, Project } from "@/data/portfolioData";
 import CaseStudyCard from "./CaseStudyCard";
+import ProjectModal from "./ProjectModal";
 
 interface FeaturedCaseStudiesProps {
   maxItems?: number;
@@ -16,6 +17,8 @@ const FeaturedCaseStudies: React.FC<FeaturedCaseStudiesProps> = ({
   maxItems = 2,
   className = ""
 }) => {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
   // Get featured projects with case studies
   const featuredProjects = projects
     .filter((p) => p.caseStudy && p.isFeatured)
@@ -29,62 +32,63 @@ const FeaturedCaseStudies: React.FC<FeaturedCaseStudiesProps> = ({
   if (projectsWithCaseStudies.length === 0) return null;
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className={`py-12 ${className}`}
-    >
-      {/* Section Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
+    <>
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className={`py-12 ${className}`}
+      >
+        {/* Section Header - Centered */}
+        <div className="text-center mb-8">
           <h2 className="text-2xl xl:text-3xl font-bold mb-2 bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
             Featured Case Studies
           </h2>
-          <p className="text-sm text-white/60">
+          <p className="text-sm bg-gradient-to-r from-white/60 to-white/40 bg-clip-text text-transparent">
             Deep dives into problem-solving and impact
           </p>
         </div>
-        <Link
-          href="/projects"
-          className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm text-secondary-default/80 hover:text-secondary-default border border-secondary-default/30 hover:border-secondary-default/50 rounded-lg transition-all group"
-        >
-          <span>View All Projects</span>
-          <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" />
-        </Link>
-      </div>
 
-      {/* Case Studies Grid */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {projectsWithCaseStudies.map((project, index) => (
-          <motion.div
-            key={project.num}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: index * 0.1 }}
+        {/* Case Studies Grid - Equal height cards */}
+        <div className="grid md:grid-cols-2 gap-6 items-stretch">
+          {projectsWithCaseStudies.map((project, index) => (
+            <motion.div
+              key={project.num}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="h-full"
+            >
+              <CaseStudyCard
+                project={project}
+                caseStudy={project.caseStudy!}
+                onViewDetails={() => setSelectedProject(project)}
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* View All Projects Link - Centered like GitHub Activity */}
+        <div className="text-center mt-6">
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-2 text-xs text-white/40 hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded px-2 py-1"
           >
-            <CaseStudyCard
-              project={project}
-              caseStudy={project.caseStudy!}
-              variant="compact"
-            />
-          </motion.div>
-        ))}
-      </div>
+            <FaArrowRight className="text-[10px]" aria-hidden="true" />
+            <span>View all projects</span>
+          </Link>
+        </div>
+      </motion.section>
 
-      {/* Mobile View All Link */}
-      <div className="flex sm:hidden justify-center mt-6">
-        <Link
-          href="/projects"
-          className="flex items-center gap-2 px-4 py-2 text-sm text-secondary-default/80 hover:text-secondary-default border border-secondary-default/30 hover:border-secondary-default/50 rounded-lg transition-all group"
-        >
-          <span>View All Projects</span>
-          <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" />
-        </Link>
-      </div>
-    </motion.section>
+      {/* Project Details Modal */}
+      <ProjectModal
+        project={selectedProject}
+        isOpen={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
+    </>
   );
 };
 
