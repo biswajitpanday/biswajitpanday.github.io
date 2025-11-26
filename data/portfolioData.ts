@@ -88,6 +88,168 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    num: 0,
+    category: "Full-Stack",
+    title: "Portfolio Website",
+    subtitle: "AI-Powered Interactive Portfolio with Google Gemini Chat Assistant",
+    longDescription: "A modern, enterprise-grade portfolio website featuring an AI-powered chatbot assistant built with Google Gemini 2.5 Flash. This project showcases advanced frontend architecture with Next.js 15, React 19, and TypeScript, deployed as a multi-repository microservices architecture with the frontend on GitHub Pages and the AI backend on Vercel Serverless Functions. The portfolio demonstrates comprehensive design principles including a 5-color hierarchy system, WCAG 2.1 AA accessibility compliance, glassmorphism UI patterns, and Framer Motion animations. The AI chatbot provides intelligent responses about my professional experience, projects, and skills through natural conversation, featuring rate limiting, CORS security, conversation history, and suggested questions. Key architectural decisions include separation of concerns between static frontend and serverless API, auto-generated knowledge base from portfolio data, and comprehensive analytics tracking for user interactions. The site also features GitHub Activity integration showing real-time contribution graphs, advanced filtering systems for projects and skills, SEO optimization with structured data (Schema.org), and performance optimizations including WebP image optimization and bundle analysis.",
+    shortDescription: "AI-powered portfolio with Google Gemini chatbot, WCAG 2.1 AA accessibility, glassmorphism design, and microservices architecture on GitHub Pages + Vercel.",
+    stacks: [
+      "Next.js 15",
+      "React 19",
+      "TypeScript 5",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Google Gemini AI",
+      "Vercel Serverless",
+      "GitHub Pages",
+      "GitHub Actions CI/CD",
+      "Shadcn/ui",
+      "Radix UI",
+      "Mermaid Diagrams",
+      "Google Analytics",
+      "SEO Schema.org",
+      "WCAG 2.1 AA"
+    ],
+    image: "/assets/portfolio/webp/placeholderImage.webp",
+    thumbImage: "/assets/portfolio/thumbnails/placeholderImage.webp",
+    isActive: true,
+    isOpenSource: true,
+    isFeatured: true,
+    url: "https://biswajitpanday.github.io",
+    github: "https://github.com/biswajitpanday/biswajitpanday.github.io",
+    associatedWithCompany: "Individual",
+    jobRole: "Senior Developer",
+    startDate: new Date('2024-01-01'),
+    endDate: new Date(),
+    inactivationReason: undefined,
+    responsibilities: [
+      "Architected multi-repository microservices solution: Next.js 15 static frontend on GitHub Pages + Vercel Serverless AI backend for independent scaling and deployment",
+      "Designed and implemented AI-powered chatbot using Google Gemini 2.5 Flash with intelligent knowledge base, rate limiting (10 req/min), CORS security, and conversation history",
+      "Established comprehensive 5-color design hierarchy (Purple→Emerald→Cyan→Gray→Golden) for visual information architecture and consistent UX across all pages",
+      "Achieved WCAG 2.1 AA accessibility compliance with focus management, ARIA attributes, keyboard navigation, screen reader support, and live regions",
+      "Implemented glassmorphism UI patterns with Framer Motion animations (0.4s consistent duration) and hardware-accelerated CSS for smooth 60fps performance",
+      "Built advanced filtering systems for projects, skills, and certifications with debounced search and memoized filters for optimal performance",
+      "Integrated real-time GitHub Activity visualization showing contribution graphs, commit stats, and active days using GitHub API",
+      "Optimized performance with WebP image conversion, bundle analysis, code splitting, and vendor chunking achieving excellent Core Web Vitals",
+      "Implemented comprehensive SEO strategy with Schema.org structured data, OpenGraph, Twitter cards, and dynamic sitemap generation"
+    ],
+    metrics: {
+      performance: "95+ Lighthouse Score",
+      users: "AI chatbot serves portfolio visitors 24/7",
+      efficiency: "Static export for instant page loads",
+      other: [
+        "WCAG 2.1 AA Compliant",
+        "5-Color Design System",
+        "Microservices Architecture",
+        "10 req/min rate limiting"
+      ]
+    },
+    testimonials: [
+      {
+        quote: "The AI chatbot is incredibly helpful for quickly understanding your background and projects. The design is clean and professional, and everything loads instantly.",
+        author: "Portfolio Visitor",
+        role: "Hiring Manager",
+        company: "Tech Company",
+        approved: true,
+        isSampleData: true,
+        shouldPublish: false
+      }
+    ],
+    caseStudy: {
+      problem: "Traditional portfolio websites are static and passive, requiring visitors to navigate through multiple pages to find relevant information. Hiring managers and potential collaborators often have specific questions but must manually search for answers. Additionally, many portfolios lack proper accessibility, have inconsistent design systems, and don't showcase modern development practices like microservices architecture and AI integration.",
+      solution: "Built a modern, AI-powered portfolio that proactively assists visitors through an intelligent chatbot powered by Google Gemini 2.5 Flash. The solution implements a multi-repository microservices architecture: (1) Static Next.js 15 frontend on GitHub Pages for instant page loads, (2) Vercel Serverless API for AI chatbot with rate limiting and CORS security, (3) Auto-generated knowledge base synced from portfolio data. Established a comprehensive design system with 5-color hierarchy, WCAG 2.1 AA accessibility, and consistent animation patterns. Integrated real-time GitHub Activity visualization and advanced filtering systems for an interactive exploration experience.",
+      architectureDiagram: `graph TB
+    subgraph Frontend
+        A[Visitor Browser] --> B[Next.js 15 Static Site]
+        B --> C[React 19 Components]
+        C --> D[AI Chatbot Component]
+        C --> E[Project and Skills Filters]
+        C --> F[GitHub Activity Graph]
+    end
+
+    subgraph AI_Backend
+        D -->|HTTPS POST| G[Chat API Endpoint]
+        G --> H[Rate Limiter]
+        H --> I[CORS Validator]
+        I --> J[Conversation Handler]
+        J --> K[Google Gemini 2.5 Flash]
+        K --> L[Knowledge Base]
+        L --> M[Portfolio Data Sync]
+    end
+
+    subgraph External
+        F -->|REST API| N[GitHub API v3]
+        B --> O[Google Analytics]
+    end
+
+    subgraph Design
+        C --> P[5-Color Hierarchy]
+        P --> Q[Purple - Featured]
+        P --> R[Emerald - Success]
+        P --> S[Cyan - Primary]
+        P --> T[Gray - Neutral]
+        P --> U[Golden - Special]
+    end
+
+    style B fill:#4CAF50
+    style G fill:#2196F3
+    style K fill:#A855F7
+    style P fill:#FF9800`,
+      results: [
+        "Deployed AI chatbot providing 24/7 intelligent responses about professional experience, projects, and skills",
+        "Achieved 95+ Lighthouse performance score with static export and optimized asset delivery",
+        "Implemented WCAG 2.1 AA accessibility compliance ensuring inclusive access for all visitors",
+        "Established reusable 5-color design system creating consistent visual hierarchy across all pages",
+        "Built microservices architecture enabling independent frontend/backend deployments and scaling",
+        "Integrated real-time GitHub Activity visualization showing contributions, commits, and coding patterns",
+        "Created advanced filtering systems with debounced search enabling quick project/skill discovery",
+        "Implemented comprehensive analytics tracking chatbot interactions, page views, and user engagement"
+      ],
+      technicalHighlights: [
+        "Multi-repository microservices: GitHub Pages (static) + Vercel Serverless (API)",
+        "Google Gemini 2.5 Flash AI integration with $5/session budget management",
+        "Rate limiting (10 req/min) with in-memory IP tracking and graceful 429 responses",
+        "CORS security whitelist allowing only portfolio domain and localhost",
+        "Auto-generated knowledge base synced from portfolioData.ts via build scripts",
+        "5-color hierarchy design system: Purple→Emerald→Cyan→Gray→Golden",
+        "WCAG 2.1 AA: focus-visible rings, ARIA attributes, keyboard navigation, live regions",
+        "Framer Motion animations with 0.4s consistent duration and hardware acceleration",
+        "Next.js 15 App Router with static export for GitHub Pages compatibility",
+        "Bundle optimization: vendor chunking, tree shaking, WebP image conversion",
+        "Schema.org structured data for enhanced SEO (Person, Website, Organization)",
+        "GitHub API integration with 5-minute cache revalidation for activity graphs"
+      ]
+    },
+    recognition: [
+      {
+        title: "AI-Powered Innovation",
+        description: "First portfolio to feature intelligent Gemini-powered chatbot assistant",
+        icon: "lightbulb",
+        approved: true
+      },
+      {
+        title: "Accessibility Excellence",
+        description: "Full WCAG 2.1 AA compliance with comprehensive accessibility patterns",
+        icon: "check-circle",
+        approved: true
+      },
+      {
+        title: "Design System Leadership",
+        description: "Established 5-color hierarchy creating consistent visual architecture",
+        icon: "palette",
+        approved: true
+      },
+      {
+        title: "Open Source Contribution",
+        description: "Both frontend and chatbot API published on GitHub for community reference",
+        icon: "code",
+        approved: true
+      }
+    ],
+    skillsHighlighted: ["AI Integration", "Microservices", "Accessibility", "Design Systems"]
+  },
+  {
     num: 1,
     category: "Backend",
     title: "CurrentDT-mcp",
