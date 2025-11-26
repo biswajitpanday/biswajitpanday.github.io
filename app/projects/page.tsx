@@ -11,7 +11,7 @@ import {
   FaGithub
 } from "react-icons/fa";
 import { projects, getFeaturedProjects } from "@/data/portfolioData";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import ProjectModal from "@/components/ProjectModal";
 import BackgroundElements from "@/components/BackgroundElements";
 import ProjectCard from "@/components/ProjectCard";
@@ -29,8 +29,8 @@ const Projects = () => {
   // Environment flags
   const isFilterEnabled = process.env.NEXT_PUBLIC_ENABLE_FILTER !== 'false';
 
-  // Sort projects by num for consistent display order
-  const sortedProjects = [...projects].sort((a, b) => a.num - b.num);
+  // Sort projects by num for consistent display order (memoized to prevent infinite re-renders)
+  const sortedProjects = useMemo(() => [...projects].sort((a, b) => a.num - b.num), []);
 
   // State
   const [searchQuery, setSearchQuery] = useState("");
