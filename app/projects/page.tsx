@@ -177,7 +177,7 @@ const Projects = () => {
             className="mb-6"
           >
             <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
-              <div className="flex flex-wrap items-center justify-center gap-6">
+              <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4 sm:gap-6">
                 {/* Total Projects */}
                 <div ref={totalCount.ref} className="flex items-center gap-3">
                   <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
@@ -253,7 +253,7 @@ const Projects = () => {
             className="mb-6"
           >
             <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
-              <div className="flex flex-wrap items-center justify-center gap-6">
+              <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4 sm:gap-6">
                 {/* Total Projects */}
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
