@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaTimes, FaChevronDown } from "react-icons/fa";
+import { FaTimes, FaChevronDown, FaSearch } from "react-icons/fa";
 
 /**
  * MobileNav - Accessible mobile navigation drawer
@@ -28,6 +28,8 @@ interface MobileNavProps {
   currentPath: string;
   isPathActive?: (path: string) => boolean;
   onClose: () => void;
+  onSearchOpen?: () => void;
+  isSearchEnabled?: boolean;
 }
 
 export default function MobileNav({
@@ -36,6 +38,8 @@ export default function MobileNav({
   currentPath,
   isPathActive,
   onClose,
+  onSearchOpen,
+  isSearchEnabled = false,
 }: MobileNavProps) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -149,22 +153,39 @@ export default function MobileNav({
           
           <div className="relative z-10 p-6">
             <div className="flex justify-between items-center mb-8">
-              <motion.h2 
+              <motion.h2
                 className="text-xl font-semibold text-white"
                 variants={itemVariants}
               >
                 Menu
               </motion.h2>
-              <motion.button
-                ref={closeButtonRef}
-                data-testid="mobile-nav-close"
-                className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e1e24]"
-                onClick={onClose}
-                variants={itemVariants}
-                aria-label="Close navigation menu"
-              >
-                <FaTimes className="w-5 h-5" aria-hidden="true" />
-              </motion.button>
+              <div className="flex items-center gap-2">
+                {/* Mobile Search Button */}
+                {isSearchEnabled && onSearchOpen && (
+                  <motion.button
+                    data-testid="mobile-nav-search"
+                    className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e1e24]"
+                    onClick={() => {
+                      onClose();
+                      onSearchOpen();
+                    }}
+                    variants={itemVariants}
+                    aria-label="Open search"
+                  >
+                    <FaSearch className="w-4 h-4" aria-hidden="true" />
+                  </motion.button>
+                )}
+                <motion.button
+                  ref={closeButtonRef}
+                  data-testid="mobile-nav-close"
+                  className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e1e24]"
+                  onClick={onClose}
+                  variants={itemVariants}
+                  aria-label="Close navigation menu"
+                >
+                  <FaTimes className="w-5 h-5" aria-hidden="true" />
+                </motion.button>
+              </div>
             </div>
 
             <nav 

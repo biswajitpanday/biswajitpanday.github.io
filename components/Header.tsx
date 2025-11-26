@@ -29,14 +29,14 @@ const NAVIGATION_ITEMS = [
   { name: "Projects", href: "/projects" },
   { name: "Certifications", href: "/certifications" },
   { name: "Skills", href: "/skills" },
-  // {
-  //   name: "Insights",
-  //   href: "#",
-  //   dropdown: [
-  //     { name: "Performance", href: "/performance" },
-  //     { name: "Activity", href: "/activity" },
-  //   ]
-  // },
+  {
+    name: "Insights",
+    href: "#",
+    dropdown: [
+      { name: "Activity", href: "/activity" },
+      { name: "Performance", href: "/performance" },
+    ]
+  },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -133,7 +133,7 @@ export default function Header() {
               {/* Desktop Navigation */}
               <nav
                 data-testid="desktop-navigation"
-                className="hidden md:hidden lg:flex items-center space-x-1"
+                className="hidden lg:flex items-center space-x-1"
                 role="navigation"
                 aria-label="Main navigation"
               >
@@ -280,7 +280,7 @@ export default function Header() {
                 </div>
 
                 {/* Mobile Menu Button */}
-                <div className="flex md:flex lg:hidden items-center">
+                <div className="flex lg:hidden items-center">
                   <Button
                     data-testid="mobile-menu-button"
                     variant="ghost"
@@ -302,12 +302,14 @@ export default function Header() {
         {/* Mobile Navigation Menu */}
         <AnimatePresence>
           {isMenuOpen && (
-            <MobileNav 
-              navigationItems={NAVIGATION_ITEMS} 
-              socialLinks={SOCIAL_LINKS} 
+            <MobileNav
+              navigationItems={NAVIGATION_ITEMS}
+              socialLinks={SOCIAL_LINKS}
               currentPath={pathname}
               isPathActive={isPathActive}
               onClose={() => setIsMenuOpen(false)}
+              onSearchOpen={() => setIsSearchOpen(true)}
+              isSearchEnabled={isSearchEnabled}
             />
           )}
         </AnimatePresence>
