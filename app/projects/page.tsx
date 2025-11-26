@@ -22,6 +22,8 @@ import type { Project } from "@/data/portfolioData";
 import { useCountUp } from "@/hooks/useCountUp";
 import ProjectTimeline from "@/components/ProjectTimeline";
 import TimelineFilter from "@/components/TimelineFilter";
+import EmptyState from "@/components/ui/EmptyState";
+import { FaSearch } from "react-icons/fa";
 
 const Projects = () => {
   // Environment flags
@@ -456,16 +458,21 @@ const Projects = () => {
 
         {/* Show when no projects match the filter */}
         {filteredProjects.length === 0 && (
-          <motion.div
-            data-testid="projects-no-results"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center py-16"
-          >
-            <FaCogs className="mx-auto text-4xl text-white/30 mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">No projects found</h3>
-            <p className="text-white/70">Try adjusting your search or filter criteria</p>
-          </motion.div>
+          <div data-testid="projects-no-results">
+            <EmptyState
+              icon={FaSearch}
+              title="No projects found"
+              description="Try adjusting your search or filter criteria to find what you're looking for."
+              action={{
+                label: "Clear Filters",
+                onClick: () => {
+                  setSearchQuery("");
+                  setSelectedSkill(null);
+                  setFilteredProjects(projects);
+                },
+              }}
+            />
+          </div>
         )}
           </>
         )}

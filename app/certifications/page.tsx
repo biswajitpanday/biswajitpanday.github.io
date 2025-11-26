@@ -13,7 +13,8 @@ import {
 } from "@/data/certificationsData";
 import CertificationCard from "@/components/CertificationCard";
 import BackgroundElements from "@/components/BackgroundElements";
-import { FiAward, FiBriefcase, FiBook, FiSlack, FiCheckCircle, FiShield } from "react-icons/fi";
+import EmptyState from "@/components/ui/EmptyState";
+import { FiAward, FiBriefcase, FiBook, FiSlack, FiCheckCircle, FiShield, FiSearch } from "react-icons/fi";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UnifiedToolbar from "@/components/UnifiedToolbar";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
@@ -461,7 +462,7 @@ const Certifications = () => {
                   <div className="flex justify-center mt-8">
                     <button
                       onClick={() => setShowAllCertifications(!showAllCertifications)}
-                      className="px-4 py-2.5 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
+                      className="px-3 py-1.5 text-sm bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
                     >
                       {showAllCertifications ? (
                         <>Show Less Certifications</>
@@ -473,13 +474,15 @@ const Certifications = () => {
                 )}
               </>
             ) : (
-              <div className="text-center py-16 bg-white/5 rounded-lg">
-                <FiAward className="text-4xl text-white/40 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">No Certifications Found</h3>
-                <p className="text-white/60 max-w-md mx-auto">
-                  Try adjusting your search criteria or filters to see more results.
-                </p>
-              </div>
+              <EmptyState
+                icon={FiSearch}
+                title="No Certifications Found"
+                description="Try adjusting your search criteria or filters to see more results."
+                action={{
+                  label: "Clear Filters",
+                  onClick: resetFilters,
+                }}
+              />
             )}
           </TabsContent>
 
@@ -507,7 +510,7 @@ const Certifications = () => {
                   <div className="flex justify-center mt-8">
                     <button
                       onClick={() => setShowAllCertifications(!showAllCertifications)}
-                      className="px-4 py-2.5 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
+                      className="px-3 py-1.5 text-sm bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
                     >
                       {showAllCertifications ? (
                         <>Show Less Certifications</>
@@ -519,13 +522,18 @@ const Certifications = () => {
                 )}
               </>
             ) : (
-              <div className="text-center py-16 bg-white/5 rounded-lg">
-                <FiAward className="text-4xl text-white/40 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">No Professional Certifications</h3>
-                <p className="text-white/60 max-w-md mx-auto">
-                  Try adjusting your search criteria or check back later as new certifications are added.
-                </p>
-              </div>
+              <EmptyState
+                icon={FiBriefcase}
+                title="No Professional Certifications"
+                description="Try adjusting your search criteria or check back later as new certifications are added."
+                action={{
+                  label: "Clear Filters",
+                  onClick: () => {
+                    resetFilters();
+                    handleTabChange("all");
+                  },
+                }}
+              />
             )}
           </TabsContent>
 
@@ -553,7 +561,7 @@ const Certifications = () => {
                   <div className="flex justify-center mt-8">
                     <button
                       onClick={() => setShowAllCertifications(!showAllCertifications)}
-                      className="px-4 py-2.5 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
+                      className="px-3 py-1.5 text-sm bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
                     >
                       {showAllCertifications ? (
                         <>Show Less Certifications</>
@@ -565,13 +573,18 @@ const Certifications = () => {
                 )}
               </>
             ) : (
-              <div className="text-center py-16 bg-white/5 rounded-lg">
-                <FiBook className="text-4xl text-white/40 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">No Course Certifications</h3>
-                <p className="text-white/60 max-w-md mx-auto">
-                  Try adjusting your search criteria or check back later as new courses are completed.
-                </p>
-              </div>
+              <EmptyState
+                icon={FiBook}
+                title="No Course Certifications"
+                description="Try adjusting your search criteria or check back later as new courses are completed."
+                action={{
+                  label: "Clear Filters",
+                  onClick: () => {
+                    resetFilters();
+                    handleTabChange("all");
+                  },
+                }}
+              />
             )}
           </TabsContent>
 
@@ -599,7 +612,7 @@ const Certifications = () => {
                   <div className="flex justify-center mt-8">
                     <button
                       onClick={() => setShowAllCertifications(!showAllCertifications)}
-                      className="px-4 py-2.5 bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
+                      className="px-3 py-1.5 text-sm bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
                     >
                       {showAllCertifications ? (
                         <>Show Less Certifications</>
@@ -611,13 +624,18 @@ const Certifications = () => {
                 )}
               </>
             ) : (
-              <div className="text-center py-16 bg-white/5 rounded-lg">
-                <FiSlack className="text-4xl text-white/40 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">No Training Certifications</h3>
-                <p className="text-white/60 max-w-md mx-auto">
-                  Try adjusting your search criteria or check back later as new training programs are completed.
-                </p>
-              </div>
+              <EmptyState
+                icon={FiSlack}
+                title="No Training Certifications"
+                description="Try adjusting your search criteria or check back later as new training programs are completed."
+                action={{
+                  label: "Clear Filters",
+                  onClick: () => {
+                    resetFilters();
+                    handleTabChange("all");
+                  },
+                }}
+              />
             )}
           </TabsContent>
         </Tabs>

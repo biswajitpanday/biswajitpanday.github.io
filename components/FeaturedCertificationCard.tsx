@@ -50,7 +50,7 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
   // Determine which image to use (thumbnail or full image)
   const displayImage = thumbImage || image;
 
-  // Simplified version (for homepage)
+  // Simplified version (for homepage) - compact design
   if (simplified) {
     return (
       <motion.div
@@ -59,11 +59,11 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
         animate="visible"
         className={`bg-gradient-to-r from-secondary-default/20 to-blue-500/20 backdrop-blur-sm border border-secondary-default/30 rounded overflow-hidden ${className}`}
       >
-        <div className="flex flex-col sm:flex-row items-center gap-4 p-4">
-          {/* Logo or icon */}
+        <div className="flex items-center gap-3 p-3">
+          {/* Logo or icon - compact */}
           <div className="relative flex-shrink-0">
             {displayImage ? (
-              <div className="relative w-16 h-16 sm:w-20 sm:h-20">
+              <div className="relative w-12 h-12 sm:w-14 sm:h-14">
                 <Image
                   src={displayImage}
                   alt={`${name} certificate`}
@@ -72,54 +72,54 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
                 />
               </div>
             ) : (
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/10 rounded-lg flex items-center justify-center">
-                <FiAward className="text-3xl text-secondary-default" />
+              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white/10 rounded-lg flex items-center justify-center">
+                <FiAward className="text-2xl text-secondary-default" />
               </div>
             )}
-            
-            {/* Issuer Logo */}
+
+            {/* Issuer Logo - smaller */}
             {issuerLogo && (
-              <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-white/10 backdrop-blur-md rounded overflow-hidden flex items-center justify-center border border-white/20">
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-white/10 backdrop-blur-md rounded overflow-hidden flex items-center justify-center border border-white/20">
                 <Image
                   src={issuerLogo}
                   alt={`${issuer} logo`}
-                  width={20}
-                  height={20}
+                  width={16}
+                  height={16}
                   className="object-contain"
                 />
               </div>
             )}
           </div>
-          
-          {/* Certification Details */}
-          <div className="flex-1 text-center sm:text-left">
-            <Badge variant="secondary" className="mb-1.5 text-xs inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-default/20 border border-secondary-default/30 text-secondary-default font-medium">
+
+          {/* Certification Details - compact */}
+          <div className="flex-1 min-w-0">
+            <Badge variant="secondary" className="mb-1 text-[10px] inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-default/20 border border-secondary-default/30 text-secondary-default font-medium">
               Recent Certification
             </Badge>
             {React.createElement(
               `h${headingLevel}`,
               {
-                className: `${isSmall ? "text-sm" : "text-base"} font-bold mb-1 line-clamp-1`
+                className: "text-sm font-bold mb-0.5 line-clamp-1"
               },
               name
             )}
-            <div className="flex flex-wrap items-center justify-center sm:justify-start text-xs gap-2 text-white/70">
-              <span className="text-secondary-default">{issuer}</span>
+            <div className="flex flex-wrap items-center text-[11px] gap-1.5 text-white/70">
+              <span className="text-secondary-default truncate">{issuer}</span>
               <span className="text-white/30">•</span>
               <div className="flex items-center">
-                <FiCalendar className="mr-1" size={12} />
+                <FiCalendar className="mr-0.5" size={10} />
                 <span>{formattedDate}</span>
               </div>
             </div>
           </div>
-          
-          {/* View All Link */}
-          <Link 
-            href="/certifications" 
-            className="bg-secondary-default/10 hover:bg-secondary-default/20 text-secondary-default rounded-full p-2 transition-colors flex-shrink-0 sm:self-center"
+
+          {/* View All Link - smaller */}
+          <Link
+            href="/certifications"
+            className="bg-secondary-default/10 hover:bg-secondary-default/20 text-secondary-default rounded-full p-1.5 transition-colors flex-shrink-0"
             aria-label="View all certifications"
           >
-            <FiArrowRight />
+            <FiArrowRight size={14} />
           </Link>
         </div>
       </motion.div>

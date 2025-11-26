@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaTimes, FaExternalLinkAlt, FaCode, FaBriefcase, FaAward } from "react-icons/fa";
+import EmptyState from "@/components/ui/EmptyState";
 import { projects } from "@/data/portfolioData";
 import { skills1, skills2 } from "@/data/skillsData";
 import { certifications } from "@/data/certificationsData";
@@ -271,12 +272,17 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
             {/* Search Results */}
             <div className="max-h-96 overflow-y-auto custom-scrollbar" role="region" aria-label="Search results">
               {debouncedSearch && filteredResults.length === 0 && (
-                <div className="text-center py-8">
-                  <FaSearch className="text-4xl text-secondary-default/40 mx-auto mb-4" aria-hidden="true" />
-                  <p className="text-white/60">
-                    No results found for &ldquo;{debouncedSearch}&rdquo;
-                  </p>
-                </div>
+                <EmptyState
+                  icon={FaSearch}
+                  title="No results found"
+                  description={`We couldn't find anything matching "${debouncedSearch}". Try different keywords or browse the suggestions below.`}
+                  action={{
+                    label: "Clear Search",
+                    onClick: () => setSearchQuery(""),
+                  }}
+                  size="sm"
+                  className="py-4"
+                />
               )}
 
               {filteredResults.length > 0 && (

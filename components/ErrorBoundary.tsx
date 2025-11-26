@@ -2,7 +2,12 @@
 
 import React, { Component, ErrorInfo, ReactNode } from "react";
 import Link from "next/link";
-import { FaExclamationTriangle, FaHome, FaSync } from "react-icons/fa";
+import { FaExclamationCircle, FaHome, FaSync } from "react-icons/fa";
+
+/**
+ * ErrorBoundary - Catches and displays component errors gracefully
+ * Styled to match site design system with cyan accent colors
+ */
 
 interface Props {
   children: ReactNode;
@@ -40,53 +45,65 @@ class ErrorBoundary extends Component<Props, State> {
         return this.props.fallback;
       }
 
-      // Default error UI
+      // Default error UI - matches site design system
       return (
-        <div className="min-h-[400px] flex items-center justify-center p-8">
-          <div className="text-center max-w-md mx-auto">
-            <div className="mb-6">
-              <FaExclamationTriangle className="text-6xl text-red-400 mx-auto mb-4" />
-              <h2 className="text-2xl font-semibold text-white mb-2">
+        <div className="min-h-[400px] flex items-center justify-center p-8 relative overflow-hidden">
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/95 to-primary/90 pointer-events-none" />
+          <div className="absolute top-0 left-1/4 w-64 h-64 bg-secondary-default/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 text-center max-w-md mx-auto">
+            {/* Card container */}
+            <div className="bg-white/5 border border-secondary-default/20 rounded-xl p-8 backdrop-blur-sm">
+              {/* Icon */}
+              <div className="w-16 h-16 mx-auto mb-4 bg-secondary-default/10 border border-secondary-default/20 rounded-xl flex items-center justify-center">
+                <FaExclamationCircle className="text-4xl text-secondary-default/70" aria-hidden="true" />
+              </div>
+
+              {/* Title */}
+              <h2 className="text-2xl font-bold text-white mb-2">
                 Something went wrong
               </h2>
-              <p className="text-text-secondary">
-                {this.props.section 
-                  ? `There was an error loading the ${this.props.section} section.` 
-                  : "An unexpected error occurred."
-                }
+
+              {/* Description */}
+              <p className="text-white/60 mb-6">
+                {this.props.section
+                  ? `There was an error loading the ${this.props.section} section.`
+                  : "An unexpected error occurred. Please try again."}
               </p>
-            </div>
-            
-            <div className="space-y-3">
-              <button
-                onClick={this.handleRetry}
-                className="inline-flex items-center gap-2 bg-secondary-default hover:bg-secondary-default/80 text-black font-medium px-6 py-3 rounded-lg transition-colors"
-              >
-                <FaSync className="text-sm" />
-                Try Again
-              </button>
-              
-              <div className="text-sm text-text-secondary">
-                <Link 
-                  href="/" 
-                  className="inline-flex items-center gap-2 text-secondary-default hover:text-secondary-default/80 transition-colors"
+
+              {/* Actions */}
+              <div className="flex flex-wrap justify-center gap-3">
+                <button
+                  onClick={this.handleRetry}
+                  className="inline-flex items-center gap-2 bg-secondary-default hover:bg-secondary-default/80 text-primary font-medium px-5 py-2.5 rounded-lg transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
                 >
-                  <FaHome className="text-sm" />
-                  Return to Home
+                  <FaSync className="text-sm" aria-hidden="true" />
+                  Try Again
+                </button>
+
+                <Link
+                  href="/"
+                  className="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border border-white/20 hover:border-white/30 font-medium px-5 py-2.5 rounded-lg transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+                >
+                  <FaHome className="text-sm" aria-hidden="true" />
+                  Return Home
                 </Link>
               </div>
-            </div>
 
-            {process.env.NODE_ENV === 'development' && this.state.error && (
-              <details className="mt-6 text-left">
-                <summary className="text-sm text-text-secondary cursor-pointer hover:text-white">
-                  Error Details (Development Only)
-                </summary>
-                <pre className="mt-2 p-4 bg-red-500/10 border border-red-500/20 rounded text-xs text-red-300 overflow-auto">
-                  {this.state.error.stack}
-                </pre>
-              </details>
-            )}
+              {/* Development error details */}
+              {process.env.NODE_ENV === 'development' && this.state.error && (
+                <details className="mt-6 text-left">
+                  <summary className="text-sm text-white/50 cursor-pointer hover:text-white/70 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded">
+                    Error Details (Development Only)
+                  </summary>
+                  <pre className="mt-2 p-4 bg-secondary-default/10 border border-secondary-default/20 rounded-lg text-xs text-secondary-default/80 overflow-auto max-h-40">
+                    {this.state.error.stack}
+                  </pre>
+                </details>
+              )}
+            </div>
           </div>
         </div>
       );

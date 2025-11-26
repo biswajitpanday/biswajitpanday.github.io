@@ -6,8 +6,6 @@ import { PERFORMANCE_VARIANTS } from "@/constants";
 import { useState } from "react";
 import FormSection from "@/components/FormSection";
 import BackgroundElements from "@/components/BackgroundElements";
-import { useCountUp } from "@/hooks/useCountUp";
-import { projects } from "@/data/portfolioData";
 
 // Lazy load icons only (not hooks/utilities)
 const FaEnvelope = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaEnvelope })));
@@ -15,19 +13,19 @@ const FaMapMarkedAlt = lazy(() => import("react-icons/fa").then(mod => ({ defaul
 const FaPhoneAlt = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaPhoneAlt })));
 const BsMicrosoftTeams  = lazy(() => import("react-icons/bs").then(mod => ({ default: mod.BsMicrosoftTeams })));
 const FaPaperPlane = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaPaperPlane })));
-const FaRocket = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaRocket })));
-const FaUsers = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaUsers })));
 const FaCheckCircle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCheckCircle })));
 const FaExclamationTriangle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaExclamationTriangle })));
-const FaGlobe = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaGlobe })));
 const FaCode = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCode })));
-const FaLayerGroup = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLayerGroup })));
 const FaLinkedinIn = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLinkedinIn })));
 const FaGithub = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaGithub })));
 const FaTwitter = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaTwitter })));
 const FaLock = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLock })));
 const FaCopy = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCopy })));
 const FaCheck = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCheck })));
+const FaClock = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaClock })));
+const FaHandshake = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaHandshake })));
+const FaCloud = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCloud })));
+const FaMagic = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaMagic })));
 
 // Form field icons (non-lazy for immediate use in inputs)
 import { FaUser, FaAt, FaPhone, FaComment } from "react-icons/fa";
@@ -248,16 +246,6 @@ const Contact = () => {
   const [attempts, setAttempts] = useState(0);
   const [lastAttempt, setLastAttempt] = useState(0);
   const [isBlocked, setIsBlocked] = useState(false);
-
-  // Calculate real stats from portfolio data
-  const totalProjects = projects.length;
-  const uniqueTechnologies = new Set(projects.flatMap(p => p.stacks)).size;
-  const yearsExperience = 10; // Since 2015
-
-  // Animated counters for stats dashboard (using real data)
-  const projectsCount = useCountUp({ end: totalProjects, duration: 1800 });
-  const technologiesCount = useCountUp({ end: uniqueTechnologies, duration: 2000 });
-  const experienceCount = useCountUp({ end: yearsExperience, duration: 1700 });
 
   // Load saved form data from localStorage on mount
   useEffect(() => {
@@ -498,7 +486,7 @@ const Contact = () => {
           </div>
         </motion.div>
 
-        {/* Stats Dashboard - Using Real Portfolio Data */}
+        {/* What I Can Help With - Services Section */}
         <motion.div
           variants={PERFORMANCE_VARIANTS.containerSync}
           initial="hidden"
@@ -506,55 +494,31 @@ const Contact = () => {
           className="mb-6"
         >
           <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
-            <div className="flex flex-wrap items-center justify-center gap-6">
-              {/* Projects */}
-              <div ref={projectsCount.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
-                  <Suspense fallback={<IconFallback />}>
-                    <FaCode className="text-[#00BFFF] text-xl" />
-                  </Suspense>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">
-                    {projectsCount.count}+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              {[
+                { icon: FaCode, label: "Full-Stack Development", desc: ".NET, React, Node.js", color: "from-[#00BFFF] to-[#0080FF]", bgColor: "bg-[#00BFFF]/10", borderColor: "border-[#00BFFF]/20" },
+                { icon: FaCloud, label: "Cloud Architecture", desc: "Azure, AWS, DevOps", color: "from-purple-400 to-pink-500", bgColor: "bg-purple-500/10", borderColor: "border-purple-500/20" },
+                { icon: FaMagic, label: "AI Integration", desc: "LLMs, Automation", color: "from-emerald-400 to-cyan-500", bgColor: "bg-emerald-500/10", borderColor: "border-emerald-500/20" },
+                { icon: FaHandshake, label: "Technical Consulting", desc: "Architecture, Mentoring", color: "from-amber-400 to-orange-500", bgColor: "bg-amber-500/10", borderColor: "border-amber-500/20" },
+              ].map((service, index) => (
+                <motion.div
+                  key={service.label}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + index * 0.05, duration: 0.3 }}
+                  className={`group flex items-center gap-3 p-3 ${service.bgColor} border ${service.borderColor} rounded-lg hover:scale-[1.02] transition-all duration-300 cursor-default`}
+                >
+                  <div className={`p-2 bg-white/5 rounded-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <Suspense fallback={<IconFallback />}>
+                      <service.icon className={`text-lg bg-gradient-to-r ${service.color} bg-clip-text text-transparent`} style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }} />
+                    </Suspense>
                   </div>
-                  <div className="text-xs text-white/60">Projects</div>
-                </div>
-              </div>
-
-              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-              {/* Technologies */}
-              <div ref={technologiesCount.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-purple-500/20 rounded-lg">
-                  <Suspense fallback={<IconFallback />}>
-                    <FaLayerGroup className="text-purple-400 text-xl" />
-                  </Suspense>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
-                    {technologiesCount.count}+
+                  <div className="min-w-0">
+                    <p className={`text-sm font-semibold bg-gradient-to-r ${service.color} bg-clip-text text-transparent truncate`}>{service.label}</p>
+                    <p className="text-xs text-white/50 truncate">{service.desc}</p>
                   </div>
-                  <div className="text-xs text-white/60">Technologies</div>
-                </div>
-              </div>
-
-              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-              {/* Years Experience */}
-              <div ref={experienceCount.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-emerald-500/20 rounded-lg">
-                  <Suspense fallback={<IconFallback />}>
-                    <FaGlobe className="text-emerald-400 text-xl" />
-                  </Suspense>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">
-                    {experienceCount.count}+
-                  </div>
-                  <div className="text-xs text-white/60">Years Experience</div>
-                </div>
-              </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </motion.div>
@@ -988,6 +952,30 @@ const Contact = () => {
                       </Suspense>
                     </motion.a>
                   ))}
+                </div>
+              </motion.div>
+
+              {/* Availability & Response Time */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.0, duration: 0.4 }}
+                className="mt-8 pt-6 border-t border-white/10"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center gap-2">
+                    <span className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                    </span>
+                    <span className="text-emerald-400 text-sm font-medium">Available for Projects</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-white/60 text-sm">
+                  <Suspense fallback={<IconFallback />}>
+                    <FaClock className="text-secondary-default/70" />
+                  </Suspense>
+                  <span>Usually responds within 24 hours</span>
                 </div>
               </motion.div>
 
