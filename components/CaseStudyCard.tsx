@@ -31,7 +31,7 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
       className={`bg-gradient-to-br from-purple-900/20 via-gray-900/50 to-gray-950/50 border border-purple-500/30 rounded-xl overflow-hidden h-full flex flex-col ${className}`}
     >
       {/* Header */}
-      <div className="p-6 pb-4">
+      <div className="p-5 pb-4">
         <div>
           <span className="text-xs text-purple-400/80 font-medium uppercase tracking-wider">
             Case Study
@@ -46,7 +46,7 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
       </div>
 
       {/* Challenge Section */}
-      <div className="px-6 py-3 border-t border-white/10">
+      <div className="px-5 py-3 border-t border-white/10">
         <div className="flex items-start gap-3">
           <div className="p-1.5 bg-red-500/20 rounded-lg shrink-0">
             <FaExclamationTriangle className="text-red-400 text-sm" />
@@ -61,7 +61,7 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
       </div>
 
       {/* Solution Section */}
-      <div className="px-6 py-3 border-t border-white/10 flex-1">
+      <div className="px-5 py-3 border-t border-white/10 flex-1">
         <div className="flex items-start gap-3">
           <div className="p-1.5 bg-emerald-500/20 rounded-lg shrink-0">
             <FaLightbulb className="text-emerald-400 text-sm" />
@@ -78,7 +78,7 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
       {/* View Full Case Study Button - Opens Modal */}
       <button
         onClick={onViewDetails}
-        className="w-full px-6 py-3 border-t border-white/10 flex items-center justify-center gap-2 text-sm text-purple-400/80 hover:text-purple-300 hover:bg-purple-500/10 transition-all mt-auto group"
+        className="w-full px-5 py-3 border-t border-white/10 flex items-center justify-center gap-2 text-sm text-purple-400/80 hover:text-purple-300 hover:bg-purple-500/10 transition-all mt-auto group"
       >
         <span>View Full Case Study</span>
         <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" />

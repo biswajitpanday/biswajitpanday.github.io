@@ -67,8 +67,8 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
       {/* Career Card - Matching ProjectCard design */}
       <div
         className={`group relative p-5 rounded-xl border transition-all duration-500 hover:shadow-2xl ${isFeatured
-            ? 'bg-gradient-to-br from-purple-500/5 via-[#27272c] to-[#2a2a30] border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
-            : 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
+            ? 'bg-gradient-to-br from-purple-500/5 via-gray-800 to-gray-900 border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
+            : 'bg-gradient-to-br from-gray-800 to-gray-900 border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
           }`}
       >
         {/* Header Row: Title (left) + Date Info (right) */}

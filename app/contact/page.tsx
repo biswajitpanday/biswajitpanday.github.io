@@ -490,21 +490,21 @@ const Contact = () => {
           className="mb-6"
         >
           <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { icon: FaCode, label: "Full-Stack Development", desc: ".NET, React, Node.js", color: "from-[#00BFFF] to-[#0080FF]", bgColor: "bg-[#00BFFF]/10", borderColor: "border-[#00BFFF]/20" },
-                { icon: FaCloud, label: "Cloud Architecture", desc: "Azure, AWS, DevOps", color: "from-purple-400 to-pink-500", bgColor: "bg-purple-500/10", borderColor: "border-purple-500/20" },
-                { icon: FaMagic, label: "AI Integration", desc: "LLMs, Automation", color: "from-emerald-400 to-cyan-500", bgColor: "bg-emerald-500/10", borderColor: "border-emerald-500/20" },
-                { icon: FaHandshake, label: "Technical Consulting", desc: "Architecture, Mentoring", color: "from-amber-400 to-orange-500", bgColor: "bg-amber-500/10", borderColor: "border-amber-500/20" },
+                { icon: FaCode, label: "Full-Stack Development", desc: ".NET, React, Node.js", color: "from-[#00BFFF] to-[#0080FF]", bgColor: "bg-[#00BFFF]/10", borderColor: "border-[#00BFFF]/20", iconBg: "bg-[#00BFFF]/20" },
+                { icon: FaCloud, label: "Cloud Architecture", desc: "Azure, AWS, DevOps", color: "from-purple-400 to-pink-500", bgColor: "bg-purple-500/10", borderColor: "border-purple-500/20", iconBg: "bg-purple-500/20" },
+                { icon: FaMagic, label: "AI Integration", desc: "LLMs, Automation", color: "from-emerald-400 to-cyan-500", bgColor: "bg-emerald-500/10", borderColor: "border-emerald-500/20", iconBg: "bg-emerald-500/20" },
+                { icon: FaHandshake, label: "Technical Consulting", desc: "Architecture, Mentoring", color: "from-amber-400 to-orange-500", bgColor: "bg-amber-500/10", borderColor: "border-amber-500/20", iconBg: "bg-amber-500/20" },
               ].map((service, index) => (
                 <motion.div
                   key={service.label}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + index * 0.05, duration: 0.3 }}
-                  className={`group flex items-center gap-3 p-3 ${service.bgColor} border ${service.borderColor} rounded-lg hover:scale-[1.02] transition-all duration-300 cursor-default`}
+                  className={`group flex items-center gap-3 p-4 ${service.bgColor} border ${service.borderColor} rounded-lg hover:scale-[1.02] transition-all duration-300 cursor-default`}
                 >
-                  <div className={`p-2 bg-white/5 rounded-lg group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`p-2 ${service.iconBg} rounded-lg group-hover:scale-110 transition-transform duration-300`}>
                     <Suspense fallback={<IconFallback />}>
                       <service.icon className={`text-lg bg-gradient-to-r ${service.color} bg-clip-text text-transparent`} style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }} />
                     </Suspense>
@@ -530,7 +530,7 @@ const Contact = () => {
             variants={PERFORMANCE_VARIANTS.cardSync}
             className="xl:w-[54%] order-1 xl:order-none"
           >
-            <div className="bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-8 rounded-lg border border-white/10">
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border border-secondary-default/20">
               <motion.div
                 variants={PERFORMANCE_VARIANTS.fadeInFast}
                 className="mb-6"
@@ -836,7 +836,7 @@ const Contact = () => {
             <div className="w-full xl:max-w-md">
               <motion.h3
                 variants={PERFORMANCE_VARIANTS.slideUpSync}
-                className="text-2xl font-bold mb-6 text-left bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent"
+                className="text-2xl xl:text-3xl font-bold mb-6 text-left bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent"
               >
                 Contact Information
               </motion.h3>

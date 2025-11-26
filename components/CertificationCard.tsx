@@ -126,10 +126,10 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
         aria-label={`${name} certification from ${issuer}${featured ? ' (Featured)' : ''}${isUpcoming ? ' (Upcoming)' : ''}`}
         className={`group relative p-5 rounded-xl border transition-all duration-500 flex flex-col hover:scale-[1.02] hover:shadow-2xl hover:-translate-y-1 ${
           featured
-            ? 'bg-gradient-to-br from-purple-500/5 via-[#27272c] to-[#2a2a30] border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
+            ? 'bg-gradient-to-br from-purple-500/5 via-gray-800 to-gray-900 border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
             : isUpcoming
-              ? 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-dashed border-white/20 hover:border-white/30'
-              : 'bg-gradient-to-br from-[#27272c] to-[#2a2a30] border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
+              ? 'bg-gradient-to-br from-gray-800 to-gray-900 border-amber-500/30 hover:border-amber-500/50 hover:shadow-amber-500/10'
+              : 'bg-gradient-to-br from-gray-800 to-gray-900 border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
         } performance-card ${CSS_ANIMATIONS.FADE_IN_UP}`}
         style={{
           transformStyle: 'preserve-3d',

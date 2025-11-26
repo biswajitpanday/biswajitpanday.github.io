@@ -502,7 +502,7 @@ const Skills = () => {
             initial={TREE_ANIMATIONS.container.initial}
             animate={TREE_ANIMATIONS.container.animate}
             transition={TREE_ANIMATIONS.container.transition}
-            className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             {/* First Skills Tree */}
             {data1.length > 1 && (
@@ -510,7 +510,7 @@ const Skills = () => {
                 initial={TREE_ANIMATIONS.leftCard.initial}
                 animate={TREE_ANIMATIONS.leftCard.animate}
                 transition={TREE_ANIMATIONS.leftCard.transition}
-                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-4 sm:p-6 rounded-lg sm:rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10"
+                className="group relative bg-gradient-to-br from-gray-800 to-gray-900 p-5 rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10"
               >
                 <TreeView
                   data={data1}
@@ -527,7 +527,7 @@ const Skills = () => {
                 initial={TREE_ANIMATIONS.rightCard.initial}
                 animate={TREE_ANIMATIONS.rightCard.animate}
                 transition={TREE_ANIMATIONS.rightCard.transition}
-                className="group relative bg-gradient-to-br from-[#27272c] to-[#2a2a30] p-4 sm:p-6 rounded-lg sm:rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10"
+                className="group relative bg-gradient-to-br from-gray-800 to-gray-900 p-5 rounded-xl border border-secondary-default/20 hover:border-secondary-default/40 transition-all duration-300 hover:shadow-lg hover:shadow-secondary-default/10"
               >
                 <TreeView
                   data={data2}
