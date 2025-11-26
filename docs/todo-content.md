@@ -2029,21 +2029,235 @@ Updated page descriptions to match Project Page pattern:
 **Accessibility:** WCAG 2.1 AA compliant
 **Content:** Real testimonials + Live GitHub data
 
-### 📋 Optional Future Enhancements (Low Priority):
+---
 
-**Skills Data Refactoring** (Future consideration)
-- Simplify skillsData.ts schema (currently fragmented)
-- Improved proficiency logic beyond years of experience
+## 🚀 PHASE 26-29: TOP 0.001% POLISH PLAN
+
+> **Goal:** Transform portfolio from 99.5/100 to absolute perfection - recruiter & developer friendly, pixel-perfect design
+
+---
+
+### 📝 PHASE 26: HOMEPAGE OPTIMIZATION (High Priority)
+
+**Status:** 🔴 Not Started
+**Estimated Effort:** ~4 hours
+**Target:** Eliminate redundancy, streamline content, exceptional first impression
+
+#### Problem Analysis
+The homepage currently has **significant redundancy**:
+- Stats displayed **3 times** (Stats, ByTheNumbersDashboard, ValueProposition)
+- Achievement metrics hardcoded in **multiple places** (80-90%, 55%, 20M+)
+- Blog section shows "launching soon" (incomplete)
+- ValueProposition duplicates ByTheNumbersDashboard content
+
+#### Tasks
+
+**Task 26.1: Remove Duplicate Stats Section**
+- Remove `Stats` component from homepage
+- Keep only `ByTheNumbersDashboard` (richer, 6 metrics, impact badges)
+- **Files:** `app/page.tsx`
+- **Impact:** Cleaner design, reduced redundancy, faster load
+
+**Task 26.2: Consolidate Achievement Metrics**
+- Create `data/achievementsData.ts` with single source of truth:
+  ```typescript
+  export const achievements = {
+    spireWizEfficiency: "80-90%",
+    cloudCostReduction: "55%",
+    usersImpacted: "20M+",
+    yearsExperience: "10+"
+  };
+  ```
+- Update all components to reference this file
+- **Files:** New `data/achievementsData.ts`, `ByTheNumbersDashboard`, `ValueProposition`, Hero section
+
+**Task 26.3: Merge or Remove ValueProposition**
+- **Option A:** Remove entirely (ByTheNumbers covers it)
+- **Option B:** Merge into ByTheNumbersDashboard as sub-section
+- **Recommendation:** Remove - content is redundant
+- **Files:** `app/page.tsx`, `components/ValueProposition.tsx`
+
+**Task 26.4: Remove FeaturedBlogPosts Section**
+- Blog doesn't exist yet - remove until ready
+- Wastes prime homepage real estate
+- **Files:** `app/page.tsx`
+- **Impact:** Cleaner page, no broken promises
+
+**Task 26.5: Optimize Hero Section**
+- Keep: Photo, Role badge, Tech badges, Resume download, Socials
+- Keep: Featured certification card
+- Review: Description text for conciseness
+- **Files:** `app/page.tsx`
+
+**Task 26.6: Final Homepage Structure**
+After optimization, homepage should have:
+1. Hero (photo, role, tech badges, resume, socials, featured cert)
+2. ByTheNumbersDashboard (6 metrics + impact highlights)
+3. Testimonials Carousel (7 real recommendations)
+4. Featured Case Studies (2 best projects)
+5. Interactive Demos (4 live projects)
+
+**Expected Result:** 6 sections instead of 8, no redundancy, faster load
+
+---
+
+### 📝 PHASE 27: NAVIGATION FIXES (High Priority)
+
+**Status:** 🔴 Not Started
+**Estimated Effort:** ~2 hours
+**Target:** Fix bugs, consolidate navigation data, improve mobile UX
+
+#### Problem Analysis
+- Responsive breakpoint bugs (hamburger shows incorrectly)
+- `Nav.tsx` component exists but is unused
+- Navigation data not centralized (hardcoded in Header.tsx)
+- Missing Performance/Activity links in main nav
+- No mobile search access
+
+#### Tasks
+
+**Task 27.1: Fix Responsive Breakpoint Bugs**
+- Fix hamburger menu visibility: `hidden md:flex lg:hidden` → `hidden lg:hidden`
+- Fix desktop nav: Remove redundant `md:hidden`
+- **Files:** `components/Header.tsx`
+
+**Task 27.2: Centralize Navigation Data**
+- Use `navigationData.ts` as single source of truth
+- Remove hardcoded `NAVIGATION_ITEMS` from Header.tsx
+- Import and use navigation data consistently
+- **Files:** `components/Header.tsx`, `components/MobileNav.tsx`, `data/navigationData.ts`
+
+**Task 27.3: Add Insights Dropdown (Performance/Activity)**
+- Enable the commented-out Insights dropdown in Header
+- Add Performance and Activity pages to navigation
+- **Files:** `components/Header.tsx`, `components/MobileNav.tsx`
+
+**Task 27.4: Add Mobile Search**
+- Add search icon/button to MobileNav
+- Trigger GlobalSearch modal from mobile
+- **Files:** `components/MobileNav.tsx`
+
+**Task 27.5: Remove Unused Nav.tsx (Optional)**
+- Either integrate Nav.tsx or remove it
+- Reduce codebase complexity
+- **Files:** `components/Nav.tsx`
+
+---
+
+### 📝 PHASE 28: ERROR & EMPTY STATES (Medium Priority)
+
+**Status:** 🔴 Not Started
+**Estimated Effort:** ~3 hours
+**Target:** Pixel-perfect consistency across all error and empty states
+
+#### Problem Analysis
+- ErrorBoundary uses red color (inconsistent with cyan theme)
+- HeatmapVisualization empty states are unstyled
+- No standardized EmptyState component
+- Some empty states have action buttons, some don't
+
+#### Tasks
+
+**Task 28.1: Create Reusable EmptyState Component**
+- Props: icon, title, description, actionButton (optional)
+- Consistent styling: bg-white/5, border, rounded-lg, animations
+- **Files:** New `components/ui/EmptyState.tsx`
+
+**Task 28.2: Redesign ErrorBoundary**
+- Replace red with secondary cyan (#00BFFF)
+- Add gradient background matching 404 page
+- Add Framer Motion animations
+- Use card-style container
+- **Files:** `components/ErrorBoundary.tsx`
+
+**Task 28.3: Update Projects Empty State**
+- Use new EmptyState component
+- Add "Clear Filters" action button
+- **Files:** `app/projects/page.tsx`
+
+**Task 28.4: Update Certifications Empty States**
+- Use new EmptyState component (4 states: All, Professional, Courses, Training)
+- Add action buttons where appropriate
+- **Files:** `app/certifications/page.tsx`
+
+**Task 28.5: Fix HeatmapVisualization Empty States**
+- Replace plain text with proper EmptyState cards
+- Add icons (FaChartLine, FaChartBar, FaChartArea)
+- **Files:** `components/HeatmapVisualization.tsx`
+
+**Task 28.6: Update GlobalSearch Empty State**
+- Use new EmptyState component
+- Add card-style background
+- **Files:** `components/GlobalSearch.tsx`
+
+**Task 28.7: Verify 404 Page (Already Good)**
+- Confirm 404 page matches new EmptyState patterns
+- Add animated background elements if missing
+- **Files:** `app/not-found.tsx`
+
+---
+
+### 📝 PHASE 29: CONTACT PAGE ENHANCEMENT (Medium Priority)
+
+**Status:** 🔴 Not Started
+**Estimated Effort:** ~2 hours
+**Target:** Elevate Contact page to match other pages' quality
+
+#### Problem Analysis
+- Most basic page design in portfolio
+- No additional contact options (Calendly, timezone, response time)
+- Could have more personality and professionalism
+
+#### Tasks
+
+**Task 29.1: Add Stats Section**
+- Response time expectation
+- Preferred contact method
+- Timezone (for international recruiters)
+- **Files:** `app/contact/page.tsx`
+
+**Task 29.2: Add Availability Indicator**
+- "Currently available for opportunities" badge
+- Or "Actively seeking [role type]" indicator
+- **Files:** `app/contact/page.tsx`
+
+**Task 29.3: Enhance Social Links Section**
+- Add more prominent social media cards
+- Include professional networks beyond current
+- **Files:** `app/contact/page.tsx`
+
+**Task 29.4: Add Quick Connect Options**
+- One-click email button
+- Calendar booking link (if available)
+- Location/timezone display
+- **Files:** `app/contact/page.tsx`
+
+---
+
+### 📋 PHASE 30: SKILLS DATA REFACTORING (Low Priority - Future)
+
+**Status:** ⏳ Backlog
+**Estimated Effort:** ~4 hours
+
+- Simplify skillsData.ts schema (currently fragmented into skills1, skills2)
+- Improved proficiency logic beyond just years of experience
 - Add `proficiencyReason` field for transparency
+- Unified data structure
 
-**Content Additions** (If desired)
-- Detailed case studies (3)
-- Technical blog articles (5)
+---
 
-**Maintenance**
-- Update browserslist (9 months old)
-- Monitor bundle size
-- Regular dependency updates
+### 📊 PHASE SUMMARY
+
+| Phase | Focus | Priority | Effort | Impact |
+|-------|-------|----------|--------|--------|
+| **26** | Homepage Optimization | 🔴 High | ~4 hrs | Remove 3x redundancy |
+| **27** | Navigation Fixes | 🔴 High | ~2 hrs | Fix bugs, improve UX |
+| **28** | Error & Empty States | 🟡 Medium | ~3 hrs | Pixel-perfect consistency |
+| **29** | Contact Page Enhancement | 🟡 Medium | ~2 hrs | Professional polish |
+| **30** | Skills Data Refactoring | 🟢 Low | ~4 hrs | Code quality |
+
+**Total New Work:** ~15 hours for Phases 26-29
+**Expected Final Score:** 100/100 (Top 0.001%)
 
 ---
 
@@ -2081,7 +2295,8 @@ Updated page descriptions to match Project Page pattern:
 ---
 
 **Last Updated:** 2025-11-26
-**Version:** 4.0 (Production Ready!)
-**Current Focus:** ✅ Phase 25 Complete - Content Enrichment & GitHub Integration!
+**Version:** 4.1 (Polish Plan Added)
+**Current Focus:** 🚀 Phase 26-29 - Top 0.001% Polish Plan
 **Completed:** Phases 1-25 (158 tasks total, ~165 hours)
-**Status:** 🎉 PRODUCTION-READY - All major goals achieved!
+**Next Phase:** Phase 26 - Homepage Optimization (~4 hours)
+**Status:** Production-ready, pursuing perfection!

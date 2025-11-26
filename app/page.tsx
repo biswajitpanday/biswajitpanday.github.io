@@ -19,13 +19,10 @@ import { RiRobot3Fill } from "react-icons/ri";
 
 // Lazy load only non-critical below-the-fold components
 const Socials = lazy(() => import("@/components/Socials"));
-const Stats = lazy(() => import("@/components/Stats"));
 const ByTheNumbersDashboard = lazy(() => import("@/components/ByTheNumbersDashboard"));
 const TestimonialsCarousel = lazy(() => import("@/components/TestimonialsCarousel"));
 const FeaturedCaseStudies = lazy(() => import("@/components/FeaturedCaseStudies"));
-const ValueProposition = lazy(() => import("@/components/ValueProposition"));
 const InteractiveDemos = lazy(() => import("@/components/InteractiveDemos"));
-const FeaturedBlogPosts = lazy(() => import("@/components/FeaturedBlogPosts"));
 
 // Loading fallback components
 const ComponentFallback = ({ className }: { className?: string }) => (
@@ -280,30 +277,12 @@ const Home = () => {
           </motion.div>
         </div>
 
-        {/* Stats Section */}
-        <motion.div
-          data-testid="home-stats-section"
-          initial={isMounted ? { opacity: 0, y: 50 } : { opacity: 1, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: isMounted ? 0.35 : 0, duration: 0.4 }}
-          className="mt-4 xl:mt-6"
-        >
-          <Suspense fallback={<ComponentFallback className="w-full h-32" />}>
-            <Stats />
-          </Suspense>
-        </motion.div>
-
-        {/* By The Numbers Dashboard */}
+        {/* By The Numbers Dashboard - Primary Stats Display */}
         <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
           <ByTheNumbersDashboard />
         </Suspense>
 
-        {/* Value Proposition */}
-        <Suspense fallback={<ComponentFallback className="w-full h-48" />}>
-          <ValueProposition />
-        </Suspense>
-
-        {/* Testimonials Carousel */}
+        {/* Testimonials Carousel - Real LinkedIn Recommendations */}
         <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
           <TestimonialsCarousel testimonials={testimonials} />
         </Suspense>
@@ -313,14 +292,9 @@ const Home = () => {
           <FeaturedCaseStudies maxItems={2} />
         </Suspense>
 
-        {/* Interactive Demos */}
+        {/* Interactive Demos - Live Projects */}
         <Suspense fallback={<ComponentFallback className="w-full h-96" />}>
           <InteractiveDemos />
-        </Suspense>
-
-        {/* Featured Blog Posts */}
-        <Suspense fallback={<ComponentFallback className="w-full h-96" />}>
-          <FeaturedBlogPosts maxItems={3} />
         </Suspense>
       </div>
     </section>
@@ -329,33 +303,3 @@ const Home = () => {
  };
 
 export default Home;
-
-// I architect scalable cloud solutions and build high-performance applications using .NET, React, and cutting-edge DevOps practices.
-// I tame cloud beasts, optimize code like a caffeine-fueled wizard, and craft high-performance apps with .NET, React & DevOps sorcery!
-// I summon scalable clouds, bend code to my will, and forge high-performance apps with .NET, React & DevOps alchemy!
-// I design scalable cloud solutions, write clean, efficient code, and build high-performance apps with .NET, React, and DevOps expertise.
-
-// 1️⃣ Mr. Robot Style 🤖
-// "I architect cloud fortresses, write code like a vigilante, and deploy high-performance apps faster than an fsociety hack. .NET, React, DevOps—no root required."
-
-// 2️⃣ The Matrix Style 🟩
-// "I see the code behind reality, crafting scalable cloud architectures and high-performance apps with .NET, React & DevOps. There is no spoon—only clean code."
-
-// 3️⃣ Silicon Valley Style 🚀
-// "I optimize cloud solutions, scale apps like Pied Piper, and write .NET & React code that actually works—no tabs vs. spaces debate needed."
-
-// 4️⃣ Tron Style ⚡
-// "I ride the grid, architecting cloud solutions and deploying high-performance .NET & React apps at light speed. DevOps is my identity disc!"
-
-// 5️⃣ The Social Network Style 💻
-// "I build scalable cloud platforms, write clean .NET & React code, and optimize performance—because a high-availability system is cooler than a billion dollars."
-
-// 1️⃣ "Engineering Scalable Cloud Solutions & High-Performance Apps with .NET, React & DevOps." (Professional, recruiter-friendly)
-
-// 2️⃣ "Code, Cloud & Creativity—Crafting Digital Solutions That Scale with .NET & React." (Balanced between technical and engaging)
-
-// 3️⃣ "Turning Ideas into Scalable Software—.NET, React & DevOps Powering the Future." (Startup-friendly and innovation-driven)
-
-// 4️⃣ "Architecting Digital Experiences—From Cloud to Code, One Scalable App at a Time." (Ideal for senior-level positioning)
-
-// 5️⃣ "Cloud, Code & Cutting-Edge Tech—Solving Complex Problems with .NET & React." (Simple, yet powerful)
