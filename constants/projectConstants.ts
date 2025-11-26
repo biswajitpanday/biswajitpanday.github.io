@@ -9,7 +9,7 @@ export const CATEGORY_COLORS: Record<string, string> = {
   "Frontend": "bg-blue-500/15 border-blue-500/40 text-blue-300",
   "Backend": "bg-purple-500/15 border-purple-500/40 text-purple-300",
   "Mobile": "bg-orange-500/15 border-orange-500/40 text-orange-300",
-  "Windows App": "bg-yellow-500/15 border-yellow-500/40 text-yellow-300",
+  "Desktop Application": "bg-indigo-500/15 border-indigo-500/40 text-indigo-300",
 };
 
 /**

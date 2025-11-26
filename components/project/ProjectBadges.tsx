@@ -74,7 +74,7 @@ export function OpenSourceBadge({ variant = "icon" }: { variant?: "icon" | "text
 }
 
 /**
- * Recognition/Awards Badge - Shows award count with tooltip
+ * Recognition/Accolades Badge - Shows accolade count with tooltip
  */
 export function RecognitionBadge({
   recognitions
@@ -86,17 +86,17 @@ export function RecognitionBadge({
 
   if (count === 0) return null;
 
-  const awardsList = approvedRecognitions.map(r => r.title).join(', ');
+  const accoladesList = approvedRecognitions.map(r => r.title).join(', ');
 
   return (
     <div
       className="relative inline-flex group/awards flex-shrink-0"
       role="status"
-      aria-label={`${count} ${count === 1 ? 'Award' : 'Awards'}: ${awardsList}`}
+      aria-label={`${count} ${count === 1 ? 'Accolade' : 'Accolades'}: ${accoladesList}`}
     >
       <span className={`inline-flex items-center justify-center gap-1.5 bg-amber-500/10 border border-amber-400/30 text-amber-200 shadow-sm cursor-help ${RECOGNITION_BADGE_CLASSES}`}>
         <FaTrophy className="text-[10px] text-amber-300 flex-shrink-0" aria-hidden="true" />
-        <span className="leading-none">{count} {count === 1 ? 'Award' : 'Awards'}</span>
+        <span className="leading-none">{count} {count === 1 ? 'Accolade' : 'Accolades'}</span>
       </span>
 
       {/* Tooltip on hover */}

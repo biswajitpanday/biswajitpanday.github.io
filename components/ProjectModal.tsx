@@ -451,10 +451,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         </div>
                       )}
 
-                      {/* Recognition/Awards - If exists and approved */}
+                      {/* Recognition/Accolades - If exists and approved */}
                       {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
                         <div>
-                          <SectionHeader icon={FaTrophy} title="Recognition & Awards" />
+                          <SectionHeader icon={FaTrophy} title="Accolades" />
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
                             {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
                               <div

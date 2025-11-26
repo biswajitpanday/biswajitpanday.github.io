@@ -239,7 +239,7 @@ export const projects: Project[] = [
         author: "Development Team Lead",
         role: "Senior Technical Manager",
         company: "Optimizely",
-        approved: true
+        approved: false
       },
       {
         quote: "Both team members independently identified inefficiencies in our upgrade process and took initiative to develop solutions. This is exactly the kind of proactive thinking we need - finding ways to gain efficiencies and improve processes in daily work. The time savings and metrics they've delivered are remarkable.",
@@ -281,14 +281,8 @@ export const projects: Project[] = [
       },
       {
         title: "Production Release v3.0.0",
-        description: "Successfully deployed production-ready version with 30.3% codebase consolidation",
+        description: "Successfully deployed production-ready version",
         icon: "rocket",
-        approved: true
-      },
-      {
-        title: "Architecture Innovation",
-        description: "Simplified 5-layer architecture to 3-layer while maintaining feature parity",
-        icon: "code",
         approved: true
       },
       {
