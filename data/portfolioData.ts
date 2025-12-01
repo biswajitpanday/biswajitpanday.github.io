@@ -57,6 +57,7 @@ export interface Project {
   isActive: boolean;
   isOpenSource: boolean;
   isFeatured?: boolean;
+  isLegacy?: boolean; // Show in "Other Projects" section instead of main grid
   url: string;
   github: string;
   associatedWithCompany:
@@ -252,10 +253,10 @@ export const projects: Project[] = [
   {
     num: 20,
     category: "Backend",
-    title: "CurrentDT-mcp",
-    subtitle: "Real-time DateTime MCP Server for AI Assistants",
-    longDescription: "Open-source TypeScript MCP server providing real-time date and time access for AI assistants via Model Context Protocol. Features zero configuration, multiple datetime formats (ISO 8601, custom formats), local and remote time providers, and compatibility with Cursor IDE, Claude Desktop, VS Code, and Windsurf. Built for AI, Built with AI - designed to enhance AI assistant capabilities through intelligent datetime tooling.",
-    shortDescription: "Real-time datetime access for AI assistants via Model Context Protocol with zero configuration and multi-format support.",
+    title: "@strix-ai/currentdt-mcp",
+    subtitle: "Real-time DateTime MCP Server for AI Assistants • Featured on LobeHub & MSeep AI",
+    longDescription: "Open-source TypeScript MCP server providing real-time date and time access for AI assistants via Model Context Protocol. Features zero configuration, multiple datetime formats (ISO 8601, custom formats), local and remote time providers, and compatibility with Cursor IDE, Claude Desktop, VS Code, and Windsurf. Featured on LobeHub MCP marketplace and MSeep AI platform. Built for AI, Built with AI - designed to enhance AI assistant capabilities through intelligent datetime tooling.",
+    shortDescription: "Real-time datetime access for AI assistants via Model Context Protocol. Featured on LobeHub & MSeep AI platforms.",
     stacks: [
       "TypeScript",
       "Model Context Protocol (MCP)",
@@ -289,7 +290,12 @@ export const projects: Project[] = [
     ],
     metrics: {
       downloads: "NPM package for AI assistants",
-      other: ["Zero-config setup", "Multi-IDE support (Cursor, Claude, VS Code)"]
+      other: [
+        "Zero-config setup",
+        "Multi-IDE support (Cursor, Claude, VS Code)",
+        "Featured on LobeHub MCP Marketplace",
+        "Listed on MSeep AI Platform"
+      ]
     },
     caseStudy: {
       problem: "AI assistants like Claude Code, Cursor, and other MCP-enabled tools lack real-time awareness of current date and time, limiting their ability to provide accurate temporal context. Developers needed a simple, zero-configuration solution to give AI assistants reliable datetime access.",
@@ -310,11 +316,12 @@ export const projects: Project[] = [
     style G fill:#FF9800`,
       results: [
         "Published as open-source NPM package for the AI development community",
+        "Featured on LobeHub MCP Marketplace (lobehub.com/mcp/strix-ai-currentdt-mcp)",
+        "Listed on MSeep AI Platform (mseep.ai/app/biswajitpanday-currentdt-mcp)",
         "Zero-configuration setup for immediate use",
         "Multi-format datetime support (ISO 8601, custom formats)",
         "Compatible with major AI IDEs (Cursor, Claude Desktop, VS Code, Windsurf)",
-        "Enhances AI assistant capabilities with real-time temporal awareness",
-        "Built for AI, Built with AI - showcasing modern AI-assisted development"
+        "Enhances AI assistant capabilities with real-time temporal awareness"
       ],
       technicalHighlights: [
         "TypeScript implementation for type safety",
@@ -330,6 +337,12 @@ export const projects: Project[] = [
         title: "Open Source Contribution",
         description: "Published on NPM for the AI development community",
         icon: "code",
+        approved: true
+      },
+      {
+        title: "Platform Recognition",
+        description: "Featured on LobeHub MCP Marketplace and MSeep AI Platform",
+        icon: "award",
         approved: true
       },
       {
@@ -1044,6 +1057,7 @@ export const projects: Project[] = [
     category: "Full-Stack",
     title: "Shopway",
     subtitle: "Location-Based E-Commerce with Flutter & MEAN Stack",
+    isLegacy: true,
     longDescription:
       "Contributed to the development of a location-based e-commerce platform, working on both Frontend and Backend as a Full-Stack developer.",
     shortDescription: "Location-based e-commerce platform with geolocation features, built as a full-stack solution using Node.js, Express.js, Angular, MongoDB (MEAN stack), and Flutter for mobile.",
@@ -1081,6 +1095,7 @@ export const projects: Project[] = [
     category: "Full-Stack",
     title: "EnCue",
     subtitle: "Real-Time Audience Engagement for Performing Arts",
+    isLegacy: true,
     longDescription:
       "Developed a real-time audience engagement platform for live performances, enabling presenters to communicate with audiences via mobile devices. Built for Octava LLC (Baltimore-based performing arts tech startup), the application combined C# ASP.NET WebAPI 2 backend with Angular.js frontend and Xamarin mobile apps. Implemented AWS EC2/S3 infrastructure for scalable real-time communication, supporting multiple concurrent events. Collaborated on full-stack development including real-time messaging, event management, and cross-platform mobile deployment. Technologies: C#, ASP.NET WebAPI 2, Entity Framework, Angular.js, AWS EC2/S3, Xamarin.",
     shortDescription: "Real-time audience engagement platform for live performances with cross-platform mobile support.",
@@ -1163,6 +1178,7 @@ export const projects: Project[] = [
     category: "Full-Stack",
     title: "here'n'now",
     subtitle: "Live Engagement App with Cross-Platform Support",
+    isLegacy: true,
     longDescription:
       "Contributed to the development of a live engagement app, working on both Frontend and Backend as a Full-Stack developer.",
     shortDescription: "Live engagement application with cross-platform support built using ASP.NET Web API backend, Angular.js frontend, Xamarin mobile apps, and Firebase integration (completed MVP).",
@@ -1201,6 +1217,7 @@ export const projects: Project[] = [
     category: "Full-Stack",
     title: "reezcom",
     subtitle: "Resident Communication Platform for Property Management",
+    isLegacy: true,
     longDescription:
       "Developed a resident communication platform concept for apartment complexes and office buildings, featuring emergency notifications, maintenance requests, and resident-to-management messaging. Built using ASP.NET Core backend with Entity Framework Core and Android mobile application. Implemented push notifications, real-time messaging, and ticket management workflows. Project involved database design, RESTful API development, and mobile UI implementation. Completed development phase; project remained unpublished due to client business decisions.",
     shortDescription: "Resident communication platform for property management with emergency notifications and maintenance requests.",
@@ -1230,6 +1247,7 @@ export const projects: Project[] = [
     category: "Full-Stack",
     title: "dobi",
     subtitle: "On-Demand Laundry Service with Real-Time Tracking",
+    isLegacy: true, // Show in "Other Projects" section
     longDescription:
       "Architected an on-demand laundry service platform for Bangladesh market, featuring real-time order tracking, scheduling, and fleet management. Built full-stack solution with ASP.NET Core backend, Angular.js frontend, and Entity Framework Core for data persistence. Implemented geolocation-based pickup/delivery scheduling, customer/driver mobile interfaces, order workflow automation, and bulk service management for B2B clients (hotels, hospitals). Project included payment gateway integration, SMS notifications, and admin dashboard for operations management. Completed development phase; project remained unpublished due to business considerations.",
     shortDescription: "On-demand laundry service platform with real-time tracking and B2B bulk service management.",
@@ -1259,6 +1277,7 @@ export const projects: Project[] = [
     category: "Full-Stack",
     title: "World Tax Analyzer",
     subtitle: "International Tax Research Platform (100+ Jurisdictions)",
+    isLegacy: true,
     longDescription:
       "Contributed to the development of RegAnalytics' flagship international tax research platform serving global tax professionals. Built features across the full stack including withholding tax calculators, multi-jurisdiction comparison tools, treaty analysis workflows, and regulatory update feeds. Implemented complex business logic for tax rule modeling across 100+ jurisdictions, including BEPS measures and EU Anti-Tax Avoidance Directive integration. Developed interactive UI components using Knockout.js for scenario analysis and multi-year projections. Worked with ASP.NET MVC backend, LINQ to SQL data access, and MSSQL database optimization for large regulatory datasets.",
     shortDescription: "International tax research platform covering 100+ jurisdictions with calculators and treaty analysis tools.",
@@ -1293,6 +1312,7 @@ export const projects: Project[] = [
     category: "Full-Stack",
     title: "Transfer Pricing Analyzer",
     subtitle: "Compliance Platform for 108 Jurisdictions with FAR Analysis",
+    isLegacy: true,
     longDescription:
       "Developed key features for RegAnalytics' transfer pricing compliance platform serving multinational corporations managing intercompany transactions across 108 jurisdictions. Built functionality for regulatory research, Functional Analysis Report (FAR) generation, BEPS Action Plan analysis, and compliance gap identification. Implemented jurisdiction comparison tools, document management for research results, and current awareness feed aggregating expert commentary. Created interactive workflows using ASP.NET MVC and Knockout.js for building transfer pricing documentation and regulatory frameworks. Optimized LINQ to SQL queries for efficient retrieval of complex regulatory data structures.",
     shortDescription: "Transfer pricing compliance platform with FAR analysis and regulatory research for 108 jurisdictions.",
@@ -1327,6 +1347,7 @@ export const projects: Project[] = [
     category: "Full-Stack",
     title: "Reganalytics Auth",
     subtitle: "Centralized SSO & RBAC for Product Suite",
+    isLegacy: true,
     longDescription:
       "Architected and implemented a centralized authentication and subscription management system from the ground up for RegAnalytics' product suite (World Tax Analyzer, Transfer Pricing Analyzer, and other tools). Built using ASP.NET MVC and ASP.NET Web API with Entity Framework for data persistence. Designed and developed token-based authentication (JWT), single sign-on (SSO) across multiple products, role-based access control (RBAC), and subscription tier management. Implemented secure session handling, password policies, and audit logging for enterprise compliance. This internal platform streamlined user management across all RegAnalytics products, reducing authentication-related development effort for product teams by centralizing security concerns.",
     shortDescription:
@@ -1363,6 +1384,7 @@ export const projects: Project[] = [
     category: "Full-Stack",
     title: "Notification Hub",
     subtitle: "Cross-Platform Push Notification Service (Android/iOS/Windows)",
+    isLegacy: true,
     longDescription:
       "Designed and built a real-time notification service for cross-platform push notifications supporting Android (GCM), iOS (APNS), Windows, and web clients. Architected using Node.js with RabbitMQ for message queuing, Socket.io for WebSocket connections, and MongoDB for notification persistence. Implemented device registration, targeting logic, delivery tracking, and retry mechanisms for failed notifications. Created RESTful API for notification submission and management dashboard for monitoring delivery status. Service handled asynchronous notification processing with configurable priority queues. Deployed to production at Chorki Limited; company discontinued operations in 2016.",
     shortDescription:
@@ -1400,6 +1422,7 @@ export const projects: Project[] = [
     category: "Full-Stack",
     title: "News Aggregator",
     subtitle: "Multi-Source News Scraping & Aggregation System",
+    isLegacy: true,
     longDescription: "",
     shortDescription:
       "Developed a system to scrape, aggregate, and store news from multiple sources for further processing.",
@@ -1428,6 +1451,7 @@ export const projects: Project[] = [
     category: "Full-Stack",
     title: "Whooza",
     subtitle: "Social & Professional Networking Platform MVP",
+    isLegacy: true,
     longDescription: "",
     shortDescription:
       "Contributed to the development of an MVP for a platform combining social and professional networking features, working on both Frontend and Backend as a Full-Stack developer.",
@@ -1463,6 +1487,7 @@ export const projects: Project[] = [
     num: 240,
     category: "Full-Stack",
     title: "BCPS Management Portal",
+    isLegacy: true,
     longDescription: "",
     shortDescription:
       "Worked as a team player to implement new features and fixing bugs in new and existing features of the Management Portal of Bangladesh College of Physicians and Surgeons (BCPS)",

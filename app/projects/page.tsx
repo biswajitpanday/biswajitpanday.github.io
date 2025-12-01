@@ -8,7 +8,10 @@ import {
   FaTh,
   FaClock,
   FaLayerGroup,
-  FaGithub
+  FaGithub,
+  FaChevronDown,
+  FaChevronUp,
+  FaHistory
 } from "react-icons/fa";
 import { projects, getFeaturedProjects } from "@/data/portfolioData";
 import { useState, useMemo } from "react";
@@ -32,12 +35,20 @@ const Projects = () => {
   // Sort projects by num for consistent display order (memoized to prevent infinite re-renders)
   const sortedProjects = useMemo(() => [...projects].sort((a, b) => a.num - b.num), []);
 
+  // Split projects into main and legacy (using isLegacy flag)
+  const { mainProjects, legacyProjects } = useMemo(() => {
+    const main = sortedProjects.filter(p => !p.isLegacy);
+    const legacy = sortedProjects.filter(p => p.isLegacy === true);
+    return { mainProjects: main, legacyProjects: legacy };
+  }, [sortedProjects]);
+
   // State
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(sortedProjects);
   const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set());
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"grid" | "timeline">("grid");
+  const [showEarlierProjects, setShowEarlierProjects] = useState(false);
 
   // Modal State
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -116,6 +127,15 @@ const Projects = () => {
     // Clear search when filtering by skill
     setSearchQuery("");
   };
+
+  // Split filtered projects into main and legacy
+  const filteredMainProjects = useMemo(() => {
+    return filteredProjects.filter(p => !p.isLegacy);
+  }, [filteredProjects]);
+
+  const filteredLegacyProjects = useMemo(() => {
+    return filteredProjects.filter(p => p.isLegacy === true);
+  }, [filteredProjects]);
 
   return (
     <section
@@ -438,13 +458,13 @@ const Projects = () => {
           </motion.div>
         )}
 
-        {/* Projects Grid */}
+        {/* Main Projects Grid */}
         <ErrorBoundary section="projects">
-          <div 
+          <div
             data-testid="projects-grid"
             className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
           >
-            {filteredProjects.map((project, index) => (
+            {filteredMainProjects.map((project, index) => (
               <ProjectCard
                 key={project.num}
                 project={project}
@@ -458,6 +478,75 @@ const Projects = () => {
             ))}
           </div>
         </ErrorBoundary>
+
+        {/* Other Projects Section - Collapsible */}
+        {filteredLegacyProjects.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mt-12"
+          >
+            <button
+              onClick={() => setShowEarlierProjects(!showEarlierProjects)}
+              className="w-full flex items-center justify-between bg-gradient-to-r from-gray-800/50 to-gray-900/50 border border-white/10 hover:border-white/20 rounded-lg p-4 transition-all duration-300 group"
+              aria-expanded={showEarlierProjects}
+              aria-controls="other-projects-section"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-white/5 rounded-lg group-hover:bg-white/10 transition-colors">
+                  <FaHistory className="text-white/60 text-lg" aria-hidden="true" />
+                </div>
+                <div className="text-left">
+                  <h2 className="text-lg font-semibold text-white/80">
+                    Other Projects
+                  </h2>
+                  <p className="text-sm text-white/50">
+                    {filteredLegacyProjects.length} additional project{filteredLegacyProjects.length !== 1 ? 's' : ''}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-white/60">
+                <span className="text-sm hidden sm:inline">
+                  {showEarlierProjects ? 'Hide' : 'Show'}
+                </span>
+                {showEarlierProjects ? (
+                  <FaChevronUp className="text-sm" aria-hidden="true" />
+                ) : (
+                  <FaChevronDown className="text-sm" aria-hidden="true" />
+                )}
+              </div>
+            </button>
+
+            {/* Other Projects Grid */}
+            {showEarlierProjects && (
+              <motion.div
+                id="other-projects-section"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mt-4"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {filteredLegacyProjects.map((project, index) => (
+                    <ProjectCard
+                      key={project.num}
+                      project={project}
+                      index={index}
+                      isExpanded={expandedProjects.has(index + 1000)} // Offset to avoid conflicts
+                      onToggleStacks={(idx) => toggleProjectStacks(idx + 1000)}
+                      onOpenModal={openProjectModal}
+                      onSkillClick={handleSkillFilter}
+                      selectedSkill={selectedSkill}
+                      className="opacity-90 hover:opacity-100"
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
 
         {/* Show when no projects match the filter */}
         {filteredProjects.length === 0 && (

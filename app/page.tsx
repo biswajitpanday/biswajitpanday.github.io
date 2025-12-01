@@ -16,9 +16,11 @@ import FloatingCodeSymbols from "@/components/FloatingCodeSymbols";
 import ScrollIndicator from "@/components/ScrollIndicator";
 
 // Import critical above-the-fold icons directly (no lazy loading)
-import { FiDownload, FiCode, FiCloud, FiZap } from "react-icons/fi";
+import { FiDownload, FiCode, FiCloud, FiZap, FiBriefcase, FiGlobe, FiUsers, FiEye } from "react-icons/fi";
 import { SiReact, SiDotnet } from "react-icons/si";
 import { RiRobot3Fill } from "react-icons/ri";
+import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
+import { TbPlane } from "react-icons/tb";
 
 // Typing animation phrases
 const HERO_PHRASES = [
@@ -169,30 +171,22 @@ const Home = () => {
               </span>
             </motion.div>
 
-            {/* Description - Color gradients following hierarchy */}
+            {/* About Me Summary - Recruiter-focused with key highlights */}
             <motion.p
               data-testid="home-description"
               initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: isMounted ? 0.15 : 0, duration: 0.3 }}
-              className="text-[1rem] mb-8 text-white/80 leading-relaxed max-w-[600px] mx-auto xl:mx-0"
+              className="text-white/70 text-base leading-relaxed max-w-2xl mb-6 mx-auto xl:mx-0"
             >
-              Senior full-stack developer specializing in{" "}
-              <span className="bg-gradient-to-r from-[#00BFFF] to-blue-400 bg-clip-text text-transparent font-semibold">
-                .NET, React, and cloud solutions
-              </span>{" "}
-              with 10+ years of experience. I build{" "}
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-semibold">
-                scalable enterprise applications
-              </span>{" "}
-              and integrate modern technologies—recently developed{" "}
-              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
-                SpireWiz
-              </span>, an AI tool that reduced merge effort by{" "}
-              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
-                80-90%
-              </span>{" "}
-              for development teams at Optimizely.
+              Senior .NET Architect with{" "}
+              <span className="text-[#00BFFF] font-medium">10+ years</span> building
+              enterprise B2B platforms. Currently at{" "}
+              <span className="text-[#00BFFF] font-medium">Optimizely</span> serving
+              global enterprise clients. Passionate about AI integration—built{" "}
+              <span className="text-[#00BFFF] font-medium">SpireWiz</span> achieving{" "}
+              <span className="text-emerald-400 font-medium">80% efficiency gains</span>.{" "}
+              <span className="text-[#00BFFF] font-medium">Microsoft Certified</span>.
             </motion.p>
 
             {/* Tech Stack Highlights - Compact badges with gradient icons */}
@@ -255,26 +249,44 @@ const Home = () => {
               transition={{ delay: isMounted ? 0.3 : 0, duration: 0.3 }}
               className="flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-6 mb-2"
             >
-              <a
-                href="/assets/Biswajit_Panday_Resume.pdf"
-                download="Biswajit_Panday_Resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={handleResumeDownload}
-                data-testid="home-download-resume-link"
-              >
-                <Button
-                  data-testid="home-download-resume-button"
-                  size="lg"
-                  className="group relative overflow-hidden bg-gradient-to-r from-[#00BFFF] via-blue-500 to-purple-500 hover:from-purple-500 hover:via-blue-500 hover:to-[#00BFFF] text-white font-semibold px-8 py-3 rounded transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25"
+              <div className="flex flex-col sm:flex-row items-center gap-3">
+                <a
+                  href="/assets/Biswajit_Panday_Resume.pdf"
+                  download="Biswajit_Panday_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleResumeDownload}
+                  data-testid="home-download-resume-link"
                 >
-                  <span className="relative z-10 flex items-center gap-2">
-                    <span>Download Resume</span>
-                    <FiDownload className="text-lg group-hover:animate-bounce" />
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-blue-500 to-[#00BFFF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </Button>
-              </a>
+                  <Button
+                    data-testid="home-download-resume-button"
+                    size="lg"
+                    className="group relative overflow-hidden bg-gradient-to-r from-[#00BFFF] via-blue-500 to-purple-500 hover:from-purple-500 hover:via-blue-500 hover:to-[#00BFFF] text-white font-semibold px-6 py-3 rounded transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/25"
+                  >
+                    <span className="relative z-10 flex items-center gap-2">
+                      <FiDownload className="text-lg group-hover:animate-bounce" aria-hidden="true" />
+                      <span>Download Resume</span>
+                      <span className="text-xs opacity-70">PDF</span>
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-blue-500 to-[#00BFFF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </Button>
+                </a>
+                <a
+                  href="/assets/Biswajit_Panday_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-testid="home-view-resume-link"
+                >
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-[#00BFFF]/30 text-[#00BFFF] hover:bg-[#00BFFF]/10 hover:border-[#00BFFF]/50 px-6 py-3 rounded transition-all duration-300"
+                  >
+                    <FiEye className="text-lg mr-2" aria-hidden="true" />
+                    View Resume
+                  </Button>
+                </a>
+              </div>
 
               <div
                 data-testid="home-social-links"
@@ -289,6 +301,24 @@ const Home = () => {
                   />
                 </Suspense>
               </div>
+            </motion.div>
+
+            {/* Availability Status - Recruiter-focused */}
+            <motion.div
+              data-testid="home-availability-status"
+              initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: isMounted ? 0.35 : 0, duration: 0.3 }}
+              className="mt-6 flex items-center justify-center xl:justify-start gap-2 text-xs text-white/70"
+            >
+              <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+              </span>
+              <span>
+                Open to Senior .NET / Full-Stack roles
+                <span className="hidden sm:inline"> • Remote Welcome • Visa Sponsorship Preferred</span>
+              </span>
             </motion.div>
           </motion.div>
 
@@ -337,6 +367,44 @@ const Home = () => {
         <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
           <GitHubActivityGraph />
         </Suspense>
+
+        {/* What I'm Looking For - Compact Pills */}
+        <motion.section
+          data-testid="home-looking-for"
+          initial={isMounted ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mt-12 pb-8"
+        >
+          <h2 className="text-lg font-medium mb-4 text-white/80 text-center">What I&apos;m Looking For</h2>
+          <div className="flex flex-wrap justify-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 hover:bg-white/10 transition-colors">
+              <FiBriefcase className="text-[#00BFFF]" aria-hidden="true" />
+              Senior .NET / Full-Stack
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 hover:bg-white/10 transition-colors">
+              <FiGlobe className="text-emerald-400" aria-hidden="true" />
+              Remote / Hybrid
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 hover:bg-white/10 transition-colors">
+              <TbPlane className="text-purple-400" aria-hidden="true" />
+              Visa Sponsorship
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 hover:bg-white/10 transition-colors">
+              <HiOutlineBuildingOffice2 className="text-[#00BFFF]" aria-hidden="true" />
+              Enterprise Scale
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 hover:bg-white/10 transition-colors">
+              <RiRobot3Fill className="text-emerald-400" aria-hidden="true" />
+              AI/ML Integration
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 hover:bg-white/10 transition-colors">
+              <FiUsers className="text-purple-400" aria-hidden="true" />
+              Growth-Oriented Teams
+            </span>
+          </div>
+        </motion.section>
       </div>
     </section>
    </>
