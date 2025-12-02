@@ -78,7 +78,7 @@ const InteractiveDemos: React.FC<{ className?: string }> = ({ className = "" }) 
       </div>
 
       {/* Demo Container */}
-      <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-xl overflow-hidden">
+      <div className="bg-gray-900/50 border border-secondary-default/20 rounded-xl overflow-hidden">
         <div className="grid lg:grid-cols-2 gap-0">
           {/* Preview Section */}
           <div className="relative aspect-video lg:aspect-auto lg:min-h-[400px] bg-gradient-to-br from-gray-800/50 to-gray-900/50 overflow-hidden">

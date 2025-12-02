@@ -103,33 +103,37 @@ const ByTheNumbersDashboard: React.FC = () => {
       icon: FaCertificate,
       value: certificationsCount,
       label: "Certifications",
-      color: "from-purple-400 to-pink-500",
+      color: "text-purple-400",
       iconBg: "bg-purple-500/20",
-      iconColor: "text-purple-400"
+      iconColor: "text-purple-400",
+      useSolidColor: true
     },
     {
       icon: FaRocket,
       value: technologiesCount,
       label: "Technologies",
-      color: "from-orange-400 to-amber-500",
+      color: "text-orange-400",
       iconBg: "bg-orange-500/20",
-      iconColor: "text-orange-400"
+      iconColor: "text-orange-400",
+      useSolidColor: true
     },
     {
       icon: FaUsers,
       value: companiesCount,
       label: "Companies",
-      color: "from-blue-400 to-indigo-500",
+      color: "text-blue-400",
       iconBg: "bg-blue-500/20",
-      iconColor: "text-blue-400"
+      iconColor: "text-blue-400",
+      useSolidColor: true
     },
     {
       icon: FaGithub,
       value: openSourceCount,
       label: "Open Source",
-      color: "from-slate-400 to-gray-500",
+      color: "text-slate-400",
       iconBg: "bg-slate-500/20",
-      iconColor: "text-slate-400"
+      iconColor: "text-slate-400",
+      useSolidColor: true
     }
   ];
 
@@ -152,7 +156,7 @@ const ByTheNumbersDashboard: React.FC = () => {
       </div>
 
       {/* Metrics Grid */}
-      <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-xl p-6">
+      <div className="bg-gray-900/50 border border-secondary-default/20 rounded-xl p-6">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {metrics.map((metric, index) => {
             const IconComponent = metric.icon;
@@ -173,7 +177,11 @@ const ByTheNumbersDashboard: React.FC = () => {
                 {/* Value */}
                 <div
                   ref={metric.value.ref}
-                  className={`text-2xl xl:text-3xl font-bold bg-gradient-to-r ${metric.color} bg-clip-text text-transparent tabular-nums`}
+                  className={`text-2xl xl:text-3xl font-bold tabular-nums ${
+                    metric.useSolidColor
+                      ? metric.color
+                      : `bg-gradient-to-r ${metric.color} bg-clip-text text-transparent`
+                  }`}
                 >
                   {metric.value.count}
                 </div>

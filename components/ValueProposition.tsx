@@ -80,7 +80,7 @@ const ValueProposition: React.FC<ValuePropositionProps> = ({
       </div>
 
       {/* Value Cards */}
-      <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-xl p-6">
+      <div className="bg-gray-900/50 border border-secondary-default/20 rounded-xl p-6">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {valueItems.map((item, index) => {
             const IconComponent = item.icon;

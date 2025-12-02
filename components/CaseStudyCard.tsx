@@ -28,7 +28,7 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
-      className={`bg-gradient-to-br from-purple-900/20 via-gray-900/50 to-gray-950/50 border border-purple-500/30 rounded-xl overflow-hidden h-full flex flex-col ${className}`}
+      className={`bg-gray-900/50 border border-purple-500/30 rounded-xl overflow-hidden h-full flex flex-col ${className}`}
     >
       {/* Header */}
       <div className="p-5 pb-4">
@@ -36,7 +36,7 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
           <span className="text-xs text-purple-400/80 font-medium uppercase tracking-wider">
             Case Study
           </span>
-          <h3 className="text-xl font-bold mt-1 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h3 className="text-xl font-bold mt-1 text-purple-400">
             {project.title}
           </h3>
           {project.subtitle && (

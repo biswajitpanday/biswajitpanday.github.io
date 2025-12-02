@@ -40,7 +40,7 @@ const GitHubActivityGraph = lazy(() => import("@/components/GitHubActivityGraph"
 // Loading fallback components
 const ComponentFallback = ({ className }: { className?: string }) => (
   <div
-    className={`bg-gradient-to-br from-[#27272c]/50 to-[#2a2a30]/50 rounded animate-pulse ${className}`}
+    className={`bg-gray-800/50 rounded animate-pulse ${className}`}
   />
 );
 
@@ -331,9 +331,8 @@ const Home = () => {
             className="order-1 xl:order-none relative"
           >
             <div className="relative">
-              {/* Enhanced Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-secondary-default/20 to-blue-500/20 rounded-full blur-3xl scale-110 animate-pulse" />
-              <div className="absolute -inset-4 bg-gradient-to-tr from-secondary-default/5 to-blue-500/5 rounded-full blur-xl scale-105" />
+              {/* Subtle Glow Effect */}
+              <div className="absolute inset-0 bg-secondary-default/10 rounded-full blur-3xl scale-110 animate-pulse" />
               <div data-testid="home-photo-container" className="relative z-10">
                 <Photo />
               </div>

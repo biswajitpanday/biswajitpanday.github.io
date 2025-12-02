@@ -489,7 +489,7 @@ const Contact = () => {
           animate="visible"
           className="mb-6"
         >
-          <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
+          <div className="bg-gray-900/50 border border-secondary-default/20 rounded-lg p-4">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {[
                 { icon: FaCode, label: "Full-Stack Development", desc: ".NET, React, Node.js", color: "from-[#00BFFF] to-[#0080FF]", bgColor: "bg-[#00BFFF]/10", borderColor: "border-[#00BFFF]/20", iconBg: "bg-[#00BFFF]/20" },

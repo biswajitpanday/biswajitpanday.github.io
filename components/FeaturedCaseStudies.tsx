@@ -45,7 +45,7 @@ const FeaturedCaseStudies: React.FC<FeaturedCaseStudiesProps> = ({
           <h2 className="text-2xl xl:text-3xl font-bold mb-2 bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
             Featured Case Studies
           </h2>
-          <p className="text-sm bg-gradient-to-r from-white/60 to-white/40 bg-clip-text text-transparent">
+          <p className="text-sm text-white/60">
             Deep dives into problem-solving and impact
           </p>
         </div>

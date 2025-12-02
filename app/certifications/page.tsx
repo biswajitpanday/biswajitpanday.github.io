@@ -263,7 +263,7 @@ const Certifications = () => {
           animate="visible"
           className="mb-6"
         >
-          <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
+          <div className="bg-gray-900/50 border border-secondary-default/20 rounded-lg p-4">
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4 sm:gap-6">
               {/* Total Credentials */}
               <div ref={totalCredsCount.ref} className="flex items-center gap-3">
@@ -301,7 +301,7 @@ const Certifications = () => {
                   <FiBook className="text-purple-400 text-xl" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
+                  <div className="text-2xl font-bold text-purple-400 tabular-nums">
                     {courseCountUp.count}
                   </div>
                   <div className="text-xs text-white/60">Courses</div>
@@ -316,7 +316,7 @@ const Certifications = () => {
                   <FiCheckCircle className="text-green-400 text-xl" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 tabular-nums">
+                  <div className="text-2xl font-bold text-green-400 tabular-nums">
                     {activeCountUp.count}
                   </div>
                   <div className="text-xs text-white/60">Active</div>
@@ -331,7 +331,7 @@ const Certifications = () => {
                   <FiShield className="text-[#00BFFF] text-xl" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">
+                  <div className="text-2xl font-bold text-[#00BFFF] tabular-nums">
                     {verifiedCountUp.count}
                   </div>
                   <div className="text-xs text-white/60">Verified</div>
