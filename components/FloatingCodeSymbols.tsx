@@ -1,18 +1,22 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import { motion } from "framer-motion";
 
 /**
  * FloatingCodeSymbols - Animated code symbols floating in the background
  *
  * Features:
- * - CSS-only animations (no heavy libraries)
+ * - CSS-only animations (GPU-accelerated, better performance)
  * - Random positioning and timing
  * - Code-related symbols: { } < > / = ; ( ) [ ]
  * - Subtle, non-distracting appearance
  * - Respects reduced motion preferences
  * - Client-side only rendering to prevent hydration mismatch
+ *
+ * Performance Optimization:
+ * - Uses CSS keyframes instead of Framer Motion (reduces JS overhead)
+ * - will-change: transform for GPU acceleration
+ * - Respects prefers-reduced-motion
  */
 
 interface FloatingCodeSymbolsProps {
@@ -20,7 +24,7 @@ interface FloatingCodeSymbolsProps {
   className?: string;
 }
 
-const CODE_SYMBOLS = ["{", "}", "<", ">", "/", "=", ";", "(", ")", "[", "]", "//", "=>", "&&", "||", "++", "::"];
+const CODE_SYMBOLS = ["{", "}", "<", ">", "/", "=", ";", "(", ")", "[", "]", "//", "=>", "&&", "||", "++", "::", "!=", "==="];
 
 const FloatingCodeSymbols: React.FC<FloatingCodeSymbolsProps> = ({
   symbolCount = 15,
@@ -45,8 +49,6 @@ const FloatingCodeSymbols: React.FC<FloatingCodeSymbolsProps> = ({
       opacity: 0.03 + Math.random() * 0.07, // 0.03-0.10
       duration: 15 + Math.random() * 20, // 15-35s
       delay: Math.random() * -20, // Random start offset
-      rotateStart: Math.random() * 360,
-      rotateEnd: Math.random() * 360,
       yOffset: 20 + Math.random() * 40, // Vertical float distance
     }));
   }, [symbolCount, isMounted]);
@@ -66,30 +68,50 @@ const FloatingCodeSymbols: React.FC<FloatingCodeSymbolsProps> = ({
       className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}
       aria-hidden="true"
     >
+      <style jsx>{`
+        @keyframes floatSymbol {
+          0%, 100% {
+            transform: translateY(0) rotate(var(--rotate-start));
+            opacity: var(--base-opacity);
+          }
+          50% {
+            transform: translateY(calc(var(--y-offset) * -1)) rotate(var(--rotate-end));
+            opacity: calc(var(--base-opacity) * 1.5);
+          }
+        }
+
+        .floating-symbol {
+          animation: floatSymbol var(--duration) ease-in-out infinite;
+          animation-delay: var(--delay);
+          will-change: transform, opacity;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .floating-symbol {
+            animation: none !important;
+          }
+        }
+      `}</style>
+
       {symbols.map((symbol) => (
-        <motion.span
+        <span
           key={symbol.id}
-          className="absolute font-mono text-[#00BFFF] select-none"
+          className="floating-symbol absolute font-mono text-[#00BFFF] select-none"
           style={{
             left: symbol.left,
             top: symbol.top,
             fontSize: `${symbol.size}px`,
             opacity: symbol.opacity,
-          }}
-          animate={{
-            y: [0, -symbol.yOffset, 0],
-            rotate: [symbol.rotateStart, symbol.rotateEnd],
-            opacity: [symbol.opacity, symbol.opacity * 1.5, symbol.opacity],
-          }}
-          transition={{
-            duration: symbol.duration,
-            delay: symbol.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+            '--base-opacity': symbol.opacity,
+            '--duration': `${symbol.duration}s`,
+            '--delay': `${symbol.delay}s`,
+            '--y-offset': `${symbol.yOffset}px`,
+            '--rotate-start': `${Math.random() * 360}deg`,
+            '--rotate-end': `${Math.random() * 360}deg`,
+          } as React.CSSProperties}
         >
           {symbol.symbol}
-        </motion.span>
+        </span>
       ))}
     </div>
   );

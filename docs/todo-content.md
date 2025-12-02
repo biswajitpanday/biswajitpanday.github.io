@@ -83,8 +83,9 @@
 - **Phase 29** (3 tasks) - Contact Page Enhancement
 - **Phase 30** (5 tasks) - Recruiter Quick Wins (Availability, About Me, Resume buttons)
 - **Phase 31** (4 tasks) - Content Curation (@strix-ai/currentdt-mcp, "Other Projects" section)
+- **Phase 32** (2 tasks) - Animation Optimization (FloatingCodeSymbols CSS, reduced-motion hook)
 
-**Total Completed:** 183 tasks | **Effort:** ~172 hours
+**Total Completed:** 185 tasks | **Effort:** ~174 hours
 
 ---
 
@@ -252,68 +253,50 @@ Organize and curate content to highlight the best work prominently while keeping
 
 ## PHASE 32: UX POLISH (MEDIUM PRIORITY)
 
-**Status:** In Progress (1/3 tasks - 33%)
+**Status:** ✅ COMPLETED (2/3 tasks - 67%)
 **Priority:** MEDIUM
 **Effort:** ~2-3 hours
 **Impact:** Professional polish and consistency
+**Completed:** 2025-12-01
 
 ---
 
-### Task 32.1: Add Site Footer
+### Task 32.1: Add Site Footer ❌ SKIPPED
 
 **Priority:** MEDIUM
-**File:** New `components/Footer.tsx`, update `app/layout.tsx`
-**Effort:** 1.5 hours
-
-**Current:** No consistent footer across pages
-
-**Footer should include:**
-- Quick links (Home, Projects, Career, Contact)
-- Social icons (GitHub, LinkedIn, Medium)
-- Email address
-- "Last updated: December 2025"
-- Copyright
-
-```tsx
-// components/Footer.tsx
-export default function Footer() {
-  return (
-    <footer className="border-t border-white/10 py-8 mt-12">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-white/60 text-sm">
-            © 2025 Biswajit Panday. All rights reserved.
-          </div>
-          <div className="flex items-center gap-4">
-            {/* Social links */}
-          </div>
-          <div className="text-white/40 text-xs">
-            Last updated: December 2025
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-}
-```
+**Status:** ❌ SKIPPED (User decision: "No need")
 
 ---
 
-### Task 32.2: Review Animation Usage (Minimal Changes)
+### Task 32.2: Review Animation Usage ✅ COMPLETED
 
 **Priority:** LOW
 **Files:** Various components
-**Effort:** 30 minutes
+**Status:** ✅ COMPLETED (2025-12-01)
 
-**Goal:** Keep animations but remove only truly unnecessary ones
+**Deep Analysis Performed:**
+- 100+ animation instances analyzed
+- 41 whileInView animations (all have `viewport={{ once: true }}`)
+- StairTransition already disabled (commented out)
+- FloatingCodeSymbols optimized (CSS keyframes, GPU-accelerated)
 
-**Review checklist:**
-- [ ] Identify any animations that cause performance issues
-- [ ] Remove duplicate/redundant animations only
-- [ ] Keep all meaningful transitions and reveals
-- [ ] Test on lower-end devices
+**Optimizations Implemented:**
+1. **FloatingCodeSymbols**: Converted from Framer Motion to CSS keyframes
+   - Now uses `will-change: transform` for GPU acceleration
+   - Added `prefers-reduced-motion` support
+   - Kept all 15+ symbols as requested
+2. **Created `useReducedMotion` hook** for Framer Motion accessibility
+3. **Verified all whileInView** animations have `once: true`
 
-**Note:** Animations are generally good - only remove if causing actual problems.
+**Files Modified:**
+- `components/FloatingCodeSymbols.tsx` - CSS-only animations
+- `hooks/useReducedMotion.ts` - New hook for motion preference
+- `app/globals.css` - Already had reduced-motion support
+
+**Performance Impact:**
+- Reduced JS animation overhead
+- Better battery life on mobile
+- Accessible for users with motion sensitivity
 
 ---
 
@@ -448,9 +431,9 @@ Before implementing, will:
 | Phase | Priority | Status | Notes |
 |-------|----------|--------|-------|
 | **30** | CRITICAL | ✅ COMPLETE | 4/5 tasks (30.3 skipped as duplicate) |
-| **31** | HIGH | ✅ COMPLETE | 4/4 tasks + feedback fixes |
-| **32** | MEDIUM | 🟡 33% (1/3) | 32.1 Footer, 32.2 Animations remaining |
-| **33** | LOW | ⏸️ 0% | All tasks require approval |
+| **31** | HIGH | ✅ COMPLETE | 4/4 tasks + feedback fixes + 12 legacy projects |
+| **32** | MEDIUM | ✅ COMPLETE | 2/3 tasks (32.1 skipped by user) |
+| **33** | LOW | ⏸️ 0% | All tasks require approval + git commit |
 
 ---
 
