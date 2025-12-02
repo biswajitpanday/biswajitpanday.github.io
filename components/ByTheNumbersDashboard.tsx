@@ -198,10 +198,6 @@ const ByTheNumbersDashboard: React.FC = () => {
               <FaCloud className="text-blue-400" />
               <span className="text-blue-300">55% Cloud Cost Reduction</span>
             </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-purple-500/10 border border-purple-500/30 rounded-full">
-              <FaUsers className="text-purple-400" />
-              <span className="text-purple-300">20M+ Users Impacted</span>
-            </div>
           </div>
         </div>
       </div>
