@@ -36,6 +36,7 @@ const ByTheNumbersDashboard = lazy(() => import("@/components/ByTheNumbersDashbo
 const TestimonialsCarousel = lazy(() => import("@/components/TestimonialsCarousel"));
 const FeaturedCaseStudies = lazy(() => import("@/components/FeaturedCaseStudies"));
 const GitHubActivityGraph = lazy(() => import("@/components/GitHubActivityGraph"));
+const MediumBlogPreview = lazy(() => import("@/components/MediumBlogPreview"));
 
 // Loading fallback components
 const ComponentFallback = ({ className }: { className?: string }) => (
@@ -365,6 +366,11 @@ const Home = () => {
         {/* GitHub Activity - Shows Active Development */}
         <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
           <GitHubActivityGraph />
+        </Suspense>
+
+        {/* Medium Blog Preview - Latest Articles */}
+        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
+          <MediumBlogPreview maxPosts={3} />
         </Suspense>
 
         {/* What I'm Looking For - Compact Pills */}
