@@ -96,7 +96,7 @@ export default function ActivityPage() {
           animate="visible"
           className="mb-6"
         >
-          <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
+          <div className="bg-gray-900/50 border border-secondary-default/20 rounded-lg p-4">
             <div className="flex flex-wrap items-center justify-center gap-6">
               {/* Total Contributions */}
               <div ref={totalContributionsCount.ref} className="flex items-center gap-3">

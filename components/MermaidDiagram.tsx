@@ -120,7 +120,7 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, className = "" }
 
       {/* Diagram Container */}
       <div
-        className="mermaid-container bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-xl p-6 pt-14 overflow-auto flex justify-center items-center"
+        className="mermaid-container bg-gray-900/50 border border-secondary-default/20 rounded-xl p-6 pt-14 overflow-auto flex justify-center items-center"
         style={{ textAlign: 'center' }}
       >
         <div

@@ -27,8 +27,9 @@
     "analyze-motion": "node scripts/analyze-motion-usage.js",
     "test-performance": "node scripts/test-animation-performance.js",
     "optimize": "node scripts/optimize-images.js",
+    "fetch-blog": "node scripts/fetch-medium-posts.js",
     "sitemap": "node scripts/generate-sitemap.js",
-    "prebuild": "npm run sitemap"
+    "prebuild": "npm run fetch-blog && npm run sitemap"
   },
   "homepage": "https://biswajitpanday.github.io/",
   "dependencies": {

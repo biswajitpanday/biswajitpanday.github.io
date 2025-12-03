@@ -285,7 +285,7 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
         viewport={{ once: true }}
         transition={{ duration: 0.4, delay: 0.3 }}
       >
-        <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-3">
+        <div className="bg-gray-900/50 border border-secondary-default/20 rounded-lg p-3">
           <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4">
             {/* Total Commits */}
             <div className="flex items-center gap-2">

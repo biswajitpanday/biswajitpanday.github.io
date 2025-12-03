@@ -14,7 +14,8 @@ import {
 import CertificationCard from "@/components/CertificationCard";
 import BackgroundElements from "@/components/BackgroundElements";
 import EmptyState from "@/components/ui/EmptyState";
-import { FiAward, FiBriefcase, FiBook, FiSlack, FiCheckCircle, FiShield, FiSearch } from "react-icons/fi";
+import { FiAward, FiBriefcase, FiBook, FiSlack, FiCheckCircle, FiShield, FiSearch, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FaGraduationCap } from "react-icons/fa";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UnifiedToolbar from "@/components/UnifiedToolbar";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
@@ -35,6 +36,7 @@ const Certifications = () => {
   const [filteredByCategory, setFilteredByCategory] = useState<Certification[]>([]);
   const [activeTab, setActiveTab] = useState<"all" | "professional" | "courses" | "training">("all");
   const [showAllCertifications, setShowAllCertifications] = useState(false);
+  const [showCoursesSection, setShowCoursesSection] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   // Advanced filter states
@@ -95,9 +97,16 @@ const Certifications = () => {
   
   // Get important certifications for initial display
   const getImportantCertifications = (certs: Certification[]): Certification[] => {
-    // Sort by priority: Featured + Professional > Professional > Other categories by date
+    // Sort by priority: showByDefault > Featured + Professional > Professional > Other categories by date
     const sortedCerts = [...certs].sort((a, b) => {
-      // Priority 1: Featured + Professional (highest priority)
+      // Priority 0: showByDefault flag (highest priority)
+      const aShowByDefault = a.showByDefault === true;
+      const bShowByDefault = b.showByDefault === true;
+
+      if (aShowByDefault && !bShowByDefault) return -1;
+      if (!aShowByDefault && bShowByDefault) return 1;
+
+      // Priority 1: Featured + Professional
       const aIsFeaturedProfessional = a.featured && a.category === "Professional";
       const bIsFeaturedProfessional = b.featured && b.category === "Professional";
 
@@ -117,13 +126,14 @@ const Certifications = () => {
       return dateB.getTime() - dateA.getTime();
     });
 
-    // Get featured + professional first, then fill with others
-    const featuredProfessional = sortedCerts.filter(cert => cert.featured && cert.category === "Professional");
-    const professional = sortedCerts.filter(cert => !cert.featured && cert.category === "Professional");
-    const others = sortedCerts.filter(cert => cert.category !== "Professional");
+    // Get showByDefault first, then featured+professional, then fill with others
+    const showByDefaultCerts = sortedCerts.filter(cert => cert.showByDefault === true);
+    const featuredProfessional = sortedCerts.filter(cert => !cert.showByDefault && cert.featured && cert.category === "Professional");
+    const professional = sortedCerts.filter(cert => !cert.showByDefault && !cert.featured && cert.category === "Professional");
+    const others = sortedCerts.filter(cert => !cert.showByDefault && cert.category !== "Professional");
 
-    // Combine: featured+professional + professional + others to reach INITIAL_DISPLAY_COUNT
-    const important = [...featuredProfessional, ...professional];
+    // Combine: showByDefault + featured+professional + professional + others to reach INITIAL_DISPLAY_COUNT
+    const important = [...showByDefaultCerts, ...featuredProfessional, ...professional];
     const remainingSlots = INITIAL_DISPLAY_COUNT - important.length;
 
     if (remainingSlots > 0) {
@@ -172,6 +182,12 @@ const Certifications = () => {
         if (selectedStatus === "Verified") return cert.onlineVerifiable === true;
         return true;
       });
+    }
+
+    // For "all" tab, show everything (we use collapsible section to organize)
+    // For other tabs, apply the limit if showAllCertifications is false
+    if (activeTab === "all") {
+      return baseCertifications;
     }
 
     if (!showAllCertifications) {
@@ -247,7 +263,7 @@ const Certifications = () => {
           animate="visible"
           className="mb-6"
         >
-          <div className="bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4">
+          <div className="bg-gray-900/50 border border-secondary-default/20 rounded-lg p-4">
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4 sm:gap-6">
               {/* Total Credentials */}
               <div ref={totalCredsCount.ref} className="flex items-center gap-3">
@@ -285,7 +301,7 @@ const Certifications = () => {
                   <FiBook className="text-purple-400 text-xl" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
+                  <div className="text-2xl font-bold text-purple-400 tabular-nums">
                     {courseCountUp.count}
                   </div>
                   <div className="text-xs text-white/60">Courses</div>
@@ -300,7 +316,7 @@ const Certifications = () => {
                   <FiCheckCircle className="text-green-400 text-xl" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 tabular-nums">
+                  <div className="text-2xl font-bold text-green-400 tabular-nums">
                     {activeCountUp.count}
                   </div>
                   <div className="text-xs text-white/60">Active</div>
@@ -315,7 +331,7 @@ const Certifications = () => {
                   <FiShield className="text-[#00BFFF] text-xl" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">
+                  <div className="text-2xl font-bold text-[#00BFFF] tabular-nums">
                     {verifiedCountUp.count}
                   </div>
                   <div className="text-xs text-white/60">Verified</div>
@@ -443,52 +459,118 @@ const Certifications = () => {
             </div>
           </UnifiedToolbar>
 
-          {/* All Certifications */}
+          {/* All Certifications - Split into Main Grid + Collapsible Section */}
           <TabsContent value="all" className="mt-0">
-            {displayedCertifications.length > 0 ? (
-              <>
-                <motion.div
-                  variants={PERFORMANCE_VARIANTS.containerSync}
-                  initial="hidden"
-                  animate="visible"
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                >
-                  {displayedCertifications.map((certification) => (
-                    <CertificationCard
-                      key={certification.id}
-                      certification={certification}
-                      featured={certification.featured || certification.category === "Professional"}
-                    />
-                  ))}
-                </motion.div>
+            {(() => {
+              // Split certifications into:
+              // 1. Main grid: Professional + Courses/Training with showByDefault: true
+              // 2. Collapsible: Courses/Training with showByDefault: false or undefined
+              const mainGridCerts = displayedCertifications.filter(
+                cert => cert.category === "Professional" || cert.showByDefault === true
+              );
+              const collapsibleCerts = displayedCertifications.filter(
+                cert => (cert.category === "Course" || cert.category === "Training") && cert.showByDefault !== true
+              );
 
-                {/* Show More/Less Button */}
-                {shouldShowMoreButton && (
-                  <div className="flex justify-center mt-8">
-                    <button
-                      onClick={() => setShowAllCertifications(!showAllCertifications)}
-                      className="px-3 py-1.5 text-sm bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
+              if (displayedCertifications.length === 0) {
+                return (
+                  <EmptyState
+                    icon={FiSearch}
+                    title="No Certifications Found"
+                    description="Try adjusting your search criteria or filters to see more results."
+                    action={{
+                      label: "Clear Filters",
+                      onClick: resetFilters,
+                    }}
+                  />
+                );
+              }
+
+              return (
+                <>
+                  {/* Main Grid - Professional + Featured Courses/Training */}
+                  {mainGridCerts.length > 0 && (
+                    <motion.div
+                      variants={PERFORMANCE_VARIANTS.containerSync}
+                      initial="hidden"
+                      animate="visible"
+                      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                     >
-                      {showAllCertifications ? (
-                        <>Show Less Certifications</>
-                      ) : (
-                        <>Show All {allCerts.length} Certifications</>
+                      {mainGridCerts.map((certification) => (
+                        <CertificationCard
+                          key={certification.id}
+                          certification={certification}
+                          featured={certification.featured || certification.category === "Professional"}
+                        />
+                      ))}
+                    </motion.div>
+                  )}
+
+                  {/* Courses & Training Section - Collapsible */}
+                  {collapsibleCerts.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                      className="mt-12"
+                    >
+                      <button
+                        onClick={() => setShowCoursesSection(!showCoursesSection)}
+                        className="w-full flex items-center justify-between bg-gradient-to-r from-gray-800/50 to-gray-900/50 border border-white/10 hover:border-white/20 rounded-lg p-4 transition-all duration-300 group"
+                        aria-expanded={showCoursesSection}
+                        aria-controls="courses-section"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-purple-500/20 rounded-lg group-hover:bg-purple-500/30 transition-colors">
+                            <FaGraduationCap className="text-purple-400 text-lg" aria-hidden="true" />
+                          </div>
+                          <div className="text-left">
+                            <h2 className="text-lg font-semibold text-white/80">
+                              Courses & Training
+                            </h2>
+                            <p className="text-sm text-white/50">
+                              {collapsibleCerts.length} online course{collapsibleCerts.length !== 1 ? 's' : ''} & training certification{collapsibleCerts.length !== 1 ? 's' : ''}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 text-white/60">
+                          <span className="text-sm hidden sm:inline">
+                            {showCoursesSection ? 'Hide' : 'Show'}
+                          </span>
+                          {showCoursesSection ? (
+                            <FiChevronUp className="text-sm" aria-hidden="true" />
+                          ) : (
+                            <FiChevronDown className="text-sm" aria-hidden="true" />
+                          )}
+                        </div>
+                      </button>
+
+                      {/* Courses Grid */}
+                      {showCoursesSection && (
+                        <motion.div
+                          id="courses-section"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="mt-4"
+                        >
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {collapsibleCerts.map((certification) => (
+                              <CertificationCard
+                                key={certification.id}
+                                certification={certification}
+                                featured={false}
+                              />
+                            ))}
+                          </div>
+                        </motion.div>
                       )}
-                    </button>
-                  </div>
-                )}
-              </>
-            ) : (
-              <EmptyState
-                icon={FiSearch}
-                title="No Certifications Found"
-                description="Try adjusting your search criteria or filters to see more results."
-                action={{
-                  label: "Clear Filters",
-                  onClick: resetFilters,
-                }}
-              />
-            )}
+                    </motion.div>
+                  )}
+                </>
+              );
+            })()}
           </TabsContent>
 
           {/* Professional Certifications */}

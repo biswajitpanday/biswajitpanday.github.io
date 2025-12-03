@@ -36,7 +36,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, index = 0, variant = "default
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
-      className={`group relative bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-xl overflow-hidden hover:border-secondary-default/40 transition-all duration-300 ${
+      className={`group relative bg-gray-900/50 border border-secondary-default/20 rounded-xl overflow-hidden hover:border-secondary-default/40 transition-all duration-300 ${
         variant === "compact" ? "p-4" : "p-6"
       }`}
     >

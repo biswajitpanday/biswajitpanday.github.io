@@ -36,7 +36,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({
   variant = "default"
 }) => {
   return (
-    <div className={`bg-gradient-to-br from-gray-900/50 to-gray-950/50 border border-secondary-default/20 rounded-lg p-4 ${className}`}>
+    <div className={`bg-gray-900/50 border border-secondary-default/20 rounded-lg p-4 ${className}`}>
       <div className="flex flex-wrap items-center justify-center gap-6">
         {stats.map((stat, index) => {
           const IconComponent = stat.icon;
