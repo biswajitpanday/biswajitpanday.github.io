@@ -328,7 +328,7 @@ const Home = () => {
         </div>
 
         {/* What I'm Looking For - Compact Pills (MOVED UP for recruiter visibility) */}
-        <motion.section
+        {/* <motion.section
           id="what-looking-for"
           data-testid="home-looking-for"
           initial={isMounted ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
@@ -337,7 +337,6 @@ const Home = () => {
           transition={{ duration: 0.4 }}
           className="mt-12 pb-8"
         >
-          {/* Section Header with Availability Indicator */}
           <div className="text-center mb-6">
             <h2 className="text-xl xl:text-2xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent mb-2">
               What I&apos;m Looking For
@@ -351,7 +350,6 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Role Requirements Badges */}
           <div className="flex flex-wrap justify-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 hover:bg-white/10 transition-colors">
               <FiBriefcase className="text-[#00BFFF]" aria-hidden="true" />
@@ -378,7 +376,7 @@ const Home = () => {
               Growth-Oriented Teams
             </span>
           </div>
-        </motion.section>
+        </motion.section> */}
 
         {/* By The Numbers Dashboard - Primary Stats Display */}
         <div id="stats-dashboard">
