@@ -34,7 +34,6 @@ const HERO_PHRASES = [
 const Socials = lazy(() => import("@/components/Socials"));
 const ByTheNumbersDashboard = lazy(() => import("@/components/ByTheNumbersDashboard"));
 const TestimonialsCarousel = lazy(() => import("@/components/TestimonialsCarousel"));
-const FeaturedCaseStudies = lazy(() => import("@/components/FeaturedCaseStudies"));
 const GitHubActivityGraph = lazy(() => import("@/components/GitHubActivityGraph"));
 const MediumBlogPreview = lazy(() => import("@/components/MediumBlogPreview"));
 
@@ -303,24 +302,6 @@ const Home = () => {
                 </Suspense>
               </div>
             </motion.div>
-
-            {/* Availability Status - Recruiter-focused */}
-            <motion.div
-              data-testid="home-availability-status"
-              initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: isMounted ? 0.35 : 0, duration: 0.3 }}
-              className="mt-6 flex items-center justify-center xl:justify-start gap-2 text-xs text-white/70"
-            >
-              <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
-              </span>
-              <span>
-                Open to Senior .NET / Full-Stack roles
-                <span className="hidden sm:inline"> • Remote Welcome • Visa Sponsorship Preferred</span>
-              </span>
-            </motion.div>
           </motion.div>
 
           {/* Photo Section */}
@@ -343,38 +324,12 @@ const Home = () => {
 
         {/* Scroll Indicator */}
         <div className="hidden xl:flex justify-center mt-8">
-          <ScrollIndicator targetId="stats-dashboard" />
+          <ScrollIndicator targetId="what-looking-for" />
         </div>
 
-        {/* By The Numbers Dashboard - Primary Stats Display */}
-        <div id="stats-dashboard">
-          <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
-            <ByTheNumbersDashboard />
-          </Suspense>
-        </div>
-
-        {/* Testimonials Carousel - Real LinkedIn Recommendations */}
-        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
-          <TestimonialsCarousel testimonials={testimonials} />
-        </Suspense>
-
-        {/* Featured Case Studies */}
-        <Suspense fallback={<ComponentFallback className="w-full h-96" />}>
-          <FeaturedCaseStudies maxItems={2} />
-        </Suspense>
-
-        {/* GitHub Activity - Shows Active Development */}
-        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
-          <GitHubActivityGraph />
-        </Suspense>
-
-        {/* Medium Blog Preview - Latest Articles */}
-        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
-          <MediumBlogPreview maxPosts={3} />
-        </Suspense>
-
-        {/* What I'm Looking For - Compact Pills */}
+        {/* What I'm Looking For - Compact Pills (MOVED UP for recruiter visibility) */}
         <motion.section
+          id="what-looking-for"
           data-testid="home-looking-for"
           initial={isMounted ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -382,7 +337,21 @@ const Home = () => {
           transition={{ duration: 0.4 }}
           className="mt-12 pb-8"
         >
-          <h2 className="text-lg font-medium mb-4 text-white/80 text-center">What I&apos;m Looking For</h2>
+          {/* Section Header with Availability Indicator */}
+          <div className="text-center mb-6">
+            <h2 className="text-xl xl:text-2xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent mb-2">
+              What I&apos;m Looking For
+            </h2>
+            <div className="flex items-center justify-center gap-2">
+              <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+              </span>
+              <span className="text-sm text-emerald-400 font-medium">Open to Opportunities</span>
+            </div>
+          </div>
+
+          {/* Role Requirements Badges */}
           <div className="flex flex-wrap justify-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 hover:bg-white/10 transition-colors">
               <FiBriefcase className="text-[#00BFFF]" aria-hidden="true" />
@@ -410,6 +379,28 @@ const Home = () => {
             </span>
           </div>
         </motion.section>
+
+        {/* By The Numbers Dashboard - Primary Stats Display */}
+        <div id="stats-dashboard">
+          <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
+            <ByTheNumbersDashboard />
+          </Suspense>
+        </div>
+
+        {/* GitHub Activity - Shows Active Development (MOVED UP for visibility) */}
+        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
+          <GitHubActivityGraph />
+        </Suspense>
+
+        {/* Testimonials Carousel - Real LinkedIn Recommendations */}
+        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
+          <TestimonialsCarousel testimonials={testimonials} />
+        </Suspense>
+
+        {/* Medium Blog Preview - Latest Articles */}
+        <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
+          <MediumBlogPreview maxPosts={3} />
+        </Suspense>
       </div>
     </section>
    </>

@@ -139,14 +139,16 @@ const MediumBlogPreview: React.FC<MediumBlogPreviewProps> = ({ maxPosts = 3 }) =
       {/* Section Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-white/90 mb-2">Latest Articles</h2>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent mb-2">
+            Latest Articles
+          </h2>
           <p className="text-sm text-white/60">Thoughts on full-stack development, AI, and cloud architecture</p>
         </div>
         <Link
           href="https://medium.com/@biswajitpanday"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary-default/40 rounded-lg transition-all duration-300 text-sm text-white/80 hover:text-secondary-default group"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-secondary-default/10 to-purple-500/10 hover:from-secondary-default/20 hover:to-purple-500/20 border border-secondary-default/30 hover:border-secondary-default/50 rounded-lg transition-all duration-300 text-sm text-secondary-default font-medium group"
         >
           <FaMedium className="text-base group-hover:scale-110 transition-transform" />
           <span>View All on Medium</span>
@@ -183,7 +185,7 @@ const MediumBlogPreview: React.FC<MediumBlogPreviewProps> = ({ maxPosts = 3 }) =
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-secondary-default transition-colors line-clamp-2">
+                <h3 className="text-lg font-bold text-white mb-3 group-hover:bg-gradient-to-r group-hover:from-[#00BFFF] group-hover:to-[#0080FF] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 line-clamp-2">
                   {post.title}
                 </h3>
 
