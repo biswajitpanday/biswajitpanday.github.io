@@ -1,0 +1,62 @@
+name: Rebuild Portfolio (On-Demand)
+
+# Allows triggering this workflow manually from GitHub UI or via API
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for rebuild'
+        required: false
+        default: 'Manual rebuild triggered from admin panel'
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build portfolio
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
+          NEXT_PUBLIC_CHATBOT_API_URL: ${{ secrets.NEXT_PUBLIC_CHATBOT_API_URL }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Log rebuild reason
+        run: |
+          echo "Rebuild triggered: ${{ github.event.inputs.reason || 'API trigger' }}"
+          echo "Triggered by: ${{ github.actor }}"
+          echo "Deployed to: ${{ steps.deployment.outputs.page_url }}"
