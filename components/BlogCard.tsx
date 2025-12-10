@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaClock, FaCalendar, FaArrowRight, FaExternalLinkAlt } from "react-icons/fa";
-import { BlogPost } from "@/data/blogData";
+import { BlogPost } from "@/types/api";
 
 interface BlogCardProps {
   post: BlogPost;

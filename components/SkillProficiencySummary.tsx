@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { skills1, skills2 } from '@/data/skillsData';
+// Skills data will be passed as props from parent component
 import DynamicIcon from '@/components/DynamicIcon';
 import SkillsHeatMapModal from './SkillsHeatMapModal';
 

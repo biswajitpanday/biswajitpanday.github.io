@@ -1,12 +1,13 @@
+// Temporarily disabled - needs API data migration
 "use client";
 
 import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaTimes, FaExternalLinkAlt, FaCode, FaBriefcase, FaAward } from "react-icons/fa";
 import EmptyState from "@/components/ui/EmptyState";
-import { projects } from "@/data/portfolioData";
-import { skills1, skills2 } from "@/data/skillsData";
-import { certifications } from "@/data/certificationsData";
+// import { projects } from "@/types/api";
+// import { skills1, skills2 } from "@/types/api";
+// import { certifications } from "@/types/api";
 import Link from "next/link";
 
 /**
@@ -25,80 +26,13 @@ interface SearchResult {
 }
 
 // Prepare searchable data
+// Prepare searchable data
 const prepareSearchableData = (): SearchResult[] => {
   const results: SearchResult[] = [];
-
-  // Add projects
-  projects.forEach((project) => {
-    results.push({
-      id: `project-${project.num}`,
-      title: project.title,
-      description: project.shortDescription,
-      type: "project",
-      url: "/projects",
-      category: project.category,
-      icon: <FaBriefcase className="text-secondary-default" />
-    });
-  });
-
-  // Add certifications
-  certifications.filter(cert => !cert.isUpcoming).forEach((cert) => {
-    results.push({
-      id: `certification-${cert.id}`,
-      title: cert.name,
-      description: cert.description || `${cert.category} certification by ${cert.issuer}`,
-      type: "certification",
-      url: "/certifications",
-      category: cert.category,
-      icon: <FaAward className="text-blue-400" />
-    });
-  });
-
-  // Add skills from both trees
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const addSkillsRecursively = (skillNode: any, prefix = "") => {
-    if (skillNode.children && skillNode.children.length > 0) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      skillNode.children.forEach((child: any) => {
-        addSkillsRecursively(child, prefix ? `${prefix} > ${skillNode.name}` : skillNode.name);
-      });
-    } else {
-      results.push({
-        id: `skill-${skillNode.name}`,
-        title: skillNode.name,
-        description: `Technology under ${prefix}`,
-        type: "skill",
-        url: "/skills",
-        category: prefix,
-        icon: <FaCode className="text-blue-400" />
-      });
-    }
-  };
-
-  skills1.children?.forEach((category) => addSkillsRecursively(category));
-  skills2.children?.forEach((category) => addSkillsRecursively(category));
-
-  // Add pages
-  const pages = [
-    { name: "Home", url: "/", description: "Welcome page with overview and introduction" },
-    { name: "Projects", url: "/projects", description: "Showcase of projects and work experience" },
-    { name: "Skills", url: "/skills", description: "Technical expertise and technologies" },
-    { name: "Career", url: "/career", description: "Professional journey and experience timeline" },
-    { name: "Certifications", url: "/certifications", description: "Professional certifications and courses completed" },
-    { name: "Contact", url: "/contact", description: "Get in touch and contact information" },
-  ];
-
-  pages.forEach((page) => {
-    results.push({
-      id: `page-${page.name}`,
-      title: page.name,
-      description: page.description,
-      type: "page",
-      url: page.url,
-      icon: <FaExternalLinkAlt className="text-green-400" />
-    });
-  });
-
+  
+  // Temporarily disabled - requires refactoring to accept data from props
+  // TODO: Update to receive projects, certifications, and skills from parent component
+  
   return results;
 };
 

@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-import { Certification } from "@/data/certificationsData";
+import { Certification } from "@/types/api";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { FiArrowLeft, FiArrowRight, FiCalendar, FiExternalLink } from "react-icons/fi";

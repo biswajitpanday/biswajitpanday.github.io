@@ -6,6 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const DOMAIN = 'https://biswajitpanday.github.io';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://portfolio-admin-blue.vercel.app';
 const SITEMAP_OUTPUT_PATH = path.join(__dirname, '../public/sitemap.xml');
 const SITEMAP_INDEX_OUTPUT_PATH = path.join(__dirname, '../public/sitemap-index.xml');
 
@@ -32,26 +33,40 @@ const pages = [
   { url: '/contact/', priority: '0.6', changefreq: 'monthly' },
 ];
 
-function generateSitemap() {
+/**
+ * Fetch projects from API
+ */
+async function fetchProjects() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/public/projects`);
+    const data = await response.json();
+    return data.success ? data.data : [];
+  } catch (error) {
+    console.error('Failed to fetch projects from API:', error);
+    return [];
+  }
+}
+
+async function generateSitemap() {
   const currentDate = new Date().toISOString().split('T')[0];
 
-  // Read project titles from portfolioData.ts and add to pages
-  const projectsDataPath = path.join(__dirname, '../data/portfolioData.ts');
-  const projectsData = fs.readFileSync(projectsDataPath, 'utf-8');
-  const projectTitleMatches = projectsData.matchAll(/title:\s*["']([^"']+)["']/g);
-  const projectTitles = Array.from(projectTitleMatches, m => m[1]);
+  // Fetch project titles from API and add to pages
+  console.log('📡 Fetching projects from API...');
+  const projects = await fetchProjects();
 
-  // Add project URLs to sitemap
-  projectTitles.forEach(title => {
-    const slug = slugify(title);
-    pages.push({
-      url: `/projects/${slug}/`,
-      priority: '0.8',
-      changefreq: 'monthly'
+  if (projects.length > 0) {
+    projects.forEach(project => {
+      const slug = slugify(project.title);
+      pages.push({
+        url: `/projects/${slug}/`,
+        priority: '0.8',
+        changefreq: 'monthly'
+      });
     });
-  });
-
-  console.log(`📁 Added ${projectTitles.length} project pages to sitemap`);
+    console.log(`📁 Added ${projects.length} project pages to sitemap`);
+  } else {
+    console.warn('⚠️  No projects fetched from API, skipping project URLs in sitemap');
+  }
 
   // Read Medium blog posts and add to sitemap (if file exists)
   const mediumPostsPath = path.join(__dirname, '../public/data/medium-posts.json');

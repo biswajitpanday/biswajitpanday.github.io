@@ -1,10 +1,10 @@
 "use client";
 import CountUp from "react-countup";
-import { timeLineItems } from "@/data/timelineData";
-import { projects } from "@/data/portfolioData";
-import { countAllTechnologies } from "@/data/skillsData";
+import { timeLineItems } from "@/types/api";
+import { projects } from "@/types/api";
+import { countAllTechnologies } from "@/types/api";
 import { calculateTotalExperience } from "@/helpers/utility";
-import { getCertificationCounts } from "@/data/certificationsData";
+import { getCertificationCounts } from "@/types/api";
 
 const Stats = () => {
   const totalExperience = calculateTotalExperience(timeLineItems);

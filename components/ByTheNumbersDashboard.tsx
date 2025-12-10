@@ -12,10 +12,10 @@ import {
   FaStar,
   FaGithub
 } from "react-icons/fa";
-import { projects } from "@/data/portfolioData";
-import { certifications } from "@/data/certificationsData";
-import { timeLineItems } from "@/data/timelineData";
-import { countAllTechnologies } from "@/data/skillsData";
+import { projects } from "@/types/api";
+import { certifications } from "@/types/api";
+import { timeLineItems } from "@/types/api";
+import { countAllTechnologies } from "@/types/api";
 import { calculateTotalExperience } from "@/helpers/utility";
 
 interface CountUpProps {

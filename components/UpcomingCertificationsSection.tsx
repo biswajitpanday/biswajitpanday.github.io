@@ -2,7 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FiClock } from "react-icons/fi";
-import { Certification } from "@/data/certificationsData";
+import { Certification } from "@/types/api";
 import UpcomingCertification from "@/components/UpcomingCertification";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 

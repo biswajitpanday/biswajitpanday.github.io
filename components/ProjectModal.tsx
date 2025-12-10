@@ -19,7 +19,7 @@ import { FiLayers } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { Project } from "@/data/portfolioData";
+import { Project } from "@/types/api";
 import { useState, useEffect, useRef, useId } from "react";
 import ProjectPerformanceMetrics from "@/components/ProjectPerformanceMetrics";
 

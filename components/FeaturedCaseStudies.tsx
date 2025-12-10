@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
-import { projects, Project } from "@/data/portfolioData";
+import { projects, Project } from "@/types/api";
 import CaseStudyCard from "./CaseStudyCard";
 import ProjectModal from "./ProjectModal";
 

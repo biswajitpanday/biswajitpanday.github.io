@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FiAward, FiBriefcase, FiBook } from "react-icons/fi";
-import { getCertificationCounts } from "@/data/certificationsData";
+import { getCertificationCounts } from "@/types/api";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import Link from "next/link";
 

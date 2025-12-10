@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { FiFilter, FiChevronDown, FiSearch, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Project } from "@/data/portfolioData";
+import { Project } from "@/types/api";
 
 interface ProjectsFilterProps {
   projects: Project[];

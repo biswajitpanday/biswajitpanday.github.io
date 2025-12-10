@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Certification } from "@/data/certificationsData";
+import { Certification } from "@/types/api";
 import Image from "next/image";
 import { FiClock, FiTarget, FiExternalLink, FiAward } from "react-icons/fi";
 import { Badge } from "@/components/ui/badge";

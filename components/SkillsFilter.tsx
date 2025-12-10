@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { FiFilter, FiChevronDown, FiSearch, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { skills1, skills2 } from "@/data/skillsData";
+import { skills1, skills2 } from "@/types/api";
 
 /**
  * SkillsFilter - Accessible skills filter component

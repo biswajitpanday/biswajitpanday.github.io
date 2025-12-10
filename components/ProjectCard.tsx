@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CSS_ANIMATIONS } from "@/constants";
 import { FaGithub, FaEye } from "react-icons/fa";
-import type { Project } from "@/data/portfolioData";
+import type { Project } from "@/types/api";
 import { getPrimaryMetric } from "@/utils/projectHelpers";
 import {
   CategoryBadge,

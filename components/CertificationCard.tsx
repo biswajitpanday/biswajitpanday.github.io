@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { CSS_ANIMATIONS } from "@/constants";
 import Image from "next/image";
-import { Certification } from "@/data/certificationsData";
+import { Certification } from "@/types/api";
 import { FiAward, FiCalendar, FiExternalLink, FiKey, FiCheck, FiActivity, FiHash, FiBriefcase, FiBook } from "react-icons/fi";
 import {
   Tooltip,

@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { getFeaturedCertifications } from "@/data/certificationsData";
+import { getFeaturedCertifications } from "@/types/api";
 import SectionHeader from "./SectionHeader";
 import CertificationCard from "./CertificationCard";
 import { Button } from "./ui/button";

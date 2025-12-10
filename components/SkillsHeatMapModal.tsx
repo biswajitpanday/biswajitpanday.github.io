@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
 import DynamicIcon from '@/components/DynamicIcon';
-import { skills1, skills2 } from '@/data/skillsData';
+// Skills data will be passed as props from parent component
 
 // Skill interface matching skillsData structure
 interface SkillNode {

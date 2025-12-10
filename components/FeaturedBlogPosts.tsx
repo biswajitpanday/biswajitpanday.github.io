@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaPenNib } from "react-icons/fa";
-import { getFeaturedPosts } from "@/data/blogData";
+import { getFeaturedPosts } from "@/types/api";
 import BlogCard from "./BlogCard";
 
 interface FeaturedBlogPostsProps {

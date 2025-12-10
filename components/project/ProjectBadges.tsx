@@ -13,7 +13,7 @@ import { SimpleTooltip, WideTooltip } from "@/components/ui/SimpleTooltip";
 import { getCategoryColor, getCompanyLogo } from "@/constants/projectConstants";
 import { getPrimaryMetric, getMetricBadgeClasses, getMetricBadgeClassesLight } from "@/utils/projectHelpers";
 import type { PrimaryMetric } from "@/utils/projectHelpers";
-import type { Project, Recognition } from "@/data/portfolioData";
+import type { Project, Recognition } from "@/types/api";
 import {
   STATUS_BADGE_CLASSES,
   FEATURED_BADGE_CLASSES,

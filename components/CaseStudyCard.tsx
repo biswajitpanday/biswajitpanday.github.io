@@ -7,7 +7,7 @@ import {
   FaLightbulb,
   FaArrowRight
 } from "react-icons/fa";
-import { CaseStudy, Project } from "@/data/portfolioData";
+import { CaseStudy, Project } from "@/types/api";
 
 interface CaseStudyCardProps {
   project: Project;
