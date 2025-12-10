@@ -111,7 +111,11 @@ const getTechnologyIcon = (techName: string) => {
   return iconMap[techName] || 'FaCode'; // Default icon
 };
 
-export default function SkillProficiencySummary() {
+interface SkillProficiencySummaryProps {
+  skillsHierarchy: SkillNode[];
+}
+
+export default function SkillProficiencySummary({ skillsHierarchy }: SkillProficiencySummaryProps) {
   const [showFullHeatMap, setShowFullHeatMap] = useState(false);
 
   // Recursively extract all skills with metadata from the tree
@@ -133,8 +137,8 @@ export default function SkillProficiencySummary() {
     return allSkills;
   };
 
-  // Extract skills from both trees
-  const allSkills = [...extractSkills(skills1), ...extractSkills(skills2)];
+  // Extract skills from hierarchy
+  const allSkills = skillsHierarchy.flatMap(category => extractSkills(category));
 
   // Count by proficiency level
   const expertCount = allSkills.filter(s => s.metadata?.level === 'Expert').length;
@@ -309,7 +313,11 @@ export default function SkillProficiencySummary() {
 
       {/* Full Heat Map Modal */}
       {showFullHeatMap && (
-        <SkillsHeatMapModal onClose={() => setShowFullHeatMap(false)} />
+        <SkillsHeatMapModal
+          onClose={() => setShowFullHeatMap(false)}
+          skills1={skillsHierarchy[0] || { name: "Skills", children: [] }}
+          skills2={skillsHierarchy[1] || { name: "Skills", children: [] }}
+        />
       )}
     </>
   );

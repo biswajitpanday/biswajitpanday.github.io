@@ -45,9 +45,11 @@ const levelOrder = {
 
 interface SkillsHeatMapModalProps {
   onClose: () => void;
+  skills1: SkillNode;
+  skills2: SkillNode;
 }
 
-export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps) {
+export default function SkillsHeatMapModal({ onClose, skills1, skills2 }: SkillsHeatMapModalProps) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [hoveredSkill, setHoveredSkill] = useState<SkillNode | null>(null);
 

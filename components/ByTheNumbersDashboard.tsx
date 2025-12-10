@@ -12,10 +12,7 @@ import {
   FaStar,
   FaGithub
 } from "react-icons/fa";
-import { projects } from "@/types/api";
-import { certifications } from "@/types/api";
-import { timeLineItems } from "@/types/api";
-import { countAllTechnologies } from "@/types/api";
+import type { Project, Certification, TimelineEntry } from "@/types/api";
 import { calculateTotalExperience } from "@/helpers/utility";
 
 interface CountUpProps {
@@ -23,6 +20,24 @@ interface CountUpProps {
   suffix?: string;
   prefix?: string;
   duration?: number;
+}
+
+interface SkillHierarchyNode {
+  name: string;
+  metadata?: {
+    icon?: string;
+    level?: string;
+    yearsOfExperience?: number;
+    lastUsed?: string;
+  };
+  children?: SkillHierarchyNode[];
+}
+
+interface ByTheNumbersDashboardProps {
+  projects: Project[];
+  certifications: Certification[];
+  timeline: TimelineEntry[];
+  skillsHierarchy: SkillHierarchyNode[];
 }
 
 // Simple count-up hook
@@ -61,14 +76,38 @@ const useCountUp = ({ end, suffix = "", prefix = "", duration = 2000 }: CountUpP
   return { count: `${prefix}${count}${suffix}`, ref };
 };
 
-const ByTheNumbersDashboard: React.FC = () => {
+const ByTheNumbersDashboard: React.FC<ByTheNumbersDashboardProps> = ({
+  projects,
+  certifications,
+  timeline,
+  skillsHierarchy,
+}) => {
+  // Count all technologies from skills hierarchy
+  const countAllTechnologies = (): number => {
+    const countSkillsRecursively = (skillNode: SkillHierarchyNode): number => {
+      let count = 0;
+      if (skillNode.children && skillNode.children.length > 0) {
+        skillNode.children.forEach((child) => {
+          count += countSkillsRecursively(child);
+        });
+      } else {
+        count = 1;
+      }
+      return count;
+    };
+
+    return skillsHierarchy.reduce((total, category) => {
+      return total + countSkillsRecursively(category);
+    }, 0);
+  };
+
   // Calculate all metrics
   const totalProjects = projects.length;
   const activeProjects = projects.filter(p => p.isActive).length;
   const totalCertifications = certifications.filter(c => !c.isUpcoming).length;
   const totalTechnologies = countAllTechnologies();
-  const totalExperience = calculateTotalExperience(timeLineItems);
-  const totalCompanies = timeLineItems.length;
+  const totalExperience = calculateTotalExperience(timeline);
+  const totalCompanies = timeline.length;
   const openSourceProjects = projects.filter(p => p.isOpenSource).length;
 
   // Extract numeric value from experience string (e.g., "10+ Years" -> 10)

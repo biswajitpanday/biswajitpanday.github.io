@@ -2,7 +2,6 @@
 import { motion } from "framer-motion";
 import { FaCogs, FaRocket, FaStar, FaCheckCircle, FaSearch } from "react-icons/fa";
 import TreeView, { flattenTree } from "react-accessible-treeview";
-import { countAllTechnologies } from "@/lib/skillsDataTransformer";
 import DynamicIcon from "@/components/DynamicIcon";
 import React, { useCallback, useMemo, useState, useEffect } from "react";
 import BackgroundElements from "@/components/BackgroundElements";
@@ -11,22 +10,20 @@ import { PERFORMANCE_VARIANTS } from "@/constants";
 import SkillProficiencySummary from "@/components/SkillProficiencySummary";
 import { useCountUp } from "@/hooks/useCountUp";
 
-// SkillNode interface matching main branch
-interface SkillNode {
+// Skill hierarchy type from API
+interface SkillHierarchyNode {
   name: string;
   metadata?: {
-    icon: string;
-    level?: "Expert" | "Advanced" | "Intermediate" | "Familiar";
+    icon?: string;
+    level?: string;
     yearsOfExperience?: number;
     lastUsed?: string;
   };
-  children?: SkillNode[];
+  children?: SkillHierarchyNode[];
 }
 
-// Props interface
 interface SkillsClientProps {
-  skills1: SkillNode;
-  skills2: SkillNode;
+  skillsHierarchy: SkillHierarchyNode[];
 }
 
 // Memoized animation variants - created once, reused everywhere
@@ -107,7 +104,43 @@ const filterTreeData = (data: any[], searchQuery: string, selectedLevels: Set<st
 
 type ProficiencyLevel = "Expert" | "Advanced" | "Intermediate" | "Familiar";
 
-const SkillsClient = ({ skills1, skills2 }: SkillsClientProps) => {
+const SkillsClient = ({ skillsHierarchy }: SkillsClientProps) => {
+  // Convert API hierarchy to skills1 and skills2 format
+  // The API returns a flat array of skill categories, we'll split them
+  const skills1 = useMemo(() => ({
+    name: "Skills",
+    children: skillsHierarchy.slice(0, Math.ceil(skillsHierarchy.length / 2))
+  }), [skillsHierarchy]);
+
+  const skills2 = useMemo(() => ({
+    name: "Skills",
+    children: skillsHierarchy.slice(Math.ceil(skillsHierarchy.length / 2))
+  }), [skillsHierarchy]);
+
+  const countAllTechnologies = useCallback((): number => {
+    const countSkillsRecursively = (skillNode: SkillHierarchyNode): number => {
+      let count = 0;
+      if (skillNode.children && skillNode.children.length > 0) {
+        skillNode.children.forEach((child) => {
+          count += countSkillsRecursively(child);
+        });
+      } else {
+        count = 1;
+      }
+      return count;
+    };
+
+    const skills1Count = skills1.children?.reduce((total, category) => {
+      return total + countSkillsRecursively(category);
+    }, 0) || 0;
+
+    const skills2Count = skills2.children?.reduce((total, category) => {
+      return total + countSkillsRecursively(category);
+    }, 0) || 0;
+
+    return skills1Count + skills2Count;
+  }, [skills1, skills2]);
+
   // Environment flags
   const isSearchEnabled = process.env.NEXT_PUBLIC_ENABLE_SEARCH !== 'false';
 
@@ -149,13 +182,13 @@ const SkillsClient = ({ skills1, skills2 }: SkillsClientProps) => {
     const searchTerm = isSearchEnabled ? debouncedSearch : "";
     const filtered = filterTreeData([skills1], searchTerm, selectedLevels);
     return filtered.length > 0 ? filtered[0] : { name: "Skills", children: [] };
-  }, [skills1, isSearchEnabled, debouncedSearch, selectedLevels]);
+  }, [isSearchEnabled, debouncedSearch, selectedLevels]);
 
   const filteredSkills2 = useMemo(() => {
     const searchTerm = isSearchEnabled ? debouncedSearch : "";
     const filtered = filterTreeData([skills2], searchTerm, selectedLevels);
     return filtered.length > 0 ? filtered[0] : { name: "Skills", children: [] };
-  }, [skills2, isSearchEnabled, debouncedSearch, selectedLevels]);
+  }, [isSearchEnabled, debouncedSearch, selectedLevels]);
 
   const data1 = flattenTree(filteredSkills1);
   const data2 = flattenTree(filteredSkills2);
@@ -185,7 +218,7 @@ const SkillsClient = ({ skills1, skills2 }: SkillsClientProps) => {
   };
 
   // Calculate totals
-  const totalTechnologies = countAllTechnologies(skills1, skills2);
+  const totalTechnologies = countAllTechnologies();
   const totalCategories = (skills1.children?.length || 0) + (skills2.children?.length || 0); // Count actual main categories from both trees
   const expertCount = countSkillsByLevel(skills1, "Expert") + countSkillsByLevel(skills2, "Expert");
   const advancedCount = countSkillsByLevel(skills1, "Advanced") + countSkillsByLevel(skills2, "Advanced");
@@ -405,7 +438,7 @@ const SkillsClient = ({ skills1, skills2 }: SkillsClientProps) => {
         </motion.div>
 
         {/* Skills Proficiency Summary - Compact Heat Map */}
-        <SkillProficiencySummary skillsHierarchy={[skills1, skills2]} />
+        <SkillProficiencySummary skillsHierarchy={skillsHierarchy} />
 
         {/* Search Toolbar with Level Filters */}
         <UnifiedToolbar

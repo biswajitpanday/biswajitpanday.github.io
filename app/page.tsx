@@ -1,23 +1,49 @@
-import { fetchTestimonials, fetchCertifications } from "@/lib/api-client";
+import {
+  fetchTestimonials,
+  fetchCertifications,
+  fetchProjects,
+  fetchTimeline,
+  fetchSkillHierarchy,
+} from "@/lib/api-client";
 import HomeClient from "@/components/HomeClient";
-import type { TestimonialData, Certification } from "@/types/api";
+import type { TestimonialData, Certification, Project, TimelineEntry } from "@/types/api";
+
+interface SkillHierarchyNode {
+  name: string;
+  metadata?: {
+    icon?: string;
+    level?: string;
+    yearsOfExperience?: number;
+    lastUsed?: string;
+  };
+  children?: SkillHierarchyNode[];
+}
 
 /**
  * Homepage - Server Component
  *
- * Fetches testimonials and featured certification from portfolio-admin API at build time (SSG).
+ * Fetches testimonials, certifications, projects, timeline, and skills from portfolio-admin API at build time (SSG).
  * Passes data to client component for interactive features.
  */
 export default async function HomePage() {
   let testimonials: TestimonialData[] = [];
   let featuredCertification: Certification | null = null;
+  let projects: Project[] = [];
+  let certifications: Certification[] = [];
+  let timeline: TimelineEntry[] = [];
+  let skillsHierarchy: SkillHierarchyNode[] = [];
 
   try {
-    // Fetch testimonials from admin API
-    testimonials = await fetchTestimonials();
+    // Fetch all data from admin API in parallel
+    [testimonials, certifications, projects, timeline, skillsHierarchy] = await Promise.all([
+      fetchTestimonials(),
+      fetchCertifications(),
+      fetchProjects(),
+      fetchTimeline(),
+      fetchSkillHierarchy(),
+    ]);
 
-    // Fetch certifications and get the most recent featured one
-    const certifications = await fetchCertifications();
+    // Get the most recent featured certification
     const featuredCerts = certifications
       .filter(cert => cert.featured && !cert.isUpcoming)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -28,7 +54,20 @@ export default async function HomePage() {
     // Fallback to defaults
     testimonials = [];
     featuredCertification = null;
+    projects = [];
+    certifications = [];
+    timeline = [];
+    skillsHierarchy = [];
   }
 
-  return <HomeClient testimonials={testimonials} featuredCertification={featuredCertification} />;
+  return (
+    <HomeClient
+      testimonials={testimonials}
+      featuredCertification={featuredCertification}
+      projects={projects}
+      certifications={certifications}
+      timeline={timeline}
+      skillsHierarchy={skillsHierarchy}
+    />
+  );
 }

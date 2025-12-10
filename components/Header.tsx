@@ -15,6 +15,18 @@ import {
 import { AnimatePresence } from "framer-motion";
 import MobileNav from "./MobileNav";
 import GlobalSearch from "./GlobalSearch";
+import type { Project, Certification } from "@/types/api";
+
+interface SkillHierarchyNode {
+  name: string;
+  metadata?: {
+    icon?: string;
+    level?: string;
+    yearsOfExperience?: number;
+    lastUsed?: string;
+  };
+  children?: SkillHierarchyNode[];
+}
 
 /**
  * Header - Accessible site header with navigation
@@ -38,7 +50,13 @@ const SOCIAL_LINKS = [
   { name: "LinkedIn", href: "https://www.linkedin.com/in/biswajitpanday", icon: FaLinkedin },
 ];
 
-export default function Header() {
+interface HeaderProps {
+  projects: Project[];
+  certifications: Certification[];
+  skillsHierarchy: SkillHierarchyNode[];
+}
+
+export default function Header({ projects, certifications, skillsHierarchy }: HeaderProps) {
   const pathname = usePathname();
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -312,9 +330,12 @@ export default function Header() {
 
       {/* Global Search Modal - Conditionally Rendered */}
       {isSearchEnabled && (
-        <GlobalSearch 
-          isOpen={isSearchOpen} 
-          onClose={() => setIsSearchOpen(false)} 
+        <GlobalSearch
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+          projects={projects}
+          certifications={certifications}
+          skillsHierarchy={skillsHierarchy}
         />
       )}
       

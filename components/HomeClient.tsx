@@ -3,7 +3,7 @@ import { lazy, Suspense, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 import { motion } from "framer-motion";
-import type { Certification, TestimonialData } from "@/types/api";
+import type { Certification, TestimonialData, Project, TimelineEntry } from "@/types/api";
 import FeaturedCertificationCard from "@/components/FeaturedCertificationCard";
 import BackgroundElements from "@/components/BackgroundElements";
 import Badge from "@/components/Badge";
@@ -21,6 +21,17 @@ import { RiRobot3Fill } from "react-icons/ri";
 import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import { TbPlane } from "react-icons/tb";
 
+interface SkillHierarchyNode {
+  name: string;
+  metadata?: {
+    icon?: string;
+    level?: string;
+    yearsOfExperience?: number;
+    lastUsed?: string;
+  };
+  children?: SkillHierarchyNode[];
+}
+
 // Typing animation phrases
 const HERO_PHRASES = [
   "I build scalable enterprise systems",
@@ -31,8 +42,7 @@ const HERO_PHRASES = [
 
 // Lazy load only non-critical below-the-fold components
 const Socials = lazy(() => import("@/components/Socials"));
-// Temporarily disabled - needs API data migration
-// const ByTheNumbersDashboard = lazy(() => import("@/components/ByTheNumbersDashboard"));
+const ByTheNumbersDashboard = lazy(() => import("@/components/ByTheNumbersDashboard"));
 const TestimonialsCarousel = lazy(() => import("@/components/TestimonialsCarousel"));
 const GitHubActivityGraph = lazy(() => import("@/components/GitHubActivityGraph"));
 const MediumBlogPreview = lazy(() => import("@/components/MediumBlogPreview"));
@@ -47,9 +57,20 @@ const ComponentFallback = ({ className }: { className?: string }) => (
 interface HomeClientProps {
   testimonials: TestimonialData[];
   featuredCertification: Certification | null;
+  projects: Project[];
+  certifications: Certification[];
+  timeline: TimelineEntry[];
+  skillsHierarchy: SkillHierarchyNode[];
 }
 
-const HomeClient = ({ testimonials, featuredCertification }: HomeClientProps) => {
+const HomeClient = ({
+  testimonials,
+  featuredCertification,
+  projects,
+  certifications,
+  timeline,
+  skillsHierarchy,
+}: HomeClientProps) => {
   // Track if component is mounted (client-side) for conditional animations
   const [isMounted, setIsMounted] = useState(false);
   const [pageLoadTime, setPageLoadTime] = useState(0);
@@ -382,6 +403,14 @@ const HomeClient = ({ testimonials, featuredCertification }: HomeClientProps) =>
         </motion.section> */}
 
         {/* By The Numbers Dashboard - Primary Stats Display */}
+        <Suspense fallback={<ComponentFallback className="w-full h-24" />}>
+          <ByTheNumbersDashboard
+            projects={projects}
+            certifications={certifications}
+            timeline={timeline}
+            skillsHierarchy={skillsHierarchy}
+          />
+        </Suspense>
 
         {/* GitHub Activity - Shows Active Development (MOVED UP for visibility) */}
         <Suspense fallback={<ComponentFallback className="w-full h-64" />}>

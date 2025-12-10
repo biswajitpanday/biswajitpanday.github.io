@@ -1,19 +1,27 @@
-// Temporarily disabled - needs API data migration
 "use client";
 
 import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaTimes, FaExternalLinkAlt, FaCode, FaBriefcase, FaAward } from "react-icons/fa";
 import EmptyState from "@/components/ui/EmptyState";
-// import { projects } from "@/types/api";
-// import { skills1, skills2 } from "@/types/api";
-// import { certifications } from "@/types/api";
+import type { Project, Certification } from "@/types/api";
 import Link from "next/link";
 
 /**
  * GlobalSearch - Accessible global search modal
  * WCAG 2.1 AA compliant with focus management, keyboard navigation, and live regions
  */
+
+interface SkillHierarchyNode {
+  name: string;
+  metadata?: {
+    icon?: string;
+    level?: string;
+    yearsOfExperience?: number;
+    lastUsed?: string;
+  };
+  children?: SkillHierarchyNode[];
+}
 
 interface SearchResult {
   id: string;
@@ -25,29 +33,101 @@ interface SearchResult {
   icon: React.ReactNode;
 }
 
-// Prepare searchable data
-// Prepare searchable data
-const prepareSearchableData = (): SearchResult[] => {
-  const results: SearchResult[] = [];
-  
-  // Temporarily disabled - requires refactoring to accept data from props
-  // TODO: Update to receive projects, certifications, and skills from parent component
-  
-  return results;
-};
-
 interface GlobalSearchProps {
   isOpen: boolean;
   onClose: () => void;
+  projects: Project[];
+  certifications: Certification[];
+  skillsHierarchy: SkillHierarchyNode[];
 }
 
-const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
+const GlobalSearch: React.FC<GlobalSearchProps> = ({
+  isOpen,
+  onClose,
+  projects,
+  certifications,
+  skillsHierarchy
+}) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Prepare searchable data from props
+  const prepareSearchableData = (): SearchResult[] => {
+    const results: SearchResult[] = [];
+
+    // Add projects
+    projects.forEach(project => {
+      results.push({
+        id: `project-${project._id}`,
+        title: project.title,
+        description: project.shortDescription,
+        type: "project",
+        url: `/projects#${project.title.toLowerCase().replace(/\s+/g, '-')}`,
+        category: project.category,
+        icon: <FaCode className="text-emerald-400" />
+      });
+    });
+
+    // Add certifications
+    certifications.forEach(cert => {
+      results.push({
+        id: `cert-${cert._id}`,
+        title: cert.name,
+        description: `${cert.issuer} - ${cert.category}`,
+        type: "certification",
+        url: `/certifications#${cert.name.toLowerCase().replace(/\s+/g, '-')}`,
+        category: cert.category,
+        icon: <FaAward className="text-purple-400" />
+      });
+    });
+
+    // Add skills (extract leaf nodes from hierarchy)
+    const extractSkills = (node: SkillHierarchyNode, parentCategory?: string): void => {
+      if (node.children && node.children.length > 0) {
+        node.children.forEach(child => extractSkills(child, node.name));
+      } else if (node.metadata?.level) {
+        // This is a skill with proficiency level
+        results.push({
+          id: `skill-${node.name}`,
+          title: node.name,
+          description: `${node.metadata.level}${node.metadata.yearsOfExperience ? ` • ${node.metadata.yearsOfExperience} years` : ''}`,
+          type: "skill",
+          url: `/skills#${node.name.toLowerCase().replace(/\s+/g, '-')}`,
+          category: parentCategory,
+          icon: <FaBriefcase className="text-blue-400" />
+        });
+      }
+    };
+
+    skillsHierarchy.forEach(category => extractSkills(category));
+
+    // Add static pages
+    const pages = [
+      { title: "Projects", description: "View all my projects", url: "/projects" },
+      { title: "Skills", description: "Explore my technical skills", url: "/skills" },
+      { title: "Certifications", description: "Professional certifications", url: "/certifications" },
+      { title: "Career", description: "My career timeline", url: "/career" },
+      { title: "Activity", description: "GitHub activity", url: "/activity" },
+      { title: "Contact", description: "Get in touch", url: "/contact" },
+    ];
+
+    pages.forEach(page => {
+      results.push({
+        id: `page-${page.url}`,
+        title: page.title,
+        description: page.description,
+        type: "page",
+        url: page.url,
+        icon: <FaExternalLinkAlt className="text-cyan-400" />
+      });
+    });
+
+    return results;
+  };
+
   // Memoize searchable data to prevent recreation on every render
-  const searchableData = useMemo(() => prepareSearchableData(), []);
+  const searchableData = useMemo(() => prepareSearchableData(), [projects, certifications, skillsHierarchy]);
 
   // Focus input when modal opens
   useEffect(() => {
