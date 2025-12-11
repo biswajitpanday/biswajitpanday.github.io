@@ -47,70 +47,6 @@ const levelToIcon = {
   'Familiar': '⚪',
 };
 
-// Technology icon mapping - same as SkillsHeatMapModal
-const getTechnologyIcon = (techName: string) => {
-  const iconMap: Record<string, string> = {
-    // .NET Technologies
-    'ASP.NET Core': 'SiDotnet',
-    'ASP.NET MVC': 'SiDotnet',
-    '.NET Core/.NET 6/7/8/9': 'SiDotnet',
-    'C#': 'TbBrandCSharp',
-
-    // JavaScript/TypeScript Frameworks
-    'React': 'FaReact',
-    'Next.js': 'SiNextdotjs',
-    'Angular': 'FaAngular',
-    'Vue.js': 'FaVuejs',
-    'Express.js': 'SiExpress',
-    'Node.js': 'FaNodeJs',
-    'NestJS': 'SiNestjs',
-    'Blazor': 'SiDotnet',
-
-    // Languages
-    'JavaScript': 'FaJs',
-    'TypeScript': 'SiTypescript',
-    'Python': 'FaPython',
-    'Java': 'FaJava',
-
-    // Cloud & Infrastructure
-    'Azure': 'SiMicrosoftazure',
-    'AWS': 'FaAws',
-    'Docker': 'FaDocker',
-    'Kubernetes': 'SiKubernetes',
-
-    // Databases
-    'MongoDB': 'SiMongodb',
-    'PostgreSQL': 'SiPostgresql',
-    'MySQL': 'SiMysql',
-    'SQL Server': 'FaDatabase',
-    'Redis': 'SiRedis',
-    'DynamoDB': 'FaDatabase',
-    'CosmosDB': 'FaDatabase',
-
-    // Message Queues & APIs
-    'RabbitMQ': 'SiRabbitmq',
-    'Kafka': 'SiKafka',
-    'GraphQL': 'SiGraphql',
-    'REST API Design': 'FaCode',
-    'LINQ': 'FaCode',
-
-    // Search
-    'Elasticsearch': 'SiElasticsearch',
-
-    // Patterns & Methodologies
-    'Domain Driven Design': 'FaSitemap',
-    'Microservices': 'FaSitemap',
-    'CQRS': 'FaSitemap',
-    'Serverless': 'FaServer',
-    'Event Sourcing': 'FaSitemap',
-    'Agile': 'FaTasks',
-    'Scrum': 'FaTasks',
-    'Kanban': 'FaTasks',
-  };
-
-  return iconMap[techName] || 'FaCode'; // Default icon
-};
-
 interface SkillProficiencySummaryProps {
   skillsHierarchy: SkillNode[];
 }
@@ -245,7 +181,7 @@ export default function SkillProficiencySummary({ skillsHierarchy }: SkillProfic
             const level = skill.metadata?.level || 'Familiar';
             const colorClass = levelToColor[level];
             const experience = skill.metadata?.yearsOfExperience;
-            const iconName = getTechnologyIcon(skill.name);
+            const iconName = skill.metadata?.icon || 'FaCode'; // Use icon from metadata
 
             // Determine if skill is in first row for smart tooltip positioning
             const isInFirstRow = index < 6; // 6 columns in lg breakpoint

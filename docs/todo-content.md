@@ -1,10 +1,10 @@
 # Portfolio Content Improvement Plan
 
-**Version:** 7.0 (Homepage Optimization & Performance - Phase 33 Complete)
+**Version:** 8.0 (V2 Schema Integration - Phase 35 Planned)
 **Created:** 2025-11-13
-**Last Updated:** 2025-12-03
-**Type:** UX Optimization & Performance Enhancement
-**Current Focus:** Phase 34 - Performance & Analytics
+**Last Updated:** 2025-12-12
+**Type:** Infrastructure Upgrade & V2 Integration
+**Current Focus:** Phase 35 - V2 Schema & API Integration 🚀
 
 > **Note:** For completed phases (Phase 1-29) see `CompletedPhases.md`
 
@@ -30,7 +30,8 @@
 | **Recruiter Readiness** | 10/10 | Excellent - Clear intent & CTAs visible |
 | **Content Volume** | Optimized | 6 sections, 25% shorter homepage |
 | **Accessibility** | WCAG 2.1 AA | Full compliance |
-| **Current Phase** | Phase 34 | Performance & Analytics Enhancement |
+| **API Integration** | V1 → V2 | Phase 35: Schema migration in progress |
+| **Current Phase** | Phase 35 | V2 Schema & API Integration 🚀 |
 
 ### Key Issues Identified (2025-12-01 Review)
 
@@ -87,6 +88,7 @@
 - **Phase 33** (3 tasks) - Homepage Optimization (Gradient reduction, Blog integration, Content reordering)
 
 **Total Completed:** 188 tasks | **Effort:** ~181 hours
+**Next Phase:** 27 tasks | **Effort:** ~25-30 hours (Phase 35: V2 Integration)
 
 ---
 
@@ -490,6 +492,83 @@ Optimize Core Web Vitals, improve Lighthouse scores, implement advanced analytic
 
 ---
 
+## PHASE 35: V2 SCHEMA & API INTEGRATION 🚀
+
+**Status:** ⏳ PLANNED (0/27 tasks - 0%)
+**Priority:** HIGH - Critical infrastructure upgrade
+**Effort:** ~25-30 hours
+**Impact:** Full V2 feature support, improved data model
+**API:** `https://portfolio-admin-blue.vercel.app/api/public/*`
+
+### Purpose
+Migrate portfolio website to consume V2 schema and APIs from `portfolio-admin`. Integrate all V2 features including project metrics, case studies, recognition, flexible certifications, flat skills structure, timeline enhancements, and custom ordering.
+
+### Key Changes
+
+**Schema Migrations:**
+- **Projects:** Add `isCurrent` flag, make `longDescription` optional
+- **Certifications:** Add `order` field for custom sorting
+- **Skills:** ⚠️ **MAJOR CHANGE** - Migrate from hierarchical `SkillTree` to flat `SkillType` + `SkillItem`
+- **Timeline:** Add `address` and `isCurrent` fields
+- **Testimonials/Blog:** Add `order` field for custom sorting
+- **All Types:** Remove custom `id` field (use `_id` only)
+
+### Epics Breakdown
+
+**Epic 1: Type Definitions (6 tasks, 2-3h)**
+- Update Project, Certification, Skills, Timeline, Testimonial, Blog types
+- Remove custom `id` fields, add V2 fields
+
+**Epic 2: API Service Layer (3 tasks, 3-4h)**
+- Update API base URL configuration
+- Update skills API service (major change)
+- Add error handling for new fields
+
+**Epic 3: Projects Components (5 tasks, 4-5h)**
+- ProjectCard: Add `isCurrent` badge
+- ProjectModal: Display metrics, case studies, recognition
+- ProjectTimeline: Show current projects
+
+**Epic 4: Certifications Components (2 tasks, 2h)**
+- Use `order` for sorting
+- Display certification numbers
+
+**Epic 5: Skills Components - MAJOR (4 tasks, 8-10h)**
+- Migrate skills page to flat structure
+- Update SkillsClient data transformation
+- Update skills filters
+- Display last used dates
+
+**Epic 6: Timeline Components (2 tasks, 2h)**
+- Display address field
+- Show current position indicator
+
+**Epic 7: Testimonials & Blog (2 tasks, 1h)**
+- Use `order` field for sorting
+
+**Epic 8: Testing & Validation (3 tasks, 3-4h)**
+- Test all API endpoints
+- Test component rendering
+- Validate backward compatibility
+
+### Implementation Order
+1. **Phase 1:** Types + API Services (HIGH priority, ~5-7h)
+2. **Phase 2:** Skills Migration (HIGH priority, ~8-10h) ⚠️ Most complex
+3. **Phase 3:** Projects/Certs/Timeline (MEDIUM, ~8-9h)
+4. **Phase 4:** Testing (HIGH, ~3-4h)
+
+### Success Metrics
+- ✅ All 27 tasks completed
+- ✅ Skills page works with flat structure
+- ✅ Project metrics/case studies display
+- ✅ All TypeScript errors resolved
+- ✅ Zero console errors
+- ✅ ~20-25 files updated
+
+**📄 Full Details:** See `docs/phase-35-plan.md` for complete task breakdown
+
+---
+
 ### Task 34.1: Lighthouse Score Optimization
 
 **Priority:** HIGH
@@ -818,6 +897,7 @@ Optimize Core Web Vitals, improve Lighthouse scores, implement advanced analytic
 | **32** | MEDIUM | ✅ COMPLETE | 2/3 tasks (32.1 skipped by user) |
 | **33** | MEDIUM | ✅ COMPLETE | 3/5 tasks (33.1, 33.2, 33.4 rejected) |
 | **34** | MEDIUM | ⏳ PLANNED | 0/8 tasks - Performance & Analytics focus |
+| **35** | HIGH | ⏳ PLANNED | 0/27 tasks - V2 Schema & API Integration 🚀 |
 
 ---
 
