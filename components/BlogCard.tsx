@@ -40,8 +40,8 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, index = 0, variant = "default
         variant === "compact" ? "p-4" : "p-6"
       }`}
     >
-      {/* Featured Badge */}
-      {post.featured && (
+      {/* Featured Badge - V2: Use order field to determine featured (order < 5) */}
+      {post.order < 5 && (
         <div className="absolute top-4 right-4 z-10">
           <span className="px-2 py-1 text-xs font-semibold bg-gradient-to-r from-secondary-default to-blue-500 text-white rounded-full">
             Featured
@@ -56,24 +56,12 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, index = 0, variant = "default
         >
           {post.category}
         </span>
-        {post.externalUrl && (
-          <span className="text-xs text-white/40 flex items-center gap-1">
-            <FaExternalLinkAlt className="text-[10px]" />
-            External
-          </span>
-        )}
       </div>
 
-      {/* Title & Subtitle */}
-      <h3 className="text-lg font-bold text-white mb-2 group-hover:text-secondary-default transition-colors line-clamp-2">
+      {/* Title */}
+      <h3 className="text-lg font-bold text-white mb-3 group-hover:text-secondary-default transition-colors line-clamp-2">
         {post.title}
       </h3>
-
-      {variant === "default" && (
-        <p className="text-sm text-secondary-default/70 mb-3 line-clamp-1">
-          {post.subtitle}
-        </p>
-      )}
 
       {/* Excerpt */}
       <p className={`text-sm text-white/60 leading-relaxed mb-4 ${variant === "compact" ? "line-clamp-2" : "line-clamp-3"}`}>
@@ -102,14 +90,18 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, index = 0, variant = "default
       {/* Footer */}
       <div className="flex items-center justify-between pt-4 border-t border-white/10">
         <div className="flex items-center gap-4 text-xs text-white/50">
-          <span className="flex items-center gap-1.5">
-            <FaCalendar className="text-[10px]" />
-            {formatDate(post.publishedDate)}
-          </span>
-          <span className="flex items-center gap-1.5">
-            <FaClock className="text-[10px]" />
-            {post.readTime} min read
-          </span>
+          {post.publishedAt && (
+            <span className="flex items-center gap-1.5">
+              <FaCalendar className="text-[10px]" />
+              {formatDate(new Date(post.publishedAt))}
+            </span>
+          )}
+          {post.readingTime && (
+            <span className="flex items-center gap-1.5">
+              <FaClock className="text-[10px]" />
+              {post.readingTime} min read
+            </span>
+          )}
         </div>
 
         {/* Read More Link */}

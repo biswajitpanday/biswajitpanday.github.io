@@ -55,10 +55,10 @@ const UpcomingCertification: React.FC<UpcomingCertificationProps> = ({
   // Use a deterministic progress percentage based on the certification ID to avoid hydration mismatches
   const progressPercentage = useMemo(() => {
     // Generate a number between 30-70% based on the certification ID
-    const idString = certification.id.toString();
+    const idString = certification._id.toString();
     const idSum = idString.split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
     return 30 + (idSum % 40); // 30-70% range
-  }, [certification.id]);
+  }, [certification._id]);
 
   return (
     <motion.div

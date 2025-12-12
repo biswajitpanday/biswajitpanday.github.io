@@ -50,7 +50,7 @@ const CareerClient = ({ timeline }: CareerClientProps) => {
           },
           {
             size: "sm",
-            color: "emerald",
+            color: "blue",
             animation: "pulse",
             position: { bottom: "20%", left: "15%" },
             opacity: 40

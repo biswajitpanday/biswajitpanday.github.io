@@ -115,7 +115,7 @@ const CertificationTimeline: React.FC<CertificationTimelineProps> = ({
 
           return (
             <motion.div
-              key={cert.id}
+              key={cert._id}
               variants={PERFORMANCE_VARIANTS.cardSync}
               custom={index}
               className={`min-w-[220px] max-w-[260px] bg-gradient-to-b rounded-lg transition-colors duration-300 flex flex-col shadow-sm will-change-transform ${

@@ -39,6 +39,7 @@ import {
   StatusBadge,
   FeaturedBadge,
   PrimaryMetricBadge,
+  CurrentBadge,
   BadgeSeparator,
   SectionHeader,
   TechStack,
@@ -83,17 +84,14 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
   if (!project) return null;
 
-  const formatDateRange = (startDate: Date, endDate: Date) => {
+  const formatDateRange = (startDate: Date, endDate: Date, isCurrent?: boolean) => {
     const start = startDate.toLocaleDateString('en-US', {
       month: 'short',
       year: 'numeric'
     });
 
-    // Check if endDate is current date (ongoing project)
-    const now = new Date();
-    const isOngoing = Math.abs(endDate.getTime() - now.getTime()) < 24 * 60 * 60 * 1000; // Within 24 hours
-
-    if (isOngoing) {
+    // V2: Use isCurrent flag to determine if project is ongoing
+    if (isCurrent) {
       return `${start} - Present`;
     }
 
@@ -206,6 +204,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                   {project.isFeatured ? (
                     <FeaturedBadge variant="text" />
+                  ) : project.isCurrent ? (
+                    <CurrentBadge variant="text" />
                   ) : (
                     <div className="hidden sm:block" />
                   )}

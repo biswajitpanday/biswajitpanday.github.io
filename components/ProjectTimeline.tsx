@@ -14,6 +14,7 @@ import {
   StatusBadge,
   FeaturedBadge,
   PrimaryMetricBadge,
+  CurrentBadge,
   BadgeSeparator,
   BadgeRow,
   TechStack,
@@ -189,13 +190,20 @@ export default function ProjectTimeline({ projects, selectedTech, onOpenModal }:
                         <BadgeRow>
                           <CategoryBadge category={project.category} />
 
-                          {(project.isOpenSource || (project.recognition && project.recognition.length > 0) || isFeatured || primaryMetric) && (
+                          {(project.isOpenSource || project.isCurrent || (project.recognition && project.recognition.length > 0) || isFeatured || primaryMetric) && (
                             <BadgeSeparator />
                           )}
 
                           {project.isOpenSource && (
                             <>
                               <OpenSourceBadge variant="icon" />
+                              <BadgeSeparator />
+                            </>
+                          )}
+
+                          {project.isCurrent && (
+                            <>
+                              <CurrentBadge variant="text" />
                               <BadgeSeparator />
                             </>
                           )}

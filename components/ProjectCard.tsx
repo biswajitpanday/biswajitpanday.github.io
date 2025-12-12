@@ -14,6 +14,7 @@ import {
   StatusBadgeIcon,
   FeaturedBadge,
   PrimaryMetricBadge,
+  CurrentBadge,
   BadgeSeparator,
   BadgeRow,
   TechStack,
@@ -110,6 +111,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Badge Overlay - Top Right Corner - Icons Only with Tooltips */}
         <div className="absolute top-2 right-2 flex flex-row gap-2 items-center">
           {isFeatured && <FeaturedBadge variant="icon" />}
+          {project.isCurrent && <CurrentBadge variant="icon" />}
           <div data-testid={`project-status-${project.isActive ? 'active' : 'inactive'}-${project.num}`}>
             <StatusBadgeIcon
               isActive={project.isActive}

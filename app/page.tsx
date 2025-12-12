@@ -4,6 +4,7 @@ import {
   fetchProjects,
   fetchTimeline,
   fetchSkillHierarchy,
+  v2Helpers,
 } from "@/lib/api-client";
 import HomeClient from "@/components/HomeClient";
 import type { TestimonialData, Certification, Project, TimelineEntry } from "@/types/api";
@@ -42,6 +43,13 @@ export default async function HomePage() {
       fetchTimeline(),
       fetchSkillHierarchy(),
     ]);
+
+    // V2: Sort testimonials by order field (lower order = higher priority)
+    testimonials = testimonials.sort((a, b) => {
+      const aOrder = v2Helpers.getTestimonialOrder(a);
+      const bOrder = v2Helpers.getTestimonialOrder(b);
+      return aOrder - bOrder;
+    });
 
     // Get the most recent featured certification
     const featuredCerts = certifications

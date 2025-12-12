@@ -278,6 +278,37 @@ export function PrimaryMetricBadge({
 }
 
 /**
+ * Current Project Badge - Indicates ongoing project work
+ */
+export function CurrentBadge({ variant = "text" }: { variant?: "icon" | "text" }) {
+  if (variant === "icon") {
+    return (
+      <SimpleTooltip content="Currently Working On This" position="bottom" colorScheme="emerald">
+        <div
+          className="bg-emerald-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center cursor-help flex-shrink-0"
+          role="img"
+          aria-label="Currently Working On This Project"
+        >
+          <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse flex-shrink-0" aria-hidden="true" />
+          <span className="sr-only">Currently Working On This Project</span>
+        </div>
+      </SimpleTooltip>
+    );
+  }
+
+  return (
+    <span
+      className="inline-flex items-center justify-center gap-1.5 bg-emerald-500/20 border border-emerald-500/50 text-emerald-300 px-2 py-1 rounded-md text-xs font-semibold shadow-sm flex-shrink-0"
+      role="status"
+      aria-label="Currently Working On This Project"
+    >
+      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" aria-hidden="true" />
+      <span className="leading-none">Current</span>
+    </span>
+  );
+}
+
+/**
  * Company Logo/Icon - Shows company association
  */
 export function CompanyIcon({ company }: { company: string }) {

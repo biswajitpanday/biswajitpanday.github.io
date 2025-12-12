@@ -39,7 +39,7 @@ const UpcomingCertificationsSection: React.FC<UpcomingCertificationsSectionProps
       <div className="flex flex-col gap-4">
         {certifications.map((certification) => (
           <UpcomingCertification
-            key={certification.id}
+            key={certification._id}
             certification={certification}
           />
         ))}

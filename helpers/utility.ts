@@ -59,12 +59,12 @@ export const getDuration = (startDate: Date, endDate: Date) => {
   return calculateDuration(startDate, endDate);
 };
 
-export const calculateTotalExperience = (positions: Array<{startDate: Date, endDate: Date}>) => {
+export const calculateTotalExperience = (positions: Array<{startDate: Date | string, endDate?: Date | string}>) => {
   let totalMonths = 0;
   
   positions.forEach(position => {
     const start = new Date(position.startDate);
-    const end = new Date(position.endDate);
+    const end = position.endDate ? new Date(position.endDate) : new Date(); // V2: Use current date if endDate not provided
     
     let years = end.getFullYear() - start.getFullYear();
     let months = end.getMonth() - start.getMonth();

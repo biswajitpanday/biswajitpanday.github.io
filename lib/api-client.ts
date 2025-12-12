@@ -3,9 +3,43 @@
  *
  * Fetches data from the deployed portfolio-admin API at build time (SSG).
  * All endpoints are public and CORS-enabled for GitHub Pages.
+ *
+ * V2 Schema Integration:
+ * - All custom `id` fields removed (use `_id` only)
+ * - Projects: Added `isCurrent`, `longDescription` is now optional
+ * - Certifications: Added `order` for custom sorting
+ * - Skills: Flat structure (SkillType[] with nested SkillItem[])
+ * - Timeline: Added `address` and `isCurrent`
+ * - Testimonials/Blog: Added `order` for custom sorting
  */
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://portfolio-admin-blue.vercel.app';
+
+/**
+ * V2 Field Helpers - Safe access to optional V2 fields
+ */
+export const v2Helpers = {
+  /** Get project status (current or completed) */
+  isCurrentProject: (project: any) => project?.isCurrent ?? false,
+
+  /** Get certification order (fallback to 0) */
+  getCertOrder: (cert: any) => cert?.order ?? 0,
+
+  /** Get skill type order (fallback to 0) */
+  getSkillOrder: (skill: any) => skill?.order ?? 0,
+
+  /** Get timeline address (fallback to location) */
+  getAddress: (timeline: any) => timeline?.address ?? timeline?.location ?? '',
+
+  /** Check if timeline entry is current position */
+  isCurrentPosition: (timeline: any) => timeline?.isCurrent ?? false,
+
+  /** Get testimonial order (fallback to 0) */
+  getTestimonialOrder: (testimonial: any) => testimonial?.order ?? 0,
+
+  /** Get blog post order (fallback to 0) */
+  getBlogOrder: (post: any) => post?.order ?? 0,
+};
 
 /**
  * Generic fetch wrapper with error handling
@@ -114,9 +148,15 @@ export async function fetchCertifications(params?: {
 
 /**
  * Fetch skill hierarchy
+ * V2: Returns flat SkillType[] with nested SkillItem[]
+ * Structure: [{ _id, name, order, icon, skills: [{ _id, name, level, ... }] }]
  */
 export async function fetchSkillHierarchy() {
-  return fetchAPI<any[]>('/api/public/skill-hierarchy');
+  const skillTypes = await fetchAPI<any[]>('/api/public/skill-hierarchy');
+
+  // V2: Data comes as flat SkillType[] with populated skills
+  // No transformation needed - return as-is
+  return skillTypes;
 }
 
 /**

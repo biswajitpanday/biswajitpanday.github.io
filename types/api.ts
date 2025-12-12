@@ -60,12 +60,11 @@ export interface Recognition {
 
 export interface Project {
   _id: string;
-  id?: string;
   num: number;
   category: string;
   title: string;
   subtitle?: string;
-  longDescription: string;
+  longDescription?: string; // V2: Made optional
   shortDescription: string;
   stacks: string[];
   image: string;
@@ -80,6 +79,7 @@ export interface Project {
   jobRole: string;
   startDate: string;
   endDate: string;
+  isCurrent?: boolean; // V2: For ongoing projects
   inactivationReason?: string | null;
   responsibilities?: string[];
   metrics?: ProjectMetrics;
@@ -96,10 +96,9 @@ export interface Project {
 
 export interface Certification {
   _id: string;
-  id: string;
   name: string;
   issuer: string;
-  date: string;
+  date: string; // V2: Supports YYYY, YYYY-MM, YYYY-MM-DD formats
   expiryDate?: string;
   credentialId?: string;
   link?: string;
@@ -115,35 +114,47 @@ export interface Certification {
   status?: string;
   onlineVerifiable?: boolean;
   certificationNumber?: string;
+  order: number; // V2: Custom ordering
   createdAt?: string;
   updatedAt?: string;
   __v?: number;
 }
 
 // ==================== SKILLS ====================
+// V2: Flat structure with SkillType + SkillItem (no more hierarchical SkillTree)
 
-export interface SkillItem {
+export interface SkillType {
   _id: string;
-  id: string;
   name: string;
-  level: string;
-  yearsOfExperience?: number;
-  lastUsed?: string;
-  icon?: string;
+  parentSkillType?: {
+    _id: string;
+    name: string;
+  } | null;
   order: number;
+  icon?: string;
+  description?: string;
+  isActive: boolean;
+  skills?: SkillItem[]; // Populated skills for this type
   createdAt?: string;
   updatedAt?: string;
   __v?: number;
 }
 
-export interface SkillCategory {
+export interface SkillItem {
   _id: string;
-  id: string;
   name: string;
+  skillType: {
+    _id: string;
+    name: string;
+  };
+  level: 'Expert' | 'Advanced' | 'Intermediate' | 'Familiar';
+  yearsOfExperience?: number;
+  lastUsed?: string; // V2: Date type (ISO string from API)
   icon?: string;
+  description?: string;
   order: number;
-  skills?: SkillItem[];
-  children?: SkillCategory[];
+  isActive: boolean;
+  isFeatured: boolean;
   createdAt?: string;
   updatedAt?: string;
   __v?: number;
@@ -153,12 +164,13 @@ export interface SkillCategory {
 
 export interface TimelineEntry {
   _id: string;
-  id?: string;
   position: string;
   company: string;
   location: string;
+  address?: string; // V2: Work location address
   startDate: string;
-  endDate?: string;
+  endDate?: string; // Optional when isCurrent = true
+  isCurrent?: boolean; // V2: Current position flag
   responsibilities: string[];
   icon?: string;
   url?: string;
@@ -172,12 +184,12 @@ export interface TimelineEntry {
 
 export interface TestimonialData {
   _id: string;
-  id?: string;
   quote: string;
   author: string;
   role: string;
   company?: string;
   linkedinUrl?: string;
+  order: number; // V2: Custom ordering
   shouldPublish: boolean;
   isSampleData?: boolean;
   createdAt?: string;
@@ -189,7 +201,6 @@ export interface TestimonialData {
 
 export interface BlogPost {
   _id: string;
-  id?: string;
   title: string;
   slug: string;
   excerpt: string;
@@ -206,6 +217,7 @@ export interface BlogPost {
   updatedAt?: string;
   isPublished: boolean;
   readingTime?: number;
+  order: number; // V2: Custom ordering
   createdAt?: string;
   __v?: number;
 }

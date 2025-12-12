@@ -14,6 +14,7 @@ import UpcomingCertificationsSection from "@/components/UpcomingCertificationsSe
 import CertificationTimeline from "@/components/CertificationTimeline";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import { useCountUp } from "@/hooks/useCountUp";
+import { v2Helpers } from "@/lib/api-client";
 
 interface CertificationsClientProps {
   certifications: Certification[];
@@ -26,7 +27,22 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
   const getMostRecentCertification = (): Certification => {
     return certifications
       .filter(cert => cert.featured && !cert.isUpcoming)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+      .sort((a, b) => {
+        // V2: Sort by order first, then by date
+        const aOrder = v2Helpers.getCertOrder(a);
+        const bOrder = v2Helpers.getCertOrder(b);
+
+        // If both have order values, use them (lower order = higher priority)
+        if (aOrder > 0 && bOrder > 0) {
+          return aOrder - bOrder;
+        }
+        // If only one has order, prioritize it
+        if (aOrder > 0 && bOrder === 0) return -1;
+        if (aOrder === 0 && bOrder > 0) return 1;
+
+        // Fallback to date sorting
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      })[0];
   };
 
   const getProfessionalCertifications = (): Certification[] => {
@@ -127,7 +143,7 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
   
   // Get important certifications for initial display
   const getImportantCertifications = (certs: Certification[]): Certification[] => {
-    // Sort by priority: showByDefault > Featured + Professional > Professional > Other categories by date
+    // V2: Sort by priority: showByDefault > order (custom) > Featured + Professional > Professional > Other categories by date
     const sortedCerts = [...certs].sort((a, b) => {
       // Priority 0: showByDefault flag (highest priority)
       const aShowByDefault = a.showByDefault === true;
@@ -136,21 +152,33 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
       if (aShowByDefault && !bShowByDefault) return -1;
       if (!aShowByDefault && bShowByDefault) return 1;
 
-      // Priority 1: Featured + Professional
+      // Priority 1: V2 order field (custom ordering)
+      const aOrder = v2Helpers.getCertOrder(a);
+      const bOrder = v2Helpers.getCertOrder(b);
+
+      // If both have non-zero order values, sort by order ascending (lower order = higher priority)
+      if (aOrder > 0 && bOrder > 0) {
+        return aOrder - bOrder;
+      }
+      // If only one has order, prioritize it
+      if (aOrder > 0 && bOrder === 0) return -1;
+      if (aOrder === 0 && bOrder > 0) return 1;
+
+      // Priority 2: Featured + Professional
       const aIsFeaturedProfessional = a.featured && a.category === "Professional";
       const bIsFeaturedProfessional = b.featured && b.category === "Professional";
 
       if (aIsFeaturedProfessional && !bIsFeaturedProfessional) return -1;
       if (!aIsFeaturedProfessional && bIsFeaturedProfessional) return 1;
 
-      // Priority 2: Professional (second priority)
+      // Priority 3: Professional (second priority)
       const aIsProfessional = a.category === "Professional";
       const bIsProfessional = b.category === "Professional";
 
       if (aIsProfessional && !bIsProfessional) return -1;
       if (!aIsProfessional && bIsProfessional) return 1;
 
-      // Priority 3: Sort by date (most recent first)
+      // Priority 4: Sort by date (most recent first)
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return dateB.getTime() - dateA.getTime();
@@ -223,7 +251,7 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
     if (!showAllCertifications) {
       const importantCerts = getImportantCertifications(baseCertifications);
       return baseCertifications.filter(cert =>
-        importantCerts.some(ic => ic.id === cert.id)
+        importantCerts.some(ic => ic._id === cert._id)
       );
     }
 
@@ -528,7 +556,7 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
                     >
                       {mainGridCerts.map((certification) => (
                         <CertificationCard
-                          key={certification.id}
+                          key={certification._id}
                           certification={certification}
                           featured={certification.featured || certification.category === "Professional"}
                         />
@@ -588,7 +616,7 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {collapsibleCerts.map((certification) => (
                               <CertificationCard
-                                key={certification.id}
+                                key={certification._id}
                                 certification={certification}
                                 featured={false}
                               />
@@ -615,7 +643,7 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
                 >
                   {displayedCertifications.map((certification) => (
                     <CertificationCard
-                      key={certification.id}
+                      key={certification._id}
                       certification={certification}
                       featured={certification.featured || certification.category === "Professional"}
                     />
@@ -666,7 +694,7 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
                 >
                   {displayedCertifications.map((certification) => (
                     <CertificationCard
-                      key={certification.id}
+                      key={certification._id}
                       certification={certification}
                       featured={certification.featured || certification.category === "Professional"}
                     />
@@ -717,7 +745,7 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
                 >
                   {displayedCertifications.map((certification) => (
                     <CertificationCard
-                      key={certification.id}
+                      key={certification._id}
                       certification={certification}
                       featured={certification.featured || certification.category === "Professional"}
                     />
