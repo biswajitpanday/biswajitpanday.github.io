@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import type { Project, Certification, TimelineEntry } from "@/types/api";
 import { calculateTotalExperience } from "@/helpers/utility";
+import { countAllTechnologies } from "@/lib/skillsDataTransformer";
 
 interface CountUpProps {
   end: number;
@@ -22,7 +23,7 @@ interface CountUpProps {
   duration?: number;
 }
 
-interface SkillHierarchyNode {
+interface SkillNode {
   name: string;
   metadata?: {
     icon?: string;
@@ -30,14 +31,15 @@ interface SkillHierarchyNode {
     yearsOfExperience?: number;
     lastUsed?: string;
   };
-  children?: SkillHierarchyNode[];
+  children?: SkillNode[];
 }
 
 interface ByTheNumbersDashboardProps {
   projects: Project[];
   certifications: Certification[];
   timeline: TimelineEntry[];
-  skillsHierarchy: SkillHierarchyNode[];
+  skills1: SkillNode;
+  skills2: SkillNode;
 }
 
 // Simple count-up hook
@@ -80,32 +82,14 @@ const ByTheNumbersDashboard: React.FC<ByTheNumbersDashboardProps> = ({
   projects,
   certifications,
   timeline,
-  skillsHierarchy,
+  skills1,
+  skills2,
 }) => {
-  // Count all technologies from skills hierarchy
-  const countAllTechnologies = (): number => {
-    const countSkillsRecursively = (skillNode: SkillHierarchyNode): number => {
-      let count = 0;
-      if (skillNode.children && skillNode.children.length > 0) {
-        skillNode.children.forEach((child) => {
-          count += countSkillsRecursively(child);
-        });
-      } else {
-        count = 1;
-      }
-      return count;
-    };
-
-    return skillsHierarchy.reduce((total, category) => {
-      return total + countSkillsRecursively(category);
-    }, 0);
-  };
-
   // Calculate all metrics
   const totalProjects = projects.length;
   const activeProjects = projects.filter(p => p.isActive).length;
   const totalCertifications = certifications.filter(c => !c.isUpcoming).length;
-  const totalTechnologies = countAllTechnologies();
+  const totalTechnologies = countAllTechnologies(skills1, skills2);
   const totalExperience = calculateTotalExperience(timeline);
   const totalCompanies = timeline.length;
   const openSourceProjects = projects.filter(p => p.isOpenSource).length;
@@ -235,15 +219,23 @@ const ByTheNumbersDashboard: React.FC<ByTheNumbersDashboardProps> = ({
         </div>
 
         {/* Impact Highlights */}
-        <div className="mt-6 pt-6 border-t border-white/10">
+        <div className="mt-6 pt-6 border-white/10">
           <div className="flex flex-wrap justify-center gap-4 text-xs">
             <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
               <FaStar className="text-emerald-400" />
               <span className="text-emerald-300">80-90% Efficiency Gains with SpireWiz</span>
             </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-golden-500/10 border border-golden-500/30 rounded-full">
+              <FaStar className="text-golden-400" />
+              <span className="text-golden-400">$180K Annual Business Impact</span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
+              <FaStar className="text-emerald-400" />
+              <span className="text-emerald-300">75% Upgrade Time Reduction</span>
+            </div>
             <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 border border-blue-500/30 rounded-full">
-              <FaCloud className="text-blue-400" />
-              <span className="text-blue-300">55% Cloud Cost Reduction</span>
+              <FaRocket className="text-blue-400" />
+              <span className="text-blue-300">10x Performance Boost</span>
             </div>
           </div>
         </div>

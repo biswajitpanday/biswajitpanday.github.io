@@ -21,7 +21,7 @@ import { RiRobot3Fill } from "react-icons/ri";
 import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import { TbPlane } from "react-icons/tb";
 
-interface SkillHierarchyNode {
+interface SkillNode {
   name: string;
   metadata?: {
     icon?: string;
@@ -29,7 +29,7 @@ interface SkillHierarchyNode {
     yearsOfExperience?: number;
     lastUsed?: string;
   };
-  children?: SkillHierarchyNode[];
+  children?: SkillNode[];
 }
 
 // Typing animation phrases
@@ -60,7 +60,8 @@ interface HomeClientProps {
   projects: Project[];
   certifications: Certification[];
   timeline: TimelineEntry[];
-  skillsHierarchy: SkillHierarchyNode[];
+  skills1: SkillNode;
+  skills2: SkillNode;
 }
 
 const HomeClient = ({
@@ -69,7 +70,8 @@ const HomeClient = ({
   projects,
   certifications,
   timeline,
-  skillsHierarchy,
+  skills1,
+  skills2,
 }: HomeClientProps) => {
   // Track if component is mounted (client-side) for conditional animations
   const [isMounted, setIsMounted] = useState(false);
@@ -408,7 +410,8 @@ const HomeClient = ({
             projects={projects}
             certifications={certifications}
             timeline={timeline}
-            skillsHierarchy={skillsHierarchy}
+            skills1={skills1}
+            skills2={skills2}
           />
         </Suspense>
 
