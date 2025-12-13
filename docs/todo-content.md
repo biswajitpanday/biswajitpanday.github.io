@@ -87,7 +87,8 @@
 - **Phase 32** (2 tasks) - Animation Optimization (FloatingCodeSymbols CSS, reduced-motion hook)
 - **Phase 33** (3 tasks) - Homepage Optimization (Gradient reduction, Blog integration, Content reordering)
 
-**Total Completed:** 188 tasks | **Effort:** ~181 hours
+**Total Completed:** 189 tasks | **Effort:** ~182 hours
+**Current Phase:** Phase 36 (1/4 tasks complete - 25%)
 **Next Phase:** 27 tasks | **Effort:** ~25-30 hours (Phase 35: V2 Integration)
 
 ---
@@ -569,6 +570,157 @@ Migrate portfolio website to consume V2 schema and APIs from `portfolio-admin`. 
 
 ---
 
+## PHASE 36: GITHUB ACTIVITY ENHANCEMENT 🚀
+
+**Status:** ⏳ PLANNED (0/3 tasks - 0%)
+**Priority:** MEDIUM - Enhanced GitHub activity showcase
+**Effort:** ~3-4 hours
+**Impact:** Better visibility of coding activity across portfolio
+
+### Purpose
+Maximize the impact of 1-year GitHub activity data by showcasing it prominently across the portfolio. After implementing 1-year data (Phase 36.0 ✅), enhance visibility and provide deeper insights.
+
+### Completed
+- ✅ **Phase 36.0:** Fixed Bottom Statistics (2025-12-14)
+  - Updated stats to use 1-year GraphQL data instead of 90-day Events API
+  - Changed metrics: Total Contributions (1,316), Active Days (182), Current Streak (7), Longest Streak (21)
+  - Fixed tooltip z-index issue (z-10 → z-[9999], bg-primary → bg-gray-900)
+
+---
+
+### Task 36.1: Add GitHub Stats Widget to Home Page
+
+**Priority:** MEDIUM
+**Effort:** 20 minutes
+**Status:** ⏳ PLANNED
+**Related:** Option B from analysis
+
+**Implementation:**
+Add a prominent GitHub stats card to the home page to showcase coding activity without requiring users to navigate to `/activity`.
+
+**Placement Options:**
+1. **Hero Section** - Next to profile image (recommended)
+2. **About Section** - Show commitment to open source
+3. **Featured Card** - Between Projects and Skills
+
+**Metrics to Display:**
+- 🎯 1,316 Total Contributions
+- 📅 182 Active Days
+- 🔥 7 Current Streak
+- 📈 7.2 Avg. Daily Contributions
+
+**Design:**
+- Compact card matching existing design system
+- Cyan/Emerald color scheme
+- Link to `/activity` page for full details
+- Responsive layout (mobile-friendly)
+
+**Files to Modify:**
+- `app/page.tsx` - Add stats widget
+- `components/GitHubStatsWidget.tsx` - New component (create)
+
+**Success Metrics:**
+- Stats visible without scrolling (hero section placement)
+- Click-through rate to `/activity` page increases
+- Users see GitHub activity immediately
+
+---
+
+### Task 36.2: Add Contribution Insights Section
+
+**Priority:** MEDIUM
+**Effort:** 25 minutes
+**Status:** ⏳ PLANNED
+**Related:** Option C from analysis
+
+**Implementation:**
+Add a new "Contribution Insights" section below the activity graph with deeper analytics.
+
+**Metrics to Calculate & Display:**
+1. **Most Productive Month:** e.g., "November 2024: 147 contributions"
+2. **Best Week:** Highest contribution week
+3. **Consistency Rate:** % of days active (182/365 = 49.9%)
+4. **Most Active Day:** Which day of week (Mon/Tue/Wed...)
+5. **Best Streak:** Longest streak in the year (21 days)
+
+**Implementation Approach:**
+- Add `calculateInsights()` function in `lib/github.ts`
+- Process GraphQL contribution map to extract insights
+- Create `ContributionInsights.tsx` component
+- Display in card format below activity graph
+
+**Design:**
+- 3-column grid on desktop, 1-column on mobile
+- Each insight as a mini-stat card
+- Icons for each metric (📊📈🎯📅🏆)
+- Emerald/Cyan color scheme
+
+**Files to Modify:**
+- `lib/github.ts` - Add `calculateInsights()` function
+- `components/ContributionInsights.tsx` - New component (create)
+- `components/GitHubActivityGraph.tsx` - Integrate insights
+- `app/activity/page.tsx` - Pass insights to graph component
+
+**Success Metrics:**
+- Shows consistency and dedication
+- Professional appearance
+- Helps recruiters understand work patterns
+
+---
+
+### Task 36.3: Add GitHub Stats Badge to Navigation
+
+**Priority:** LOW
+**Effort:** 15 minutes
+**Status:** ⏳ PLANNED
+**Related:** Option D from analysis
+
+**Implementation:**
+Add a small live badge to the navigation/header showing current streak and yearly contributions.
+
+**Badge Content:**
+```
+🔥 7-day streak | 1,316 yearly contributions
+```
+
+**Design:**
+- Subtle badge in header (not too prominent)
+- Only visible on desktop (hide on mobile to reduce clutter)
+- Tooltip with full stats on hover
+- Link to `/activity` page on click
+
+**Files to Modify:**
+- `components/Header.tsx` - Add stats badge
+
+**Consideration:**
+- May be too busy for header
+- Test with user before finalizing
+- Could be added to mobile menu instead
+
+**Success Metrics:**
+- Constant visibility of activity across all pages
+- Doesn't interfere with navigation
+- Drives traffic to `/activity` page
+
+---
+
+### Implementation Priority Summary
+
+| Task | Priority | Effort | Impact | Recommended |
+|------|----------|--------|--------|-------------|
+| **36.0** | HIGH | ✅ Done | High | ✅ COMPLETED |
+| **36.1** | MEDIUM | 20 min | High | ⭐ Recommended |
+| **36.2** | MEDIUM | 25 min | Medium | ⭐ Recommended |
+| **36.3** | LOW | 15 min | Low | ⚠️ Optional |
+
+**Recommended Implementation:**
+1. ✅ Phase 36.0: Fix statistics (COMPLETED)
+2. ⭐ Phase 36.1: Home page widget (High impact, quick win)
+3. ⭐ Phase 36.2: Contribution insights (Shows professionalism)
+4. ⚠️ Phase 36.3: Navigation badge (Optional, test first)
+
+---
+
 ### Task 34.1: Lighthouse Score Optimization
 
 **Priority:** HIGH
@@ -898,6 +1050,7 @@ Migrate portfolio website to consume V2 schema and APIs from `portfolio-admin`. 
 | **33** | MEDIUM | ✅ COMPLETE | 3/5 tasks (33.1, 33.2, 33.4 rejected) |
 | **34** | MEDIUM | ⏳ PLANNED | 0/8 tasks - Performance & Analytics focus |
 | **35** | HIGH | ⏳ PLANNED | 0/27 tasks - V2 Schema & API Integration 🚀 |
+| **36** | MEDIUM | 🚧 IN PROGRESS | 1/4 tasks - GitHub Activity Enhancement 🚀 |
 
 ---
 

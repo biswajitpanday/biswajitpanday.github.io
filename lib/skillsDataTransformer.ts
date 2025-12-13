@@ -20,16 +20,26 @@ interface SkillNode {
  * V2: Transform a single SkillItem to SkillNode format
  */
 function transformSkillItem(skillItem: SkillItem): SkillNode {
+  // Handle lastUsed: can be "Current" string or a Date
+  let lastUsedDisplay: string | undefined;
+  if (skillItem.lastUsed) {
+    if (skillItem.lastUsed === 'Current' || skillItem.lastUsed === 'current') {
+      lastUsedDisplay = 'Current';
+    } else {
+      lastUsedDisplay = new Date(skillItem.lastUsed).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short'
+      });
+    }
+  }
+
   return {
     name: skillItem.name,
     metadata: {
       icon: skillItem.icon || "",
       level: skillItem.level,
       yearsOfExperience: skillItem.yearsOfExperience,
-      lastUsed: skillItem.lastUsed ? new Date(skillItem.lastUsed).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short'
-      }) : undefined,
+      lastUsed: lastUsedDisplay,
     },
   };
 }

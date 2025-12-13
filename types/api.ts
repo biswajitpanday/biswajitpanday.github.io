@@ -149,7 +149,7 @@ export interface SkillItem {
   };
   level: 'Expert' | 'Advanced' | 'Intermediate' | 'Familiar';
   yearsOfExperience?: number;
-  lastUsed?: string; // V2: Date type (ISO string from API)
+  lastUsed?: string; // V2: Can be ISO date string or "Current" for actively used skills
   icon?: string;
   description?: string;
   order: number;
