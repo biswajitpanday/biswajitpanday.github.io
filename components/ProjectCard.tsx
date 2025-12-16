@@ -210,8 +210,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             stacks={project.stacks}
             columns={2}
             expandable
-            selectedTech={selectedSkill}
-            onTechClick={onSkillClick}
           />
         </div>
       </div>

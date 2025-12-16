@@ -51,14 +51,23 @@ interface ProjectModalProps {
   project: Project | null;
   isOpen: boolean;
   onClose: () => void;
+  /** Display index (1-based position in the list). If not provided, uses project.num */
+  displayIndex?: number;
 }
 
 
-const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose }) => {
+const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, displayIndex }) => {
   const [activeTab, setActiveTab] = useState<"overview" | "case-study" | "architecture">("overview");
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const modalTitleId = useId();
   const tabPanelId = useId();
+
+  // Reset to overview tab when modal opens or project changes
+  useEffect(() => {
+    if (isOpen) {
+      setActiveTab("overview");
+    }
+  }, [isOpen, project?.num]);
 
   // Focus management - focus close button when modal opens
   useEffect(() => {
@@ -115,11 +124,17 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
   const keyTechnologies = project.stacks.slice(0, 6);
   const otherTechnologies = project.stacks.slice(6);
 
-  // Check if has case study
-  const hasCaseStudy = project.caseStudy !== undefined;
+  // Check if has case study with actual content
+  const hasCaseStudy = project.caseStudy && (
+    (project.caseStudy.problem && project.caseStudy.problem.trim() !== "") ||
+    (project.caseStudy.solution && project.caseStudy.solution.trim() !== "") ||
+    (project.caseStudy.results && project.caseStudy.results.length > 0) ||
+    (project.caseStudy.technicalHighlights && project.caseStudy.technicalHighlights.length > 0)
+  );
 
-  // Check if has architecture diagram
-  const hasArchitecture = project.caseStudy?.architectureDiagram !== undefined;
+  // Check if has architecture diagram with actual content
+  const hasArchitecture = project.caseStudy?.architectureDiagram &&
+    project.caseStudy.architectureDiagram.trim() !== "";
 
   return (
     <AnimatePresence>
@@ -165,23 +180,23 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
               </button>
 
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 mb-2">
-                {/* Left: #num | Company | Title */}
+                {/* Left: #index | Company | Title */}
                 <h2 id={modalTitleId} className="text-sm sm:text-base xl:text-lg font-bold flex items-center gap-2 flex-wrap pr-10 sm:pr-0">
-                  <span className="text-secondary-default text-xs sm:text-sm leading-none" aria-hidden="true">#{project.num}</span>
+                  <span className="text-secondary-default text-xs sm:text-sm" aria-hidden="true">#{displayIndex ?? project.num}</span>
 
                   {project.associatedWithCompany && (
                     <>
-                      <span className="text-white/30 text-xs leading-none hidden sm:inline">|</span>
+                      <span className="text-white/30 text-xs hidden sm:inline" aria-hidden="true">|</span>
                       <div className="flex items-center gap-1.5">
                         <CompanyIcon company={project.associatedWithCompany} />
-                        <span className="text-xs sm:text-sm font-medium text-white/80 leading-none">
+                        <span className="text-xs sm:text-sm font-medium text-white/80">
                           {project.associatedWithCompany}
                         </span>
                       </div>
                     </>
                   )}
 
-                  <span className="text-white/30 text-xs leading-none hidden sm:inline">|</span>
+                  <span className="text-white/30 text-xs hidden sm:inline" aria-hidden="true">|</span>
                   <span className={`leading-none text-sm sm:text-base ${
                     project.isFeatured
                       ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
@@ -212,7 +227,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                   <StatusBadge
                     isActive={project.isActive}
-                    inactivationReason={project.inactivationReason}
+                    inactivationReason={project.inactivationReason ?? undefined}
                   />
 
                   {/* Close Button - Desktop only (mobile uses absolute positioned one) */}
@@ -487,75 +502,81 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                 )}
 
                 {/* Case Study Tab */}
-                {activeTab === "case-study" && project.caseStudy && (
+                {activeTab === "case-study" && hasCaseStudy && (
                   <div id={`${tabPanelId}-case-study`} role="tabpanel" aria-labelledby="tab-case-study" className="space-y-8">
                     {/* Problem Section */}
-                    <div>
-                      <div className="flex items-center gap-2 mb-4">
-                        <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
-                          <FaInfoCircle className="text-red-400" />
+                    {project.caseStudy?.problem && project.caseStudy.problem.trim() !== "" && (
+                      <div>
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
+                            <FaInfoCircle className="text-red-400" />
+                          </div>
+                          <h3 className="text-xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">The Problem</h3>
                         </div>
-                        <h3 className="text-xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">The Problem</h3>
+                        <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 rounded-xl p-6">
+                          <p className="text-white/90 leading-relaxed">{project.caseStudy.problem}</p>
+                        </div>
                       </div>
-                      <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 rounded-xl p-6">
-                        <p className="text-white/90 leading-relaxed">{project.caseStudy.problem}</p>
-                      </div>
-                    </div>
+                    )}
 
                     {/* Solution Section */}
-                    <div>
-                      <div className="flex items-center gap-2 mb-4">
-                        <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
-                          <FaLightbulb className="text-blue-400" />
-                        </div>
-                        <h3 className="text-xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">The Solution</h3>
-                      </div>
-                      <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-6">
-                        <p className="text-white/90 leading-relaxed mb-4">{project.caseStudy.solution}</p>
-
-                        {/* Technical Highlights */}
-                        {project.caseStudy.technicalHighlights && project.caseStudy.technicalHighlights.length > 0 && (
-                          <div className="mt-6">
-                            <p className="text-white/80 font-semibold mb-3 text-sm">Technical Highlights:</p>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                              {project.caseStudy.technicalHighlights.map((highlight, idx) => (
-                                <div key={idx} className="flex items-start gap-2">
-                                  <FaCheckCircle className="text-blue-400 mt-0.5 flex-shrink-0 text-sm" />
-                                  <span className="text-white/80 text-sm">{highlight}</span>
-                                </div>
-                              ))}
-                            </div>
+                    {project.caseStudy?.solution && project.caseStudy.solution.trim() !== "" && (
+                      <div>
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                            <FaLightbulb className="text-blue-400" />
                           </div>
-                        )}
+                          <h3 className="text-xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">The Solution</h3>
+                        </div>
+                        <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-6">
+                          <p className="text-white/90 leading-relaxed mb-4">{project.caseStudy.solution}</p>
+
+                          {/* Technical Highlights */}
+                          {project.caseStudy.technicalHighlights && project.caseStudy.technicalHighlights.length > 0 && (
+                            <div className="mt-6">
+                              <p className="text-white/80 font-semibold mb-3 text-sm">Technical Highlights:</p>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                {project.caseStudy.technicalHighlights.map((highlight, idx) => (
+                                  <div key={idx} className="flex items-start gap-2">
+                                    <FaCheckCircle className="text-blue-400 mt-0.5 flex-shrink-0 text-sm" />
+                                    <span className="text-white/80 text-sm">{highlight}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Results Section */}
-                    <div>
-                      <div className="flex items-center gap-2 mb-4">
-                        <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                          <FaChartLine className="text-green-400" />
+                    {project.caseStudy?.results && project.caseStudy.results.length > 0 && (
+                      <div>
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                            <FaChartLine className="text-green-400" />
+                          </div>
+                          <h3 className="text-xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">The Results</h3>
                         </div>
-                        <h3 className="text-xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">The Results</h3>
-                      </div>
-                      <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl p-6">
-                        <div className="grid grid-cols-1 gap-3">
-                          {project.caseStudy.results.map((result, idx) => (
-                            <div key={idx} className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
-                              <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <FaCheckCircle className="text-green-400 text-sm" />
+                        <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl p-6">
+                          <div className="grid grid-cols-1 gap-3">
+                            {project.caseStudy.results.map((result, idx) => (
+                              <div key={idx} className="flex items-start gap-3 bg-white/5 rounded-lg p-3">
+                                <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                  <FaCheckCircle className="text-green-400 text-sm" />
+                                </div>
+                                <p className="text-white/90 leading-relaxed flex-1">{result}</p>
                               </div>
-                              <p className="text-white/90 leading-relaxed flex-1">{result}</p>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 )}
 
                 {/* Architecture Tab */}
-                {activeTab === "architecture" && project.caseStudy?.architectureDiagram && (
+                {activeTab === "architecture" && hasArchitecture && (
                   <div id={`${tabPanelId}-architecture`} role="tabpanel" aria-labelledby="tab-architecture" className="space-y-8">
                     {/* Architecture Diagram Section */}
                     <div>
@@ -565,7 +586,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         </div>
                         <h3 className="text-xl font-bold bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">Architecture Flow</h3>
                       </div>
-                      <MermaidDiagram chart={project.caseStudy.architectureDiagram} />
+                      <MermaidDiagram chart={project.caseStudy!.architectureDiagram!} />
                     </div>
                   </div>
                 )}

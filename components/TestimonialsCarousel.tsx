@@ -4,23 +4,10 @@ import React, { useState, useEffect, useCallback, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaQuoteLeft, FaChevronLeft, FaChevronRight, FaLinkedin, FaStar, FaExternalLinkAlt } from "react-icons/fa";
 import { SOCIAL_LINKS } from "@/constants";
-
-export interface Testimonial {
-  id: string;
-  quote: string;
-  author: string;
-  role: string;
-  company: string;
-  image?: string;
-  linkedinUrl?: string;
-  /** Controls visibility - true = visible on public site, false = admin preview only */
-  shouldPublish?: boolean;
-  /** Marks this as sample/demo data that should be replaced with real testimonials */
-  isSampleData?: boolean;
-}
+import type { TestimonialData } from "@/types/api";
 
 interface TestimonialsCarouselProps {
-  testimonials: Testimonial[];
+  testimonials: TestimonialData[];
   autoPlayInterval?: number; // in milliseconds
   className?: string;
 }

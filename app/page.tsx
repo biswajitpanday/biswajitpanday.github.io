@@ -4,6 +4,7 @@ import {
   fetchProjects,
   fetchTimeline,
   fetchSkillHierarchy,
+  fetchPortfolioMetadata,
   v2Helpers,
 } from "@/lib/api-client";
 import { transformApiToSkillsData } from "@/lib/skillsDataTransformer";
@@ -36,16 +37,20 @@ export default async function HomePage() {
   let timeline: TimelineEntry[] = [];
   let skills1: SkillNode = { name: "Skills", children: [] };
   let skills2: SkillNode = { name: "Skills", children: [] };
+  let portfolioMetadata: any = { displaySettings: { showLookingForSection: false } };
 
   try {
     // Fetch all data from admin API in parallel
-    const [testimonialData, certificationData, projectData, timelineData, skillsData] = await Promise.all([
+    const [testimonialData, certificationData, projectData, timelineData, skillsData, metadataData] = await Promise.all([
       fetchTestimonials(),
       fetchCertifications(),
       fetchProjects(),
       fetchTimeline(),
       fetchSkillHierarchy(),
+      fetchPortfolioMetadata(),
     ]);
+
+    portfolioMetadata = metadataData;
 
     testimonials = testimonialData;
     certifications = certificationData;
@@ -91,6 +96,7 @@ export default async function HomePage() {
       timeline={timeline}
       skills1={skills1}
       skills2={skills2}
+      portfolioMetadata={portfolioMetadata}
     />
   );
 }

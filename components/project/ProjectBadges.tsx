@@ -8,6 +8,7 @@ import {
   FaTrophy,
   FaBuilding,
   FaUser,
+  FaPlay,
 } from "react-icons/fa";
 import { SimpleTooltip, WideTooltip } from "@/components/ui/SimpleTooltip";
 import { getCategoryColor, getCompanyLogo } from "@/constants/projectConstants";
@@ -101,7 +102,7 @@ export function RecognitionBadge({
 
       {/* Tooltip on hover */}
       <div
-        className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-amber-400/30 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-[165] shadow-xl pointer-events-none"
+        className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-amber-400/30 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-[999] shadow-xl pointer-events-none"
         role="tooltip"
         aria-hidden="true"
       >
@@ -289,7 +290,7 @@ export function CurrentBadge({ variant = "text" }: { variant?: "icon" | "text" }
           role="img"
           aria-label="Currently Working On This Project"
         >
-          <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse flex-shrink-0" aria-hidden="true" />
+          <FaPlay className="text-xs flex-shrink-0" aria-hidden="true" />
           <span className="sr-only">Currently Working On This Project</span>
         </div>
       </SimpleTooltip>
@@ -302,7 +303,7 @@ export function CurrentBadge({ variant = "text" }: { variant?: "icon" | "text" }
       role="status"
       aria-label="Currently Working On This Project"
     >
-      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" aria-hidden="true" />
+      <FaPlay className="text-[10px] flex-shrink-0" aria-hidden="true" />
       <span className="leading-none">Current</span>
     </span>
   );

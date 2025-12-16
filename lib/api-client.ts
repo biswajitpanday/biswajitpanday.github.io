@@ -201,3 +201,42 @@ export async function fetchBlogPosts(params?: {
 
   return fetchAPI<any[]>(endpoint);
 }
+
+/**
+ * Fetch portfolio metadata (site settings, display toggles)
+ * Public endpoint - CORS-enabled for static site access
+ */
+export async function fetchPortfolioMetadata() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/public/metadata`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Revalidate every hour for metadata changes
+      next: { revalidate: 3600 },
+    });
+
+    if (!response.ok) {
+      console.warn('Portfolio metadata not available, using defaults');
+      return {
+        displaySettings: {
+          showLookingForSection: false,
+        },
+      };
+    }
+
+    const result = await response.json();
+    return result.data || {
+      displaySettings: {
+        showLookingForSection: false,
+      },
+    };
+  } catch (error) {
+    console.error('Failed to fetch portfolio metadata:', error);
+    return {
+      displaySettings: {
+        showLookingForSection: false,
+      },
+    };
+  }
+}

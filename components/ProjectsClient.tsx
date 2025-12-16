@@ -13,7 +13,7 @@ import {
   FaChevronUp,
   FaHistory
 } from "react-icons/fa";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import ProjectModal from "@/components/ProjectModal";
 import BackgroundElements from "@/components/BackgroundElements";
 import ProjectCard from "@/components/ProjectCard";
@@ -55,6 +55,7 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
 
   // Modal State
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | undefined>(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Calculate stats for Grid view
@@ -104,13 +105,35 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
   // Modal handlers
   const openProjectModal = (project: Project) => {
     setSelectedProject(project);
+    // Find the 1-based index in the full sorted list (not filtered)
+    const globalIndex = sortedProjects.findIndex(p => p.num === project.num);
+    setSelectedProjectIndex(globalIndex !== -1 ? globalIndex + 1 : undefined);
     setIsModalOpen(true);
   };
 
   const closeProjectModal = () => {
     setSelectedProject(null);
+    setSelectedProjectIndex(undefined);
     setIsModalOpen(false);
   };
+
+  // Auto-open modal for hash-based links (e.g., /projects#spirewiz)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        // Find project by title match (case-insensitive)
+        const project = sortedProjects.find(p =>
+          p.title.toLowerCase().includes(hash.toLowerCase())
+        );
+        if (project) {
+          openProjectModal(project);
+          // Clear hash from URL after opening modal
+          window.history.replaceState(null, '', '/projects');
+        }
+      }
+    }
+  }, [sortedProjects]);
 
   // Handle skill filter
   const handleSkillFilter = (skill: string) => {
@@ -578,6 +601,7 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
           project={selectedProject}
           isOpen={isModalOpen}
           onClose={closeProjectModal}
+          displayIndex={selectedProjectIndex}
         />
       </div>
     </section>
