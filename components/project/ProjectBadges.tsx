@@ -268,7 +268,7 @@ export function PrimaryMetricBadge({
 
   return (
     <span
-      className={`inline-flex items-center justify-center gap-2 backdrop-blur-md shadow-lg border flex-shrink-0 ${badgeClasses} ${colorClasses}`}
+      className={`inline-flex items-center justify-center gap-2 bg-black/70 backdrop-blur-md shadow-lg border flex-shrink-0 ${badgeClasses} ${colorClasses}`}
       role="status"
       aria-label={`Key Metric: ${metric.text}`}
     >
