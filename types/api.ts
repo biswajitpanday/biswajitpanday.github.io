@@ -189,6 +189,7 @@ export interface TestimonialData {
   role: string;
   company?: string;
   linkedinUrl?: string;
+  image?: string; // Optional avatar image
   order: number; // V2: Custom ordering
   shouldPublish: boolean;
   isSampleData?: boolean;

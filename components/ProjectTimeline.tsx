@@ -54,11 +54,14 @@ export default function ProjectTimeline({ projects, selectedTech, onOpenModal }:
   // Process projects for timeline
   const timelineProjects = useMemo(() => {
     return projects.map((project) => {
+      const startDate = new Date(project.startDate);
+      const endDate = new Date(project.endDate);
+
       const durationMonths = Math.round(
-        (project.endDate.getTime() - project.startDate.getTime()) / (1000 * 60 * 60 * 24 * 30)
+        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30)
       );
-      const startYear = project.startDate.getFullYear();
-      const endYear = project.endDate.getFullYear();
+      const startYear = startDate.getFullYear();
+      const endYear = endDate.getFullYear();
       const yearRange = startYear === endYear ? `${startYear}` : `${startYear} - ${endYear}`;
 
       return {
@@ -66,8 +69,8 @@ export default function ProjectTimeline({ projects, selectedTech, onOpenModal }:
         durationMonths,
         yearRange,
       };
-    }).sort((a, b) => b.startDate.getTime() - a.startDate.getTime()); // Most recent first
-  }, []);
+    }).sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()); // Most recent first
+  }, [projects]);
 
   // Filter projects based on selected technology
   const filteredProjects = useMemo(() => {

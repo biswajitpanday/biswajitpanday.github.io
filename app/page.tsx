@@ -14,8 +14,8 @@ import type { TestimonialData, Certification, Project, TimelineEntry } from "@/t
 interface SkillNode {
   name: string;
   metadata?: {
-    icon?: string;
-    level?: string;
+    icon: string;
+    level?: "Expert" | "Advanced" | "Intermediate" | "Familiar";
     yearsOfExperience?: number;
     lastUsed?: string;
   };

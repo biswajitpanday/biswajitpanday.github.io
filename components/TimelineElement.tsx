@@ -45,9 +45,11 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
   className = ""
 }) => {
   const isFeatured = index === 0;
-  // V2: Convert string dates to Date objects if needed, keep null/undefined for "Present" logic
+  // V2: Convert string dates to Date objects if needed, use current date for "Present" logic
   const startDate = typeof item.startDate === 'string' ? new Date(item.startDate) : item.startDate;
-  const endDate = item.endDate ? (typeof item.endDate === 'string' ? new Date(item.endDate) : item.endDate) : null;
+  const endDate = item.endDate
+    ? (typeof item.endDate === 'string' ? new Date(item.endDate) : item.endDate)
+    : new Date(); // Use current date when endDate is not provided
   const dateRange = getDateRange(startDate, endDate);
   const duration = getDuration(startDate, endDate);
 

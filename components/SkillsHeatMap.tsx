@@ -36,7 +36,11 @@ const levelToColor = {
   'Familiar': 'bg-slate-500/60 border-slate-400',
 };
 
-export default function SkillsHeatMap() {
+interface SkillsHeatMapProps {
+  skillsData?: SkillNode;
+}
+
+export default function SkillsHeatMap({ skillsData }: SkillsHeatMapProps = { skillsData: { name: 'Skills', children: [] } }) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [hoveredSkill, setHoveredSkill] = useState<SkillNode | null>(null);
 
@@ -64,7 +68,7 @@ export default function SkillsHeatMap() {
     return categories;
   };
 
-  const skillCategories = extractSkills(skills1);
+  const skillCategories = skillsData ? extractSkills(skillsData) : [];
 
   // Filter categories
   const displayedCategories = selectedCategory

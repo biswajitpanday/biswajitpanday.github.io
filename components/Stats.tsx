@@ -1,16 +1,48 @@
 "use client";
 import CountUp from "react-countup";
-import { timeLineItems } from "@/types/api";
-import { projects } from "@/types/api";
-import { countAllTechnologies } from "@/types/api";
-import { calculateTotalExperience } from "@/helpers/utility";
-import { getCertificationCounts } from "@/types/api";
+import type { TimelineEntry, Project, Certification } from "@/types/api";
 
-const Stats = () => {
-  const totalExperience = calculateTotalExperience(timeLineItems);
+// Helper function to calculate total experience from timeline
+function calculateTotalExperience(timeline: TimelineEntry[]): string {
+  if (!timeline || timeline.length === 0) return "0";
+
+  const sortedTimeline = [...timeline].sort((a, b) =>
+    new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+  );
+
+  const firstJob = sortedTimeline[0];
+  const yearsOfExperience = new Date().getFullYear() - new Date(firstJob.startDate).getFullYear();
+
+  return `${yearsOfExperience}`;
+}
+
+// Helper function to count all unique technologies from projects
+function countAllTechnologies(projects: Project[]): number {
+  const allTechs = new Set<string>();
+  projects.forEach(project => {
+    project.stacks.forEach(tech => allTechs.add(tech));
+  });
+  return allTechs.size;
+}
+
+// Helper function to get certification counts
+function getCertificationCounts(certifications: Certification[]): { total: number; upcoming: number } {
+  const total = certifications.length;
+  const upcoming = certifications.filter(cert => cert.isUpcoming === true).length;
+  return { total, upcoming };
+}
+
+interface StatsProps {
+  timeline: TimelineEntry[];
+  projects: Project[];
+  certifications: Certification[];
+}
+
+const Stats = ({ timeline, projects, certifications }: StatsProps) => {
+  const totalExperience = calculateTotalExperience(timeline);
   const totalProjects = projects.length;
-  const totalTechnologies = countAllTechnologies();
-  const certCounts = getCertificationCounts();
+  const totalTechnologies = countAllTechnologies(projects);
+  const certCounts = getCertificationCounts(certifications);
 
 const stats = [
   {

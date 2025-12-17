@@ -10,7 +10,8 @@ import {
   FaBars,
   FaTimes,
   FaSearch,
-  FaMedium
+  FaMedium,
+  FaChevronDown
 } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
 import MobileNav from "./MobileNav";
@@ -34,7 +35,7 @@ interface SkillHierarchyNode {
  */
 
 // Header navigation links
-const NAVIGATION_ITEMS = [
+const NAVIGATION_ITEMS: Array<{ name: string; href: string; dropdown?: Array<{ name: string; href: string }> }> = [
   { name: "Home", href: "/" },
   { name: "Career", href: "/career" },
   { name: "Projects", href: "/projects" },

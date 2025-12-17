@@ -121,7 +121,7 @@ const FormSection: React.FC<FormSectionProps> = ({
               absolute -inset-[1px] rounded-lg opacity-0 transition-opacity duration-300
               group-focus-within/field:opacity-100
               ${showValidState || showErrorState ? 'opacity-100' : ''}
-              ${getGradientWrapperClasses(false)}
+              ${getGradientWrapperClasses()}
             `} />
             {/* Inner wrapper for positioning */}
             <div className="relative">
@@ -171,7 +171,7 @@ const FormSection: React.FC<FormSectionProps> = ({
               absolute -inset-[1px] rounded-lg opacity-0 transition-opacity duration-300
               group-focus-within/field:opacity-100
               ${showValidState || showErrorState ? 'opacity-100' : ''}
-              ${getGradientWrapperClasses(false)}
+              ${getGradientWrapperClasses()}
             `} />
             {/* Inner wrapper for positioning */}
             <div className="relative">
