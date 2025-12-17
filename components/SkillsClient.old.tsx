@@ -14,8 +14,8 @@ import { useCountUp } from "@/hooks/useCountUp";
 interface SkillHierarchyNode {
   name: string;
   metadata?: {
-    icon?: string;
-    level?: string;
+    icon: string;
+    level?: "Expert" | "Advanced" | "Intermediate" | "Familiar";
     yearsOfExperience?: number;
     lastUsed?: string;
   };

@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { FiFilter, FiChevronDown, FiSearch, FiX } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { skills1, skills2 } from "@/types/api";
 
 /**
  * SkillsFilter - Accessible skills filter component
@@ -25,6 +24,7 @@ interface SkillsFilterProps {
   placeholder?: string;
   showResults?: boolean;
   resultsText?: string;
+  skillsData?: SkillNode[];
 }
 
 // Helper function to extract skills from the skills tree data
@@ -48,28 +48,27 @@ const SkillsFilter: React.FC<SkillsFilterProps> = ({
   onClearSearch,
   placeholder = "Search technologies, frameworks, tools...",
   showResults = false,
-  resultsText = ""
+  resultsText = "",
+  skillsData = []
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTechnology, setSelectedTechnology] = useState<string | null>(null);
   const searchInputId = useId();
   const filterPanelId = useId();
-  
+
   // Extract categories and technologies
-  const categories = [
-    ...(skills1.children?.map(c => c.name) || []),
-    ...(skills2.children?.map(c => c.name) || [])
-  ].sort();
-  
+  const categories = skillsData
+    .flatMap(skill => skill.children?.map((c: SkillNode) => c.name) || [])
+    .filter((name, index, self) => self.indexOf(name) === index)
+    .sort();
+
   // Extract all individual skills/technologies
-  const allSkills = [
-    ...extractSkillsFromTree(skills1),
-    ...extractSkillsFromTree(skills2)
-  ]
-  .filter((skill, index, self) => self.indexOf(skill) === index) // Remove duplicates
-  .filter(skill => !categories.includes(skill)) // Remove categories from technologies list
-  .sort();
+  const allSkills = skillsData
+    .flatMap(skill => extractSkillsFromTree(skill))
+    .filter((skill, index, self) => self.indexOf(skill) === index) // Remove duplicates
+    .filter(skill => !categories.includes(skill)) // Remove categories from technologies list
+    .sort();
   
   // Toggle filter panel
   const toggleFilterPanel = () => {

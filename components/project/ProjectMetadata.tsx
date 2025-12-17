@@ -44,18 +44,22 @@ export function ProjectTimeline({
   endDate,
   className = "",
 }: {
-  startDate: Date;
-  endDate: Date;
+  startDate: string | Date;
+  endDate: string | Date;
   className?: string;
 }) {
-  const durationMonths = calculateDurationMonths(startDate, endDate);
+  // Convert string dates to Date objects if needed
+  const start = typeof startDate === 'string' ? new Date(startDate) : startDate;
+  const end = typeof endDate === 'string' ? new Date(endDate) : endDate;
+
+  const durationMonths = calculateDurationMonths(start, end);
 
   return (
     <div className={`flex flex-wrap items-center gap-x-4 gap-y-2 text-xs ${className}`}>
       {/* Date Range */}
       <div className="flex items-center gap-1.5 text-white/60">
         <FaCalendar className="text-blue-400" />
-        <span>{formatDate(startDate)} - {formatDate(endDate)}</span>
+        <span>{formatDate(start)} - {formatDate(end)}</span>
       </div>
 
       {/* Duration */}

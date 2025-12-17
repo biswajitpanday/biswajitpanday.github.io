@@ -132,7 +132,7 @@ export function StatusBadge({
   inactivationReason
 }: {
   isActive: boolean;
-  inactivationReason?: string;
+  inactivationReason?: string | null;
 }) {
   if (isActive) {
     return (
@@ -180,7 +180,7 @@ export function StatusBadgeIcon({
   inactivationReason,
 }: {
   isActive: boolean;
-  inactivationReason?: string;
+  inactivationReason?: string | null;
 }) {
   if (isActive) {
     return (

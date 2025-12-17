@@ -10,7 +10,7 @@ import {
   FaChevronLeft,
   FaChevronRight
 } from "react-icons/fa";
-import { projects } from "@/types/api";
+import type { Project } from "@/types/api";
 
 interface DemoProject {
   id: number;
@@ -24,14 +24,19 @@ interface DemoProject {
   features: string[];
 }
 
-const InteractiveDemos: React.FC<{ className?: string }> = ({ className = "" }) => {
+interface InteractiveDemosProps {
+  className?: string;
+  projects: Project[];
+}
+
+const InteractiveDemos: React.FC<InteractiveDemosProps> = ({ className = "", projects }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Get projects with live URLs or GitHub links (active projects)
   const demoProjects: DemoProject[] = projects
-    .filter((p) => p.isActive && (p.url || p.github))
+    .filter((p: Project) => p.isActive && (p.url || p.github))
     .slice(0, 4)
-    .map((p) => ({
+    .map((p: Project) => ({
       id: p.num,
       title: p.title,
       subtitle: p.subtitle,

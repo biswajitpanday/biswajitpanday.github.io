@@ -1,17 +1,21 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { getFeaturedCertifications } from "@/types/api";
+import type { Certification } from "@/types/api";
 import SectionHeader from "./SectionHeader";
 import CertificationCard from "./CertificationCard";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
 
-const FeaturedCertifications: React.FC = () => {
-  const featuredCerts = getFeaturedCertifications().slice(0, 3); // Display up to 3 featured certifications
-  
+interface FeaturedCertificationsProps {
+  certifications: Certification[];
+}
+
+const FeaturedCertifications: React.FC<FeaturedCertificationsProps> = ({ certifications }) => {
+  const featuredCerts = certifications.filter(cert => cert.featured === true).slice(0, 3);
+
   if (featuredCerts.length === 0) return null;
-  
+
   return (
     <section className="py-16 relative overflow-hidden">
       <div className="container mx-auto px-4">
@@ -21,7 +25,7 @@ const FeaturedCertifications: React.FC = () => {
           description="Industry credentials and validated expertise"
           className="mb-12 text-center"
         />
-        
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -30,7 +34,7 @@ const FeaturedCertifications: React.FC = () => {
         >
           {featuredCerts.map((certification) => (
             <CertificationCard
-              key={certification.id}
+              key={certification._id}
               certification={certification}
             />
           ))}
