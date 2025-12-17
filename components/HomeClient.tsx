@@ -80,12 +80,9 @@ const HomeClient = ({
   skills2,
   portfolioMetadata,
 }: HomeClientProps) => {
-  // Track if component is mounted (client-side) for conditional animations
-  const [isMounted, setIsMounted] = useState(false);
   const [pageLoadTime, setPageLoadTime] = useState(0);
 
   useEffect(() => {
-    setIsMounted(true);
     setPageLoadTime(Date.now());
   }, []);
 
@@ -150,17 +147,13 @@ const HomeClient = ({
             {/* Content Section */}
             <motion.div
               data-testid="home-content"
-              initial={isMounted ? { opacity: 0, x: -50 } : { opacity: 1, x: 0 }}
+              initial={{ opacity: 1, x: 0 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
               className="text-center xl:text-left order-2 xl:order-none max-w-2xl"
             >
               {/* Role Badge - Purple/Pink accent with readable white text */}
-              <motion.div
+              <div
                 data-testid="home-role-badge"
-                initial={isMounted ? { opacity: 0, y: -20 } : { opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: isMounted ? 0.05 : 0, duration: 0.3 }}
                 className="mb-6"
               >
                 <span className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 via-pink-500/15 to-purple-500/10 backdrop-blur-sm border border-purple-500/40 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/25 transition-all duration-300">
@@ -168,28 +161,22 @@ const HomeClient = ({
                   <span className="text-white">Senior .NET Architect & AI Solutions Engineer</span>
                   <FiZap className="text-lg text-pink-400 animate-pulse" />
                 </span>
-              </motion.div>
+              </div>
 
               {/* Main Heading */}
-              <motion.h1
+              <h1
                 data-testid="home-main-heading"
-                initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: isMounted ? 0.1 : 0, duration: 0.3 }}
                 className="text-3xl xl:text-4xl font-bold mb-4 leading-tight"
               >
                 Hi, I&apos;m <br className="hidden xl:block" />
                 <span className="bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
                   Biswajit Panday
                 </span>
-              </motion.h1>
+              </h1>
 
               {/* Typing Animation Tagline */}
-              <motion.div
+              <div
                 data-testid="home-typing-tagline"
-                initial={isMounted ? { opacity: 0, y: 10 } : { opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: isMounted ? 0.12 : 0, duration: 0.3 }}
                 className="h-8 mb-6 flex items-center justify-center xl:justify-start"
               >
                 <span className="text-lg xl:text-xl font-light">
@@ -202,14 +189,11 @@ const HomeClient = ({
                     cursorClassName="bg-gradient-to-b from-emerald-400 to-purple-400"
                   />
                 </span>
-              </motion.div>
+              </div>
 
               {/* About Me Summary - Recruiter-focused with key highlights */}
-              <motion.p
+              <p
                 data-testid="home-description"
-                initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: isMounted ? 0.15 : 0, duration: 0.3 }}
                 className="text-white/70 text-base leading-relaxed max-w-2xl mb-6 mx-auto xl:mx-0"
               >
                 Senior .NET Architect with{" "}
@@ -220,14 +204,11 @@ const HomeClient = ({
                 <span className="text-[#00BFFF] font-medium">SpireWiz</span> achieving{" "}
                 <span className="text-emerald-400 font-medium">80% efficiency gains</span>.{" "}
                 <span className="text-[#00BFFF] font-medium">Microsoft Certified</span>.
-              </motion.p>
+              </p>
 
               {/* Tech Stack Highlights - Compact badges with gradient icons */}
-              <motion.div
+              <div
                 data-testid="home-tech-stack"
-                initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: isMounted ? 0.2 : 0, duration: 0.3 }}
                 className="flex flex-wrap justify-center xl:justify-start gap-2 mb-8"
               >
                 <Badge
@@ -254,15 +235,12 @@ const HomeClient = ({
                   color="emerald"
                   size="compact"
                 />
-              </motion.div>
+              </div>
 
               {/* Featured Certification Card */}
               {featuredCertification && (
-                <motion.div
+                <div
                   data-testid="home-featured-certification"
-                  initial={isMounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: isMounted ? 0.25 : 0, duration: 0.3 }}
                   className="mb-6"
                 >
                   <FeaturedCertificationCard
@@ -271,15 +249,12 @@ const HomeClient = ({
                     simplified={true}
                     headingLevel={2}
                   />
-                </motion.div>
+                </div>
               )}
 
               {/* Action Buttons */}
-              <motion.div
+              <div
                 data-testid="home-action-buttons"
-                initial={isMounted ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: isMounted ? 0.3 : 0, duration: 0.3 }}
                 className="flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-6 mb-2"
               >
                 <div className="flex flex-col sm:flex-row items-center gap-3">
@@ -334,15 +309,12 @@ const HomeClient = ({
                     />
                   </Suspense>
                 </div>
-              </motion.div>
+              </div>
             </motion.div>
 
             {/* Photo Section */}
-            <motion.div
+            <div
               data-testid="home-photo-section"
-              initial={isMounted ? { opacity: 0, x: 50 } : { opacity: 1, x: 0 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: isMounted ? 0.1 : 0, duration: 0.4 }}
               className="order-1 xl:order-none relative"
             >
               <div className="relative">
@@ -352,7 +324,7 @@ const HomeClient = ({
                   <Photo />
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Scroll Indicator */}
@@ -364,7 +336,7 @@ const HomeClient = ({
           <motion.section
             id="spirewiz-featured"
             data-testid="home-spirewiz-featured"
-            initial={isMounted ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
@@ -445,7 +417,7 @@ const HomeClient = ({
             <motion.section
               id="what-looking-for"
               data-testid="home-looking-for"
-              initial={isMounted ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}

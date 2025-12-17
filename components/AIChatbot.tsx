@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaRobot, FaTimes, FaMinus, FaPaperPlane } from "react-icons/fa";
 import ChatMessage from "./ChatMessage";
 import SuggestedQuestions from "./SuggestedQuestions";
+import ChatIndicator from "./ChatIndicator";
 import {
   trackChatbotOpen,
   trackChatbotClose,
@@ -228,6 +229,9 @@ export default function AIChatbot() {
 
   return (
     <>
+      {/* Chat Indicator - Animated arrow and tooltip pointing to chat icon */}
+      <ChatIndicator isVisible={!isOpen} />
+
       {/* Floating Button (when chat is closed) - Fixed position */}
       <div className="fixed bottom-6 right-6 z-[9999]">
         <AnimatePresence>
