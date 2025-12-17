@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { FaArrowUp, FaChartLine, FaClock, FaDollarSign, FaUsers, FaRocket, FaTrophy } from "react-icons/fa";
-import { ProjectMetrics } from "@/data/portfolioData";
+import { ProjectMetrics } from "@/types/api";
 
 interface ProjectPerformanceMetricsProps {
   metrics: ProjectMetrics;

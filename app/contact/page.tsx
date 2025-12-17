@@ -17,7 +17,7 @@ const FaCheckCircle = lazy(() => import("react-icons/fa").then(mod => ({ default
 const FaExclamationTriangle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaExclamationTriangle })));
 const FaLinkedinIn = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLinkedinIn })));
 const FaGithub = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaGithub })));
-const FaTwitter = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaTwitter })));
+const FaMedium = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaMedium })));
 const FaLock = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLock })));
 const FaCopy = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCopy })));
 const FaCheck = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCheck })));
@@ -191,12 +191,12 @@ const socialLinks = [
     borderColor: "border-white/30 hover:border-white/50"
   },
   {
-    icon: FaTwitter,
-    title: "Twitter",
-    url: "https://twitter.com/aspect_jeevi",
-    color: "bg-[#1DA1F2]/20 hover:bg-[#1DA1F2]/30",
-    textColor: "text-[#1DA1F2]",
-    borderColor: "border-[#1DA1F2]/30 hover:border-[#1DA1F2]/50"
+    icon: FaMedium,
+    title: "Medium",
+    url: "https://medium.com/@biswajitpanday",
+    color: "bg-[#00AB6C]/20 hover:bg-[#00AB6C]/30",
+    textColor: "text-[#00AB6C]",
+    borderColor: "border-[#00AB6C]/30 hover:border-[#00AB6C]/50"
   },
 ];
 

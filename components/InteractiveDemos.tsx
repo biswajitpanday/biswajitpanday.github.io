@@ -10,7 +10,7 @@ import {
   FaChevronLeft,
   FaChevronRight
 } from "react-icons/fa";
-import { projects } from "@/data/portfolioData";
+import { projects } from "@/types/api";
 
 interface DemoProject {
   id: number;

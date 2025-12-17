@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { skills1, skills2 } from '@/data/skillsData';
+// Skills data will be passed as props from parent component
 import DynamicIcon from '@/components/DynamicIcon';
 import SkillsHeatMapModal from './SkillsHeatMapModal';
 
@@ -47,71 +47,11 @@ const levelToIcon = {
   'Familiar': '⚪',
 };
 
-// Technology icon mapping - same as SkillsHeatMapModal
-const getTechnologyIcon = (techName: string) => {
-  const iconMap: Record<string, string> = {
-    // .NET Technologies
-    'ASP.NET Core': 'SiDotnet',
-    'ASP.NET MVC': 'SiDotnet',
-    '.NET Core/.NET 6/7/8/9': 'SiDotnet',
-    'C#': 'TbBrandCSharp',
+interface SkillProficiencySummaryProps {
+  skillsHierarchy: SkillNode[];
+}
 
-    // JavaScript/TypeScript Frameworks
-    'React': 'FaReact',
-    'Next.js': 'SiNextdotjs',
-    'Angular': 'FaAngular',
-    'Vue.js': 'FaVuejs',
-    'Express.js': 'SiExpress',
-    'Node.js': 'FaNodeJs',
-    'NestJS': 'SiNestjs',
-    'Blazor': 'SiDotnet',
-
-    // Languages
-    'JavaScript': 'FaJs',
-    'TypeScript': 'SiTypescript',
-    'Python': 'FaPython',
-    'Java': 'FaJava',
-
-    // Cloud & Infrastructure
-    'Azure': 'SiMicrosoftazure',
-    'AWS': 'FaAws',
-    'Docker': 'FaDocker',
-    'Kubernetes': 'SiKubernetes',
-
-    // Databases
-    'MongoDB': 'SiMongodb',
-    'PostgreSQL': 'SiPostgresql',
-    'MySQL': 'SiMysql',
-    'SQL Server': 'FaDatabase',
-    'Redis': 'SiRedis',
-    'DynamoDB': 'FaDatabase',
-    'CosmosDB': 'FaDatabase',
-
-    // Message Queues & APIs
-    'RabbitMQ': 'SiRabbitmq',
-    'Kafka': 'SiKafka',
-    'GraphQL': 'SiGraphql',
-    'REST API Design': 'FaCode',
-    'LINQ': 'FaCode',
-
-    // Search
-    'Elasticsearch': 'SiElasticsearch',
-
-    // Patterns & Methodologies
-    'Domain Driven Design': 'FaSitemap',
-    'Microservices': 'FaSitemap',
-    'CQRS': 'FaSitemap',
-    'Serverless': 'FaServer',
-    'Event Sourcing': 'FaSitemap',
-    'Agile': 'FaTasks',
-    'Scrum': 'FaTasks',
-    'Kanban': 'FaTasks',
-  };
-
-  return iconMap[techName] || 'FaCode'; // Default icon
-};
-
-export default function SkillProficiencySummary() {
+export default function SkillProficiencySummary({ skillsHierarchy }: SkillProficiencySummaryProps) {
   const [showFullHeatMap, setShowFullHeatMap] = useState(false);
 
   // Recursively extract all skills with metadata from the tree
@@ -133,8 +73,8 @@ export default function SkillProficiencySummary() {
     return allSkills;
   };
 
-  // Extract skills from both trees
-  const allSkills = [...extractSkills(skills1), ...extractSkills(skills2)];
+  // Extract skills from hierarchy
+  const allSkills = skillsHierarchy.flatMap(category => extractSkills(category));
 
   // Count by proficiency level
   const expertCount = allSkills.filter(s => s.metadata?.level === 'Expert').length;
@@ -241,7 +181,7 @@ export default function SkillProficiencySummary() {
             const level = skill.metadata?.level || 'Familiar';
             const colorClass = levelToColor[level];
             const experience = skill.metadata?.yearsOfExperience;
-            const iconName = getTechnologyIcon(skill.name);
+            const iconName = skill.metadata?.icon || 'FaCode'; // Use icon from metadata
 
             // Determine if skill is in first row for smart tooltip positioning
             const isInFirstRow = index < 6; // 6 columns in lg breakpoint
@@ -309,7 +249,11 @@ export default function SkillProficiencySummary() {
 
       {/* Full Heat Map Modal */}
       {showFullHeatMap && (
-        <SkillsHeatMapModal onClose={() => setShowFullHeatMap(false)} />
+        <SkillsHeatMapModal
+          onClose={() => setShowFullHeatMap(false)}
+          skills1={skillsHierarchy[0] || { name: "Skills", children: [] }}
+          skills2={skillsHierarchy[1] || { name: "Skills", children: [] }}
+        />
       )}
     </>
   );

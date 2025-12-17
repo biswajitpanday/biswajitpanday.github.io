@@ -34,7 +34,7 @@ export interface SimpleTooltipProps {
    * Border color scheme for the tooltip
    * @default "default"
    */
-  colorScheme?: "default" | "green" | "purple" | "amber" | "red" | "blue" | "cyan";
+  colorScheme?: "default" | "green" | "purple" | "amber" | "red" | "blue" | "cyan" | "emerald";
 
   /**
    * Maximum width preset (optional - auto by default)
@@ -64,6 +64,7 @@ const borderColorClasses = {
   red: "border-red-400/50",
   blue: "border-blue-400/50",
   cyan: "border-secondary-default/50",
+  emerald: "border-emerald-400/50",
 };
 
 const arrowColorClasses = {
@@ -74,6 +75,7 @@ const arrowColorClasses = {
   red: "border-red-400/50",
   blue: "border-blue-400/50",
   cyan: "border-secondary-default/50",
+  emerald: "border-emerald-400/50",
 };
 
 /**

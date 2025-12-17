@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CSS_ANIMATIONS } from "@/constants";
 import { FaGithub, FaEye } from "react-icons/fa";
-import type { Project } from "@/data/portfolioData";
+import type { Project } from "@/types/api";
 import { getPrimaryMetric } from "@/utils/projectHelpers";
 import {
   CategoryBadge,
@@ -14,6 +14,7 @@ import {
   StatusBadgeIcon,
   FeaturedBadge,
   PrimaryMetricBadge,
+  CurrentBadge,
   BadgeSeparator,
   BadgeRow,
   TechStack,
@@ -110,6 +111,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Badge Overlay - Top Right Corner - Icons Only with Tooltips */}
         <div className="absolute top-2 right-2 flex flex-row gap-2 items-center">
           {isFeatured && <FeaturedBadge variant="icon" />}
+          {project.isCurrent && <CurrentBadge variant="icon" />}
           <div data-testid={`project-status-${project.isActive ? 'active' : 'inactive'}-${project.num}`}>
             <StatusBadgeIcon
               isActive={project.isActive}
@@ -208,8 +210,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             stacks={project.stacks}
             columns={2}
             expandable
-            selectedTech={selectedSkill}
-            onTechClick={onSkillClick}
           />
         </div>
       </div>

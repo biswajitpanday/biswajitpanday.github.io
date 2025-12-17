@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
 import DynamicIcon from '@/components/DynamicIcon';
-import { skills1, skills2 } from '@/data/skillsData';
+// Skills data will be passed as props from parent component
 
 // Skill interface matching skillsData structure
 interface SkillNode {
@@ -45,9 +45,11 @@ const levelOrder = {
 
 interface SkillsHeatMapModalProps {
   onClose: () => void;
+  skills1: SkillNode;
+  skills2: SkillNode;
 }
 
-export default function SkillsHeatMapModal({ onClose }: SkillsHeatMapModalProps) {
+export default function SkillsHeatMapModal({ onClose, skills1, skills2 }: SkillsHeatMapModalProps) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [hoveredSkill, setHoveredSkill] = useState<SkillNode | null>(null);
 

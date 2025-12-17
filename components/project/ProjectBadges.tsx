@@ -8,12 +8,13 @@ import {
   FaTrophy,
   FaBuilding,
   FaUser,
+  FaPlay,
 } from "react-icons/fa";
 import { SimpleTooltip, WideTooltip } from "@/components/ui/SimpleTooltip";
 import { getCategoryColor, getCompanyLogo } from "@/constants/projectConstants";
 import { getPrimaryMetric, getMetricBadgeClasses, getMetricBadgeClassesLight } from "@/utils/projectHelpers";
 import type { PrimaryMetric } from "@/utils/projectHelpers";
-import type { Project, Recognition } from "@/data/portfolioData";
+import type { Project, Recognition } from "@/types/api";
 import {
   STATUS_BADGE_CLASSES,
   FEATURED_BADGE_CLASSES,
@@ -101,7 +102,7 @@ export function RecognitionBadge({
 
       {/* Tooltip on hover */}
       <div
-        className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-amber-400/30 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-[165] shadow-xl pointer-events-none"
+        className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-64 p-3 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-amber-400/30 opacity-0 invisible group-hover/awards:opacity-100 group-hover/awards:visible transition-all duration-200 z-[999] shadow-xl pointer-events-none"
         role="tooltip"
         aria-hidden="true"
       >
@@ -267,12 +268,43 @@ export function PrimaryMetricBadge({
 
   return (
     <span
-      className={`inline-flex items-center justify-center gap-2 backdrop-blur-md shadow-lg border flex-shrink-0 ${badgeClasses} ${colorClasses}`}
+      className={`inline-flex items-center justify-center gap-2 bg-black/70 backdrop-blur-md shadow-lg border flex-shrink-0 ${badgeClasses} ${colorClasses}`}
       role="status"
       aria-label={`Key Metric: ${metric.text}`}
     >
       <metric.icon className={`flex-shrink-0 ${variant === "modal" ? "text-base" : "text-xs"}`} aria-hidden="true" />
       <span className="leading-none">{metric.text}</span>
+    </span>
+  );
+}
+
+/**
+ * Current Project Badge - Indicates ongoing project work
+ */
+export function CurrentBadge({ variant = "text" }: { variant?: "icon" | "text" }) {
+  if (variant === "icon") {
+    return (
+      <SimpleTooltip content="Currently Working On This" position="bottom" colorScheme="emerald">
+        <div
+          className="bg-emerald-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center cursor-help flex-shrink-0"
+          role="img"
+          aria-label="Currently Working On This Project"
+        >
+          <FaPlay className="text-xs flex-shrink-0" aria-hidden="true" />
+          <span className="sr-only">Currently Working On This Project</span>
+        </div>
+      </SimpleTooltip>
+    );
+  }
+
+  return (
+    <span
+      className="inline-flex items-center justify-center gap-1.5 bg-emerald-500/20 border border-emerald-500/50 text-emerald-300 px-2 py-1 rounded-md text-xs font-semibold shadow-sm flex-shrink-0"
+      role="status"
+      aria-label="Currently Working On This Project"
+    >
+      <FaPlay className="text-[10px] flex-shrink-0" aria-hidden="true" />
+      <span className="leading-none">Current</span>
     </span>
   );
 }
@@ -315,7 +347,7 @@ export function CompanyIcon({ company }: { company: string }) {
 export function BadgeSeparator({ className = "" }: { className?: string }) {
   return (
     <span className={`h-7 text-white/30 text-xs inline-flex items-center justify-center flex-shrink-0 ${className}`}>
-      <span className="leading-none">|</span>
+      <span className="leading-7">|</span>
     </span>
   );
 }

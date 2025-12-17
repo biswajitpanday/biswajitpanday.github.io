@@ -2,24 +2,12 @@
 
 import React, { useState, useEffect, useCallback, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaQuoteLeft, FaChevronLeft, FaChevronRight, FaLinkedin, FaStar } from "react-icons/fa";
-
-export interface Testimonial {
-  id: string;
-  quote: string;
-  author: string;
-  role: string;
-  company: string;
-  image?: string;
-  linkedinUrl?: string;
-  /** Controls visibility - true = visible on public site, false = admin preview only */
-  shouldPublish?: boolean;
-  /** Marks this as sample/demo data that should be replaced with real testimonials */
-  isSampleData?: boolean;
-}
+import { FaQuoteLeft, FaChevronLeft, FaChevronRight, FaLinkedin, FaStar, FaExternalLinkAlt } from "react-icons/fa";
+import { SOCIAL_LINKS } from "@/constants";
+import type { TestimonialData } from "@/types/api";
 
 interface TestimonialsCarouselProps {
-  testimonials: Testimonial[];
+  testimonials: TestimonialData[];
   autoPlayInterval?: number; // in milliseconds
   className?: string;
 }
@@ -222,6 +210,26 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
           </div>
         )}
       </div>
+
+      {/* View on LinkedIn Link */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+        className="text-center mt-4"
+      >
+        <a
+          href={`${SOCIAL_LINKS.LINKEDIN}/details/recommendations/`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-xs text-white/40 hover:text-secondary-default transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded px-2 py-1"
+        >
+          <FaLinkedin aria-hidden="true" />
+          <span>View all recommendations on LinkedIn</span>
+          <FaExternalLinkAlt className="text-[10px]" aria-hidden="true" />
+        </a>
+      </motion.div>
     </motion.section>
   );
 };

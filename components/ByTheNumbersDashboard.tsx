@@ -12,17 +12,34 @@ import {
   FaStar,
   FaGithub
 } from "react-icons/fa";
-import { projects } from "@/data/portfolioData";
-import { certifications } from "@/data/certificationsData";
-import { timeLineItems } from "@/data/timelineData";
-import { countAllTechnologies } from "@/data/skillsData";
+import type { Project, Certification, TimelineEntry } from "@/types/api";
 import { calculateTotalExperience } from "@/helpers/utility";
+import { countAllTechnologies } from "@/lib/skillsDataTransformer";
 
 interface CountUpProps {
   end: number;
   suffix?: string;
   prefix?: string;
   duration?: number;
+}
+
+interface SkillNode {
+  name: string;
+  metadata?: {
+    icon?: string;
+    level?: string;
+    yearsOfExperience?: number;
+    lastUsed?: string;
+  };
+  children?: SkillNode[];
+}
+
+interface ByTheNumbersDashboardProps {
+  projects: Project[];
+  certifications: Certification[];
+  timeline: TimelineEntry[];
+  skills1: SkillNode;
+  skills2: SkillNode;
 }
 
 // Simple count-up hook
@@ -61,14 +78,20 @@ const useCountUp = ({ end, suffix = "", prefix = "", duration = 2000 }: CountUpP
   return { count: `${prefix}${count}${suffix}`, ref };
 };
 
-const ByTheNumbersDashboard: React.FC = () => {
+const ByTheNumbersDashboard: React.FC<ByTheNumbersDashboardProps> = ({
+  projects,
+  certifications,
+  timeline,
+  skills1,
+  skills2,
+}) => {
   // Calculate all metrics
   const totalProjects = projects.length;
   const activeProjects = projects.filter(p => p.isActive).length;
   const totalCertifications = certifications.filter(c => !c.isUpcoming).length;
-  const totalTechnologies = countAllTechnologies();
-  const totalExperience = calculateTotalExperience(timeLineItems);
-  const totalCompanies = timeLineItems.length;
+  const totalTechnologies = countAllTechnologies(skills1, skills2);
+  const totalExperience = calculateTotalExperience(timeline);
+  const totalCompanies = timeline.length;
   const openSourceProjects = projects.filter(p => p.isOpenSource).length;
 
   // Extract numeric value from experience string (e.g., "10+ Years" -> 10)
@@ -196,15 +219,23 @@ const ByTheNumbersDashboard: React.FC = () => {
         </div>
 
         {/* Impact Highlights */}
-        <div className="mt-6 pt-6 border-t border-white/10">
+        <div className="mt-6 pt-6 border-white/10">
           <div className="flex flex-wrap justify-center gap-4 text-xs">
             <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
               <FaStar className="text-emerald-400" />
               <span className="text-emerald-300">80-90% Efficiency Gains with SpireWiz</span>
             </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-golden-500/10 border border-golden-500/30 rounded-full">
+              <FaStar className="text-golden-400" />
+              <span className="text-golden-400">$180K Annual Business Impact</span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
+              <FaStar className="text-emerald-400" />
+              <span className="text-emerald-300">75% Upgrade Time Reduction</span>
+            </div>
             <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 border border-blue-500/30 rounded-full">
-              <FaCloud className="text-blue-400" />
-              <span className="text-blue-300">55% Cloud Cost Reduction</span>
+              <FaRocket className="text-blue-400" />
+              <span className="text-blue-300">10x Performance Boost</span>
             </div>
           </div>
         </div>

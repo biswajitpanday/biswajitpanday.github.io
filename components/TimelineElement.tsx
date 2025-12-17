@@ -16,13 +16,15 @@ import {
 } from "@/helpers/utility";
 
 interface TimelineItem {
-  icon: string;
+  icon?: string; // V2: Optional in API
   company: string;
   position: string;
   location: string;
-  startDate: Date;
-  endDate: Date;
-  url: string;
+  address?: string; // V2: Work location address
+  startDate: Date | string; // V2: Can be string from API
+  endDate?: Date | string; // V2: Optional when isCurrent = true, can be string from API
+  isCurrent?: boolean; // V2: Current position flag
+  url?: string; // V2: Optional in API
   jobType: string[];
   responsibilities: string[];
 }
@@ -43,8 +45,11 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
   className = ""
 }) => {
   const isFeatured = index === 0;
-  const dateRange = getDateRange(item.startDate, item.endDate);
-  const duration = getDuration(item.startDate, item.endDate);
+  // V2: Convert string dates to Date objects if needed
+  const startDate = typeof item.startDate === 'string' ? new Date(item.startDate) : item.startDate;
+  const endDate = item.endDate ? (typeof item.endDate === 'string' ? new Date(item.endDate) : item.endDate) : new Date();
+  const dateRange = getDateRange(startDate, endDate);
+  const duration = getDuration(startDate, endDate);
 
   return (
     <motion.article
@@ -84,13 +89,21 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
 
           {/* Date Info Badges - Right Side (Desktop) - Contextual colors */}
           <div className="hidden md:flex items-center gap-2 flex-shrink-0">
-          <div className="inline-flex items-center justify-center h-7 bg-secondary-default/10 backdrop-blur-sm Fborder border-secondary-default/30 text-secondary-default px-3 rounded-full text-xs font-medium">
+            {/* V2: Current Position Badge */}
+            {item.isCurrent && (
+              <div className="inline-flex items-center justify-center h-7 gap-1.5 bg-emerald-500/20 border border-emerald-500/50 text-emerald-300 px-3 rounded-full text-xs font-semibold">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true" />
+                <span>Current</span>
+              </div>
+            )}
+
+            <div className="inline-flex items-center justify-center h-7 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-3 rounded-full text-xs font-medium">
               <FaCalendar className="text-[10px] mr-1.5" />
-              <span>{getDateRange(item.startDate, item.endDate)}</span>
+              <span>{getDateRange(item.startDate, item.endDate || new Date())}</span>
             </div>
             <div className="inline-flex items-center justify-center h-7 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-[#00BFFF]/90 px-3 rounded-full text-xs font-medium">
               <FaClock className="text-[10px] mr-1.5" />
-              <span>{getDuration(item.startDate, item.endDate)}</span>
+              <span>{getDuration(item.startDate, item.endDate || new Date())}</span>
             </div>
           </div>
         </div>
@@ -139,28 +152,36 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
             {/* Separator */}
             <span className="h-7 text-white/30 text-xs inline-flex items-center justify-center">|</span>
 
-            {/* Location Badge - Contextual colors */}
+            {/* Location Badge - V2: Shows address if available, fallback to location - Contextual colors */}
             <div className="inline-flex items-center justify-center h-7 gap-1.5 text-white/70 text-xs bg-white/5 backdrop-blur-sm border border-white/10 px-3 rounded-full hover:bg-white/10 transition-all duration-300">
               <FaMapMarkedAlt className={`text-[10px] ${isFeatured ? 'text-purple-400' : 'text-secondary-default'}`} />
-              {item.location}
+              {item.address || item.location}
             </div>
           </div>
         </div>
 
         {/* Date Info Badges + Job Type + Location - Mobile Only */}
         <div className="sm:hidden space-y-2 mb-3">
-          {/* Row 1: Date + Duration */}
+          {/* Row 1: Current Badge + Date + Duration */}
           <div className="flex items-center gap-2">
+            {/* V2: Current Position Badge - Mobile */}
+            {item.isCurrent && (
+              <div className="inline-flex items-center justify-center h-7 gap-1.5 bg-emerald-500/20 border border-emerald-500/50 text-emerald-300 px-2 rounded-full text-xs font-semibold">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true" />
+                <span>Current</span>
+              </div>
+            )}
+
             <div className={`inline-flex items-center justify-center h-7 backdrop-blur-sm px-3 rounded-full text-xs font-medium ${isFeatured
                 ? 'bg-purple-500/10 border border-purple-500/30 text-purple-300'
                 : 'bg-secondary-default/10 border border-secondary-default/30 text-secondary-default'
               }`}>
               <FaCalendar className="text-[10px] mr-1.5" />
-              <span>{getDateRange(item.startDate, item.endDate)}</span>
+              <span>{getDateRange(item.startDate, item.endDate || new Date())}</span>
             </div>
             <div className="inline-flex items-center justify-center h-7 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-[#00BFFF]/90 px-3 rounded-full text-xs font-medium">
               <FaClock className="text-[10px] mr-1.5" />
-              <span>{getDuration(item.startDate, item.endDate)}</span>
+              <span>{getDuration(item.startDate, item.endDate || new Date())}</span>
             </div>
           </div>
 
@@ -182,10 +203,10 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
             {/* Separator */}
             <span className="h-7 text-white/30 text-xs inline-flex items-center justify-center flex-shrink-0">|</span>
 
-            {/* Location - Contextual colors */}
+            {/* Location - V2: Shows address if available, fallback to location - Contextual colors */}
             <div className="inline-flex items-center justify-center h-7 gap-1 text-white/70 text-[10px] bg-white/5 backdrop-blur-sm border border-white/10 px-2 rounded-full flex-shrink-0">
               <FaMapMarkedAlt className={`text-[9px] ${isFeatured ? 'text-purple-400' : 'text-secondary-default'}`} />
-              {item.location}
+              {item.address || item.location}
             </div>
           </div>
         </div>

@@ -13,8 +13,8 @@
  * - Modal Backdrop: 140-149 (modal overlay backgrounds)
  * - Modals/Dialogs: 150-159 (modal content, dialog boxes)
  * - Notifications/Toasts: 160-169 (toast notifications, alerts)
- * - Tooltips/Popovers: 165 (tooltips must appear above modals)
- * - Emergency: 170+ (critical overlays, loading screens)
+ * - Tooltips/Popovers: 999 (tooltips must appear above everything including filter panels)
+ * - Emergency: 1000+ (critical overlays, loading screens)
  *
  * Usage:
  * ```tsx
@@ -68,14 +68,14 @@ export const Z_INDEX = {
   NOTIFICATION: 160,
 
   /**
-   * Tooltip and context menu layer (must be above modals)
+   * Tooltip and context menu layer (must be above modals and filter panels)
    */
-  TOOLTIP: 165,
+  TOOLTIP: 999,
 
   /**
    * Emergency layer (loading screens, critical alerts)
    */
-  EMERGENCY: 170,
+  EMERGENCY: 1000,
 } as const;
 
 /**
@@ -94,7 +94,7 @@ export type ZIndexLayer = typeof Z_INDEX[keyof typeof Z_INDEX];
  * import { getZIndexClass, Z_INDEX } from '@/constants/zIndex';
  *
  * <div className={getZIndexClass(Z_INDEX.TOOLTIP)}>Tooltip</div>
- * // Returns: "z-[150]"
+ * // Returns: "z-[999]"
  * ```
  */
 export function getZIndexClass(layer: ZIndexLayer): string {
@@ -112,6 +112,6 @@ export const Z_INDEX_CLASSES = {
   MODAL_BACKDROP: 'z-[140]',
   MODAL: 'z-[150]',
   NOTIFICATION: 'z-[160]',
-  TOOLTIP: 'z-[165]',
-  EMERGENCY: 'z-[170]',
+  TOOLTIP: 'z-[999]',
+  EMERGENCY: 'z-[1000]',
 } as const;

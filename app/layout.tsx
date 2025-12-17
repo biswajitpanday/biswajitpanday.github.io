@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
-import dynamic from "next/dynamic";
 import "./globals.css";
-import Header from "@/components/Header";
-import PageTransition from "@/components/PageTransition";
 import { PersonSchema, WebSiteSchema, OrganizationSchema } from "@/components/StructuredData";
-import DebugMode from "@/components/DebugMode";
-import SEOOptimizer from "@/components/SEOOptimizer";
-import WebVitalsTracker from "@/components/WebVitalsTracker";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
-import ResumeAnalyticsLoader from "@/components/ResumeAnalyticsLoader";
-import HeatmapTracker from "@/components/HeatmapTracker";
+import RootLayoutClient from "@/components/RootLayoutClient";
+import { fetchProjects, fetchCertifications, fetchSkillHierarchy } from "@/lib/api-client";
+import type { Project, Certification } from "@/types/api";
 
-// Lazy load AIChatbot - includes react-markdown (~150KB)
-const AIChatbot = dynamic(() => import("@/components/AIChatbot"));
+interface SkillHierarchyNode {
+  name: string;
+  metadata?: {
+    icon?: string;
+    level?: string;
+    yearsOfExperience?: number;
+    lastUsed?: string;
+  };
+  children?: SkillHierarchyNode[];
+}
 
 const jetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -142,11 +144,30 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetch data for GlobalSearch at build time
+  let projects: Project[] = [];
+  let certifications: Certification[] = [];
+  let skillsHierarchy: SkillHierarchyNode[] = [];
+
+  try {
+    [projects, certifications, skillsHierarchy] = await Promise.all([
+      fetchProjects(),
+      fetchCertifications(),
+      fetchSkillHierarchy(),
+    ]);
+  } catch (error) {
+    console.error('Failed to fetch layout data:', error);
+    // Fallback to empty arrays
+    projects = [];
+    certifications = [];
+    skillsHierarchy = [];
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -165,16 +186,13 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className={jetBrainsMono.variable}>
-        <GoogleAnalytics />
-        <Header />
-        {/* <StairTransition /> */}
-        <PageTransition>{children}</PageTransition>
-        <SEOOptimizer />
-        <WebVitalsTracker />
-        <ResumeAnalyticsLoader />
-        <HeatmapTracker />
-        <DebugMode />
-        <AIChatbot />
+        <RootLayoutClient
+          projects={projects}
+          certifications={certifications}
+          skillsHierarchy={skillsHierarchy}
+        >
+          {children}
+        </RootLayoutClient>
       </body>
     </html>
   );

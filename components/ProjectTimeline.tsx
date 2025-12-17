@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaEye } from "react-icons/fa";
-import { projects, Project } from "@/data/portfolioData";
+import type { Project } from "@/types/api";
 import Image from "next/image";
 import Link from "next/link";
 import { getPrimaryMetric } from "@/utils/projectHelpers";
@@ -14,6 +14,7 @@ import {
   StatusBadge,
   FeaturedBadge,
   PrimaryMetricBadge,
+  CurrentBadge,
   BadgeSeparator,
   BadgeRow,
   TechStack,
@@ -31,11 +32,12 @@ interface TimelineProject extends Project {
 }
 
 interface ProjectTimelineProps {
+  projects: Project[];
   selectedTech?: string | null;
   onOpenModal?: (project: Project) => void;
 }
 
-export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTimelineProps) {
+export default function ProjectTimeline({ projects, selectedTech, onOpenModal }: ProjectTimelineProps) {
   const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(new Set());
 
   // Toggle description expansion
@@ -188,13 +190,20 @@ export default function ProjectTimeline({ selectedTech, onOpenModal }: ProjectTi
                         <BadgeRow>
                           <CategoryBadge category={project.category} />
 
-                          {(project.isOpenSource || (project.recognition && project.recognition.length > 0) || isFeatured || primaryMetric) && (
+                          {(project.isOpenSource || project.isCurrent || (project.recognition && project.recognition.length > 0) || isFeatured || primaryMetric) && (
                             <BadgeSeparator />
                           )}
 
                           {project.isOpenSource && (
                             <>
                               <OpenSourceBadge variant="icon" />
+                              <BadgeSeparator />
+                            </>
+                          )}
+
+                          {project.isCurrent && (
+                            <>
+                              <CurrentBadge variant="text" />
                               <BadgeSeparator />
                             </>
                           )}

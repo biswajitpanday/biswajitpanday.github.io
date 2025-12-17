@@ -4,15 +4,24 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaTimes, FaExternalLinkAlt, FaCode, FaBriefcase, FaAward } from "react-icons/fa";
 import EmptyState from "@/components/ui/EmptyState";
-import { projects } from "@/data/portfolioData";
-import { skills1, skills2 } from "@/data/skillsData";
-import { certifications } from "@/data/certificationsData";
+import type { Project, Certification } from "@/types/api";
 import Link from "next/link";
 
 /**
  * GlobalSearch - Accessible global search modal
  * WCAG 2.1 AA compliant with focus management, keyboard navigation, and live regions
  */
+
+interface SkillHierarchyNode {
+  name: string;
+  metadata?: {
+    icon?: string;
+    level?: string;
+    yearsOfExperience?: number;
+    lastUsed?: string;
+  };
+  children?: SkillHierarchyNode[];
+}
 
 interface SearchResult {
   id: string;
@@ -24,96 +33,101 @@ interface SearchResult {
   icon: React.ReactNode;
 }
 
-// Prepare searchable data
-const prepareSearchableData = (): SearchResult[] => {
-  const results: SearchResult[] = [];
-
-  // Add projects
-  projects.forEach((project) => {
-    results.push({
-      id: `project-${project.num}`,
-      title: project.title,
-      description: project.shortDescription,
-      type: "project",
-      url: "/projects",
-      category: project.category,
-      icon: <FaBriefcase className="text-secondary-default" />
-    });
-  });
-
-  // Add certifications
-  certifications.filter(cert => !cert.isUpcoming).forEach((cert) => {
-    results.push({
-      id: `certification-${cert.id}`,
-      title: cert.name,
-      description: cert.description || `${cert.category} certification by ${cert.issuer}`,
-      type: "certification",
-      url: "/certifications",
-      category: cert.category,
-      icon: <FaAward className="text-blue-400" />
-    });
-  });
-
-  // Add skills from both trees
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const addSkillsRecursively = (skillNode: any, prefix = "") => {
-    if (skillNode.children && skillNode.children.length > 0) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      skillNode.children.forEach((child: any) => {
-        addSkillsRecursively(child, prefix ? `${prefix} > ${skillNode.name}` : skillNode.name);
-      });
-    } else {
-      results.push({
-        id: `skill-${skillNode.name}`,
-        title: skillNode.name,
-        description: `Technology under ${prefix}`,
-        type: "skill",
-        url: "/skills",
-        category: prefix,
-        icon: <FaCode className="text-blue-400" />
-      });
-    }
-  };
-
-  skills1.children?.forEach((category) => addSkillsRecursively(category));
-  skills2.children?.forEach((category) => addSkillsRecursively(category));
-
-  // Add pages
-  const pages = [
-    { name: "Home", url: "/", description: "Welcome page with overview and introduction" },
-    { name: "Projects", url: "/projects", description: "Showcase of projects and work experience" },
-    { name: "Skills", url: "/skills", description: "Technical expertise and technologies" },
-    { name: "Career", url: "/career", description: "Professional journey and experience timeline" },
-    { name: "Certifications", url: "/certifications", description: "Professional certifications and courses completed" },
-    { name: "Contact", url: "/contact", description: "Get in touch and contact information" },
-  ];
-
-  pages.forEach((page) => {
-    results.push({
-      id: `page-${page.name}`,
-      title: page.name,
-      description: page.description,
-      type: "page",
-      url: page.url,
-      icon: <FaExternalLinkAlt className="text-green-400" />
-    });
-  });
-
-  return results;
-};
-
 interface GlobalSearchProps {
   isOpen: boolean;
   onClose: () => void;
+  projects: Project[];
+  certifications: Certification[];
+  skillsHierarchy: SkillHierarchyNode[];
 }
 
-const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
+const GlobalSearch: React.FC<GlobalSearchProps> = ({
+  isOpen,
+  onClose,
+  projects,
+  certifications,
+  skillsHierarchy
+}) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Prepare searchable data from props
+  const prepareSearchableData = (): SearchResult[] => {
+    const results: SearchResult[] = [];
+
+    // Add projects
+    projects.forEach(project => {
+      results.push({
+        id: `project-${project._id}`,
+        title: project.title,
+        description: project.shortDescription,
+        type: "project",
+        url: `/projects#${project.title.toLowerCase().replace(/\s+/g, '-')}`,
+        category: project.category,
+        icon: <FaCode className="text-emerald-400" />
+      });
+    });
+
+    // Add certifications
+    certifications.forEach(cert => {
+      results.push({
+        id: `cert-${cert._id}`,
+        title: cert.name,
+        description: `${cert.issuer} - ${cert.category}`,
+        type: "certification",
+        url: `/certifications#${cert.name.toLowerCase().replace(/\s+/g, '-')}`,
+        category: cert.category,
+        icon: <FaAward className="text-purple-400" />
+      });
+    });
+
+    // Add skills (extract leaf nodes from hierarchy)
+    const extractSkills = (node: SkillHierarchyNode, parentCategory?: string): void => {
+      if (node.children && node.children.length > 0) {
+        node.children.forEach(child => extractSkills(child, node.name));
+      } else if (node.metadata?.level) {
+        // This is a skill with proficiency level
+        results.push({
+          id: `skill-${node.name}`,
+          title: node.name,
+          description: `${node.metadata.level}${node.metadata.yearsOfExperience ? ` • ${node.metadata.yearsOfExperience} years` : ''}`,
+          type: "skill",
+          url: `/skills#${node.name.toLowerCase().replace(/\s+/g, '-')}`,
+          category: parentCategory,
+          icon: <FaBriefcase className="text-blue-400" />
+        });
+      }
+    };
+
+    skillsHierarchy.forEach(category => extractSkills(category));
+
+    // Add static pages
+    const pages = [
+      { title: "Projects", description: "View all my projects", url: "/projects" },
+      { title: "Skills", description: "Explore my technical skills", url: "/skills" },
+      { title: "Certifications", description: "Professional certifications", url: "/certifications" },
+      { title: "Career", description: "My career timeline", url: "/career" },
+      { title: "Activity", description: "GitHub activity", url: "/activity" },
+      { title: "Contact", description: "Get in touch", url: "/contact" },
+    ];
+
+    pages.forEach(page => {
+      results.push({
+        id: `page-${page.url}`,
+        title: page.title,
+        description: page.description,
+        type: "page",
+        url: page.url,
+        icon: <FaExternalLinkAlt className="text-cyan-400" />
+      });
+    });
+
+    return results;
+  };
+
   // Memoize searchable data to prevent recreation on every render
-  const searchableData = useMemo(() => prepareSearchableData(), []);
+  const searchableData = useMemo(() => prepareSearchableData(), [projects, certifications, skillsHierarchy]);
 
   // Focus input when modal opens
   useEffect(() => {

@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import {
-  fetchGitHubStats,
+  fetchGitHubStatsWithContributions,
   generateContributionData,
   GITHUB_USERNAME,
   GITHUB_PROFILE_URL,
@@ -19,6 +19,7 @@ interface GitHubActivityGraphProps {
 export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGraphProps) {
   const [hoveredCell, setHoveredCell] = useState<{ x: number; y: number; date: string; count: number } | null>(null);
   const [stats, setStats] = useState<GitHubStats | null>(null);
+  const [graphQLContributions, setGraphQLContributions] = useState<Map<string, number> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
@@ -28,7 +29,7 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
     setIsMounted(true);
   }, []);
 
-  // Fetch GitHub data on mount
+  // Fetch GitHub data on mount (GraphQL + Events API)
   useEffect(() => {
     let isMounted = true;
 
@@ -36,10 +37,11 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
       try {
         setIsLoading(true);
         setError(null);
-        const data = await fetchGitHubStats(GITHUB_USERNAME);
+        const { stats: githubStats, contributionMap } = await fetchGitHubStatsWithContributions(GITHUB_USERNAME);
         if (isMounted) {
-          setStats(data);
-          onStatsLoaded?.(data);
+          setStats(githubStats);
+          setGraphQLContributions(contributionMap);
+          onStatsLoaded?.(githubStats);
         }
       } catch (err) {
         if (isMounted) {
@@ -61,10 +63,11 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
   }, [onStatsLoaded]);
 
   // Create contribution map for the graph
+  // GraphQL data takes priority (1 year), falls back to Events API (90 days)
   const contributionMap = useMemo(() => {
     if (!stats) return new Map<string, number>();
-    return generateContributionData(stats.recentActivity);
-  }, [stats]);
+    return generateContributionData(stats.recentActivity, graphQLContributions);
+  }, [stats, graphQLContributions]);
 
   // Generate grid data (last 52 weeks, 7 days each)
   const generateGridData = useCallback(() => {
@@ -180,7 +183,7 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
           GitHub Activity
         </h2>
         <p className="text-sm bg-gradient-to-r from-white/60 to-white/40 bg-clip-text text-transparent">
-          Contribution activity from the last 90 days
+          Contribution activity from the last year
         </p>
       </div>
 
@@ -251,7 +254,7 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
                             initial={{ opacity: 0, y: -5 }}
                             animate={{ opacity: 1, y: 0 }}
                             role="tooltip"
-                            className="absolute z-10 bottom-full left-1/2 transform -translate-x-1/2 mb-2 p-2 bg-primary border border-secondary-default/30 rounded-lg shadow-xl whitespace-nowrap text-xs"
+                            className="absolute z-[9999] bottom-full left-1/2 transform -translate-x-1/2 mb-2 p-2 bg-gray-900 border border-secondary-default/30 rounded-lg shadow-2xl whitespace-nowrap text-xs pointer-events-none"
                           >
                             <div className="font-semibold text-white">{count} contributions</div>
                             <div className="text-white/60">{date.toDateString()}</div>
@@ -278,7 +281,7 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
         </div>
       </motion.div>
 
-      {/* Activity Breakdown - Real Stats */}
+      {/* Activity Breakdown - Real Stats (1 Year Data) */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -287,16 +290,31 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
       >
         <div className="bg-gray-900/50 border border-secondary-default/20 rounded-lg p-3">
           <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4">
-            {/* Total Commits */}
+            {/* Total Contributions */}
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-[#00BFFF]/20 rounded-lg">
+                <span className="text-[#00BFFF] text-lg" aria-hidden="true">🎯</span>
+              </div>
+              <div>
+                <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">
+                  {stats?.totalContributions || 0}
+                </div>
+                <div className="text-[10px] text-white/60">Total Contributions</div>
+              </div>
+            </div>
+
+            <div className="hidden sm:block w-px h-8 bg-white/10" aria-hidden="true"></div>
+
+            {/* Active Days */}
             <div className="flex items-center gap-2">
               <div className="p-1.5 bg-emerald-500/20 rounded-lg">
-                <span className="text-emerald-400 text-lg" aria-hidden="true">💻</span>
+                <span className="text-emerald-400 text-lg" aria-hidden="true">📅</span>
               </div>
               <div>
                 <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500 tabular-nums">
-                  {stats?.totalCommits || 0}
+                  {stats?.activeDays || 0}
                 </div>
-                <div className="text-[10px] text-white/60">Commits</div>
+                <div className="text-[10px] text-white/60">Active Days</div>
               </div>
             </div>
 
@@ -311,37 +329,22 @@ export default function GitHubActivityGraph({ onStatsLoaded }: GitHubActivityGra
                 <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500 tabular-nums">
                   {stats?.currentStreak || 0}
                 </div>
-                <div className="text-[10px] text-white/60">Day Streak</div>
-              </div>
-            </div>
-
-            <div className="hidden sm:block w-px h-8 bg-white/10" aria-hidden="true"></div>
-
-            {/* Repos Touched */}
-            <div className="flex items-center gap-2">
-              <div className="p-1.5 bg-purple-500/20 rounded-lg">
-                <span className="text-purple-400 text-lg" aria-hidden="true">📦</span>
-              </div>
-              <div>
-                <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
-                  {stats?.totalRepos || 0}
-                </div>
-                <div className="text-[10px] text-white/60">Repos Touched</div>
+                <div className="text-[10px] text-white/60">Current Streak</div>
               </div>
             </div>
 
             <div className="hidden lg:block w-px h-8 bg-white/10" aria-hidden="true"></div>
 
-            {/* Active Days */}
+            {/* Longest Streak */}
             <div className="flex items-center gap-2">
-              <div className="p-1.5 bg-blue-500/20 rounded-lg">
-                <span className="text-blue-400 text-lg" aria-hidden="true">📅</span>
+              <div className="p-1.5 bg-purple-500/20 rounded-lg">
+                <span className="text-purple-400 text-lg" aria-hidden="true">🏆</span>
               </div>
               <div>
-                <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-500 tabular-nums">
-                  {stats?.activeDays || 0}
+                <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
+                  {stats?.longestStreak || 0}
                 </div>
-                <div className="text-[10px] text-white/60">Active Days</div>
+                <div className="text-[10px] text-white/60">Longest Streak</div>
               </div>
             </div>
           </div>

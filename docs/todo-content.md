@@ -1,10 +1,10 @@
 # Portfolio Content Improvement Plan
 
-**Version:** 7.0 (Homepage Optimization & Performance - Phase 33 Complete)
+**Version:** 8.0 (V2 Schema Integration - Phase 35 Planned)
 **Created:** 2025-11-13
-**Last Updated:** 2025-12-03
-**Type:** UX Optimization & Performance Enhancement
-**Current Focus:** Phase 34 - Performance & Analytics
+**Last Updated:** 2025-12-12
+**Type:** Infrastructure Upgrade & V2 Integration
+**Current Focus:** Phase 35 - V2 Schema & API Integration 🚀
 
 > **Note:** For completed phases (Phase 1-29) see `CompletedPhases.md`
 
@@ -30,7 +30,8 @@
 | **Recruiter Readiness** | 10/10 | Excellent - Clear intent & CTAs visible |
 | **Content Volume** | Optimized | 6 sections, 25% shorter homepage |
 | **Accessibility** | WCAG 2.1 AA | Full compliance |
-| **Current Phase** | Phase 34 | Performance & Analytics Enhancement |
+| **API Integration** | V1 → V2 | Phase 35: Schema migration in progress |
+| **Current Phase** | Phase 35 | V2 Schema & API Integration 🚀 |
 
 ### Key Issues Identified (2025-12-01 Review)
 
@@ -86,7 +87,10 @@
 - **Phase 32** (2 tasks) - Animation Optimization (FloatingCodeSymbols CSS, reduced-motion hook)
 - **Phase 33** (3 tasks) - Homepage Optimization (Gradient reduction, Blog integration, Content reordering)
 
-**Total Completed:** 188 tasks | **Effort:** ~181 hours
+**Total Completed:** 189 tasks | **Effort:** ~184.5 hours
+**Completed Phases:** Phases 1-33, 36.0 (total: 34 phases)
+**Current Phases:** Phase 34 (0/8 tasks - PLANNED), Phase 35 (0/27 tasks - PLANNED), Phase 36 (1/4 tasks - 25%)
+**Next Priority:** Phase 35: V2 Integration (27 tasks, ~25-30 hours)
 
 ---
 
@@ -490,6 +494,234 @@ Optimize Core Web Vitals, improve Lighthouse scores, implement advanced analytic
 
 ---
 
+## PHASE 35: V2 SCHEMA & API INTEGRATION 🚀
+
+**Status:** ⏳ PLANNED (0/27 tasks - 0%)
+**Priority:** HIGH - Critical infrastructure upgrade
+**Effort:** ~25-30 hours
+**Impact:** Full V2 feature support, improved data model
+**API:** `https://portfolio-admin-blue.vercel.app/api/public/*`
+
+### Purpose
+Migrate portfolio website to consume V2 schema and APIs from `portfolio-admin`. Integrate all V2 features including project metrics, case studies, recognition, flexible certifications, flat skills structure, timeline enhancements, and custom ordering.
+
+### Key Changes
+
+**Schema Migrations:**
+- **Projects:** Add `isCurrent` flag, make `longDescription` optional
+- **Certifications:** Add `order` field for custom sorting
+- **Skills:** ⚠️ **MAJOR CHANGE** - Migrate from hierarchical `SkillTree` to flat `SkillType` + `SkillItem`
+- **Timeline:** Add `address` and `isCurrent` fields
+- **Testimonials/Blog:** Add `order` field for custom sorting
+- **All Types:** Remove custom `id` field (use `_id` only)
+
+### Epics Breakdown
+
+**Epic 1: Type Definitions (6 tasks, 2-3h)**
+- Update Project, Certification, Skills, Timeline, Testimonial, Blog types
+- Remove custom `id` fields, add V2 fields
+
+**Epic 2: API Service Layer (3 tasks, 3-4h)**
+- Update API base URL configuration
+- Update skills API service (major change)
+- Add error handling for new fields
+
+**Epic 3: Projects Components (5 tasks, 4-5h)**
+- ProjectCard: Add `isCurrent` badge
+- ProjectModal: Display metrics, case studies, recognition
+- ProjectTimeline: Show current projects
+
+**Epic 4: Certifications Components (2 tasks, 2h)**
+- Use `order` for sorting
+- Display certification numbers
+
+**Epic 5: Skills Components - MAJOR (4 tasks, 8-10h)**
+- Migrate skills page to flat structure
+- Update SkillsClient data transformation
+- Update skills filters
+- Display last used dates
+
+**Epic 6: Timeline Components (2 tasks, 2h)**
+- Display address field
+- Show current position indicator
+
+**Epic 7: Testimonials & Blog (2 tasks, 1h)**
+- Use `order` field for sorting
+
+**Epic 8: Testing & Validation (3 tasks, 3-4h)**
+- Test all API endpoints
+- Test component rendering
+- Validate backward compatibility
+
+### Implementation Order
+1. **Phase 1:** Types + API Services (HIGH priority, ~5-7h)
+2. **Phase 2:** Skills Migration (HIGH priority, ~8-10h) ⚠️ Most complex
+3. **Phase 3:** Projects/Certs/Timeline (MEDIUM, ~8-9h)
+4. **Phase 4:** Testing (HIGH, ~3-4h)
+
+### Success Metrics
+- ✅ All 27 tasks completed
+- ✅ Skills page works with flat structure
+- ✅ Project metrics/case studies display
+- ✅ All TypeScript errors resolved
+- ✅ Zero console errors
+- ✅ ~20-25 files updated
+
+**📄 Full Details:** See `docs/phase-35-plan.md` for complete task breakdown
+
+---
+
+## PHASE 36: GITHUB ACTIVITY ENHANCEMENT 🚀
+
+**Status:** ⏳ PLANNED (0/3 tasks - 0%)
+**Priority:** MEDIUM - Enhanced GitHub activity showcase
+**Effort:** ~3-4 hours
+**Impact:** Better visibility of coding activity across portfolio
+
+### Purpose
+Maximize the impact of 1-year GitHub activity data by showcasing it prominently across the portfolio. After implementing 1-year data (Phase 36.0 ✅), enhance visibility and provide deeper insights.
+
+### Completed
+- ✅ **Phase 36.0:** Fixed Bottom Statistics (2025-12-14)
+  - Updated stats to use 1-year GraphQL data instead of 90-day Events API
+  - Changed metrics: Total Contributions (1,316), Active Days (182), Current Streak (7), Longest Streak (21)
+  - Fixed tooltip z-index issue (z-10 → z-[9999], bg-primary → bg-gray-900)
+
+---
+
+### Task 36.1: Add GitHub Stats Widget to Home Page
+
+**Priority:** MEDIUM
+**Effort:** 20 minutes
+**Status:** ⏳ PLANNED
+**Related:** Option B from analysis
+
+**Implementation:**
+Add a prominent GitHub stats card to the home page to showcase coding activity without requiring users to navigate to `/activity`.
+
+**Placement Options:**
+1. **Hero Section** - Next to profile image (recommended)
+2. **About Section** - Show commitment to open source
+3. **Featured Card** - Between Projects and Skills
+
+**Metrics to Display:**
+- 🎯 1,316 Total Contributions
+- 📅 182 Active Days
+- 🔥 7 Current Streak
+- 📈 7.2 Avg. Daily Contributions
+
+**Design:**
+- Compact card matching existing design system
+- Cyan/Emerald color scheme
+- Link to `/activity` page for full details
+- Responsive layout (mobile-friendly)
+
+**Files to Modify:**
+- `app/page.tsx` - Add stats widget
+- `components/GitHubStatsWidget.tsx` - New component (create)
+
+**Success Metrics:**
+- Stats visible without scrolling (hero section placement)
+- Click-through rate to `/activity` page increases
+- Users see GitHub activity immediately
+
+---
+
+### Task 36.2: Add Contribution Insights Section
+
+**Priority:** MEDIUM
+**Effort:** 25 minutes
+**Status:** ⏳ PLANNED
+**Related:** Option C from analysis
+
+**Implementation:**
+Add a new "Contribution Insights" section below the activity graph with deeper analytics.
+
+**Metrics to Calculate & Display:**
+1. **Most Productive Month:** e.g., "November 2024: 147 contributions"
+2. **Best Week:** Highest contribution week
+3. **Consistency Rate:** % of days active (182/365 = 49.9%)
+4. **Most Active Day:** Which day of week (Mon/Tue/Wed...)
+5. **Best Streak:** Longest streak in the year (21 days)
+
+**Implementation Approach:**
+- Add `calculateInsights()` function in `lib/github.ts`
+- Process GraphQL contribution map to extract insights
+- Create `ContributionInsights.tsx` component
+- Display in card format below activity graph
+
+**Design:**
+- 3-column grid on desktop, 1-column on mobile
+- Each insight as a mini-stat card
+- Icons for each metric (📊📈🎯📅🏆)
+- Emerald/Cyan color scheme
+
+**Files to Modify:**
+- `lib/github.ts` - Add `calculateInsights()` function
+- `components/ContributionInsights.tsx` - New component (create)
+- `components/GitHubActivityGraph.tsx` - Integrate insights
+- `app/activity/page.tsx` - Pass insights to graph component
+
+**Success Metrics:**
+- Shows consistency and dedication
+- Professional appearance
+- Helps recruiters understand work patterns
+
+---
+
+### Task 36.3: Add GitHub Stats Badge to Navigation
+
+**Priority:** LOW
+**Effort:** 15 minutes
+**Status:** ⏳ PLANNED
+**Related:** Option D from analysis
+
+**Implementation:**
+Add a small live badge to the navigation/header showing current streak and yearly contributions.
+
+**Badge Content:**
+```
+🔥 7-day streak | 1,316 yearly contributions
+```
+
+**Design:**
+- Subtle badge in header (not too prominent)
+- Only visible on desktop (hide on mobile to reduce clutter)
+- Tooltip with full stats on hover
+- Link to `/activity` page on click
+
+**Files to Modify:**
+- `components/Header.tsx` - Add stats badge
+
+**Consideration:**
+- May be too busy for header
+- Test with user before finalizing
+- Could be added to mobile menu instead
+
+**Success Metrics:**
+- Constant visibility of activity across all pages
+- Doesn't interfere with navigation
+- Drives traffic to `/activity` page
+
+---
+
+### Implementation Priority Summary
+
+| Task | Priority | Effort | Impact | Recommended |
+|------|----------|--------|--------|-------------|
+| **36.0** | HIGH | ✅ Done | High | ✅ COMPLETED |
+| **36.1** | MEDIUM | 20 min | High | ⭐ Recommended |
+| **36.2** | MEDIUM | 25 min | Medium | ⭐ Recommended |
+| **36.3** | LOW | 15 min | Low | ⚠️ Optional |
+
+**Recommended Implementation:**
+1. ✅ Phase 36.0: Fix statistics (COMPLETED)
+2. ⭐ Phase 36.1: Home page widget (High impact, quick win)
+3. ⭐ Phase 36.2: Contribution insights (Shows professionalism)
+4. ⚠️ Phase 36.3: Navigation badge (Optional, test first)
+
+---
+
 ### Task 34.1: Lighthouse Score Optimization
 
 **Priority:** HIGH
@@ -818,6 +1050,8 @@ Optimize Core Web Vitals, improve Lighthouse scores, implement advanced analytic
 | **32** | MEDIUM | ✅ COMPLETE | 2/3 tasks (32.1 skipped by user) |
 | **33** | MEDIUM | ✅ COMPLETE | 3/5 tasks (33.1, 33.2, 33.4 rejected) |
 | **34** | MEDIUM | ⏳ PLANNED | 0/8 tasks - Performance & Analytics focus |
+| **35** | HIGH | ⏳ PLANNED | 0/27 tasks - V2 Schema & API Integration 🚀 |
+| **36** | MEDIUM | 🚧 IN PROGRESS | 1/4 tasks - GitHub Activity Enhancement 🚀 |
 
 ---
 

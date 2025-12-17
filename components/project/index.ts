@@ -14,6 +14,7 @@ export {
   StatusBadgeIcon,
   FeaturedBadge,
   PrimaryMetricBadge,
+  CurrentBadge,
   CompanyIcon,
   BadgeSeparator,
   BadgeRow,
