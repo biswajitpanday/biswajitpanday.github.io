@@ -45,9 +45,9 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
   className = ""
 }) => {
   const isFeatured = index === 0;
-  // V2: Convert string dates to Date objects if needed
+  // V2: Convert string dates to Date objects if needed, keep null/undefined for "Present" logic
   const startDate = typeof item.startDate === 'string' ? new Date(item.startDate) : item.startDate;
-  const endDate = item.endDate ? (typeof item.endDate === 'string' ? new Date(item.endDate) : item.endDate) : new Date();
+  const endDate = item.endDate ? (typeof item.endDate === 'string' ? new Date(item.endDate) : item.endDate) : null;
   const dateRange = getDateRange(startDate, endDate);
   const duration = getDuration(startDate, endDate);
 
@@ -99,11 +99,11 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
 
             <div className="inline-flex items-center justify-center h-7 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-secondary-default px-3 rounded-full text-xs font-medium">
               <FaCalendar className="text-[10px] mr-1.5" />
-              <span>{getDateRange(item.startDate, item.endDate || new Date())}</span>
+              <span>{dateRange}</span>
             </div>
             <div className="inline-flex items-center justify-center h-7 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-[#00BFFF]/90 px-3 rounded-full text-xs font-medium">
               <FaClock className="text-[10px] mr-1.5" />
-              <span>{getDuration(item.startDate, item.endDate || new Date())}</span>
+              <span>{duration}</span>
             </div>
           </div>
         </div>
@@ -112,25 +112,31 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
         <div className="flex items-center justify-between gap-3 mb-3">
           <div className="flex items-center gap-2 flex-1 min-w-0">
             {/* Company Icon - Simple square like Project Modal */}
-            <Image
-              src={item.icon}
-              alt={`${item.company} logo`}
-              width={20}
-              height={20}
-              className="rounded-sm opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
-            />
+            {item.icon && (
+              <Image
+                src={item.icon}
+                alt={`${item.company} logo`}
+                width={20}
+                height={20}
+                className="rounded-sm opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
+              />
+            )}
 
             {/* Company Name - Match Project Card font size */}
             <p className="text-xs text-white/60 font-medium">
-              @ <Link
-                href={item.url}
-                className="hover:text-secondary-default transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] rounded"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Visit ${item.company} website (opens in new tab)`}
-              >
-                {item.company}
-              </Link>
+              @ {item.url ? (
+                <Link
+                  href={item.url}
+                  className="hover:text-secondary-default transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] rounded"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Visit ${item.company} website (opens in new tab)`}
+                >
+                  {item.company}
+                </Link>
+              ) : (
+                <span>{item.company}</span>
+              )}
             </p>
           </div>
 
@@ -177,11 +183,11 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
                 : 'bg-secondary-default/10 border border-secondary-default/30 text-secondary-default'
               }`}>
               <FaCalendar className="text-[10px] mr-1.5" />
-              <span>{getDateRange(item.startDate, item.endDate || new Date())}</span>
+              <span>{dateRange}</span>
             </div>
             <div className="inline-flex items-center justify-center h-7 bg-secondary-default/10 backdrop-blur-sm border border-secondary-default/30 text-[#00BFFF]/90 px-3 rounded-full text-xs font-medium">
               <FaClock className="text-[10px] mr-1.5" />
-              <span>{getDuration(item.startDate, item.endDate || new Date())}</span>
+              <span>{duration}</span>
             </div>
           </div>
 
