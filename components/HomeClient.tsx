@@ -100,7 +100,7 @@ const HomeClient = ({
     <>
       <SocialPreviewGenerator
         title="Biswajit Panday - Senior .NET Architect & AI Solutions Engineer"
-        description="Senior .NET Architect with 10+ years building enterprise B2B platforms at Optimizely. Built SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified."
+        description="Senior .NET Architect with 10+ years delivering mid to enterprise grade platforms. Currently at Optimizely, delivering solutions for global enterprise clients. Built SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified."
         image="https://biswajitpanday.github.io/assets/profile/profile-large.webp"
         url="https://biswajitpanday.github.io"
         type="website"
@@ -197,12 +197,15 @@ const HomeClient = ({
                 className="text-white/70 text-base leading-relaxed max-w-2xl mb-6 mx-auto xl:mx-0"
               >
                 Senior .NET Architect with{" "}
-                <span className="text-[#00BFFF] font-medium">10+ years</span> building
-                enterprise B2B platforms. Currently at{" "}
+                <span className="text-[#00BFFF] font-medium">10+ years</span> delivering mid
+                to enterprise grade applications. Currently at{" "}
                 <span className="text-[#00BFFF] font-medium">Optimizely</span> serving
                 global enterprise clients. Passionate about AI integration—built{" "}
                 <span className="text-[#00BFFF] font-medium">SpireWiz</span> achieving{" "}
-                <span className="text-emerald-400 font-medium">80% efficiency gains</span>.{" "}
+                <span className="text-emerald-400 font-medium">80% </span>{" "} efficiency gains. {" "} 
+                <span className="text-purple-400 font-medium">~$180K </span> annual value, and {" "}
+                <span className="text-purple-400 font-medium">600+</span> {" "}
+                developer hours saved annually. {" "}
                 <span className="text-[#00BFFF] font-medium">Microsoft Certified</span>.
               </p>
 
