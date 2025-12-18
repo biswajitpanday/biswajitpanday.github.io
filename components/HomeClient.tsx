@@ -315,12 +315,12 @@ const HomeClient = ({
             {/* Photo Section */}
             <div
               data-testid="home-photo-section"
-              className="order-1 xl:order-none relative"
+              className="order-1 xl:order-none relative flex items-center justify-center"
             >
-              <div className="relative">
-                {/* Subtle Glow Effect */}
+              <div className="relative w-[300px] h-[300px] xl:w-[506px] xl:h-[506px]">
+                {/* Subtle Glow Effect - now has proper parent size */}
                 <div className="absolute inset-0 bg-secondary-default/10 rounded-full blur-3xl scale-110 animate-pulse" />
-                <div data-testid="home-photo-container" className="relative z-10">
+                <div data-testid="home-photo-container" className="relative z-10 w-full h-full">
                   <Photo />
                 </div>
               </div>

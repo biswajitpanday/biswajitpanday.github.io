@@ -110,7 +110,7 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
         <motion.main
           id="main-content"
           key={`content-${key}`}
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}

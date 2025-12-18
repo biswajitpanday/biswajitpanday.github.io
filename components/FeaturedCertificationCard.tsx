@@ -55,7 +55,7 @@ const FeaturedCertificationCard: React.FC<FeaturedCertificationCardProps> = ({
     return (
       <motion.div
         variants={PERFORMANCE_VARIANTS.cardSync}
-        initial="hidden"
+        initial="visible"
         animate="visible"
         className={`bg-gradient-to-r from-secondary-default/20 to-blue-500/20 backdrop-blur-sm border border-secondary-default/30 rounded overflow-hidden ${className}`}
       >
