@@ -10,7 +10,7 @@ export const personSchema = {
   "@type": "Person",
   name: "Biswajit Panday",
   jobTitle: "Senior .NET Architect & AI Solutions Engineer",
-  description: "Senior full-stack developer with 10+ years of experience specializing in .NET, React, and cloud solutions. Built scalable enterprise applications and developed SpireWiz, an AI tool that achieved 80-90% efficiency gains for development teams.",
+  description: "Senior .NET Architect with 10+ years delivering mid to enterprise grade applications. Currently at Optimizely serving global enterprise clients. Built SpireWiz achieving 80% efficiency gains, ~$180K annual value, and 600+ developer hours saved annually. Microsoft Certified.",
   url: baseUrl,
   sameAs: [
     "https://github.com/biswajitpanday",

@@ -404,7 +404,7 @@ const HomeClient = ({
 
                 {/* CTA */}
                 <div className="text-center sm:text-left">
-                  <Link href="/projects#spirewiz">
+                  <Link href="/projects?open=spirewiz">
                     <button className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/40 hover:border-purple-500/60 rounded-lg transition-all duration-300 text-sm text-purple-400 font-medium group">
                       <span>View Case Study</span>
                       <FiArrowRight className="text-sm group-hover:translate-x-1 transition-transform" aria-hidden="true" />

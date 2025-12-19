@@ -14,6 +14,7 @@ import {
   FaHistory
 } from "react-icons/fa";
 import { useState, useMemo, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import ProjectModal from "@/components/ProjectModal";
 import BackgroundElements from "@/components/BackgroundElements";
 import ProjectCard from "@/components/ProjectCard";
@@ -34,6 +35,10 @@ interface ProjectsClientProps {
 const ProjectsClient = ({ projects }: ProjectsClientProps) => {
   // Environment flags
   const isFilterEnabled = process.env.NEXT_PUBLIC_ENABLE_FILTER !== 'false';
+
+  // Get URL search params and router
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   // Sort projects by num for consistent display order (memoized to prevent infinite re-renders)
   const sortedProjects = useMemo(() => [...projects].sort((a, b) => a.num - b.num), [projects]);
@@ -134,6 +139,32 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
       }
     }
   }, [sortedProjects]);
+
+  // Auto-open modal from URL query parameter (e.g., /projects?open=spirewiz)
+  useEffect(() => {
+    const openParam = searchParams?.get('open');
+    if (openParam && sortedProjects.length > 0) {
+      // Find project by matching title (case-insensitive, partial match)
+      const projectToOpen = sortedProjects.find(p =>
+        p.title.toLowerCase().includes(openParam.toLowerCase())
+      );
+
+      if (projectToOpen) {
+        // Small delay to ensure page is loaded
+        const timer = setTimeout(() => {
+          openProjectModal(projectToOpen);
+
+          // Clear the 'open' parameter from URL to prevent modal from reopening
+          const newParams = new URLSearchParams(searchParams?.toString());
+          newParams.delete('open');
+          const newUrl = newParams.toString() ? `/projects?${newParams.toString()}` : '/projects';
+          router.replace(newUrl, { scroll: false });
+        }, 500);
+
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [searchParams, sortedProjects, router]);
 
   // Handle skill filter
   const handleSkillFilter = (skill: string) => {
