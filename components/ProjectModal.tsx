@@ -53,10 +53,12 @@ interface ProjectModalProps {
   onClose: () => void;
   /** Display index (1-based position in the list). If not provided, uses project.num */
   displayIndex?: number;
+  /** Track if modal was opened via ?open URL parameter */
+  wasOpenedViaUrlParam?: boolean;
 }
 
 
-const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, displayIndex }) => {
+const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, displayIndex, wasOpenedViaUrlParam = false }) => {
   const [activeTab, setActiveTab] = useState<"overview" | "case-study" | "architecture">("overview");
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const modalTitleId = useId();
@@ -84,11 +86,19 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
       // Use replaceState to avoid creating new history entries
       window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
     } else if (!isOpen) {
-      // Remove project param when closing - always reset to clean /projects/ URL
-      // Use replaceState to avoid creating new history entries
-      window.history.replaceState({}, '', window.location.pathname);
+      // When closing modal:
+      // - If opened via ?open URL param: ProjectsClient will handle navigation to /projects
+      // - Otherwise: Just remove the ?project param from URL
+      if (!wasOpenedViaUrlParam) {
+        const params = new URLSearchParams(window.location.search);
+        params.delete('project');
+        const newUrl = params.toString() ? `${window.location.pathname}?${params.toString()}` : window.location.pathname;
+        // Use replaceState to avoid creating new history entries
+        window.history.replaceState({}, '', newUrl);
+      }
+      // If wasOpenedViaUrlParam is true, don't update URL here - let ProjectsClient handle it
     }
-  }, [isOpen, project]);
+  }, [isOpen, project, wasOpenedViaUrlParam]);
 
   if (!project) return null;
 

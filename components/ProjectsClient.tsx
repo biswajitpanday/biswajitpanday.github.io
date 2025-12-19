@@ -65,6 +65,7 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | undefined>(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [wasOpenedViaUrlParam, setWasOpenedViaUrlParam] = useState(false);
 
   // Calculate stats for Grid view
   const activeProjects = projects.filter(p => p.isActive).length;
@@ -123,6 +124,12 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
     setSelectedProject(null);
     setSelectedProjectIndex(undefined);
     setIsModalOpen(false);
+
+    // If modal was opened via ?open URL parameter, navigate to clean /projects/ URL
+    if (wasOpenedViaUrlParam) {
+      setWasOpenedViaUrlParam(false);
+      router.replace('/projects', { scroll: false });
+    }
   };
 
   // Auto-open modal for hash-based links (e.g., /projects#spirewiz)
@@ -166,6 +173,8 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
 
         // Small delay to ensure page is loaded
         const timer = setTimeout(() => {
+          // Mark that this modal was opened via URL parameter
+          setWasOpenedViaUrlParam(true);
           openProjectModal(projectToOpen);
 
           // Clear the 'open' parameter from URL to prevent modal from reopening
@@ -647,6 +656,7 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
           isOpen={isModalOpen}
           onClose={closeProjectModal}
           displayIndex={selectedProjectIndex}
+          wasOpenedViaUrlParam={wasOpenedViaUrlParam}
         />
       </div>
     </section>
