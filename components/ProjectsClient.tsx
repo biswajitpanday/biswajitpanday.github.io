@@ -495,7 +495,7 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.1 }}
             data-testid="timeline-view"
           >
             <ProjectTimeline
@@ -604,7 +604,7 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.2 }}
                 className="mt-4"
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">

@@ -349,7 +349,7 @@ const HomeClient = ({
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.2 }}
               className="py-12"
             >
               {/* Section Badge */}
@@ -504,7 +504,7 @@ const HomeClient = ({
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.2 }}
               className="py-12"
             >
               {/* Section Header - Outside Card */}

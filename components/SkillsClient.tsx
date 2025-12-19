@@ -11,6 +11,7 @@ import { SkillsTreeNode } from "@/components/skills/SkillsTreeNode";
 import { SkillsFilterBar } from "@/components/skills/SkillsFilterBar";
 import { SkillsStatsCards } from "@/components/skills/SkillsStatsCards";
 import { SkillsNoResults } from "@/components/skills/SkillsNoResults";
+import { PERFORMANCE_VARIANTS } from "@/constants";
 
 // SkillNode interface matching main branch
 interface SkillNode {
@@ -30,22 +31,22 @@ interface SkillsClientProps {
   skills2: SkillNode;
 }
 
-// Memoized animation variants
+// Memoized animation variants using PERFORMANCE_VARIANTS for consistency
 const TREE_ANIMATIONS = {
   container: {
     initial: { opacity: 0, y: 50 },
     animate: { opacity: 1, y: 0 },
-    transition: { delay: 0.1, duration: 0.4 }
+    transition: { delay: 0.1, duration: 0.2 }
   },
   leftCard: {
     initial: { opacity: 0, x: -30 },
     animate: { opacity: 1, x: 0 },
-    transition: { delay: 0.15, duration: 0.4 }
+    transition: { delay: 0.1, duration: 0.2 }
   },
   rightCard: {
     initial: { opacity: 0, x: 30 },
     animate: { opacity: 1, x: 0 },
-    transition: { delay: 0.15, duration: 0.4 }
+    transition: { delay: 0.1, duration: 0.2 }
   }
 } as const;
 

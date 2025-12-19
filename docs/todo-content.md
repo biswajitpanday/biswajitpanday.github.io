@@ -86,9 +86,10 @@
 - **Phase 31** (4 tasks) - Content Curation (@strix-ai/currentdt-mcp, "Other Projects" section)
 - **Phase 32** (2 tasks) - Animation Optimization (FloatingCodeSymbols CSS, reduced-motion hook)
 - **Phase 33** (3 tasks) - Homepage Optimization (Gradient reduction, Blog integration, Content reordering)
+- **Phase 37** (6 tasks) - Animation & Transition Synchronization (0.2s standard, 0.1s delays)
 
-**Total Completed:** 189 tasks | **Effort:** ~184.5 hours
-**Completed Phases:** Phases 1-33, 36.0 (total: 34 phases)
+**Total Completed:** 195 tasks | **Effort:** ~186.5 hours
+**Completed Phases:** Phases 1-33, 36.0, 37 (total: 35 phases)
 **Current Phases:** Phase 34 (0/8 tasks - PLANNED), Phase 35 (0/27 tasks - PLANNED), Phase 36 (1/4 tasks - 25%)
 **Next Priority:** Phase 35: V2 Integration (27 tasks, ~25-30 hours)
 
@@ -722,6 +723,282 @@ Add a small live badge to the navigation/header showing current streak and yearl
 
 ---
 
+## PHASE 37: ANIMATION & TRANSITION SYNCHRONIZATION 🎬
+
+**Status:** ✅ COMPLETED (6/6 tasks - 100%)
+**Priority:** MEDIUM - Performance & Consistency
+**Effort:** ~2 hours (estimated 3-4h)
+**Impact:** Consistent animation timing across all pages
+**Created:** 2025-12-20
+**Completed:** 2025-12-20
+
+### Purpose
+Synchronize animation durations and delays across the entire portfolio for a consistent, professional feel. Based on comprehensive animation analysis, standardize all animations to use small delays (0.1-0.2s, max 0.3s) and align with PERFORMANCE_VARIANTS system.
+
+### Background
+Deep analysis identified 6 different animation durations (0.2s, 0.3s, 0.4s, 0.6s, 0.8s, 3s) and inconsistent delays (0s, 0.1s, 0.15s, 0.3s) across pages. This creates uneven pacing and perceived lag. Goal: Standardize to 0.2s duration with 0.1s delays maximum.
+
+**Key Findings:**
+- ❌ useAnimationVariants uses 0.6-0.8s (3-4x slower than standard)
+- ❌ SkillsClient uses custom 0.4s animations
+- ❌ CSS keyframes use 0.3-0.4s instead of 0.2s
+- ⚠️ Inconsistent delays across pages
+- ✅ HomeClient animation intentionally removed for PageSpeed (keep as-is)
+
+---
+
+### Task 37.1: Update useAnimationVariants Hook ✅
+
+**Priority:** HIGH
+**File:** `hooks/useAnimationVariants.ts`
+**Effort:** 15 minutes
+**Status:** ✅ COMPLETED
+
+**Problem:**
+Hook uses 0.6s-0.8s durations (3-4x slower than PERFORMANCE_VARIANTS standard of 0.2s):
+- `cardVariants`: 0.6s
+- `headerVariants`: 0.8s with 0.2s delay
+- `fadeInUpVariants`: 0.8s
+
+**Solution:**
+Update all variants to match PERFORMANCE_VARIANTS timing (0.2s):
+
+```typescript
+// BEFORE
+cardVariants: {
+  transition: { duration: 0.6, ease: "easeOut" }
+}
+
+// AFTER
+cardVariants: {
+  transition: { duration: 0.2, ease: "easeOut" }
+}
+```
+
+**Changes:**
+- `cardVariants`: 0.6s → 0.2s
+- `headerVariants`: 0.8s → 0.2s, delay: 0.2s → 0.1s
+- `fadeInUpVariants`: 0.8s → 0.2s
+- `containerVariants`: stagger: 0.1s → 0.05s, delay: 0.2s → 0.1s
+
+**Expected Impact:**
+- Faster, snappier feel across all components using this hook
+- Aligned with PERFORMANCE_VARIANTS standard
+
+---
+
+### Task 37.2: Standardize SkillsClient Animations ✅
+
+**Priority:** HIGH
+**File:** `components/SkillsClient.tsx`
+**Effort:** 20 minutes
+**Status:** ✅ COMPLETED
+
+**Problem:**
+SkillsClient defines custom `TREE_ANIMATIONS` object with 0.4s duration instead of using standard PERFORMANCE_VARIANTS (0.2s).
+
+**Current Code (lines 34-50):**
+```typescript
+const TREE_ANIMATIONS = {
+  container: { delay: 0.1, duration: 0.4 },
+  leftCard: { delay: 0.15, duration: 0.4 },
+  rightCard: { delay: 0.15, duration: 0.4 }
+}
+```
+
+**Solution:**
+1. Remove custom `TREE_ANIMATIONS` object
+2. Import `PERFORMANCE_VARIANTS` from `@/constants`
+3. Update all animation calls to use standard variants
+
+**Replacements:**
+- `TREE_ANIMATIONS.container` → `PERFORMANCE_VARIANTS.slideUpSync` (0.2s)
+- `TREE_ANIMATIONS.leftCard` → Custom variant with 0.1s delay
+- `TREE_ANIMATIONS.rightCard` → Custom variant with 0.1s delay
+
+**Expected Impact:**
+- Skills page animations match other pages
+- Reduced from 0.4s to 0.2s (2x faster)
+
+---
+
+### Task 37.3: Standardize Page Delays ✅
+
+**Priority:** MEDIUM
+**Files:** `ProjectsClient.tsx`, `CertificationsClient.tsx`, `CareerClient.tsx`
+**Effort:** 30 minutes
+**Status:** ✅ COMPLETED
+
+**Problem:**
+Inconsistent delays across pages:
+- ProjectsClient toolbar: 0.1s
+- ProjectsClient timeline view: 0.3s
+- SkillsClient cards: 0.15s
+
+**Solution:**
+Standardize all secondary element delays to **0.1s maximum**:
+
+**ProjectsClient.tsx:**
+- Line 428-430: Toolbar delay 0.1s → Keep (already standard)
+- Line 498: Timeline view delay 0.3s → 0.1s
+
+**SkillsClient.tsx:**
+- Line 201: Left card delay 0.15s → 0.1s
+- Line 218: Right card delay 0.15s → 0.1s
+
+**Expected Impact:**
+- Consistent pacing across all pages
+- Faster perceived performance
+
+---
+
+### Task 37.4: Update CSS Keyframe Animations ✅
+
+**Priority:** MEDIUM
+**File:** `app/globals.css`
+**Effort:** 30 minutes
+**Status:** ✅ COMPLETED
+
+**Problem:**
+CSS keyframes use 0.3s-0.4s durations instead of 0.2s standard:
+- `@keyframes syncFadeIn`: 0.3s
+- `@keyframes fadeInUp`: 0.4s
+- `@keyframes fadeIn`: 0.3s
+- `@keyframes slideInLeft`: 0.4s
+- `@keyframes slideInRight`: 0.4s
+
+**Solution:**
+Update all animation durations to 0.2s:
+
+**Changes:**
+- Line 371-380: `syncFadeIn` - 0.3s → 0.2s
+- Line 444-453: `fadeInUp` - 0.4s → 0.2s
+- Line 455-462: `fadeIn` - 0.3s → 0.2s
+- Line 464-473: `slideInLeft` - 0.4s → 0.2s
+- Line 475-484: `slideInRight` - 0.4s → 0.2s
+
+**Utility Classes Affected:**
+- `.animate-fade-in`
+- `.animate-fade-in-up`
+- `.animate-slide-in-left`
+- `.animate-slide-in-right`
+
+**Expected Impact:**
+- CSS animations match Framer Motion timing
+- Consistent feel across animation types
+
+---
+
+### Task 37.5: Update Collapsible Section Animations ✅
+
+**Priority:** LOW
+**Files:** `ProjectsClient.tsx`, `CertificationsClient.tsx`
+**Effort:** 15 minutes
+**Status:** ✅ COMPLETED
+
+**Problem:**
+Collapsible sections use 0.3s duration instead of 0.2s standard.
+
+**Locations:**
+- `ProjectsClient.tsx` line 607: Legacy projects section
+- `CertificationsClient.tsx` lines 610, 613: Courses section
+
+**Current Code:**
+```typescript
+<motion.div
+  initial={{ opacity: 0, height: 0 }}
+  animate={{ opacity: 1, height: 'auto' }}
+  transition={{ duration: 0.3 }}  // ❌ Should be 0.2s
+>
+```
+
+**Solution:**
+Update `transition={{ duration: 0.3 }}` → `transition={{ duration: 0.2 }}`
+
+**Expected Impact:**
+- Faster expand/collapse animations
+- Minor but contributes to overall consistency
+
+---
+
+### Task 37.6: Update HomeClient whileInView Animations ✅
+
+**Priority:** LOW
+**File:** `components/HomeClient.tsx`
+**Effort:** 10 minutes
+**Status:** ✅ COMPLETED
+
+**Problem:**
+Two sections use 0.4s duration instead of 0.2s standard:
+- Featured Achievement section (line 346-353)
+- Looking For section (line 501-508)
+
+**Note:** Main hero animation intentionally removed for PageSpeed optimization - DO NOT add it back.
+
+**Current Code:**
+```typescript
+<motion.section
+  initial={{ opacity: 0, y: 30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.4 }}  // ❌ Should be 0.2s
+>
+```
+
+**Solution:**
+Update both sections: `transition={{ duration: 0.4 }}` → `transition={{ duration: 0.2 }}`
+
+**Expected Impact:**
+- Scroll-triggered animations feel snappier
+- Aligned with page header animations (0.2s)
+
+---
+
+### Implementation Priority Summary
+
+| Task | Priority | Effort | Files | Impact |
+|------|----------|--------|-------|--------|
+| **37.1** | HIGH | 15 min | 1 file | High - Affects all components using hook |
+| **37.2** | HIGH | 20 min | 1 file | High - Skills page consistency |
+| **37.3** | MEDIUM | 30 min | 3 files | Medium - Delay standardization |
+| **37.4** | MEDIUM | 30 min | 1 file | Medium - CSS animations alignment |
+| **37.5** | LOW | 15 min | 2 files | Low - Minor consistency improvement |
+| **37.6** | LOW | 10 min | 1 file | Low - Scroll animations |
+
+**Total Effort:** ~2 hours
+**Total Files:** 9 files
+
+**Recommended Order:**
+1. Task 37.1: useAnimationVariants (highest impact)
+2. Task 37.2: SkillsClient (high impact)
+3. Task 37.4: CSS keyframes (affects multiple components)
+4. Task 37.3: Page delays (consistency)
+5. Task 37.6: HomeClient whileInView (low priority)
+6. Task 37.5: Collapsible sections (lowest priority)
+
+---
+
+### Expected Results
+
+**Before:**
+- 6 different animation durations (0.2s, 0.3s, 0.4s, 0.6s, 0.8s, 3s)
+- 4 different delays (0s, 0.1s, 0.15s, 0.3s)
+- Uneven pacing across pages
+- Slower perceived performance
+
+**After:**
+- 2 animation durations (0.2s standard, 3s decorative gradients only)
+- 1 standard delay (0.1s for secondary elements)
+- Consistent rhythm across all pages
+- Faster, snappier feel
+- Professional polish
+
+**Industry Alignment:**
+- ✅ Google Material Design: 200-300ms ✓
+- ✅ Apple HIG: 200-400ms ✓
+- ✅ Web Performance: Consistent timing ✓
+
+---
+
 ### Task 34.1: Lighthouse Score Optimization
 
 **Priority:** HIGH
@@ -1052,6 +1329,7 @@ Add a small live badge to the navigation/header showing current streak and yearl
 | **34** | MEDIUM | ⏳ PLANNED | 0/8 tasks - Performance & Analytics focus |
 | **35** | HIGH | ⏳ PLANNED | 0/27 tasks - V2 Schema & API Integration 🚀 |
 | **36** | MEDIUM | 🚧 IN PROGRESS | 1/4 tasks - GitHub Activity Enhancement 🚀 |
+| **37** | MEDIUM | ✅ COMPLETE | 6/6 tasks - Animation & Transition Sync 🎬 (2h) |
 
 ---
 

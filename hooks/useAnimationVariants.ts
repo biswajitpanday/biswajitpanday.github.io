@@ -6,8 +6,8 @@ export const useAnimationVariants = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
+        staggerChildren: 0.05,
+        delayChildren: 0.1,
       },
     },
   };
@@ -44,7 +44,7 @@ export const useAnimationVariants = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.2,
         ease: "easeOut",
       },
     },
@@ -56,8 +56,8 @@ export const useAnimationVariants = () => {
       opacity: 1,
       y: 0,
       transition: {
-        delay: 0.2,
-        duration: 0.8,
+        delay: 0.1,
+        duration: 0.2,
         ease: "easeOut",
       },
     },
@@ -69,7 +69,7 @@ export const useAnimationVariants = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
+        duration: 0.2,
       },
     },
   };
