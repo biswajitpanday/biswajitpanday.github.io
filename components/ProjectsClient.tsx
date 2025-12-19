@@ -7,7 +7,6 @@ import {
   FaCogs,
   FaTh,
   FaClock,
-  FaLayerGroup,
   FaGithub,
   FaChevronDown,
   FaChevronUp,
@@ -71,13 +70,11 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
   const activeProjects = projects.filter(p => p.isActive).length;
   const featuredProjects = projects.filter(p => p.isFeatured);
   const openSourceProjects = projects.filter(p => p.isOpenSource).length;
-  const uniqueTechnologies = new Set(projects.flatMap(p => p.stacks)).size;
 
   // Animated counters for stats dashboard (Grid view)
   const totalCount = useCountUp({ end: projects.length, duration: 2000 });
   const activeCount = useCountUp({ end: activeProjects, duration: 1900 });
   const featuredCount = useCountUp({ end: featuredProjects.length, duration: 1800, start: 0 });
-  const technologiesCount = useCountUp({ end: uniqueTechnologies, duration: 2000 });
   const openSourceCount = useCountUp({ end: openSourceProjects, duration: 1900 });
 
   // Calculate stats for Timeline view (same as Grid view for consistency)
@@ -89,13 +86,11 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
     const activeCount = filtered.filter(p => p.isActive).length;
     const featuredCount = filtered.filter(p => p.isFeatured).length;
     const openSourceCount = filtered.filter(p => p.isOpenSource).length;
-    const uniqueTechnologies = new Set(filtered.flatMap(p => p.stacks)).size;
 
     return {
       total: filtered.length,
       activeCount,
       featuredCount,
-      technologiesCount: uniqueTechnologies,
       openSourceCount,
     };
   })();
@@ -318,19 +313,6 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
 
                 <div className="hidden sm:block w-px h-10 bg-white/10"></div>
 
-                {/* Technologies */}
-                <div ref={technologiesCount.ref} className="flex items-center gap-3">
-                  <div className="p-2 bg-orange-500/20 rounded-lg">
-                    <FaLayerGroup className="text-orange-400 text-xl" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500 tabular-nums">{technologiesCount.count}</div>
-                    <div className="text-xs text-white/60">Technologies</div>
-                  </div>
-                </div>
-
-                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
                 {/* Open Source */}
                 <div ref={openSourceCount.ref} className="flex items-center gap-3">
                   <div className="p-2 bg-blue-500/20 rounded-lg">
@@ -389,19 +371,6 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
                   <div>
                     <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">{timelineStats.featuredCount}</div>
                     <div className="text-xs text-white/60">Featured</div>
-                  </div>
-                </div>
-
-                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-                {/* Technologies */}
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-orange-500/20 rounded-lg">
-                    <FaLayerGroup className="text-orange-400 text-xl" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500 tabular-nums">{timelineStats.technologiesCount}</div>
-                    <div className="text-xs text-white/60">Technologies</div>
                   </div>
                 </div>
 
