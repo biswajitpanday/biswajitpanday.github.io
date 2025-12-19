@@ -13,6 +13,7 @@ import { trackResumeDownload } from "@/lib/analytics";
 import TypingAnimation from "@/components/TypingAnimation";
 import FloatingCodeSymbols from "@/components/FloatingCodeSymbols";
 import ScrollIndicator from "@/components/ScrollIndicator";
+import { calculateTotalExperience } from "@/helpers/utility";
 
 // Import critical above-the-fold icons directly (no lazy loading)
 import { FiDownload, FiCode, FiCloud, FiZap, FiBriefcase, FiGlobe, FiUsers, FiEye, FiMail, FiAward, FiArrowRight } from "react-icons/fi";
@@ -82,6 +83,9 @@ const HomeClient = ({
 }: HomeClientProps) => {
   const [pageLoadTime, setPageLoadTime] = useState(0);
 
+  // Calculate total experience from timeline data
+  const totalExperience = calculateTotalExperience(timeline);
+
   useEffect(() => {
     setPageLoadTime(Date.now());
   }, []);
@@ -106,7 +110,7 @@ const HomeClient = ({
     <>
       <SocialPreviewGenerator
         title="Biswajit Panday - Senior .NET Architect & AI Solutions Engineer"
-        description="Senior .NET Architect with 10+ years delivering mid to enterprise grade platforms. Currently at Optimizely, delivering solutions for global enterprise clients. Built SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified."
+        description={`Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade platforms. Currently at Optimizely, delivering solutions for global enterprise clients. Built SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified.`}
         image="https://biswajitpanday.github.io/assets/profile/profile-large.webp"
         url="https://biswajitpanday.github.io"
         type="website"
@@ -203,12 +207,12 @@ const HomeClient = ({
                 className="text-white/70 text-base leading-relaxed max-w-2xl mb-6 mx-auto xl:mx-0"
               >
                 Senior .NET Architect with{" "}
-                <span className="text-[#00BFFF] font-medium">10+ years</span> delivering mid
+                <span className="text-[#00BFFF] font-medium">{totalExperience}</span> delivering mid
                 to enterprise grade applications. Currently at{" "}
                 <span className="text-[#00BFFF] font-medium">Optimizely</span> serving
                 global enterprise clients. Passionate about AI integration—built{" "}
                 <span className="text-[#00BFFF] font-medium">SpireWiz</span> achieving{" "}
-                <span className="text-emerald-400 font-medium">80% </span>{" "} efficiency gains. {" "} 
+                <span className="text-emerald-400 font-medium">80% </span>{" "} efficiency gains. {" "}
                 <span className="text-purple-400 font-medium">~$180K </span> annual value, and {" "}
                 <span className="text-purple-400 font-medium">600+</span> {" "}
                 developer hours saved annually. {" "}
