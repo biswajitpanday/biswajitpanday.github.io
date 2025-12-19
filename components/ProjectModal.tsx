@@ -82,7 +82,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
   useEffect(() => {
     if (isOpen && project) {
       const params = new URLSearchParams(window.location.search);
-      params.set('project', project.num.toString());
+      // Use _id instead of num for URL parameters
+      params.set('project', project._id);
       // Use replaceState to avoid creating new history entries
       window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
     } else if (!isOpen) {

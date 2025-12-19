@@ -150,7 +150,7 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
     }
   }, [sortedProjects]);
 
-  // Auto-open modal from URL query parameter (e.g., /projects?open=spirewiz)
+  // Auto-open modal from URL query parameter (e.g., /projects?open=project_id)
   useEffect(() => {
     const openParam = searchParams?.get('open');
 
@@ -162,10 +162,8 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
 
     // Only process if we haven't already processed this parameter
     if (openParam && sortedProjects.length > 0 && !hasProcessedOpenParam.current) {
-      // Find project by matching title (case-insensitive, partial match)
-      const projectToOpen = sortedProjects.find(p =>
-        p.title.toLowerCase().includes(openParam.toLowerCase())
-      );
+      // Find project by _id (exact match)
+      const projectToOpen = sortedProjects.find(p => p._id === openParam);
 
       if (projectToOpen) {
         // Mark as processed BEFORE opening modal to prevent re-triggers

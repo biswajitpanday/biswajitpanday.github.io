@@ -86,6 +86,12 @@ const HomeClient = ({
     setPageLoadTime(Date.now());
   }, []);
 
+  // Find SpireWiz project for Featured Achievement section (dynamic data)
+  const spireWizProject = projects.find(p =>
+    p.title.toLowerCase().includes('spirewiz') ||
+    (p.isFeatured && p.category === 'Windows App')
+  );
+
   // Handle resume download tracking
   const handleResumeDownload = () => {
     const timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // seconds
@@ -332,88 +338,163 @@ const HomeClient = ({
 
           {/* Scroll Indicator */}
           <div className="hidden xl:flex justify-center mt-8">
-            <ScrollIndicator targetId="spirewiz-featured" />
+            <ScrollIndicator targetId="featured-achievement" />
           </div>
 
-          {/* SpireWiz Featured Achievement Section */}
-          <motion.section
-            id="spirewiz-featured"
-            data-testid="home-spirewiz-featured"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="py-12"
-          >
-            {/* Section Badge */}
-            <div className="flex items-center gap-2 mb-6">
-              <FiAward className="text-yellow-500 text-xl" aria-hidden="true" />
-              <h2 className="text-lg font-semibold text-yellow-500">Featured Achievement</h2>
-            </div>
+          {/* Featured Achievement Section - Dynamic from API */}
+          {spireWizProject && (
+            <motion.section
+              id="featured-achievement"
+              data-testid="home-featured-achievement"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+              className="py-12"
+            >
+              {/* Section Badge */}
+              <div className="flex items-center gap-2 mb-6">
+                <FiAward className="text-yellow-500 text-xl" aria-hidden="true" />
+                <h2 className="text-lg font-semibold text-yellow-500">Featured Achievement</h2>
+              </div>
 
-            {/* Card Container */}
-            <div className="bg-gray-900/50 backdrop-blur-sm border-2 border-purple-500/30 rounded-xl p-5 sm:p-6 relative overflow-hidden">
-              {/* Gradient Glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-transparent pointer-events-none" aria-hidden="true" />
+              {/* Card Container */}
+              <div className="bg-gray-900/50 backdrop-blur-sm border-2 border-purple-500/30 rounded-xl p-5 sm:p-6 relative overflow-hidden">
+                {/* Gradient Glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-transparent pointer-events-none" aria-hidden="true" />
 
-              <div className="relative z-10">
-                {/* Title */}
-                <h3 className="text-2xl xl:text-3xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-                  SpireWiz: AI-Powered Blueprint Upgrade Automation
-                </h3>
+                <div className="relative z-10">
+                  {/* Title - Dynamic with subtitle */}
+                  <h3 className="text-2xl xl:text-2xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                    {spireWizProject.title}
+                    {spireWizProject.subtitle && `: ${spireWizProject.subtitle}`}
+                  </h3>
 
-                {/* Description */}
-                <p className="text-white/80 text-base leading-relaxed mb-6">
-                  AI-powered automation tool that eliminates manual Git merge conflicts during Optimizely
-                  platform upgrades. Uses GPT-4o with custom merge rules and professional terminal UI.
-                </p>
+                  {/* Description - Use shortDescription for concise summary */}
+                  <p className="text-white/80 text-base leading-relaxed mb-6">
+                    {spireWizProject.shortDescription}
+                  </p>
 
-                {/* Metrics Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                  {/* Metric 1 - Time Saved */}
-                  <div className="bg-gradient-to-br from-emerald-500/10 to-transparent border border-emerald-500/30 rounded-lg p-4 text-center hover:border-emerald-500/50 transition-all">
-                    <div className="text-3xl font-bold text-emerald-400 mb-1">80%</div>
-                    <div className="text-sm text-white/60">Time Reduction</div>
-                    <div className="text-xs text-white/40 mt-1">(40h → 8h per cycle)</div>
+                  {/* Metrics Grid - Parse string values from API */}
+                  {spireWizProject.metrics && (
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                      {/* Metric 1 - Efficiency */}
+                      {spireWizProject.metrics.efficiency && (
+                        <div className="bg-gradient-to-br from-emerald-500/10 to-transparent border border-emerald-500/30 rounded-lg p-4 text-center hover:border-emerald-500/50 transition-all">
+                          <div className="text-3xl font-bold text-emerald-400 mb-1">
+                            {spireWizProject.metrics.efficiency.includes('70-80%') ? '70-80%' :
+                             spireWizProject.metrics.efficiency.split(' ')[0]}
+                          </div>
+                          <div className="text-sm text-white/60">Time Reduction</div>
+                          <div className="text-xs text-white/40 mt-1">
+                            {spireWizProject.metrics.efficiency.includes('(') ?
+                             spireWizProject.metrics.efficiency.match(/\((.*?)\)/)?.[1] :
+                             '40h → 8h per cycle'}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Metric 2 - Users/Clients */}
+                      {spireWizProject.metrics.users && (
+                        <div className="bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-500/30 rounded-lg p-4 text-center hover:border-purple-500/50 transition-all">
+                          <div className="text-3xl font-bold text-purple-400 mb-1">
+                            {spireWizProject.metrics.users.match(/\d+\+?/)?.[0] || '25+'}
+                          </div>
+                          <div className="text-sm text-white/60">Enterprise Clients</div>
+                          <div className="text-xs text-white/40 mt-1">Served annually</div>
+                        </div>
+                      )}
+
+                      {/* Metric 3 - Business Impact */}
+                      {spireWizProject.metrics.other && spireWizProject.metrics.other.length > 0 && (
+                        <div className="bg-gradient-to-br from-cyan-500/10 to-transparent border border-cyan-500/30 rounded-lg p-4 text-center hover:border-cyan-500/50 transition-all">
+                          <div className="text-3xl font-bold text-cyan-400 mb-1">~$180K</div>
+                          <div className="text-sm text-white/60">Annual Business Value</div>
+                          <div className="text-xs text-white/40 mt-1">(600+ hours saved)</div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Tech Stack - Show key technologies with icons */}
+                  {spireWizProject.stacks && spireWizProject.stacks.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-2 mb-6">
+                      <span className="text-sm text-white/50">Tech Stack:</span>
+                      {/* Python */}
+                      {spireWizProject.stacks.find(t => t.includes('Python')) && (
+                        <Badge
+                          icon={<SiPython className="text-[#3776AB]" />}
+                          text={spireWizProject.stacks.find(t => t.includes('Python')) || 'Python 3.10+'}
+                          color="default"
+                          size="compact"
+                        />
+                      )}
+                      {/* GPT-4o */}
+                      {spireWizProject.stacks.find(t => t.includes('GPT-4o')) && (
+                        <Badge
+                          icon={<SiOpenai className="text-emerald-400" />}
+                          text={spireWizProject.stacks.find(t => t.includes('GPT-4o'))?.replace('OpenAI ', '') || 'GPT-4o'}
+                          color="emerald"
+                          size="compact"
+                        />
+                      )}
+                      {/* AI Prompt Engineering (shown as "AI Merge" for brevity) */}
+                      {spireWizProject.stacks.find(t => t.includes('AI Prompt')) && (
+                        <Badge
+                          icon={<RiRobot3Fill className="text-purple-400" />}
+                          text="AI Merge"
+                          color="purple"
+                          size="compact"
+                        />
+                      )}
+                      {/* Textual TUI */}
+                      {spireWizProject.stacks.find(t => t.includes('Textual')) && (
+                        <Badge
+                          text={spireWizProject.stacks.find(t => t.includes('Textual'))?.replace(' Framework', '') || 'Textual TUI'}
+                          color="default"
+                          size="compact"
+                        />
+                      )}
+                      {/* PyInstaller */}
+                      {spireWizProject.stacks.find(t => t.includes('PyInstaller')) && (
+                        <Badge
+                          text="PyInstaller"
+                          color="neutral"
+                          size="compact"
+                        />
+                      )}
+                      {/* Pydantic */}
+                      {spireWizProject.stacks.find(t => t.includes('Pydantic')) && (
+                        <Badge
+                          text={spireWizProject.stacks.find(t => t.includes('Pydantic')) || 'Pydantic (Type Safety)'}
+                          color="default"
+                          size="compact"
+                        />
+                      )}
+                      {/* Pytest */}
+                      {spireWizProject.stacks.find(t => t.includes('Pytest')) && (
+                        <Badge
+                          text={spireWizProject.stacks.find(t => t.includes('Pytest')) || 'Pytest (90%+ Coverage)'}
+                          color="default"
+                          size="compact"
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  {/* CTA - Dynamic using project._id */}
+                  <div className="text-center sm:text-left">
+                    <Link href={`/projects?open=${spireWizProject._id}`}>
+                      <button className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/40 hover:border-purple-500/60 rounded-lg transition-all duration-300 text-sm text-purple-400 font-medium group">
+                        <span>View Case Study</span>
+                        <FiArrowRight className="text-sm group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                      </button>
+                    </Link>
                   </div>
-
-                  {/* Metric 2 - Enterprise Clients */}
-                  <div className="bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-500/30 rounded-lg p-4 text-center hover:border-purple-500/50 transition-all">
-                    <div className="text-3xl font-bold text-purple-400 mb-1">25+</div>
-                    <div className="text-sm text-white/60">Enterprise Clients</div>
-                    <div className="text-xs text-white/40 mt-1">Served annually</div>
-                  </div>
-
-                  {/* Metric 3 - Business Value */}
-                  <div className="bg-gradient-to-br from-cyan-500/10 to-transparent border border-cyan-500/30 rounded-lg p-4 text-center hover:border-cyan-500/50 transition-all">
-                    <div className="text-3xl font-bold text-cyan-400 mb-1">$180K</div>
-                    <div className="text-sm text-white/60">Annual Business Value</div>
-                    <div className="text-xs text-white/40 mt-1">(800+ hours saved)</div>
-                  </div>
-                </div>
-
-                {/* Tech Stack */}
-                <div className="flex flex-wrap items-center gap-2 mb-6">
-                  <span className="text-sm text-white/50">Tech Stack:</span>
-                  <Badge icon={<SiPython className="text-[#3776AB]" />} text="Python 3.10+" color="default" size="compact" />
-                  <Badge icon={<SiOpenai className="text-emerald-400" />} text="GPT-4o" color="emerald" size="compact" />
-                  <Badge icon={<RiRobot3Fill className="text-purple-400" />} text="AI Merge" color="purple" size="compact" />
-                  <Badge text="Textual TUI" color="default" size="compact" />
-                  <Badge text="PyInstaller" color="neutral" size="compact" />
-                </div>
-
-                {/* CTA */}
-                <div className="text-center sm:text-left">
-                  <Link href="/projects?open=spirewiz">
-                    <button className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/40 hover:border-purple-500/60 rounded-lg transition-all duration-300 text-sm text-purple-400 font-medium group">
-                      <span>View Case Study</span>
-                      <FiArrowRight className="text-sm group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                    </button>
-                  </Link>
                 </div>
               </div>
-            </div>
-          </motion.section>
+            </motion.section>
+          )}
 
           {/* What I'm Looking For - Enhanced Card (Controlled by Admin Portal) */}
           {portfolioMetadata?.displaySettings?.showLookingForSection && (
