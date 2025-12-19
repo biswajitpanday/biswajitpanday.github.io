@@ -13,7 +13,7 @@ import {
   FaChevronUp,
   FaHistory
 } from "react-icons/fa";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ProjectModal from "@/components/ProjectModal";
 import BackgroundElements from "@/components/BackgroundElements";
@@ -39,6 +39,9 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
   // Get URL search params and router
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  // Ref to track if we've already processed the ?open parameter
+  const hasProcessedOpenParam = useRef(false);
 
   // Sort projects by num for consistent display order (memoized to prevent infinite re-renders)
   const sortedProjects = useMemo(() => [...projects].sort((a, b) => a.num - b.num), [projects]);
@@ -143,13 +146,24 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
   // Auto-open modal from URL query parameter (e.g., /projects?open=spirewiz)
   useEffect(() => {
     const openParam = searchParams?.get('open');
-    if (openParam && sortedProjects.length > 0) {
+
+    // Reset the flag if there's no open parameter (allows future uses to work)
+    if (!openParam) {
+      hasProcessedOpenParam.current = false;
+      return;
+    }
+
+    // Only process if we haven't already processed this parameter
+    if (openParam && sortedProjects.length > 0 && !hasProcessedOpenParam.current) {
       // Find project by matching title (case-insensitive, partial match)
       const projectToOpen = sortedProjects.find(p =>
         p.title.toLowerCase().includes(openParam.toLowerCase())
       );
 
       if (projectToOpen) {
+        // Mark as processed BEFORE opening modal to prevent re-triggers
+        hasProcessedOpenParam.current = true;
+
         // Small delay to ensure page is loaded
         const timer = setTimeout(() => {
           openProjectModal(projectToOpen);
