@@ -81,13 +81,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
     if (isOpen && project) {
       const params = new URLSearchParams(window.location.search);
       params.set('project', project.num.toString());
-      window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`);
+      // Use replaceState to avoid creating new history entries
+      window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
     } else if (!isOpen) {
-      // Remove project param when closing
-      const params = new URLSearchParams(window.location.search);
-      params.delete('project');
-      const newUrl = params.toString() ? `${window.location.pathname}?${params.toString()}` : window.location.pathname;
-      window.history.pushState({}, '', newUrl);
+      // Remove project param when closing - always reset to clean /projects/ URL
+      // Use replaceState to avoid creating new history entries
+      window.history.replaceState({}, '', window.location.pathname);
     }
   }, [isOpen, project]);
 
