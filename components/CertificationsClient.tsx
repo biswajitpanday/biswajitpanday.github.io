@@ -5,7 +5,7 @@ import type { Certification } from "@/types/api";
 import CertificationCard from "@/components/CertificationCard";
 import BackgroundElements from "@/components/BackgroundElements";
 import EmptyState from "@/components/ui/EmptyState";
-import { FiAward, FiBriefcase, FiBook, FiSlack, FiCheckCircle, FiShield, FiSearch, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiAward, FiBriefcase, FiBook, FiSlack, FiCheckCircle, FiSearch, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { FaGraduationCap } from "react-icons/fa";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UnifiedToolbar from "@/components/UnifiedToolbar";
@@ -104,18 +104,15 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
   const professionalCount = certCounts.professional - (professionalCerts.filter(cert => cert.isUpcoming).length);
   const courseCount = certCounts.course;
 
-  // Calculate Active and Verified counts
+  // Calculate Active count
   const activeCerts = certifications.filter(cert => !cert.isUpcoming && cert.status === "Active");
-  const verifiedCerts = certifications.filter(cert => !cert.isUpcoming && cert.onlineVerifiable);
   const activeCount = activeCerts.length;
-  const verifiedCount = verifiedCerts.length;
 
   // Animated counters for stats
   const totalCredsCount = useCountUp({ end: totalCreds, duration: 2000 });
   const professionalCountUp = useCountUp({ end: professionalCount, duration: 1900 });
   const courseCountUp = useCountUp({ end: courseCount, duration: 1800 });
   const activeCountUp = useCountUp({ end: activeCount, duration: 1700 });
-  const verifiedCountUp = useCountUp({ end: verifiedCount, duration: 1600 });
   
   // Handle tab change
   const handleTabChange = (value: string) => {
@@ -366,7 +363,7 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
                 </div>
               </div>
 
-              <div className="hidden lg:block w-px h-10 bg-white/10"></div>
+              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
 
               {/* Active Certifications */}
               <div ref={activeCountUp.ref} className="flex items-center gap-3">
@@ -378,21 +375,6 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
                     {activeCountUp.count}
                   </div>
                   <div className="text-xs text-white/60">Active</div>
-                </div>
-              </div>
-
-              <div className="hidden lg:block w-px h-10 bg-white/10"></div>
-
-              {/* Verified Certifications */}
-              <div ref={verifiedCountUp.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
-                  <FiShield className="text-[#00BFFF] text-xl" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-[#00BFFF] tabular-nums">
-                    {verifiedCountUp.count}
-                  </div>
-                  <div className="text-xs text-white/60">Verified</div>
                 </div>
               </div>
             </div>
