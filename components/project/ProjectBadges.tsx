@@ -12,9 +12,9 @@ import {
 } from "react-icons/fa";
 import { SimpleTooltip, WideTooltip } from "@/components/ui/SimpleTooltip";
 import { getCategoryColor, getCompanyLogo } from "@/constants/projectConstants";
-import { getPrimaryMetric, getMetricBadgeClasses, getMetricBadgeClassesLight } from "@/utils/projectHelpers";
+import { getMetricBadgeClasses, getMetricBadgeClassesLight } from "@/utils/projectHelpers";
 import type { PrimaryMetric } from "@/utils/projectHelpers";
-import type { Project, Recognition } from "@/types/api";
+import type { Recognition } from "@/types/api";
 import {
   STATUS_BADGE_CLASSES,
   FEATURED_BADGE_CLASSES,
@@ -49,14 +49,14 @@ export function CategoryBadge({ category }: { category: string }) {
 export function OpenSourceBadge({ variant = "icon" }: { variant?: "icon" | "text" }) {
   if (variant === "icon") {
     return (
-      <SimpleTooltip content="Open Source Project" position="top" colorScheme="green">
+      <SimpleTooltip content="Open Source" position="top" colorScheme="green">
         <span
-          className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help flex-shrink-0"
+          className="inline-flex items-center justify-center w-5 h-5 rounded-xs bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help flex-shrink-0"
           role="img"
-          aria-label="Open Source Project"
+          aria-label="Open Source"
         >
-          <FaCodeBranch className="text-sm text-green-300" aria-hidden="true" />
-          <span className="sr-only">Open Source Project</span>
+          <FaCodeBranch className="text-xs text-green-300" aria-hidden="true" />
+          <span className="sr-only">Open Source</span>
         </span>
       </SimpleTooltip>
     );
@@ -66,7 +66,7 @@ export function OpenSourceBadge({ variant = "icon" }: { variant?: "icon" | "text
     <span
       className={`inline-flex items-center justify-center gap-1.5 bg-green-500/20 border border-green-500/40 text-green-300 ${OPEN_SOURCE_BADGE_CLASSES}`}
       role="status"
-      aria-label="Open Source Project"
+      aria-label="Open Source"
     >
       <FaCodeBranch className="text-xs flex-shrink-0" aria-hidden="true" />
       <span className="leading-none">Open Source</span>
@@ -284,9 +284,9 @@ export function PrimaryMetricBadge({
 export function CurrentBadge({ variant = "text" }: { variant?: "icon" | "text" }) {
   if (variant === "icon") {
     return (
-      <SimpleTooltip content="Currently Working On This" position="bottom" colorScheme="emerald">
+      <SimpleTooltip content="Currently Working On This" position="bottom" colorScheme="amber">
         <div
-          className="bg-emerald-500/95 text-white backdrop-blur-sm shadow-lg w-7 h-7 rounded-md flex items-center justify-center cursor-help flex-shrink-0"
+          className="bg-gradient-to-br from-amber-500/95 to-orange-500/95 text-white backdrop-blur-sm shadow-lg shadow-amber-500/30 w-7 h-7 rounded-md flex items-center justify-center cursor-help flex-shrink-0"
           role="img"
           aria-label="Currently Working On This Project"
         >
@@ -299,7 +299,7 @@ export function CurrentBadge({ variant = "text" }: { variant?: "icon" | "text" }
 
   return (
     <span
-      className="inline-flex items-center justify-center gap-1.5 bg-emerald-500/20 border border-emerald-500/50 text-emerald-300 px-2 py-1 rounded-md text-xs font-semibold shadow-sm flex-shrink-0"
+      className="inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-400/50 text-amber-300 px-2 py-1 rounded-md text-xs font-semibold shadow-sm shadow-amber-500/10 flex-shrink-0"
       role="status"
       aria-label="Currently Working On This Project"
     >

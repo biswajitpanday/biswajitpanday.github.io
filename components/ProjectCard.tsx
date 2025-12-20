@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CSS_ANIMATIONS } from "@/constants";
-import { FaGithub, FaEye } from "react-icons/fa";
+import { FaGithub, FaEye, FaBuilding } from "react-icons/fa";
 import type { Project } from "@/types/api";
 import { getPrimaryMetric } from "@/utils/projectHelpers";
 import {
@@ -20,32 +20,23 @@ import {
   TechStack,
   ProjectSkills,
   ProjectTimeline,
-  ProjectRole,
 } from "@/components/project";
 
 interface ProjectCardProps {
   project: Project;
   index: number;
-  isExpanded: boolean;
-  onToggleStacks: (index: number) => void;
   onOpenModal: (project: Project) => void;
   className?: string;
   onSkillClick?: (skill: string) => void;
   selectedSkill?: string | null;
 }
 
-const MAX_DESCRIPTION_LINES = 4;
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
   index,
-  isExpanded,
-  onToggleStacks,
   onOpenModal,
-  className = "",
-  onSkillClick,
-  selectedSkill
-}) => {
+  className = ""}) => {
   const hasGithubLink = project.github && project.github.trim() !== "";
   const displayImage = project.thumbImage || project.image;
   const staggerClass = index < 5 ? `animate-stagger-${index + 1}` : '';
@@ -57,21 +48,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       key={project.num}
       data-testid={`project-card-${project.num}`}
       aria-label={`${project.title} - ${project.category} project${isFeatured ? ' (Featured)' : ''}${project.isActive ? ' - Active' : ' - Completed'}`}
-      className={`group relative p-5 rounded-xl border transition-all duration-500 flex flex-col justify-between ${className} ${CSS_ANIMATIONS.FADE_IN_UP} ${staggerClass} hover:scale-[1.02] hover:shadow-2xl hover:-translate-y-1 ${isFeatured
+      className={`group relative p-5 rounded-xl border transition-all duration-500 flex flex-col justify-between ${className} ${CSS_ANIMATIONS.FADE_IN_UP} ${staggerClass} hover:scale-[1.02] hover:shadow-2xl ${isFeatured
         ? 'bg-gradient-to-br from-purple-500/5 via-gray-800 to-gray-900 border-purple-500/30 shadow-md shadow-purple-500/10 hover:border-purple-500/50 hover:shadow-purple-500/20'
         : 'bg-gradient-to-br from-gray-800 to-gray-900 border-secondary-default/20 hover:border-secondary-default/60 hover:shadow-secondary-default/20'
         }`}
-      style={{
-        transformStyle: 'preserve-3d',
-      }}
     >
       {/* Project Image */}
       <div
         data-testid={`project-image-${project.num}`}
-        className="relative overflow-visible rounded-lg mb-4 group-hover:shadow-2xl transition-all duration-500 bg-gradient-to-br from-secondary-default/10 to-transparent"
-        style={{
-          transform: 'translateZ(20px)',
-        }}
+        className="relative overflow-hidden rounded-lg mb-4 group-hover:shadow-xl transition-all duration-500"
       >
         {project.isActive ? (
           <Link
@@ -85,10 +70,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 alt={`${project.title} project screenshot`}
                 width={500}
                 height={300}
-                className="rounded-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-1"
+                className="rounded-lg transition-all duration-500 group-hover:scale-105"
               />
-              {/* Gradient Overlay on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-t from-secondary-default/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg" />
             </div>
           </Link>
         ) : (
@@ -101,14 +84,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           />
         )}
 
-        {/* Primary Metric Badge - Bottom Left of Image */}
+        {/* Primary Metric Badge - Bottom Left */}
         {primaryMetric && (
           <div className="absolute bottom-2 left-2">
             <PrimaryMetricBadge metric={primaryMetric} />
           </div>
         )}
 
-        {/* Badge Overlay - Top Right Corner - Icons Only with Tooltips */}
+        {/* Badge Overlay - Top Right Corner - Icons with Tooltips */}
         <div className="absolute top-2 right-2 flex flex-row gap-2 items-center">
           {isFeatured && <FeaturedBadge variant="icon" />}
           {project.isCurrent && <CurrentBadge variant="icon" />}
@@ -119,10 +102,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             />
           </div>
         </div>
-
       </div>
 
-      {/* Project Title - Enhanced with Gradients */}
+      {/* Project Title */}
       <div className="mb-3">
         <h3
           data-testid={`project-title-${project.num}`}
@@ -134,28 +116,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {project.title}
         </h3>
 
-        {/* Company as inline text below title - improved contrast */}
-        {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
-          <p className="text-xs text-white/60 mt-1 font-medium">
-            @ {project.associatedWithCompany}
-          </p>
-        )}
-
         {project.subtitle && (
-          <div className="relative">
-            <p className={`text-sm font-medium text-[#00BFFF]/80 leading-relaxed ${isExpanded ? '' : 'line-clamp-2'
-              }`}>
-              {project.subtitle}
-            </p>
-            {project.subtitle.length > 100 && (
-              <button
-                onClick={() => onToggleStacks(index)}
-                className="text-xs text-secondary-default/80 hover:text-secondary-default transition-colors mt-0.5 font-medium"
-              >
-                {isExpanded ? 'Show less' : 'See more'}
-              </button>
-            )}
-          </div>
+          <p className="text-xs font-light text-[#00BFFF]/80 leading-relaxed mt-2 line-clamp-2">
+            {project.subtitle}
+          </p>
         )}
       </div>
 
@@ -174,7 +138,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
             {project.isOpenSource && (
               <span data-testid={`project-opensource-badge-${project.num}`}>
-                <OpenSourceBadge variant="icon" />
+                <OpenSourceBadge variant="icon"  />
               </span>
             )}
 
@@ -188,19 +152,30 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </BadgeRow>
         </div>
 
-        {/* Role Info */}
-        <ProjectRole role={project.jobRole} />
-
-        {/* Timeline Info */}
-        <ProjectTimeline startDate={project.startDate} endDate={project.endDate} />
+        {/* Consolidated Metadata: Company, Role, Timeline */}
+        <div className="flex flex-wrap items-center gap-2 text-xs text-white/70">
+          {project.associatedWithCompany && (
+            <>
+              <span className="flex items-center gap-1">
+                <FaBuilding className="text-blue-400" aria-hidden="true" />
+                {project.associatedWithCompany}
+              </span>
+              <span className="text-white/30">•</span>
+            </>
+          )}
+          {project.jobRole && (
+            <>
+              <span>{project.jobRole}</span>
+            </>
+          )}
+          <ProjectTimeline startDate={project.startDate} endDate={project.endDate} />
+        </div>
 
         {/* Skills Highlighted - Expandable Display */}
         {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
           <ProjectSkills
             skills={project.skillsHighlighted}
             displayMode="expandable"
-            selectedSkill={selectedSkill}
-            onSkillClick={onSkillClick}
           />
         )}
 
@@ -247,14 +222,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </Link>
         )}
       </div>
-
-      {/* 3D Depth Effect - Subtle Shadow Layer */}
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-secondary-default/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-10"
-        style={{
-          transform: 'translateZ(-10px)',
-        }}
-        aria-hidden="true"
-      />
     </article>
   );
 };

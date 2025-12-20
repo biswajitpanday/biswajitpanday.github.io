@@ -55,7 +55,6 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
   // State
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(sortedProjects);
-  const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set());
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"grid" | "timeline">("grid");
   const [showEarlierProjects, setShowEarlierProjects] = useState(false);
@@ -95,16 +94,6 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
     };
   })();
 
-  // Toggle project stacks display
-  const toggleProjectStacks = (projectIndex: number) => {
-    const newExpanded = new Set(expandedProjects);
-    if (newExpanded.has(projectIndex)) {
-      newExpanded.delete(projectIndex);
-    } else {
-      newExpanded.add(projectIndex);
-    }
-    setExpandedProjects(newExpanded);
-  };
 
   // Modal handlers
   const openProjectModal = (project: Project) => {
@@ -517,8 +506,6 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
                 key={project.num}
                 project={project}
                 index={index}
-                isExpanded={expandedProjects.has(index)}
-                onToggleStacks={toggleProjectStacks}
                 onOpenModal={openProjectModal}
                 onSkillClick={handleSkillFilter}
                 selectedSkill={selectedSkill}
@@ -582,8 +569,6 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
                       key={project.num}
                       project={project}
                       index={index}
-                      isExpanded={expandedProjects.has(index + 1000)} // Offset to avoid conflicts
-                      onToggleStacks={(idx) => toggleProjectStacks(idx + 1000)}
                       onOpenModal={openProjectModal}
                       onSkillClick={handleSkillFilter}
                       selectedSkill={selectedSkill}

@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { FaGithub, FaEye } from "react-icons/fa";
+import { FaGithub, FaEye, FaBuilding } from "react-icons/fa";
 import type { Project } from "@/types/api";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,16 +20,8 @@ import {
   TechStack,
   ProjectSkills,
   ProjectTimeline as Timeline,
-  ProjectRole,
-  formatDate,
-  formatDuration,
-  calculateDurationMonths,
 } from "@/components/project";
 
-interface TimelineProject extends Project {
-  durationMonths: number;
-  yearRange: string;
-}
 
 interface ProjectTimelineProps {
   projects: Project[];
@@ -38,19 +30,6 @@ interface ProjectTimelineProps {
 }
 
 export default function ProjectTimeline({ projects, selectedTech, onOpenModal }: ProjectTimelineProps) {
-  const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(new Set());
-
-  // Toggle description expansion
-  const toggleDescription = (projectNum: number) => {
-    const newExpanded = new Set(expandedDescriptions);
-    if (newExpanded.has(projectNum)) {
-      newExpanded.delete(projectNum);
-    } else {
-      newExpanded.add(projectNum);
-    }
-    setExpandedDescriptions(newExpanded);
-  };
-
   // Process projects for timeline
   const timelineProjects = useMemo(() => {
     return projects.map((project) => {
@@ -100,7 +79,6 @@ export default function ProjectTimeline({ projects, selectedTech, onOpenModal }:
           {filteredProjects.map((project, index) => {
             const isFeatured = project.isFeatured === true;
             const primaryMetric = getPrimaryMetric(project);
-            const isDescriptionExpanded = expandedDescriptions.has(project.num);
 
             return (
               <motion.div
@@ -123,20 +101,17 @@ export default function ProjectTimeline({ projects, selectedTech, onOpenModal }:
                   }`}
                 >
                   <div className="flex flex-col md:flex-row gap-4">
-                    {/* Project Image with Badge Overlay */}
-                    <div className="relative w-full md:w-32 h-32 flex-shrink-0 group-hover:shadow-2xl transition-all duration-500">
+                    {/* Project Image */}
+                    <div className="relative w-full md:w-32 h-32 flex-shrink-0 group-hover:shadow-xl transition-all duration-500">
                       <div className="absolute inset-0 rounded-lg overflow-hidden border border-white/10 bg-gradient-to-br from-secondary-default/10 to-transparent">
                         <Image
                           src={project.thumbImage || project.image}
                           alt={`${project.title} project screenshot`}
                           fill
-                          className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-transform duration-500"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
                           sizes="(max-width: 768px) 100vw, 128px"
                         />
-                        {/* Gradient Overlay on Hover */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-secondary-default/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg" />
                       </div>
-
                     </div>
 
                     {/* Project Info */}
@@ -151,13 +126,6 @@ export default function ProjectTimeline({ projects, selectedTech, onOpenModal }:
                           }`}>
                             {project.title}
                           </h3>
-
-                          {/* Company as inline text below title */}
-                          {project.associatedWithCompany && project.associatedWithCompany.trim() !== "" && (
-                            <p className="text-xs text-white/60 mt-1 font-medium">
-                              @ {project.associatedWithCompany}
-                            </p>
-                          )}
                         </div>
 
                         {/* Status Badge - Always visible, right side */}
@@ -171,21 +139,9 @@ export default function ProjectTimeline({ projects, selectedTech, onOpenModal }:
 
                       {/* Subtitle */}
                       {project.subtitle && (
-                        <div className="relative mb-2">
-                          <p className={`text-sm font-medium text-[#00BFFF]/80 leading-relaxed ${
-                            expandedDescriptions.has(project.num) ? '' : 'line-clamp-2'
-                          }`}>
-                            {project.subtitle}
-                          </p>
-                          {project.subtitle.length > 100 && (
-                            <button
-                              onClick={() => toggleDescription(project.num)}
-                              className="text-xs text-secondary-default/80 hover:text-secondary-default transition-colors mt-0.5 font-medium"
-                            >
-                              {expandedDescriptions.has(project.num) ? 'Show less' : 'See more'}
-                            </button>
-                          )}
-                        </div>
+                        <p className="text-xs font-light text-[#00BFFF]/80 leading-relaxed mb-2 line-clamp-2">
+                          {project.subtitle}
+                        </p>
                       )}
 
                       {/* Compact Badge Row - Category + Features */}
@@ -231,11 +187,25 @@ export default function ProjectTimeline({ projects, selectedTech, onOpenModal }:
                         </BadgeRow>
                       </div>
 
-                      {/* Role Info */}
-                      <ProjectRole role={project.jobRole} className="mb-3" />
-
-                      {/* Timeline Info */}
-                      <Timeline startDate={project.startDate} endDate={project.endDate} className="mb-3" />
+                      {/* Consolidated Metadata: Company, Role, Timeline */}
+                      <div className="flex flex-wrap items-center gap-2 text-xs text-white/70 mb-3">
+                        {project.associatedWithCompany && (
+                          <>
+                            <span className="flex items-center gap-1">
+                              <FaBuilding className="text-blue-400" aria-hidden="true" />
+                              {project.associatedWithCompany}
+                            </span>
+                            <span className="text-white/30">•</span>
+                          </>
+                        )}
+                        {project.jobRole && (
+                          <>
+                            <span>{project.jobRole}</span>
+                            <span className="text-white/30">•</span>
+                          </>
+                        )}
+                        <Timeline startDate={project.startDate} endDate={project.endDate} />
+                      </div>
 
                       {/* Skills Highlighted - Show All Skills */}
                       {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
@@ -281,9 +251,6 @@ export default function ProjectTimeline({ projects, selectedTech, onOpenModal }:
                       </div>
                     </div>
                   </div>
-
-                  {/* 3D Depth Effect - Subtle Shadow Layer */}
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-secondary-default/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-10" />
                 </div>
               </motion.div>
             );
