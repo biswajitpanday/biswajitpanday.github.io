@@ -122,7 +122,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[150] flex items-center justify-center p-4 pt-20 pb-8"
+          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[150] flex items-center justify-center p-2 pt-16 pb-4 sm:p-4 md:pt-20 md:pb-8"
           onClick={onClose}
           onKeyDown={handleKeyDown}
           tabIndex={-1}
@@ -137,15 +137,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3, type: "spring", damping: 25, stiffness: 300 }}
-            className={`backdrop-blur-xl rounded-2xl w-full max-w-4xl lg:max-w-6xl xl:max-w-7xl max-h-[calc(100vh-160px)] overflow-hidden shadow-2xl flex flex-col ${project.isFeatured
+            className={`backdrop-blur-xl rounded-lg sm:rounded-2xl w-full max-w-4xl lg:max-w-6xl xl:max-w-7xl max-h-[calc(100vh-8rem)] sm:max-h-[calc(100vh-10rem)] md:max-h-[calc(100vh-160px)] overflow-hidden shadow-2xl flex flex-col ${project.isFeatured
                 ? "bg-gradient-to-br from-purple-900/30 via-gray-900/95 to-blue-900/30 border border-purple-500/30 shadow-purple-500/20"
                 : "bg-gradient-to-br from-gray-900/95 to-gray-950/95 border border-secondary-default/30 shadow-secondary-default/20"
               }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Simplified Modal Header */}
-            <div className="relative px-4 py-3 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/5 via-transparent to-secondary-default/5 flex-shrink-0">
-              <div className="flex items-center justify-between gap-4 mb-0">
+            <div className="relative px-3 py-2 sm:px-4 sm:py-3 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/5 via-transparent to-secondary-default/5 flex-shrink-0">
+              <div className="flex items-center justify-between gap-2 sm:gap-4 mb-0">
                 {/* Left: Company Icon + Title */}
                 <div className="flex items-center gap-2 min-w-0 flex-1">
                   {project.associatedWithCompany && (
@@ -153,7 +153,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                       <CompanyIcon company={project.associatedWithCompany} />
                     </div>
                   )}
-                  <h2 id={modalTitleId} className={`text-lg md:text-xl font-bold truncate ${project.isFeatured
+                  <h2 id={modalTitleId} className={`text-base sm:text-lg md:text-xl font-bold truncate ${project.isFeatured
                       ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
                       : 'bg-gradient-to-r from-[#00BFFF] to-emerald-400 bg-clip-text text-transparent'
                     }`}>
@@ -162,8 +162,10 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                 </div>
 
                 {/* Right: Badges | Live | Close */}
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <CategoryBadge category={project.category} />
+                <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                  <div className="hidden sm:block">
+                    <CategoryBadge category={project.category} />
+                  </div>
                   <StatusBadge
                     isActive={project.isActive}
                     inactivationReason={project.inactivationReason ?? undefined}
@@ -172,16 +174,16 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                   {project.url && project.url.trim() !== "" && (
                     <>
-                      <span className="text-white/30 mx-1">|</span>
+                      <span className="hidden sm:inline text-white/30 mx-1">|</span>
                       <Link
                         href={project.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-3 py-0.5 rounded-md text-xs font-bold hover:shadow-lg transition-all duration-200"
+                        className="flex items-center gap-1 sm:gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-2 sm:px-3 py-0.5 rounded-md text-xs font-bold hover:shadow-lg transition-all duration-200"
                         aria-label="View live project"
                       >
                         <FaExternalLinkAlt className="text-[10px]" aria-hidden="true" />
-                        <span>Live</span>
+                        <span className="hidden xs:inline sm:inline">Live</span>
                       </Link>
                     </>
                   )}
@@ -189,7 +191,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   <button
                     ref={closeButtonRef}
                     onClick={onClose}
-                    className="w-7 h-7 flex items-center justify-center text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50"
+                    className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50"
                     aria-label="Close project details (Press Escape)"
                   >
                     <FaTimes className="text-sm" aria-hidden="true" />
@@ -199,7 +201,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
               {/* Subtitle */}
               {project.subtitle && (
-                <p className="text-xs text-[#00BFFF]/80 leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#00BFFF]/80 leading-relaxed mt-1">
                   {project.subtitle}
                 </p>
               )}
@@ -207,7 +209,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
             {/* Modal Content */}
             <div className="overflow-y-auto flex-1 custom-scrollbar">
-              <div className="p-6 pb-6 space-y-8">
+              <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-8">
                 {/* Project Image - Enhanced with Decorative Elements */}
                 <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-secondary-default/20 shadow-lg shadow-secondary-default/20">
                   {/* Decorative Background Pattern */}
@@ -227,7 +229,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-900/40 to-transparent pointer-events-none" aria-hidden="true"></div>
 
                   {/* Image Container */}
-                  <div className="relative w-full h-64 md:h-80 lg:h-96">
+                  <div className="relative w-full h-48 sm:h-56 md:h-72 lg:h-80 xl:h-96">
                     <Image
                       src={project.image}
                       alt={`${project.title} project screenshot`}
@@ -260,47 +262,47 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                 </div>
 
                 {/* Project Metadata - Enhanced Card Layout with Watermarks */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
                   {/* Company */}
                   {project.associatedWithCompany && (
-                    <div className="relative bg-gradient-to-br from-blue-900/20 to-blue-800/10 border border-blue-500/20 rounded-lg p-4 flex items-center gap-3 overflow-hidden">
+                    <div className="relative bg-gradient-to-br from-blue-900/20 to-blue-800/10 border border-blue-500/20 rounded-lg p-3 sm:p-4 flex items-center gap-2 sm:gap-3 overflow-hidden">
                       {/* Watermark */}
-                      <FaBuilding className="absolute -right-2 -bottom-2 text-blue-500/10 text-6xl pointer-events-none" aria-hidden="true" />
-                      <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0 relative z-10">
-                        <FaBuilding className="text-blue-400 text-lg" aria-hidden="true" />
+                      <FaBuilding className="absolute -right-2 -bottom-2 text-blue-500/10 text-5xl sm:text-6xl pointer-events-none" aria-hidden="true" />
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0 relative z-10">
+                        <FaBuilding className="text-blue-400 text-sm sm:text-lg" aria-hidden="true" />
                       </div>
                       <div className="min-w-0 flex-1 relative z-10">
-                        <p className="text-xs text-white/50 mb-0.5">Company</p>
-                        <p className="text-sm font-semibold text-white truncate">{project.associatedWithCompany}</p>
+                        <p className="text-[10px] sm:text-xs text-white/50 mb-0.5">Company</p>
+                        <p className="text-xs sm:text-sm font-semibold text-white truncate">{project.associatedWithCompany}</p>
                       </div>
                     </div>
                   )}
 
                   {/* Role */}
                   {project.jobRole && (
-                    <div className="relative bg-gradient-to-br from-purple-900/20 to-purple-800/10 border border-purple-500/20 rounded-lg p-4 flex items-center gap-3 overflow-hidden">
+                    <div className="relative bg-gradient-to-br from-purple-900/20 to-purple-800/10 border border-purple-500/20 rounded-lg p-3 sm:p-4 flex items-center gap-2 sm:gap-3 overflow-hidden">
                       {/* Watermark */}
-                      <FaBriefcase className="absolute -right-2 -bottom-2 text-purple-500/10 text-6xl pointer-events-none" aria-hidden="true" />
-                      <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0 relative z-10">
-                        <FaBriefcase className="text-purple-400 text-lg" aria-hidden="true" />
+                      <FaBriefcase className="absolute -right-2 -bottom-2 text-purple-500/10 text-5xl sm:text-6xl pointer-events-none" aria-hidden="true" />
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0 relative z-10">
+                        <FaBriefcase className="text-purple-400 text-sm sm:text-lg" aria-hidden="true" />
                       </div>
                       <div className="min-w-0 flex-1 relative z-10">
-                        <p className="text-xs text-white/50 mb-0.5">Role</p>
-                        <p className="text-sm font-semibold text-white truncate">{project.jobRole}</p>
+                        <p className="text-[10px] sm:text-xs text-white/50 mb-0.5">Role</p>
+                        <p className="text-xs sm:text-sm font-semibold text-white truncate">{project.jobRole}</p>
                       </div>
                     </div>
                   )}
 
                   {/* Timeline */}
-                  <div className="relative bg-gradient-to-br from-cyan-900/20 to-cyan-800/10 border border-cyan-500/20 rounded-lg p-4 flex items-center gap-3 overflow-hidden">
+                  <div className="relative bg-gradient-to-br from-cyan-900/20 to-cyan-800/10 border border-cyan-500/20 rounded-lg p-3 sm:p-4 flex items-center gap-2 sm:gap-3 overflow-hidden">
                     {/* Watermark */}
-                    <FaClock className="absolute -right-2 -bottom-2 text-cyan-500/10 text-6xl pointer-events-none" aria-hidden="true" />
-                    <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center flex-shrink-0 relative z-10">
-                      <FaClock className="text-cyan-400 text-lg" aria-hidden="true" />
+                    <FaClock className="absolute -right-2 -bottom-2 text-cyan-500/10 text-5xl sm:text-6xl pointer-events-none" aria-hidden="true" />
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center flex-shrink-0 relative z-10">
+                      <FaClock className="text-cyan-400 text-sm sm:text-lg" aria-hidden="true" />
                     </div>
                     <div className="min-w-0 flex-1 relative z-10">
-                      <p className="text-xs text-white/50 mb-0.5">Duration</p>
-                      <div className="text-sm font-semibold text-white">
+                      <p className="text-[10px] sm:text-xs text-white/50 mb-0.5">Duration</p>
+                      <div className="text-xs sm:text-sm font-semibold text-white">
                         <ProjectTimeline startDate={project.startDate} endDate={project.endDate} />
                       </div>
                     </div>
@@ -312,12 +314,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                 {/* Project Overview */}
                 <div>
-                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                    <FaInfoCircle className="text-secondary-default text-lg" />
+                  <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3 md:mb-4 flex items-center gap-2">
+                    <FaInfoCircle className="text-secondary-default text-sm sm:text-base md:text-lg" />
                     Project Overview
                   </h3>
-                  <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                    <p className="text-white/80 leading-relaxed text-base">
+                  <div className="bg-white/5 border border-white/10 rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5">
+                    <p className="text-white/80 leading-relaxed text-sm sm:text-base">
                       {project.longDescription || project.shortDescription}
                     </p>
                   </div>
@@ -326,15 +328,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                 {/* Key Skills */}
                 {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
                   <div>
-                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                      <FaCode className="text-blue-400 text-lg" />
+                    <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3 md:mb-4 flex items-center gap-2">
+                      <FaCode className="text-blue-400 text-sm sm:text-base md:text-lg" />
                       Key Skills
                     </h3>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
                       {project.skillsHighlighted.map((skill, idx) => (
                         <span
                           key={idx}
-                          className="text-sm px-3 py-1.5 rounded-md bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90"
+                          className="text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-1.5 rounded-md bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90"
                         >
                           {skill}
                         </span>
@@ -346,18 +348,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                 {/* Key Responsibilities & Achievements */}
                 {project.responsibilities && project.responsibilities.length > 0 && (
                   <div>
-                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                      <FaBriefcase className="text-emerald-400 text-lg" />
+                    <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3 md:mb-4 flex items-center gap-2">
+                      <FaBriefcase className="text-emerald-400 text-sm sm:text-base md:text-lg" />
                       Key Responsibilities & Achievements
                     </h3>
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                      <ul className="space-y-2">
+                    <div className="bg-white/5 border border-white/10 rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5">
+                      <ul className="space-y-1.5 sm:space-y-2">
                         {project.responsibilities.map((responsibility, idx) => (
                           <li
                             key={idx}
-                            className="flex items-start gap-2 text-white/80 text-base"
+                            className="flex items-start gap-2 text-white/80 text-sm sm:text-base"
                           >
-                            <span className="text-emerald-400 mt-1">▸</span>
+                            <span className="text-emerald-400 mt-0.5 sm:mt-1">▸</span>
                             {responsibility}
                           </li>
                         ))}
@@ -370,8 +372,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                 {(project.metrics && Object.keys(project.metrics).length > 0 && Object.values(project.metrics).some(v => v && v.toString().trim() !== '')) ||
                   (project.recognition && project.recognition.filter(r => r.approved !== false).length > 0) ? (
                   <div>
-                    <h3 className="text-xl font-bold mb-5 flex items-center gap-2">
-                      <FaChartLine className="text-secondary-default text-lg" />
+                    <h3 className="text-base sm:text-lg md:text-xl font-bold mb-3 sm:mb-4 md:mb-5 flex items-center gap-2">
+                      <FaChartLine className="text-secondary-default text-sm sm:text-base md:text-lg" />
                       Impact & Metrics
                     </h3>
 
@@ -400,7 +402,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                             <>
                               {/* Main Metrics Grid */}
                               {mainMetrics.length > 0 && (
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-3 md:gap-4 mb-3 sm:mb-4 md:mb-6">
                                   {mainMetrics.map(([key, value]) => {
                                     const valueStr = value.toString();
                                     // Match percentage ranges like "70-80%" or single percentages
@@ -483,21 +485,21 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                                     return (
                                       <div
                                         key={key}
-                                        className={`relative bg-gradient-to-br ${gradientClass} border ${borderClass} rounded-xl p-4 overflow-hidden`}
+                                        className={`relative bg-gradient-to-br ${gradientClass} border ${borderClass} rounded-lg sm:rounded-xl p-3 sm:p-4 overflow-hidden`}
                                       >
                                         {/* Watermark Icon */}
-                                        <Icon className={`absolute -right-2 -bottom-2 text-6xl pointer-events-none ${iconColorClass}`} aria-hidden="true" />
+                                        <Icon className={`absolute -right-2 -bottom-2 text-5xl sm:text-6xl pointer-events-none ${iconColorClass}`} aria-hidden="true" />
 
                                         {/* Icon & Label */}
-                                        <div className="flex items-center gap-2 mb-2 relative z-10">
-                                          <Icon className="text-secondary-default text-sm" />
-                                          <span className="text-xs text-white/70">
+                                        <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2 relative z-10">
+                                          <Icon className="text-secondary-default text-xs sm:text-sm" />
+                                          <span className="text-[10px] sm:text-xs text-white/70">
                                             {key.replace(/_/g, ' ')}
                                           </span>
                                         </div>
 
                                         {/* Value */}
-                                        <div className="text-sm font-bold text-white mb-2 relative z-10">
+                                        <div className="text-xs sm:text-sm font-bold text-white mb-1.5 sm:mb-2 relative z-10">
                                           {valueStr}
                                         </div>
 
@@ -677,24 +679,24 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                     {project.recognition && project.recognition.filter(r => r.approved !== false).length > 0 && (
                       <>
                         {/* Separator */}
-                        <div className="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent my-6" />
+                        <div className="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent my-3 sm:my-4 md:my-6" />
 
                         <div>
-                          <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                            <FaTrophy className="text-secondary-default" />
+                          <h3 className="text-base sm:text-lg font-bold mb-2 sm:mb-3 md:mb-4 flex items-center gap-2">
+                            <FaTrophy className="text-secondary-default text-sm sm:text-base" />
                             Accolades
                           </h3>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 md:gap-4">
                             {project.recognition.filter(r => r.approved !== false).map((rec, idx) => (
                               <div
                                 key={idx}
-                                className="bg-gradient-to-br from-cyan-900/30 via-teal-900/20 to-cyan-900/30 border border-cyan-500/40 rounded-lg p-4 flex items-start gap-3"
+                                className="bg-gradient-to-br from-cyan-900/30 via-teal-900/20 to-cyan-900/30 border border-cyan-500/40 rounded-lg p-3 sm:p-4 flex items-start gap-2 sm:gap-3"
                               >
-                                <FaTrophy className="text-purple-400 text-lg mt-0.5 flex-shrink-0" />
+                                <FaTrophy className="text-purple-400 text-sm sm:text-base md:text-lg mt-0.5 flex-shrink-0" />
                                 <div>
-                                  <h4 className="text-white font-semibold text-sm mb-1">{rec.title}</h4>
+                                  <h4 className="text-white font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1">{rec.title}</h4>
                                   {rec.description && (
-                                    <p className="text-white/80 text-xs leading-relaxed">
+                                    <p className="text-white/80 text-[10px] sm:text-xs leading-relaxed">
                                       {rec.description}
                                     </p>
                                   )}
@@ -713,8 +715,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                 {/* Technology Stack */}
                 <div>
-                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                    <FaCogs className="text-orange-400 text-lg" />
+                  <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3 md:mb-4 flex items-center gap-2">
+                    <FaCogs className="text-orange-400 text-sm sm:text-base md:text-lg" />
                     Technology Stack
                   </h3>
                   <TechStack
@@ -732,27 +734,27 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                     <div className="h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent" />
 
                     <div>
-                      <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
-                        <FaQuoteLeft className="text-purple-400" />
+                      <h3 className="text-base sm:text-lg font-bold mb-2 sm:mb-3 flex items-center gap-2">
+                        <FaQuoteLeft className="text-purple-400 text-sm sm:text-base" />
                         Testimonials
                       </h3>
-                      <div className="space-y-3">
+                      <div className="space-y-2 sm:space-y-3">
                         {project.testimonials.filter(t => t.approved !== false).map((testimonial, idx) => (
                           <div
                             key={idx}
-                            className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4 relative"
+                            className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-lg sm:rounded-xl p-3 sm:p-4 relative"
                           >
-                            <FaQuoteLeft className="text-purple-400/20 text-3xl absolute top-3 right-3" aria-hidden="true" />
-                            <p className="text-sm text-white/90 leading-relaxed mb-3 italic relative z-10">
+                            <FaQuoteLeft className="text-purple-400/20 text-2xl sm:text-3xl absolute top-2 sm:top-3 right-2 sm:right-3" aria-hidden="true" />
+                            <p className="text-xs sm:text-sm text-white/90 leading-relaxed mb-2 sm:mb-3 italic relative z-10">
                               &ldquo;{testimonial.quote}&rdquo;
                             </p>
                             <div className="flex items-center gap-2">
-                              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs">
+                              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs">
                                 {testimonial.author.charAt(0)}
                               </div>
                               <div>
-                                <p className="text-white font-semibold text-sm">{testimonial.author}</p>
-                                <p className="text-white/60 text-xs">
+                                <p className="text-white font-semibold text-xs sm:text-sm">{testimonial.author}</p>
+                                <p className="text-white/60 text-[10px] sm:text-xs">
                                   {testimonial.role}{testimonial.company ? ` at ${testimonial.company}` : ''}
                                 </p>
                               </div>
@@ -771,8 +773,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                     <div className="h-px bg-gradient-to-r from-transparent via-secondary-default/30 to-transparent" />
 
                     <div>
-                      <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                        <FaBook className="text-purple-400 text-lg" />
+                      <h3 className="text-base sm:text-lg md:text-xl font-bold mb-3 sm:mb-4 md:mb-6 flex items-center gap-2">
+                        <FaBook className="text-purple-400 text-sm sm:text-base md:text-lg" />
                         Case Study
                       </h3>
 
@@ -781,7 +783,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         {/* Vertical Tree Line - Hidden on mobile, visible on md+ */}
                         <div className="hidden md:block absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-500 via-blue-500 to-green-500 opacity-30" aria-hidden="true" />
 
-                        <div className="space-y-8">
+                        <div className="space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-8">
                         {/* Problem */}
                         {project.caseStudy.problem && project.caseStudy.problem.trim() !== "" && (
                           <div className="relative md:pl-12">
@@ -793,12 +795,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-0.5 bg-gradient-to-r from-red-500/50 to-red-500/20" />
                             </div>
 
-                            <h4 className="text-lg font-bold mb-3 flex items-center gap-2">
-                              <FaInfoCircle className="text-red-400" />
+                            <h4 className="text-sm sm:text-base md:text-lg font-bold mb-2 sm:mb-3 flex items-center gap-2">
+                              <FaInfoCircle className="text-red-400 text-sm sm:text-base" />
                               The Problem
                             </h4>
-                            <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 rounded-xl p-5 hover:border-red-500/50 transition-colors duration-300">
-                              <p className="text-white/80 leading-relaxed text-sm">{project.caseStudy.problem}</p>
+                            <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 hover:border-red-500/50 transition-colors duration-300">
+                              <p className="text-white/80 leading-relaxed text-xs sm:text-sm">{project.caseStudy.problem}</p>
                             </div>
                           </div>
                         )}
@@ -814,28 +816,28 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-0.5 bg-gradient-to-r from-blue-500/50 to-blue-500/20" />
                             </div>
 
-                            <h4 className="text-lg font-bold mb-3 flex items-center gap-2">
-                              <FaLightbulb className="text-blue-400" />
+                            <h4 className="text-sm sm:text-base md:text-lg font-bold mb-2 sm:mb-3 flex items-center gap-2">
+                              <FaLightbulb className="text-blue-400 text-sm sm:text-base" />
                               The Solution
                             </h4>
-                            <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-5 hover:border-blue-500/50 transition-colors duration-300">
-                              <p className="text-white/80 leading-relaxed text-sm mb-3">{project.caseStudy.solution}</p>
+                            <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 hover:border-blue-500/50 transition-colors duration-300">
+                              <p className="text-white/80 leading-relaxed text-xs sm:text-sm mb-2 sm:mb-3">{project.caseStudy.solution}</p>
 
                               {/* Technical Highlights - Nested Subset */}
                               {project.caseStudy.technicalHighlights && project.caseStudy.technicalHighlights.length > 0 && (
-                                <div className="mt-4 pt-4 border-t border-blue-500/20">
-                                  <div className="flex items-center gap-2 mb-3">
-                                    <FaCodeBranch className="text-cyan-400 text-sm" />
-                                    <p className="text-white font-semibold text-sm">Technical Highlights</p>
+                                <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-blue-500/20">
+                                  <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                                    <FaCodeBranch className="text-cyan-400 text-xs sm:text-sm" />
+                                    <p className="text-white font-semibold text-xs sm:text-sm">Technical Highlights</p>
                                   </div>
-                                  <div className="grid grid-cols-1 gap-2">
+                                  <div className="grid grid-cols-1 gap-1.5 sm:gap-2">
                                     {project.caseStudy.technicalHighlights.map((highlight, idx) => (
                                       <div
                                         key={idx}
-                                        className="flex items-start gap-2 bg-blue-500/5 border border-blue-500/20 rounded-lg p-3 hover:bg-blue-500/10 hover:border-blue-500/30 transition-all duration-200"
+                                        className="flex items-start gap-2 bg-blue-500/5 border border-blue-500/20 rounded-lg p-2 sm:p-3 hover:bg-blue-500/10 hover:border-blue-500/30 transition-all duration-200"
                                       >
-                                        <FaCheckCircle className="text-cyan-400 text-xs mt-0.5 flex-shrink-0" />
-                                        <p className="text-white/80 text-xs leading-relaxed">
+                                        <FaCheckCircle className="text-cyan-400 text-[10px] sm:text-xs mt-0.5 flex-shrink-0" />
+                                        <p className="text-white/80 text-[10px] sm:text-xs leading-relaxed">
                                           {highlight}
                                         </p>
                                       </div>
@@ -858,15 +860,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-0.5 bg-gradient-to-r from-green-500/50 to-green-500/20" />
                             </div>
 
-                            <h4 className="text-lg font-bold mb-3 flex items-center gap-2">
-                              <FaCheckCircle className="text-green-400" />
+                            <h4 className="text-sm sm:text-base md:text-lg font-bold mb-2 sm:mb-3 flex items-center gap-2">
+                              <FaCheckCircle className="text-green-400 text-sm sm:text-base" />
                               The Results
                             </h4>
-                            <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl p-5 hover:border-green-500/50 transition-colors duration-300">
-                              <ul className="space-y-2">
+                            <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 hover:border-green-500/50 transition-colors duration-300">
+                              <ul className="space-y-1.5 sm:space-y-2">
                                 {project.caseStudy.results.map((result, idx) => (
-                                  <li key={idx} className="flex items-start gap-2 text-white/80 text-sm">
-                                    <span className="text-green-400 mt-1 text-lg">✓</span>
+                                  <li key={idx} className="flex items-start gap-2 text-white/80 text-xs sm:text-sm">
+                                    <span className="text-green-400 mt-0.5 sm:mt-1 text-base sm:text-lg">✓</span>
                                     {result}
                                   </li>
                                 ))}
@@ -886,8 +888,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                               <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-0.5 bg-gradient-to-r from-purple-500/50 to-purple-500/20" />
                             </div>
 
-                            <h4 className="text-lg font-bold mb-3 flex items-center gap-2">
-                              <FiLayers className="text-purple-400" />
+                            <h4 className="text-sm sm:text-base md:text-lg font-bold mb-2 sm:mb-3 flex items-center gap-2">
+                              <FiLayers className="text-purple-400 text-sm sm:text-base" />
                               System Architecture
                             </h4>
                             <MermaidDiagram chart={project.caseStudy.architectureDiagram} />

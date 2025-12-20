@@ -29,8 +29,9 @@
     "optimize": "node scripts/optimize-images.js",
     "fetch-blog": "node scripts/fetch-medium-posts.js",
     "fetch-github": "node scripts/fetch-github-data.js",
+    "fetch-data": "npm run fetch-github && npm run fetch-blog",
     "sitemap": "node scripts/generate-sitemap.js",
-    "prebuild": "npm run fetch-github && npm run fetch-blog && npm run sitemap"
+    "prebuild": "npm run sitemap"
   },
   "homepage": "https://biswajitpanday.github.io/",
   "dependencies": {
