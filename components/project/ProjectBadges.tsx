@@ -268,12 +268,13 @@ export function PrimaryMetricBadge({
 
   return (
     <span
-      className={`inline-flex items-center justify-center gap-2 bg-black/70 backdrop-blur-md shadow-lg border flex-shrink-0 ${badgeClasses} ${colorClasses}`}
+      className={`inline-flex items-center justify-center gap-1 sm:gap-2 bg-black/70 backdrop-blur-md shadow-lg border flex-shrink-0 ${badgeClasses} ${colorClasses} max-w-[280px] sm:max-w-none`}
       role="status"
       aria-label={`Key Metric: ${metric.text}`}
+      title={metric.text}
     >
-      <metric.icon className={`flex-shrink-0 ${variant === "modal" ? "text-base" : "text-xs"}`} aria-hidden="true" />
-      <span className="leading-none">{metric.text}</span>
+      <metric.icon className={`flex-shrink-0 ${variant === "modal" ? "text-sm sm:text-base" : "text-[10px] sm:text-xs"}`} aria-hidden="true" />
+      <span className="leading-none whitespace-nowrap overflow-hidden text-ellipsis">{metric.text}</span>
     </span>
   );
 }

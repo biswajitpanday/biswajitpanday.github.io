@@ -49,15 +49,17 @@ export const RECOGNITION_BADGE_CLASSES = "h-5 text-[11px] px-2 rounded-xs font-s
  * Primary Metric badge (on image)
  * Size: Standard (text-xs) with strict h-7 (28px) height
  * Updated: Using flexbox centering instead of padding-y for perfect vertical alignment
+ * Responsive: Smaller text on mobile to prevent wrapping
  */
-export const PRIMARY_METRIC_BADGE_CLASSES = "h-5 text-xs px-3 rounded-full font-semibold";
+export const PRIMARY_METRIC_BADGE_CLASSES = "h-5 text-[10px] sm:text-xs px-2 sm:px-3 rounded-full font-semibold";
 
 /**
  * Primary Metric badge for Modal (slightly larger on hero image)
  * Size: Slightly larger (text-sm) with h-8 (32px) for prominence
  * Updated: Using flexbox centering instead of padding-y for perfect vertical alignment
+ * Responsive: Smaller text on mobile to prevent wrapping
  */
-export const PRIMARY_METRIC_BADGE_MODAL_CLASSES = "h-7 text-sm px-4 rounded-full font-semibold";
+export const PRIMARY_METRIC_BADGE_MODAL_CLASSES = "h-6 sm:h-7 text-xs sm:text-sm px-2 sm:px-4 rounded-full font-semibold";
 
 /**
  * Category badge

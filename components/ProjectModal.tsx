@@ -145,6 +145,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
           >
             {/* Simplified Modal Header */}
             <div className="relative px-3 py-2 sm:px-4 sm:py-3 border-b border-secondary-default/20 bg-gradient-to-r from-secondary-default/5 via-transparent to-secondary-default/5 flex-shrink-0">
+              {/* Row 1: Company Icon + Title | Badges (Desktop) | Close Button */}
               <div className="flex items-center justify-between gap-2 sm:gap-4 mb-0">
                 {/* Left: Company Icon + Title */}
                 <div className="flex items-center gap-2 min-w-0 flex-1">
@@ -161,37 +162,39 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                   </h2>
                 </div>
 
-                {/* Right: Badges | Live | Close */}
+                {/* Right: Badges (Desktop Only) + Close Button */}
                 <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-                  <div className="hidden sm:block">
+                  {/* Desktop Badges - Hidden on Mobile */}
+                  <div className="hidden sm:flex items-center gap-2">
                     <CategoryBadge category={project.category} />
+                    <StatusBadge
+                      isActive={project.isActive}
+                      inactivationReason={project.inactivationReason ?? undefined}
+                    />
+                    {project.isCurrent && <CurrentBadge variant="text" />}
+
+                    {project.url && project.url.trim() !== "" && (
+                      <>
+                        <span className="text-white/30 mx-1">|</span>
+                        <Link
+                          href={project.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="h-5 inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-3 rounded-md text-xs font-bold hover:shadow-lg transition-all duration-200"
+                          aria-label="View live project"
+                        >
+                          <FaExternalLinkAlt className="text-[10px]" aria-hidden="true" />
+                          <span>Live</span>
+                        </Link>
+                      </>
+                    )}
                   </div>
-                  <StatusBadge
-                    isActive={project.isActive}
-                    inactivationReason={project.inactivationReason ?? undefined}
-                  />
-                  {project.isCurrent && <CurrentBadge variant="text" />}
 
-                  {project.url && project.url.trim() !== "" && (
-                    <>
-                      <span className="hidden sm:inline text-white/30 mx-1">|</span>
-                      <Link
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 sm:gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-2 sm:px-3 py-0.5 rounded-md text-xs font-bold hover:shadow-lg transition-all duration-200"
-                        aria-label="View live project"
-                      >
-                        <FaExternalLinkAlt className="text-[10px]" aria-hidden="true" />
-                        <span className="hidden xs:inline sm:inline">Live</span>
-                      </Link>
-                    </>
-                  )}
-
+                  {/* Close Button - Always Visible */}
                   <button
                     ref={closeButtonRef}
                     onClick={onClose}
-                    className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50"
+                    className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-white/60 hover:text-white bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 transition-all duration-200 rounded-lg flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50"
                     aria-label="Close project details (Press Escape)"
                   >
                     <FaTimes className="text-sm" aria-hidden="true" />
@@ -199,12 +202,35 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                 </div>
               </div>
 
-              {/* Subtitle */}
+              {/* Row 2: Subtitle */}
               {project.subtitle && (
                 <p className="text-xs sm:text-sm text-[#00BFFF]/80 leading-relaxed mt-1">
                   {project.subtitle}
                 </p>
               )}
+
+              {/* Row 3: Badge Row - Mobile Only (Below Subtitle) */}
+              <div className="flex sm:hidden flex-wrap items-center gap-2 mt-2">
+                <CategoryBadge category={project.category} />
+                <StatusBadge
+                  isActive={project.isActive}
+                  inactivationReason={project.inactivationReason ?? undefined}
+                />
+                {project.isCurrent && <CurrentBadge variant="text" />}
+
+                {project.url && project.url.trim() !== "" && (
+                  <Link
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="h-5 inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-2 sm:px-3 rounded-md text-xs font-bold hover:shadow-lg transition-all duration-200"
+                    aria-label="View live project"
+                  >
+                    <FaExternalLinkAlt className="text-[10px]" aria-hidden="true" />
+                    <span>Live</span>
+                  </Link>
+                )}
+              </div>
             </div>
 
             {/* Modal Content */}
