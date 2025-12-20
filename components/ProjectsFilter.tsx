@@ -24,9 +24,7 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
   onFilterChange,
   searchQuery,
   onSearchChange,
-  placeholder = "Search projects by name, technology, description...",
-  resultsInfo
-}) => {
+  placeholder = "Search projects by name, technology, description..."}) => {
   // Environment flags
   const isSearchEnabled = process.env.NEXT_PUBLIC_ENABLE_SEARCH !== 'false';
   const isFilterEnabled = process.env.NEXT_PUBLIC_ENABLE_FILTER !== 'false';
