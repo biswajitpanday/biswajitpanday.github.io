@@ -43,8 +43,8 @@ jobs:
             echo "File details:"
             ls -lh public/data/github-contributions.json
             echo ""
-            echo "Data summary:"
-            cat public/data/github-contributions.json | grep -E '"success"|"totalContributions"|"fetchedAt"|"dateRange"' | head -10
+            echo "Data preview (first 20 lines):"
+            cat public/data/github-contributions.json | python3 -m json.tool | head -20
           else
             echo "❌ FAILED: GitHub data file NOT created"
             echo ""
