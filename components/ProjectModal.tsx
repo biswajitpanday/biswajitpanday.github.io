@@ -106,21 +106,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
     return () => document.removeEventListener('keydown', handleTabKey);
   }, [isOpen]);
 
-  if (!project) return null;
-
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
       onClose();
     }
   };
 
-  // Get primary metric using centralized utility
-  const primaryMetric = getPrimaryMetric(project);
+  // Get primary metric using centralized utility - only if project exists
+  const primaryMetric = project ? getPrimaryMetric(project) : null;
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {isOpen && project && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -779,15 +776,28 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         Case Study
                       </h3>
 
-                      <div className="space-y-6">
+                      {/* Tree Structure Container */}
+                      <div className="relative">
+                        {/* Vertical Tree Line - Hidden on mobile, visible on md+ */}
+                        <div className="hidden md:block absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-500 via-blue-500 to-green-500 opacity-30" aria-hidden="true" />
+
+                        <div className="space-y-8">
                         {/* Problem */}
                         {project.caseStudy.problem && project.caseStudy.problem.trim() !== "" && (
-                          <div>
+                          <div className="relative md:pl-12">
+                            {/* Tree Node & Branch - Hidden on mobile */}
+                            <div className="hidden md:block absolute left-5 top-6 -translate-x-1/2" aria-hidden="true">
+                              {/* Node Circle */}
+                              <div className="w-3 h-3 rounded-full bg-red-500 border-2 border-[#1a1a1f] shadow-lg shadow-red-500/50" />
+                              {/* Horizontal Branch */}
+                              <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-0.5 bg-gradient-to-r from-red-500/50 to-red-500/20" />
+                            </div>
+
                             <h4 className="text-lg font-bold mb-3 flex items-center gap-2">
                               <FaInfoCircle className="text-red-400" />
                               The Problem
                             </h4>
-                            <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 rounded-xl p-5">
+                            <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 rounded-xl p-5 hover:border-red-500/50 transition-colors duration-300">
                               <p className="text-white/80 leading-relaxed text-sm">{project.caseStudy.problem}</p>
                             </div>
                           </div>
@@ -795,12 +805,20 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                         {/* Solution */}
                         {project.caseStudy.solution && project.caseStudy.solution.trim() !== "" && (
-                          <div>
+                          <div className="relative md:pl-12">
+                            {/* Tree Node & Branch - Hidden on mobile */}
+                            <div className="hidden md:block absolute left-5 top-6 -translate-x-1/2" aria-hidden="true">
+                              {/* Node Circle */}
+                              <div className="w-3 h-3 rounded-full bg-blue-500 border-2 border-[#1a1a1f] shadow-lg shadow-blue-500/50" />
+                              {/* Horizontal Branch */}
+                              <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-0.5 bg-gradient-to-r from-blue-500/50 to-blue-500/20" />
+                            </div>
+
                             <h4 className="text-lg font-bold mb-3 flex items-center gap-2">
                               <FaLightbulb className="text-blue-400" />
                               The Solution
                             </h4>
-                            <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-5">
+                            <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-5 hover:border-blue-500/50 transition-colors duration-300">
                               <p className="text-white/80 leading-relaxed text-sm mb-3">{project.caseStudy.solution}</p>
 
                               {/* Technical Highlights - Nested Subset */}
@@ -831,12 +849,20 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                         {/* Results */}
                         {project.caseStudy.results && project.caseStudy.results.length > 0 && (
-                          <div>
+                          <div className="relative md:pl-12">
+                            {/* Tree Node & Branch - Hidden on mobile */}
+                            <div className="hidden md:block absolute left-5 top-6 -translate-x-1/2" aria-hidden="true">
+                              {/* Node Circle */}
+                              <div className="w-3 h-3 rounded-full bg-green-500 border-2 border-[#1a1a1f] shadow-lg shadow-green-500/50" />
+                              {/* Horizontal Branch */}
+                              <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-0.5 bg-gradient-to-r from-green-500/50 to-green-500/20" />
+                            </div>
+
                             <h4 className="text-lg font-bold mb-3 flex items-center gap-2">
                               <FaCheckCircle className="text-green-400" />
                               The Results
                             </h4>
-                            <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl p-5">
+                            <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl p-5 hover:border-green-500/50 transition-colors duration-300">
                               <ul className="space-y-2">
                                 {project.caseStudy.results.map((result, idx) => (
                                   <li key={idx} className="flex items-start gap-2 text-white/80 text-sm">
@@ -851,7 +877,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                         {/* Architecture Diagram */}
                         {project.caseStudy.architectureDiagram && project.caseStudy.architectureDiagram.trim() !== "" && (
-                          <div>
+                          <div className="relative md:pl-12">
+                            {/* Tree Node & Branch - Hidden on mobile */}
+                            <div className="hidden md:block absolute left-5 top-6 -translate-x-1/2" aria-hidden="true">
+                              {/* Node Circle */}
+                              <div className="w-3 h-3 rounded-full bg-purple-500 border-2 border-[#1a1a1f] shadow-lg shadow-purple-500/50" />
+                              {/* Horizontal Branch */}
+                              <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-7 h-0.5 bg-gradient-to-r from-purple-500/50 to-purple-500/20" />
+                            </div>
+
                             <h4 className="text-lg font-bold mb-3 flex items-center gap-2">
                               <FiLayers className="text-purple-400" />
                               System Architecture
@@ -861,6 +895,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                         )}
                       </div>
                     </div>
+                  </div>
                   </>
                 )}
 
