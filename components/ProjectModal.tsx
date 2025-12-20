@@ -3,7 +3,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaTimes,
-  FaGithub,
   FaExternalLinkAlt,
   FaCheckCircle,
   FaInfoCircle,
@@ -16,7 +15,6 @@ import {
   FaCogs,
   FaArrowUp,
   FaUsers,
-  FaBolt,
   FaChartBar,
   FaClipboardList,
   FaClock,
@@ -47,13 +45,12 @@ const MermaidDiagram = dynamic(() => import("@/components/MermaidDiagram"), {
 import { getPrimaryMetric } from "@/utils/projectHelpers";
 import {
   CategoryBadge,
-  OpenSourceBadge,
   StatusBadge,
   PrimaryMetricBadge,
-  BadgeSeparator,
   TechStack,
   ProjectTimeline,
   CompanyIcon,
+  CurrentBadge,
 } from "@/components/project";
 
 interface ProjectModalProps {
@@ -67,8 +64,9 @@ interface ProjectModalProps {
 }
 
 
-const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, displayIndex, wasOpenedViaUrlParam = false }) => {
+const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose }) => {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const modalTitleId = useId();
   const [showAdditionalMetrics, setShowAdditionalMetrics] = useState(false);
 
@@ -79,25 +77,37 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
     }
   }, [isOpen]);
 
+  // Focus trap - prevent tabbing outside modal
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const modal = modalRef.current;
+    if (!modal) return;
+
+    const handleTabKey = (e: KeyboardEvent) => {
+      const focusableElements = modal.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleTabKey);
+    return () => document.removeEventListener('keydown', handleTabKey);
+  }, [isOpen]);
+
   if (!project) return null;
 
-  const formatDateRange = (startDate: Date, endDate: Date, isCurrent?: boolean) => {
-    const start = startDate.toLocaleDateString('en-US', {
-      month: 'short',
-      year: 'numeric'
-    });
-
-    // V2: Use isCurrent flag to determine if project is ongoing
-    if (isCurrent) {
-      return `${start} - Present`;
-    }
-
-    const end = endDate.toLocaleDateString('en-US', {
-      month: 'short',
-      year: 'numeric'
-    });
-    return `${start} - ${end}`;
-  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
@@ -122,6 +132,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
           aria-hidden="true"
         >
           <motion.div
+            ref={modalRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby={modalTitleId}
@@ -129,7 +140,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3, type: "spring", damping: 25, stiffness: 300 }}
-            className={`backdrop-blur-xl rounded-2xl w-full max-w-7xl max-h-[calc(100vh-160px)] overflow-hidden shadow-2xl flex flex-col ${project.isFeatured
+            className={`backdrop-blur-xl rounded-2xl w-full max-w-4xl lg:max-w-6xl xl:max-w-7xl max-h-[calc(100vh-160px)] overflow-hidden shadow-2xl flex flex-col ${project.isFeatured
                 ? "bg-gradient-to-br from-purple-900/30 via-gray-900/95 to-blue-900/30 border border-purple-500/30 shadow-purple-500/20"
                 : "bg-gradient-to-br from-gray-900/95 to-gray-950/95 border border-secondary-default/30 shadow-secondary-default/20"
               }`}
@@ -160,6 +171,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
                     isActive={project.isActive}
                     inactivationReason={project.inactivationReason ?? undefined}
                   />
+                  {project.isCurrent && <CurrentBadge variant="text" />}
 
                   {project.url && project.url.trim() !== "" && (
                     <>
@@ -303,12 +315,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
 
                 {/* Project Overview */}
                 <div>
-                  <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
-                    <FaInfoCircle className="text-secondary-default" />
+                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                    <FaInfoCircle className="text-secondary-default text-lg" />
                     Project Overview
                   </h3>
-                  <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                    <p className="text-white/80 leading-relaxed text-sm">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                    <p className="text-white/80 leading-relaxed text-base">
                       {project.longDescription || project.shortDescription}
                     </p>
                   </div>
@@ -317,15 +329,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
                 {/* Key Skills */}
                 {project.skillsHighlighted && project.skillsHighlighted.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
-                      <FaCode className="text-blue-400" />
+                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                      <FaCode className="text-blue-400 text-lg" />
                       Key Skills
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {project.skillsHighlighted.map((skill, idx) => (
                         <span
                           key={idx}
-                          className="text-xs px-3 py-0.5 rounded-md bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90"
+                          className="text-sm px-3 py-1.5 rounded-md bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF]/90"
                         >
                           {skill}
                         </span>
@@ -337,16 +349,16 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
                 {/* Key Responsibilities & Achievements */}
                 {project.responsibilities && project.responsibilities.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
-                      <FaBriefcase className="text-emerald-400" />
+                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                      <FaBriefcase className="text-emerald-400 text-lg" />
                       Key Responsibilities & Achievements
                     </h3>
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-5">
                       <ul className="space-y-2">
                         {project.responsibilities.map((responsibility, idx) => (
                           <li
                             key={idx}
-                            className="flex items-start gap-2 text-white/80 text-sm"
+                            className="flex items-start gap-2 text-white/80 text-base"
                           >
                             <span className="text-emerald-400 mt-1">▸</span>
                             {responsibility}
@@ -361,8 +373,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
                 {(project.metrics && Object.keys(project.metrics).length > 0 && Object.values(project.metrics).some(v => v && v.toString().trim() !== '')) ||
                   (project.recognition && project.recognition.filter(r => r.approved !== false).length > 0) ? (
                   <div>
-                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <FaChartLine className="text-secondary-default" />
+                    <h3 className="text-xl font-bold mb-5 flex items-center gap-2">
+                      <FaChartLine className="text-secondary-default text-lg" />
                       Impact & Metrics
                     </h3>
 
@@ -471,10 +483,6 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
                                       Icon = FaUsers;
                                     }
 
-                                    // Calculate before/after values if percentage
-                                    const beforeValue = 100;
-                                    const afterValue = hasPercentage ? (100 - percentValue) : 50;
-
                                     return (
                                       <div
                                         key={key}
@@ -496,27 +504,21 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
                                           {valueStr}
                                         </div>
 
-                                        {/* Improvement Indicator */}
-                                        {hasPercentage && (
-                                          <div className="flex items-center gap-1 text-emerald-400 text-xs mb-2 relative z-10">
-                                            <FaArrowUp className="text-[10px]" />
-                                            <span>{percentValue}% improvement</span>
-                                          </div>
-                                        )}
-
                                         {/* Visual Indicators - Different for each metric type */}
 
-                                        {/* Percentage-based: Before/After Bar */}
+                                        {/* Percentage-based: Simple Improvement Bar */}
                                         {hasPercentage && (
-                                          <div className="flex items-center gap-2 text-[10px] relative z-10">
-                                            <span className="text-red-400">Before: {beforeValue}%</span>
-                                            <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                          <div className="relative z-10">
+                                            <div className="flex items-center gap-2 mb-1">
+                                              <FaArrowUp className="text-emerald-400 text-[10px]" />
+                                              <span className="text-emerald-400 text-xs font-semibold">{percentValue}% improvement</span>
+                                            </div>
+                                            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                                               <div
-                                                className="h-full bg-gradient-to-r from-red-500 to-emerald-500"
-                                                style={{ width: `${(afterValue / beforeValue) * 100}%` }}
+                                                className="h-full bg-gradient-to-r from-emerald-500 to-green-400 shadow-lg shadow-emerald-500/50"
+                                                style={{ width: `${percentValue}%` }}
                                               />
                                             </div>
-                                            <span className="text-emerald-400">After: {afterValue}%</span>
                                           </div>
                                         )}
 
@@ -713,12 +715,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
                 <div className="h-px bg-gradient-to-r from-transparent via-secondary-default/30 to-transparent" />
 
                 {/* Technology Stack */}
-                <TechStack
-                        stacks={project.stacks}
-                        columns={3}
-                        expandable={false}
-                        title="Technology Stack"
-                      />
+                <div>
+                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                    <FaCogs className="text-orange-400 text-lg" />
+                    Technology Stack
+                  </h3>
+                  <TechStack
+                    stacks={project.stacks}
+                    columns={3}
+                    expandable={false}
+                    title=""
+                  />
+                </div>
 
                 {/* Testimonials */}
                 {project.testimonials && project.testimonials.filter(t => t.approved !== false).length > 0 && (
@@ -763,19 +771,15 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
                 {project.caseStudy && (project.caseStudy.problem || project.caseStudy.solution || (project.caseStudy.results && project.caseStudy.results.length > 0)) && (
                   <>
                     {/* Separator before Case Study */}
-                    <div className="h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent" />
+                    <div className="h-px bg-gradient-to-r from-transparent via-secondary-default/30 to-transparent" />
 
-                    <div className="border-2 border-purple-500/30 rounded-2xl p-6 bg-gradient-to-br from-purple-900/10 via-gray-900/50 to-blue-900/10 relative overflow-hidden">
-                      {/* Decorative corner accents */}
-                      <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-purple-500/20 to-transparent rounded-br-full" aria-hidden="true" />
-                      <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-blue-500/20 to-transparent rounded-tl-full" aria-hidden="true" />
-
-                      <h3 className="text-xl font-bold mb-6 flex items-center justify-center gap-2 relative z-10">
-                        <FaBook className="text-purple-400" />
+                    <div>
+                      <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+                        <FaBook className="text-purple-400 text-lg" />
                         Case Study
                       </h3>
 
-                      <div className="space-y-6 relative z-10">
+                      <div className="space-y-6">
                         {/* Problem */}
                         {project.caseStudy.problem && project.caseStudy.problem.trim() !== "" && (
                           <div>
@@ -783,10 +787,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
                               <FaInfoCircle className="text-red-400" />
                               The Problem
                             </h4>
-                            <div className="relative bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 rounded-xl p-4 overflow-hidden">
-                              {/* Watermark */}
-                              <FaInfoCircle className="absolute -right-2 -bottom-2 text-red-500/10 text-6xl pointer-events-none" aria-hidden="true" />
-                              <p className="text-white/80 leading-relaxed text-sm relative z-10">{project.caseStudy.problem}</p>
+                            <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 rounded-xl p-5">
+                              <p className="text-white/80 leading-relaxed text-sm">{project.caseStudy.problem}</p>
                             </div>
                           </div>
                         )}
@@ -798,14 +800,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
                               <FaLightbulb className="text-blue-400" />
                               The Solution
                             </h4>
-                            <div className="relative bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-4 overflow-hidden">
-                              {/* Watermark */}
-                              <FaLightbulb className="absolute -right-2 -bottom-2 text-blue-500/10 text-6xl pointer-events-none" aria-hidden="true" />
-                              <p className="text-white/80 leading-relaxed text-sm mb-3 relative z-10">{project.caseStudy.solution}</p>
+                            <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-5">
+                              <p className="text-white/80 leading-relaxed text-sm mb-3">{project.caseStudy.solution}</p>
 
                               {/* Technical Highlights - Nested Subset */}
                               {project.caseStudy.technicalHighlights && project.caseStudy.technicalHighlights.length > 0 && (
-                                <div className="mt-4 pt-4 border-t border-blue-500/20 relative z-10">
+                                <div className="mt-4 pt-4 border-t border-blue-500/20">
                                   <div className="flex items-center gap-2 mb-3">
                                     <FaCodeBranch className="text-cyan-400 text-sm" />
                                     <p className="text-white font-semibold text-sm">Technical Highlights</p>
@@ -836,10 +836,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose, d
                               <FaCheckCircle className="text-green-400" />
                               The Results
                             </h4>
-                            <div className="relative bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl p-4 overflow-hidden">
-                              {/* Watermark */}
-                              <FaCheckCircle className="absolute -right-2 -bottom-2 text-green-500/10 text-6xl pointer-events-none" aria-hidden="true" />
-                              <ul className="space-y-2 relative z-10">
+                            <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl p-5">
+                              <ul className="space-y-2">
                                 {project.caseStudy.results.map((result, idx) => (
                                   <li key={idx} className="flex items-start gap-2 text-white/80 text-sm">
                                     <span className="text-green-400 mt-1 text-lg">✓</span>
