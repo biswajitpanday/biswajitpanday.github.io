@@ -33,8 +33,10 @@ export default function ProjectTimeline({ projects, selectedTech, onOpenModal }:
   // Process projects for timeline
   const timelineProjects = useMemo(() => {
     return projects.map((project) => {
-      const startDate = new Date(project.startDate);
-      const endDate = new Date(project.endDate);
+      const startDate = typeof project.startDate === 'string' ? new Date(project.startDate) : project.startDate;
+      const endDate = project.endDate
+        ? (typeof project.endDate === 'string' ? new Date(project.endDate) : project.endDate)
+        : new Date(); // Use current date for ongoing projects
 
       const durationMonths = Math.round(
         (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30)

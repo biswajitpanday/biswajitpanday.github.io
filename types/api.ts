@@ -77,8 +77,8 @@ export interface Project {
   github: string;
   associatedWithCompany: string;
   jobRole: string;
-  startDate: string;
-  endDate: string;
+  startDate: string | Date;
+  endDate?: string | Date | null; // Optional for ongoing projects (when isCurrent = true)
   isCurrent?: boolean; // V2: For ongoing projects
   inactivationReason?: string | null;
   responsibilities?: string[];

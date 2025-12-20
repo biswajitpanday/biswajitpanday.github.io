@@ -114,11 +114,11 @@ export async function fetchProjects(params?: {
 
   const projects = await fetchAPI<any[]>(endpoint);
 
-  // Convert date strings to Date objects
+  // Convert date strings to Date objects (keep endDate as null for ongoing projects)
   return projects.map(project => ({
     ...project,
     startDate: project.startDate ? new Date(project.startDate) : new Date(),
-    endDate: project.endDate ? new Date(project.endDate) : new Date(),
+    endDate: project.endDate ? new Date(project.endDate) : null,
   }));
 }
 
@@ -169,7 +169,7 @@ export async function fetchTimeline() {
   return timeline.map(entry => ({
     ...entry,
     startDate: entry.startDate ? new Date(entry.startDate) : new Date(),
-    endDate: entry.endDate ? new Date(entry.endDate) : new Date(),
+    endDate: entry.endDate ? new Date(entry.endDate) : null,
   }));
 }
 

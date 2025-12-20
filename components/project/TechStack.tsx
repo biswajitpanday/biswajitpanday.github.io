@@ -108,6 +108,22 @@ export function TechStack({
     ? "grid-cols-2"
     : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3";
 
+  // If title is empty, render without CardContainer (for modal use)
+  if (!title || title === "") {
+    return (
+      <div className={`border border-white/10 rounded-xl p-6 bg-gradient-to-br from-gray-800/30 to-gray-900/30 ${className}`}>
+        <div className={`grid ${gridClass} gap-x-8 gap-y-2`}>
+          {stacks.map((stack, index) => (
+            <div key={index} className="flex items-center gap-2 text-sm text-white/90 group transition-colors duration-200">
+              <span className="text-secondary-default text-xs group-hover:scale-110 transition-transform duration-200">•</span>
+              <span className="group-hover:text-secondary-default transition-colors duration-200">{stack}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <CardContainer className={className}>
       {/* Header with optional expand button */}

@@ -38,6 +38,7 @@ export function calculateDurationMonths(startDate: Date, endDate: Date): number 
 /**
  * Project Timeline Component
  * Displays start date, end date, and duration
+ * If endDate is null/undefined, shows "Present" for ongoing projects
  */
 export function ProjectTimeline({
   startDate,
@@ -45,12 +46,17 @@ export function ProjectTimeline({
   className = "",
 }: {
   startDate: string | Date;
-  endDate: string | Date;
+  endDate?: string | Date | null;
   className?: string;
 }) {
   // Convert string dates to Date objects if needed
   const start = typeof startDate === 'string' ? new Date(startDate) : startDate;
-  const end = typeof endDate === 'string' ? new Date(endDate) : endDate;
+
+  // If endDate is null/undefined, use current date for duration calculation
+  const isOngoing = !endDate;
+  const end = endDate
+    ? (typeof endDate === 'string' ? new Date(endDate) : endDate)
+    : new Date();
 
   const durationMonths = calculateDurationMonths(start, end);
 
@@ -59,7 +65,9 @@ export function ProjectTimeline({
       {/* Date Range */}
       <div className="flex items-center gap-1.5 text-white/60">
         <FaCalendar className="text-blue-400" />
-        <span>{formatDate(start)} - {formatDate(end)}</span>
+        <span>
+          {formatDate(start)} - {isOngoing ? 'Present' : formatDate(end)}
+        </span>
       </div>
 
       {/* Duration */}
