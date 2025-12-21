@@ -14,6 +14,7 @@ import TypingAnimation from "@/components/TypingAnimation";
 import FloatingCodeSymbols from "@/components/FloatingCodeSymbols";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import { calculateTotalExperience } from "@/helpers/utility";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Import critical above-the-fold icons directly (no lazy loading)
 import { FiDownload, FiCode, FiCloud, FiZap, FiBriefcase, FiGlobe, FiUsers, FiEye, FiMail, FiAward, FiArrowRight } from "react-icons/fi";
@@ -49,11 +50,17 @@ const TestimonialsCarousel = lazy(() => import("@/components/TestimonialsCarouse
 const GitHubActivityGraph = lazy(() => import("@/components/GitHubActivityGraph"));
 const MediumBlogPreview = lazy(() => import("@/components/MediumBlogPreview"));
 
-// Loading fallback components
-const ComponentFallback = ({ className }: { className?: string }) => (
-  <div
-    className={`bg-gray-800/50 rounded animate-pulse ${className}`}
-  />
+// Enhanced loading fallback with visible spinner (fixes black screen on mobile)
+const ComponentFallback = ({ className, height = "h-64" }: { className?: string; height?: string }) => (
+  <div className={`flex flex-col items-center justify-center ${height} ${className} bg-gray-800/30 rounded-lg border border-gray-700/50`}>
+    <div className="relative">
+      {/* Animated spinner */}
+      <div className="w-12 h-12 border-4 border-gray-700 border-t-cyan-400 rounded-full animate-spin" />
+      {/* Pulsing glow effect */}
+      <div className="absolute inset-0 w-12 h-12 border-4 border-cyan-400/20 rounded-full animate-pulse" />
+    </div>
+    <p className="mt-4 text-sm text-gray-400 animate-pulse">Loading component...</p>
+  </div>
 );
 
 interface HomeClientProps {
@@ -583,30 +590,38 @@ const HomeClient = ({
           )}
 
           {/* By The Numbers Dashboard - Primary Stats Display */}
-          <Suspense fallback={<ComponentFallback className="w-full h-24" />}>
-            <ByTheNumbersDashboard
-              projects={projects}
-              certifications={certifications}
-              timeline={timeline}
-              skills1={skills1}
-              skills2={skills2}
-            />
-          </Suspense>
+          <ErrorBoundary section="By The Numbers Dashboard">
+            <Suspense fallback={<ComponentFallback className="w-full" height="h-32" />}>
+              <ByTheNumbersDashboard
+                projects={projects}
+                certifications={certifications}
+                timeline={timeline}
+                skills1={skills1}
+                skills2={skills2}
+              />
+            </Suspense>
+          </ErrorBoundary>
 
           {/* GitHub Activity - Shows Active Development (MOVED UP for visibility) */}
-          <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
-            <GitHubActivityGraph />
-          </Suspense>
+          <ErrorBoundary section="GitHub Activity">
+            <Suspense fallback={<ComponentFallback className="w-full" height="h-96" />}>
+              <GitHubActivityGraph />
+            </Suspense>
+          </ErrorBoundary>
 
           {/* Testimonials Carousel - Real LinkedIn Recommendations */}
-          <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
-            <TestimonialsCarousel testimonials={testimonials} />
-          </Suspense>
+          <ErrorBoundary section="Testimonials">
+            <Suspense fallback={<ComponentFallback className="w-full" height="h-80" />}>
+              <TestimonialsCarousel testimonials={testimonials} />
+            </Suspense>
+          </ErrorBoundary>
 
           {/* Medium Blog Preview - Latest Articles */}
-          <Suspense fallback={<ComponentFallback className="w-full h-64" />}>
-            <MediumBlogPreview maxPosts={3} />
-          </Suspense>
+          <ErrorBoundary section="Blog Preview">
+            <Suspense fallback={<ComponentFallback className="w-full" height="h-64" />}>
+              <MediumBlogPreview maxPosts={3} />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </section>
     </>
