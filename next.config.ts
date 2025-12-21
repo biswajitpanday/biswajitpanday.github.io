@@ -49,44 +49,44 @@ const nextConfig: NextConfig = {
       '@': './.',
     };
 
-    // Split chunks for better caching and mobile performance
-    // Strategy: Break 33MB vendor bundle into smaller, cacheable chunks
+    // Split chunks for better caching - optimized for PageSpeed
+    // Strategy: Split framework and heavy lazy-loaded libs, keep icons with vendor
     config.optimization = {
       ...config.optimization,
       splitChunks: {
         chunks: 'all',
-        maxInitialRequests: 25,
-        maxAsyncRequests: 25,
+        maxInitialRequests: 10,
+        maxAsyncRequests: 10,
         cacheGroups: {
-          // React framework - rarely changes, cache forever
+          // React framework - critical path, separate for better caching
           framework: {
             test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
             name: 'framework',
             priority: 40,
             enforce: true,
           },
-          // UI libraries - Framer Motion + Radix UI
+          // Mermaid - only used in modals (lazy loaded), separate chunk
+          mermaid: {
+            test: /[\\/]node_modules[\\/]mermaid[\\/]/,
+            name: 'mermaid',
+            priority: 35,
+            enforce: true,
+          },
+          // UI libraries - used across site
           uiLibs: {
             test: /[\\/]node_modules[\\/](@radix-ui|framer-motion)[\\/]/,
             name: 'ui-libs',
             priority: 30,
             enforce: true,
           },
-          // Icons - large but tree-shaken
-          icons: {
-            test: /[\\/]node_modules[\\/](react-icons|lucide-react)[\\/]/,
-            name: 'icons',
+          // Markdown rendering - used on some pages
+          markdown: {
+            test: /[\\/]node_modules[\\/](react-markdown|remark-gfm)[\\/]/,
+            name: 'markdown',
             priority: 25,
             enforce: true,
           },
-          // Markdown and content rendering
-          content: {
-            test: /[\\/]node_modules[\\/](react-markdown|remark-gfm|mermaid)[\\/]/,
-            name: 'content',
-            priority: 20,
-            enforce: true,
-          },
-          // Remaining vendor dependencies
+          // All other vendors (including icons - keep together for initial load)
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendor',
@@ -99,7 +99,6 @@ const nextConfig: NextConfig = {
             minChunks: 2,
             priority: 5,
             reuseExistingChunk: true,
-            enforce: true,
           },
         },
       },
