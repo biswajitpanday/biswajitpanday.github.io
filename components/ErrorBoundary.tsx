@@ -18,24 +18,40 @@ interface Props {
 interface State {
   hasError: boolean;
   error?: Error;
+  isChunkError: boolean;
 }
 
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, isChunkError: false };
   }
 
   static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error };
+    // Detect chunk loading errors (common on slow mobile networks)
+    const isChunkError = error.name === 'ChunkLoadError' ||
+                        error.message?.includes('Loading chunk') ||
+                        error.message?.includes('Failed to fetch dynamically imported module');
+
+    return { hasError: true, error, isChunkError };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
+
+    // Track chunk errors for debugging
+    if (this.state.isChunkError) {
+      console.warn('Chunk loading failed - likely slow network or timeout');
+    }
   }
 
   handleRetry = () => {
-    this.setState({ hasError: false, error: undefined });
+    // For chunk errors, reload the page to retry downloading
+    if (this.state.isChunkError) {
+      window.location.reload();
+    } else {
+      this.setState({ hasError: false, error: undefined, isChunkError: false });
+    }
   };
 
   render() {
@@ -68,7 +84,9 @@ class ErrorBoundary extends Component<Props, State> {
 
               {/* Description */}
               <p className="text-white/60 mb-6">
-                {this.props.section
+                {this.state.isChunkError
+                  ? "Slow connection detected. Some content failed to download. Click retry to continue."
+                  : this.props.section
                   ? `There was an error loading the ${this.props.section} section.`
                   : "An unexpected error occurred. Please try again."}
               </p>

@@ -49,21 +49,56 @@ const nextConfig: NextConfig = {
       '@': './.',
     };
 
-    // Split chunks for better caching
+    // Split chunks for better caching and mobile performance
+    // Strategy: Break 33MB vendor bundle into smaller, cacheable chunks
     config.optimization = {
       ...config.optimization,
       splitChunks: {
         chunks: 'all',
+        maxInitialRequests: 25,
+        maxAsyncRequests: 25,
         cacheGroups: {
+          // React framework - rarely changes, cache forever
+          framework: {
+            test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+            name: 'framework',
+            priority: 40,
+            enforce: true,
+          },
+          // UI libraries - Framer Motion + Radix UI
+          uiLibs: {
+            test: /[\\/]node_modules[\\/](@radix-ui|framer-motion)[\\/]/,
+            name: 'ui-libs',
+            priority: 30,
+            enforce: true,
+          },
+          // Icons - large but tree-shaken
+          icons: {
+            test: /[\\/]node_modules[\\/](react-icons|lucide-react)[\\/]/,
+            name: 'icons',
+            priority: 25,
+            enforce: true,
+          },
+          // Markdown and content rendering
+          content: {
+            test: /[\\/]node_modules[\\/](react-markdown|remark-gfm|mermaid)[\\/]/,
+            name: 'content',
+            priority: 20,
+            enforce: true,
+          },
+          // Remaining vendor dependencies
           vendor: {
             test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
+            name: 'vendor',
+            priority: 10,
+            enforce: true,
           },
+          // Shared components (used 2+ times)
           common: {
             name: 'common',
             minChunks: 2,
-            chunks: 'all',
+            priority: 5,
+            reuseExistingChunk: true,
             enforce: true,
           },
         },
