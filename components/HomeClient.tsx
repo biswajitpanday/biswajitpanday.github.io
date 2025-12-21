@@ -50,16 +50,10 @@ const TestimonialsCarousel = lazy(() => import("@/components/TestimonialsCarouse
 const GitHubActivityGraph = lazy(() => import("@/components/GitHubActivityGraph"));
 const MediumBlogPreview = lazy(() => import("@/components/MediumBlogPreview"));
 
-// Enhanced loading fallback with visible spinner (fixes black screen on mobile)
+// Lightweight loading fallback - optimized for performance
 const ComponentFallback = ({ className, height = "h-64" }: { className?: string; height?: string }) => (
-  <div className={`flex flex-col items-center justify-center ${height} ${className} bg-gray-800/30 rounded-lg border border-gray-700/50`}>
-    <div className="relative">
-      {/* Animated spinner */}
-      <div className="w-12 h-12 border-4 border-gray-700 border-t-cyan-400 rounded-full animate-spin" />
-      {/* Pulsing glow effect */}
-      <div className="absolute inset-0 w-12 h-12 border-4 border-cyan-400/20 rounded-full animate-pulse" />
-    </div>
-    <p className="mt-4 text-sm text-gray-400 animate-pulse">Loading component...</p>
+  <div className={`flex items-center justify-center ${height} ${className} bg-gray-800/20 rounded-lg`}>
+    <div className="w-10 h-10 border-3 border-gray-700 border-t-cyan-400 rounded-full animate-spin" aria-label="Loading..." role="status" />
   </div>
 );
 
@@ -114,7 +108,7 @@ const HomeClient = ({
   };
 
   return (
-    <>
+    <ErrorBoundary>
       <SocialPreviewGenerator
         title="Biswajit Panday - Senior .NET Architect & AI Solutions Engineer"
         description={`Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade platforms. Currently at Optimizely, delivering solutions for global enterprise clients. Built SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified.`}
@@ -590,41 +584,33 @@ const HomeClient = ({
           )}
 
           {/* By The Numbers Dashboard - Primary Stats Display */}
-          <ErrorBoundary section="By The Numbers Dashboard">
-            <Suspense fallback={<ComponentFallback className="w-full" height="h-32" />}>
-              <ByTheNumbersDashboard
-                projects={projects}
-                certifications={certifications}
-                timeline={timeline}
-                skills1={skills1}
-                skills2={skills2}
-              />
-            </Suspense>
-          </ErrorBoundary>
+          <Suspense fallback={<ComponentFallback className="w-full" height="h-32" />}>
+            <ByTheNumbersDashboard
+              projects={projects}
+              certifications={certifications}
+              timeline={timeline}
+              skills1={skills1}
+              skills2={skills2}
+            />
+          </Suspense>
 
           {/* GitHub Activity - Shows Active Development (MOVED UP for visibility) */}
-          <ErrorBoundary section="GitHub Activity">
-            <Suspense fallback={<ComponentFallback className="w-full" height="h-96" />}>
-              <GitHubActivityGraph />
-            </Suspense>
-          </ErrorBoundary>
+          <Suspense fallback={<ComponentFallback className="w-full" height="h-96" />}>
+            <GitHubActivityGraph />
+          </Suspense>
 
           {/* Testimonials Carousel - Real LinkedIn Recommendations */}
-          <ErrorBoundary section="Testimonials">
-            <Suspense fallback={<ComponentFallback className="w-full" height="h-80" />}>
-              <TestimonialsCarousel testimonials={testimonials} />
-            </Suspense>
-          </ErrorBoundary>
+          <Suspense fallback={<ComponentFallback className="w-full" height="h-80" />}>
+            <TestimonialsCarousel testimonials={testimonials} />
+          </Suspense>
 
           {/* Medium Blog Preview - Latest Articles */}
-          <ErrorBoundary section="Blog Preview">
-            <Suspense fallback={<ComponentFallback className="w-full" height="h-64" />}>
-              <MediumBlogPreview maxPosts={3} />
-            </Suspense>
-          </ErrorBoundary>
+          <Suspense fallback={<ComponentFallback className="w-full" height="h-64" />}>
+            <MediumBlogPreview maxPosts={3} />
+          </Suspense>
         </div>
       </section>
-    </>
+    </ErrorBoundary>
   );
 };
 

@@ -176,22 +176,12 @@ export default async function RootLayout({
         <OrganizationSchema />
         <link rel="sitemap" href="/sitemap.xml" />
 
-        {/* DNS prefetch for external resources */}
+        {/* Only prefetch critical external resources */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="//api.github.com" />
-        <link rel="dns-prefetch" href="//portfolio-admin-blue.vercel.app" />
-
-        {/* Preconnect for critical resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link rel="preconnect" href="https://api.github.com" crossOrigin="" />
-
-        {/* Prefetch critical pages for faster navigation */}
-        <link rel="prefetch" href="/projects/" as="document" />
-        <link rel="prefetch" href="/certifications/" as="document" />
-        <link rel="prefetch" href="/skills/" as="document" />
 
         <meta name="theme-color" content="#00ff99" />
         <meta name="msapplication-TileColor" content="#00ff99" />
