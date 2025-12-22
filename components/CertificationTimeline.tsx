@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Certification } from "@/types/api";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { FiArrowLeft, FiArrowRight, FiCalendar, FiExternalLink } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight, FiCalendar, FiExternalLink } from "@/lib/icons";
 import Link from "next/link";
 import { PERFORMANCE_VARIANTS, ANIMATION_DURATIONS } from "@/constants";
 

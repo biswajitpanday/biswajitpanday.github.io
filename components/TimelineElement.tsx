@@ -9,7 +9,7 @@ import {
   FaCheckCircle,
   FaCalendar,
   FaClock,
-} from "react-icons/fa";
+} from "@/lib/icons";
 import {
   getDateRange,
   getDuration,
@@ -81,7 +81,7 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
         {/* Header Row: Title (left) + Date Info (right) */}
         <div className="flex items-start justify-between gap-3 mb-2">
           <div className="flex-1 min-w-0">
-            <h3 className={`text-lg font-bold transition-colors duration-300 ${isFeatured
+            <h3 className={`text-xl font-bold transition-colors duration-300 ${isFeatured
                 ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
                 : 'bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent'
               }`}>
@@ -126,7 +126,7 @@ const TimelineElement: React.FC<TimelineElementProps> = ({
 
             {/* Company Name - Match Project Card font size */}
             <p className="text-xs text-white/60 font-medium">
-              @ {item.url ? (
+              {item.url ? (
                 <Link
                   href={item.url}
                   className="hover:text-secondary-default transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f] rounded"

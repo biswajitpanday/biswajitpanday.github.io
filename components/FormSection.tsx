@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { PERFORMANCE_VARIANTS } from "@/constants";
-import { IconType } from "react-icons";
-import { FaCheck, FaExclamationCircle } from "react-icons/fa";
+import { IconType } from "@/lib/icons";
+import { FaCheck, FaExclamationCircle } from "@/lib/icons";
 
 type FormFieldType = "text" | "email" | "tel" | "password" | "textarea";
 

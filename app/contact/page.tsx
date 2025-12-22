@@ -7,24 +7,32 @@ import { useState } from "react";
 import FormSection from "@/components/FormSection";
 import BackgroundElements from "@/components/BackgroundElements";
 
-// Lazy load icons only (not hooks/utilities)
-const FaEnvelope = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaEnvelope })));
-const FaMapMarkedAlt = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaMapMarkedAlt })));
-const FaPhoneAlt = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaPhoneAlt })));
-const BsMicrosoftTeams  = lazy(() => import("react-icons/bs").then(mod => ({ default: mod.BsMicrosoftTeams })));
-const FaPaperPlane = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaPaperPlane })));
-const FaCheckCircle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCheckCircle })));
-const FaExclamationTriangle = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaExclamationTriangle })));
-const FaLinkedinIn = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLinkedinIn })));
-const FaGithub = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaGithub })));
-const FaMedium = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaMedium })));
-const FaLock = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaLock })));
-const FaCopy = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCopy })));
-const FaCheck = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaCheck })));
-const FaClock = lazy(() => import("react-icons/fa").then(mod => ({ default: mod.FaClock })));
-
-// Form field icons and service icons (non-lazy for immediate use)
-import { FaUser, FaAt, FaPhone, FaComment, FaCode, FaCloud, FaMagic, FaHandshake } from "react-icons/fa";
+// Import icons from centralized Iconify library
+// Note: Iconify loads icons on-demand, so no need for React.lazy
+import {
+  FaEnvelope,
+  FaMapMarkedAlt,
+  FaPhoneAlt,
+  FaPaperPlane,
+  FaCheckCircle,
+  FaExclamationTriangle,
+  FaLinkedinIn,
+  FaGithub,
+  FaMedium,
+  FaLock,
+  FaCopy,
+  FaCheck,
+  FaClock,
+  FaUser,
+  FaAt,
+  FaPhone,
+  FaComment,
+  FaCode,
+  FaCloud,
+  FaMagic,
+  FaHandshake,
+  BsMicrosoftTeams
+} from "@/lib/icons";
 
 // Loading fallback components
 const IconFallback = ({ className }: { className?: string }) => (
@@ -492,10 +500,10 @@ const Contact = () => {
           <div className="bg-gray-900/50 border border-secondary-default/20 rounded-lg p-4">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { icon: FaCode, label: "Full-Stack Development", desc: ".NET, React, Node.js", color: "from-[#00BFFF] to-[#0080FF]", bgColor: "bg-[#00BFFF]/10", borderColor: "border-[#00BFFF]/20", iconBg: "bg-[#00BFFF]/20" },
-                { icon: FaCloud, label: "Cloud Architecture", desc: "Azure, AWS, DevOps", color: "from-purple-400 to-pink-500", bgColor: "bg-purple-500/10", borderColor: "border-purple-500/20", iconBg: "bg-purple-500/20" },
-                { icon: FaMagic, label: "AI Integration", desc: "LLMs, Automation", color: "from-emerald-400 to-cyan-500", bgColor: "bg-emerald-500/10", borderColor: "border-emerald-500/20", iconBg: "bg-emerald-500/20" },
-                { icon: FaHandshake, label: "Technical Consulting", desc: "Architecture, Mentoring", color: "from-amber-400 to-orange-500", bgColor: "bg-amber-500/10", borderColor: "border-amber-500/20", iconBg: "bg-amber-500/20" },
+                { icon: FaCode, label: "Full-Stack Development", desc: ".NET, React, Node.js", color: "from-[#00BFFF] to-[#0080FF]", bgColor: "bg-[#00BFFF]/10", borderColor: "border-[#00BFFF]/20", iconBg: "bg-[#00BFFF]/20", iconColor: "text-[#00BFFF]" },
+                { icon: FaCloud, label: "Cloud Architecture", desc: "Azure, AWS, DevOps", color: "from-purple-400 to-pink-500", bgColor: "bg-purple-500/10", borderColor: "border-purple-500/20", iconBg: "bg-purple-500/20", iconColor: "text-purple-400" },
+                { icon: FaMagic, label: "AI Integration", desc: "LLMs, Automation", color: "from-emerald-400 to-cyan-500", bgColor: "bg-emerald-500/10", borderColor: "border-emerald-500/20", iconBg: "bg-emerald-500/20", iconColor: "text-emerald-400" },
+                { icon: FaHandshake, label: "Technical Consulting", desc: "Architecture, Mentoring", color: "from-amber-400 to-orange-500", bgColor: "bg-amber-500/10", borderColor: "border-amber-500/20", iconBg: "bg-amber-500/20", iconColor: "text-amber-400" },
               ].map((service, index) => (
                 <motion.div
                   key={service.label}
@@ -506,7 +514,7 @@ const Contact = () => {
                 >
                   <div className={`p-2 ${service.iconBg} rounded-lg group-hover:scale-110 transition-transform duration-300`}>
                     <Suspense fallback={<IconFallback />}>
-                      <service.icon className={`text-lg bg-gradient-to-r ${service.color} bg-clip-text text-transparent`} style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }} />
+                      <service.icon className={`text-lg ${service.iconColor}`} aria-hidden="true" />
                     </Suspense>
                   </div>
                   <div className="min-w-0">

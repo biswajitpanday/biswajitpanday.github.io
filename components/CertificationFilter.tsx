@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useCallback, useId } from "react";
 import { motion } from "framer-motion";
-import { FiFilter, FiChevronDown, FiSearch, FiX } from "react-icons/fi";
+import { FiFilter, FiChevronDown, FiSearch, FiX } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Certification } from "@/types/api";
 import { Badge } from "@/components/ui/badge";

@@ -2,8 +2,8 @@
 
 import React, { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { IconType } from "react-icons";
-import { FiSearch, FiX } from "react-icons/fi";
+import { IconType } from "@/lib/icons";
+import { FiSearch, FiX } from "@/lib/icons";
 
 // View mode option interface
 export interface ViewModeOption {

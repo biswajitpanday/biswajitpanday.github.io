@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaUser, FaRobot, FaCopy, FaCheck, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import { FaUser, FaRobot, FaCopy, FaCheck, FaThumbsUp, FaThumbsDown } from "@/lib/icons";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaCogs, FaRocket, FaStar, FaCheckCircle } from 'react-icons/fa';
+import { FaCogs, FaRocket, FaStar, FaCheckCircle } from "@/lib/icons";
 import { PERFORMANCE_VARIANTS } from '@/constants';
 import { useCountUp } from '@/hooks/useCountUp';
 

@@ -11,7 +11,7 @@ import {
   FaCloud,
   FaStar,
   FaGithub
-} from "react-icons/fa";
+} from "@/lib/icons";
 import type { Project, Certification, TimelineEntry } from "@/types/api";
 import { calculateTotalExperience } from "@/helpers/utility";
 import { countAllTechnologies } from "@/lib/skillsDataTransformer";

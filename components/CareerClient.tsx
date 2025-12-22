@@ -9,7 +9,7 @@ import {
   FaCalendarAlt,
   FaRocket,
   FaAward,
-} from "react-icons/fa";
+} from "@/lib/icons";
 import { motion } from "framer-motion";
 import TimelineElement from "@/components/TimelineElement";
 import BackgroundElements from "@/components/BackgroundElements";

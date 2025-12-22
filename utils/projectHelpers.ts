@@ -1,5 +1,5 @@
 import { Project } from "@/types/api";
-import { FaRocket, FaUsers, FaChartLine } from "react-icons/fa";
+import { FaRocket, FaUsers, FaChartLine } from "@/lib/icons";
 import type { IconType } from "react-icons";
 
 /**

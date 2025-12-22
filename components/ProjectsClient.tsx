@@ -11,7 +11,7 @@ import {
   FaChevronDown,
   FaChevronUp,
   FaHistory
-} from "react-icons/fa";
+} from "@/lib/icons";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ProjectModal from "@/components/ProjectModal";
@@ -24,7 +24,7 @@ import { useCountUp } from "@/hooks/useCountUp";
 import ProjectTimeline from "@/components/ProjectTimeline";
 import TimelineFilter from "@/components/TimelineFilter";
 import EmptyState from "@/components/ui/EmptyState";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch } from "@/lib/icons";
 import type { Project } from "@/types/api";
 
 interface ProjectsClientProps {

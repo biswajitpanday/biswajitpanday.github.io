@@ -17,11 +17,11 @@ import { calculateTotalExperience } from "@/helpers/utility";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Import critical above-the-fold icons directly (no lazy loading)
-import { FiDownload, FiCode, FiCloud, FiZap, FiBriefcase, FiGlobe, FiUsers, FiEye, FiMail, FiAward, FiArrowRight } from "react-icons/fi";
-import { SiReact, SiDotnet, SiPython, SiOpenai } from "react-icons/si";
-import { RiRobot3Fill } from "react-icons/ri";
-import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
-import { TbPlane } from "react-icons/tb";
+import { FiDownload, FiCode, FiCloud, FiZap, FiBriefcase, FiGlobe, FiUsers, FiEye, FiMail, FiAward, FiArrowRight } from "@/lib/icons";
+import { SiReact, SiDotnet, SiPython, SiOpenai } from "@/lib/icons";
+import { RiRobot3Fill } from "@/lib/icons";
+import { HiOutlineBuildingOffice2 } from "@/lib/icons";
+import { TbPlane } from "@/lib/icons";
 import Link from "next/link";
 
 interface SkillNode {

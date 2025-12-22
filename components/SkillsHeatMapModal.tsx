@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX } from 'react-icons/fi';
+import { FiX } from "@/lib/icons";
 import DynamicIcon from '@/components/DynamicIcon';
 // Skills data will be passed as props from parent component
 

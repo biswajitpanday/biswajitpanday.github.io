@@ -9,7 +9,7 @@ import {
   FaBuilding,
   FaUser,
   FaPlay,
-} from "react-icons/fa";
+} from "@/lib/icons";
 import { SimpleTooltip, WideTooltip } from "@/components/ui/SimpleTooltip";
 import { getCategoryColor, getCompanyLogo } from "@/constants/projectConstants";
 import { getMetricBadgeClasses, getMetricBadgeClassesLight } from "@/utils/projectHelpers";
@@ -51,7 +51,7 @@ export function OpenSourceBadge({ variant = "icon" }: { variant?: "icon" | "text
     return (
       <SimpleTooltip content="Open Source" position="top" colorScheme="green">
         <span
-          className="inline-flex items-center justify-center w-5 h-5 rounded-xs bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help flex-shrink-0"
+          className="inline-flex items-center justify-center w-5 h-5 rounded-sm bg-green-500/20 border border-green-500/40 hover:bg-green-500/30 transition-colors cursor-help flex-shrink-0"
           role="img"
           aria-label="Open Source"
         >

@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CSS_ANIMATIONS } from "@/constants";
-import { FaGithub, FaEye, FaBuilding } from "react-icons/fa";
+import { FaGithub, FaEye, FaBuilding } from "@/lib/icons";
 import type { Project } from "@/types/api";
 import { getPrimaryMetric } from "@/utils/projectHelpers";
 import {

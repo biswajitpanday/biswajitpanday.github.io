@@ -25,8 +25,8 @@ import {
   FaStar,
   FaTachometerAlt,
   FaRocket,
-} from "react-icons/fa";
-import { FiLayers } from "react-icons/fi";
+} from "@/lib/icons";
+import { FiLayers } from "@/lib/icons";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";

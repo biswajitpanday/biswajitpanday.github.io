@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaArrowUp, FaChartLine, FaClock, FaDollarSign, FaUsers, FaRocket, FaTrophy } from "react-icons/fa";
+import { FaArrowUp, FaChartLine, FaClock, FaDollarSign, FaUsers, FaRocket, FaTrophy } from "@/lib/icons";
 import { ProjectMetrics } from "@/types/api";
 
 interface ProjectPerformanceMetricsProps {

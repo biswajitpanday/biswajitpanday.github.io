@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { Certification } from "@/types/api";
-import { FiAward, FiCalendar, FiArrowRight, FiExternalLink, FiKey, FiHash } from "react-icons/fi";
+import { FiAward, FiCalendar, FiArrowRight, FiExternalLink, FiKey, FiHash } from "@/lib/icons";
 import { Badge } from "@/components/ui/badge";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 

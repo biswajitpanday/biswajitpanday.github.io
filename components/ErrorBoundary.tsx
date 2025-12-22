@@ -2,7 +2,7 @@
 
 import React, { Component, ErrorInfo, ReactNode } from "react";
 import Link from "next/link";
-import { FaExclamationCircle, FaHome, FaSync } from "react-icons/fa";
+import { FaExclamationCircle, FaHome, FaSync } from "@/lib/icons";
 
 /**
  * ErrorBoundary - Catches and displays component errors gracefully

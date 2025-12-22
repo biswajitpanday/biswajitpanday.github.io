@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaQuoteLeft, FaChevronLeft, FaChevronRight, FaLinkedin, FaStar, FaExternalLinkAlt } from "react-icons/fa";
+import { FaQuoteLeft, FaChevronLeft, FaChevronRight, FaLinkedin, FaStar, FaExternalLinkAlt } from "@/lib/icons";
 import { SOCIAL_LINKS } from "@/constants";
 import type { TestimonialData } from "@/types/api";
 

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaRobot, FaTimes, FaMinus, FaPaperPlane } from "react-icons/fa";
+import { FaRobot, FaTimes, FaMinus, FaPaperPlane } from "@/lib/icons";
 import ChatMessage from "./ChatMessage";
 import SuggestedQuestions from "./SuggestedQuestions";
 import ChatIndicator from "./ChatIndicator";
