@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import TimelineElement from "@/components/TimelineElement";
 import BackgroundElements from "@/components/BackgroundElements";
 import { useCountUp } from "@/hooks/useCountUp";
+import StatsCards from "@/components/StatsCards";
 
 interface CareerClientProps {
   timeline: TimelineEntry[];
@@ -90,67 +91,47 @@ const CareerClient = ({ timeline }: CareerClientProps) => {
           animate="visible"
           className="mb-6"
         >
-          <div className="bg-gray-900/50 border border-secondary-default/20 rounded-lg p-4">
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4 sm:gap-6">
-              {/* Experience Stat */}
-              <div ref={experienceCount.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
-                  <FaCalendarAlt className="text-[#00BFFF] text-xl" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">
-                    {experienceCount.count}y+
-                  </div>
-                  <div className="text-xs text-white/60">Experience</div>
-                </div>
-              </div>
-
-              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-              {/* Companies Stat */}
-              <div ref={companiesCount.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-emerald-500/20 rounded-lg">
-                  <FaBriefcase className="text-emerald-400 text-xl" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">
-                    {companiesCount.count}
-                  </div>
-                  <div className="text-xs text-white/60">Companies</div>
-                </div>
-              </div>
-
-              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-              {/* Leadership Roles */}
-              <div ref={leadershipCount.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-purple-500/20 rounded-lg">
-                  <FaAward className="text-purple-400 text-xl" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">
-                    {leadershipCount.count}
-                  </div>
-                  <div className="text-xs text-white/60">Leadership Roles</div>
-                </div>
-              </div>
-
-              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-              {/* Achievements */}
-              <div ref={achievementsCount.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-orange-500/20 rounded-lg">
-                  <FaRocket className="text-orange-400 text-xl" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500 tabular-nums">
-                    {achievementsCount.count}
-                  </div>
-                  <div className="text-xs text-white/60">Achievements</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <StatsCards
+            stats={[
+              {
+                icon: FaCalendarAlt,
+                value: `${experienceCount.count}y+`,
+                label: "Experience",
+                iconColor: "text-[#00BFFF]",
+                iconBgColor: "bg-[#00BFFF]/20",
+                valueGradient: "from-[#00BFFF] to-[#0080FF]",
+                ref: experienceCount.ref
+              },
+              {
+                icon: FaBriefcase,
+                value: companiesCount.count,
+                label: "Companies",
+                iconColor: "text-emerald-400",
+                iconBgColor: "bg-emerald-500/20",
+                valueGradient: "from-emerald-400 to-cyan-500",
+                ref: companiesCount.ref
+              },
+              {
+                icon: FaAward,
+                value: leadershipCount.count,
+                label: "Leadership Roles",
+                iconColor: "text-purple-400",
+                iconBgColor: "bg-purple-500/20",
+                valueGradient: "from-purple-400 to-pink-500",
+                ref: leadershipCount.ref
+              },
+              {
+                icon: FaRocket,
+                value: achievementsCount.count,
+                label: "Achievements",
+                iconColor: "text-orange-400",
+                iconBgColor: "bg-orange-500/20",
+                valueGradient: "from-orange-400 to-amber-500",
+                ref: achievementsCount.ref
+              }
+            ]}
+            showDividers={true}
+          />
         </motion.div>
 
         {/* Simple Timeline Design - Matching Project Timeline */}

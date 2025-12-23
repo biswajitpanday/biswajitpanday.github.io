@@ -11,6 +11,7 @@ export interface StatCard {
   iconColor?: string;
   iconBgColor?: string;
   valueGradient?: string;
+  ref?: React.RefObject<HTMLDivElement>; // Optional ref for useCountUp animation
 }
 
 interface StatsCardsProps {
@@ -49,8 +50,8 @@ const StatsCards: React.FC<StatsCardsProps> = ({
 
           return (
             <React.Fragment key={`${stat.label}-${index}`}>
-              {/* Stat Item */}
-              <div className="flex items-center gap-3">
+              {/* Stat Item - Apply ref if provided for useCountUp animation */}
+              <div ref={stat.ref} className="flex items-center gap-3">
                 {/* Icon Box - Project Page style */}
                 <div className={`p-2 ${iconBgColor} rounded-lg`}>
                   <IconComponent className={`${iconColor} text-xl`} />
