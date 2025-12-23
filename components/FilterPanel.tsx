@@ -2,7 +2,7 @@
 
 import React, { useId } from "react";
 import { motion } from "framer-motion";
-import { FaFilter, FaTimes } from "react-icons/fa";
+import { FaFilter, FaTimes } from "@/lib/icons";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 
 export interface FilterOption {

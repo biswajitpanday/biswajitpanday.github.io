@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import type { IconType } from "react-icons";
+import type { IconType } from "@/lib/icons";
 
 /**
  * Gradient Divider - Reusable horizontal gradient line

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaTimes, FaArrowDown } from "react-icons/fa";
-import { RiRobot3Fill } from "react-icons/ri";
+import { FaTimes, FaArrowDown } from "@/lib/icons";
+import { RiRobot3Fill } from "@/lib/icons";
 
 interface ChatIndicatorProps {
   isVisible: boolean;

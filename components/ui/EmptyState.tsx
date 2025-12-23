@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { IconType } from "react-icons";
+import { IconType } from "@/lib/icons";
 
 /**
  * EmptyState - Reusable empty state component

@@ -8,7 +8,7 @@ import {
   FaCloud,
   FaUsers,
   FaCheckCircle
-} from "react-icons/fa";
+} from "@/lib/icons";
 
 interface ValueItem {
   icon: React.ComponentType<{ className?: string }>;

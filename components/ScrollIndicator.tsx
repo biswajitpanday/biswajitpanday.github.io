@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown } from "@/lib/icons";
 
 /**
  * ScrollIndicator - Animated scroll down indicator

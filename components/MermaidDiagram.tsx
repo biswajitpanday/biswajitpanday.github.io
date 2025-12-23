@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import mermaid from "mermaid";
-import { FaSearchPlus, FaSearchMinus, FaUndo, FaArrowLeft, FaArrowRight, FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { FaSearchPlus, FaSearchMinus, FaUndo, FaArrowLeft, FaArrowRight, FaArrowUp, FaArrowDown } from "@/lib/icons";
 
 interface MermaidDiagramProps {
   chart: string;

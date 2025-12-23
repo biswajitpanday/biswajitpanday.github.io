@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { FaGithub, FaEye, FaBuilding } from "react-icons/fa";
+import { FaGithub, FaEye, FaBuilding } from "@/lib/icons";
 import type { Project } from "@/types/api";
 import Image from "next/image";
 import Link from "next/link";

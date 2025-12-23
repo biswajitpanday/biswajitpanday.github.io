@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiMousePointer, FiActivity, FiEye, FiDownload, FiTrash2 } from 'react-icons/fi';
+import { FiMousePointer, FiActivity, FiEye, FiDownload, FiTrash2 } from "@/lib/icons";
 import {
   getHeatmapInteractions,
   exportHeatmapData,

@@ -3,7 +3,7 @@ import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Certification } from "@/types/api";
 import Image from "next/image";
-import { FiClock, FiTarget, FiExternalLink, FiAward } from "react-icons/fi";
+import { FiClock, FiTarget, FiExternalLink, FiAward } from "@/lib/icons";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { PERFORMANCE_VARIANTS } from "@/constants";

@@ -1,6 +1,6 @@
 
 import Link from 'next/link'
-import {FaGithub, FaLinkedinIn, FaMedium, FaStackOverflow} from 'react-icons/fa'
+import {FaGithub, FaLinkedinIn, FaMedium, FaStackOverflow} from "@/lib/icons"
 
 interface SocialsProps {
     containerStyles: string;

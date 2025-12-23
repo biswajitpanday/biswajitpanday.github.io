@@ -1,6 +1,6 @@
 import { Project } from "@/types/api";
-import { FaRocket, FaUsers, FaChartLine } from "react-icons/fa";
-import type { IconType } from "react-icons";
+import { FaRocket, FaUsers, FaChartLine } from "@/lib/icons";
+import type { IconType } from "@/lib/icons";
 
 /**
  * Interface for primary metric badge data

@@ -9,7 +9,7 @@ import {
   FaCode,
   FaChevronLeft,
   FaChevronRight
-} from "react-icons/fa";
+} from "@/lib/icons";
 import type { Project } from "@/types/api";
 
 interface DemoProject {

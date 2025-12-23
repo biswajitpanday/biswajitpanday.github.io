@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { FaHome, FaArrowLeft } from "react-icons/fa";
+import { FaHome, FaArrowLeft } from "@/lib/icons";
 import { useRouter } from "next/navigation";
 
 const NotFound = () => {

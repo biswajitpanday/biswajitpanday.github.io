@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch } from "@/lib/icons";
 
 interface SkillsNoResultsProps {
   hasSearch: boolean;

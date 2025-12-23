@@ -6,7 +6,7 @@ import {
   FaExclamationTriangle,
   FaLightbulb,
   FaArrowRight
-} from "react-icons/fa";
+} from "@/lib/icons";
 import { CaseStudy, Project } from "@/types/api";
 
 interface CaseStudyCardProps {

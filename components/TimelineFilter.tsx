@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown } from "@/lib/icons";
 import type { Project } from "@/types/api";
 
 interface TimelineFilterProps {

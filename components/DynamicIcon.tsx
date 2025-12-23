@@ -1,6 +1,7 @@
-import React, { lazy, Suspense, memo } from "react";
-import { IconType } from "react-icons";
+import React, { memo } from "react";
+import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
+import { convertToIconify } from "@/lib/iconify-converter";
 
 // Import custom icon components
 const CursorIcon = dynamic(() => import("./icons/CursorIcon"), {
@@ -9,7 +10,6 @@ const CursorIcon = dynamic(() => import("./icons/CursorIcon"), {
     <div className="w-4 h-4 bg-secondary-default/30 animate-pulse rounded-sm"></div>
   ),
 });
-
 
 const GoogleAIStudioIcon = dynamic(() => import("./icons/GoogleAIStudioIcon"), {
   ssr: true,
@@ -39,193 +39,24 @@ const MCPIcon = dynamic(() => import("./icons/MCPIcon"), {
   ),
 });
 
-// Simple icon mapping for better bundle splitting
-const iconComponents: Record<string, () => Promise<{ default: IconType }>> = {
-  // FA Icons
-  FaFolder: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaFolder })),
-  FaCode: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaCode })),
-  FaJs: () => import("react-icons/fa").then((mod) => ({ default: mod.FaJs })),
-  FaGitAlt: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaGitAlt })),
-  FaDocker: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaDocker })),
-  FaRegBuilding: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaRegBuilding })),
-  FaReact: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaReact })),
-  FaAngular: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaAngular })),
-  FaBootstrap: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaBootstrap })),
-  FaGlobe: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaGlobe })),
-  FaSitemap: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaSitemap })),
-  FaMicrochip: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaMicrochip })),
-  FaServer: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaServer })),
-  FaExchangeAlt: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaExchangeAlt })),
-  FaProjectDiagram: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaProjectDiagram })),
-  FaCloud: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaCloud })),
-  FaDatabase: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaDatabase })),
-  FaAws: () => import("react-icons/fa").then((mod) => ({ default: mod.FaAws })),
-  FaTools: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaTools })),
-  FaRestroom: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaRestroom })),
-  FaFunnelDollar: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaFunnelDollar })),
-  FaLinux: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaLinux })),
-  FaRobot: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaRobot })),
-  FaGithub: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaGithub })),
-  FaTerminal: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaTerminal })),
-  FaCommentDots: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaCommentDots })),
-  FaVial: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaVial })),
-  FaNodeJs: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaNodeJs })),
-  FaTasks: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaTasks })),
-  FaJava: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaJava })),
-  FaPython: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaPython })),
-  FaVuejs: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaVuejs })),
-  FaCodeBranch: () =>
-    import("react-icons/fa").then((mod) => ({ default: mod.FaCodeBranch })),
-
-  // SI Icons
-  SiTypescript: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiTypescript })),
-  SiBlazor: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiBlazor })),
-  SiKubernetes: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiKubernetes })),
-  SiModal: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiModal })),
-  SiExpress: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiExpress })),
-  SiServerless: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiServerless })),
-  SiMongodb: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiMongodb })),
-  SiMysql: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiMysql })),
-  SiAmazondynamodb: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiAmazondynamodb })),
-  SiSqlite: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiSqlite })),
-  SiAmazonec2: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiAmazonec2 })),
-  SiAwslambda: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiAwslambda })),
-  SiAmazons3: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiAmazons3 })),
-  SiAmazonsqs: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiAmazonsqs })),
-  SiAmazonsimpleemailservice: () =>
-    import("react-icons/si").then((mod) => ({
-      default: mod.SiAmazonsimpleemailservice,
-    })),
-  SiJenkins: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiJenkins })),
-  SiJira: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiJira })),
-  SiFrontendmentor: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiFrontendmentor })),
-  SiReact: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiReact })),
-  SiAngular: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiAngular })),
-  SiRedux: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiRedux })),
-  SiDotnet: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiDotnet })),
-  SiFramework: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiFramework })),
-  SiTrpc: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiTrpc })),
-  SiRabbitmq: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiRabbitmq })),
-  SiNextdotjs: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiNextdotjs })),
-  SiOpenai: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiOpenai })),
-  SiPostman: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiPostman })),
-  SiPython: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiPython })),
-  SiTestinglibrary: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiTestinglibrary })),
-  SiElasticsearch: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiElasticsearch })),
-  SiReactquery: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiReactquery })),
-  SiFramer: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiFramer })),
-  SiConfluence: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiConfluence })),
-  SiGo: () =>
-    import("react-icons/si").then((mod) => ({ default: mod.SiGo })),
-
-  // Other libraries
-  VscAzure: () =>
-    import("react-icons/vsc").then((mod) => ({ default: mod.VscAzure })),
-  VscAzureDevops: () =>
-    import("react-icons/vsc").then((mod) => ({ default: mod.VscAzureDevops })),
-  GrTest: () =>
-    import("react-icons/gr").then((mod) => ({ default: mod.GrTest })),
-  GrVirtualMachine: () =>
-    import("react-icons/gr").then((mod) => ({ default: mod.GrVirtualMachine })),
-  DiMsqlServer: () =>
-    import("react-icons/di").then((mod) => ({ default: mod.DiMsqlServer })),
-  DiDotnet: () =>
-    import("react-icons/di").then((mod) => ({ default: mod.DiDotnet })),
-  DiScrum: () =>
-    import("react-icons/di").then((mod) => ({ default: mod.DiScrum })),
-  DiRedis: () =>
-    import("react-icons/di").then((mod) => ({ default: mod.DiRedis })),
-  GiCogsplosion: () =>
-    import("react-icons/gi").then((mod) => ({ default: mod.GiCogsplosion })),
-  FaArrowsSpin: () =>
-    import("react-icons/fa6").then((mod) => ({ default: mod.FaArrowsSpin })),
-  TbBrandCSharp: () =>
-    import("react-icons/tb").then((mod) => ({ default: mod.TbBrandCSharp })),
-  TbBrandLinqpad: () =>
-    import("react-icons/tb").then((mod) => ({ default: mod.TbBrandLinqpad })),
-  TbBrandTailwind: () =>
-    import("react-icons/tb").then((mod) => ({ default: mod.TbBrandTailwind })),
-  MdNotifications: () =>
-    import("react-icons/md").then((mod) => ({ default: mod.MdNotifications })),
-  MdSecurity: () =>
-    import("react-icons/md").then((mod) => ({ default: mod.MdSecurity })),
-  PiKanban: () =>
-    import("react-icons/pi").then((mod) => ({ default: mod.PiKanban })),
-  RiRobot3Fill: () =>
-    import("react-icons/ri").then((mod) => ({ default: mod.RiRobot3Fill })),
-  GoCopilot: () =>
-    import("react-icons/go").then((mod) => ({ default: mod.GoCopilot })),
-};
-
 interface DynamicIconProps {
   iconName: string;
   className?: string;
   fallback?: React.ReactNode;
 }
 
+/**
+ * DynamicIcon - Renders icons from database using Iconify
+ *
+ * This component accepts react-icons style names (e.g., "FaReact", "SiTypescript")
+ * and converts them to Iconify format for rendering.
+ *
+ * Previously used react-icons with lazy loading (~30 MB bundle).
+ * Now uses @iconify/react with on-demand loading (~50 KB + ~1 KB per icon).
+ *
+ * @example
+ * <DynamicIcon iconName="FaReact" className="text-cyan-400" />
+ */
 const DynamicIcon: React.FC<DynamicIconProps> = memo(
   ({
     iconName,
@@ -247,7 +78,6 @@ const DynamicIcon: React.FC<DynamicIconProps> = memo(
       return <CursorIcon className={className} />;
     }
 
-
     if (iconName === "GoogleAIStudio") {
       return <GoogleAIStudioIcon className={className} />;
     }
@@ -264,19 +94,25 @@ const DynamicIcon: React.FC<DynamicIconProps> = memo(
       return <MCPIcon className={className} />;
     }
 
-    const iconLoader = iconComponents[iconName];
+    // Convert react-icons name to Iconify format
+    const iconifyName = convertToIconify(iconName);
 
-    if (!iconLoader) {
+    // If conversion failed (returns same name), show fallback
+    if (iconifyName === iconName && !iconifyName.includes(":")) {
       console.warn(`Icon ${iconName} not found, using fallback`);
       return <>{fallback}</>;
     }
 
-    const IconComponent = lazy(iconLoader);
-
+    // Render using Iconify (loads on-demand)
     return (
-      <Suspense fallback={fallback}>
-        <IconComponent className={className} />
-      </Suspense>
+      <Icon
+        icon={iconifyName}
+        className={className}
+        style={{
+          width: "1em",
+          height: "1em",
+        }}
+      />
     );
   }
 );

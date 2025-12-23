@@ -5,7 +5,7 @@ import SectionHeader from "./SectionHeader";
 import CertificationCard from "./CertificationCard";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight } from "@/lib/icons";
 
 interface FeaturedCertificationsProps {
   certifications: Certification[];

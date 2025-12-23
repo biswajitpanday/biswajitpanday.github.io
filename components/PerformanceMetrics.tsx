@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import MetricCard from "./MetricCard";
-import { FiZap, FiSearch, FiEye, FiCheckCircle, FiClock, FiTrendingUp } from "react-icons/fi";
+import { FiZap, FiSearch, FiEye, FiCheckCircle, FiClock, FiTrendingUp } from "@/lib/icons";
 
 interface StoredWebVital {
   value: number;

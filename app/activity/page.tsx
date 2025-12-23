@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import GitHubActivityGraph from "@/components/GitHubActivityGraph";
 import BackgroundElements from "@/components/BackgroundElements";
-import { FaGithub, FaFireAlt, FaCalendarAlt, FaCodeBranch } from "react-icons/fa";
+import { FaGithub, FaFireAlt, FaCalendarAlt, FaCodeBranch } from "@/lib/icons";
 import { useCountUp } from "@/hooks/useCountUp";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import { GITHUB_PROFILE_URL, type GitHubStats } from "@/lib/github";

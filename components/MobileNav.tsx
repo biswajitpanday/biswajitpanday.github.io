@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaTimes, FaChevronDown, FaSearch } from "react-icons/fa";
+import { FaTimes, FaChevronDown, FaSearch } from "@/lib/icons";
 
 /**
  * MobileNav - Accessible mobile navigation drawer

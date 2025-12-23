@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FaCode, FaCalendar, FaClock } from "react-icons/fa";
+import { FaCode, FaCalendar, FaClock } from "@/lib/icons";
 
 /**
  * Format date for display (e.g., "Jan 2024")

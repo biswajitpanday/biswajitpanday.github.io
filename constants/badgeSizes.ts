@@ -29,21 +29,21 @@ export const STATUS_BADGE_CLASSES = "h-5 text-xs px-3 rounded-full font-medium";
  * Size: Standard (text-xs) with strict h-7 (28px) height
  * Updated: Using flexbox centering instead of padding-y for perfect vertical alignment
  */
-export const FEATURED_BADGE_CLASSES = "h-5 text-xs px-2.5 rounded-xs font-semibold";
+export const FEATURED_BADGE_CLASSES = "h-5 text-xs px-2.5 rounded-sm font-semibold";
 
 /**
  * Open Source badge
  * Size: Small (text-[11px]) with strict h-7 (28px) height
  * Updated: Using flexbox centering instead of padding-y for perfect vertical alignment
  */
-export const OPEN_SOURCE_BADGE_CLASSES = "h-5 text-[11px] px-2.5 rounded-xs font-semibold";
+export const OPEN_SOURCE_BADGE_CLASSES = "h-5 text-[11px] px-2.5 rounded-sm font-semibold";
 
 /**
  * Recognition/Awards badge
  * Size: Compact (text-[10px]) with strict h-7 (28px) height - Reduced for Phase 8 refinement
  * Updated: Using flexbox centering instead of padding-y for perfect vertical alignment
  */
-export const RECOGNITION_BADGE_CLASSES = "h-5 text-[11px] px-2 rounded-xs font-semibold";
+export const RECOGNITION_BADGE_CLASSES = "h-5 text-[11px] px-2 rounded-sm font-semibold";
 
 /**
  * Primary Metric badge (on image)
@@ -66,7 +66,7 @@ export const PRIMARY_METRIC_BADGE_MODAL_CLASSES = "h-6 sm:h-7 text-xs sm:text-sm
  * Size: Compact (text-[11px]) with strict h-7 (28px) height - Reduced for Phase 8 refinement
  * Updated: Using flexbox centering instead of padding-y for perfect vertical alignment
  */
-export const CATEGORY_BADGE_CLASSES = "h-5 text-[11px] px-2.5 rounded-xs font-light uppercase tracking-wide";
+export const CATEGORY_BADGE_CLASSES = "h-5 text-[11px] px-2.5 rounded-sm font-light uppercase tracking-wide";
 
 /**
  * Key Skills badge

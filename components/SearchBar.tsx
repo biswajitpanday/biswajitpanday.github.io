@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FaSearch, FaTimes } from "react-icons/fa";
+import { FaSearch, FaTimes } from "@/lib/icons";
 import { CSS_ANIMATIONS } from "@/constants";
 
 interface SearchBarProps {

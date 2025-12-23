@@ -12,7 +12,7 @@ import {
   FaSearch,
   FaMedium,
   FaChevronDown
-} from "react-icons/fa";
+} from "@/lib/icons";
 import { AnimatePresence } from "framer-motion";
 import MobileNav from "./MobileNav";
 import GlobalSearch from "./GlobalSearch";
