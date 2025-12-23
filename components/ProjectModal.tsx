@@ -52,6 +52,7 @@ import {
   CompanyIcon,
   CurrentBadge,
 } from "@/components/project";
+import ProjectModalBadges from "@/components/project/ProjectModalBadges";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -165,30 +166,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                 {/* Right: Badges (Desktop Only) + Close Button */}
                 <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                   {/* Desktop Badges - Hidden on Mobile */}
-                  <div className="hidden sm:flex items-center gap-2">
-                    <CategoryBadge category={project.category} />
-                    <StatusBadge
-                      isActive={project.isActive}
-                      inactivationReason={project.inactivationReason ?? undefined}
-                    />
-                    {project.isCurrent && <CurrentBadge variant="text" />}
-
-                    {project.url && project.url.trim() !== "" && (
-                      <>
-                        <span className="text-white/30 mx-1">|</span>
-                        <Link
-                          href={project.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="h-5 inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-3 rounded-md text-xs font-bold hover:shadow-lg transition-all duration-200"
-                          aria-label="View live project"
-                        >
-                          <FaExternalLinkAlt className="text-[10px]" aria-hidden="true" />
-                          <span>Live</span>
-                        </Link>
-                      </>
-                    )}
-                  </div>
+                  <ProjectModalBadges project={project} variant="desktop" />
 
                   {/* Close Button - Always Visible */}
                   <button
@@ -210,27 +188,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
               )}
 
               {/* Row 3: Badge Row - Mobile Only (Below Subtitle) */}
-              <div className="flex sm:hidden flex-wrap items-center gap-2 mt-2">
-                <CategoryBadge category={project.category} />
-                <StatusBadge
-                  isActive={project.isActive}
-                  inactivationReason={project.inactivationReason ?? undefined}
-                />
-                {project.isCurrent && <CurrentBadge variant="text" />}
-
-                {project.url && project.url.trim() !== "" && (
-                  <Link
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="h-5 inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-gradient-to-r from-secondary-default to-blue-500 text-white px-2 sm:px-3 rounded-md text-xs font-bold hover:shadow-lg transition-all duration-200"
-                    aria-label="View live project"
-                  >
-                    <FaExternalLinkAlt className="text-[10px]" aria-hidden="true" />
-                    <span>Live</span>
-                  </Link>
-                )}
-              </div>
+              <ProjectModalBadges project={project} variant="mobile" />
             </div>
 
             {/* Modal Content */}
