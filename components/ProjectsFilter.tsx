@@ -1,9 +1,10 @@
 "use client";
 import React, { useState, useEffect, useCallback, useId, useMemo } from "react";
 import { motion } from "framer-motion";
-import { FiFilter, FiChevronDown, FiSearch, FiX } from "@/lib/icons";
+import { FiFilter, FiChevronDown, FiX } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import SearchInput from "@/components/ui/SearchInput";
 import type { Project } from "@/types/api";
 
 interface ProjectsFilterProps {
@@ -171,33 +172,15 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
     >
       {/* Inline Search and Filter Bar */}
       <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
-        {/* Compact Search Input - Enhanced */}
+        {/* Compact Search Input - Using reusable SearchInput component */}
         {isSearchEnabled && (
-          <div className="relative flex-1 group" data-test-selector="projectFilter-search">
-            <label htmlFor={searchInputId} className="sr-only">Search projects</label>
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-default/70 group-focus-within:text-secondary-default transition-colors text-sm" aria-hidden="true">
-              <FiSearch />
-            </div>
-            <input
-              id={searchInputId}
-              type="search"
-              placeholder={placeholder}
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className="w-full h-9 bg-gradient-to-br from-[#27272c] to-[#2a2a30] border border-secondary-default/30 rounded-lg pl-9 pr-9 text-xs text-white placeholder:text-white/40 focus:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 focus:border-secondary-default/60 transition-all duration-300 shadow-sm focus:shadow-md focus:shadow-secondary-default/20"
-              data-test-selector="projectFilter-searchInput"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => onSearchChange("")}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-red-400 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
-                data-test-selector="projectFilter-clearSearch"
-                aria-label="Clear search"
-              >
-                <FiX className="text-sm" aria-hidden="true" />
-              </button>
-            )}
-          </div>
+          <SearchInput
+            value={searchQuery}
+            onChange={onSearchChange}
+            placeholder={placeholder}
+            aria-label="Search projects"
+            testSelector="projectFilter-search"
+          />
         )}
         
         {/* Compact Filter Toggle Button - Enhanced */}
