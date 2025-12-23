@@ -190,6 +190,7 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
             onClick={toggleFilterPanel}
             aria-expanded={isExpanded}
             aria-controls={filterPanelId}
+            aria-label="Filter projects by category, company, status, and technology"
             className={`shrink-0 flex items-center gap-2 text-xs h-9 px-4 rounded-lg font-medium transition-all duration-300 focus-visible:ring-2 focus-visible:ring-cyan-400 ${
               isExpanded
                 ? 'bg-gradient-to-r from-secondary-default/20 to-blue-500/20 border-secondary-default/60 text-secondary-default shadow-md shadow-secondary-default/20'
