@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback, useId } from "react";
+import React, { useState, useEffect, useCallback, useId, useMemo } from "react";
 import { motion } from "framer-motion";
 import { FiFilter, FiChevronDown, FiSearch, FiX } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
@@ -37,10 +37,26 @@ const ProjectsFilter: React.FC<ProjectsFilterProps> = ({
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [debouncedSearch, setDebouncedSearch] = useState("");
   
-  // Extract unique values for filter options
-  const categories = Array.from(new Set(projects.map(p => p.category))).sort();
-  const companies = Array.from(new Set(projects.map(p => p.associatedWithCompany).filter(company => company && company.trim() !== ""))).sort();
-  const technologies = Array.from(new Set(projects.flatMap(p => p.stacks).filter(tech => tech && tech.trim() !== ""))).sort();
+  // Extract unique values for filter options (memoized for performance)
+  const categories = useMemo(() =>
+    Array.from(new Set(projects.map(p => p.category))).sort(),
+    [projects]
+  );
+
+  const companies = useMemo(() =>
+    Array.from(new Set(
+      projects.map(p => p.associatedWithCompany).filter(company => company && company.trim() !== "")
+    )).sort(),
+    [projects]
+  );
+
+  const technologies = useMemo(() =>
+    Array.from(new Set(
+      projects.flatMap(p => p.stacks).filter(tech => tech && tech.trim() !== "")
+    )).sort(),
+    [projects]
+  );
+
   const statuses = ["Active", "Inactive"];
   
   // Debounce search query

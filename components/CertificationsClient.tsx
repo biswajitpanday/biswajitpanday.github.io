@@ -15,6 +15,7 @@ import CertificationTimeline from "@/components/CertificationTimeline";
 import { PERFORMANCE_VARIANTS } from "@/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import { v2Helpers } from "@/lib/api-client";
+import StatsCards from "@/components/StatsCards";
 
 interface CertificationsClientProps {
   certifications: Certification[];
@@ -93,11 +94,18 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
   // Define initial display limit (show important certifications first)
   const INITIAL_DISPLAY_COUNT = 12;
 
-  // Get unique issuers and years for filters
-  const uniqueIssuers = Array.from(new Set(certifications.map(cert => cert.issuer))).sort();
-  const uniqueYears = Array.from(
-    new Set(certifications.map(cert => new Date(cert.date).getFullYear()))
-  ).sort((a, b) => b - a);
+  // Get unique issuers and years for filters (memoized for performance)
+  const uniqueIssuers = useMemo(() =>
+    Array.from(new Set(certifications.map(cert => cert.issuer))).sort(),
+    [certifications]
+  );
+
+  const uniqueYears = useMemo(() =>
+    Array.from(
+      new Set(certifications.map(cert => new Date(cert.date).getFullYear()))
+    ).sort((a, b) => b - a),
+    [certifications]
+  );
 
   // Calculate stat values
   const totalCreds = certCounts.total - certCounts.upcoming;
@@ -318,67 +326,47 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
           animate="visible"
           className="mb-6"
         >
-          <div className="bg-gray-900/50 border border-secondary-default/20 rounded-lg p-4">
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4 sm:gap-6">
-              {/* Total Credentials */}
-              <div ref={totalCredsCount.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
-                  <FiAward className="text-[#00BFFF] text-xl" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">
-                    {totalCredsCount.count}
-                  </div>
-                  <div className="text-xs text-white/60">Total Credentials</div>
-                </div>
-              </div>
-
-              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-              {/* Professional Certifications */}
-              <div ref={professionalCountUp.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-emerald-500/20 rounded-lg">
-                  <FiBriefcase className="text-emerald-400 text-xl" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">
-                    {professionalCountUp.count}
-                  </div>
-                  <div className="text-xs text-white/60">Professional</div>
-                </div>
-              </div>
-
-              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-              {/* Courses */}
-              <div ref={courseCountUp.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-purple-500/20 rounded-lg">
-                  <FiBook className="text-purple-400 text-xl" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-purple-400 tabular-nums">
-                    {courseCountUp.count}
-                  </div>
-                  <div className="text-xs text-white/60">Courses</div>
-                </div>
-              </div>
-
-              <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-              {/* Active Certifications */}
-              <div ref={activeCountUp.ref} className="flex items-center gap-3">
-                <div className="p-2 bg-green-500/20 rounded-lg">
-                  <FiCheckCircle className="text-green-400 text-xl" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-green-400 tabular-nums">
-                    {activeCountUp.count}
-                  </div>
-                  <div className="text-xs text-white/60">Active</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <StatsCards
+            stats={[
+              {
+                icon: FiAward,
+                value: totalCredsCount.count,
+                label: "Total Credentials",
+                iconColor: "text-[#00BFFF]",
+                iconBgColor: "bg-[#00BFFF]/20",
+                valueGradient: "from-[#00BFFF] to-[#0080FF]",
+                ref: totalCredsCount.ref
+              },
+              {
+                icon: FiBriefcase,
+                value: professionalCountUp.count,
+                label: "Professional",
+                iconColor: "text-emerald-400",
+                iconBgColor: "bg-emerald-500/20",
+                valueGradient: "from-emerald-400 to-cyan-500",
+                ref: professionalCountUp.ref
+              },
+              {
+                icon: FiBook,
+                value: courseCountUp.count,
+                label: "Courses",
+                iconColor: "text-purple-400",
+                iconBgColor: "bg-purple-500/20",
+                valueGradient: "from-purple-400 to-pink-500",
+                ref: courseCountUp.ref
+              },
+              {
+                icon: FiCheckCircle,
+                value: activeCountUp.count,
+                label: "Active",
+                iconColor: "text-green-400",
+                iconBgColor: "bg-green-500/20",
+                valueGradient: "from-green-400 to-emerald-500",
+                ref: activeCountUp.ref
+              }
+            ]}
+            showDividers={true}
+          />
         </motion.div>
 
         {/* Featured Certification Banner */}

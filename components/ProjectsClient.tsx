@@ -26,6 +26,7 @@ import TimelineFilter from "@/components/TimelineFilter";
 import EmptyState from "@/components/ui/EmptyState";
 import { FaSearch } from "@/lib/icons";
 import type { Project } from "@/types/api";
+import StatsCards, { type StatCard } from "@/components/StatsCards";
 
 interface ProjectsClientProps {
   projects: Project[];
@@ -65,10 +66,21 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [wasOpenedViaUrlParam, setWasOpenedViaUrlParam] = useState(false);
 
-  // Calculate stats for Grid view
-  const activeProjects = projects.filter(p => p.isActive).length;
-  const featuredProjects = projects.filter(p => p.isFeatured);
-  const openSourceProjects = projects.filter(p => p.isOpenSource).length;
+  // Calculate stats for Grid view (memoized for performance)
+  const activeProjects = useMemo(() =>
+    projects.filter(p => p.isActive).length,
+    [projects]
+  );
+
+  const featuredProjects = useMemo(() =>
+    projects.filter(p => p.isFeatured),
+    [projects]
+  );
+
+  const openSourceProjects = useMemo(() =>
+    projects.filter(p => p.isOpenSource).length,
+    [projects]
+  );
 
   // Animated counters for stats dashboard (Grid view)
   const totalCount = useCountUp({ end: projects.length, duration: 2000 });
@@ -76,8 +88,8 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
   const featuredCount = useCountUp({ end: featuredProjects.length, duration: 1800, start: 0 });
   const openSourceCount = useCountUp({ end: openSourceProjects, duration: 1900 });
 
-  // Calculate stats for Timeline view (same as Grid view for consistency)
-  const timelineStats = (() => {
+  // Calculate stats for Timeline view (memoized for performance)
+  const timelineStats = useMemo(() => {
     const filtered = selectedSkill
       ? filteredProjects.filter(p => p.stacks.includes(selectedSkill))
       : filteredProjects;
@@ -92,7 +104,7 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
       featuredCount,
       openSourceCount,
     };
-  })();
+  }, [filteredProjects, selectedSkill]);
 
 
   // Modal handlers
@@ -261,59 +273,47 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
             animate="visible"
             className="mb-6"
           >
-            <div className="bg-gray-900/50 border border-secondary-default/20 rounded-lg p-4">
-              <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4 sm:gap-6">
-                {/* Total Projects */}
-                <div ref={totalCount.ref} className="flex items-center gap-3">
-                  <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
-                    <FaCode className="text-[#00BFFF] text-xl" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">{totalCount.count}</div>
-                    <div className="text-xs text-white/60">Total Projects</div>
-                  </div>
-                </div>
-
-                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-                {/* Active Projects */}
-                <div ref={activeCount.ref} className="flex items-center gap-3">
-                  <div className="p-2 bg-emerald-500/20 rounded-lg">
-                    <FaClock className="text-emerald-400 text-xl" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">{activeCount.count}</div>
-                    <div className="text-xs text-white/60">Active</div>
-                  </div>
-                </div>
-
-                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-                {/* Featured Count */}
-                <div ref={featuredCount.ref} className="flex items-center gap-3">
-                  <div className="p-2 bg-purple-500/20 rounded-lg">
-                    <FaRocket className="text-purple-400 text-xl" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">{featuredCount.count}</div>
-                    <div className="text-xs text-white/60">Featured</div>
-                  </div>
-                </div>
-
-                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-                {/* Open Source */}
-                <div ref={openSourceCount.ref} className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-500/20 rounded-lg">
-                    <FaGithub className="text-blue-400 text-xl" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default tabular-nums">{openSourceCount.count}</div>
-                    <div className="text-xs text-white/60">Open Source</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <StatsCards
+              stats={[
+                {
+                  icon: FaCode,
+                  value: totalCount.count,
+                  label: "Total Projects",
+                  iconColor: "text-[#00BFFF]",
+                  iconBgColor: "bg-[#00BFFF]/20",
+                  valueGradient: "from-[#00BFFF] to-[#0080FF]",
+                  ref: totalCount.ref
+                },
+                {
+                  icon: FaClock,
+                  value: activeCount.count,
+                  label: "Active",
+                  iconColor: "text-emerald-400",
+                  iconBgColor: "bg-emerald-500/20",
+                  valueGradient: "from-emerald-400 to-cyan-500",
+                  ref: activeCount.ref
+                },
+                {
+                  icon: FaRocket,
+                  value: featuredCount.count,
+                  label: "Featured",
+                  iconColor: "text-purple-400",
+                  iconBgColor: "bg-purple-500/20",
+                  valueGradient: "from-purple-400 to-pink-500",
+                  ref: featuredCount.ref
+                },
+                {
+                  icon: FaGithub,
+                  value: openSourceCount.count,
+                  label: "Open Source",
+                  iconColor: "text-blue-400",
+                  iconBgColor: "bg-blue-500/20",
+                  valueGradient: "from-blue-400 to-secondary-default",
+                  ref: openSourceCount.ref
+                }
+              ]}
+              showDividers={true}
+            />
           </motion.div>
         )}
 
@@ -324,59 +324,43 @@ const ProjectsClient = ({ projects }: ProjectsClientProps) => {
             animate={{ opacity: 1, y: 0 }}
             className="mb-6"
           >
-            <div className="bg-gray-900/50 border border-secondary-default/20 rounded-lg p-4">
-              <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center gap-4 sm:gap-6">
-                {/* Total Projects */}
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[#00BFFF]/20 rounded-lg">
-                    <FaCode className="text-[#00BFFF] text-xl" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00BFFF] to-[#0080FF] tabular-nums">{timelineStats.total}</div>
-                    <div className="text-xs text-white/60">Total Projects</div>
-                  </div>
-                </div>
-
-                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-                {/* Active Projects */}
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-emerald-500/20 rounded-lg">
-                    <FaClock className="text-emerald-400 text-xl" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 tabular-nums">{timelineStats.activeCount}</div>
-                    <div className="text-xs text-white/60">Active</div>
-                  </div>
-                </div>
-
-                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-                {/* Featured */}
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-purple-500/20 rounded-lg">
-                    <FaRocket className="text-purple-400 text-xl" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums">{timelineStats.featuredCount}</div>
-                    <div className="text-xs text-white/60">Featured</div>
-                  </div>
-                </div>
-
-                <div className="hidden sm:block w-px h-10 bg-white/10"></div>
-
-                {/* Open Source */}
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-500/20 rounded-lg">
-                    <FaGithub className="text-blue-400 text-xl" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-secondary-default tabular-nums">{timelineStats.openSourceCount}</div>
-                    <div className="text-xs text-white/60">Open Source</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <StatsCards
+              stats={[
+                {
+                  icon: FaCode,
+                  value: timelineStats.total,
+                  label: "Total Projects",
+                  iconColor: "text-[#00BFFF]",
+                  iconBgColor: "bg-[#00BFFF]/20",
+                  valueGradient: "from-[#00BFFF] to-[#0080FF]"
+                },
+                {
+                  icon: FaClock,
+                  value: timelineStats.activeCount,
+                  label: "Active",
+                  iconColor: "text-emerald-400",
+                  iconBgColor: "bg-emerald-500/20",
+                  valueGradient: "from-emerald-400 to-cyan-500"
+                },
+                {
+                  icon: FaRocket,
+                  value: timelineStats.featuredCount,
+                  label: "Featured",
+                  iconColor: "text-purple-400",
+                  iconBgColor: "bg-purple-500/20",
+                  valueGradient: "from-purple-400 to-pink-500"
+                },
+                {
+                  icon: FaGithub,
+                  value: timelineStats.openSourceCount,
+                  label: "Open Source",
+                  iconColor: "text-blue-400",
+                  iconBgColor: "bg-blue-500/20",
+                  valueGradient: "from-blue-400 to-secondary-default"
+                }
+              ]}
+              showDividers={true}
+            />
           </motion.div>
         )}
 
