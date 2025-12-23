@@ -217,6 +217,10 @@ export const SOCIAL_LINKS = {
   TEAMS: "biswajitpanday@live.com",
 } as const;
 
+// Re-export pagination and filter constants (Priority 2.5)
+export * from './pagination';
+export * from './filters';
+
 export default {
   ANIMATION_DELAYS,
   ANIMATION_DURATIONS,

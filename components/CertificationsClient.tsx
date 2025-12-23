@@ -16,6 +16,8 @@ import { PERFORMANCE_VARIANTS } from "@/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import { v2Helpers } from "@/lib/api-client";
 import StatsCards from "@/components/StatsCards";
+import { useCertificationFiltering } from "@/hooks/useCertificationFiltering";
+import CertificationTabContent from "@/components/certifications/CertificationTabContent";
 
 interface CertificationsClientProps {
   certifications: Certification[];
@@ -94,6 +96,9 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
   // Define initial display limit (show important certifications first)
   const INITIAL_DISPLAY_COUNT = 12;
 
+  // Use certification filtering utilities
+  const { getImportantCertifications } = useCertificationFiltering(INITIAL_DISPLAY_COUNT);
+
   // Get unique issuers and years for filters (memoized for performance)
   const uniqueIssuers = useMemo(() =>
     Array.from(new Set(certifications.map(cert => cert.issuer))).sort(),
@@ -144,66 +149,6 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
     }
     
     setFilteredByCategory(filtered);
-  };
-  
-  // Get important certifications for initial display
-  const getImportantCertifications = (certs: Certification[]): Certification[] => {
-    // V2: Sort by priority: showByDefault > order (custom) > Featured + Professional > Professional > Other categories by date
-    const sortedCerts = [...certs].sort((a, b) => {
-      // Priority 0: showByDefault flag (highest priority)
-      const aShowByDefault = a.showByDefault === true;
-      const bShowByDefault = b.showByDefault === true;
-
-      if (aShowByDefault && !bShowByDefault) return -1;
-      if (!aShowByDefault && bShowByDefault) return 1;
-
-      // Priority 1: V2 order field (custom ordering)
-      const aOrder = v2Helpers.getCertOrder(a);
-      const bOrder = v2Helpers.getCertOrder(b);
-
-      // If both have non-zero order values, sort by order ascending (lower order = higher priority)
-      if (aOrder > 0 && bOrder > 0) {
-        return aOrder - bOrder;
-      }
-      // If only one has order, prioritize it
-      if (aOrder > 0 && bOrder === 0) return -1;
-      if (aOrder === 0 && bOrder > 0) return 1;
-
-      // Priority 2: Featured + Professional
-      const aIsFeaturedProfessional = a.featured && a.category === "Professional";
-      const bIsFeaturedProfessional = b.featured && b.category === "Professional";
-
-      if (aIsFeaturedProfessional && !bIsFeaturedProfessional) return -1;
-      if (!aIsFeaturedProfessional && bIsFeaturedProfessional) return 1;
-
-      // Priority 3: Professional (second priority)
-      const aIsProfessional = a.category === "Professional";
-      const bIsProfessional = b.category === "Professional";
-
-      if (aIsProfessional && !bIsProfessional) return -1;
-      if (!aIsProfessional && bIsProfessional) return 1;
-
-      // Priority 4: Sort by date (most recent first)
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return dateB.getTime() - dateA.getTime();
-    });
-
-    // Get showByDefault first, then featured+professional, then fill with others
-    const showByDefaultCerts = sortedCerts.filter(cert => cert.showByDefault === true);
-    const featuredProfessional = sortedCerts.filter(cert => !cert.showByDefault && cert.featured && cert.category === "Professional");
-    const professional = sortedCerts.filter(cert => !cert.showByDefault && !cert.featured && cert.category === "Professional");
-    const others = sortedCerts.filter(cert => !cert.showByDefault && cert.category !== "Professional");
-
-    // Combine: showByDefault + featured+professional + professional + others to reach INITIAL_DISPLAY_COUNT
-    const important = [...showByDefaultCerts, ...featuredProfessional, ...professional];
-    const remainingSlots = INITIAL_DISPLAY_COUNT - important.length;
-
-    if (remainingSlots > 0) {
-      important.push(...others.slice(0, remainingSlots));
-    }
-
-    return important;
   };
 
   // Get the final displayed certifications based on active tab, search, and advanced filters
@@ -603,155 +548,56 @@ const CertificationsClient = ({ certifications: certificationsProp }: Certificat
 
           {/* Professional Certifications */}
           <TabsContent value="professional" className="mt-0">
-            {displayedCertifications.length > 0 ? (
-              <>
-                <motion.div
-                  variants={PERFORMANCE_VARIANTS.containerSync}
-                  initial="hidden"
-                  animate="visible"
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                >
-                  {displayedCertifications.map((certification) => (
-                    <CertificationCard
-                      key={certification._id}
-                      certification={certification}
-                      featured={certification.featured || certification.category === "Professional"}
-                    />
-                  ))}
-                </motion.div>
-
-                {/* Show More/Less Button */}
-                {shouldShowMoreButton && activeTab === "professional" && (
-                  <div className="flex justify-center mt-8">
-                    <button
-                      onClick={() => setShowAllCertifications(!showAllCertifications)}
-                      className="px-3 py-1.5 text-sm bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
-                    >
-                      {showAllCertifications ? (
-                        <>Show Less Certifications</>
-                      ) : (
-                        <>Show All {professionalCerts.filter(cert => !cert.isUpcoming).length} Certifications</>
-                      )}
-                    </button>
-                  </div>
-                )}
-              </>
-            ) : (
-              <EmptyState
-                icon={FiBriefcase}
-                title="No Professional Certifications"
-                description="Try adjusting your search criteria or check back later as new certifications are added."
-                action={{
-                  label: "Clear Filters",
-                  onClick: () => {
-                    resetFilters();
-                    handleTabChange("all");
-                  },
-                }}
-              />
-            )}
+            <CertificationTabContent
+              certifications={displayedCertifications}
+              totalCount={professionalCerts.filter(cert => !cert.isUpcoming).length}
+              category="professional"
+              emptyStateIcon={FiBriefcase}
+              emptyStateTitle="No Professional Certifications"
+              showMoreButton={shouldShowMoreButton && activeTab === "professional"}
+              showAllCertifications={showAllCertifications}
+              onShowMore={() => setShowAllCertifications(!showAllCertifications)}
+              onClearFilters={() => {
+                resetFilters();
+                handleTabChange("all");
+              }}
+            />
           </TabsContent>
 
           {/* Course Certifications */}
           <TabsContent value="courses" className="mt-0">
-            {displayedCertifications.length > 0 ? (
-              <>
-                <motion.div
-                  variants={PERFORMANCE_VARIANTS.containerSync}
-                  initial="hidden"
-                  animate="visible"
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                >
-                  {displayedCertifications.map((certification) => (
-                    <CertificationCard
-                      key={certification._id}
-                      certification={certification}
-                      featured={certification.featured || certification.category === "Professional"}
-                    />
-                  ))}
-                </motion.div>
-
-                {/* Show More/Less Button */}
-                {shouldShowMoreButton && activeTab === "courses" && (
-                  <div className="flex justify-center mt-8">
-                    <button
-                      onClick={() => setShowAllCertifications(!showAllCertifications)}
-                      className="px-3 py-1.5 text-sm bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
-                    >
-                      {showAllCertifications ? (
-                        <>Show Less Certifications</>
-                      ) : (
-                        <>Show All {courseCerts.length} Certifications</>
-                      )}
-                    </button>
-                  </div>
-                )}
-              </>
-            ) : (
-              <EmptyState
-                icon={FiBook}
-                title="No Course Certifications"
-                description="Try adjusting your search criteria or check back later as new courses are completed."
-                action={{
-                  label: "Clear Filters",
-                  onClick: () => {
-                    resetFilters();
-                    handleTabChange("all");
-                  },
-                }}
-              />
-            )}
+            <CertificationTabContent
+              certifications={displayedCertifications}
+              totalCount={courseCerts.length}
+              category="courses"
+              emptyStateIcon={FiBook}
+              emptyStateTitle="No Course Certifications"
+              showMoreButton={shouldShowMoreButton && activeTab === "courses"}
+              showAllCertifications={showAllCertifications}
+              onShowMore={() => setShowAllCertifications(!showAllCertifications)}
+              onClearFilters={() => {
+                resetFilters();
+                handleTabChange("all");
+              }}
+            />
           </TabsContent>
 
           {/* Training Certifications */}
           <TabsContent value="training" className="mt-0">
-            {displayedCertifications.length > 0 ? (
-              <>
-                <motion.div
-                  variants={PERFORMANCE_VARIANTS.containerSync}
-                  initial="hidden"
-                  animate="visible"
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                >
-                  {displayedCertifications.map((certification) => (
-                    <CertificationCard
-                      key={certification._id}
-                      certification={certification}
-                      featured={certification.featured || certification.category === "Professional"}
-                    />
-                  ))}
-                </motion.div>
-
-                {/* Show More/Less Button */}
-                {shouldShowMoreButton && activeTab === "training" && (
-                  <div className="flex justify-center mt-8">
-                    <button
-                      onClick={() => setShowAllCertifications(!showAllCertifications)}
-                      className="px-3 py-1.5 text-sm bg-secondary-default/10 hover:bg-secondary-default/20 border border-secondary-default/30 text-secondary-default rounded-lg transition-all duration-300 font-medium"
-                    >
-                      {showAllCertifications ? (
-                        <>Show Less Certifications</>
-                      ) : (
-                        <>Show All {trainingCerts.length} Certifications</>
-                      )}
-                    </button>
-                  </div>
-                )}
-              </>
-            ) : (
-              <EmptyState
-                icon={FiSlack}
-                title="No Training Certifications"
-                description="Try adjusting your search criteria or check back later as new training programs are completed."
-                action={{
-                  label: "Clear Filters",
-                  onClick: () => {
-                    resetFilters();
-                    handleTabChange("all");
-                  },
-                }}
-              />
-            )}
+            <CertificationTabContent
+              certifications={displayedCertifications}
+              totalCount={trainingCerts.length}
+              category="training"
+              emptyStateIcon={FiSlack}
+              emptyStateTitle="No Training Certifications"
+              showMoreButton={shouldShowMoreButton && activeTab === "training"}
+              showAllCertifications={showAllCertifications}
+              onShowMore={() => setShowAllCertifications(!showAllCertifications)}
+              onClearFilters={() => {
+                resetFilters();
+                handleTabChange("all");
+              }}
+            />
           </TabsContent>
         </Tabs>
       </div>
