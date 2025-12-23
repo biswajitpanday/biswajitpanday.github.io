@@ -26,10 +26,18 @@ export interface IconProps {
 const createIcon = (iconifyName: string) => {
   const IconComponent = React.forwardRef<SVGSVGElement, IconProps>(
     ({ className, size, color, style, title, ...props }, ref) => {
+      // Auto-fix Font Awesome icons: convert fa: to fa-solid: for better compatibility
+      // This handles icons that need the solid variant (most FA icons)
+      let finalIconName = iconifyName;
+
+      if (iconifyName.startsWith("fa:") && !iconifyName.startsWith("fa-")) {
+        finalIconName = iconifyName.replace("fa:", "fa-solid:");
+      }
+
       return (
         <Icon
           ref={ref}
-          icon={iconifyName}
+          icon={finalIconName}
           className={className}
           width={size}
           height={size}
@@ -142,13 +150,14 @@ export const FaLock = createIcon("fa:lock");
 // Data & Analytics
 export const FaChartLine = createIcon("fa:chart-line");
 export const FaChartBar = createIcon("fa:chart-bar");
-export const FaTachometerAlt = createIcon("fa:tachometer-alt");
+export const FaTachometerAlt = createIcon("fa-solid:tachometer-alt");
 export const FaEye = createIcon("fa:eye");
 
 // Actions & States
 export const FaRocket = createIcon("fa:rocket");
 export const FaStar = createIcon("fa:star");
 export const FaRobot = createIcon("fa:robot");
+export const FaBrain = createIcon("fa-solid:brain");
 export const FaFireAlt = createIcon("fa:fire-alt");
 export const FaThumbsUp = createIcon("fa:thumbs-up");
 export const FaThumbsDown = createIcon("fa:thumbs-down");
