@@ -71,6 +71,36 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }} --legacy-peer-deps
 
+      - name: Log rebuild trigger
+        run: |
+          echo "Manual rebuild triggered by: ${{ github.actor }}"
+          echo "Reason: ${{ github.event.inputs.reason || 'API trigger' }}"
+          echo "Triggered at: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+
+      - name: Fetch GitHub contribution data
+        run: npm run fetch-github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch Medium blog posts
+        run: npm run fetch-blog
+        continue-on-error: true
+
+      - name: Verify data was fetched
+        run: |
+          if [ -f "public/data/github-contributions.json" ]; then
+            echo "✅ GitHub data file exists"
+          else
+            echo "⚠️ GitHub data file NOT found"
+          fi
+          if [ -f "public/data/medium-posts.json" ]; then
+            echo "✅ Medium blog data file exists"
+            POSTS_COUNT=$(cat public/data/medium-posts.json | python3 -c "import sys, json; print(len(json.load(sys.stdin)))")
+            echo "Found $POSTS_COUNT blog posts"
+          else
+            echo "⚠️ Medium blog data file NOT found"
+          fi
+
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
         env:
@@ -88,11 +118,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
-
-      - name: Log rebuild reason
-        run: |
-          echo "Rebuild triggered: ${{ github.event.inputs.reason || 'API trigger' }}"
-          echo "Triggered by: ${{ github.actor }}"
 
   # Deployment job
   deploy:
