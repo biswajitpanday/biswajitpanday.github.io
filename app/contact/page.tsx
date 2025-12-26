@@ -6,6 +6,7 @@ import { PERFORMANCE_VARIANTS } from "@/constants";
 import { useState } from "react";
 import FormSection from "@/components/FormSection";
 import BackgroundElements from "@/components/BackgroundElements";
+import { fetchPortfolioMetadata } from "@/lib/api-client";
 
 // Import icons from centralized Iconify library
 // Note: Iconify loads icons on-demand, so no need for React.lazy
@@ -103,115 +104,25 @@ const validateForm = (data: FormData) => {
   return { errors, isValid: Object.keys(errors).length === 0 };
 };
 
-const info = [
-  {
-    icon: FaPhoneAlt,
-    title: "Phone & WhatsApp",
-    description: "+880 1681642502",
-    color: "from-secondary-default/10 to-blue-500/10",
-    borderColor: "border-secondary-default/30",
-    textColor: "text-secondary-default",
-    hoverColor: "hover:bg-secondary-default/20 hover:border-secondary-default/50",
-    testId: "contact-info-phone",
-    clickable: true,
-    action: () => window.open("tel:+8801681642502", "_self"),
-    actionLabel: "Call or WhatsApp",
-    copyable: true,
-    copyText: "+8801681642502",
-    copyLabel: "Phone"
-  },
-  {
-    icon: FaEnvelope,
-    title: "Email",
-    description: "biswajitmailid@gmail.com",
-    color: "from-blue-500/10 to-purple-500/10",
-    borderColor: "border-blue-500/30",
-    textColor: "text-blue-400",
-    hoverColor: "hover:bg-blue-500/20 hover:border-blue-500/50",
-    testId: "contact-info-email",
-    clickable: true,
-    action: () => window.open("mailto:biswajitmailid@gmail.com", "_self"),
-    actionLabel: "Send Email",
-    copyable: true,
-    copyText: "biswajitmailid@gmail.com",
-    copyLabel: "Email"
-  },
-  {
-    icon: BsMicrosoftTeams,
-    title: "Microsoft Teams",
-    description: "biswajitpanday@live.com",
-    color: "from-purple-500/10 to-secondary-default/10",
-    borderColor: "border-purple-500/30",
-    textColor: "text-purple-400",
-    hoverColor: "hover:bg-purple-500/20 hover:border-purple-500/50",
-    testId: "contact-info-teams",
-    clickable: true,
-    action: () => {
-      // Try to open Teams app first, fallback to web version
-      const teamsAppUrl = `msteams://l/chat/0/0?users=biswajitpanday@live.com`;
-      const teamsWebUrl = `https://teams.microsoft.com/l/chat/0/0?users=biswajitpanday@live.com`;
+// Fallback default values (used if API fails or data is not available)
+const DEFAULT_CONTACT_INFO = {
+  phone: "+880 1681642502",
+  email: "biswajitmailid@gmail.com",
+  teams: "biswajitpanday@live.com",
+  location: "Dhaka, Bangladesh",
+};
 
-      // Attempt to open Teams app
-      window.location.href = teamsAppUrl;
-
-      // Fallback to web version after a brief delay if app doesn't open
-      setTimeout(() => {
-        window.open(teamsWebUrl, "_blank");
-      }, 1000);
-    },
-    actionLabel: "Start Teams Chat",
-    copyable: true,
-    copyText: "biswajitpanday@live.com",
-    copyLabel: "Teams ID"
-  },
-  {
-    icon: FaMapMarkedAlt,
-    title: "Address",
-    description: "Dhaka, Bangladesh",
-    color: "from-emerald-500/10 to-blue-500/10",
-    borderColor: "border-emerald-500/30",
-    textColor: "text-emerald-400",
-    hoverColor: "hover:bg-emerald-500/20 hover:border-emerald-500/50",
-    testId: "contact-info-address",
-    clickable: true,
-    action: () => window.open("https://www.google.com/maps/search/Dhaka,+Bangladesh", "_blank"),
-    actionLabel: "View on Map",
-    copyable: false
-  },
-];
-
-// Social media links
-const socialLinks = [
-  {
-    icon: FaLinkedinIn,
-    title: "LinkedIn",
-    url: "https://linkedin.com/in/biswajitpanday",
-    color: "bg-[#0077B5]/20 hover:bg-[#0077B5]/30",
-    textColor: "text-[#0077B5]",
-    borderColor: "border-[#0077B5]/30 hover:border-[#0077B5]/50"
-  },
-  {
-    icon: FaGithub,
-    title: "GitHub",
-    url: "https://github.com/biswajitpanday",
-    color: "bg-white/10 hover:bg-white/20",
-    textColor: "text-white",
-    borderColor: "border-white/30 hover:border-white/50"
-  },
-  {
-    icon: FaMedium,
-    title: "Medium",
-    url: "https://medium.com/@biswajitpanday",
-    color: "bg-[#00AB6C]/20 hover:bg-[#00AB6C]/30",
-    textColor: "text-[#00AB6C]",
-    borderColor: "border-[#00AB6C]/30 hover:border-[#00AB6C]/50"
-  },
-];
+const DEFAULT_SOCIAL_LINKS = {
+  linkedin: "https://linkedin.com/in/biswajitpanday",
+  github: "https://github.com/biswajitpanday",
+  medium: "https://medium.com/@biswajitpanday",
+};
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
+  const [portfolioMetadata, setPortfolioMetadata] = useState<any>(null);
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -282,6 +193,20 @@ const Contact = () => {
     }
   }, []);
 
+  // Fetch portfolio metadata for contact info
+  useEffect(() => {
+    const loadMetadata = async () => {
+      try {
+        const data = await fetchPortfolioMetadata();
+        setPortfolioMetadata(data);
+      } catch (error) {
+        console.error('Failed to load portfolio metadata:', error);
+        // Fallback to hardcoded values if API fails
+      }
+    };
+    loadMetadata();
+  }, []);
+
   // Auto-dismiss success message after 5 seconds
   useEffect(() => {
     if (submitStatus === 'success') {
@@ -318,6 +243,121 @@ const Contact = () => {
 
     return Math.min(progress, 100);
   })();
+
+  // Dynamic contact info (with fallback to defaults if API fails)
+  const phone = portfolioMetadata?.contactInfo?.phone || DEFAULT_CONTACT_INFO.phone;
+  const email = portfolioMetadata?.contactEmail || DEFAULT_CONTACT_INFO.email;
+  const teams = portfolioMetadata?.contactInfo?.teams || DEFAULT_CONTACT_INFO.teams;
+  const location = portfolioMetadata?.contactInfo?.location || DEFAULT_CONTACT_INFO.location;
+
+  const info = [
+    {
+      icon: FaPhoneAlt,
+      title: "Phone & WhatsApp",
+      description: phone,
+      color: "from-secondary-default/10 to-blue-500/10",
+      borderColor: "border-secondary-default/30",
+      textColor: "text-secondary-default",
+      hoverColor: "hover:bg-secondary-default/20 hover:border-secondary-default/50",
+      testId: "contact-info-phone",
+      clickable: true,
+      action: () => window.open(`tel:${phone}`, "_self"),
+      actionLabel: "Call or WhatsApp",
+      copyable: true,
+      copyText: phone,
+      copyLabel: "Phone"
+    },
+    {
+      icon: FaEnvelope,
+      title: "Email",
+      description: email,
+      color: "from-blue-500/10 to-purple-500/10",
+      borderColor: "border-blue-500/30",
+      textColor: "text-blue-400",
+      hoverColor: "hover:bg-blue-500/20 hover:border-blue-500/50",
+      testId: "contact-info-email",
+      clickable: true,
+      action: () => window.open(`mailto:${email}`, "_self"),
+      actionLabel: "Send Email",
+      copyable: true,
+      copyText: email,
+      copyLabel: "Email"
+    },
+    {
+      icon: BsMicrosoftTeams,
+      title: "Microsoft Teams",
+      description: teams,
+      color: "from-purple-500/10 to-secondary-default/10",
+      borderColor: "border-purple-500/30",
+      textColor: "text-purple-400",
+      hoverColor: "hover:bg-purple-500/20 hover:border-purple-500/50",
+      testId: "contact-info-teams",
+      clickable: true,
+      action: () => {
+        // Try to open Teams app first, fallback to web version
+        const teamsAppUrl = `msteams://l/chat/0/0?users=${teams}`;
+        const teamsWebUrl = `https://teams.microsoft.com/l/chat/0/0?users=${teams}`;
+
+        // Attempt to open Teams app
+        window.location.href = teamsAppUrl;
+
+        // Fallback to web version after a brief delay if app doesn't open
+        setTimeout(() => {
+          window.open(teamsWebUrl, "_blank");
+        }, 1000);
+      },
+      actionLabel: "Start Teams Chat",
+      copyable: true,
+      copyText: teams,
+      copyLabel: "Teams ID"
+    },
+    {
+      icon: FaMapMarkedAlt,
+      title: "Address",
+      description: location,
+      color: "from-emerald-500/10 to-blue-500/10",
+      borderColor: "border-emerald-500/30",
+      textColor: "text-emerald-400",
+      hoverColor: "hover:bg-emerald-500/20 hover:border-emerald-500/50",
+      testId: "contact-info-address",
+      clickable: true,
+      action: () => window.open(`https://www.google.com/maps/search/${encodeURIComponent(location)}`, "_blank"),
+      actionLabel: "View on Map",
+      copyable: false
+    },
+  ];
+
+  // Dynamic social links (with fallback to defaults if API fails)
+  const linkedinUrl = portfolioMetadata?.socialLinks?.linkedin || DEFAULT_SOCIAL_LINKS.linkedin;
+  const githubUrl = portfolioMetadata?.socialLinks?.github || DEFAULT_SOCIAL_LINKS.github;
+  const mediumUrl = portfolioMetadata?.socialLinks?.medium || DEFAULT_SOCIAL_LINKS.medium;
+
+  const socialLinks = [
+    {
+      icon: FaLinkedinIn,
+      title: "LinkedIn",
+      url: linkedinUrl,
+      color: "bg-[#0077B5]/20 hover:bg-[#0077B5]/30",
+      textColor: "text-[#0077B5]",
+      borderColor: "border-[#0077B5]/30 hover:border-[#0077B5]/50"
+    },
+    {
+      icon: FaGithub,
+      title: "GitHub",
+      url: githubUrl,
+      color: "bg-white/10 hover:bg-white/20",
+      textColor: "text-white",
+      borderColor: "border-white/30 hover:border-white/50"
+    },
+    {
+      icon: FaMedium,
+      title: "Medium",
+      url: mediumUrl,
+      color: "bg-[#00AB6C]/20 hover:bg-[#00AB6C]/30",
+      textColor: "text-[#00AB6C]",
+      borderColor: "border-[#00AB6C]/30 hover:border-[#00AB6C]/50"
+    },
+  ];
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     const newData = { ...formData, [field]: value };
