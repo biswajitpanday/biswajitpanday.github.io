@@ -29,14 +29,44 @@ const MediumBlogPreview: React.FC<MediumBlogPreviewProps> = ({ maxPosts = 3 }) =
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await fetch('/data/medium-posts.json');
+        // Try fetching from API first
+        const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://portfolio-admin-blue.vercel.app';
+        let response = await fetch(`${API_URL}/api/public/blog?source=medium&limit=${maxPosts}`);
 
         if (!response.ok) {
-          throw new Error('Failed to fetch blog posts');
-        }
+          // Fallback to static JSON file
+          console.warn('API fetch failed, falling back to static file');
+          response = await fetch('/data/medium-posts.json');
 
-        const data: MediumPost[] = await response.json();
-        setPosts(data.slice(0, maxPosts));
+          if (!response.ok) {
+            throw new Error('Failed to fetch blog posts from both API and static file');
+          }
+
+          // Static file format
+          const data: MediumPost[] = await response.json();
+          setPosts(data.slice(0, maxPosts));
+        } else {
+          // API response format
+          const apiData = await response.json();
+
+          if (apiData.success && Array.isArray(apiData.data)) {
+            // Transform API response to component format
+            const transformedPosts: MediumPost[] = apiData.data.map((post: any) => ({
+              id: post.externalId || post._id,
+              title: post.title,
+              link: post.externalUrl || '',
+              pubDate: post.publishedDate,
+              author: post.author?.name || 'Biswajit Panday',
+              categories: post.tags || [],
+              excerpt: post.excerpt,
+              thumbnail: post.coverImage,
+              readTime: post.readTime,
+            }));
+            setPosts(transformedPosts.slice(0, maxPosts));
+          } else {
+            throw new Error('Invalid API response format');
+          }
+        }
       } catch (err) {
         console.error('Error loading Medium posts:', err);
         setError(err instanceof Error ? err.message : 'Failed to load posts');
