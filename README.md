@@ -13,11 +13,17 @@ A modern, responsive portfolio website built with Next.js 15, TypeScript, and Ta
 - **Accessibility**: ARIA compliant and keyboard navigation
 - **SEO Optimized**: Meta tags and structured data
 - **Image Optimization**: Unified workflow for WebP conversion, thumbnails, and profile optimization
-- **AI Chatbot Assistant**: 24/7 recruiter support powered by Google Gemini AI ✨ NEW
+- **AI Chatbot Assistant**: 24/7 recruiter support powered by Google Gemini AI ✨
   - Interactive chat UI with suggested questions
   - Answers questions about projects, skills, and experience
   - Conversation analytics with feedback system
   - Deployed on Vercel serverless functions
+- **Medium Blog Integration**: Real-time blog posts from Medium ✨ NEW
+  - API-first architecture (no rebuild required for new posts)
+  - Automatic daily sync from Medium RSS feed
+  - Displays 3 most recent articles on homepage
+  - Fallback to static JSON on API failure
+  - Managed via portfolio-admin panel
 - **Analytics & Insights**:
   - **Heatmap Analytics**: Track user interactions, clicks, hovers, scroll depth, and section engagement
   - **Skills Heat Map**: Interactive color-coded visualization with proficiency level filtering ✨ ENHANCED
@@ -175,6 +181,8 @@ npm run start
 | `NEXT_PUBLIC_ENABLE_SEARCH` | Enable global search functionality | No | `true` |
 | `NEXT_PUBLIC_ENABLE_FILTER` | Enable filter functionality | No | `true` |
 | `NEXT_PUBLIC_PAGECLIP_API_KEY` | Contact form service key | No | - |
+| `NEXT_PUBLIC_API_BASE_URL` | Portfolio admin API URL for blog posts | No | `https://portfolio-admin-blue.vercel.app` |
+| `NEXT_PUBLIC_CHATBOT_API_URL` | AI chatbot API endpoint | No | - |
 
 ## 📦 Deployment
 
