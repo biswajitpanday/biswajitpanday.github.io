@@ -82,23 +82,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fetch Medium blog posts
-        run: npm run fetch-blog
-        continue-on-error: true
+      # Medium blog posts now fetched from portfolio-admin API
+      # No longer need build-time fetch
 
-      - name: Verify data was fetched
+      - name: Verify GitHub data was fetched
         run: |
           if [ -f "public/data/github-contributions.json" ]; then
             echo "✅ GitHub data file exists"
+            echo "File size: $(wc -c < public/data/github-contributions.json) bytes"
           else
-            echo "⚠️ GitHub data file NOT found"
-          fi
-          if [ -f "public/data/medium-posts.json" ]; then
-            echo "✅ Medium blog data file exists"
-            POSTS_COUNT=$(cat public/data/medium-posts.json | python3 -c "import sys, json; print(len(json.load(sys.stdin)))")
-            echo "Found $POSTS_COUNT blog posts"
-          else
-            echo "⚠️ Medium blog data file NOT found"
+            echo "⚠️ GitHub data file NOT found - fetch may have failed"
           fi
 
       - name: Build with Next.js
