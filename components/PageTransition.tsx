@@ -56,38 +56,41 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
   }, [children, isNavigating]);
 
   // Set up click handler for internal links
+  // IMPORTANT: This intercepts all internal <a> tag clicks, including Next.js Link components
+  // In App Router with static export, Link components render as plain <a> tags
+  // This works but bypasses Link's prefetching optimization
+  // TODO: Consider using usePathname to detect route changes instead of click interception
   useEffect(() => {
     const handleLinkClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const link = target.closest('a');
-      
+
       if (!link) return;
-      
-      // Only handle internal links that aren't being opened in a new tab
+
+      // Only handle internal <a> tags that aren't being opened in a new tab
       const href = link.getAttribute('href');
       const isInternal = href && (
-        href.startsWith('/') || 
+        href.startsWith('/') ||
         href.startsWith(window.location.origin)
       );
       const isNewTab = link.getAttribute('target') === '_blank';
       const isDownload = link.hasAttribute('download');
-      
-      if (isInternal && !isNewTab && !isDownload) {
+      const isHash = href && href.startsWith('#');
+
+      if (isInternal && !isNewTab && !isDownload && !isHash) {
         e.preventDefault();
-        
+
         // Trigger the route change event
         window.dispatchEvent(new Event('route-change-start'));
-        
-        // Navigate after a short delay to allow the loader to show
-        setTimeout(() => {
-          router.push(href!);
-        }, 100);
+
+        // Navigate immediately (removed delay for better UX)
+        router.push(href!);
       }
     };
-    
+
     // Attach the click handler to the document
     document.addEventListener('click', handleLinkClick);
-    
+
     return () => {
       document.removeEventListener('click', handleLinkClick);
     };

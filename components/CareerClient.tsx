@@ -31,11 +31,25 @@ const CareerClient = ({ timeline }: CareerClientProps) => {
   const totalAchievements = timeLineItems.reduce((acc, item) => acc + item.responsibilities.length, 0);
 
   // Animated counters for stats
-  const experienceYears = parseInt(totalExperience.split('y')[0]) || 0;
+  // Extract years from totalExperience (handles formats: "10+ years", "10 years", "5 months")
+  const experienceYears = totalExperience.includes('year')
+    ? parseInt(totalExperience.match(/\d+/)?.[0] || '0')
+    : 0;
+
+  // Initialize count-up hooks (must be before any conditional logic)
   const experienceCount = useCountUp({ end: experienceYears, duration: 2000 });
   const companiesCount = useCountUp({ end: totalCompanies, duration: 1900 });
   const leadershipCount = useCountUp({ end: leadershipRoles, duration: 1800 });
   const achievementsCount = useCountUp({ end: totalAchievements, duration: 2000 });
+
+  // Fallback display for experience (handle edge cases)
+  const displayExperience = experienceYears > 0
+    ? `${experienceCount.count}y+`
+    : (totalExperience.includes('month') && !totalExperience.includes('0 month'))
+      ? totalExperience
+      : timeLineItems.length > 0
+        ? totalExperience
+        : 'N/A';
 
   return (
     <section className="min-h-[calc(100vh-136px)] flex flex-col relative overflow-hidden py-6">
@@ -95,7 +109,7 @@ const CareerClient = ({ timeline }: CareerClientProps) => {
             stats={[
               {
                 icon: FaCalendarAlt,
-                value: `${experienceCount.count}y+`,
+                value: displayExperience,
                 label: "Experience",
                 iconColor: "text-[#00BFFF]",
                 iconBgColor: "bg-[#00BFFF]/20",

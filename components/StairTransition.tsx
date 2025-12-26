@@ -25,7 +25,6 @@ const StairTransition = () => {
           }}
         />
       </div>
-      <AnimatePresence mode="wait">StairTransition</AnimatePresence>
     </>
   );
 };
