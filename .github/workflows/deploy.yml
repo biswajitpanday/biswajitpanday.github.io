@@ -95,9 +95,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fetch Medium blog posts
-        run: npm run fetch-blog
-        continue-on-error: true
+      # Medium blog posts now fetched from portfolio-admin API
+      # No longer need build-time fetch
 
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
