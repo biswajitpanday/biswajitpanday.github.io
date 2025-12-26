@@ -27,9 +27,7 @@
     "analyze-motion": "node scripts/analyze-motion-usage.js",
     "test-performance": "node scripts/test-animation-performance.js",
     "optimize": "node scripts/optimize-images.js",
-    "fetch-blog": "node scripts/fetch-medium-posts.js",
     "fetch-github": "node scripts/fetch-github-data.js",
-    "fetch-data": "npm run fetch-github && npm run fetch-blog",
     "sitemap": "node scripts/generate-sitemap.js",
     "prebuild": "npm run sitemap"
   },

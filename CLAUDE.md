@@ -154,6 +154,29 @@ All content is centralized in `data/` directory:
   - `app/activity/page.tsx` - Activity page with live stats
 - **Caching:** 5-minute revalidation to avoid rate limiting
 
+### Medium Blog Integration ✨ LIVE (API-First)
+- **Architecture:** Database-backed via portfolio-admin API
+- **API:** `https://portfolio-admin-blue.vercel.app/api/public/blog?source=medium`
+- **Data Source:** MongoDB (synced from Medium RSS feed)
+- **Sync Method:**
+  - **Manual:** Admin panel `/blog` page → "Sync Medium" button
+  - **Automated:** Daily cron job at midnight UTC (Vercel Cron)
+- **Features:**
+  - Real-time blog post display (no rebuild required)
+  - Automatic duplicate detection (via Medium GUID)
+  - Auto-publish synced posts
+  - Fallback to static JSON on API failure
+  - Category mapping and tag extraction
+- **Files:**
+  - `components/MediumBlogPreview.tsx` - Blog preview component with API integration
+  - `scripts/archive/fetch-medium-posts.js.deprecated` - Old build-time script (deprecated)
+- **Admin Panel:**
+  - RSS Service: `portfolio-admin/src/lib/services/mediumRssService.ts`
+  - Sync API: `POST /api/admin/blog/sync-medium`
+  - Cron Job: `GET /api/cron/sync-medium` (automated daily sync)
+- **Migration:** Completed December 2025 (Phase 38)
+- **Note:** Build-time RSS fetch removed; now uses centralized database
+
 ### Performance Optimizations
 - Image optimization pipeline with WebP conversion and multiple size variants
 - Bundle analysis with @next/bundle-analyzer (npm run analyze)
