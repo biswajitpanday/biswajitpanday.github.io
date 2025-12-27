@@ -41,6 +41,7 @@ export default function AIChatbot() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [conversationStartTime, setConversationStartTime] = useState<number>(Date.now());
+  const [sessionId, setSessionId] = useState<string>('');
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -82,6 +83,19 @@ export default function AIChatbot() {
     }
   }, [inputMessage]);
 
+  // Initialize or retrieve session ID from localStorage
+  useEffect(() => {
+    const getOrCreateSessionId = () => {
+      let sid = localStorage.getItem('chatbot-session-id');
+      if (!sid) {
+        sid = `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        localStorage.setItem('chatbot-session-id', sid);
+      }
+      return sid;
+    };
+    setSessionId(getOrCreateSessionId());
+  }, []);
+
   // Send message to AI
   const sendMessage = async (messageText: string) => {
     if (!messageText.trim() || isLoading) return;
@@ -102,10 +116,11 @@ export default function AIChatbot() {
     setError(null);
 
     try {
-      // Build conversation history (last 4 messages)
+      // Build conversation history (last 4 messages) with timestamps
       const conversationHistory = messages.slice(-4).map(msg => ({
         role: msg.role,
-        content: msg.content
+        content: msg.content,
+        timestamp: msg.timestamp.toISOString()
       }));
 
       const response = await fetch(AI_API_ENDPOINT, {
@@ -115,7 +130,14 @@ export default function AIChatbot() {
         },
         body: JSON.stringify({
           message: messageText.trim(),
-          conversationHistory
+          conversationHistory,
+          sessionId,
+          metadata: {
+            userAgent: navigator.userAgent,
+            referrer: document.referrer,
+            pageUrl: window.location.href,
+            timestamp: new Date().toISOString()
+          }
         })
       });
 
@@ -200,6 +222,11 @@ export default function AIChatbot() {
 
     // Reset conversation timer
     setConversationStartTime(Date.now());
+
+    // Generate new session ID for fresh conversation
+    const newSessionId = `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    localStorage.setItem('chatbot-session-id', newSessionId);
+    setSessionId(newSessionId);
   };
 
   // Handle open/close/minimize with tracking

@@ -25,10 +25,10 @@ const jetBrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Biswajit Panday - Senior .NET Architect & AI Solutions Engineer",
+    default: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
     template: "%s | Biswajit Panday"
   },
-  description: "Senior .NET Architect with 10+ years delivering mid to enterprise grade applications. Currently at Optimizely serving global enterprise clients. Built SpireWiz achieving 80% efficiency gains, ~$180K annual value, and 600+ developer hours saved annually. Microsoft Certified.",
+  description: "10+ years of experience supporting 20+ enterprise clients. Specialized in architecting scalable solutions and practical AI tools that deliver continuous ROI and measurable business impact. Expert in full-stack development and automation.",
   keywords: [
     "Biswajit Panday",
     ".NET Architect",
@@ -71,30 +71,16 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Biswajit Panday - Senior .NET Architect & AI Solutions Engineer",
-    description: "Senior .NET Architect with 10+ years delivering mid to enterprise grade applications. Currently at Optimizely serving global enterprise clients. Built SpireWiz achieving 80% efficiency gains, ~$180K annual value, and 600+ developer hours saved annually. Microsoft Certified.",
+    title: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
+    description: "10+ years of experience supporting 20+ enterprise clients. Specialized in architecting scalable solutions and practical AI tools that deliver continuous ROI and measurable business impact. Expert in full-stack development and automation.",
     url: "https://biswajitpanday.github.io",
     siteName: "Biswajit Panday Portfolio",
     images: [
       {
-        url: "https://biswajitpanday.github.io/og-image.png",
+        url: "https://biswajitpanday.github.io/assets/social-preview.png",
         width: 1200,
         height: 630,
-        alt: "Biswajit Panday - Full-Stack .NET Developer & Cloud Solutions Expert",
-        type: "image/png",
-      },
-      {
-        url: "https://biswajitpanday.github.io/assets/profile/profile-large.png",
-        width: 1200,
-        height: 630,
-        alt: "Biswajit Panday - Professional Profile",
-        type: "image/png",
-      },
-      {
-        url: "https://biswajitpanday.github.io/assets/profile/profile-medium.png",
-        width: 800,
-        height: 600,
-        alt: "Biswajit Panday - Professional Profile",
+        alt: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer | 10+ years supporting 20+ enterprise clients",
         type: "image/png",
       },
     ],
@@ -106,13 +92,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@biswajitpanday",
     creator: "@biswajitpanday",
-    title: "Biswajit Panday - Full-Stack .NET Developer & Cloud Expert",
-    description: "🚀 Expert Full-Stack .NET Developer | 10+ years experience | .NET, React, Azure, AWS | Microsoft Certified | Building scalable cloud solutions",
+    title: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
+    description: "10+ years supporting 20+ enterprise clients. Architecting scalable solutions and practical AI tools with measurable ROI. Expert in full-stack development and automation.",
     images: {
-      url: "https://biswajitpanday.github.io/twitter-image.png",
-      alt: "Biswajit Panday - Full-Stack .NET Developer",
+      url: "https://biswajitpanday.github.io/assets/social-preview.png",
+      alt: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
       width: 1200,
-      height: 600,
+      height: 630,
     },
   },
   robots: {
@@ -136,7 +122,7 @@ export const metadata: Metadata = {
     'apple-mobile-web-app-capable': 'yes',
     'application-name': 'Biswajit Panday Portfolio',
     'apple-mobile-web-app-title': 'Biswajit Panday',
-    'og:image:secure_url': 'https://biswajitpanday.github.io/og-image.png',
+    'og:image:secure_url': 'https://biswajitpanday.github.io/assets/social-preview.png',
     'article:author': 'Biswajit Panday',
     'profile:first_name': 'Biswajit',
     'profile:last_name': 'Panday',
