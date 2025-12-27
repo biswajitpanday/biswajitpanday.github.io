@@ -70,6 +70,18 @@ export default function AIChatbot() {
     }
   }, [isOpen, isMinimized]);
 
+  // Auto-resize textarea as user types
+  useEffect(() => {
+    const textarea = inputRef.current;
+    if (textarea) {
+      // Reset height to auto to get correct scrollHeight
+      textarea.style.height = 'auto';
+      // Set height to scrollHeight, max 96px (max-h-24 = 6rem = 96px)
+      const newHeight = Math.min(textarea.scrollHeight, 96);
+      textarea.style.height = `${newHeight}px`;
+    }
+  }, [inputMessage]);
+
   // Send message to AI
   const sendMessage = async (messageText: string) => {
     if (!messageText.trim() || isLoading) return;
@@ -361,7 +373,7 @@ export default function AIChatbot() {
                       onChange={(e) => setInputMessage(e.target.value)}
                       onKeyDown={handleKeyDown}
                       placeholder="Ask about Biswajit's work..."
-                      className="flex-1 bg-white/5 border border-purple-500/30 rounded-xl px-3 py-2.5 text-sm resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus:border-purple-500/50 transition-all max-h-24 placeholder:text-white/40"
+                      className="flex-1 bg-white/5 border border-purple-500/30 rounded-xl px-3 py-2.5 text-sm resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus:border-purple-500/50 transition-all max-h-24 overflow-y-auto hide-scrollbar placeholder:text-white/40"
                       rows={1}
                       maxLength={500}
                       disabled={isLoading}
