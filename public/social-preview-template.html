@@ -1,36 +1,60 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social Media Preview Generator</title>
+    <title>Biswajit Panday - Social Preview Generator</title>
+
+    <!-- JetBrains Mono Font - Matching Portfolio -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Iconify for Tech Stack Icons -->
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
     <style>
-        body {
+        :root {
+            /* Exact colors from portfolio tailwind.config.js and globals.css */
+            --primary: #1c1c22;
+            --secondary: #00BFFF;
+            --purple: #A855F7;
+            --pink: #EC4899;
+            --emerald: #10B981;
+            --blue: #3B82F6;
+            --orange: #F59E0B;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1c1c22 0%, #27272c 50%, #00bfff 100%);
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0a0a0f;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            padding: 20px;
         }
-        
+
+        /* Social Card Container - 1200x630px for og:image */
         .social-card {
             width: 1200px;
             height: 630px;
-            background: linear-gradient(135deg, #1c1c22 0%, #27272c 70%, #00bfff 100%);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 60px;
-            box-sizing: border-box;
+            background: var(--primary);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
-        
-        /* Floating dots pattern from homepage */
+
+        /* Background Pattern & Effects */
         .social-card::before {
             content: '';
             position: absolute;
@@ -38,377 +62,635 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%2300bfff" fill-opacity="0.05"><circle cx="30" cy="30" r="2"/></g></g></svg>') repeat;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%2300BFFF" fill-opacity="0.03"><circle cx="30" cy="30" r="1.5"/></g></g></svg>') repeat;
             pointer-events: none;
         }
-        
-        /* Floating dots - matching homepage design */
+
+        /* Gradient Overlays */
+        .gradient-overlay-1 {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.15) 0%, transparent 70%);
+            filter: blur(60px);
+            pointer-events: none;
+        }
+
+        .gradient-overlay-2 {
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+            filter: blur(60px);
+            pointer-events: none;
+        }
+
+        /* Floating Animated Dots */
         .floating-dot {
             position: absolute;
             border-radius: 50%;
             pointer-events: none;
         }
-        
+
         .dot-1 {
-            width: 8px;
-            height: 8px;
-            background: #00bfff;
-            top: 80px;
-            right: 40px;
-            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+            width: 12px;
+            height: 12px;
+            background: var(--secondary);
+            top: 60px;
+            right: 80px;
             opacity: 0.6;
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
         }
-        
+
         .dot-2 {
-            width: 6px;
-            height: 6px;
-            background: #00bfff;
-            bottom: 120px;
-            right: 200px;
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            opacity: 0.4;
-        }
-        
-        .dot-3 {
             width: 8px;
             height: 8px;
-            background: #00bfff;
-            top: 200px;
-            left: 40px;
-            animation: bounce 1s infinite;
+            background: var(--purple);
+            bottom: 100px;
+            right: 250px;
             opacity: 0.5;
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
-        
-        /* Blur effects from homepage */
-        .blur-circle-1 {
-            position: absolute;
-            width: 256px;
-            height: 256px;
-            background: rgba(0, 191, 255, 0.05);
-            border-radius: 50%;
-            filter: blur(48px);
-            top: 80px;
-            left: 25%;
-            pointer-events: none;
+
+        .dot-3 {
+            width: 10px;
+            height: 10px;
+            background: var(--emerald);
+            top: 200px;
+            left: 60px;
+            opacity: 0.5;
+            animation: bounce 2s infinite;
         }
-        
-        .blur-circle-2 {
-            position: absolute;
-            width: 256px;
-            height: 256px;
-            background: rgba(0, 191, 255, 0.05);
-            border-radius: 50%;
-            filter: blur(48px);
-            bottom: 80px;
-            right: 25%;
-            pointer-events: none;
-        }
-        
-        .content {
-            flex: 1;
-            z-index: 2;
-            max-width: 700px;
-        }
-        
-        .profile-section {
-            flex-shrink: 0;
-            z-index: 2;
-            margin-left: 40px;
+
+        /* Main Content Container */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            padding: 60px 70px;
+            height: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            justify-content: space-between;
         }
-        
-        /* Badge styling matching homepage */
+
+        /* Header Section */
+        .header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        /* Role Badge - Purple/Pink Gradient */
         .role-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(0, 191, 255, 0.1);
-            border: 1px solid rgba(0, 191, 255, 0.3);
-            color: #00bfff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 24px;
+            gap: 10px;
+            background: linear-gradient(to right, rgba(168, 85, 247, 0.25), rgba(236, 72, 153, 0.20), rgba(168, 85, 247, 0.15));
+            backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(168, 85, 247, 0.5);
+            color: var(--text-primary);
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.2);
         }
-        
-        .name {
-            font-size: 52px;
+
+        .role-badge iconify-icon {
+            font-size: 18px;
+            color: var(--pink);
+        }
+
+        /* Name & Title */
+        .name-section h1 {
+            font-size: 64px;
             font-weight: 800;
-            color: white;
-            margin: 0 0 16px 0;
+            color: var(--text-primary);
             line-height: 1.1;
+            margin-bottom: 16px;
         }
-        
-        /* Gradient text effect from homepage */
-        .gradient-text {
-            background: linear-gradient(to right, #00bfff, #0099cc, #00bfff);
-            background-size: 200% auto;
+
+        .gradient-name {
+            background: linear-gradient(135deg, var(--secondary) 0%, #0080FF 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: gradient 3s ease infinite;
         }
-        
-        @keyframes gradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+
+        .tagline {
+            font-size: 28px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            line-height: 1.3;
         }
-        
-        .title {
-            font-size: 32px;
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .stat-value.cyan { color: var(--secondary); }
+        .stat-value.emerald { color: var(--emerald); }
+        .stat-value.purple { color: var(--purple); }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-tertiary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tech Stack Section */
+        .tech-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .tech-stack-title {
+            font-size: 14px;
+            color: var(--text-tertiary);
             font-weight: 600;
-            color: #00bfff;
-            margin: 0 0 24px 0;
-            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        
-        .description {
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.8);
-            margin: 0 0 32px 0;
-            line-height: 1.4;
-        }
-        
-        .highlight {
-            color: #00bfff;
-            font-weight: 600;
-        }
-        
-        .ai-highlight {
-            color: #10b981;
-            font-weight: 600;
-        }
-        
-        .skills {
+
+        .tech-badges {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
-            margin-bottom: 24px;
         }
-        
-        .skill {
+
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 10px 16px;
+            border-radius: 24px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tech-badge:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .tech-badge iconify-icon {
+            font-size: 20px;
+        }
+
+        .tech-badge.dotnet iconify-icon { color: #512BD4; }
+        .tech-badge.react iconify-icon { color: #61DAFB; }
+        .tech-badge.azure iconify-icon { color: #0078D4; }
+        .tech-badge.devops iconify-icon { color: var(--purple); }
+        .tech-badge.ai iconify-icon { color: var(--emerald); }
+
+        /* Footer Section */
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .website-url {
+            font-size: 18px;
+            color: var(--secondary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .website-url iconify-icon {
+            font-size: 20px;
+        }
+
+        .certification-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             background: rgba(0, 191, 255, 0.1);
+            backdrop-filter: blur(8px);
             border: 1px solid rgba(0, 191, 255, 0.3);
-            color: #00bfff;
+            color: var(--secondary);
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
         }
-        
-        .skill.react {
-            background: rgba(59, 130, 246, 0.1);
-            border-color: rgba(59, 130, 246, 0.3);
-            color: #3b82f6;
-        }
-        
-        .skill.devops {
-            background: rgba(147, 51, 234, 0.1);
-            border-color: rgba(147, 51, 234, 0.3);
-            color: #9333ea;
-        }
-        
-        .skill.ai {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.3);
-            color: #10b981;
-        }
-        
-        .website {
-            color: rgba(255, 255, 255, 0.6);
+
+        .certification-badge iconify-icon {
             font-size: 18px;
-            font-weight: 500;
         }
-        
-        .profile-image {
-            width: 180px;
-            height: 180px;
+
+        /* Profile Image Section (for version with photo) */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .profile-ring {
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #00bfff, #0099cc);
+            background: linear-gradient(135deg, var(--secondary), #0080FF);
+            padding: 4px;
+            box-shadow: 0 10px 40px rgba(0, 191, 255, 0.4);
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), #0080FF);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 64px;
+            font-size: 56px;
             font-weight: 800;
-            color: #1c1c22;
-            box-shadow: 0 20px 40px rgba(0, 191, 255, 0.3);
-            margin-bottom: 20px;
+            color: var(--primary);
         }
-        
-        .profile-text {
+
+        .profile-label {
             text-align: center;
-            color: white;
-        }
-        
-        .experience {
-            font-size: 16px;
-            color: #00bfff;
+            font-size: 15px;
             font-weight: 600;
-            margin-bottom: 8px;
+            color: var(--secondary);
         }
-        
-        .certification {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        /* Alternative layout - Text-focused */
-        .text-focused {
-            justify-content: center;
-            text-align: center;
-            padding: 80px 60px;
-        }
-        
-        .text-focused .content {
-            max-width: 1000px;
-            text-align: center;
-        }
-        
-        .text-focused .profile-section {
-            display: none;
-        }
-        
-        .text-focused .name {
-            font-size: 64px;
-            margin-bottom: 24px;
-        }
-        
-        .text-focused .title {
-            font-size: 36px;
-            margin-bottom: 32px;
-        }
-        
-        .text-focused .description {
-            font-size: 24px;
-            margin-bottom: 40px;
-        }
-        
-        .text-focused .skills {
-            justify-content: center;
-            margin-bottom: 32px;
-        }
-        
-        .text-focused .skill {
-            font-size: 16px;
-            padding: 10px 20px;
-        }
-        
+
         /* Animations */
         @keyframes ping {
-            75%, 100% {
-                transform: scale(2);
-                opacity: 0;
-            }
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.3); opacity: 0.3; }
         }
-        
+
         @keyframes pulse {
-            50% {
-                opacity: .5;
-            }
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
         }
-        
+
         @keyframes bounce {
-            0%, 100% {
-                transform: translateY(-25%);
-                animation-timing-function: cubic-bezier(0.8,0,1,1);
-            }
-            50% {
-                transform: none;
-                animation-timing-function: cubic-bezier(0,0,0.2,1);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Version Controls */
+        .version-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .version-btn {
+            padding: 12px 20px;
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+        }
+
+        .version-btn:hover {
+            background: #00A5E0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 191, 255, 0.4);
+        }
+
+        .version-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Hide/Show versions */
+        .social-card {
+            display: none;
+        }
+
+        .social-card.active {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <!-- Version 1: With Profile Image -->
-    <div class="social-card" id="version1">
+    <!-- Version Control Buttons -->
+    <div class="version-controls">
+        <button class="version-btn" onclick="showVersion(1)">Version 1 (Stats)</button>
+        <button class="version-btn" onclick="showVersion(2)">Version 2 (Photo)</button>
+        <button class="version-btn" onclick="showVersion(3)">Version 3 (Minimal)</button>
+    </div>
+
+    <!-- VERSION 1: Stats & Metrics Focus -->
+    <div id="version1" class="social-card active">
+        <div class="gradient-overlay-1"></div>
+        <div class="gradient-overlay-2"></div>
         <div class="floating-dot dot-1"></div>
         <div class="floating-dot dot-2"></div>
         <div class="floating-dot dot-3"></div>
-        <div class="blur-circle-1"></div>
-        <div class="blur-circle-2"></div>
-        
-        <div class="content">
-            <div class="role-badge">
-                ⚡ AI-Powered Full-Stack & .NET Developer
+
+        <div class="content-wrapper">
+            <div class="header">
+                <div class="header-left">
+                    <div class="role-badge">
+                        <iconify-icon icon="feather:code"></iconify-icon>
+                        Senior .NET Architect & AI Solutions Engineer
+                    </div>
+
+                    <div class="name-section">
+                        <h1>
+                            Hi, I'm<br>
+                            <span class="gradient-name">Biswajit Panday</span>
+                        </h1>
+                        <p class="tagline">I build scalable enterprise systems</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value cyan">10+</div>
+                            <div class="stat-label">Years Exp</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value emerald">80%</div>
+                            <div class="stat-label">Efficiency</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value purple">$180K</div>
+                            <div class="stat-label">Annual Value</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h1 class="name">Hi, I'm <span class="gradient-text">Biswajit Panday</span></h1>
-            <h2 class="title">Full-Stack .NET Developer</h2>
-            <p class="description">Crafting <span class="highlight">high-performance</span>, <span class="highlight">scalable applications</span> with .NET, React & DevOps while integrating <span class="ai-highlight">AI solutions</span> and optimizing cloud solutions on Azure & AWS.</p>
-            
-            <div class="skills">
-                <span class="skill">.NET</span>
-                <span class="skill react">React</span>
-                <span class="skill devops">DevOps</span>
-                <span class="skill ai">AI Integration</span>
-                <span class="skill">Azure</span>
-                <span class="skill">AWS</span>
+
+            <div class="tech-stack">
+                <div class="tech-stack-title">Core Tech Stack</div>
+                <div class="tech-badges">
+                    <div class="tech-badge dotnet">
+                        <iconify-icon icon="simple-icons:dotnet"></iconify-icon>
+                        .NET
+                    </div>
+                    <div class="tech-badge react">
+                        <iconify-icon icon="simple-icons:react"></iconify-icon>
+                        React
+                    </div>
+                    <div class="tech-badge azure">
+                        <iconify-icon icon="simple-icons:microsoftazure"></iconify-icon>
+                        Azure
+                    </div>
+                    <div class="tech-badge devops">
+                        <iconify-icon icon="simple-icons:docker"></iconify-icon>
+                        DevOps
+                    </div>
+                    <div class="tech-badge ai">
+                        <iconify-icon icon="simple-icons:openai"></iconify-icon>
+                        AI Integration
+                    </div>
+                </div>
             </div>
-            
-            <div class="website">biswajitpanday.github.io</div>
-        </div>
-        
-        <div class="profile-section">
-            <div class="profile-image">BP</div>
-            <div class="profile-text">
-                <div class="experience">10+ Years Experience</div>
-                <div class="certification">Microsoft Certified</div>
+
+            <div class="footer">
+                <div class="website-url">
+                    <iconify-icon icon="feather:globe"></iconify-icon>
+                    biswajitpanday.github.io
+                </div>
+                <div class="certification-badge">
+                    <iconify-icon icon="simple-icons:microsoft"></iconify-icon>
+                    Microsoft Certified
+                </div>
             </div>
         </div>
     </div>
-    
-    <!-- Version 2: Text-Focused -->
-    <div class="social-card text-focused" id="version2" style="display: none;">
+
+    <!-- VERSION 2: With Profile Photo -->
+    <div id="version2" class="social-card">
+        <div class="gradient-overlay-1"></div>
+        <div class="gradient-overlay-2"></div>
         <div class="floating-dot dot-1"></div>
         <div class="floating-dot dot-2"></div>
         <div class="floating-dot dot-3"></div>
-        <div class="blur-circle-1"></div>
-        <div class="blur-circle-2"></div>
-        
-        <div class="content">
-            <div class="role-badge">
-                ⚡ AI-Powered Full-Stack & .NET Developer
+
+        <div class="content-wrapper">
+            <div class="header">
+                <div class="header-left">
+                    <div class="role-badge">
+                        <iconify-icon icon="feather:code"></iconify-icon>
+                        Senior .NET Architect & AI Solutions Engineer
+                    </div>
+
+                    <div class="name-section">
+                        <h1>
+                            Hi, I'm<br>
+                            <span class="gradient-name">Biswajit Panday</span>
+                        </h1>
+                        <p class="tagline">Currently at Optimizely, serving global enterprise clients</p>
+                    </div>
+
+                    <div class="tech-stack">
+                        <div class="tech-stack-title">Specialized In</div>
+                        <div class="tech-badges">
+                            <div class="tech-badge dotnet">
+                                <iconify-icon icon="simple-icons:dotnet"></iconify-icon>
+                                .NET
+                            </div>
+                            <div class="tech-badge react">
+                                <iconify-icon icon="simple-icons:react"></iconify-icon>
+                                React
+                            </div>
+                            <div class="tech-badge azure">
+                                <iconify-icon icon="simple-icons:microsoftazure"></iconify-icon>
+                                Azure
+                            </div>
+                            <div class="tech-badge">
+                                <iconify-icon icon="simple-icons:amazonaws" style="color: #FF9900;"></iconify-icon>
+                                AWS
+                            </div>
+                            <div class="tech-badge devops">
+                                <iconify-icon icon="simple-icons:kubernetes"></iconify-icon>
+                                Kubernetes
+                            </div>
+                            <div class="tech-badge ai">
+                                <iconify-icon icon="simple-icons:openai"></iconify-icon>
+                                AI/ML
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <div class="profile-section">
+                        <div class="profile-ring">
+                            <div class="profile-image">BP</div>
+                        </div>
+                        <div class="profile-label">10+ Years</div>
+                    </div>
+                </div>
             </div>
-            <h1 class="name">Hi, I'm <span class="gradient-text">Biswajit Panday</span></h1>
-            <h2 class="title">Full-Stack .NET Developer & Cloud Expert</h2>
-            <p class="description">Crafting <span class="highlight">high-performance</span>, <span class="highlight">scalable applications</span> with 10+ years experience in .NET, React & DevOps while integrating <span class="ai-highlight">AI solutions</span></p>
-            
-            <div class="skills">
-                <span class="skill">.NET</span>
-                <span class="skill react">React</span>
-                <span class="skill">TypeScript</span>
-                <span class="skill devops">DevOps</span>
-                <span class="skill ai">AI Integration</span>
-                <span class="skill">Azure</span>
-                <span class="skill">AWS</span>
-                <span class="skill">Microsoft Certified</span>
+
+            <div class="footer">
+                <div class="website-url">
+                    <iconify-icon icon="feather:globe"></iconify-icon>
+                    biswajitpanday.github.io
+                </div>
+                <div class="certification-badge">
+                    <iconify-icon icon="simple-icons:microsoft"></iconify-icon>
+                    Microsoft Certified Professional
+                </div>
             </div>
-            
-            <div class="website">biswajitpanday.github.io</div>
         </div>
     </div>
-    
-    <div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
-        <button onclick="showVersion(1)" style="margin: 5px; padding: 10px; background: #00bfff; color: #1c1c22; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Version 1</button>
-        <button onclick="showVersion(2)" style="margin: 5px; padding: 10px; background: #00bfff; color: #1c1c22; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Version 2</button>
+
+    <!-- VERSION 3: Minimal & Clean -->
+    <div id="version3" class="social-card">
+        <div class="gradient-overlay-1"></div>
+        <div class="gradient-overlay-2"></div>
+        <div class="floating-dot dot-1"></div>
+        <div class="floating-dot dot-2"></div>
+        <div class="floating-dot dot-3"></div>
+
+        <div class="content-wrapper">
+            <div class="header">
+                <div class="header-left">
+                    <div class="role-badge">
+                        <iconify-icon icon="feather:zap"></iconify-icon>
+                        Senior .NET Architect & AI Solutions Engineer
+                    </div>
+
+                    <div class="name-section">
+                        <h1>
+                            <span class="gradient-name">Biswajit Panday</span>
+                        </h1>
+                        <p class="tagline">10+ years delivering mid to enterprise grade applications.<br>Built SpireWiz achieving 80% efficiency gains & ~$180K annual value.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-stack">
+                <div class="tech-stack-title">Technology Expertise</div>
+                <div class="tech-badges">
+                    <div class="tech-badge dotnet">
+                        <iconify-icon icon="simple-icons:dotnet"></iconify-icon>
+                        .NET Core
+                    </div>
+                    <div class="tech-badge react">
+                        <iconify-icon icon="simple-icons:react"></iconify-icon>
+                        React/Next.js
+                    </div>
+                    <div class="tech-badge">
+                        <iconify-icon icon="simple-icons:typescript" style="color: #3178C6;"></iconify-icon>
+                        TypeScript
+                    </div>
+                    <div class="tech-badge azure">
+                        <iconify-icon icon="simple-icons:microsoftazure"></iconify-icon>
+                        Azure
+                    </div>
+                    <div class="tech-badge">
+                        <iconify-icon icon="simple-icons:amazonaws" style="color: #FF9900;"></iconify-icon>
+                        AWS
+                    </div>
+                    <div class="tech-badge devops">
+                        <iconify-icon icon="simple-icons:docker"></iconify-icon>
+                        Docker
+                    </div>
+                    <div class="tech-badge devops">
+                        <iconify-icon icon="simple-icons:kubernetes"></iconify-icon>
+                        Kubernetes
+                    </div>
+                    <div class="tech-badge ai">
+                        <iconify-icon icon="simple-icons:openai"></iconify-icon>
+                        AI Integration
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="website-url">
+                    <iconify-icon icon="feather:globe"></iconify-icon>
+                    biswajitpanday.github.io
+                </div>
+                <div class="certification-badge">
+                    <iconify-icon icon="feather:award"></iconify-icon>
+                    Microsoft Certified • Optimizely
+                </div>
+            </div>
+        </div>
     </div>
-    
+
     <script>
         function showVersion(version) {
-            document.getElementById('version1').style.display = version === 1 ? 'flex' : 'none';
-            document.getElementById('version2').style.display = version === 2 ? 'flex' : 'none';
+            // Hide all versions
+            document.querySelectorAll('.social-card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            // Show selected version
+            document.getElementById(`version${version}`).classList.add('active');
         }
-        
-        console.log('🎨 Social media preview templates loaded with your site theme!');
-        console.log('🎯 Theme colors: #00bfff (secondary), #1c1c22 (primary)');
-        console.log('✨ Features: Floating dots, gradient text, blur effects');
-        console.log('📏 Card dimensions: 1200x630px');
-        console.log('🔥 Version 1: With profile avatar + homepage styling');
-        console.log('🚀 Version 2: Text-focused + homepage styling (recommended)');
-        console.log('📸 Use browser screenshot tools to capture at exactly 1200x630px');
+
+        // Console logs for developers
+        console.log('🎨 Biswajit Panday - Social Preview Generator');
+        console.log('🎯 Design System: JetBrains Mono + Portfolio Colors');
+        console.log('🎨 Colors: Primary (#1c1c22), Cyan (#00BFFF), Purple (#A855F7), Emerald (#10B981)');
+        console.log('✨ Features: Iconify icons, gradient overlays, animated dots, backdrop filters');
+        console.log('📏 Dimensions: 1200x630px (optimized for og:image)');
+        console.log('');
+        console.log('📸 How to capture:');
+        console.log('1. Open browser DevTools (F12)');
+        console.log('2. Toggle device toolbar (Ctrl+Shift+M)');
+        console.log('3. Set custom dimensions: 1200x630');
+        console.log('4. Take screenshot (Ctrl+Shift+P → "Capture screenshot")');
+        console.log('');
+        console.log('🔥 Version 1: Stats & Metrics (recommended for LinkedIn)');
+        console.log('🚀 Version 2: With Profile Photo (recommended for Twitter)');
+        console.log('✨ Version 3: Minimal & Clean (recommended for general sharing)');
     </script>
 </body>
 </html>
