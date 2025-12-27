@@ -222,3 +222,90 @@ export interface BlogPost {
   createdAt?: string;
   __v?: number;
 }
+
+// ==================== PORTFOLIO METADATA ====================
+
+export interface PortfolioMetadata {
+  _id?: string;
+  siteTitle: string;
+  tagline: string;
+  metaDescription: string;
+  fullName: string;
+  role: string;
+  contactEmail: string;
+  profilePhotoUrl: string;
+  resumeUrl: string;
+  portfolioUrl: string;
+  socialLinks: {
+    github: string;
+    linkedin: string;
+    twitter: string;
+    website: string;
+    medium: string;
+    stackoverflow: string;
+  };
+  contactInfo?: {
+    phone: string;
+    whatsapp: string;
+    teams: string;
+    location: string;
+  };
+  bio?: {
+    short: string;    // 1-2 sentences for hero section
+    medium: string;   // 3-4 sentences for homepage
+    long: string;     // Full bio for about page
+  };
+  heroAnimation?: {
+    phrases: string[];
+    typingSpeed: number;
+    deletingSpeed: number;
+    pauseDuration: number;
+  };
+  seo?: {
+    keywords: string[];
+    ogImage: string;
+    twitterCard: string;
+    twitterHandle: string;
+  };
+  displaySettings?: {
+    showLookingForSection: boolean;
+  };
+  isSingleton?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+// ==================== ACHIEVEMENTS ====================
+
+export type AchievementColor = "emerald" | "golden" | "blue" | "purple" | "pink";
+
+export type AchievementIcon =
+  | "FaStar"
+  | "FaRocket"
+  | "FaTrophy"
+  | "FaAward"
+  | "FaChartLine"
+  | "FaDollarSign"
+  | "FaBolt"
+  | "FaFire"
+  | "FaGem"
+  | "FaCrown"
+  | "FaCheckCircle"
+  | "FaLightbulb"
+  | "FaHeart"
+  | "FaThumbsUp"
+  | "FaShieldAlt";
+
+export interface Achievement {
+  _id?: string;
+  title: string;
+  value: string;        // e.g., "80-90%", "$180K", "10x"
+  metric?: string;      // e.g., "Efficiency", "Cost Savings"
+  description: string;  // Full text shown on site
+  icon: AchievementIcon;
+  color: AchievementColor;
+  order: number;
+  isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}

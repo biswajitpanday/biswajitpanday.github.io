@@ -240,3 +240,33 @@ export async function fetchPortfolioMetadata() {
     };
   }
 }
+
+/**
+ * Fetch achievements/highlights
+ * Public endpoint - CORS-enabled for static site access
+ */
+export async function fetchAchievements(params?: {
+  activeOnly?: boolean;
+  limit?: number;
+}) {
+  const queryParams = new URLSearchParams();
+
+  if (params?.activeOnly !== undefined) {
+    queryParams.append('activeOnly', String(params.activeOnly));
+  }
+  if (params?.limit) {
+    queryParams.append('limit', String(params.limit));
+  }
+
+  const query = queryParams.toString();
+  const endpoint = `/api/public/achievements${query ? `?${query}` : ''}`;
+
+  try {
+    const data = await fetchAPI<any[]>(endpoint);
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch achievements:', error);
+    // Return empty array as fallback
+    return [];
+  }
+}
