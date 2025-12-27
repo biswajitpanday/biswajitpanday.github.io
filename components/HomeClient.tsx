@@ -36,8 +36,8 @@ interface SkillNode {
   children?: SkillNode[];
 }
 
-// Typing animation phrases
-const HERO_PHRASES = [
+// Typing animation phrases - Default fallback (can be overridden by portfolio metadata)
+const DEFAULT_HERO_PHRASES = [
   "I build scalable enterprise systems",
   "I integrate AI to boost productivity",
   "I architect cloud-native solutions",
@@ -66,11 +66,7 @@ interface HomeClientProps {
   timeline: TimelineEntry[];
   skills1: SkillNode;
   skills2: SkillNode;
-  portfolioMetadata?: {
-    displaySettings?: {
-      showLookingForSection?: boolean;
-    };
-  };
+  portfolioMetadata?: any;
 }
 
 const HomeClient = ({
@@ -87,6 +83,15 @@ const HomeClient = ({
 
   // Calculate total experience from timeline data
   const totalExperience = calculateTotalExperience(timeline);
+
+  // Hero section content (static)
+  const heroPhrases = DEFAULT_HERO_PHRASES;
+  const heroTagline = "Senior .NET Architect & AI Solutions Engineer";
+  const heroName = "Biswajit Panday";
+  const heroBio = `Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade applications. Currently at Optimizely, delivering solutions for global enterprise clients. Built SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified.`;
+
+  // Dynamic resume URL (with fallback to default)
+  const resumeUrl = portfolioMetadata?.resumeUrl || "/assets/Biswajit_Panday_Resume.pdf";
 
   useEffect(() => {
     setPageLoadTime(Date.now());
@@ -108,14 +113,21 @@ const HomeClient = ({
     });
   };
 
+  // Dynamic SEO metadata (with fallback to defaults)
+  const seoTitle = portfolioMetadata?.seoTitle || "Biswajit Panday - Senior .NET Architect & AI Solutions Engineer";
+  const seoDescription = portfolioMetadata?.metaDescription || `Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade platforms. Currently at Optimizely, delivering solutions for global enterprise clients. Built SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified.`;
+  const ogImage = portfolioMetadata?.seo?.ogImage || "https://biswajitpanday.github.io/assets/profile/profile-large.webp";
+  const twitterCard = portfolioMetadata?.seo?.twitterCard || "summary_large_image";
+
   return (
     <ErrorBoundary>
       <SocialPreviewGenerator
-        title="Biswajit Panday - Senior .NET Architect & AI Solutions Engineer"
-        description={`Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade platforms. Currently at Optimizely, delivering solutions for global enterprise clients. Built SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified.`}
-        image="https://biswajitpanday.github.io/assets/profile/profile-large.webp"
+        title={seoTitle}
+        description={seoDescription}
+        image={ogImage}
         url="https://biswajitpanday.github.io"
         type="website"
+        twitterCard={twitterCard as 'summary' | 'summary_large_image'}
       />
       <section
         data-testid="home-page"
@@ -170,7 +182,7 @@ const HomeClient = ({
               >
                 <span className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 via-pink-500/15 to-purple-500/10 backdrop-blur-sm border border-purple-500/40 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-500/25 transition-all duration-300">
                   <FiCode className="text-lg text-purple-400" />
-                  <span className="text-white">Senior .NET Architect & AI Solutions Engineer</span>
+                  <span className="text-white">{heroTagline}</span>
                   <FiZap className="text-lg text-pink-400 animate-pulse" />
                 </span>
               </div>
@@ -182,7 +194,7 @@ const HomeClient = ({
               >
                 Hi, I&apos;m <br className="hidden xl:block" />
                 <span className="bg-gradient-to-r from-[#00BFFF] to-[#0080FF] bg-clip-text text-transparent">
-                  Biswajit Panday
+                  {heroName}
                 </span>
               </h1>
 
@@ -193,7 +205,7 @@ const HomeClient = ({
               >
                 <span className="text-lg xl:text-xl font-light">
                   <TypingAnimation
-                    phrases={HERO_PHRASES}
+                    phrases={heroPhrases}
                     typingSpeed={60}
                     deletingSpeed={40}
                     pauseDuration={2500}
@@ -274,7 +286,7 @@ const HomeClient = ({
               >
                 <div className="flex flex-col sm:flex-row items-center gap-3">
                   <a
-                    href="/assets/Biswajit_Panday_Resume.pdf"
+                    href={resumeUrl}
                     download="Biswajit_Panday_Resume.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -295,7 +307,7 @@ const HomeClient = ({
                     </Button>
                   </a>
                   <a
-                    href="/assets/Biswajit_Panday_Resume.pdf"
+                    href={resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     data-testid="home-view-resume-link"
