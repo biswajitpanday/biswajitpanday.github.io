@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Iconify for Tech Stack Icons -->
-    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
 
     <style>
         :root {
@@ -219,6 +219,11 @@
             font-size: 36px;
             font-weight: 800;
             line-height: 1;
+        }
+
+        .stat-value.text {
+            font-size: 28px;
+            font-weight: 700;
         }
 
         .stat-value.cyan { color: var(--secondary); }
@@ -443,7 +448,7 @@
                 <div class="header-left">
                     <div class="role-badge">
                         <iconify-icon icon="feather:code"></iconify-icon>
-                        Senior .NET Architect & AI Solutions Engineer
+                        Senior .NET Developer & AI Innovator
                     </div>
 
                     <div class="name-section">
@@ -451,7 +456,7 @@
                             Hi, I'm<br>
                             <span class="gradient-name">Biswajit Panday</span>
                         </h1>
-                        <p class="tagline">I build scalable enterprise systems</p>
+                        <p class="tagline">Architecting scalable solutions with measurable business impact</p>
                     </div>
 
                     <div class="stats-grid">
@@ -460,12 +465,12 @@
                             <div class="stat-label">Years Exp</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-value emerald">80%</div>
-                            <div class="stat-label">Efficiency</div>
+                            <div class="stat-value emerald">20+</div>
+                            <div class="stat-label">Enterprise</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-value purple">$180K</div>
-                            <div class="stat-label">Annual Value</div>
+                            <div class="stat-value text purple">Full-Stack</div>
+                            <div class="stat-label">Expertise</div>
                         </div>
                     </div>
                 </div>
@@ -504,7 +509,7 @@
                 </div>
                 <div class="certification-badge">
                     <iconify-icon icon="simple-icons:microsoft"></iconify-icon>
-                    Microsoft Certified
+                    Microsoft Certified • Optimizely
                 </div>
             </div>
         </div>
@@ -523,7 +528,7 @@
                 <div class="header-left">
                     <div class="role-badge">
                         <iconify-icon icon="feather:code"></iconify-icon>
-                        Senior .NET Architect & AI Solutions Engineer
+                        Senior .NET Developer & AI Innovator
                     </div>
 
                     <div class="name-section">
@@ -531,7 +536,7 @@
                             Hi, I'm<br>
                             <span class="gradient-name">Biswajit Panday</span>
                         </h1>
-                        <p class="tagline">Currently at Optimizely, serving global enterprise clients</p>
+                        <p class="tagline">Senior Developer at Optimizely • 10+ years supporting 20+ enterprise clients</p>
                     </div>
 
                     <div class="tech-stack">
@@ -582,13 +587,13 @@
                 </div>
                 <div class="certification-badge">
                     <iconify-icon icon="simple-icons:microsoft"></iconify-icon>
-                    Microsoft Certified Professional
+                    Microsoft Certified • Optimizely
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- VERSION 3: Minimal & Clean -->
+    <!-- VERSION 3: Minimal & Clean (RECOMMENDED) -->
     <div id="version3" class="social-card">
         <div class="gradient-overlay-1"></div>
         <div class="gradient-overlay-2"></div>
@@ -601,20 +606,20 @@
                 <div class="header-left">
                     <div class="role-badge">
                         <iconify-icon icon="feather:zap"></iconify-icon>
-                        Senior .NET Architect & AI Solutions Engineer
+                        Senior .NET Developer & AI Solutions Engineer
                     </div>
 
                     <div class="name-section">
                         <h1>
                             <span class="gradient-name">Biswajit Panday</span>
                         </h1>
-                        <p class="tagline">10+ years delivering mid to enterprise grade applications.<br>Built SpireWiz achieving 80% efficiency gains & ~$180K annual value.</p>
+                        <p class="tagline">10+ years of experience supporting 20+ enterprise clients. Specialized in architecting scalable solutions and practical AI tools that deliver continuous ROI and measurable business impact. Expert in full-stack development and automation.</p>
                     </div>
                 </div>
             </div>
 
             <div class="tech-stack">
-                <div class="tech-stack-title">Technology Expertise</div>
+                <div class="tech-stack-title">Specialized In</div>
                 <div class="tech-badges">
                     <div class="tech-badge dotnet">
                         <iconify-icon icon="simple-icons:dotnet"></iconify-icon>
@@ -623,10 +628,6 @@
                     <div class="tech-badge react">
                         <iconify-icon icon="simple-icons:react"></iconify-icon>
                         React/Next.js
-                    </div>
-                    <div class="tech-badge">
-                        <iconify-icon icon="simple-icons:typescript" style="color: #3178C6;"></iconify-icon>
-                        TypeScript
                     </div>
                     <div class="tech-badge azure">
                         <iconify-icon icon="simple-icons:microsoftazure"></iconify-icon>
@@ -641,8 +642,8 @@
                         Docker
                     </div>
                     <div class="tech-badge devops">
-                        <iconify-icon icon="simple-icons:kubernetes"></iconify-icon>
-                        Kubernetes
+                        <iconify-icon icon="simple-icons:microsoftsqlserver"></iconify-icon>
+                        SQL Server
                     </div>
                     <div class="tech-badge ai">
                         <iconify-icon icon="simple-icons:openai"></iconify-icon>
@@ -657,7 +658,7 @@
                     biswajitpanday.github.io
                 </div>
                 <div class="certification-badge">
-                    <iconify-icon icon="feather:award"></iconify-icon>
+                    <iconify-icon icon="simple-icons:microsoft"></iconify-icon>
                     Microsoft Certified • Optimizely
                 </div>
             </div>
@@ -665,6 +666,13 @@
     </div>
 
     <script>
+        // Wait for Iconify to load
+        if (typeof IconifyIcon !== 'undefined') {
+            console.log('✅ Iconify loaded successfully');
+        } else {
+            console.log('⚠️ Iconify not loaded yet, waiting...');
+        }
+
         function showVersion(version) {
             // Hide all versions
             document.querySelectorAll('.social-card').forEach(card => {
@@ -679,7 +687,7 @@
         console.log('🎨 Biswajit Panday - Social Preview Generator');
         console.log('🎯 Design System: JetBrains Mono + Portfolio Colors');
         console.log('🎨 Colors: Primary (#1c1c22), Cyan (#00BFFF), Purple (#A855F7), Emerald (#10B981)');
-        console.log('✨ Features: Iconify icons, gradient overlays, animated dots, backdrop filters');
+        console.log('✨ Features: Iconify icons, gradient overlays, backdrop filters');
         console.log('📏 Dimensions: 1200x630px (optimized for og:image)');
         console.log('');
         console.log('📸 How to capture:');
@@ -688,9 +696,9 @@
         console.log('3. Set custom dimensions: 1200x630');
         console.log('4. Take screenshot (Ctrl+Shift+P → "Capture screenshot")');
         console.log('');
-        console.log('🔥 Version 1: Stats & Metrics (recommended for LinkedIn)');
-        console.log('🚀 Version 2: With Profile Photo (recommended for Twitter)');
-        console.log('✨ Version 3: Minimal & Clean (recommended for general sharing)');
+        console.log('🔥 Version 1: Stats & Metrics (Fortune 500 focus)');
+        console.log('🚀 Version 2: With Profile Photo (personal branding)');
+        console.log('⭐ Version 3: Minimal & Clean (RECOMMENDED - best for LinkedIn/Twitter)');
     </script>
 </body>
 </html>
