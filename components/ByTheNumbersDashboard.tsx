@@ -237,6 +237,10 @@ const ByTheNumbersDashboard: React.FC<ByTheNumbersDashboardProps> = ({
               <FaRocket className="text-blue-400" />
               <span className="text-blue-300">10x Performance Boost</span>
             </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-purple-500/10 border border-purple-500/30 rounded-full">
+              <FaRocket className="text-purple-400" />
+              <span className="text-purple-300">30+ min/day saved with DevSpace</span>
+            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,498 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import Badge from "@/components/Badge";
+import BackgroundElements from "@/components/BackgroundElements";
+import {
+  FaDownload,
+  FaGithub,
+  FaTools,
+  FaServer,
+  FaLock,
+  FaGitAlt,
+  FaCode,
+  FaCogs,
+  FaCodeBranch,
+  FaChartLine,
+  FaCheckCircle,
+  FiArrowRight,
+  FiZap,
+  SiReact,
+  SiDotnet,
+  SiTypescript,
+  SiTailwindcss,
+  SiSqlite,
+} from "@/lib/icons";
+
+const DOWNLOAD_URL =
+  "https://github.com/biswajitpanday/Devspace-Releases/releases/latest";
+const REPO_URL = "https://github.com/biswajitpanday/Devspace-Releases";
+const PRIVACY_URL =
+  "https://github.com/biswajitpanday/Devspace-Releases/blob/main/PRIVACY.md";
+
+const PROBLEMS = [
+  "30+ minutes a day lost to switching between projects",
+  "Credentials scattered across sticky notes, password managers, and .env files",
+  "Every project has its own ritual: which IDE, which terminal, which folder, which DB tool",
+];
+
+type Feature = {
+  image: string;
+  alt: string;
+  title: string;
+  body: string;
+  icon: React.ReactNode;
+};
+
+const FEATURES: Feature[] = [
+  {
+    image: "/assets/devspace/tool-discovery.png",
+    alt: "Auto-discovered tools",
+    title: "Auto-discovers your tools",
+    body:
+      "Finds 100+ developer apps installed on your machine in under 3 seconds. Three sources running in parallel: Registry ARP, Start Menu shortcuts, and PATH scanning. No config, no patterns to maintain — new tools appear automatically.",
+    icon: <FaTools className="text-emerald-400" aria-hidden="true" />,
+  },
+  {
+    image: "/assets/devspace/scan-tools.png",
+    alt: "Manual scan",
+    title: "Manual rescan with live progress",
+    body:
+      "Just installed a new tool? Click Scan Tools and each source reports back in real time via SignalR. See what's new vs already-known. Skip or undo individual results before saving.",
+    icon: <FiZap className="text-cyan-400" aria-hidden="true" />,
+  },
+  {
+    image: "/assets/devspace/tools-templates.png",
+    alt: "Tool templates",
+    title: "Tool Templates — reusable tool collections",
+    body:
+      "Save your most-used tool sets (\".NET API\", \"React Frontend\", \"Data Pipeline\") and apply them to any project in one click. Bulk-import tools into existing projects too — no more adding them one by one.",
+    icon: <FaCogs className="text-purple-400" aria-hidden="true" />,
+  },
+  {
+    image: "/assets/devspace/project-details.png",
+    alt: "Project details with credentials",
+    title: "Multiple encrypted credentials per project",
+    body:
+      "Dev DB password, staging DB, API tokens, SSH keys — all encrypted with Windows DPAPI, tied to your user account. Drag to reorder, copy with one click. Custom labels per credential.",
+    icon: <FaLock className="text-pink-400" aria-hidden="true" />,
+  },
+  {
+    image: "/assets/devspace/wizard.png",
+    alt: "Project wizard",
+    title: "Add or edit projects in 3 steps",
+    body:
+      "Basic info → directories → credentials. Auto-detects git on directory selection. Apply a Tool Template during creation to bulk-add tools. Same wizard, Edit mode for any field.",
+    icon: <FaCheckCircle className="text-emerald-400" aria-hidden="true" />,
+  },
+  {
+    image: "/assets/devspace/git-view.png",
+    alt: "Git view",
+    title: "Full git workflow built in",
+    body:
+      "Visual commit graph, 4-panel layout, 6-tab sidebar (Commit, Branch Explorer, History, Remotes, Tags, Stashes). Cherry-pick, rebase, merge, conflict resolver, branch comparison. 27-language syntax highlighting.",
+    icon: <FaGitAlt className="text-orange-400" aria-hidden="true" />,
+  },
+  {
+    image: "/assets/devspace/git-commit-panel.png",
+    alt: "Commit panel",
+    title: "Commit panel with hunk-level staging",
+    body:
+      "Stage individual hunks or whole files using real git add / git restore --staged. Live diff preview, inline commit message, command palette (Ctrl+K). 13 input dialogs, 10+ keyboard shortcuts.",
+    icon: <FaCodeBranch className="text-cyan-400" aria-hidden="true" />,
+  },
+  {
+    image: "/assets/devspace/git-commit-histories.png",
+    alt: "Commit history",
+    title: "Commit history with smart filters",
+    body:
+      "Filter by branch, author, or date. Click any commit for full details + diff. Per-file history view, blame view, branch comparison. Manual refresh — no disk-thrashing auto-poll.",
+    icon: <FaChartLine className="text-purple-400" aria-hidden="true" />,
+  },
+  {
+    image: "/assets/devspace/personalized-links.png",
+    alt: "Personalized links",
+    title: "Personalized quick links",
+    body:
+      "Pin web URLs, terminal commands, or apps to the dashboard. Three types: web link, terminal command, application. Always one click away — no project context needed.",
+    icon: <FaCode className="text-emerald-400" aria-hidden="true" />,
+  },
+];
+
+const METRICS = [
+  {
+    value: "30+ min",
+    label: "Saved per day",
+    sub: "The project-switching ritual, eliminated",
+    color: "purple",
+  },
+  {
+    value: "<3 sec",
+    label: "Tool discovery",
+    sub: "100+ apps auto-found on your machine — no config",
+    color: "emerald",
+  },
+  {
+    value: "0 plain text",
+    label: "Credentials on disk",
+    sub: "Encrypted per project with Windows DPAPI",
+    color: "cyan",
+  },
+  {
+    value: "1 click",
+    label: "Project launch",
+    sub: "IDE + terminals + browser tabs + DB client",
+    color: "pink",
+  },
+] as const;
+
+const ROADMAP = [
+  { label: "v2.2.0-preview — public preview", status: "shipped" as const, when: "April 2026" },
+  { label: "Cloud sync (Supabase, opt-in)", status: "in-progress" as const, when: "next" },
+  { label: "macOS support", status: "planned" as const, when: "later" },
+];
+
+const TECH = [
+  { text: "Electron 27", icon: null },
+  { text: "React 18", icon: <SiReact className="text-cyan-400" /> },
+  { text: "TypeScript", icon: <SiTypescript className="text-blue-400" /> },
+  { text: "Tailwind CSS", icon: <SiTailwindcss className="text-cyan-400" /> },
+  { text: ".NET 9", icon: <SiDotnet className="text-purple-400" /> },
+  { text: "EF Core", icon: null },
+  { text: "SignalR", icon: null },
+  { text: "SQLite", icon: <SiSqlite className="text-blue-400" /> },
+  { text: "Supabase (planned)", icon: null },
+  { text: "Clean Architecture", icon: null },
+  { text: "CQRS", icon: null },
+  { text: "DDD", icon: null },
+];
+
+const metricColorClasses: Record<
+  string,
+  { border: string; gradient: string; text: string }
+> = {
+  purple: {
+    border: "border-purple-500/30 hover:border-purple-500/50",
+    gradient: "from-purple-500/10 to-transparent",
+    text: "text-purple-400",
+  },
+  emerald: {
+    border: "border-emerald-500/30 hover:border-emerald-500/50",
+    gradient: "from-emerald-500/10 to-transparent",
+    text: "text-emerald-400",
+  },
+  cyan: {
+    border: "border-cyan-500/30 hover:border-cyan-500/50",
+    gradient: "from-cyan-500/10 to-transparent",
+    text: "text-cyan-400",
+  },
+  pink: {
+    border: "border-pink-500/30 hover:border-pink-500/50",
+    gradient: "from-pink-500/10 to-transparent",
+    text: "text-pink-400",
+  },
+};
+
+const DevSpaceClient = () => {
+  return (
+    <main className="relative min-h-[calc(100vh-136px)] overflow-hidden">
+      <BackgroundElements
+        floatingDots={[
+          { size: "md", color: "secondary", animation: "ping", position: { top: "5rem", right: "2.5rem" }, opacity: 60 },
+          { size: "sm", color: "blue", animation: "pulse", position: { bottom: "8rem", left: "16rem" }, opacity: 40 },
+          { size: "md", color: "secondary", animation: "bounce", position: { top: "33%", left: "2rem" }, opacity: 50 },
+        ]}
+      />
+      <div className="absolute top-20 left-1/4 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
+      <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
+
+      <div className="container mx-auto px-4 relative z-10 py-10 xl:py-16">
+        {/* Hero */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="text-center max-w-4xl mx-auto"
+        >
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 via-pink-500/15 to-purple-500/10 backdrop-blur-sm border border-purple-500/40 px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <FiZap className="text-pink-400 animate-pulse" aria-hidden="true" />
+            <span className="text-white">Active · Public Preview · v2.2.0-preview</span>
+          </div>
+
+          <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-5 leading-tight">
+            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+              DevSpace
+            </span>
+          </h1>
+
+          <p className="text-xl md:text-2xl text-white/80 font-light mb-4 leading-snug">
+            Stop hunting for projects. Start working.
+          </p>
+          <p className="text-base md:text-lg text-white/60 max-w-2xl mx-auto mb-8 leading-relaxed">
+            A Windows desktop app that centralizes every project you work on — tools,
+            credentials, git, terminals — in one place. Free during the public preview.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-3">
+            <Link
+              href={DOWNLOAD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/40 hover:border-purple-500/60 text-purple-200 px-6 py-3 rounded-lg transition-all duration-300 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+            >
+              <FaDownload aria-hidden="true" />
+              <span>Download for Windows (Free)</span>
+            </Link>
+            <Link
+              href={REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 hover:from-cyan-500/20 hover:to-blue-500/20 border border-cyan-500/30 hover:border-cyan-500/50 text-cyan-300 px-6 py-3 rounded-lg transition-all duration-300 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+            >
+              <FaGithub aria-hidden="true" />
+              <span>View on GitHub</span>
+            </Link>
+          </div>
+          <p className="text-xs text-white/40">v2.2.0-preview · Windows 10/11 · ~80 MB</p>
+
+          <div className="mt-10 rounded-xl overflow-hidden border border-purple-500/20 shadow-2xl shadow-purple-500/10">
+            <Image
+              src="/assets/devspace/hero.png"
+              alt="DevSpace dashboard — every project at a glance"
+              width={1920}
+              height={1200}
+              className="w-full h-auto"
+              priority
+            />
+          </div>
+        </motion.section>
+
+        {/* Problem */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mt-20 max-w-4xl mx-auto"
+        >
+          <div className="flex items-center gap-2 mb-6">
+            <FaCogs className="text-yellow-500 text-xl" aria-hidden="true" />
+            <h2 className="text-lg font-semibold text-yellow-500">The problem</h2>
+          </div>
+          <div className="bg-gray-900/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 sm:p-8">
+            <ul className="space-y-3">
+              {PROBLEMS.map((p) => (
+                <li key={p} className="flex items-start gap-3 text-white/80 text-base leading-relaxed">
+                  <span className="mt-2 inline-block w-1.5 h-1.5 rounded-full bg-pink-400 flex-shrink-0" aria-hidden="true" />
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </motion.section>
+
+        {/* Solution / Metrics */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mt-20 max-w-5xl mx-auto"
+        >
+          <div className="flex items-center gap-2 mb-6">
+            <FaChartLine className="text-emerald-400 text-xl" aria-hidden="true" />
+            <h2 className="text-lg font-semibold text-emerald-400">What it changes about your day</h2>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {METRICS.map((m) => {
+              const c = metricColorClasses[m.color];
+              return (
+                <div
+                  key={m.label}
+                  className={`bg-gradient-to-br ${c.gradient} border ${c.border} rounded-xl p-5 transition-all`}
+                >
+                  <div className={`text-2xl xl:text-3xl font-bold ${c.text} mb-1`}>{m.value}</div>
+                  <div className="text-sm text-white/70 font-medium">{m.label}</div>
+                  <div className="text-xs text-white/40 mt-1">{m.sub}</div>
+                </div>
+              );
+            })}
+          </div>
+        </motion.section>
+
+        {/* Features */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mt-20 max-w-6xl mx-auto"
+        >
+          <div className="flex items-center gap-2 mb-6">
+            <FaTools className="text-cyan-400 text-xl" aria-hidden="true" />
+            <h2 className="text-lg font-semibold text-cyan-400">What DevSpace does</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {FEATURES.map((f, i) => (
+              <article
+                key={f.title}
+                className="group bg-gray-900/50 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:border-purple-500/40 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
+              >
+                <div className="overflow-hidden border-b border-white/5">
+                  <Image
+                    src={f.image}
+                    alt={f.alt}
+                    width={1280}
+                    height={800}
+                    className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
+                    loading={i < 2 ? "eager" : "lazy"}
+                  />
+                </div>
+                <div className="p-5">
+                  <h3 className="flex items-center gap-2 text-base font-semibold text-white mb-2">
+                    <span className="text-lg">{f.icon}</span>
+                    {f.title}
+                  </h3>
+                  <p className="text-sm text-white/65 leading-relaxed">{f.body}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Tech stack */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mt-20 max-w-4xl mx-auto"
+        >
+          <div className="flex items-center gap-2 mb-6">
+            <FaServer className="text-purple-400 text-xl" aria-hidden="true" />
+            <h2 className="text-lg font-semibold text-purple-400">Built with</h2>
+          </div>
+          <div className="bg-gray-900/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 sm:p-8">
+            <div className="flex flex-wrap gap-2 mb-4">
+              {TECH.map((t) => (
+                <Badge
+                  key={t.text}
+                  icon={t.icon ?? undefined}
+                  text={t.text}
+                  color="default"
+                  size="compact"
+                />
+              ))}
+            </div>
+            <p className="text-sm text-white/60 leading-relaxed">
+              Built on Clean Architecture (4 layers), CQRS, and DDD —
+              designed for maintainability and testability over the long haul.
+              Security: 21-command shell whitelist with argument sanitization;
+              credentials encrypted with Windows DPAPI per project. No telemetry
+              in the current preview.
+            </p>
+          </div>
+        </motion.section>
+
+        {/* Roadmap */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mt-20 max-w-3xl mx-auto"
+        >
+          <div className="flex items-center gap-2 mb-6">
+            <FiArrowRight className="text-pink-400 text-xl" aria-hidden="true" />
+            <h2 className="text-lg font-semibold text-pink-400">Roadmap</h2>
+          </div>
+          <ul className="space-y-3">
+            {ROADMAP.map((r) => {
+              const dotColor =
+                r.status === "shipped"
+                  ? "bg-emerald-400"
+                  : r.status === "in-progress"
+                  ? "bg-yellow-400"
+                  : "bg-white/30";
+              const tag =
+                r.status === "shipped"
+                  ? "shipped"
+                  : r.status === "in-progress"
+                  ? "in progress"
+                  : "planned";
+              const tagColor =
+                r.status === "shipped"
+                  ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/30"
+                  : r.status === "in-progress"
+                  ? "text-yellow-400 bg-yellow-500/10 border-yellow-500/30"
+                  : "text-white/50 bg-white/5 border-white/10";
+              return (
+                <li
+                  key={r.label}
+                  className="flex items-center gap-4 bg-gray-900/50 backdrop-blur-sm border border-white/10 rounded-lg px-5 py-4"
+                >
+                  <span className={`w-2.5 h-2.5 rounded-full ${dotColor} flex-shrink-0`} aria-hidden="true" />
+                  <span className="text-white/80 text-sm flex-1">{r.label}</span>
+                  <span className={`text-xs px-2 py-1 rounded border ${tagColor}`}>{tag}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </motion.section>
+
+        {/* CTA */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mt-20 max-w-3xl mx-auto"
+        >
+          <div className="bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-cyan-500/10 backdrop-blur-sm border-2 border-purple-500/30 rounded-2xl p-8 sm:p-10 text-center">
+            <h2 className="text-2xl xl:text-3xl font-bold mb-3 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+              Try it
+            </h2>
+            <p className="text-white/70 mb-6">
+              Free during the public preview. Windows 10/11. ~80 MB installer.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                href={DOWNLOAD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/40 hover:border-purple-500/60 text-purple-200 px-6 py-3 rounded-lg transition-all duration-300 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+              >
+                <FaDownload aria-hidden="true" />
+                <span>Download v2.2.0-preview</span>
+              </Link>
+              <Link
+                href={`${REPO_URL}/issues`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-white/70 hover:text-white px-4 py-3 rounded-lg text-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+              >
+                Found a bug? Open an issue
+                <FiArrowRight aria-hidden="true" />
+              </Link>
+            </div>
+            <p className="mt-6 text-xs text-white/40">
+              Built by Biswajit Panday with co-author Abdullah Saleh Robin ·{" "}
+              <Link
+                href={PRIVACY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
+              >
+                Privacy
+              </Link>
+            </p>
+          </div>
+        </motion.section>
+      </div>
+    </main>
+  );
+};
+
+export default DevSpaceClient;

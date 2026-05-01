@@ -23,6 +23,7 @@ import { RiRobot3Fill } from "@/lib/icons";
 
 // Import extracted home sections
 import FeaturedAchievementSection from "@/components/home/FeaturedAchievementSection";
+import DevSpaceFeaturedSection from "@/components/home/DevSpaceFeaturedSection";
 import LookingForSection from "@/components/home/LookingForSection";
 
 interface SkillNode {
@@ -99,8 +100,12 @@ const HomeClient = ({
 
   // Find SpireWiz project for Featured Achievement section (dynamic data)
   const spireWizProject = projects.find(p =>
-    p.title.toLowerCase().includes('spirewiz') ||
-    (p.isFeatured && p.category === 'Windows App')
+    p.title.toLowerCase().includes('spirewiz')
+  );
+
+  // Find DevSpace project for the second Featured card
+  const devSpaceProject = projects.find(p =>
+    p.title.toLowerCase() === 'devspace'
   );
 
   // Handle resume download tracking
@@ -361,6 +366,9 @@ const HomeClient = ({
 
           {/* Featured Achievement Section - Dynamic from API */}
           {spireWizProject && <FeaturedAchievementSection project={spireWizProject} />}
+
+          {/* DevSpace Featured Personal Product - Local fallback or admin entry */}
+          {devSpaceProject && <DevSpaceFeaturedSection project={devSpaceProject} />}
 
           {/* What I'm Looking For - Enhanced Card (Controlled by Admin Portal) */}
           {portfolioMetadata?.displaySettings?.showLookingForSection && <LookingForSection />}

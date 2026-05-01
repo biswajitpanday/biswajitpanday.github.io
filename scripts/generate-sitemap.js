@@ -25,6 +25,7 @@ function slugify(title) {
 const pages = [
   { url: '/', priority: '1.0', changefreq: 'monthly' },
   { url: '/projects/', priority: '0.9', changefreq: 'weekly' },
+  { url: '/devspace/', priority: '0.8', changefreq: 'weekly' },
   { url: '/skills/', priority: '0.8', changefreq: 'monthly' },
   { url: '/career/', priority: '0.8', changefreq: 'monthly' },
   { url: '/certifications/', priority: '0.7', changefreq: 'monthly' },

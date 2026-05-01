@@ -1,12 +1,12 @@
 import {
   fetchTestimonials,
   fetchCertifications,
-  fetchProjects,
   fetchTimeline,
   fetchSkillHierarchy,
   fetchPortfolioMetadata,
   v2Helpers,
 } from "@/lib/api-client";
+import { getProjectsWithFallback } from "@/lib/projectsWithFallback";
 import { transformApiToSkillsData } from "@/lib/skillsDataTransformer";
 import HomeClient from "@/components/HomeClient";
 import type { TestimonialData, Certification, Project, TimelineEntry } from "@/types/api";
@@ -39,12 +39,15 @@ export default async function HomePage() {
   let skills2: SkillNode = { name: "Skills", children: [] };
   let portfolioMetadata: any = { displaySettings: { showLookingForSection: false } };
 
+  // Projects are fetched separately so unrelated failures (e.g., testimonials)
+  // don't wipe out the local project fallback.
+  projects = await getProjectsWithFallback();
+
   try {
     // Fetch all data from admin API in parallel
-    const [testimonialData, certificationData, projectData, timelineData, skillsData, metadataData] = await Promise.all([
+    const [testimonialData, certificationData, timelineData, skillsData, metadataData] = await Promise.all([
       fetchTestimonials(),
       fetchCertifications(),
-      fetchProjects(),
       fetchTimeline(),
       fetchSkillHierarchy(),
       fetchPortfolioMetadata(),
@@ -54,7 +57,6 @@ export default async function HomePage() {
 
     testimonials = testimonialData;
     certifications = certificationData;
-    projects = projectData;
     timeline = timelineData;
 
     // Transform skills API data to SkillNode format (same as Skills page)
@@ -77,10 +79,9 @@ export default async function HomePage() {
     featuredCertification = featuredCerts[0] || null;
   } catch (error) {
     console.error('Failed to fetch homepage data:', error);
-    // Fallback to defaults
+    // Fallback to defaults (projects are already populated from getProjectsWithFallback)
     testimonials = [];
     featuredCertification = null;
-    projects = [];
     certifications = [];
     timeline = [];
     skills1 = { name: "Skills", children: [] };

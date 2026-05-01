@@ -87,13 +87,24 @@ npm run sitemap  # Generate sitemap.xml for SEO
 - Bundle analyzer integration for performance monitoring
 
 ### Data Architecture
-All content is centralized in `data/` directory:
-- `portfolioData.ts` - Project portfolio with categories, tech stacks, company associations
-- `skillsData.ts` - Technical skills with proficiency levels
-- `certificationsData.ts` - Professional certifications with validation
-- `timelineData.ts` - Career timeline and experience
-- `navigationData.ts` - Site navigation structure
-- `schemaData.ts` - Structured data for SEO
+
+Content is **API-driven** at build time (SSG). The deployed `portfolio-admin` panel is the source of truth for projects, certifications, skills, timeline, testimonials, and blog posts.
+
+**Source of truth:**
+- API base: `process.env.NEXT_PUBLIC_API_BASE_URL` (default `https://portfolio-admin-blue.vercel.app`)
+- API client: `lib/api-client.ts` (`fetchProjects`, `fetchCertifications`, `fetchSkillHierarchy`, `fetchTimeline`, `fetchTestimonials`, `fetchPortfolioMetadata`, `fetchEnums`)
+- Type definitions: `types/api.ts` — must match the admin API response shape.
+- Pages call these from server components (`app/**/page.tsx`) and pass results to client components.
+
+**Local fallback layer:**
+- `data/localProjects.ts` — typed `Project[]` for projects that should appear on the site even if the API doesn't have them (e.g., a freshly-launched project not yet entered in portfolio-admin).
+- `lib/projectsWithFallback.ts` — merges API + local. API entries win on `_id` collision.
+- Pages that need projects call `getProjectsWithFallback()` instead of `fetchProjects()`.
+
+**Local-only files in `data/`:**
+- `navigationData.ts` — site navigation structure (static)
+- `schemaData.ts` — structured data for SEO (static)
+- `localProjects.ts` — local project fallback (see above)
 
 ### Component Architecture
 - **UI Components**: Shadcn/ui based components in `components/ui/`
@@ -206,20 +217,23 @@ NEXT_PUBLIC_CHATBOT_API_URL=            # AI Chatbot API endpoint (Vercel)
 ## Development Guidelines
 
 ### Adding New Projects
-1. Update `data/portfolioData.ts` with Project interface
-2. Required fields: category, title, descriptions, stacks, company association
-3. Add images to `public/assets/portfolio/` and run `npm run optimize`
-4. Categories: "Full-Stack", "Frontend", "Backend", "Mobile", "Windows App"
+**Primary path:** Add the project entry in the deployed `portfolio-admin` panel. It will appear on the site after the next build (SSG fetches the API at build time).
+
+**When to add to the local fallback (`data/localProjects.ts`):**
+- The project must appear on the site immediately, before it can be entered in portfolio-admin
+- You want a guaranteed render even if the admin API is unreachable at build time
+- Use a sentinel `_id` (e.g., `local-devspace`) so the merge in `lib/projectsWithFallback.ts` can detect collisions later
+
+**For either path:**
+1. Conform to the `Project` type in `types/api.ts`
+2. Categories: `Full-Stack`, `Frontend`, `Backend`, `Mobile`, `Windows App`
+3. Add images to `public/assets/portfolio/` and run `npm run optimize` (generates WebP variants and thumbnails)
 
 ### Adding New Skills
-1. Update `data/skillsData.ts` with skill categories
-2. Include proficiency percentage and icon references
-3. Skills are organized by: Frontend, Backend, DevOps, Cloud, etc.
+Add via the `portfolio-admin` panel. The site fetches the skill hierarchy from `/api/public/skill-hierarchy` at build time. Type definitions live in `types/api.ts`.
 
 ### Adding New Certifications
-1. Update `data/certificationsData.ts`
-2. Include certification level, provider, validation links
-3. Add certificate images to `public/assets/certificates/`
+Add via the `portfolio-admin` panel. Cert assets live in `public/assets/certificates/`. The site fetches certifications from `/api/public/certifications` at build time.
 
 ### Component Development
 - Follow existing patterns in `components/` directory

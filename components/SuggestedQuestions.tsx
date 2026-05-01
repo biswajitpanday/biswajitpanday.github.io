@@ -8,6 +8,7 @@ interface SuggestedQuestionsProps {
 
 const SUGGESTED_QUESTIONS = [
   "Tell me about SpireWiz",
+  "Tell me about DevSpace",
   "What's your cloud experience?",
   "Have you worked with AI?",
   "What's your current role?",
