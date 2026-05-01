@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import Badge from "@/components/Badge";
 import BackgroundElements from "@/components/BackgroundElements";
 import {
@@ -17,6 +18,7 @@ import {
   FaCodeBranch,
   FaChartLine,
   FaCheckCircle,
+  FaProjectDiagram,
   FiArrowRight,
   FiZap,
   SiReact,
@@ -25,6 +27,30 @@ import {
   SiTailwindcss,
   SiSqlite,
 } from "@/lib/icons";
+
+const MermaidDiagram = dynamic(() => import("@/components/MermaidDiagram"), {
+  loading: () => (
+    <div className="flex items-center justify-center h-48 bg-white/5 rounded-lg">
+      <div className="text-white/40 text-sm">Loading diagram…</div>
+    </div>
+  ),
+  ssr: false,
+});
+
+const ARCHITECTURE_DIAGRAM = `graph TB
+    User([👤 You])
+    subgraph Desktop["💻 Your Windows machine"]
+        Electron["🖼️ Electron + React UI"]
+        API["⚙️ .NET 9 WebAPI<br/>(local, port 7003)"]
+        DB[("🗄️ SQLite<br/>(encrypted credentials)")]
+        Git[".git CLI"]
+        WinAPIs["🪟 Registry / Start Menu / PATH"]
+    end
+    User -->|clicks| Electron
+    Electron <-->|HTTP + SignalR| API
+    API --> DB
+    API --> Git
+    API --> WinAPIs`;
 
 const DOWNLOAD_URL =
   "https://github.com/biswajitpanday/Devspace-Releases/releases/latest";
@@ -39,8 +65,8 @@ const PROBLEMS = [
 ];
 
 type Feature = {
-  image: string;
-  alt: string;
+  image?: string;
+  alt?: string;
   title: string;
   body: string;
   icon: React.ReactNode;
@@ -52,7 +78,7 @@ const FEATURES: Feature[] = [
     alt: "Auto-discovered tools",
     title: "Auto-discovers your tools",
     body:
-      "Finds 100+ developer apps installed on your machine in under 3 seconds. Three sources running in parallel: Registry ARP, Start Menu shortcuts, and PATH scanning. No config, no patterns to maintain — new tools appear automatically.",
+      "Finds 100+ developer apps installed on your machine in under 3 seconds. Three sources running in parallel: Registry ARP, Start Menu shortcuts, and PATH scanning. No config, no patterns to maintain — new tools appear automatically. Smart classification across 16 categories: IDEs, runtimes, SCM, containers, databases, terminals, browsers, build tools, cloud CLIs, and more.",
     icon: <FaTools className="text-emerald-400" aria-hidden="true" />,
   },
   {
@@ -86,6 +112,12 @@ const FEATURES: Feature[] = [
     body:
       "Basic info → directories → credentials. Auto-detects git on directory selection. Apply a Tool Template during creation to bulk-add tools. Same wizard, Edit mode for any field.",
     icon: <FaCheckCircle className="text-emerald-400" aria-hidden="true" />,
+  },
+  {
+    title: "Bulk-import existing repos",
+    body:
+      "Point DevSpace at a directory tree and it scans for every .git repo, deduplicates, and imports them all in one click. Onboarding to a colleague's machine — or your own old projects folder — goes from a 30-minute setup ritual to a single scan.",
+    icon: <FaCodeBranch className="text-pink-400" aria-hidden="true" />,
   },
   {
     image: "/assets/devspace/git-view.png",
@@ -124,8 +156,8 @@ const FEATURES: Feature[] = [
 const METRICS = [
   {
     value: "30+ min",
-    label: "Saved per day",
-    sub: "The project-switching ritual, eliminated",
+    label: "The morning ritual",
+    sub: "Built to reclaim what project-switching costs you each day",
     color: "purple",
   },
   {
@@ -257,6 +289,38 @@ const DevSpaceClient = () => {
           </div>
           <p className="text-xs text-white/40">v2.2.0-preview · Windows 10/11 · ~80 MB</p>
 
+          <div className="mt-3 inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-emerald-300/80">
+            <span className="inline-flex items-center gap-1.5">
+              <FaLock className="text-emerald-400" aria-hidden="true" />
+              Local-first
+            </span>
+            <span className="text-white/20" aria-hidden="true">·</span>
+            <span>No telemetry</span>
+            <span className="text-white/20" aria-hidden="true">·</span>
+            <span>No cloud account required</span>
+          </div>
+
+          <p className="mt-4 text-sm text-white/60">
+            Built by{" "}
+            <Link
+              href="https://www.linkedin.com/in/biswajitpanday/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-purple-300 hover:text-purple-200 underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
+            >
+              Biswajit Panday
+            </Link>
+            {" "}+{" "}
+            <Link
+              href="https://www.linkedin.com/in/robinabdullah/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-purple-300 hover:text-purple-200 underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
+            >
+              Abdullah Saleh Robin
+            </Link>
+          </p>
+
           <div className="mt-10 rounded-xl overflow-hidden border border-purple-500/20 shadow-2xl shadow-purple-500/10">
             <Image
               src="/assets/devspace/hero.png"
@@ -340,16 +404,18 @@ const DevSpaceClient = () => {
                 key={f.title}
                 className="group bg-gray-900/50 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:border-purple-500/40 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
               >
-                <div className="overflow-hidden border-b border-white/5">
-                  <Image
-                    src={f.image}
-                    alt={f.alt}
-                    width={1280}
-                    height={800}
-                    className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
-                    loading={i < 2 ? "eager" : "lazy"}
-                  />
-                </div>
+                {f.image && (
+                  <div className="overflow-hidden border-b border-white/5">
+                    <Image
+                      src={f.image}
+                      alt={f.alt ?? f.title}
+                      width={1280}
+                      height={800}
+                      className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
+                      loading={i < 2 ? "eager" : "lazy"}
+                    />
+                  </div>
+                )}
                 <div className="p-5">
                   <h3 className="flex items-center gap-2 text-base font-semibold text-white mb-2">
                     <span className="text-lg">{f.icon}</span>
@@ -393,6 +459,31 @@ const DevSpaceClient = () => {
               credentials encrypted with Windows DPAPI per project. No telemetry
               in the current preview.
             </p>
+          </div>
+        </motion.section>
+
+        {/* How it works */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mt-20 max-w-5xl mx-auto"
+        >
+          <div className="flex items-center gap-2 mb-6">
+            <FaProjectDiagram className="text-cyan-400 text-xl" aria-hidden="true" />
+            <h2 className="text-lg font-semibold text-cyan-400">How it works</h2>
+          </div>
+          <div className="bg-gray-900/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 sm:p-8">
+            <p className="text-sm text-white/70 leading-relaxed mb-6">
+              A two-process desktop app: an Electron renderer for the UI and a
+              local .NET 9 WebAPI on <code className="text-cyan-300 bg-white/5 px-1.5 py-0.5 rounded">localhost:7003</code> for
+              everything else. Your data never leaves your machine — no cloud
+              account, no telemetry.
+            </p>
+            <div className="rounded-lg overflow-hidden border border-white/10 bg-white/5">
+              <MermaidDiagram chart={ARCHITECTURE_DIAGRAM} />
+            </div>
           </div>
         </motion.section>
 
@@ -478,14 +569,13 @@ const DevSpaceClient = () => {
               </Link>
             </div>
             <p className="mt-6 text-xs text-white/40">
-              Built by Biswajit Panday with co-author Abdullah Saleh Robin ·{" "}
               <Link
                 href={PRIVACY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline hover:text-white/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
               >
-                Privacy
+                Privacy policy
               </Link>
             </p>
           </div>

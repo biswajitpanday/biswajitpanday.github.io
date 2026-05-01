@@ -55,8 +55,8 @@ const DevSpaceFeaturedSection: React.FC<DevSpaceFeaturedSectionProps> = ({ proje
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <div className="bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-500/30 rounded-lg p-4 text-center hover:border-purple-500/50 transition-all">
               <div className="text-3xl font-bold text-purple-400 mb-1">30+ min</div>
-              <div className="text-sm text-white/60">Saved daily</div>
-              <div className="text-xs text-white/40 mt-1">Project-switching ritual, eliminated</div>
+              <div className="text-sm text-white/60">The morning ritual</div>
+              <div className="text-xs text-white/40 mt-1">Built to reclaim, day by day</div>
             </div>
 
             <div className="bg-gradient-to-br from-emerald-500/10 to-transparent border border-emerald-500/30 rounded-lg p-4 text-center hover:border-emerald-500/50 transition-all">
