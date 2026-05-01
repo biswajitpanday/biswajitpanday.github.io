@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     siteName: "Biswajit Panday Portfolio",
     images: [
       {
-        url: "https://biswajitpanday.github.io/assets/social-preview.png",
+        url: "https://biswajitpanday.github.io/assets/social-preview.webp",
         width: 1200,
         height: 630,
         alt: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer | 10+ years supporting 20+ enterprise clients",
@@ -95,7 +95,7 @@ export const metadata: Metadata = {
     title: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
     description: "10+ years supporting 20+ enterprise clients. Architecting scalable solutions and practical AI tools with measurable ROI. Expert in full-stack development and automation.",
     images: {
-      url: "https://biswajitpanday.github.io/assets/social-preview.png",
+      url: "https://biswajitpanday.github.io/assets/social-preview.webp",
       alt: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
       width: 1200,
       height: 630,
@@ -122,7 +122,7 @@ export const metadata: Metadata = {
     'apple-mobile-web-app-capable': 'yes',
     'application-name': 'Biswajit Panday Portfolio',
     'apple-mobile-web-app-title': 'Biswajit Panday',
-    'og:image:secure_url': 'https://biswajitpanday.github.io/assets/social-preview.png',
+    'og:image:secure_url': 'https://biswajitpanday.github.io/assets/social-preview.webp',
     'article:author': 'Biswajit Panday',
     'profile:first_name': 'Biswajit',
     'profile:last_name': 'Panday',
