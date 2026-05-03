@@ -98,22 +98,24 @@ const FEATURES: Feature[] = [
     icon: <FaCogs className="text-purple-400" aria-hidden="true" />,
   },
   {
-    image: "/assets/devspace/project-details.png",
-    alt: "Project details with credentials",
+    image: "/assets/devspace/single-project-card.png",
+    alt: "Project card with quick actions and credentials",
     title: "Multiple encrypted credentials per project",
     body:
       "Dev DB password, staging DB, API tokens, SSH keys — all encrypted with Windows DPAPI, tied to your user account. Drag to reorder, copy with one click. Custom labels per credential.",
     icon: <FaLock className="text-pink-400" aria-hidden="true" />,
   },
   {
-    image: "/assets/devspace/wizard.png",
-    alt: "Project wizard",
+    image: "/assets/devspace/add-project-wizard.png",
+    alt: "Add project wizard",
     title: "Add or edit projects in 3 steps",
     body:
       "Basic info → directories → credentials. Auto-detects git on directory selection. Apply a Tool Template during creation to bulk-add tools. Same wizard, Edit mode for any field.",
     icon: <FaCheckCircle className="text-emerald-400" aria-hidden="true" />,
   },
   {
+    image: "/assets/devspace/bulk-import.png",
+    alt: "Bulk import found projects",
     title: "Bulk-import existing repos",
     body:
       "Point DevSpace at a directory tree and it scans for every .git repo, deduplicates, and imports them all in one click. Onboarding to a colleague's machine — or your own old projects folder — goes from a 30-minute setup ritual to a single scan.",

@@ -66,7 +66,7 @@ const softwareApplicationSchema = {
     "https://biswajitpanday.github.io/assets/devspace/hero.png",
     "https://biswajitpanday.github.io/assets/devspace/tool-discovery.png",
     "https://biswajitpanday.github.io/assets/devspace/git-view.png",
-    "https://biswajitpanday.github.io/assets/devspace/project-details.png",
+    "https://biswajitpanday.github.io/assets/devspace/single-project-card.png",
   ],
   offers: {
     "@type": "Offer",
