@@ -361,14 +361,14 @@ const HomeClient = ({
 
           {/* Scroll Indicator */}
           <div className="hidden xl:flex justify-center mt-8">
-            <ScrollIndicator targetId="featured-achievement" />
+            <ScrollIndicator targetId="devspace-featured" />
           </div>
-
-          {/* Featured Achievement Section - Dynamic from API */}
-          {spireWizProject && <FeaturedAchievementSection project={spireWizProject} />}
 
           {/* DevSpace Featured Personal Product - Local fallback or admin entry */}
           {devSpaceProject && <DevSpaceFeaturedSection project={devSpaceProject} />}
+
+          {/* Featured Achievement Section - Dynamic from API */}
+          {spireWizProject && <FeaturedAchievementSection project={spireWizProject} />}
 
           {/* What I'm Looking For - Enhanced Card (Controlled by Admin Portal) */}
           {portfolioMetadata?.displaySettings?.showLookingForSection && <LookingForSection />}
