@@ -89,7 +89,7 @@ const HomeClient = ({
   const heroPhrases = DEFAULT_HERO_PHRASES;
   const heroTagline = "Senior .NET Architect & AI Solutions Engineer";
   const heroName = "Biswajit Panday";
-  const heroBio = `Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade applications. Currently at Optimizely, delivering solutions for global enterprise clients. Built SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified.`;
+  const heroBio = `Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade applications. Currently at Optimizely, delivering solutions for global enterprise clients. Recently launched DevSpace — a free Windows desktop app that centralizes every developer project. Also built SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified.`;
 
   // Dynamic resume URL (with fallback to default)
   const resumeUrl = portfolioMetadata?.resumeUrl || "/assets/Biswajit_Panday_Resume.pdf";
@@ -120,7 +120,7 @@ const HomeClient = ({
 
   // Dynamic SEO metadata (with fallback to defaults)
   const seoTitle = portfolioMetadata?.seoTitle || "Biswajit Panday - Senior .NET Architect & AI Solutions Engineer";
-  const seoDescription = portfolioMetadata?.metaDescription || `Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade platforms. Currently at Optimizely, delivering solutions for global enterprise clients. Built SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified.`;
+  const seoDescription = portfolioMetadata?.metaDescription || `Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade platforms. Currently at Optimizely. Creator of DevSpace — a free Windows desktop app for centralizing developer projects (launched April 2026) — and SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified.`;
   const ogImage = portfolioMetadata?.seo?.ogImage || "https://biswajitpanday.github.io/assets/profile/profile-large.webp";
   const twitterCard = portfolioMetadata?.seo?.twitterCard || "summary_large_image";
 

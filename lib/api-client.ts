@@ -52,7 +52,10 @@ async function fetchAPI<T>(endpoint: string): Promise<T> {
       headers: {
         'Content-Type': 'application/json',
       },
-      // Revalidate every 24 hours for SSG
+      // Revalidate every 24 hours for SSG. (`cache: 'no-store'` would opt routes
+      // into dynamic rendering and silently break `output: "export"`.) Stale
+      // fetch-cache reuse across CI builds is mitigated by the workflow
+      // wiping `.next/cache/fetch-cache` before each build.
       next: { revalidate: 86400 },
     });
 

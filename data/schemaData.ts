@@ -10,7 +10,7 @@ export const personSchema = {
   "@type": "Person",
   name: "Biswajit Panday",
   jobTitle: "Senior .NET Architect & AI Solutions Engineer",
-  description: "Senior .NET Architect with 10+ years delivering mid to enterprise grade applications. Currently at Optimizely serving global enterprise clients. Built SpireWiz achieving 80% efficiency gains, ~$180K annual value, and 600+ developer hours saved annually. Microsoft Certified.",
+  description: "Senior .NET Architect with 10+ years delivering mid to enterprise grade applications. Currently at Optimizely serving global enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects (launched April 2026), and SpireWiz, an AI tool achieving 80% efficiency gains and ~$180K annual value. Microsoft Certified.",
   url: baseUrl,
   sameAs: [
     "https://github.com/biswajitpanday",

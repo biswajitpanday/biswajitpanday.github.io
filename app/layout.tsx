@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     default: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
     template: "%s | Biswajit Panday"
   },
-  description: "10+ years of experience supporting 20+ enterprise clients. Specialized in architecting scalable solutions and practical AI tools that deliver continuous ROI and measurable business impact. Expert in full-stack development and automation.",
+  description: "10+ years of experience supporting 20+ enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects. Specialized in architecting scalable solutions and practical AI tools — including SpireWiz, achieving 80% time reduction. Expert in full-stack development and automation.",
   keywords: [
     "Biswajit Panday",
     ".NET Architect",
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
-    description: "10+ years of experience supporting 20+ enterprise clients. Specialized in architecting scalable solutions and practical AI tools that deliver continuous ROI and measurable business impact. Expert in full-stack development and automation.",
+    description: "10+ years of experience supporting 20+ enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects. Specialized in architecting scalable solutions and practical AI tools — including SpireWiz, achieving 80% time reduction. Expert in full-stack development and automation.",
     url: "https://biswajitpanday.github.io",
     siteName: "Biswajit Panday Portfolio",
     images: [
@@ -93,7 +93,7 @@ export const metadata: Metadata = {
     site: "@biswajitpanday",
     creator: "@biswajitpanday",
     title: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
-    description: "10+ years supporting 20+ enterprise clients. Architecting scalable solutions and practical AI tools with measurable ROI. Expert in full-stack development and automation.",
+    description: "Creator of DevSpace (free Windows dev project app) and SpireWiz (AI tool, 80% time reduction). Senior .NET Architect with 10+ years supporting 20+ enterprise clients. Microsoft Certified.",
     images: {
       url: "https://biswajitpanday.github.io/assets/social-preview.webp",
       alt: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",

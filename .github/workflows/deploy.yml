@@ -78,6 +78,13 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }} --legacy-peer-deps
 
+      - name: Clear Next.js fetch cache to force fresh API data
+        # The .next/cache restore step above is great for compile speed but it
+        # also restores .next/cache/fetch-cache, which (with the in-code 24h
+        # revalidate) lets stale admin-DB responses persist across builds.
+        # Wipe just the fetch-cache so every build re-hits the admin API.
+        run: rm -rf .next/cache/fetch-cache
+
       - name: Log workflow trigger
         run: |
           echo "Workflow triggered by: ${{ github.event_name }}"

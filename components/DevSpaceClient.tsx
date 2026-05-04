@@ -299,6 +299,9 @@ const DevSpaceClient = () => {
             </Link>
           </div>
           <p className="text-xs text-white/40">v2.2.0-preview · Windows 10/11 · ~80 MB · No admin required</p>
+          <p className="mt-1 text-[11px] text-white/40 max-w-md mx-auto">
+            Note: unsigned during preview — Windows may show a SmartScreen warning. Code signing is on the roadmap before stable release.
+          </p>
 
           <div className="mt-3 inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-emerald-300/80">
             <span className="inline-flex items-center gap-1.5">
@@ -333,6 +336,9 @@ const DevSpaceClient = () => {
             >
               Abdullah Saleh Robin
             </Link>
+          </p>
+          <p className="mt-1 text-xs text-white/40">
+            On nights and weekends over 18 months — concept to public preview.
           </p>
 
           <div className="mt-10 rounded-xl overflow-hidden border border-purple-500/20 shadow-2xl shadow-purple-500/10">
@@ -513,6 +519,9 @@ const DevSpaceClient = () => {
             <FiArrowRight className="text-pink-400 text-xl" aria-hidden="true" />
             <h2 className="text-lg font-semibold text-pink-400">Roadmap</h2>
           </div>
+          <p className="mb-4 text-xs text-white/50">
+            Heads up: preview builds expire April 26, 2027. Import / export remain available after expiry so you can migrate your data.
+          </p>
           <ul className="space-y-3">
             {ROADMAP.map((r) => {
               const dotColor =
