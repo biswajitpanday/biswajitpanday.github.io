@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,6 +38,21 @@ const MermaidDiagram = dynamic(() => import("@/components/MermaidDiagram"), {
   ),
   ssr: false,
 });
+
+const Lightbox = dynamic(() => import("yet-another-react-lightbox"), {
+  ssr: false,
+  loading: () => (
+    <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
+      <div className="text-white/60 text-sm">Loading image viewer…</div>
+    </div>
+  ),
+});
+
+const importLightboxStyles = () => {
+  if (typeof window !== "undefined") {
+    import("yet-another-react-lightbox/styles.css");
+  }
+};
 
 const ARCHITECTURE_DIAGRAM = `graph TB
     User([👤 You])
@@ -238,7 +254,29 @@ const metricColorClasses: Record<
   },
 };
 
+const HERO_IMAGE = {
+  src: "/assets/devspace/hero.png",
+  alt: "DevSpace dashboard — every project at a glance",
+};
+
 const DevSpaceClient = () => {
+  const [lightboxIndex, setLightboxIndex] = useState(-1);
+
+  useEffect(() => {
+    importLightboxStyles();
+  }, []);
+
+  const featureImages = FEATURES.filter((f): f is Feature & { image: string } => Boolean(f.image));
+  const slides = [
+    { src: HERO_IMAGE.src, alt: HERO_IMAGE.alt },
+    ...featureImages.map((f) => ({ src: f.image, alt: f.alt ?? f.title })),
+  ];
+
+  const openLightboxForFeature = (image: string) => {
+    const featureIdx = featureImages.findIndex((f) => f.image === image);
+    if (featureIdx >= 0) setLightboxIndex(featureIdx + 1);
+  };
+
   return (
     <main className="relative min-h-[calc(100vh-136px)] overflow-hidden">
       <BackgroundElements
@@ -341,16 +379,21 @@ const DevSpaceClient = () => {
             On nights and weekends over 18 months — concept to public preview.
           </p>
 
-          <div className="mt-10 rounded-xl overflow-hidden border border-purple-500/20 shadow-2xl shadow-purple-500/10">
+          <button
+            type="button"
+            onClick={() => setLightboxIndex(0)}
+            aria-label="Expand DevSpace dashboard image"
+            className="mt-10 block w-full rounded-xl overflow-hidden border border-purple-500/20 shadow-2xl shadow-purple-500/10 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+          >
             <Image
-              src="/assets/devspace/hero.png"
-              alt="DevSpace dashboard — every project at a glance"
+              src={HERO_IMAGE.src}
+              alt={HERO_IMAGE.alt}
               width={1920}
               height={1200}
-              className="w-full h-auto"
+              className="w-full h-auto transition-transform duration-500 hover:scale-[1.01]"
               priority
             />
-          </div>
+          </button>
         </motion.section>
 
         {/* Problem */}
@@ -359,7 +402,7 @@ const DevSpaceClient = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="mt-20 max-w-4xl mx-auto"
+          className="mt-20 max-w-6xl mx-auto"
         >
           <div className="flex items-center gap-2 mb-6">
             <FaCogs className="text-yellow-500 text-xl" aria-hidden="true" />
@@ -383,7 +426,7 @@ const DevSpaceClient = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="mt-20 max-w-5xl mx-auto"
+          className="mt-20 max-w-7xl mx-auto"
         >
           <div className="flex items-center gap-2 mb-6">
             <FaChartLine className="text-emerald-400 text-xl" aria-hidden="true" />
@@ -412,7 +455,7 @@ const DevSpaceClient = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="mt-20 max-w-6xl mx-auto"
+          className="mt-20 max-w-7xl mx-auto"
         >
           <div className="flex items-center gap-2 mb-6">
             <FaTools className="text-cyan-400 text-xl" aria-hidden="true" />
@@ -425,7 +468,12 @@ const DevSpaceClient = () => {
                 className="group bg-gray-900/50 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:border-purple-500/40 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
               >
                 {f.image && (
-                  <div className="overflow-hidden border-b border-white/5">
+                  <button
+                    type="button"
+                    onClick={() => openLightboxForFeature(f.image!)}
+                    aria-label={`Expand ${f.alt ?? f.title} image`}
+                    className="block w-full overflow-hidden border-b border-white/5 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+                  >
                     <Image
                       src={f.image}
                       alt={f.alt ?? f.title}
@@ -434,7 +482,7 @@ const DevSpaceClient = () => {
                       className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
                       loading={i < 2 ? "eager" : "lazy"}
                     />
-                  </div>
+                  </button>
                 )}
                 <div className="p-5">
                   <h3 className="flex items-center gap-2 text-base font-semibold text-white mb-2">
@@ -454,7 +502,7 @@ const DevSpaceClient = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="mt-20 max-w-4xl mx-auto"
+          className="mt-20 max-w-6xl mx-auto"
         >
           <div className="flex items-center gap-2 mb-6">
             <FaServer className="text-purple-400 text-xl" aria-hidden="true" />
@@ -488,7 +536,7 @@ const DevSpaceClient = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="mt-20 max-w-5xl mx-auto"
+          className="mt-20 max-w-7xl mx-auto"
         >
           <div className="flex items-center gap-2 mb-6">
             <FaProjectDiagram className="text-cyan-400 text-xl" aria-hidden="true" />
@@ -513,7 +561,7 @@ const DevSpaceClient = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="mt-20 max-w-3xl mx-auto"
+          className="mt-20 max-w-5xl mx-auto"
         >
           <div className="flex items-center gap-2 mb-6">
             <FiArrowRight className="text-pink-400 text-xl" aria-hidden="true" />
@@ -616,6 +664,15 @@ const DevSpaceClient = () => {
           </div>
         </motion.section>
       </div>
+
+      <Lightbox
+        open={lightboxIndex >= 0}
+        index={lightboxIndex >= 0 ? lightboxIndex : 0}
+        close={() => setLightboxIndex(-1)}
+        slides={slides}
+        styles={{ container: { backgroundColor: "rgba(0, 0, 0, 0.95)" } }}
+        controller={{ closeOnBackdropClick: true, closeOnPullDown: true }}
+      />
     </main>
   );
 };

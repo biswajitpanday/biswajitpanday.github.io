@@ -56,7 +56,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       {/* Project Image */}
       <div
         data-testid={`project-image-${project.num}`}
-        className="relative overflow-hidden rounded-lg mb-4 group-hover:shadow-xl transition-all duration-500"
+        className="relative rounded-lg mb-4 group-hover:shadow-xl transition-all duration-500"
       >
         {project.isActive ? (
           <Link
@@ -75,13 +75,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             </div>
           </Link>
         ) : (
-          <Image
-            src={displayImage}
-            alt={`${project.title} project screenshot`}
-            width={500}
-            height={300}
-            className="rounded-lg opacity-80"
-          />
+          <div className="relative rounded-lg overflow-hidden">
+            <Image
+              src={displayImage}
+              alt={`${project.title} project screenshot`}
+              width={500}
+              height={300}
+              className="rounded-lg opacity-80"
+            />
+          </div>
         )}
 
         {/* Primary Metric Badge - Bottom Left */}

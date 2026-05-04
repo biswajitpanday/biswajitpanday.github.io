@@ -1,5 +1,6 @@
 "use client";
 import { lazy, Suspense, useState, useEffect } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 import { motion } from "framer-motion";
@@ -229,9 +230,11 @@ const HomeClient = ({
                 <span className="text-[#00BFFF] font-medium">{totalExperience}</span> delivering mid
                 to enterprise grade applications. Currently at{" "}
                 <span className="text-[#00BFFF] font-medium">Optimizely</span> serving
-                global enterprise clients. Passionate about AI integration—built{" "}
+                global enterprise clients. Recently launched{" "}
+                <Link href="/devspace" className="text-purple-400 font-medium hover:text-purple-300 underline-offset-4 hover:underline">DevSpace</Link>{" "}
+                — a free Windows desktop app for centralizing developer projects. Also built{" "}
                 <span className="text-[#00BFFF] font-medium">SpireWiz</span> achieving{" "}
-                <span className="text-emerald-400 font-medium">80% </span>{" "} efficiency gains. {" "}
+                <span className="text-emerald-400 font-medium">80% </span>{" "} efficiency gains, {" "}
                 <span className="text-purple-400 font-medium">~$180K </span> annual value, and {" "}
                 <span className="text-purple-400 font-medium">600+</span> {" "}
                 developer hours saved annually. {" "}
