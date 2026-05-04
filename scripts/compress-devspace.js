@@ -10,6 +10,7 @@ const TARGETS = [
   'add-project-wizard.png',
   'bulk-import.png',
   'single-project-card.png',
+  'git-branch-ops.png',
 ];
 
 const devspaceDir = path.join(__dirname, '..', 'public', 'assets', 'devspace');

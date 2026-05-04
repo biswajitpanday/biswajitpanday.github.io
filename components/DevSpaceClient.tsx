@@ -19,6 +19,7 @@ import {
   FaChartLine,
   FaCheckCircle,
   FaProjectDiagram,
+  FaStar,
   FiArrowRight,
   FiZap,
   SiReact,
@@ -128,6 +129,14 @@ const FEATURES: Feature[] = [
     body:
       "Visual commit graph, 4-panel layout, 6-tab sidebar (Commit, Branch Explorer, History, Remotes, Tags, Stashes). Cherry-pick, rebase, merge, conflict resolver, branch comparison. 27-language syntax highlighting.",
     icon: <FaGitAlt className="text-orange-400" aria-hidden="true" />,
+  },
+  {
+    image: "/assets/devspace/git-branch-ops.png",
+    alt: "Branch operations from the visual graph",
+    title: "One-click ops from the visual graph",
+    body:
+      "Right-click any commit on the graph for the full operation menu — branch from commit, checkout, tag, merge, cherry-pick, reset, push, pull, fetch. The operations live where the context does, not three menus away.",
+    icon: <FaCodeBranch className="text-emerald-400" aria-hidden="true" />,
   },
   {
     image: "/assets/devspace/git-commit-panel.png",
@@ -289,7 +298,7 @@ const DevSpaceClient = () => {
               <span>View on GitHub</span>
             </Link>
           </div>
-          <p className="text-xs text-white/40">v2.2.0-preview · Windows 10/11 · ~80 MB</p>
+          <p className="text-xs text-white/40">v2.2.0-preview · Windows 10/11 · ~80 MB · No admin required</p>
 
           <div className="mt-3 inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-emerald-300/80">
             <span className="inline-flex items-center gap-1.5">
@@ -301,6 +310,9 @@ const DevSpaceClient = () => {
             <span className="text-white/20" aria-hidden="true">·</span>
             <span>No cloud account required</span>
           </div>
+          <p className="mt-1 text-[11px] text-white/40">
+            Never collected: IP addresses, project paths, commit content, credentials.
+          </p>
 
           <p className="mt-4 text-sm text-white/60">
             Built by{" "}
@@ -560,11 +572,23 @@ const DevSpaceClient = () => {
                 <FaDownload aria-hidden="true" />
                 <span>Download v2.2.0-preview</span>
               </Link>
+            </div>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-white/60">
+              <Link
+                href={REPO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 hover:text-yellow-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
+              >
+                <FaStar className="text-yellow-400" aria-hidden="true" />
+                Star on GitHub
+              </Link>
+              <span className="text-white/20" aria-hidden="true">·</span>
               <Link
                 href={`${REPO_URL}/issues`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-white/70 hover:text-white px-4 py-3 rounded-lg text-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+                className="inline-flex items-center gap-1.5 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
               >
                 Found a bug? Open an issue
                 <FiArrowRight aria-hidden="true" />
