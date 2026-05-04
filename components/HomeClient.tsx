@@ -232,7 +232,7 @@ const HomeClient = ({
                 <span className="text-[#00BFFF] font-medium">Optimizely</span> serving
                 global enterprise clients. Recently launched{" "}
                 <Link href="/devspace" className="text-purple-400 font-medium hover:text-purple-300 underline-offset-4 hover:underline">DevSpace</Link>{" "}
-                — a free Windows desktop app for centralizing developer projects. Also built{" "}
+                — a free Windows desktop app that centralizes developer projects, credentials, and the full git workflow. Also built{" "}
                 <span className="text-[#00BFFF] font-medium">SpireWiz</span> achieving{" "}
                 <span className="text-emerald-400 font-medium">80% </span>{" "} efficiency gains, {" "}
                 <span className="text-purple-400 font-medium">~$180K </span> annual value, and {" "}

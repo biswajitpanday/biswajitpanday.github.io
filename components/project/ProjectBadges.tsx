@@ -267,9 +267,9 @@ export function PrimaryMetricBadge({
     : getMetricBadgeClasses(metric.label);
 
   return (
-    <SimpleTooltip content={metric.text} position="top" maxWidth="wide">
+    <SimpleTooltip content={metric.text} position="top" maxWidth="wide" wrapperClassName="min-w-0 max-w-full">
       <span
-        className={`inline-flex items-center justify-center gap-1 sm:gap-2 bg-black/70 backdrop-blur-md shadow-lg border flex-shrink-0 ${badgeClasses} ${colorClasses} max-w-[280px] sm:max-w-[420px]`}
+        className={`inline-flex items-center justify-center gap-1 sm:gap-2 bg-black/70 backdrop-blur-md shadow-lg border min-w-0 max-w-full ${badgeClasses} ${colorClasses}`}
         role="status"
         aria-label={`Key Metric: ${metric.text}`}
       >

@@ -86,9 +86,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         )}
 
-        {/* Primary Metric Badge - Bottom Left */}
+        {/* Primary Metric Badge - Bottom, full width inside the card */}
         {primaryMetric && (
-          <div className="absolute bottom-2 left-2">
+          <div className="absolute bottom-2 inset-x-2 flex">
             <PrimaryMetricBadge metric={primaryMetric} />
           </div>
         )}

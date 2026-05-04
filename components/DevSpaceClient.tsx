@@ -288,6 +288,9 @@ const DevSpaceClient = () => {
       />
       <div className="absolute top-20 left-1/4 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
       <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
+      {/* Hero accent blurs — anchor the centered text column visually on wide screens */}
+      <div className="absolute top-32 left-0 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl pointer-events-none hidden xl:block" aria-hidden="true" />
+      <div className="absolute top-32 right-0 w-72 h-72 bg-pink-500/10 rounded-full blur-3xl pointer-events-none hidden xl:block" aria-hidden="true" />
 
       <div className="container mx-auto px-4 relative z-10 py-10 xl:py-16">
         {/* Hero */}
@@ -295,23 +298,23 @@ const DevSpaceClient = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="text-center max-w-4xl mx-auto"
+          className="text-center max-w-5xl mx-auto"
         >
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 via-pink-500/15 to-purple-500/10 backdrop-blur-sm border border-purple-500/40 px-4 py-2 rounded-full text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 via-pink-500/15 to-purple-500/10 backdrop-blur-sm border border-purple-500/40 px-4 py-2 rounded-full text-sm font-medium mb-5">
             <FiZap className="text-pink-400 animate-pulse" aria-hidden="true" />
             <span className="text-white">Active · Public Preview · v2.2.0-preview</span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-5 leading-tight">
+          <h1 className="text-4xl md:text-5xl xl:text-7xl font-bold mb-4 leading-tight">
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
               DevSpace
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-white/80 font-light mb-4 leading-snug">
+          <p className="text-xl md:text-2xl text-white/80 font-light mb-3 leading-snug">
             Stop hunting for projects. Start working.
           </p>
-          <p className="text-base md:text-lg text-white/60 max-w-2xl mx-auto mb-8 leading-relaxed">
+          <p className="text-base md:text-lg text-white/60 max-w-2xl mx-auto mb-7 leading-relaxed">
             A Windows desktop app that centralizes every project you work on — tools,
             credentials, git, terminals — in one place. Free during the public preview.
           </p>
@@ -383,7 +386,7 @@ const DevSpaceClient = () => {
             type="button"
             onClick={() => setLightboxIndex(0)}
             aria-label="Expand DevSpace dashboard image"
-            className="mt-10 block w-full rounded-xl overflow-hidden border border-purple-500/20 shadow-2xl shadow-purple-500/10 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
+            className="mt-8 block w-full rounded-xl overflow-hidden border border-purple-500/20 shadow-2xl shadow-purple-500/10 cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
           >
             <Image
               src={HERO_IMAGE.src}

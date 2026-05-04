@@ -239,7 +239,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
 
                   {/* Primary Metric Badge */}
                   {primaryMetric && (
-                    <div className="absolute bottom-3 left-3 z-10">
+                    <div className="absolute bottom-3 inset-x-3 z-10 flex">
                       <PrimaryMetricBadge metric={primaryMetric} variant="modal" />
                     </div>
                   )}
