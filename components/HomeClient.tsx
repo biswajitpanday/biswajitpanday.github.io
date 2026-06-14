@@ -88,9 +88,9 @@ const HomeClient = ({
 
   // Hero section content (static)
   const heroPhrases = DEFAULT_HERO_PHRASES;
-  const heroTagline = "Senior .NET Architect & AI Solutions Engineer";
+  const heroTagline = "Senior .NET Developer · AI-Driven Automation";
   const heroName = "Biswajit Panday";
-  const heroBio = `Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade applications. Currently at Optimizely, delivering solutions for global enterprise clients. Recently launched DevSpace — a free Windows desktop app that centralizes every developer project. Also built SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified.`;
+  const heroBio = `Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade applications. Most recently at Optimizely, delivering solutions for global enterprise clients. Recently launched DevSpace — a free Windows desktop app that centralizes every developer project. Also built SpireWiz, an AI tool achieving up to 80% time reduction and ~$180K annual value. Microsoft Certified.`;
 
   // Dynamic resume URL (with fallback to default)
   const resumeUrl = portfolioMetadata?.resumeUrl || "/assets/Biswajit_Panday_Resume.pdf";
@@ -121,7 +121,7 @@ const HomeClient = ({
 
   // Dynamic SEO metadata (with fallback to defaults)
   const seoTitle = portfolioMetadata?.seoTitle || "Biswajit Panday - Senior .NET Architect & AI Solutions Engineer";
-  const seoDescription = portfolioMetadata?.metaDescription || `Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade platforms. Currently at Optimizely. Creator of DevSpace — a free Windows desktop app for centralizing developer projects (launched April 2026) — and SpireWiz, an AI tool achieving 80% time reduction and $180K annual business value. Microsoft Certified.`;
+  const seoDescription = portfolioMetadata?.metaDescription || `Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade platforms. Most recently at Optimizely. Creator of DevSpace — a free Windows desktop app for centralizing developer projects (launched April 2026) — and SpireWiz, an AI tool achieving up to 80% time reduction and ~$180K annual value. Microsoft Certified.`;
   const ogImage = portfolioMetadata?.seo?.ogImage || "https://biswajitpanday.github.io/assets/profile/profile-large.webp";
   const twitterCard = portfolioMetadata?.seo?.twitterCard || "summary_large_image";
 
@@ -193,6 +193,18 @@ const HomeClient = ({
                 </span>
               </div>
 
+              {/* Availability signal */}
+              <div
+                data-testid="home-availability"
+                className="mb-6 flex items-center justify-center xl:justify-start gap-2"
+              >
+                <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+                </span>
+                <span className="text-sm text-emerald-400 font-medium">Based in Germany · Open to Work</span>
+              </div>
+
               {/* Main Heading */}
               <h1
                 data-testid="home-main-heading"
@@ -228,13 +240,13 @@ const HomeClient = ({
               >
                 Senior .NET Architect with{" "}
                 <span className="text-[#00BFFF] font-medium">{totalExperience}</span> delivering mid
-                to enterprise grade applications. Currently at{" "}
-                <span className="text-[#00BFFF] font-medium">Optimizely</span> serving
+                to enterprise grade applications. Most recently at{" "}
+                <span className="text-[#00BFFF] font-medium">Optimizely</span>, serving
                 global enterprise clients. Recently launched{" "}
                 <Link href="/devspace" className="text-purple-400 font-medium hover:text-purple-300 underline-offset-4 hover:underline">DevSpace</Link>{" "}
                 — a free Windows desktop app that centralizes developer projects, credentials, and the full git workflow. Also built{" "}
                 <span className="text-[#00BFFF] font-medium">SpireWiz</span> achieving{" "}
-                <span className="text-emerald-400 font-medium">80% </span>{" "} efficiency gains, {" "}
+                <span className="text-emerald-400 font-medium">up to 80% </span>{" "} efficiency gains, {" "}
                 <span className="text-purple-400 font-medium">~$180K </span> annual value, and {" "}
                 <span className="text-purple-400 font-medium">600+</span> {" "}
                 developer hours saved annually. {" "}

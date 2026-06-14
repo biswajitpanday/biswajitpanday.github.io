@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Biswajit Panday - Full-Stack .NET Developer",
-  description: "Professional portfolio of Biswajit Panday, a skilled Full-Stack .NET Developer with 10+ years experience in building modern web applications and cloud solutions.",
+  description: "Professional portfolio of Biswajit Panday, a skilled Full-Stack .NET Developer with 11+ years experience in building modern web applications and cloud solutions. Based in Cottbus, Germany.",
   keywords: [
     "Biswajit Panday",
     "Full-Stack Developer", 
@@ -18,16 +18,17 @@ export const metadata: Metadata = {
     "Software Development",
     "Web Development",
     "Cloud Solutions",
-    "Dhaka Bangladesh"
+    "Cottbus Germany",
+    "Germany"
   ],
   openGraph: {
     title: "Biswajit Panday - Full-Stack .NET Developer",
-    description: "Professional portfolio showcasing 10+ years of experience in .NET, React, and cloud technologies",
+    description: "Professional portfolio showcasing 11+ years of experience in .NET, React, and cloud technologies",
     url: "https://biswajitpanday.github.io",
   },
   twitter: {
     title: "Biswajit Panday - Full-Stack .NET Developer",
-    description: "Professional portfolio showcasing 10+ years of experience in .NET, React, and cloud technologies",
+    description: "Professional portfolio showcasing 11+ years of experience in .NET, React, and cloud technologies",
   },
 };
 

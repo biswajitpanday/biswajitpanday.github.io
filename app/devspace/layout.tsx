@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "DevSpace — Developer Productivity for Windows",
   description:
-    "DevSpace is a free Windows desktop app that centralizes every developer project — auto-discovers installed tools, encrypts per-project credentials with Windows DPAPI, and bundles a full git workflow. Built with Electron + .NET 9.",
+    "DevSpace is a free Windows desktop app that centralizes every developer project — auto-discovers installed tools, encrypts per-project credentials with the ASP.NET Core Data Protection API, and bundles a full git workflow. Built with Electron + .NET 9.",
   keywords: [
     "DevSpace",
     "Developer Productivity",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "Project Management",
     "Git Workflow",
     "Encrypted Credentials",
-    "DPAPI",
+    "ASP.NET Core Data Protection API",
   ],
   openGraph: {
     title: "DevSpace — Centralize every developer project",
@@ -49,7 +49,7 @@ const softwareApplicationSchema = {
   "@type": "SoftwareApplication",
   name: "DevSpace",
   description:
-    "Free Windows desktop app that centralizes every developer project — auto-discovers installed tools, encrypts per-project credentials with Windows DPAPI, and bundles a full git workflow.",
+    "Free Windows desktop app that centralizes every developer project — auto-discovers installed tools, encrypts per-project credentials with the ASP.NET Core Data Protection API, and bundles a full git workflow.",
   applicationCategory: "DeveloperApplication",
   applicationSubCategory: "Productivity",
   operatingSystem: "Windows 10, Windows 11",

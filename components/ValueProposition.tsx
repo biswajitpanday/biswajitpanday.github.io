@@ -24,7 +24,7 @@ const valueItems: ValueItem[] = [
     icon: FaBrain,
     title: "AI-Powered Innovation",
     description: "Built SpireWiz, reducing merge conflicts by",
-    highlight: "80-90%",
+    highlight: "up to 80%",
     color: "text-emerald-400",
     bgColor: "bg-emerald-500/20"
   },
@@ -48,7 +48,7 @@ const valueItems: ValueItem[] = [
     icon: FaRocket,
     title: "Full-Stack Expertise",
     description: "End-to-end development with",
-    highlight: "10+ years",
+    highlight: "11+ years",
     color: "text-orange-400",
     bgColor: "bg-orange-500/20"
   }

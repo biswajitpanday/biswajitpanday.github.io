@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     default: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
     template: "%s | Biswajit Panday"
   },
-  description: "10+ years of experience supporting 20+ enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects. Specialized in architecting scalable solutions and practical AI tools — including SpireWiz, achieving 80% time reduction. Expert in full-stack development and automation.",
+  description: "11+ years of experience supporting 25+ enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects. Specialized in architecting scalable solutions and practical AI tools — including SpireWiz, achieving up to 80% time reduction. Based in Cottbus, Germany. Expert in full-stack development and automation.",
   keywords: [
     "Biswajit Panday",
     ".NET Architect",
@@ -49,7 +49,8 @@ export const metadata: Metadata = {
     "TypeScript",
     "Full-Stack Developer",
     "Software Architecture",
-    "Dhaka Bangladesh",
+    "Cottbus Germany",
+    "Germany",
     "ASP.NET Core",
     "Cloud Solutions",
     "System Modernization",
@@ -72,7 +73,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
-    description: "10+ years of experience supporting 20+ enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects. Specialized in architecting scalable solutions and practical AI tools — including SpireWiz, achieving 80% time reduction. Expert in full-stack development and automation.",
+    description: "11+ years of experience supporting 25+ enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects. Specialized in architecting scalable solutions and practical AI tools — including SpireWiz, achieving up to 80% time reduction. Based in Cottbus, Germany. Expert in full-stack development and automation.",
     url: "https://biswajitpanday.github.io",
     siteName: "Biswajit Panday Portfolio",
     images: [
@@ -80,20 +81,20 @@ export const metadata: Metadata = {
         url: "https://biswajitpanday.github.io/assets/social-preview.webp",
         width: 1200,
         height: 630,
-        alt: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer | 10+ years supporting 20+ enterprise clients",
+        alt: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer | 11+ years supporting 25+ enterprise clients",
         type: "image/png",
       },
     ],
     locale: "en_US",
     type: "website",
-    countryName: "Bangladesh",
+    countryName: "Germany",
   },
   twitter: {
     card: "summary_large_image",
     site: "@biswajitpanday",
     creator: "@biswajitpanday",
     title: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
-    description: "Creator of DevSpace (free Windows dev project app) and SpireWiz (AI tool, 80% time reduction). Senior .NET Architect with 10+ years supporting 20+ enterprise clients. Microsoft Certified.",
+    description: "Creator of DevSpace (free Windows dev project app) and SpireWiz (AI tool, up to 80% time reduction). Senior .NET Architect with 11+ years supporting 25+ enterprise clients. Microsoft Certified.",
     images: {
       url: "https://biswajitpanday.github.io/assets/social-preview.webp",
       alt: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
@@ -174,7 +175,7 @@ export default async function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
-      <body className={jetBrainsMono.variable}>
+      <body className={jetBrainsMono.variable} suppressHydrationWarning>
         <RootLayoutClient
           projects={projects}
           certifications={certifications}

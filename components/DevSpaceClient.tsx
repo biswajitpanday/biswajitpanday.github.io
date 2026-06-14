@@ -119,7 +119,7 @@ const FEATURES: Feature[] = [
     alt: "Project card with quick actions and credentials",
     title: "Multiple encrypted credentials per project",
     body:
-      "Dev DB password, staging DB, API tokens, SSH keys — all encrypted with Windows DPAPI, tied to your user account. Drag to reorder, copy with one click. Custom labels per credential.",
+      "Dev DB password, staging DB, API tokens, SSH keys — all encrypted with the ASP.NET Core Data Protection API, tied to your user account. Drag to reorder, copy with one click. Custom labels per credential.",
     icon: <FaLock className="text-pink-400" aria-hidden="true" />,
   },
   {
@@ -196,7 +196,7 @@ const METRICS = [
   {
     value: "0 plain text",
     label: "Credentials on disk",
-    sub: "Encrypted per project with Windows DPAPI",
+    sub: "Encrypted per project with the ASP.NET Core Data Protection API",
     color: "cyan",
   },
   {
@@ -214,7 +214,7 @@ const ROADMAP = [
 ];
 
 const TECH = [
-  { text: "Electron 27", icon: null },
+  { text: "Electron 22", icon: null },
   { text: "React 18", icon: <SiReact className="text-cyan-400" /> },
   { text: "TypeScript", icon: <SiTypescript className="text-blue-400" /> },
   { text: "Tailwind CSS", icon: <SiTailwindcss className="text-cyan-400" /> },
@@ -527,7 +527,7 @@ const DevSpaceClient = () => {
               Built on Clean Architecture (4 layers), CQRS, and DDD —
               designed for maintainability and testability over the long haul.
               Security: 21-command shell whitelist with argument sanitization;
-              credentials encrypted with Windows DPAPI per project. No telemetry
+              credentials encrypted with the ASP.NET Core Data Protection API per project. No telemetry
               in the current preview.
             </p>
           </div>

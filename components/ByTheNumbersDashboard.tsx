@@ -44,7 +44,10 @@ interface ByTheNumbersDashboardProps {
 
 // Simple count-up hook
 const useCountUp = ({ end, suffix = "", prefix = "", duration = 2000 }: CountUpProps) => {
-  const [count, setCount] = useState(0);
+  // Initialize to the final value so static/server-rendered HTML (and no-JS users)
+  // show real numbers instead of "0+". The IntersectionObserver still animates
+  // 0 -> end on scroll-in for clients with JS.
+  const [count, setCount] = useState(end);
   const [hasStarted, setHasStarted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -223,15 +226,11 @@ const ByTheNumbersDashboard: React.FC<ByTheNumbersDashboardProps> = ({
           <div className="flex flex-wrap justify-center gap-4 text-xs">
             <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
               <FaStar className="text-emerald-400" />
-              <span className="text-emerald-300">80-90% Efficiency Gains with SpireWiz</span>
+              <span className="text-emerald-300">Up to 80% Efficiency Gains with SpireWiz</span>
             </div>
             <div className="flex items-center gap-2 px-3 py-1.5 bg-golden-500/10 border border-golden-500/30 rounded-full">
               <FaStar className="text-golden-400" />
-              <span className="text-golden-400">$180K Annual Business Impact</span>
-            </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
-              <FaStar className="text-emerald-400" />
-              <span className="text-emerald-300">75% Upgrade Time Reduction</span>
+              <span className="text-golden-400">~$180K Annual Value</span>
             </div>
             <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 border border-blue-500/30 rounded-full">
               <FaRocket className="text-blue-400" />

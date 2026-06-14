@@ -365,7 +365,7 @@ const generateSocialImageTemplate = () => {
         <div class="profile-section">
             <div class="profile-image">BP</div>
             <div class="profile-text">
-                <div class="experience">10+ Years Experience</div>
+                <div class="experience">11+ Years Experience</div>
                 <div class="certification">Microsoft Certified</div>
             </div>
         </div>
@@ -385,7 +385,7 @@ const generateSocialImageTemplate = () => {
             </div>
             <h1 class="name">Hi, I'm <span class="gradient-text">Biswajit Panday</span></h1>
             <h2 class="title">Full-Stack .NET Developer & Cloud Expert</h2>
-            <p class="description">Crafting <span class="highlight">high-performance</span>, <span class="highlight">scalable applications</span> with 10+ years experience in .NET, React & DevOps while integrating <span class="ai-highlight">AI solutions</span></p>
+            <p class="description">Crafting <span class="highlight">high-performance</span>, <span class="highlight">scalable applications</span> with 11+ years experience in .NET, React & DevOps while integrating <span class="ai-highlight">AI solutions</span></p>
             
             <div class="skills">
                 <span class="skill">.NET</span>

@@ -11,8 +11,8 @@ const SEOOptimizer = () => {
     "mainEntity": {
       "@type": "Person",
       "name": "Biswajit Panday",
-      "jobTitle": "Full-Stack .NET Developer",
-      "description": "Professional Full-Stack .NET Developer with 10+ years of experience specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS.",
+      "jobTitle": "Senior .NET Developer",
+      "description": "Professional Full-Stack .NET Developer with 11+ years of experience specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS.",
       "url": "https://biswajitpanday.github.io",
       "sameAs": [
         "https://github.com/biswajitpanday",
@@ -96,7 +96,7 @@ const SEOOptimizer = () => {
         "name": "What technologies does Biswajit Panday specialize in?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Biswajit specializes in .NET Core, React, TypeScript, Azure, AWS, SQL Server, MongoDB, and modern web development frameworks with over 10 years of experience."
+          "text": "Biswajit specializes in .NET Core, React, TypeScript, Azure, AWS, SQL Server, MongoDB, and modern web development frameworks with over 11 years of experience."
         }
       },
       {

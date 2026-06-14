@@ -109,7 +109,7 @@ const DEFAULT_CONTACT_INFO = {
   phone: "+880 1681642502",
   email: "biswajitmailid@gmail.com",
   teams: "biswajitpanday@live.com",
-  location: "Dhaka, Bangladesh",
+  location: "Cottbus, Germany",
 };
 
 const DEFAULT_SOCIAL_LINKS = {

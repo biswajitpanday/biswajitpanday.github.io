@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { FiMail, FiBriefcase, FiGlobe, FiUsers } from "@/lib/icons";
 import { HiOutlineBuildingOffice2 } from "@/lib/icons";
-import { TbPlane } from "@/lib/icons";
+import { FaMapMarkedAlt } from "@/lib/icons";
 import { RiRobot3Fill } from "@/lib/icons";
 
 /**
@@ -70,10 +70,10 @@ const LookingForSection: React.FC = () => {
               <p className="text-white font-medium text-sm">Remote / Hybrid</p>
             </div>
 
-            {/* Visa Sponsorship */}
+            {/* Based in Germany */}
             <div className="flex items-center gap-3 bg-white/10 border border-purple-400/30 rounded-lg p-3 hover:bg-white/15 hover:border-purple-400/50 transition-all group">
-              <TbPlane className="text-purple-400 text-xl flex-shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
-              <p className="text-white font-medium text-sm">Visa Sponsorship</p>
+              <FaMapMarkedAlt className="text-purple-400 text-xl flex-shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
+              <p className="text-white font-medium text-sm">Based in Germany</p>
             </div>
 
             {/* Enterprise Scale */}

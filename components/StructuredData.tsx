@@ -29,8 +29,8 @@ export const PersonSchema = () => {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Biswajit Panday",
-    jobTitle: "Full-Stack .NET Developer",
-    description: "Professional Full-Stack .NET Developer with 10+ years of experience specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS.",
+    jobTitle: "Senior .NET Developer",
+    description: "Professional Full-Stack .NET Developer with 11+ years of experience specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS.",
     url: "https://biswajitpanday.github.io",
     sameAs: [
       "https://github.com/biswajitpanday",
@@ -40,8 +40,8 @@ export const PersonSchema = () => {
     image: "https://biswajitpanday.github.io/assets/photo.webp",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Dhaka",
-      addressCountry: "Bangladesh"
+      addressLocality: "Cottbus",
+      addressCountry: "Germany"
     },
     email: "biswajitmailid@gmail.com",
     telephone: "+880 1681642502",

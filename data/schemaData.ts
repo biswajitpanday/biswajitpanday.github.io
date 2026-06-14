@@ -9,8 +9,8 @@ export const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Biswajit Panday",
-  jobTitle: "Senior .NET Architect & AI Solutions Engineer",
-  description: "Senior .NET Architect with 10+ years delivering mid to enterprise grade applications. Currently at Optimizely serving global enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects (launched April 2026), and SpireWiz, an AI tool achieving 80% efficiency gains and ~$180K annual value. Microsoft Certified.",
+  jobTitle: "Senior .NET Developer",
+  description: "Senior .NET Architect with 11+ years delivering mid to enterprise grade applications. Most recently at Optimizely, serving global enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects (launched April 2026), and SpireWiz, an AI tool achieving up to 80% efficiency gains and ~$180K annual value. Microsoft Certified.",
   url: baseUrl,
   sameAs: [
     "https://github.com/biswajitpanday",
@@ -20,8 +20,8 @@ export const personSchema = {
   image: `${baseUrl}/assets/photo.webp`,
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Dhaka",
-    addressCountry: "Bangladesh"
+    addressLocality: "Cottbus",
+    addressCountry: "Germany"
   },
   email: "biswajitmailid@gmail.com",
   telephone: "+880 1681642502",

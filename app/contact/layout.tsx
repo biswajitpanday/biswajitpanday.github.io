@@ -11,7 +11,8 @@ export const metadata: Metadata = {
     "Software development consultation",
     "Freelance developer",
     "Full-stack developer contact",
-    "Dhaka Bangladesh"
+    "Cottbus Germany",
+    "Germany"
   ],
   openGraph: {
     title: "Contact Biswajit Panday - Full-Stack Developer",

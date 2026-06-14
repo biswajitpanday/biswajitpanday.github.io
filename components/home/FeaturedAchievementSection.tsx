@@ -60,10 +60,7 @@ const FeaturedAchievementSection: React.FC<FeaturedAchievementSectionProps> = ({
               {/* Metric 1 - Efficiency */}
               {project.metrics.efficiency && (
                 <div className="bg-gradient-to-br from-emerald-500/10 to-transparent border border-emerald-500/30 rounded-lg p-4 text-center hover:border-emerald-500/50 transition-all">
-                  <div className="text-3xl font-bold text-emerald-400 mb-1">
-                    {project.metrics.efficiency.includes('70-80%') ? '70-80%' :
-                     project.metrics.efficiency.split(' ')[0]}
-                  </div>
+                  <div className="text-3xl font-bold text-emerald-400 mb-1">up to 80%</div>
                   <div className="text-sm text-white/60">Time Reduction</div>
                   <div className="text-xs text-white/40 mt-1">
                     {project.metrics.efficiency.includes('(') ?
