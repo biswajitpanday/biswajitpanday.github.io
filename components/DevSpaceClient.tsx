@@ -208,7 +208,7 @@ const METRICS = [
 ] as const;
 
 const ROADMAP = [
-  { label: "v2.2.0-preview — public preview", status: "shipped" as const, when: "April 2026" },
+  { label: "v2.2.x-preview — public preview", status: "shipped" as const, when: "April 2026" },
   { label: "Cloud sync (Supabase, opt-in)", status: "in-progress" as const, when: "next" },
   { label: "macOS support", status: "planned" as const, when: "later" },
 ];
@@ -302,7 +302,7 @@ const DevSpaceClient = () => {
         >
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 via-pink-500/15 to-purple-500/10 backdrop-blur-sm border border-purple-500/40 px-4 py-2 rounded-full text-sm font-medium mb-5">
             <FiZap className="text-pink-400 animate-pulse" aria-hidden="true" />
-            <span className="text-white">Active · Public Preview · v2.2.0-preview</span>
+            <span className="text-white">Active · Public Preview · v2.2.x-preview</span>
           </div>
 
           <h1 className="text-4xl md:text-5xl xl:text-7xl font-bold mb-4 leading-tight">
@@ -339,7 +339,7 @@ const DevSpaceClient = () => {
               <span>View on GitHub</span>
             </Link>
           </div>
-          <p className="text-xs text-white/40">v2.2.0-preview · Windows 10/11 · ~80 MB · No admin required</p>
+          <p className="text-xs text-white/40">v2.2.x-preview · Windows 10/11 · ~80 MB · No admin required</p>
           <p className="mt-1 text-[11px] text-white/40 max-w-md mx-auto">
             Note: unsigned during preview — Windows may show a SmartScreen warning. Code signing is on the roadmap before stable release.
           </p>
@@ -630,7 +630,7 @@ const DevSpaceClient = () => {
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/40 hover:border-purple-500/60 text-purple-200 px-6 py-3 rounded-lg transition-all duration-300 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
               >
                 <FaDownload aria-hidden="true" />
-                <span>Download v2.2.0-preview</span>
+                <span>Download v2.2.x-preview</span>
               </Link>
             </div>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-white/60">
