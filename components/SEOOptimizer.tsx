@@ -12,7 +12,7 @@ const SEOOptimizer = () => {
       "@type": "Person",
       "name": "Biswajit Panday",
       "jobTitle": "Senior .NET Developer",
-      "description": "Professional Full-Stack .NET Developer with 11+ years of experience specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS.",
+      "description": "Senior .NET Developer with 11+ years building enterprise backend systems, microservices and full-stack applications with .NET, React, Azure & AWS.",
       "url": "https://biswajitpanday.github.io",
       "sameAs": [
         "https://github.com/biswajitpanday",
@@ -109,10 +109,10 @@ const SEOOptimizer = () => {
       },
       {
         "@type": "Question",
-        "name": "Is Biswajit available for freelance projects?",
+        "name": "Is Biswajit available for hire?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, Biswajit is available for consulting and freelance projects. Contact through the portfolio website for project inquiries and collaboration opportunities."
+          "text": "Yes — Biswajit is available immediately for senior .NET roles across Germany (on-site, hybrid or remote). Consulting engagements are also welcome. Contact through the portfolio website."
         }
       },
       {

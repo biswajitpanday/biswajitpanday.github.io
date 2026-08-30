@@ -71,6 +71,9 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }} --legacy-peer-deps
 
+      - name: Clear Next.js fetch cache to force fresh API data
+        run: rm -rf .next/cache/fetch-cache
+
       - name: Log rebuild trigger
         run: |
           echo "Manual rebuild triggered by: ${{ github.actor }}"

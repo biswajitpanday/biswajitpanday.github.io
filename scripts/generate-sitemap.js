@@ -29,7 +29,6 @@ const pages = [
   { url: '/skills/', priority: '0.8', changefreq: 'monthly' },
   { url: '/career/', priority: '0.8', changefreq: 'monthly' },
   { url: '/certifications/', priority: '0.7', changefreq: 'monthly' },
-  { url: '/performance/', priority: '0.7', changefreq: 'monthly' },
   { url: '/activity/', priority: '0.7', changefreq: 'weekly' },
   { url: '/contact/', priority: '0.6', changefreq: 'monthly' },
 ];

@@ -344,10 +344,10 @@ const generateSocialImageTemplate = () => {
         
         <div class="content">
             <div class="role-badge">
-                ⚡ AI-Powered Full-Stack & .NET Developer
+                ⚡ AI-Powered Senior .NET Developer
             </div>
             <h1 class="name">Hi, I'm <span class="gradient-text">Biswajit Panday</span></h1>
-            <h2 class="title">Full-Stack .NET Developer</h2>
+            <h2 class="title">Senior .NET Developer</h2>
             <p class="description">Crafting <span class="highlight">high-performance</span>, <span class="highlight">scalable applications</span> with .NET, React & DevOps while integrating <span class="ai-highlight">AI solutions</span> and optimizing cloud solutions on Azure & AWS.</p>
             
             <div class="skills">
@@ -381,10 +381,10 @@ const generateSocialImageTemplate = () => {
         
         <div class="content">
             <div class="role-badge">
-                ⚡ AI-Powered Full-Stack & .NET Developer
+                ⚡ AI-Powered Senior .NET Developer
             </div>
             <h1 class="name">Hi, I'm <span class="gradient-text">Biswajit Panday</span></h1>
-            <h2 class="title">Full-Stack .NET Developer & Cloud Expert</h2>
+            <h2 class="title">Senior .NET Developer & AI Solutions Engineer</h2>
             <p class="description">Crafting <span class="highlight">high-performance</span>, <span class="highlight">scalable applications</span> with 11+ years experience in .NET, React & DevOps while integrating <span class="ai-highlight">AI solutions</span></p>
             
             <div class="skills">

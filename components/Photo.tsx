@@ -16,7 +16,7 @@ const Photo = () => {
             priority
             quality={90}
             fill
-            alt="Biswajit Panday - Full-Stack .NET Developer"
+            alt="Biswajit Panday - Senior .NET Developer"
             className="object-cover"
             sizes="(max-width: 1280px) 300px, 506px"
             loading="eager"

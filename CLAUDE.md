@@ -103,7 +103,7 @@ Content is **API-driven** at build time (SSG). The deployed `portfolio-admin` pa
 
 **Local-only files in `data/`:**
 - `navigationData.ts` — site navigation structure (static)
-- `schemaData.ts` — structured data for SEO (static)
+- (structured data for SEO lives in `components/StructuredData.tsx`; the old `data/schemaData.ts` was removed 2026-08-30)
 - `localProjects.ts` — local project fallback (see above)
 
 ### Component Architecture

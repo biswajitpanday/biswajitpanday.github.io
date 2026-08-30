@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     "Hire developer",
     "Project inquiry", 
     "Software development consultation",
-    "Freelance developer",
+    "Consulting",
     "Full-stack developer contact",
     "Cottbus Germany",
     "Germany"

@@ -12,8 +12,8 @@ interface SocialPreviewProps {
 }
 
 const SocialPreviewGenerator = ({
-  title = "Biswajit Panday - Full-Stack .NET Developer & Cloud Solutions Expert",
-  description = "Expert Full-Stack .NET Developer with 11+ years experience. Specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS. Microsoft Certified.",
+  title = "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
+  description = "Senior .NET Developer with 11+ years of experience. Specializing in scalable enterprise applications and cloud solutions with .NET, React, Azure & AWS. Microsoft Certified.",
   image = "https://biswajitpanday.github.io/assets/profile/profile-large.webp",
   url = "https://biswajitpanday.github.io",
   type = "website",

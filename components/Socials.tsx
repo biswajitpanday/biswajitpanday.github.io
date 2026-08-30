@@ -15,7 +15,6 @@ const DEFAULT_SOCIAL_LINKS = {
     github: 'https://github.com/biswajitpanday',
     linkedin: 'https://www.linkedin.com/in/biswajitpanday',
     medium: 'https://medium.com/@biswajitpanday',
-    stackoverflow: 'https://stackoverflow.com/users/2923956/biswajit-panday'
 };
 
 const Socials = ({ containerStyles, iconStyles }: SocialsProps) => {
@@ -52,11 +51,14 @@ const Socials = ({ containerStyles, iconStyles }: SocialsProps) => {
             path: portfolioMetadata?.socialLinks?.medium || DEFAULT_SOCIAL_LINKS.medium,
             label: 'Read Medium articles'
         },
-        {
-            icon: <FaStackOverflow />,
-            path: portfolioMetadata?.socialLinks?.stackoverflow || DEFAULT_SOCIAL_LINKS.stackoverflow,
-            label: 'View Stack Overflow profile'
-        }
+        // Stack Overflow renders ONLY when a URL is set in portfolio-admin metadata
+        ...(portfolioMetadata?.socialLinks?.stackoverflow
+            ? [{
+                icon: <FaStackOverflow />,
+                path: portfolioMetadata.socialLinks.stackoverflow,
+                label: 'View Stack Overflow profile'
+            }]
+            : [])
     ];
 
     return (

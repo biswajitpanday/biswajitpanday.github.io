@@ -79,8 +79,8 @@ const DevSpaceFeaturedSection: React.FC<DevSpaceFeaturedSectionProps> = ({ proje
             <Badge icon={<SiDotnet className="text-purple-400" />} text=".NET 9" color="purple" size="compact" />
             <Badge icon={<SiTailwindcss className="text-cyan-400" />} text="Tailwind" color="default" size="compact" />
             <Badge icon={<FaServer className="text-emerald-400" />} text="SignalR + EF Core" color="emerald" size="compact" />
-            <Badge text="Clean Architecture" color="neutral" size="compact" />
-            <Badge text="CQRS · DDD" color="neutral" size="compact" />
+            <Badge text="Layered .NET 9" color="neutral" size="compact" />
+            <Badge text="Repository/Service" color="neutral" size="compact" />
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">

@@ -150,7 +150,7 @@ const FeaturedAchievementSection: React.FC<FeaturedAchievementSectionProps> = ({
               {/* Pytest */}
               {project.stacks.find(t => t.includes('Pytest')) && (
                 <Badge
-                  text={project.stacks.find(t => t.includes('Pytest')) || 'Pytest (90%+ Coverage)'}
+                  text={project.stacks.find(t => t.includes('Pytest')) || 'Pytest'}
                   color="default"
                   size="compact"
                 />

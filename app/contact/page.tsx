@@ -106,7 +106,7 @@ const validateForm = (data: FormData) => {
 
 // Fallback default values (used if API fails or data is not available)
 const DEFAULT_CONTACT_INFO = {
-  phone: "+880 1681642502",
+  phone: "+49 1520 6964465",
   email: "biswajitmailid@gmail.com",
   teams: "biswajitpanday@live.com",
   location: "Cottbus, Germany",
@@ -1012,7 +1012,7 @@ const Contact = () => {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
                     </span>
-                    <span className="text-emerald-400 text-sm font-medium">Available for Projects</span>
+                    <span className="text-emerald-400 text-sm font-medium">Open to Senior .NET Roles · Available Immediately</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-white/60 text-sm">

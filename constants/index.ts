@@ -202,7 +202,7 @@ export const ANIMATION_STRATEGY = {
 // SEO constants
 export const SEO = {
   DEFAULT_TITLE: "Panday's Portfolio",
-  DEFAULT_DESCRIPTION: "Portfolio of Biswajit Panday - Full-Stack .NET Developer",
+  DEFAULT_DESCRIPTION: "Portfolio of Biswajit Panday - Senior .NET Developer",
   SITE_URL: "https://biswajitpanday.github.io",
   AUTHOR: "Biswajit Panday",
 } as const;
@@ -212,7 +212,7 @@ export const SOCIAL_LINKS = {
   GITHUB: "https://github.com/biswajitpanday",
   LINKEDIN: "https://linkedin.com/in/biswajitpanday",
   EMAIL: "biswajitmailid@gmail.com",
-  PHONE: "+880 1681642502",
+  PHONE: "+49 1520 6964465",
   WHATSAPP: "+880 1681642502",
   TEAMS: "biswajitpanday@live.com",
 } as const;

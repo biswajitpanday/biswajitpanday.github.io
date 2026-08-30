@@ -90,7 +90,6 @@ const HomeClient = ({
   const heroPhrases = DEFAULT_HERO_PHRASES;
   const heroTagline = "Senior .NET Developer · AI-Driven Automation";
   const heroName = "Biswajit Panday";
-  const heroBio = `Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade applications. Most recently at Optimizely, delivering solutions for global enterprise clients. Recently launched DevSpace — a free Windows desktop app that centralizes every developer project. Also built SpireWiz, an AI tool achieving up to 80% time reduction and ~$180K annual value. Microsoft Certified.`;
 
   // Dynamic resume URL (with fallback to default)
   const resumeUrl = portfolioMetadata?.resumeUrl || "/assets/Biswajit_Panday_Resume.pdf";
@@ -120,8 +119,10 @@ const HomeClient = ({
   };
 
   // Dynamic SEO metadata (with fallback to defaults)
-  const seoTitle = portfolioMetadata?.seoTitle || "Biswajit Panday - Senior .NET Architect & AI Solutions Engineer";
-  const seoDescription = portfolioMetadata?.metaDescription || `Senior .NET Architect with ${totalExperience} delivering mid to enterprise grade platforms. Most recently at Optimizely. Creator of DevSpace — a free Windows desktop app for centralizing developer projects (launched April 2026) — and SpireWiz, an AI tool achieving up to 80% time reduction and ~$180K annual value. Microsoft Certified.`;
+  const seoTitle = portfolioMetadata?.tagline
+    ? `Biswajit Panday - ${portfolioMetadata.tagline}`
+    : "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer";
+  const seoDescription = portfolioMetadata?.metaDescription || `Senior .NET Developer with ${totalExperience} delivering mid to enterprise grade platforms. Most recently at Optimizely. Creator of DevSpace — a free Windows desktop app for centralizing developer projects (launched April 2026) — and SpireWiz, an AI tool achieving up to 80% time reduction and ~$180K annual value. Microsoft Certified.`;
   const ogImage = portfolioMetadata?.seo?.ogImage || "https://biswajitpanday.github.io/assets/profile/profile-large.webp";
   const twitterCard = portfolioMetadata?.seo?.twitterCard || "summary_large_image";
 
@@ -238,7 +239,7 @@ const HomeClient = ({
                 data-testid="home-description"
                 className="text-white/70 text-base leading-relaxed max-w-2xl mb-6 mx-auto xl:mx-0"
               >
-                Senior .NET Architect with{" "}
+                Senior .NET Developer with{" "}
                 <span className="text-[#00BFFF] font-medium">{totalExperience}</span> delivering mid
                 to enterprise grade applications. Most recently at{" "}
                 <span className="text-[#00BFFF] font-medium">Optimizely</span>, serving

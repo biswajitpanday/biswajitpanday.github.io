@@ -9,7 +9,7 @@ import React from "react";
  *
  * @description
  * This is the PRIMARY badge component for display purposes. Use this for:
- * - Role badges on homepage (e.g., "Senior .NET Architect")
+ * - Role badges on homepage (e.g., "Senior .NET Developer")
  * - Category labels on project/skill cards
  * - Feature highlights and visual indicators
  * - Any badge that needs to be prominent and decorative

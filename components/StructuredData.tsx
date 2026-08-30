@@ -30,7 +30,7 @@ export const PersonSchema = () => {
     "@type": "Person",
     name: "Biswajit Panday",
     jobTitle: "Senior .NET Developer",
-    description: "Professional Full-Stack .NET Developer with 11+ years of experience specializing in scalable applications, cloud solutions with .NET, React, Azure & AWS.",
+    description: "Senior .NET Developer with 11+ years building enterprise backend systems, microservices and full-stack applications with .NET, React, Azure & AWS. Most recently at Optimizely; now based in Cottbus, Germany.",
     url: "https://biswajitpanday.github.io",
     sameAs: [
       "https://github.com/biswajitpanday",
@@ -44,7 +44,7 @@ export const PersonSchema = () => {
       addressCountry: "Germany"
     },
     email: "biswajitmailid@gmail.com",
-    telephone: "+880 1681642502",
+    telephone: "+49 1520 6964465",
     knowsAbout: [
       ".NET Development",
       "React Development", 
@@ -83,12 +83,7 @@ export const WebSiteSchema = () => {
       "@type": "Person", 
       name: "Biswajit Panday"
     },
-    logo: "https://biswajitpanday.github.io/assets/photo.webp",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: "https://biswajitpanday.github.io/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+    logo: "https://biswajitpanday.github.io/assets/photo.webp"
   };
 
   return (

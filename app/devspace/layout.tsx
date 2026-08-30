@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Windows Desktop App",
     "Electron",
     ".NET 9",
-    "Clean Architecture",
+    "Layered Architecture",
     "Developer Tools",
     "Project Management",
     "Git Workflow",
@@ -78,10 +78,6 @@ const softwareApplicationSchema = {
     "@type": "Person",
     name: "Biswajit Panday",
     url: "https://biswajitpanday.github.io",
-  },
-  contributor: {
-    "@type": "Person",
-    name: "Abdullah Saleh Robin",
   },
   license:
     "https://github.com/biswajitpanday/Devspace-Releases/blob/main/PRIVACY.md",

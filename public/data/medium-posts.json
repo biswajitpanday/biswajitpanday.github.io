@@ -1,5 +1,56 @@
 [
   {
+    "id": "https://medium.com/p/b61e523f9af1",
+    "title": "Engineering a Zero-Cost, Data-Driven Portfolio: AI Chatbot with Google Gemini: Part 3",
+    "link": "https://medium.com/@biswajitpanday/engineering-a-zero-cost-data-driven-portfolio-ai-chatbot-with-google-gemini-part-3-b61e523f9af1?source=rss-202123849eb3------2",
+    "pubDate": "Sat, 27 Dec 2025 10:34:35 GMT",
+    "author": "Biswajit Panday",
+    "categories": [
+      "chatbots",
+      "artificial-intelligence",
+      "software-engineering",
+      "serverless",
+      "web-development"
+    ],
+    "excerpt": "",
+    "thumbnail": "https://cdn-images-1.medium.com/max/1024/1*uwqpOcbQFZDDzng1ESWWQA.png",
+    "readTime": 7
+  },
+  {
+    "id": "https://medium.com/p/1bc8081b0eb8",
+    "title": "Engineering a Zero-Cost, Data-Driven Portfolio: Scaling with a Serverless Admin Portal and AI…",
+    "link": "https://medium.com/@biswajitpanday/engineering-a-zero-cost-data-driven-portfolio-scaling-with-a-serverless-admin-portal-and-ai-1bc8081b0eb8?source=rss-202123849eb3------2",
+    "pubDate": "Thu, 25 Dec 2025 13:26:16 GMT",
+    "author": "Biswajit Panday",
+    "categories": [
+      "design-systems",
+      "web-development",
+      "nextjs",
+      "devops",
+      "software-engineering"
+    ],
+    "excerpt": "",
+    "thumbnail": "https://cdn-images-1.medium.com/max/1024/1*Y09RLjGymg2mJIwpskyqqQ.png",
+    "readTime": 4
+  },
+  {
+    "id": "https://medium.com/p/5631362cf863",
+    "title": "Engineering a Zero-Cost, Data-Driven Portfolio: Admin Portal With MongoDB and AI Chatbot: Part 2",
+    "link": "https://medium.com/@biswajitpanday/engineering-a-zero-cost-data-driven-portfolio-admin-portal-with-mongodb-and-ai-chatbot-part-2-5631362cf863?source=rss-202123849eb3------2",
+    "pubDate": "Thu, 25 Dec 2025 00:00:00 GMT",
+    "author": "Biswajit Panday",
+    "categories": [
+      "serverless",
+      "database-design",
+      "design-systems",
+      "software-engineering",
+      "web-development"
+    ],
+    "excerpt": "",
+    "thumbnail": "https://cdn-images-1.medium.com/max/1024/1*VJZ3OdbbTg4WlrijQFOk7g.png",
+    "readTime": 6
+  },
+  {
     "id": "https://medium.com/p/0ea195de3002",
     "title": "Batch & Shell Files: The Secret Sauce for Programmer Productivity",
     "link": "https://medium.com/@biswajitpanday/batch-shell-files-the-secret-sauce-for-programmer-productivity-0ea195de3002?source=rss-202123849eb3------2",

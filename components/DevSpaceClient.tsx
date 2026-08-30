@@ -223,9 +223,8 @@ const TECH = [
   { text: "SignalR", icon: null },
   { text: "SQLite", icon: <SiSqlite className="text-blue-400" /> },
   { text: "Supabase (planned)", icon: null },
-  { text: "Clean Architecture", icon: null },
-  { text: "CQRS", icon: null },
-  { text: "DDD", icon: null },
+  { text: "Layered .NET 9 (Core/Data/Business/WebAPI)", icon: null },
+  { text: "Repository/Service", icon: null },
 ];
 
 const metricColorClasses: Record<
@@ -367,15 +366,6 @@ const DevSpaceClient = () => {
               className="text-purple-300 hover:text-purple-200 underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
             >
               Biswajit Panday
-            </Link>
-            {" "}+{" "}
-            <Link
-              href="https://www.linkedin.com/in/robinabdullah/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-purple-300 hover:text-purple-200 underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded"
-            >
-              Abdullah Saleh Robin
             </Link>
           </p>
           <p className="mt-1 text-xs text-white/40">
@@ -524,7 +514,7 @@ const DevSpaceClient = () => {
               ))}
             </div>
             <p className="text-sm text-white/60 leading-relaxed">
-              Built on Clean Architecture (4 layers), CQRS, and DDD —
+              Built as a layered .NET 9 solution (Core/Data/Business/WebAPI) with Repository and Service patterns —
               designed for maintainability and testability over the long haul.
               Security: 21-command shell whitelist with argument sanitization;
               credentials encrypted with the ASP.NET Core Data Protection API per project. No telemetry
