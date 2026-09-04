@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Biswajit Panday - Senior .NET Developer",
-  description: "Professional portfolio of Biswajit Panday, a Senior .NET Developer with 11+ years of experience in building modern web applications and cloud solutions. Based in Cottbus, Germany.",
+  description: "Professional portfolio of Biswajit Panday, a Senior .NET Developer with 11+ years of experience in building modern web applications and cloud solutions. Based in Berlin, Germany.",
   keywords: [
     "Biswajit Panday",
     "Full-Stack Developer", 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "Software Development",
     "Web Development",
     "Cloud Solutions",
-    "Cottbus Germany",
+    "Berlin Germany",
     "Germany"
   ],
   openGraph: {

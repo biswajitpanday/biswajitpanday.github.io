@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     default: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
     template: "%s | Biswajit Panday"
   },
-  description: "11+ years of experience supporting 25+ enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects. Specialized in architecting scalable solutions and practical AI tools — including SpireWiz, achieving up to 80% time reduction. Based in Cottbus, Germany. Expert in full-stack development and automation.",
+  description: "11+ years of experience supporting 25+ enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects. Specialized in architecting scalable solutions and practical AI tools — including SpireWiz, achieving up to 80% time reduction. Based in Berlin, Germany. Expert in full-stack development and automation.",
   keywords: [
     "Biswajit Panday",
     "Senior .NET Developer",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     "TypeScript",
     "Full-Stack Developer",
     "Software Architecture",
-    "Cottbus Germany",
+    "Berlin Germany",
     "Germany",
     "ASP.NET Core",
     "Cloud Solutions",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
-    description: "11+ years of experience supporting 25+ enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects. Specialized in architecting scalable solutions and practical AI tools — including SpireWiz, achieving up to 80% time reduction. Based in Cottbus, Germany. Expert in full-stack development and automation.",
+    description: "11+ years of experience supporting 25+ enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects. Specialized in architecting scalable solutions and practical AI tools — including SpireWiz, achieving up to 80% time reduction. Based in Berlin, Germany. Expert in full-stack development and automation.",
     url: "https://biswajitpanday.github.io",
     siteName: "Biswajit Panday Portfolio",
     images: [

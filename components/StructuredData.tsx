@@ -30,7 +30,7 @@ export const PersonSchema = () => {
     "@type": "Person",
     name: "Biswajit Panday",
     jobTitle: "Senior .NET Developer",
-    description: "Senior .NET Developer with 11+ years building enterprise backend systems, microservices and full-stack applications with .NET, React, Azure & AWS. Most recently at Optimizely; now based in Cottbus, Germany.",
+    description: "Senior .NET Developer with 11+ years building enterprise backend systems, microservices and full-stack applications with .NET, React, Azure & AWS. Most recently at Optimizely; now based in Berlin, Germany.",
     url: "https://biswajitpanday.github.io",
     sameAs: [
       "https://github.com/biswajitpanday",
@@ -40,7 +40,7 @@ export const PersonSchema = () => {
     image: "https://biswajitpanday.github.io/assets/photo.webp",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Cottbus",
+      addressLocality: "Berlin",
       addressCountry: "Germany"
     },
     email: "biswajitmailid@gmail.com",

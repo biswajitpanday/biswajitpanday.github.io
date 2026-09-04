@@ -109,7 +109,7 @@ const DEFAULT_CONTACT_INFO = {
   phone: "+49 1520 6964465",
   email: "biswajitmailid@gmail.com",
   teams: "biswajitpanday@live.com",
-  location: "Cottbus, Germany",
+  location: "Berlin, Germany",
 };
 
 const DEFAULT_SOCIAL_LINKS = {
