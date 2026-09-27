@@ -76,7 +76,7 @@ const PRIVACY_URL =
   "https://github.com/biswajitpanday/Devspace-Releases/blob/main/PRIVACY.md";
 
 const PROBLEMS = [
-  "30+ minutes a day lost to switching between projects",
+  "Several projects a day, and every switch means rebuilding your setup",
   "Credentials scattered across sticky notes, password managers, and .env files",
   "Every project has its own ritual: which IDE, which terminal, which folder, which DB tool",
 ];
@@ -95,7 +95,7 @@ const FEATURES: Feature[] = [
     alt: "Auto-discovered tools",
     title: "Auto-discovers your tools",
     body:
-      "Finds 100+ developer apps installed on your machine in under 3 seconds. Three sources running in parallel: Registry ARP, Start Menu shortcuts, and PATH scanning. No config, no patterns to maintain — new tools appear automatically. Smart classification across 16 categories: IDEs, runtimes, SCM, containers, databases, terminals, browsers, build tools, cloud CLIs, and more.",
+      "Install a tool and DevSpace already knows about it. It finds 100+ developer apps on your machine in under 3 seconds, reading the Registry, Start Menu and PATH in parallel, and sorts them into 16 categories: IDEs, runtimes, databases, terminals, cloud CLIs and more. Nothing to configure.",
     icon: <FaTools className="text-emerald-400" aria-hidden="true" />,
   },
   {
@@ -103,23 +103,23 @@ const FEATURES: Feature[] = [
     alt: "Manual scan",
     title: "Manual rescan with live progress",
     body:
-      "Just installed a new tool? Click Scan Tools and each source reports back in real time via SignalR. See what's new vs already-known. Skip or undo individual results before saving.",
+      "Just installed something new? Hit Scan Tools and watch each source report back live. Keep what's new, and skip or undo the rest before saving.",
     icon: <FiZap className="text-cyan-400" aria-hidden="true" />,
   },
   {
     image: "/assets/devspace/tools-templates.png",
     alt: "Tool templates",
-    title: "Tool Templates — reusable tool collections",
+    title: "Reusable tool templates",
     body:
-      "Save your most-used tool sets (\".NET API\", \"React Frontend\", \"Data Pipeline\") and apply them to any project in one click. Bulk-import tools into existing projects too — no more adding them one by one.",
+      "Save the tools you always use together (a \".NET API\" set, a \"React Frontend\" set) and add them to any project in one click. Works on existing projects too, so you never add tools one by one.",
     icon: <FaCogs className="text-purple-400" aria-hidden="true" />,
   },
   {
     image: "/assets/devspace/single-project-card.png",
     alt: "Project card with quick actions and credentials",
-    title: "Multiple encrypted credentials per project",
+    title: "Every project keeps its own secrets",
     body:
-      "Dev DB password, staging DB, API tokens, SSH keys — all encrypted with the ASP.NET Core Data Protection API, tied to your user account. Drag to reorder, copy with one click. Custom labels per credential.",
+      "Dev and staging database passwords, API tokens, SSH keys: each one encrypted with the ASP.NET Core Data Protection API and tied to your Windows account. Copy any of them with one click, and label or reorder them as you like.",
     icon: <FaLock className="text-pink-400" aria-hidden="true" />,
   },
   {
@@ -127,7 +127,7 @@ const FEATURES: Feature[] = [
     alt: "Add project wizard",
     title: "Add or edit projects in 3 steps",
     body:
-      "Basic info → directories → credentials. Auto-detects git on directory selection. Apply a Tool Template during creation to bulk-add tools. Same wizard, Edit mode for any field.",
+      "Three steps: basics, folders, credentials. DevSpace spots the git repo as soon as you pick a folder, and you can apply a tool template on the way. The same wizard edits any project later.",
     icon: <FaCheckCircle className="text-emerald-400" aria-hidden="true" />,
   },
   {
@@ -135,15 +135,15 @@ const FEATURES: Feature[] = [
     alt: "Bulk import found projects",
     title: "Bulk-import existing repos",
     body:
-      "Point DevSpace at a directory tree and it scans for every .git repo, deduplicates, and imports them all in one click. Onboarding to a colleague's machine — or your own old projects folder — goes from a 30-minute setup ritual to a single scan.",
+      "Point DevSpace at a folder and it finds every git repo inside, skips duplicates, and imports them all in one scan. Setting up a new machine, or rescuing an old projects folder, becomes one step.",
     icon: <FaCodeBranch className="text-pink-400" aria-hidden="true" />,
   },
   {
     image: "/assets/devspace/git-view.png",
     alt: "Git view",
-    title: "Full git workflow built in",
+    title: "A visual Git client, built in",
     body:
-      "Visual commit graph, 4-panel layout, 6-tab sidebar (Commit, Branch Explorer, History, Remotes, Tags, Stashes). Cherry-pick, rebase, merge, conflict resolver, branch comparison. 27-language syntax highlighting.",
+      "See your whole history as a graph and work with it directly: branch, merge, rebase, cherry-pick and resolve conflicts without leaving the project. Remotes, tags and stashes each have their own tab.",
     icon: <FaGitAlt className="text-orange-400" aria-hidden="true" />,
   },
   {
@@ -151,15 +151,15 @@ const FEATURES: Feature[] = [
     alt: "Branch operations from the visual graph",
     title: "One-click ops from the visual graph",
     body:
-      "Right-click any commit on the graph for the full operation menu — branch from commit, checkout, tag, merge, cherry-pick, reset, push, pull, fetch. The operations live where the context does, not three menus away.",
+      "Right-click any commit on the graph to branch, check out, tag, merge, cherry-pick, reset, push, pull or fetch. The action sits where you are already looking, not three menus away.",
     icon: <FaCodeBranch className="text-emerald-400" aria-hidden="true" />,
   },
   {
     image: "/assets/devspace/git-commit-panel.png",
     alt: "Commit panel",
-    title: "Commit panel with hunk-level staging",
+    title: "Stage exactly what you mean",
     body:
-      "Stage individual hunks or whole files using real git add / git restore --staged. Live diff preview, inline commit message, command palette (Ctrl+K). 13 input dialogs, 10+ keyboard shortcuts.",
+      "Stage single hunks or whole files (real git add and git restore --staged underneath), with a live diff beside your commit message. Ctrl+K opens the command palette.",
     icon: <FaCodeBranch className="text-cyan-400" aria-hidden="true" />,
   },
   {
@@ -167,7 +167,7 @@ const FEATURES: Feature[] = [
     alt: "Commit history",
     title: "Commit history with smart filters",
     body:
-      "Filter by branch, author, or date. Click any commit for full details + diff. Per-file history view, blame view, branch comparison. Manual refresh — no disk-thrashing auto-poll.",
+      "Filter commits by branch, author or date, then open any one for its full diff. Per-file history, blame and branch comparison are one click away. It refreshes when you ask, so it never thrashes your disk.",
     icon: <FaChartLine className="text-purple-400" aria-hidden="true" />,
   },
   {
@@ -175,16 +175,16 @@ const FEATURES: Feature[] = [
     alt: "Personalized links",
     title: "Personalized quick links",
     body:
-      "Pin web URLs, terminal commands, or apps to the dashboard. Three types: web link, terminal command, application. Always one click away — no project context needed.",
+      "Pin what you open every day (a web page, a terminal command, an app) to the dashboard, one click away from any project.",
     icon: <FaCode className="text-emerald-400" aria-hidden="true" />,
   },
 ];
 
 const METRICS = [
   {
-    value: "30+ min",
-    label: "The morning ritual",
-    sub: "Built to reclaim what project-switching costs you each day",
+    value: "Visual Git",
+    label: "Built-in Git client",
+    sub: "Commit graph, hunk-level staging, conflict resolver — no terminal needed",
     color: "purple",
   },
   {
@@ -314,8 +314,8 @@ const DevSpaceClient = () => {
             Stop hunting for projects. Start working.
           </p>
           <p className="text-base md:text-lg text-white/60 max-w-2xl mx-auto mb-7 leading-relaxed">
-            A Windows desktop app that centralizes every project you work on — tools,
-            credentials, git, terminals — in one place. Free during the beta.
+            Several projects a day? One app. A Windows desktop app that keeps each
+            project's tools, credentials and git ready to open. Free during the beta.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-3">
