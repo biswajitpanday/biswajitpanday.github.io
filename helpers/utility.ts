@@ -95,7 +95,7 @@ export const calculateTotalExperience = (positions: Array<{startDate: Date | str
   } else if (displayMonths === 0) {
     return `${displayYears} year${displayYears > 1 ? 's' : ''}`;
   } else {
-    return `${displayYears}+ years`;
+    return `${displayYears} years`;
   }
 };
 

@@ -105,11 +105,11 @@ const FeaturedAchievementSection: React.FC<FeaturedAchievementSectionProps> = ({
                   size="compact"
                 />
               )}
-              {/* GPT-4o */}
-              {project.stacks.find(t => t.includes('GPT-4o')) && (
+              {/* OpenAI (e.g. "OpenAI Platform APIs") */}
+              {project.stacks.find(t => t.includes('OpenAI')) && (
                 <Badge
                   icon={<SiOpenai className="text-emerald-400" />}
-                  text={project.stacks.find(t => t.includes('GPT-4o'))?.replace('OpenAI ', '') || 'GPT-4o'}
+                  text={project.stacks.find(t => t.includes('OpenAI')) || 'OpenAI Platform APIs'}
                   color="emerald"
                   size="compact"
                 />

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Biswajit Panday - Senior .NET Developer",
-  description: "Professional portfolio of Biswajit Panday, a Senior .NET Developer with 11+ years of experience in building modern web applications and cloud solutions. Based in Berlin, Germany.",
+  title: "Biswajit Panday - Senior Backend Engineer | Full-Stack | AI/LLM Integration",
+  description: "Professional portfolio of Biswajit Panday, a senior backend engineer (C#/.NET, TypeScript/Node.js, AI/LLM integration) with 11 years in software. Based in Berlin, Germany.",
   keywords: [
     "Biswajit Panday",
     "Full-Stack Developer", 
@@ -22,13 +22,13 @@ export const metadata: Metadata = {
     "Germany"
   ],
   openGraph: {
-    title: "Biswajit Panday - Senior .NET Developer",
-    description: "Professional portfolio showcasing 11+ years of experience in .NET, React, and cloud technologies",
+    title: "Biswajit Panday - Senior Backend Engineer | Full-Stack | AI/LLM Integration",
+    description: "Senior backend engineer: C#/.NET, TypeScript/Node.js and AI/LLM integration. 11 years in software; based in Berlin, Germany.",
     url: "https://biswajitpanday.github.io",
   },
   twitter: {
-    title: "Biswajit Panday - Senior .NET Developer",
-    description: "Professional portfolio showcasing 11+ years of experience in .NET, React, and cloud technologies",
+    title: "Biswajit Panday - Senior Backend Engineer | Full-Stack | AI/LLM Integration",
+    description: "Senior backend engineer: C#/.NET, TypeScript/Node.js and AI/LLM integration. 11 years in software; based in Berlin, Germany.",
   },
 };
 

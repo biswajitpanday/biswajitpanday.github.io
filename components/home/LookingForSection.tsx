@@ -58,10 +58,10 @@ const LookingForSection: React.FC = () => {
         <div className="relative z-10">
           {/* Compact Pills - Grid Layout with Icon Left, Text Right */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {/* Senior .NET / Full-Stack */}
+            {/* Senior Backend / Full-Stack */}
             <div className="flex items-center gap-3 bg-white/10 border border-[#00BFFF]/30 rounded-lg p-3 hover:bg-white/15 hover:border-[#00BFFF]/50 transition-all group">
               <FiBriefcase className="text-[#00BFFF] text-xl flex-shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
-              <p className="text-white font-medium text-sm">Senior .NET / Full-Stack</p>
+              <p className="text-white font-medium text-sm">Senior Backend / Full-Stack</p>
             </div>
 
             {/* Remote / Hybrid */}

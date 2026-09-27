@@ -12,8 +12,8 @@ interface SocialPreviewProps {
 }
 
 const SocialPreviewGenerator = ({
-  title = "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
-  description = "Senior .NET Developer with 11+ years of experience. Specializing in scalable enterprise applications and cloud solutions with .NET, React, Azure & AWS. Microsoft Certified.",
+  title = "Biswajit Panday - Senior Backend Engineer | Full-Stack | AI/LLM Integration",
+  description = "Senior backend engineer: C#/.NET, TypeScript/Node.js and AI/LLM integration. 11 years in software; based in Berlin, Germany. Microsoft Certified: Azure Fundamentals.",
   image = "https://biswajitpanday.github.io/assets/profile/profile-large.webp",
   url = "https://biswajitpanday.github.io",
   type = "website",

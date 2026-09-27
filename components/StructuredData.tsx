@@ -29,8 +29,8 @@ export const PersonSchema = () => {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Biswajit Panday",
-    jobTitle: "Senior .NET Developer",
-    description: "Senior .NET Developer with 11+ years building enterprise backend systems, microservices and full-stack applications with .NET, React, Azure & AWS. Most recently at Optimizely; now based in Berlin, Germany.",
+    jobTitle: "Senior Backend Engineer",
+    description: "Senior backend engineer with 11 years in software, a decade of it in C# and .NET: backend systems, microservices and full-stack applications with .NET, Node.js, React, Azure and AWS. Most recently at Optimizely; now based in Berlin, Germany.",
     url: "https://biswajitpanday.github.io",
     sameAs: [
       "https://github.com/biswajitpanday",
@@ -102,7 +102,7 @@ export const OrganizationSchema = () => {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: "Biswajit Panday - Full-Stack Development Services",
-    description: "Professional Full-Stack .NET development services specializing in scalable web applications, cloud solutions, and modern development practices.",
+    description: "Professional Full-Stack .NET development services specializing in web applications, cloud solutions, and modern development practices.",
     url: "https://biswajitpanday.github.io",
     founder: {
       "@type": "Person",

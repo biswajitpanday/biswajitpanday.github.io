@@ -202,7 +202,7 @@ export const ANIMATION_STRATEGY = {
 // SEO constants
 export const SEO = {
   DEFAULT_TITLE: "Panday's Portfolio",
-  DEFAULT_DESCRIPTION: "Portfolio of Biswajit Panday - Senior .NET Developer",
+  DEFAULT_DESCRIPTION: "Portfolio of Biswajit Panday - Senior Backend Engineer",
   SITE_URL: "https://biswajitpanday.github.io",
   AUTHOR: "Biswajit Panday",
 } as const;

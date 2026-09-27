@@ -88,7 +88,7 @@ const HomeClient = ({
 
   // Hero section content (static)
   const heroPhrases = DEFAULT_HERO_PHRASES;
-  const heroTagline = "Senior .NET Developer · AI-Driven Automation";
+  const heroTagline = "Senior Backend Engineer · Full-Stack · AI/LLM Integration";
   const heroName = "Biswajit Panday";
 
   // Dynamic resume URL (with fallback to default)
@@ -121,8 +121,8 @@ const HomeClient = ({
   // Dynamic SEO metadata (with fallback to defaults)
   const seoTitle = portfolioMetadata?.tagline
     ? `Biswajit Panday - ${portfolioMetadata.tagline}`
-    : "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer";
-  const seoDescription = portfolioMetadata?.metaDescription || `Senior .NET Developer with ${totalExperience} delivering mid to enterprise grade platforms. Most recently at Optimizely. Creator of DevSpace — a free Windows desktop app for centralizing developer projects (launched April 2026) — and SpireWiz, an AI tool achieving up to 80% time reduction and ~$180K annual value. Microsoft Certified.`;
+    : "Biswajit Panday - Senior Backend Engineer | Full-Stack | AI/LLM Integration";
+  const seoDescription = portfolioMetadata?.metaDescription || `Senior backend engineer with ${totalExperience} in software, a decade of it in C# and .NET, plus TypeScript/Node.js and AI/LLM integration. Most recently at Optimizely. Built DevSpace, a Windows developer-productivity app, and co-engineered SpireWiz, an AI tool that cut upgrade cycles by up to 80% with a projected ~$180K annual value. Microsoft Certified: Azure Fundamentals.`;
   const ogImage = portfolioMetadata?.seo?.ogImage || "https://biswajitpanday.github.io/assets/profile/profile-large.webp";
   const twitterCard = portfolioMetadata?.seo?.twitterCard || "summary_large_image";
 
@@ -239,19 +239,19 @@ const HomeClient = ({
                 data-testid="home-description"
                 className="text-white/70 text-base leading-relaxed max-w-2xl mb-6 mx-auto xl:mx-0"
               >
-                Senior .NET Developer with{" "}
+                Senior backend engineer with{" "}
                 <span className="text-[#00BFFF] font-medium">{totalExperience}</span> delivering mid
                 to enterprise grade applications. Most recently at{" "}
                 <span className="text-[#00BFFF] font-medium">Optimizely</span>, serving
                 global enterprise clients. Recently launched{" "}
                 <Link href="/devspace" className="text-purple-400 font-medium hover:text-purple-300 underline-offset-4 hover:underline">DevSpace</Link>{" "}
-                — a free Windows desktop app that centralizes developer projects, credentials, and the full git workflow. Also built{" "}
+                — a Windows desktop app, now in public preview, that centralizes developer projects, credentials, and the full git workflow. Also co-engineered{" "}
                 <span className="text-[#00BFFF] font-medium">SpireWiz</span> achieving{" "}
-                <span className="text-emerald-400 font-medium">up to 80% </span>{" "} efficiency gains, {" "}
-                <span className="text-purple-400 font-medium">~$180K </span> annual value, and {" "}
+                <span className="text-emerald-400 font-medium">up to 80% </span>{" "} shorter upgrade cycles, {" "}
+                <span className="text-purple-400 font-medium">~$180K </span> projected annual value, and an estimated {" "}
                 <span className="text-purple-400 font-medium">600+</span> {" "}
                 developer hours saved annually. {" "}
-                <span className="text-[#00BFFF] font-medium">Microsoft Certified</span>.
+                <span className="text-[#00BFFF] font-medium">Microsoft Certified: Azure Fundamentals</span>.
               </p>
 
               {/* Tech Stack Highlights - Compact badges with gradient icons */}

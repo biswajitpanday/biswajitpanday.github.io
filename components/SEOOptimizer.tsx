@@ -11,8 +11,8 @@ const SEOOptimizer = () => {
     "mainEntity": {
       "@type": "Person",
       "name": "Biswajit Panday",
-      "jobTitle": "Senior .NET Developer",
-      "description": "Senior .NET Developer with 11+ years building enterprise backend systems, microservices and full-stack applications with .NET, React, Azure & AWS.",
+      "jobTitle": "Senior Backend Engineer",
+      "description": "Senior backend engineer with 11 years in software, a decade of it in C# and .NET: backend systems, microservices and full-stack applications with .NET, Node.js, React, Azure and AWS.",
       "url": "https://biswajitpanday.github.io",
       "sameAs": [
         "https://github.com/biswajitpanday",
@@ -112,7 +112,7 @@ const SEOOptimizer = () => {
         "name": "Is Biswajit available for hire?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes — Biswajit is available immediately for senior .NET roles across Germany (on-site, hybrid or remote). Consulting engagements are also welcome. Contact through the portfolio website."
+          "text": "Yes — Biswajit is available immediately for senior backend, full-stack and AI-integration roles across Germany (on-site, hybrid or remote). Contact through the portfolio website."
         }
       },
       {

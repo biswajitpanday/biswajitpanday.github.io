@@ -25,22 +25,22 @@ const jetBrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
+    default: "Biswajit Panday - Senior Backend Engineer | Full-Stack | AI/LLM Integration",
     template: "%s | Biswajit Panday"
   },
-  description: "11+ years of experience supporting 25+ enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects. Specialized in architecting scalable solutions and practical AI tools — including SpireWiz, achieving up to 80% time reduction. Based in Berlin, Germany. Expert in full-stack development and automation.",
+  description: "Senior backend engineer in Berlin, Germany: 11 years in software, a decade of it in C# and .NET, plus TypeScript/Node.js and AI/LLM integration. Co-engineered SpireWiz, an AI upgrade-automation tool that cut upgrade cycles by up to 80% across 25+ enterprise clients, and built DevSpace, a Windows developer-productivity app.",
   keywords: [
     "Biswajit Panday",
+    "Senior Backend Engineer",
     "Senior .NET Developer",
-    "AI Solutions Engineer",
+    "Node.js Developer",
     "Enterprise Architecture",
-    "Cloud Migration Expert",
     "Microservices Architecture",
     "DevOps Engineer",
     "Microsoft Certified",
     "Legacy System Modernization",
     "AI Integration",
-    "C# Expert",
+    "C# Developer",
     "React Developer",
     "TypeScript",
     "Full-Stack Developer",
@@ -68,8 +68,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
-    description: "11+ years of experience supporting 25+ enterprise clients. Creator of DevSpace, a free Windows desktop app for centralizing developer projects. Specialized in architecting scalable solutions and practical AI tools — including SpireWiz, achieving up to 80% time reduction. Based in Berlin, Germany. Expert in full-stack development and automation.",
+    title: "Biswajit Panday - Senior Backend Engineer | Full-Stack | AI/LLM Integration",
+    description: "Senior backend engineer in Berlin, Germany: 11 years in software, a decade of it in C# and .NET, plus TypeScript/Node.js and AI/LLM integration. Co-engineered SpireWiz, an AI upgrade-automation tool that cut upgrade cycles by up to 80% across 25+ enterprise clients, and built DevSpace, a Windows developer-productivity app.",
     url: "https://biswajitpanday.github.io",
     siteName: "Biswajit Panday Portfolio",
     images: [
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
         url: "https://biswajitpanday.github.io/assets/social-preview.webp",
         width: 1200,
         height: 630,
-        alt: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer | 11+ years supporting 25+ enterprise clients",
+        alt: "Biswajit Panday - Senior Backend Engineer | Full-Stack | AI/LLM Integration",
         type: "image/png",
       },
     ],
@@ -87,11 +87,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
-    description: "Creator of DevSpace (free Windows dev project app) and SpireWiz (AI tool, up to 80% time reduction). Senior .NET Developer with 11+ years supporting 25+ enterprise clients. Microsoft Certified.",
+    title: "Biswajit Panday - Senior Backend Engineer | Full-Stack | AI/LLM Integration",
+    description: "Co-engineered SpireWiz (AI upgrade automation, up to 80% shorter upgrade cycles) and built DevSpace. Senior backend engineer, 11 years in software. Microsoft Certified: Azure Fundamentals.",
     images: {
       url: "https://biswajitpanday.github.io/assets/social-preview.webp",
-      alt: "Biswajit Panday - Senior .NET Developer & AI Solutions Engineer",
+      alt: "Biswajit Panday - Senior Backend Engineer | Full-Stack | AI/LLM Integration",
       width: 1200,
       height: 630,
     },
