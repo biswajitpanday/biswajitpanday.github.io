@@ -67,8 +67,8 @@ const DevSpaceFeaturedSection: React.FC<DevSpaceFeaturedSectionProps> = ({ proje
 
             <div className="bg-gradient-to-br from-cyan-500/10 to-transparent border border-cyan-500/30 rounded-lg p-4 text-center hover:border-cyan-500/50 transition-all">
               <div className="text-3xl font-bold text-cyan-400 mb-1">1 click</div>
-              <div className="text-sm text-white/60">Full project launch</div>
-              <div className="text-xs text-white/40 mt-1">IDE + terminals + browser + DB</div>
+              <div className="text-sm text-white/60">Per tool</div>
+              <div className="text-xs text-white/40 mt-1">IDE, terminal, script or DB client</div>
             </div>
           </div>
 

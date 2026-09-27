@@ -180,6 +180,39 @@ const FEATURES: Feature[] = [
   },
 ];
 
+const DAY = [
+  {
+    when: "Morning",
+    text: "Open DevSpace and see every project at once: which branch it's on and whether it's behind the remote.",
+    icon: <FaCodeBranch className="text-emerald-400" aria-hidden="true" />,
+  },
+  {
+    when: "Switching projects",
+    text: "Ctrl+P, type two letters, and the project is in front of you. Its IDE, its npm start, its database client: one click each, set up once.",
+    icon: <FiZap className="text-cyan-400" aria-hidden="true" />,
+  },
+  {
+    when: "Starting a new project",
+    text: "Bundle the tools you always use together into a template (a .NET API set, a React frontend set) and apply it to any project in one click.",
+    icon: <FaCogs className="text-purple-400" aria-hidden="true" />,
+  },
+  {
+    when: "Need a password",
+    text: "The staging database password is on the project card. Copy it and keep going; it's encrypted with the rest of that project's secrets.",
+    icon: <FaLock className="text-pink-400" aria-hidden="true" />,
+  },
+  {
+    when: "Time to commit",
+    text: "Stage the lines you mean, see the graph, resolve the conflict, all in the same window.",
+    icon: <FaGitAlt className="text-orange-400" aria-hidden="true" />,
+  },
+  {
+    when: "New laptop",
+    text: "Point it at your projects folder: every repo comes back in one scan, and your installed tools are found for you.",
+    icon: <FaTools className="text-emerald-400" aria-hidden="true" />,
+  },
+];
+
 const METRICS = [
   {
     value: "Visual Git",
@@ -201,8 +234,8 @@ const METRICS = [
   },
   {
     value: "1 click",
-    label: "Project launch",
-    sub: "IDE + terminals + browser tabs + DB client",
+    label: "Per tool",
+    sub: "Your IDE, terminal command, script or DB client — set once per project",
     color: "pink",
   },
 ] as const;
@@ -410,6 +443,47 @@ const DevSpaceClient = () => {
                 </li>
               ))}
             </ul>
+            <p className="mt-5 pt-4 border-t border-white/10 text-sm text-white/60 leading-relaxed">
+              Researchers who watched 86 programmers at work found that only 1 in 10 interrupted
+              sessions got back to editing code within a minute (
+              <a
+                href="https://link.springer.com/article/10.1007/s11219-010-9104-9"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-300 underline underline-offset-4 hover:text-purple-200"
+              >
+                Parnin &amp; Rugaber, 2011
+              </a>
+              ). DevSpace can&apos;t bring back your train of thought. It gives you everything else back.
+            </p>
+          </div>
+        </motion.section>
+
+        {/* How it fits your day */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mt-20 max-w-7xl mx-auto"
+        >
+          <div className="flex items-center gap-2 mb-6">
+            <FiArrowRight className="text-purple-400 text-xl" aria-hidden="true" />
+            <h2 className="text-lg font-semibold text-purple-400">How it fits your day</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {DAY.map((d) => (
+              <div
+                key={d.when}
+                className="bg-gray-900/50 backdrop-blur-sm border border-white/10 rounded-xl p-5 hover:border-white/20 transition-all"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-lg">{d.icon}</span>
+                  <h3 className="text-sm font-semibold text-white">{d.when}</h3>
+                </div>
+                <p className="text-sm text-white/70 leading-relaxed">{d.text}</p>
+              </div>
+            ))}
           </div>
         </motion.section>
 
@@ -423,7 +497,7 @@ const DevSpaceClient = () => {
         >
           <div className="flex items-center gap-2 mb-6">
             <FaChartLine className="text-emerald-400 text-xl" aria-hidden="true" />
-            <h2 className="text-lg font-semibold text-emerald-400">What it changes about your day</h2>
+            <h2 className="text-lg font-semibold text-emerald-400">At a glance</h2>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {METRICS.map((m) => {
