@@ -245,7 +245,7 @@ const HomeClient = ({
                 <span className="text-[#00BFFF] font-medium">Optimizely</span>, serving
                 global enterprise clients. Recently launched{" "}
                 <Link href="/devspace" className="text-purple-400 font-medium hover:text-purple-300 underline-offset-4 hover:underline">DevSpace</Link>{" "}
-                — a Windows desktop app, now in public preview, that centralizes developer projects, credentials, and the full git workflow. Also co-engineered{" "}
+                — a Windows desktop app, now in public preview, that keeps each project's tools and credentials in one place, with a built-in visual Git client. Also co-engineered{" "}
                 <span className="text-[#00BFFF] font-medium">SpireWiz</span> achieving{" "}
                 <span className="text-emerald-400 font-medium">up to 80% </span>{" "} shorter upgrade cycles, {" "}
                 <span className="text-purple-400 font-medium">~$180K </span> projected annual value, and an estimated {" "}

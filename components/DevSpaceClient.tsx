@@ -240,10 +240,12 @@ const METRICS = [
   },
 ] as const;
 
-const ROADMAP = [
-  { label: "v2.2.x-preview — public preview", status: "shipped" as const, when: "April 2026" },
-  { label: "Cloud sync (Supabase, opt-in)", status: "in-progress" as const, when: "next" },
-  { label: "macOS support", status: "planned" as const, when: "later" },
+type RoadmapStatus = "shipped" | "in-progress" | "planned";
+
+const ROADMAP: { label: string; status: RoadmapStatus; when: string }[] = [
+  { label: "v2.2.x-preview — public preview", status: "shipped", when: "April 2026" },
+  { label: "Cloud sync (Supabase, opt-in)", status: "planned", when: "next" },
+  { label: "macOS support", status: "planned", when: "later" },
 ];
 
 const TECH = [
