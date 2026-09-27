@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "DevSpace — Developer Productivity for Windows",
   description:
-    "DevSpace is a free Windows desktop app that centralizes every developer project — auto-discovers installed tools, encrypts per-project credentials with the ASP.NET Core Data Protection API, and bundles a full git workflow. Built with Electron + .NET 9.",
+    "DevSpace is a Windows desktop app, free during the beta, that centralizes every developer project — auto-discovers installed tools, encrypts per-project credentials with the ASP.NET Core Data Protection API, and bundles a full git workflow. Built with Electron + .NET 9.",
   keywords: [
     "DevSpace",
     "Developer Productivity",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "DevSpace — Centralize every developer project",
     description:
-      "Free Windows desktop app: auto-discovers tools, encrypts credentials, bundles a full git workflow. Built over 18 months.",
+      "Windows desktop app, free during the beta: auto-discovers tools, encrypts credentials, bundles a full git workflow. Built over 18 months.",
     url: "https://biswajitpanday.github.io/devspace",
     images: [
       {
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "DevSpace — Developer Productivity for Windows",
     description:
-      "Free Windows desktop app: one dashboard for every project. Tools, credentials, git, terminals.",
+      "Windows desktop app, free during the beta: one dashboard for every project. Tools, credentials, git, terminals.",
     images: ["https://biswajitpanday.github.io/assets/devspace/hero.png"],
   },
   alternates: {
@@ -49,7 +49,7 @@ const softwareApplicationSchema = {
   "@type": "SoftwareApplication",
   name: "DevSpace",
   description:
-    "Free Windows desktop app that centralizes every developer project — auto-discovers installed tools, encrypts per-project credentials with the ASP.NET Core Data Protection API, and bundles a full git workflow.",
+    "Windows desktop app, free during the beta, that centralizes every developer project — auto-discovers installed tools, encrypts per-project credentials with the ASP.NET Core Data Protection API, and bundles a full git workflow.",
   applicationCategory: "DeveloperApplication",
   applicationSubCategory: "Productivity",
   operatingSystem: "Windows 10, Windows 11",

@@ -315,7 +315,7 @@ const DevSpaceClient = () => {
           </p>
           <p className="text-base md:text-lg text-white/60 max-w-2xl mx-auto mb-7 leading-relaxed">
             A Windows desktop app that centralizes every project you work on — tools,
-            credentials, git, terminals — in one place. Free during the public preview.
+            credentials, git, terminals — in one place. Free during the beta.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-3">
@@ -326,7 +326,7 @@ const DevSpaceClient = () => {
               className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/40 hover:border-purple-500/60 text-purple-200 px-6 py-3 rounded-lg transition-all duration-300 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a1a1f]"
             >
               <FaDownload aria-hidden="true" />
-              <span>Download for Windows (Free)</span>
+              <span>Download for Windows (free during the beta)</span>
             </Link>
             <Link
               href={REPO_URL}
@@ -610,7 +610,7 @@ const DevSpaceClient = () => {
               Try it
             </h2>
             <p className="text-white/70 mb-6">
-              Free during the public preview. Windows 10/11. ~80 MB installer.
+              Free during the beta. Windows 10/11. ~80 MB installer.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
